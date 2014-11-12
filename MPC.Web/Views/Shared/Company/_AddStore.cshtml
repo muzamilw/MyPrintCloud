@@ -1,0 +1,1257 @@
+﻿@{
+    ViewBag.Title = "Add Store";
+}
+
+<button id="open-wizard" class="btn btn-primary pull-right">
+    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
+</button>
+<div class="wizard" id="wizard-demo" style="display: none">
+    <h1>Add Store</h1>
+    <div class="wizard-card" data-onvalidated="setServerName" data-cardname="name">
+        <h3><span>Customer Information</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal" >
+                <div class="col-md-12">
+                
+                    <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Status</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                     <input type="text" class="form-control" id="txtCustomer" placeholder="Enter Customer Status" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                
+                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Company Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Company Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            
+                                        </div>
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Account Number</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <input type="text" class="form-control" id="txtAccountNumber" placeholder="Enter Account Number" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            
+                                        </div>
+                
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Company Type</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <select class="form-control">
+                                                            <option>Agriculture and Farming</option>
+                                                            <option>Business Events</option>
+                                                            <option>Carriers</option>
+                                                            <option>Child Care</option>
+                                                            <option>CXN</option>
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                       </div>
+                     
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Flag</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                        <select class="form-control">
+                                                            <option>Office Brands</option>
+                                                            <option>Office Choice</option>
+                                                            <option>InActive</option>
+                                                            <option>Construction</option>
+                                                            <option>Manufacturing</option>
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                       </div>
+                  
+ 
+
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Company Logo</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <div id="dropzone1" class="dropzonepl">
+                                <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                    <div class="dz-default dz-message">
+                                        <span>Drop file here to upload</span>
+                                    </div>
+                                </form>
+                            </div>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            
+                                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="wizard-card" data-cardname="group">
+        <h3><span>Company Details</span></h3>
+        <div class="wizard-input-section">
+         
+            <div class="col-md-12 form-horizontal" >
+                <div class="col-md-12">
+                    <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtURL" class="control-label text-right">URL</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtURL" placeholder="Enter URL" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                    <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtNotes" class="control-label text-right">Notes</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <textarea class="form-control" id="txtNotes" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtNotes" class="control-label text-right">Account Status</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                        <select class="form-control">
+                                                            <option>Account </option>
+                                                            <option>Business Events</option>
+                                                            <option>Carriers</option>
+                                                            <option>Child Care</option>
+                                                            <option>CXN</option>
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                </div>
+            </div>
+         
+
+        </div>
+    </div>
+
+
+    <div class="wizard-card" data-cardname="services">
+         <h3><span>Account Details</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                   
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Credit Reference</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtCreditRef" placeholder="Enter Credit Reference" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+             
+
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Tax Reg No</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtRegNo" placeholder="Enter Credit Reference" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                 
+
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditLimit" class="control-label text-right">Credit Limit</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtCreditLimit" placeholder="Enter Credit Limit" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">A/C Opened</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtAccOpened" placeholder="Enter Credit Limit" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+              
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">Department</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <select class="form-control">
+                            <option>Sale Department</option>
+                            <option>Purchase Department</option>
+                            <option>Marketing Department</option>
+               
+                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                      
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">Default Markup</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <select class="form-control">
+                                                        <option>M 0</option>
+                                                        <option>M 10</option>
+                                                        <option>M 15</option>
+                                                        <option>M 20</option>
+                                                        <option>M 25</option>
+                                                    </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">Default Nominal Cod</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                    <select class="form-control">
+                                                        <option>4000 Direct Print Sales</option>
+                                                        <option>4001 Online Print Sales</option>
+                                                        <option>4002 Labor Press</option>
+                                                        <option>4003 Paper</option>
+                                                        <option>4004 Plates</option>
+                                                    </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                    
+                
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="Txtterms" class="control-label text-right">Notes</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                     <textarea class="form-control" id="Txtterms" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+             
+
+                   
+              
+                </div>
+            </div>
+
+
+        </div>
+       
+    </div>
+
+    <div class="wizard-card" data-onload="" data-cardname="location">
+          <h3><span>Address Information</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Address Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <input type="text" class="form-control" id="txtAddressName" placeholder="Enter Address Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                 
+                    
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Address</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                          <textarea class="form-control" id="txtAddress" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">City</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtCity" placeholder="Enter City" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtState" class="control-label text-right">State</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                             <input type="text" class="form-control" id="txtState" placeholder="Enter State" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCountry" class="control-label text-right">Country</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                <input type="text" class="form-control" id="txtCountry" placeholder="Enter Country" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                     
+                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCode" class="control-label text-right">Post Code</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                <input type="text" class="form-control" id="txtCode" placeholder="Enter Post Code" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Tel 1</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                  <input type="text" class="form-control" id="txtTel1" placeholder="Enter Tel 1" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                 
+                          <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Tel 2</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                     <input type="text" class="form-control" id="txtTel2" placeholder="Enter Tel 2" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                 
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Fax</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                       <input type="text" class="form-control" id="txtFax" placeholder="Enter Fax" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Email</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                      <input type="email" class="form-control" id="txtemail" placeholder="Enter Email" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                      
+                         <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">URL</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                      <input type="email" class="form-control" id="txtURL" placeholder="Enter URL" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                        
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Ref</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                       <input type="email" class="form-control" id="txtRef" placeholder="Enter Ref" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">FAO</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                       <input type="email" class="form-control" id="txtFao" placeholder="Enter FAO" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+
+              
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+   
+     <div class="wizard-card">
+          <h3><span>Contact Information</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                                      
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtFirstName" class="control-label text-right">First Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <input type="text" class="form-control" id="txtFirstName" placeholder="Enter First Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtLastName" class="control-label text-right">Last Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <input type="text" class="form-control" id="txtLastName" placeholder="Enter Last Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtContactAddress" class="control-label text-right">Home Address</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <textarea class="form-control" id="txtContactAddress" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHCity" class="control-label text-right">Home City</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                          <input type="text" class="form-control" id="txtHCity" placeholder="Enter City" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHState" class="control-label text-right">Home State</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                           <input type="text" class="form-control" id="txtHState" placeholder="Enter State" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHState" class="control-label text-right">Mobile</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                              <input type="text" class="form-control" id="txtMobile" placeholder="Enter Mobile" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                     
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHomeTel1" class="control-label text-right">Home Tel 1</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                              <input type="text" class="form-control" id="txtHomeTel1" placeholder="Enter Tel 1" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHomeTel2" class="control-label text-right">Home Tel 2</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="txtHomeTel2" placeholder="Enter Tel 2" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHomeTel2" class="control-label text-right">Email</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="email" class="form-control" id="txtemail" placeholder="Enter Email" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                      
+                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtpassword" class="control-label text-right">Password</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="password" class="form-control" id="txtpassword" placeholder="Enter Password" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtConfirmpassword" class="control-label text-right">Confirm Password</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="password" class="form-control" id="txtConfirmpassword" placeholder="Enter Confirm Password" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                     
+                    
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtConfirmpassword" class="control-label text-right">Secret Questions</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <select class="form-control">
+                                                            <option>My Birthday Place</option>
+                                                            <option>Mother's Place</option>
+                                                            <option>Best Childhood Friend</option>
+    
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                      
+
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtsecretAnswr" class="control-label text-right">Secret Answer</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtsecretAnswr" placeholder="Enter Secret Answer" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtsecretAnswr" class="control-label text-right">Notes</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <textarea class="form-control" id="txtNotesContact" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+     <div class="wizard-card">
+          <h3><span>Color Palettes</span></h3>
+        <div class="wizard-input-section">
+          <div class="col-md-12 form-horizontal">
+                                   
+               <div class="col-md-12">
+                                      
+                                       
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
+                                                    <label for="txtFirstName" class="control-label text-right">Select Color Palettes for home page</label>
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </div>
+                                           
+                                                    <div class="col-lg-7">
+                                                               <select class="form-control">
+                                                                    <option>Purple Rain</option>
+                                                                    <option>Gold Blue</option>
+                                                                    <option>Silver Surf</option>
+                                                                    <option>Pink Cards</option>
+                                                                    <option>Classic</option>
+                                                                </select>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                            </div>   
+                                        <div class="form-group">
+                                            <label>Color 1: Webstore background</label>
+                                            <div class="col-md-3 pull-right">
+                                                <span class="label" style="background-color: #320B0B">#320B0B    </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Color 2: Thumbnail background</label>
+                                            <div class="col-md-3 pull-right">
+                                                <span class="label" style="background-color: #ffd800">#ffd800    </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Color 3: Main logo background</label>
+                                            <div class="col-md-3 pull-right">
+                                                <span class="label" style="background-color: #3cdfef">#3cdfef    </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Color 4: Webstore background</label>
+                                            <div class="col-md-3 pull-right">
+                                                <span class="label" style="background-color: #808080">#808080    </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Color 5: Thumbnail background</label>
+                                            <div class="col-md-3 pull-right">
+                                                <span class="label" style="background-color: #e8f5f4">#e8f5f4    </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Color 6: Main logo background</label>
+                                            <div class="col-md-3 pull-right">
+                                                <span class="label" style="background-color: #b6ff00">#b6ff00    </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Color 7: Main logo background</label>
+                                            <div class="col-md-3 pull-right">
+                                                <span class="label" style="background-color: #808080;">#808080    </span>
+                                            </div>
+                                        </div>
+
+                                    </div>           
+        </div>
+       </div>
+         </div>
+   
+
+      <div class="wizard-card">
+          <h3><span>Banners</span></h3>
+        <div class="wizard-input-section">
+           <div class="col-md-12">
+                                   
+                                    <div class="col-md-6">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-primary pull-right">
+                                                <i style="float:left" class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Banner
+                                            </a>
+                                        </div>
+                                        @*Banners Grid Starts here*@
+                                        <div class="clearfix">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>&nbsp;</th>
+                                                            <th>&nbsp;</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />
+                                                            </td>
+
+                                                            <td class="text-right">
+                                                                <a href="#" class="table-link danger">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="~/Content/themes/Centaurus/img/samples/banner2.jpg" alt="Banner 2" />
+                                                            </td>
+
+                                                            <td class="text-right">
+                                                                <a href="#" class="table-link danger">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="~/Content/themes/Centaurus/img/samples/banner3.jpg" alt="Banner 3" />
+                                                            </td>
+
+                                                            <td class="text-right">
+                                                                <a href="#" class="table-link danger">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 4" />
+                                                            </td>
+
+                                                            <td class="text-right">
+                                                                <a href="#" class="table-link danger">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        @*Color Palettes Grid ends here*@
+                                    </div>
+                                </div>
+       </div>
+    </div>
+
+     <div class="wizard-card">
+          <h3><span>Widgets</span></h3>
+        <div class="wizard-input-section">
+             <div class="col-md-12">
+                                 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="onofMenueBar">Would you like to display the Menu Bar</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchmenuBar" checked>
+                                                    <label class="onoffswitch-label" for="onoffswitchmenuBar">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchIcons">Would you like to display Why Choose Us icons</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIcons" checked>
+                                                    <label class="onoffswitch-label" for="switchIcons">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchSecondaryPages">Would you like to display secondary pages</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" checked>
+                                                    <label class="onoffswitch-label" for="switchSecondaryPages">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchSiteBanners">Would you like to display the website banners</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSiteBanners" checked>
+                                                    <label class="onoffswitch-label" for="switchSiteBanners">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchSiteFooter">Would you like to display the website footer</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSiteFooter" checked>
+                                                    <label class="onoffswitch-label" for="switchSiteFooter">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchSiteHeader">Would you like to display the website header</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSiteHeader" checked>
+                                                    <label class="onoffswitch-label" for="switchSiteHeader">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchBrandingReceipts">Would you like to display corporate branding on receipts</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchBrandingReceipts" checked>
+                                                    <label class="onoffswitch-label" for="switchBrandingReceipts">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchRegistrationFromWebsite">Would you like to allow registration from website</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" checked>
+                                                    <label class="onoffswitch-label" for="switchRegistrationFromWebsite">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchOrderWithoutApproval">Can user place order without approval</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchOrderWithoutApproval" checked>
+                                                    <label class="onoffswitch-label" for="switchOrderWithoutApproval">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchEditProfile">Can you allow user to edit his/her profile</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" checked>
+                                                    <label class="onoffswitch-label" for="switchEditProfile">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="switchPageBanners">Would you like to display company banners</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPageBanners" checked>
+                                                    <label class="onoffswitch-label" for="switchPageBanners">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+       </div>
+    </div>
+
+    <div class="wizard-card">
+          <h3><span>Payement Settings</span></h3>
+        <div class="wizard-input-section">
+             <div class="col-md-12">
+                                  <div class="form-group">
+                                            <label>Online Payment Option</label>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionYes" value="option1" checked>
+                                                <label for="optionYes">
+                                                    Force visitors to pay online to your PayPal Account
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionNo" value="option2">
+                                                <label for="optionNo">
+                                                    Allow user to checkout without payment
+                                                </label>
+                                            </div>
+                                        </div>
+                                   <div class="form-group">
+                                            <label for="switchSecondaryPages">Can accept online payment</label>
+                                            <div class="pull-right">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPayment" checked>
+                                                    <label class="onoffswitch-label" for="switchPayment">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                   <div class="row">
+                            <div class="col-lg-12">
+                                <div class="no-header clearfix">
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive">
+                                            <table class="table user-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Payment Method</span></th>
+                                                       @* <th><span>Created</span></th>
+                                                        <th class="text-center"><span>Status</span></th>*@
+                                                        @*<th><span>Description</span></th>*@
+                                                        <th>&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>  
+                                                            <a href="~/Settings/UserRoleDetail" class="user-link">PayPal</a>
+                                                            <span style="margin-left: 55px;" class="user-subhead">Payment Method</span>
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span class="label label-default"></span>
+                                                        </td>
+                                                        <td>
+                                                           @* <a href="~/Settings/UserManager"><span class="__cf_email__" data-cfemail="24494d4845644f514a4d570a474b49">[email&nbsp;protected]</span><script type="text/javascript">
+                                                                                                                                                                                  /* <![CDATA[ */
+                                                                                                                                                                                  (function () { try { var s, a, i, j, r, c, l, b = document.getElementsByTagName("script"); l = b[b.length - 1].previousSibling; a = l.getAttribute('data-cfemail'); if (a) { s = ''; r = parseInt(a.substr(0, 2), 16); for (j = 2; a.length - j; j += 2) { c = parseInt(a.substr(j, 2), 16) ^ r; s += String.fromCharCode(c); } s = document.createTextNode(s); l.parentNode.replaceChild(s, l); } } catch (e) { } })();
+                                                                                                                                                                                  /* ]]> */
+                                                            </script></a>*@
+                                                        </td>
+                                                        <td style="width: 20%;">
+                                                            <a href="#" class="table-link">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                            <a href="#" class="table-link">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           
+                                                            <a href="#" class="user-link">StGeorge</a>
+                                                            <span style="margin-left: 55px;" class="user-subhead">https://www.ipg.stgeorge.com.au/StgWeb/servlet/webpay.website.Simple?token1=B2zOxNnsJ0wfLoD2yr8TWNHUY&token2=TC767NyikseCMi02YxTh7zkjK</span>
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span class="label label-success"></span>
+                                                        </td>
+                                                        <td>
+                                                         
+                                                        </td>
+                                                        <td style="width: 20%;">
+                                                            <a href="#" class="table-link">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                            <a href="#" class="table-link">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            
+                                                            <a href="#" class="user-link">Authorize.Net</a>
+                                                            <span style="margin-left: 55px;" class="user-subhead">Authorized</span>
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span class="label label-danger"></span>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#"></a>
+                                                        </td>
+                                                        <td style="width: 20%;">
+                                                            <a href="#" class="table-link">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                            <a href="#" class="table-link">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                
+
+                                                  
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div id="pagerDiv">
+                                    <ul class="pagination pull-right">
+                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                                </ul>
+                                </div>
+                                
+                            </div>
+                        </div>
+             </div>
+       </div>
+    </div>
+
+    <div class="wizard-card">
+          <h3><span>Opening Balance</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                     <div class="form-group">
+                                           
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionYes" value="option1" checked>
+                                                <label for="optionYes">
+                                                    No there is no opening balance.
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionNo" value="option2">
+                                                <label for="optionNo">
+                                                    Yes, as one value
+                                                </label>
+                                            </div>
+                      </div>
+                      <div class="form-group">
+                        <label style="font-weight:bold">Entering your Company's Opening as One Value</label>
+                         
+                    </div>
+                     <div class="form-group">
+                        <label>Enter the details of the opening balance for the new company account</label>
+                         
+                    </div>
+                     <div class="form-group">
+                                            
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadiosOB" id="optionYesOB" value="option1" checked>
+                                                <label for="optionYesOB">
+                                                    Invoice
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadiosOB" id="optionNoOB" value="option2">
+                                                <label for="optionNoOB">
+                                                    Credit Note
+                                                </label>
+                                            </div>
+                      </div>
+                    
+                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                                <label for="txtReference" class="control-label text-right">Reference</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-4">
+                                                       <input type="text" class="form-control" id="txtReference" placeholder="Enter Reference" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                            </div>
+
+                   
+                    
+                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                                <label for="txtReference" class="control-label text-right">Amount</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-4">
+                                                    <input type="text" class="form-control" id="txtAmount" placeholder="Enter Amount" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                            </div>
+
+                   
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="wizard-error">
+        <div class="alert alert-error">
+            <strong>There was a problem</strong> with your submission.
+                                Please correct the errors and re-submit.
+        </div>
+    </div>
+    <div class="wizard-failure">
+        <div class="alert alert-error">
+            <strong>There was a problem</strong> submitting the form.
+                            Please try again in a minute.
+        </div>
+    </div>
+    <div class="wizard-success">
+        <div class="alert alert-success">
+            Customer was created <strong>successfully.</strong>
+        </div>
+        <a class="btn btn-primary im-done">Done</a>
+    </div>
+</div>
+@* Wizard Popup ends here*@

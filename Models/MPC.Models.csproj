@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{81067904-2176-4648-87AB-014B0D76B85E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPC.Models</RootNamespace>
+    <AssemblyName>MPC.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainModels\WebApiUser.cs" />
+    <Compile Include="DomainModels\BookingAdditionalDriver.cs" />
+    <Compile Include="DomainModels\BookingChauffeur.cs" />
+    <Compile Include="DomainModels\BookingIsurance.cs" />
+    <Compile Include="DomainModels\BookingPayment.cs" />
+    <Compile Include="DomainModels\BookingService.cs" />
+    <Compile Include="DomainModels\BusinessPartnerDocument.cs" />
+    <Compile Include="DomainModels\CreditLimit.cs" />
+    <Compile Include="DomainModels\StandartDiscount.cs" />
+    <Compile Include="DomainModels\SeasonalDiscount.cs" />
+    <Compile Include="DomainModels\AdditionalCharge.cs" />
+    <Compile Include="DomainModels\AdditionalChargeType.cs" />
+    <Compile Include="DomainModels\StandartDiscountMain.cs" />
+    <Compile Include="DomainModels\SeasonalDiscountMain.cs" />
+    <Compile Include="DomainModels\DocumentGroup.cs" />
+    <Compile Include="DomainModels\Document.cs" />
+    <Compile Include="DomainModels\VehicleImageDetail.cs" />
+    <Compile Include="DomainModels\VehicleMovement.cs" />
+    <Compile Include="DomainModels\PaymentMode.cs" />
+    <Compile Include="DomainModels\AllocationStatus.cs" />
+    <Compile Include="DomainModels\RACustomerDocument.cs" />
+    <Compile Include="DomainModels\RAPayment.cs" />
+    <Compile Include="DomainModels\RAMain.cs" />
+    <Compile Include="DomainModels\RAHireGroupInsurance.cs" />
+    <Compile Include="DomainModels\RAHireGroupDiscount.cs" />
+    <Compile Include="DomainModels\RAHireGroup.cs" />
+    <Compile Include="DomainModels\RADriver.cs" />
+    <Compile Include="DomainModels\RAAdditionalCharge.cs" />
+    <Compile Include="DomainModels\RAStatusLog.cs" />
+    <Compile Include="DomainModels\RAStatus.cs" />
+    <Compile Include="DomainModels\NRTType.cs" />
+    <Compile Include="DomainModels\NRTMain.cs" />
+    <Compile Include="DomainModels\NRTVehicleMovement.cs" />
+    <Compile Include="DomainModels\NRTVehicle.cs" />
+    <Compile Include="DomainModels\NRTDriver.cs" />
+    <Compile Include="DomainModels\NRTCharge.cs" />
+    <Compile Include="DomainModels\ChaufferCharge.cs" />
+    <Compile Include="DomainModels\ChaufferChargeMain.cs" />
+    <Compile Include="DomainModels\BookingStatus.cs" />
+    <Compile Include="DomainModels\BookingMain.cs" />
+    <Compile Include="DomainModels\AdditionalDriverCharge.cs" />
+    <Compile Include="DomainModels\BusinessPartnerMarketingChannel.cs" />
+    <Compile Include="DomainModels\BusinessPartnerInType.cs" />
+    <Compile Include="DomainModels\BusinessPartnerIndividual.cs" />
+    <Compile Include="DomainModels\BusinessPartner.cs" />
+    <Compile Include="DomainModels\BPRatingType.cs" />
+    <Compile Include="DomainModels\BusinessLegalStatus.cs" />
+    <Compile Include="DomainModels\BusinessPartnerCompany.cs" />
+    <Compile Include="DomainModels\BusinessPartnerMainType.cs" />
+    <Compile Include="DomainModels\BusinessPartnerRelaionship.cs" />
+    <Compile Include="DomainModels\BusinessPartnerRelaionshipType.cs" />
+    <Compile Include="DomainModels\BusinessPartnerSubType.cs" />
+    <Compile Include="DomainModels\Area.cs" />
+    <Compile Include="DomainModels\DesignGrade.cs" />
+    <Compile Include="DomainModels\Designation.cs" />
+    <Compile Include="DomainModels\DiscountSubType.cs" />
+    <Compile Include="DomainModels\EmpAuthOperationsWorkplace.cs" />
+    <Compile Include="DomainModels\EmpDocsInfo.cs" />
+    <Compile Include="DomainModels\EmpJobInfo.cs" />
+    <Compile Include="DomainModels\EmpJobProg.cs" />
+    <Compile Include="DomainModels\EmpStatus.cs" />
+    <Compile Include="DomainModels\HireGroupUpGrade.cs" />
+    <Compile Include="DomainModels\InsuranceRt.cs" />
+    <Compile Include="DomainModels\InsuranceRtMain.cs" />
+    <Compile Include="DomainModels\InsuranceType.cs" />
+    <Compile Include="DomainModels\JobType.cs" />
+    <Compile Include="DomainModels\LicenseType.cs" />
+    <Compile Include="DomainModels\MaintenanceType.cs" />
+    <Compile Include="DomainModels\MaintenanceTypeGroup.cs" />
+    <Compile Include="DomainModels\RAServiceItem.cs" />
+    <Compile Include="DomainModels\ServiceItem.cs" />
+    <Compile Include="DomainModels\ServiceRt.cs" />
+    <Compile Include="DomainModels\ServiceRtMain.cs" />
+    <Compile Include="DomainModels\ServiceType.cs" />
+    <Compile Include="DomainModels\RaVehicleCheckList.cs" />
+    <Compile Include="DomainModels\VehicleCheckList.cs" />
+    <Compile Include="DomainModels\VehicleCheckListItem.cs" />
+    <Compile Include="DomainModels\VehicleDepreciation.cs" />
+    <Compile Include="DomainModels\VehicleDisposalInfo.cs" />
+    <Compile Include="DomainModels\VehicleImageHireGroupDetail.cs" />
+    <Compile Include="DomainModels\MarketingChannel.cs" />
+    <Compile Include="DomainModels\TransmissionType.cs" />
+    <Compile Include="DomainModels\OccupationType.cs" />
+    <Compile Include="DomainModels\BusinessSegment.cs" />
+    <Compile Include="DomainModels\Category.cs" />
+    <Compile Include="DomainModels\Company.cs" />
+    <Compile Include="DomainModels\Country.cs" />
+    <Compile Include="DomainModels\Department.cs" />
+    <Compile Include="DomainModels\Employee.cs" />
+    <Compile Include="DomainModels\FleetPool.cs" />
+    <Compile Include="DomainModels\HireGroup.cs" />
+    <Compile Include="DomainModels\HireGroupDetail.cs" />
+    <Compile Include="DomainModels\MeasurementUnit.cs" />
+    <Compile Include="DomainModels\Operation.cs" />
+    <Compile Include="DomainModels\FuelType.cs" />
+    <Compile Include="DomainModels\OperationsWorkPlace.cs" />
+    <Compile Include="DomainModels\Vehicle.cs" />
+    <Compile Include="DomainModels\VehicleImage.cs" />
+    <Compile Include="DomainModels\VehicleInsuranceInfo.cs" />
+    <Compile Include="DomainModels\VehicleLeasedInfo.cs" />
+    <Compile Include="DomainModels\VehicleMaintenanceTypeFrequency.cs" />
+    <Compile Include="DomainModels\VehicleOtherDetail.cs" />
+    <Compile Include="DomainModels\VehiclePurchaseInfo.cs" />
+    <Compile Include="DomainModels\ChaufferReservation.cs" />
+    <Compile Include="DomainModels\VehicleReservation.cs" />
+    <Compile Include="DomainModels\DiscountType.cs" />
+    <Compile Include="DomainModels\WorkPlace.cs" />
+    <Compile Include="DomainModels\WorkPlaceType.cs" />
+    <Compile Include="DomainModels\WorkLocation.cs" />
+    <Compile Include="DomainModels\VehicleSubStatus.cs" />
+    <Compile Include="DomainModels\VehicleStatus.cs" />
+    <Compile Include="DomainModels\OrgGroup.cs" />
+    <Compile Include="DomainModels\AddressType.cs" />
+    <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\PhoneType.cs" />
+    <Compile Include="DomainModels\PaymentTerm.cs" />
+    <Compile Include="DomainModels\PricingStrategy.cs" />
+    <Compile Include="DomainModels\Phone.cs" />
+    <Compile Include="DomainModels\Product.cs" />
+    <Compile Include="DomainModels\City.cs" />
+    <Compile Include="DomainModels\SubRegion.cs" />
+    <Compile Include="DomainModels\StandardRate.cs" />
+    <Compile Include="DomainModels\StandardRateMain.cs" />
+    <Compile Include="DomainModels\TariffType.cs" />
+    <Compile Include="DomainModels\Region.cs" />
+    <Compile Include="DomainModels\VehicleCategory.cs" />
+    <Compile Include="DomainModels\VehicleMake.cs" />
+    <Compile Include="DomainModels\VehicleModel.cs" />
+    <Compile Include="LoggerModels\LogCategory.cs" />
+    <Compile Include="LoggerModels\CategoryLog.cs" />
+    <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="RequestModels\" />
+    <Folder Include="ResponseModels\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

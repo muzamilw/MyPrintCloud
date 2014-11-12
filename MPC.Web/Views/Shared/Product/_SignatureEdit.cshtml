@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Stocks List";
+}
+
+
+
+  <div class="modal fade" id="SigntureEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div style="width:838px;" class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Signature Details</h4>
+                                        </div>
+                                          <div class="col-lg-12 outerDiv-Padding form-horizontal">
+   
+                                               <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                           <div class="bs-example-tooltips tooltip-float-width">
+                                               
+                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                
+                                                         </div>
+
+                                                        <label for="txtProductName" class="control-label text-right tooltip-float">Section Name</label>
+                                               
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <input type="text" class="form-control" id="txtProductName" placeholder="Enter Product Name" value ="Business Cards Matt">
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                            </div>
+                                      
+                                                 <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                           <div class="bs-example-tooltips tooltip-float-width">
+                                               
+                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                
+                                                         </div>
+
+                                                        <label for="txtProductName" class="control-label text-right tooltip-float">Press</label>
+                                               
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <input type="text" class="form-control StockPres-Style" id="txtPress" disabled="disabled" placeholder="Enter Product Name" value ="Business Cards Matt">
+                                                        <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
+                                                          @Html.Partial("Product/_SelectStock")
+
+                                                         <span class="help-block text-right"></span>
+                                                    </div>
+
+                                            </div>
+                                               <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                           <div class="bs-example-tooltips tooltip-float-width">
+                                               
+                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                
+                                                         </div>
+
+                                                        <label for="txtProductName" class="control-label text-right tooltip-float">Stock</label>
+                                               
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <input type="text" class="form-control StockPres-Style" id="txtStock" disabled="disabled" placeholder="Enter Product Name" value ="Business Cards Matt">
+                                                       
+                                                        <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
+                                                         <span class="help-block text-right"></span>
+                                                    </div>
+
+                                            </div>
+
+                                               <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                           <div class="bs-example-tooltips tooltip-float-width">
+                                               
+                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                
+                                                         </div>
+
+                                                        <label for="txtProductName" class="control-label text-right tooltip-float">Page Sheet Size</label>
+                                               
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                         <select class="form-control">
+                                                            <option>19 X 23 19 23</option>
+                                                            <option>19 X 25 19 25</option>
+                                                            <option>19 X 35 19 35</option>
+                                                            <option>19 X 40 19 40</option>
+                                                            <option>19 X 45 19 45</option>
+                                                        </select>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                            </div>
+
+                                                 <div class="form-group">
+                                                        <div class="col-lg-3 text-right">
+                                                  <div class="bs-example-tooltips tooltip-float-width">
+                                               
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable Stock Label" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                
+                                                         </div>
+                                  
+
+                              
+                                              
+                                               
+                                                <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Custom</label>
+        
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                  <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" checked>
+                                                    <label class="onoffswitch-label" for="switchStockLevelProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                         </div>
+                                </div>
+                                    
+                                         <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                                                    </div>
+                                    </div>
+                                </div>
+  </div>
+
+@* Wizard Popup ends here*@

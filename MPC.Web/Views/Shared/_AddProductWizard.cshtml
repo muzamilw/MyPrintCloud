@@ -1,0 +1,282 @@
+﻿@{
+    ViewBag.Title = "Product Wizard";
+}
+<button id="open-wizard" class="btn btn-primary pull-right">
+    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
+</button>
+<div class="wizard" id="wizard-demo" style="display: none">
+    <h1>Addd / Edit Product</h1>
+    <div class="wizard-card" data-onvalidated="setServerName" data-cardname="name">
+        <h3><span>Name & Images</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product Type</label>
+                        <div class="radio">
+                            <input type="radio" name="optionsRadios" id="radioProductType1" value="option1">
+                            <label for="radioProductType1">
+                                Retail/Private store template library - use template thumbnails
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="optionsRadios" id="radioProductType2" value="option1">
+                            <label for="radioProductType2">
+                                Retail/Private store template library - use product page banner
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="optionsRadios" id="radioProductType3" value="option1" checked="checked">
+                            <label for="radioProductType3">
+                                Finished good product - no templates or print settings
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="optionsRadios" id="radioProductType4" value="option1">
+                            <label for="radioProductType4">
+                                Finished good product - use product banner on product detail page
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Parent Category</label>
+                        <select class="form-control">
+                            <option>Business Cards</option>
+                            <option>Banners</option>
+                            <option>Calendars</option>
+                            <option>Canvas Prints</option>
+                            <option>Letterheads</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtProductName">Product Name</label>
+                        <input type="text" class="form-control" id="txtProductName" placeholder="Enter Product Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtSortOrder">Sort Order in Category</label>
+                        <input type="text" class="form-control" id="txtSortOrder" />
+                    </div>
+                    <div class="form-group">
+                        <label for="switchEnableProduct">Enable Product</label>
+                        <div class="pull-left">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableProduct" checked>
+                                <label class="onoffswitch-label" for="switchEnableProduct">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="switchPublishProduct">Publish Product</label>
+                        <div class="pull-left">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPublishProduct" checked>
+                                <label class="onoffswitch-label" for="switchPublishProduct">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="switchFeaturedProduct">Featured Product</label>
+                        <div class="pull-left">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchFeaturedProduct" checked>
+                                <label class="onoffswitch-label" for="switchFeaturedProduct">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="switchMarketBrief">Inquiry / Marketing Brief</label>
+                        <div class="pull-left">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchMarketBrief" checked>
+                                <label class="onoffswitch-label" for="switchMarketBrief">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label>Product Thumbnail (png file format, 300x200 pixels)</label>
+                        <div class="col-md-6">
+                            <div id="dropzone" class="dropzonepl">
+                                <form id="demo-upload" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                    <div class="dz-default dz-message">
+                                        <span>Drop file here to upload</span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Product Page Banner (png file format, 1000x300 pixels)</label>
+                        <div class="col-md-6">
+                            <div id="dropzone1" class="dropzonepl">
+                                <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                    <div class="dz-default dz-message">
+                                        <span>Drop file here to upload</span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="wizard-card" data-cardname="group">
+        <h3><span>Webstore Description</span></h3>
+        <div class="wizard-input-section">
+            <h2>Design / Attachment upload policy</h2>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="txtMetaTitle">Product Name</label>
+                        <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Product Meta Title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtMetaDescription">Meta Description</label>
+                        <textarea class="form-control" id="txtMetaDescription" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtMetaKeywords">Meta Keywords</label>
+                        <textarea class="form-control" id="txtMetaKeywords" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="switchRequireFileUpload">Product Require Files to be up</label>
+                        <div class="pull-left">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRequireFileUpload" checked>
+                                <label class="onoffswitch-label" for="switchRequireFileUpload">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <label>Grid Layout Image (200 x 200 pixels)</label>
+                    <div class="form-group">
+                        <div id="dropzonefile" class="dropzonepl">
+                            <form id="frmdropzonefile" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                <div class="dz-default dz-message">
+                                    <span>Drop file here to upload</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <label>Downlaodable Files</label>
+                    <div class="form-group">
+                        <div id="dropzonefiledownload" class="dropzonepl">
+                            <form id="frmdropzonefiledownload" class="dropzone dz-clickable" style="min-height: 300px; width: 250px;" action="#">
+                                <div class="dz-default dz-message">
+                                    <span>Drop files here to upload</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <label>Upload Finished good images (472x450 pixels maximum)</label>
+                    <div class="form-group">
+                        <div id="uploadfinishedgoodimages" class="dropzonepl">
+                            <form id="frmuploadfinishedgoodimages" class="dropzone dz-clickable" style="min-height: 300px; width: 250px;" action="#">
+                                <div class="dz-default dz-message">
+                                    <span>Drop files here to upload</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="wizard-card" data-cardname="services">
+        <h3><span>Stock & Sections</span></h3>
+        <p>Digital or Litho print pagination</p>
+    </div>
+    <div class="wizard-card" data-onload="" data-cardname="location">
+        <h3><span>Price Matrix</span></h3>
+        <div class="wizard-input-section">
+            <p>
+                Selling price table attributes
+            </p>
+        </div>
+    </div>
+    <div class="wizard-card">
+        <h3><span>Supplier Defaults</span></h3>
+        <div class="wizard-input-section">
+            <p>
+                Supplier prices and Default activity.
+            </p>
+        </div>
+    </div>
+    <div class="wizard-card">
+        <h3><span>Internal Description</span></h3>
+        <div class="wizard-input-section">
+            <p>
+                Product internal description
+            </p>
+        </div>
+
+    </div>
+    <div class="wizard-card">
+        <h3><span>Template Properties</span></h3>
+        <div class="wizard-input-section">
+            <p>
+                Corporate Template
+            </p>
+        </div>
+
+    </div>
+    <div class="wizard-card">
+        <h3><span>Template Pages</span></h3>
+        <div class="wizard-input-section">
+            <p>
+                Page 1
+                <br />
+                Page 2
+            </p>
+        </div>
+
+    </div>
+    <div class="wizard-error">
+        <div class="alert alert-error">
+            <strong>There was a problem</strong> with your submission.
+                                Please correct the errors and re-submit.
+        </div>
+    </div>
+    <div class="wizard-failure">
+        <div class="alert alert-error">
+            <strong>There was a problem</strong> submitting the form.
+                            Please try again in a minute.
+        </div>
+    </div>
+    <div class="wizard-success">
+        <div class="alert alert-success">
+            Product was created <strong>successfully.</strong>
+        </div>
+        <a class="btn btn-primary im-done">Done</a>
+    </div>
+</div>
+@*Product Wizard Popup ends here*@

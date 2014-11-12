@@ -1,0 +1,432 @@
+﻿@{
+    ViewBag.Title = "Products";
+}
+<div class="col-lg-12">
+    <div class="pull-left">
+    </div>
+
+    <div class="pull-right width105">
+
+        <a id="gridViewIcon" class="productListOrangeIcon pull-right" onclick="changeToGridView();">
+            <i class="fa fa-th-large"></i>
+        </a>
+
+        <a id="listViewIcon" class="productListGrayIcon pull-right" onclick="changeToListView();">
+            <i class="fa fa-list"></i>
+        </a>
+
+    </div>
+    <div class="pull-right width105 padTop10">
+        <div class="slider-minmax"></div>
+    </div>
+</div>
+<div>
+    &nbsp;
+</div>
+<div id="gridForm" style="display: block;">
+
+    <div class="col-lg-12">
+        <div class="filter-body">
+            <div class="pull-left spanfilterlbl">
+                Filter:
+                         
+            </div>
+            <div class="pull-left col-xs-3">
+                <select class="form-control " id="ddProductSearch">
+                    <option>All Products </option>
+                    <option>Low Inventory</option>
+                    <option>Queued forPO</option>
+                </select>
+            </div>
+
+            <div class="pull-right">
+                <div class="pull-right spanfilterlbl">
+                    <a class=" pagerLeftIcon ">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                    <a class="pagerRightIcon">
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+                <span class="pull-right spanfilterlbl">of 1</span>
+                <div class="pull-right col-xs-3">
+                    <input type="text" class="form-control" value="1" />
+                </div>
+
+                <span class="pull-right spanfilterlbl">Page</span>
+
+
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+        <div class="clearfix">
+        </div>
+        <div class="main-box-body main-box clearfix">
+            <div id="gridZoomSlider" style="width: 100%;">
+                <div class="Top_Cat_Body">
+                    <div class="LCLB">
+                        <div class="PDTC_TL FI_TL">
+                            <img src="~/Content/themes/Centaurus/img/samples/thumbnail2.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                        </div>
+                        <div class="productListIcons">
+                            <a href="~/Products/ProductDetail" class="table-link" title="Edit">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link copy" title="Copy">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link danger" title="Archive">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        Business Cards Matt
+                    </div>
+                    <div class="">
+                        $1000
+                    </div>
+                </div>
+                <div class="Top_Cat_Body ">
+                    <div class="LCLB">
+                        <div class="PDTC_TL FI_TL">
+                            <img src="~/Content/themes/Centaurus/img/samples/thumbnail2.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                        </div>
+                        <div class="productListIcons">
+                            <a href="~/Products/ProductDetail" class="table-link" title="Edit">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link copy" title="Copy">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link danger" title="Archive">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        Business Cards Matt
+                    </div>
+                    <div class="">
+                        $1000
+                    </div>
+                </div>
+                <div class="Top_Cat_Body">
+                    <div class="LCLB">
+                        <div class="PDTC_TL FI_TL">
+                            <img src="~/Content/themes/Centaurus/img/samples/templateShirt1.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                        </div>
+                        <div class="productListIcons">
+                            <a href="~/Products/ProductDetail" class="table-link" title="Edit">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link copy" title="Copy">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link danger" title="Archive">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        T Shirt
+                    </div>
+                    <div class="">
+                        $500
+                    </div>
+                </div>
+                <div class="Top_Cat_Body ">
+                    <div class="LCLB">
+                        <div class="PDTC_TL FI_TL">
+                            <img src="~/Content/themes/Centaurus/img/samples/thumbnail2.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                        </div>
+                        <div class="productListIcons">
+                            <a href="~/Products/ProductDetail" class="table-link" title="Edit">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link copy" title="Copy">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link danger" title="Archive">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        Business Cards Matt
+                    </div>
+                    <div class="">
+                        $1000
+                    </div>
+                </div>
+                <div class="Top_Cat_Body ">
+                    <div class="LCLB">
+                        <div class="PDTC_TL FI_TL">
+                            <img src="~/Content/themes/Centaurus/img/samples/thumbnail1.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                        </div>
+                        <div class="productListIcons">
+                            <a href="~/Products/ProductDetail" class="table-link" title="Edit">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link copy" title="Copy">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            <a href="#" class="table-link danger" title="Archive">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square fa-stack-2x"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        Letterheads (US)
+                    </div>
+                    <div class="">
+                        $2000
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="clearfix">
+        </div>
+
+    </div>
+
+</div>
+<div id="ListForm" style="display: none;">
+
+    <div class="col-lg-12">
+        <div class="filter-body">
+            <div class="pull-left spanfilterlbl">
+                Filter:
+                         
+            </div>
+            <div class="pull-left col-xs-2">
+                <select class="form-control " id="ddPageCat">
+                    <option>All Products </option>
+                    <option>Low Inventory</option>
+                    <option>Queued forPO</option>
+                </select>
+            </div>
+
+            <div class="pull-right">
+                <div class="pull-right spanfilterlbl">
+                    <a class=" pagerLeftIcon ">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                    <a class="pagerRightIcon">
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+                <span class="pull-right spanfilterlbl">of 1</span>
+                <div class="pull-right col-xs-3">
+                    <input type="text" class="form-control" value="1" />
+                </div>
+
+                <span class="pull-right spanfilterlbl">Page</span>
+
+
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+        <div class="clearfix">
+        </div>
+        <div class="main-box-body main-box clearfix">
+
+            <div class="main-box-body clearfix">
+                <div class="table-responsive">
+                    <div class="productHeadingsCnt width12Perc">
+                        Product Code
+                                    
+                    </div>
+                    <div class="productHeadingsCnt width24Perc">
+                        Main Image
+                    </div>
+                    <div class="productHeadingsCnt width13Per">
+                        Product Name 
+                                      @*<div id="ProductEditICon" class="editalbeList" onclick="enableProductBoxes();">
+                                          <i class="fa fa-pencil"></i>Edit
+                                      </div>
+                        <div id="ProductDisableEditICon" class="editalbeList" onclick="DisableProductBoxes();" style="display: none;">
+                            <i class="fa fa-pencil"></i>Disable Edit
+                        </div>*@
+                    </div>
+                    <div class="productHeadingsCnt width13Per">
+                        Product Price
+                                     @* <div id="PriceEditICon" class="editalbeList" onclick="enablePriceBoxes();">
+                                          <i class="fa fa-pencil"></i>Edit
+                                      </div>
+                        <div id="PriceDisableEditICon" class="editalbeList" onclick="DisablePriceBoxes();" style="display: none;">
+                            <i class="fa fa-pencil"></i>Disable Edit
+                        </div>*@
+                    </div>
+                    <div class="productHeadingsCnt width12Perc">
+                        Categories
+                                    @* <div id="CategoryEditICon" class="editalbeList left22Pix" onclick="enableCategoryBoxes();">
+                                         <i class="fa fa-pencil"></i>Edit
+                                     </div>
+                        <div id="CategoryDisableEditICon" class="editalbeList left22Pix" onclick="DisableCategoryBoxes();" style="display: none;">
+                            <i class="fa fa-pencil"></i>Disable Edit
+                        </div>*@
+                    </div>
+                    <div class="productHeadingsCnt width12Perc">
+                        Is Published
+                                     @*<div class="editalbeList left22Pix">
+                                        <i class="fa fa-pencil"></i>Edit
+                                    </div>*@
+                    </div>
+                    <div class="productHeadingsCnt width7Perc">
+                        Is Archived
+                    </div>
+                    <table id="ProductListtbl" class="table">
+
+                        <tbody>
+                            <tr>
+                                <td class="width12Perc text-center">
+                                    <a href="#">#8002</a>
+                                </td>
+                                <td class="width24Perc text-center">
+                                    <div class="LCLB Product-Body-List">
+                                        <div class="PDTC_TL Product-Body-List-TL">
+                                            <img src="~/Content/themes/Centaurus/img/samples/thumbnail1.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center width13Per">
+                                    <span class="NoneditableName">Letterheads (US)</span>
+                                    @*<input value="Letterheads (US)" type="text" class="form-control editableName" style="display: none;" />*@
+                                </td>
+                                <td class="text-center width13Per"><span class="NoneditablePrice">$2000</span>
+                                   @* <input value="$2000" type="text" class="form-control editablePrice" style="display: none;" />*@
+                                </td>
+                                <td class="text-center width12Perc"><span class="NoneditableCat">Stationary</span>
+                                    @*<input value="Stationary" type="text" class="form-control editableCat" style="display: none;" />*@
+                                </td>
+                                <td class="text-center width12Perc">
+                                    <span class="label label-success">Yes</span>
+                                </td>
+
+                                <td class="text-center width7Perc">No
+                                </td>
+                            </tr>
+                            <tr style="background: #f3f3f3;">
+                                <td class="width12Perc text-center">
+                                    <a href="#">#8003</a>
+                                </td>
+                                <td class="width24Perc text-center">
+                                    <div class="LCLB Product-Body-List">
+                                        <div class="PDTC_TL Product-Body-List-TL">
+                                            <img src="~/Content/themes/Centaurus/img/samples/templateShirt1.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center width13Per">
+                                    <span class="NoneditableName">T Shrit</span>
+                                    <input value="T Shirt" type="text" class="form-control editableName" style="display: none;" />
+                                </td>
+                                <td class="text-center width13Per"><span class="NoneditablePrice">$500</span>
+                                    <input value="$500" type="text" class="form-control editablePrice" style="display: none;" />
+                                </td>
+                                <td class="text-center width12Perc"><span class="NoneditableCat">Stationary</span>
+                                    <input value="Stationary" type="text" class="form-control editableCat" style="display: none;" />
+                                </td>
+                                <td class="text-center width12Perc">
+                                    <span class="label label-success">No</span>
+                                </td>
+
+                                <td class="text-center width7Perc">Yes
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="width12Perc text-center">
+                                    <a href="#">#8004</a>
+                                </td>
+                                <td class="width24Perc text-center">
+                                    <div class="LCLB Product-Body-List">
+                                        <div class="PDTC_TL Product-Body-List-TL">
+                                            <img src="~/Content/themes/Centaurus/img/samples/thumbnail1.png" alt="image" class="Top_Cat_ThumbnailPath" />
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center width13Per">
+                                    <span class="NoneditableName">Letterheads (US)</span>
+                                    <input value="Letterheads (US)" type="text" class="form-control editableName" style="display: none;" />
+                                </td>
+                                <td class="text-center width13Per"><span class="NoneditablePrice">$2000</span>
+                                    <input value="$2000" type="text" class="form-control editablePrice" style="display: none;" />
+                                </td>
+                                <td class="text-center width12Perc"><span class="NoneditableCat">Stationary</span>
+                                    <input value="Stationary" type="text" class="form-control editableCat" style="display: none;" />
+                                </td>
+                                <td class="text-center width12Perc">
+                                    <span class="label label-success">Yes</span>
+                                </td>
+
+                                <td class="text-center width7Perc">No
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer col-xs-12">
+
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+    </div>
+</div>

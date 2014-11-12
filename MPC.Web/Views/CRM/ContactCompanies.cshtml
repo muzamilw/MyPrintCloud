@@ -1,0 +1,389 @@
+﻿@{
+    ViewBag.Title = "MPC Stores";
+}
+@section leftmenue {
+
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li class="active"><span>Stores</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Stores</h1>
+                    <div class="pull-right top-page-ui">
+                        <a href="~/CRM/AddStore" class="btn btn-primary">
+                            <i class="fa fa-plus-circle fa-lg"></i>Add Store</a>
+
+                    </div>
+                    <div class="filter-block pull-right">
+                        
+                        @*  <button id="open-wizard" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
+                                                </button>
+                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
+                                                </a>*@
+
+                        @*<div id="addcustomer">
+                                                    @Html.Partial("Company/_AddStore")
+                                                </div>*@
+                    </div>
+                </div>
+                     <div class="clearfix">
+                    <h1 class="pull-left"></h1>
+                    <div class="pull-right top-page-ui">
+                        created 5 out 10 stores
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th><span>All Stores</span></th>
+                                        <th ><span>Type</span></th>
+                                        <th><span>Status</span></th>
+                                        
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
+                                            <a href="~/CRM/ContactCompanyDetail" class="user-link">Unbound Prints</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/unbound/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                     
+                                        <td>
+                                            Prospect
+                                        </td>
+                                          
+                                       
+                                         <td><span class="label label-success">Active</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                   
+                                            <a href="~/CRM/ContactCompanyDetail" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/2.jpg" alt="" />
+                                            <a href="~/CRM/ContactCompanyDetail" class="user-link">Art Graphics</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/art/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                      
+                                        <td >
+                                            RetaiCustomer
+                                        </td>
+                                       
+                                         <td><span class="label label-success">Active</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                        
+                                            <a href="/CRM/ContactCompanyDetail" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/3.jpg" alt="" />
+                                            <a href="#" class="user-link">Computer Technology Prints</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/computer/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                       
+                                        <td >
+                                           Supplier
+                                        </td>
+                                      
+                                         <td> <span class="label label-danger">Deactive</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                       
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/4.jpg" alt="" />
+                                            <a href="#" class="user-link">I Tech Printing</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/tech/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                       
+                                        <td >
+                                            Corporate
+                                        </td>
+                                       
+                                         <td><span class="label label-success">Active</span>
+                                        </td>
+                                        
+                                        <td style="width: 20%;">
+                                   
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/5.jpg" alt="" />
+                                            <a href="#" class="user-link">ELM London</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/eml/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                       
+                                        <td >
+                                            Corporate
+                                        </td>
+                                       
+                                         <td> <span class="label label-danger">Deactive</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                   
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/6.jpg" alt="" />
+                                            <a href="#" class="user-link">Colour Fast Group</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/colour/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                       
+                                        <td >
+                                            RetaiCustomer
+                                        </td>
+                            
+                                         <td> <span class="label label-danger">Deactive</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                          
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/7.jpg" alt="" />
+                                            <a href="#" class="user-link">Creative Art</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/creative/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                      
+                                        <td >
+                                            Corporate
+                                        </td>
+                        
+                                         <td> <span class="label label-danger">Deactive</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                          
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/8.jpg" alt="" />
+                                            <a href="#" class="user-link">Comrade Circle </a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/comrade/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                       
+                                        <td >
+                                            RetaiCustomer
+                                        </td>
+                           
+                                         <td> <span class="label label-danger">Deactive</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                        
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/9.jpg" alt="" />
+                                            <a href="#" class="user-link">Gavin Newton</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/gavin/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                       
+                                        <td >
+                                            Corporate
+                                        </td>
+                             
+                                         <td><span class="label label-success">Active</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                         
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/10.jpg" alt="" />
+                                            <a href="#" class="user-link">Eazy Prints</a>
+                                            <a href="#" style="font-size: 0.875em; color: black;">http://localhost/eazy/login <i class="fa fa-external-link-square"></i></a>
+                                        </td>
+                                       
+                                        <td >
+                                           RetaiCustomer
+                                        </td>
+                         
+                                         <td><span class="label label-success">Active</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                         
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="pagerDiv">
+                    <ul class="pagination pull-right">
+                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
+    <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
+    <script>
+        $(function () {
+            $('#myWizard').wizard();
+            $('#listores').addClass('active');
+            //masked inputs
+            $("#maskedDate").mask("99/99/9999");
+            $("#maskedPhone").mask("(999) 999-9999");
+            $("#maskedPhoneExt").mask("(999) 999-9999? x99999");
+        });
+    </script>
+}

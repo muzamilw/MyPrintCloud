@@ -1,0 +1,766 @@
+﻿@{
+    ViewBag.Title = "Add Company";
+}
+
+<button id="open-wizard" class="btn btn-primary pull-right">
+    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Company
+</button>
+<div class="wizard" id="wizard-demo" style="display: none">
+    <h1>Add Store</h1>
+  <div class="wizard-card" data-onvalidated="setServerName" data-cardname="name">
+        <h3><span>Customer Information</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal" >
+                <div class="col-md-12">
+                
+                    <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Status</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                     <input type="text" class="form-control" id="txtCustomer" placeholder="Enter Customer Status" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                
+                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Company Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Company Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            
+                                        </div>
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Account Number</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <input type="text" class="form-control" id="txtAccountNumber" placeholder="Enter Account Number" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            
+                                        </div>
+                
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Company Type</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <select class="form-control">
+                                                            <option>Agriculture and Farming</option>
+                                                            <option>Business Events</option>
+                                                            <option>Carriers</option>
+                                                            <option>Child Care</option>
+                                                            <option>CXN</option>
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                       </div>
+                     
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Flag</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                        <select class="form-control">
+                                                            <option>Office Brands</option>
+                                                            <option>Office Choice</option>
+                                                            <option>InActive</option>
+                                                            <option>Construction</option>
+                                                            <option>Manufacturing</option>
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                       </div>
+                  
+ 
+
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" class="control-label text-right">Company Logo</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <div id="dropzone1" class="dropzonepl">
+                                <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                    <div class="dz-default dz-message">
+                                        <span>Drop file here to upload</span>
+                                    </div>
+                                </form>
+                            </div>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            
+                                        </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="wizard-card" data-cardname="group">
+        <h3><span>Company Details</span></h3>
+        <div class="wizard-input-section">
+         
+            <div class="col-md-12 form-horizontal" >
+                <div class="col-md-12">
+                    <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtURL" class="control-label text-right">URL</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtURL" placeholder="Enter URL" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                    <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtNotes" class="control-label text-right">Notes</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <textarea class="form-control" id="txtNotes" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtNotes" class="control-label text-right">Account Status</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                        <select class="form-control">
+                                                            <option>Account </option>
+                                                            <option>Business Events</option>
+                                                            <option>Carriers</option>
+                                                            <option>Child Care</option>
+                                                            <option>CXN</option>
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                </div>
+            </div>
+         
+
+        </div>
+    </div>
+
+    <div class="wizard-card" data-cardname="services">
+         <h3><span>Account Details</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                   
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Credit Reference</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtCreditRef" placeholder="Enter Credit Reference" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+             
+
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Tax Reg No</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtRegNo" placeholder="Enter Credit Reference" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                 
+
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditLimit" class="control-label text-right">Credit Limit</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtCreditLimit" placeholder="Enter Credit Limit" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">A/C Opened</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtAccOpened" placeholder="Enter Credit Limit" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+              
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">Department</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <select class="form-control">
+                            <option>Sale Department</option>
+                            <option>Purchase Department</option>
+                            <option>Marketing Department</option>
+               
+                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                      
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">Default Markup</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <select class="form-control">
+                                                        <option>M 0</option>
+                                                        <option>M 10</option>
+                                                        <option>M 15</option>
+                                                        <option>M 20</option>
+                                                        <option>M 25</option>
+                                                    </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtAccOpened" class="control-label text-right">Default Nominal Cod</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                    <select class="form-control">
+                                                        <option>4000 Direct Print Sales</option>
+                                                        <option>4001 Online Print Sales</option>
+                                                        <option>4002 Labor Press</option>
+                                                        <option>4003 Paper</option>
+                                                        <option>4004 Plates</option>
+                                                    </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                    
+                
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="Txtterms" class="control-label text-right">Notes</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                     <textarea class="form-control" id="Txtterms" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+             
+
+                   
+              
+                </div>
+            </div>
+
+
+        </div>
+       
+    </div>
+    <div class="wizard-card" data-onload="" data-cardname="location">
+          <h3><span>Address Information</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Address Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                       <input type="text" class="form-control" id="txtAddressName" placeholder="Enter Address Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                 
+                    
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">Address</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                          <textarea class="form-control" id="txtAddress" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCreditRef" class="control-label text-right">City</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtCity" placeholder="Enter City" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtState" class="control-label text-right">State</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                             <input type="text" class="form-control" id="txtState" placeholder="Enter State" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCountry" class="control-label text-right">Country</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                <input type="text" class="form-control" id="txtCountry" placeholder="Enter Country" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                     
+                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCode" class="control-label text-right">Post Code</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                <input type="text" class="form-control" id="txtCode" placeholder="Enter Post Code" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Tel 1</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                  <input type="text" class="form-control" id="txtTel1" placeholder="Enter Tel 1" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                 
+                          <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Tel 2</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                     <input type="text" class="form-control" id="txtTel2" placeholder="Enter Tel 2" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                 
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Fax</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                       <input type="text" class="form-control" id="txtFax" placeholder="Enter Fax" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Email</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                      <input type="email" class="form-control" id="txtemail" placeholder="Enter Email" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                      
+                         <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">URL</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                      <input type="email" class="form-control" id="txtURL" placeholder="Enter URL" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                        
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">Ref</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                       <input type="email" class="form-control" id="txtRef" placeholder="Enter Ref" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtTel1" class="control-label text-right">FAO</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                                       <input type="email" class="form-control" id="txtFao" placeholder="Enter FAO" />
+                                                             <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+
+              
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+      <div class="wizard-card">
+          <h3><span>Contact Information</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                                      
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtFirstName" class="control-label text-right">First Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <input type="text" class="form-control" id="txtFirstName" placeholder="Enter First Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtLastName" class="control-label text-right">Last Name</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <input type="text" class="form-control" id="txtLastName" placeholder="Enter Last Name" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtContactAddress" class="control-label text-right">Home Address</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <textarea class="form-control" id="txtContactAddress" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                  
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHCity" class="control-label text-right">Home City</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                          <input type="text" class="form-control" id="txtHCity" placeholder="Enter City" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHState" class="control-label text-right">Home State</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                           <input type="text" class="form-control" id="txtHState" placeholder="Enter State" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHState" class="control-label text-right">Mobile</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                              <input type="text" class="form-control" id="txtMobile" placeholder="Enter Mobile" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                     
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHomeTel1" class="control-label text-right">Home Tel 1</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                              <input type="text" class="form-control" id="txtHomeTel1" placeholder="Enter Tel 1" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHomeTel2" class="control-label text-right">Home Tel 2</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="txtHomeTel2" placeholder="Enter Tel 2" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                    
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtHomeTel2" class="control-label text-right">Email</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="email" class="form-control" id="txtemail" placeholder="Enter Email" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                      
+                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtpassword" class="control-label text-right">Password</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="password" class="form-control" id="txtpassword" placeholder="Enter Password" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtConfirmpassword" class="control-label text-right">Confirm Password</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="password" class="form-control" id="txtConfirmpassword" placeholder="Enter Confirm Password" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                     
+                    
+                     <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtConfirmpassword" class="control-label text-right">Secret Questions</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <select class="form-control">
+                                                            <option>My Birthday Place</option>
+                                                            <option>Mother's Place</option>
+                                                            <option>Best Childhood Friend</option>
+    
+                                                        </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                      
+
+                       <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtsecretAnswr" class="control-label text-right">Secret Answer</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                      <input type="text" class="form-control" id="txtsecretAnswr" placeholder="Enter Secret Answer" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                   
+                      <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtsecretAnswr" class="control-label text-right">Notes</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-6">
+                                                         <textarea class="form-control" id="txtNotesContact" rows="4"></textarea>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="wizard-card">
+          <h3><span>Opening Balance</span></h3>
+        <div class="wizard-input-section">
+            <div class="col-md-12 form-horizontal">
+                <div class="col-md-12">
+                     <div class="form-group">
+                                           
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionYes" value="option1" checked>
+                                                <label for="optionYes">
+                                                    No there is no opening balance.
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionNo" value="option2">
+                                                <label for="optionNo">
+                                                    Yes, as one value
+                                                </label>
+                                            </div>
+                      </div>
+                      <div class="form-group">
+                        <label style="font-weight:bold">Entering your Company's Opening as One Value</label>
+                         
+                    </div>
+                     <div class="form-group">
+                        <label>Enter the details of the opening balance for the new company account</label>
+                         
+                    </div>
+                     <div class="form-group">
+                                            
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadiosOB" id="optionYesOB" value="option1" checked>
+                                                <label for="optionYesOB">
+                                                    Invoice
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadiosOB" id="optionNoOB" value="option2">
+                                                <label for="optionNoOB">
+                                                    Credit Note
+                                                </label>
+                                            </div>
+                      </div>
+                    
+                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                                <label for="txtReference" class="control-label text-right">Reference</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-4">
+                                                       <input type="text" class="form-control" id="txtReference" placeholder="Enter Reference" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                            </div>
+
+                   
+                    
+                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                                <label for="txtReference" class="control-label text-right">Amount</label>
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </div>
+                                           
+                                                <div class="col-lg-4">
+                                                    <input type="text" class="form-control" id="txtAmount" placeholder="Enter Amount" />
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                            </div>
+
+                   
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+   
+  
+    <div class="wizard-error">
+        <div class="alert alert-error">
+            <strong>There was a problem</strong> with your submission.
+                                Please correct the errors and re-submit.
+        </div>
+    </div>
+    <div class="wizard-failure">
+        <div class="alert alert-error">
+            <strong>There was a problem</strong> submitting the form.
+                            Please try again in a minute.
+        </div>
+    </div>
+    <div class="wizard-success">
+        <div class="alert alert-success">
+            Customer was created <strong>successfully.</strong>
+        </div>
+        <a class="btn btn-primary im-done">Done</a>
+    </div>
+</div>
+@* Wizard Popup ends here*@

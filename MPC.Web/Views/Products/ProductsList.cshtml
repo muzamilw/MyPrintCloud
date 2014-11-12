@@ -1,0 +1,468 @@
+﻿@{
+    ViewBag.Title = "ProductsList";
+}
+@section leftmenue {
+
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li class="active"><span>Products</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Products</h1>
+                    @* <div class="pull-right top-page-ui">
+                                        <a data-toggle="modal" href="#myModal" class="btn btn-primary">
+                                            <i class="fa fa-plus-circle fa-lg"></i>Add Store</a>
+                                        
+                                    </div>*@
+                    <div class="filter-block pull-right">
+                        @* <button id="open-wizard" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
+                                                </button>
+                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
+                                                </a>*@
+                        <div id="addproduct">
+                            @Html.Partial("_AddProductWizard")
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="row">
+                  @Html.Partial("Product/_Products")
+                    @* <div class="col-lg-12">
+
+
+
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table table-products table-hover">
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        <div class="col-lg-6">
+                                            <span class="name">Business Cards Matt
+                                            </span>
+                                            <div class="col-md-6">
+                                                <span class="smallname">PT-BC015481
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6 smallname">
+                                                <div class="row text-center">
+                                                    <a href="~/Products/ProductDetail" class="table-link" title="Edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link copy" title="Copy">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link danger" title="Archive">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row text-center smallname">
+                                                <img src="~/Content/themes/Centaurus/img/samples/thumbnail2.png" alt="image" />
+                                            </div>
+                                            <div class="row">
+                                                <ul style="list-style: none">
+                                                    <li class="product-has-feature">Published
+                                                    </li>
+                                                    <li class="product-has-nofeature">Enabled
+                                                    </li>
+                                                    <li class="product-has-nofeature">Featured
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <span>Letterheads Printing Options  •Premium 110gsm uncoated stock  •Full color on the front  •Prices include the option of full bleed •Standard size of 8.5 x 11 can be custom trimmed to meet your needs.....
+                                            </span>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="name">Letterheads (US)
+                                            </span>
+                                            <div class="col-md-6">
+                                                <span class="smallname">PT-GW015481
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6 smallname">
+                                                <div class="row text-center">
+                                                    <a href="#" class="table-link" title="Edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link copy" title="Copy">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link danger" title="Archive">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row text-center smallname">
+                                                <img src="~/Content/themes/Centaurus/img/samples/thumbnail1.png" alt="image" />
+                                            </div>
+                                            <div class="row">
+                                                <ul style="list-style: none">
+                                                    <li class="product-has-feature">Published
+                                                    </li>
+                                                    <li class="product-has-nofeature">Enabled
+                                                    </li>
+                                                    <li class="product-has-nofeature">Featured
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <span>Letterheads Printing Options  •Premium 110gsm uncoated stock  •Full color on the front  •Prices include the option of full bleed •Standard size of 8.5 x 11 can be custom trimmed to meet your needs.....
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <div class="col-lg-6">
+                                            <span class="name">T Shirt
+                                            </span>
+                                            <div class="col-md-6">
+                                                <span class="smallname">TS-PC015145
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6 smallname">
+                                                <div class="row text-center">
+                                                    <a href="#" class="table-link" title="Edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link copy" title="Copy">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link danger" title="Archive">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row text-center smallname">
+                                                <img src="~/Content/themes/Centaurus/img/samples/templateShirt1.png" alt="image" />
+                                            </div>
+                                            <div class="row">
+                                                <ul style="list-style: none">
+                                                    <li class="product-has-feature">Published
+                                                    </li>
+                                                    <li class="product-has-nofeature">Enabled
+                                                    </li>
+                                                    <li class="product-has-nofeature">Featured
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <span>Personlized T-Shirts High Quality Cotton t-shirts available in small, medium, large, xlarge and xxlarge. Choose from 4 colors, white, red, yellow and skyblue....
+                                            </span>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="name">Flyers
+                                            </span>
+                                            <div class="col-md-6">
+                                                <span class="smallname">PT-SS474656
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6 smallname">
+                                                <div class="row text-center">
+                                                    <a href="#" class="table-link" title="Edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link copy" title="Copy">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link danger" title="Archive">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row text-center smallname">
+                                                <img src="~/Content/themes/Centaurus/img/samples/thumbnail2.png" alt="image" />
+                                            </div>
+                                            <div class="row">
+                                                <ul style="list-style: none">
+                                                    <li class="product-has-feature">Published
+                                                    </li>
+                                                    <li class="product-has-nofeature">Enabled
+                                                    </li>
+                                                    <li class="product-has-nofeature">Featured
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <span>Letterheads Printing Options  •Premium 110gsm uncoated stock  •Full color on the front  •Prices include the option of full bleed •Standard size of 8.5 x 11 can be custom trimmed to meet your needs.....
+                                            </span>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                        <div class="col-lg-6">
+                                            <span class="name">Rack Cards
+                                            </span>
+                                            <div class="col-md-6">
+                                                <span class="smallname">TS-SS94847
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6 smallname">
+                                                <div class="row text-center">
+                                                    <a href="#" class="table-link" title="Edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link copy" title="Copy">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link danger" title="Archive">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row text-center smallname">
+                                                <img src="~/Content/themes/Centaurus/img/samples/templateShirt1.png" alt="image" />
+                                            </div>
+                                            <div class="row">
+                                                <ul style="list-style: none">
+                                                    <li class="product-has-feature">Published
+                                                    </li>
+                                                    <li class="product-has-nofeature">Enabled
+                                                    </li>
+                                                    <li class="product-has-nofeature">Featured
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <span>Personlized T-Shirts High Quality Cotton t-shirts available in small, medium, large, xlarge and xxlarge. Choose from 4 colors, white, red, yellow and skyblue....
+                                            </span>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="name">Greating Cards
+                                            </span>
+                                            <div class="col-md-6">
+                                                <span class="smallname">GC-HFH384884
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6 smallname">
+                                                <div class="row text-center">
+                                                    <a href="#" class="table-link" title="Edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link copy" title="Copy">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a href="#" class="table-link danger" title="Archive">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row text-center smallname">
+                                                <img src="~/Content/themes/Centaurus/img/samples/thumbnail1.png" alt="image" />
+                                            </div>
+                                            <div class="row">
+                                                <ul style="list-style: none">
+                                                    <li class="product-has-feature">Published
+                                                    </li>
+                                                    <li class="product-has-nofeature">Enabled
+                                                    </li>
+                                                    <li class="product-has-nofeature">Featured
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <span>Letterheads Printing Options  •Premium 110gsm uncoated stock  •Full color on the front  •Prices include the option of full bleed •Standard size of 8.5 x 11 can be custom trimmed to meet your needs.....
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
+
+    <script>
+        $(function () {
+            $('#liProducts').addClass('active');
+        });
+    </script>
+
+    <script>
+
+        function changeToListView() {
+            $("#listViewIcon").css("background-color", "#ff7e47");
+            $("#gridViewIcon").css("background-color", "#ffffff");
+            $("#gridViewIcon").css("color", "black");
+            $("#listViewIcon").css("color", "white");
+            $("#gridForm").css("display", "none");
+            $("#ListForm").css("display", "block");
+        }
+        function changeToGridView() {
+            $("#gridViewIcon").css("background-color", "#ff7e47");
+            $("#listViewIcon").css("background-color", "#ffffff");
+            $("#gridViewIcon").css("color", "white");
+            $("#listViewIcon").css("color", "black");
+            $("#gridForm").css("display", "block");
+            $("#ListForm").css("display", "none");
+        }
+
+        function enableProductBoxes() {
+            $("#ProductDisableEditICon").css("display", "block");
+            $("#ProductEditICon").css("display", "none");
+            $(".editableName").css("display", "block");
+            $(".NoneditableName").css("display", "none");
+        }
+        function DisableProductBoxes() {
+            $("#ProductDisableEditICon").css("display", "none");
+            $("#ProductEditICon").css("display", "block");
+            $(".editableName").css("display", "none");
+            $(".NoneditableName").css("display", "block");
+        }
+        function enablePriceBoxes() {
+            $("#PriceDisableEditICon").css("display", "block");
+            $("#PriceEditICon").css("display", "none");
+            $(".editablePrice").css("display", "block");
+            $(".NoneditablePrice").css("display", "none");
+        }
+        function DisablePriceBoxes() {
+            $("#PriceDisableEditICon").css("display", "none");
+            $("#PriceEditICon").css("display", "block");
+            $(".editablePrice").css("display", "none");
+            $(".NoneditablePrice").css("display", "block");
+        }
+        function enableCategoryBoxes() {
+            $("#CategoryDisableEditICon").css("display", "block");
+            $("#CategoryEditICon").css("display", "none");
+            $(".editableCat").css("display", "block");
+            $(".NoneditableCat").css("display", "none");
+        }
+        function DisableCategoryBoxes() {
+            $("#CategoryDisableEditICon").css("display", "none");
+            $("#CategoryEditICon").css("display", "block");
+            $(".editableCat").css("display", "none");
+            $(".NoneditableCat").css("display", "block");
+        }
+        $(document).ready(function () {
+            //min/max slider
+            $('.slider-minmax').noUiSlider({
+                range: [0, 100],
+                start: [100],
+                handles: 1,
+                connect: 'upper',
+                slide: function () {
+
+
+                },
+                set: function () {
+                    var val = $(this).val();
+                    if (val >= 60) {
+
+                        $('.Top_Cat_Body').css("width", "22%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "239px");
+                    } else if (val >= 40) {
+
+                        $('.Top_Cat_Body').css("width", "18%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "194px");
+                    } else if (val <= 20) {
+
+                        $('.Top_Cat_Body').css("width", "13%");
+                        $('.FI_TL').css("height", "140px");
+                        $('.productListIcons').css("width", "139px");
+                    }
+                }
+
+            });
+            $('.slider-minmax').val(100, true);
+        });
+    </script>
+
+}
