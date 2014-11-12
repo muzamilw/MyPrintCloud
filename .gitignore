@@ -113,4 +113,4 @@ OdyPortal/OdyPortal.csproj.orig
 *.cs.orig
 *.cs.orig
 
-Cares.Web/Web.config
+MPC.Web/Web.config
