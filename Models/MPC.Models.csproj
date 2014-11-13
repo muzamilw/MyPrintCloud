@@ -102,6 +102,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\TaxRate.cs" />
+    <Compile Include="DomainModels\Markup.cs" />
+    <Compile Include="DomainModels\CompanySites.cs" />
+    <Compile Include="DomainModels\ChartOfAccount.cs" />
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
@@ -127,7 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="DomainModels\" />
     <Folder Include="RequestModels\" />
     <Folder Include="ResponseModels\" />
   </ItemGroup>

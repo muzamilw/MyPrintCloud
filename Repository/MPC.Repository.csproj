@@ -152,6 +152,11 @@
   <ItemGroup>
     <Compile Include="BaseRepository\BaseDbContext.cs" />
     <Compile Include="BaseRepository\BaseRespository.cs" />
+    <Compile Include="BaseRepository\Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
     <Compile Include="BaseRepository\Model.Views.cs">
       <DependentUpon>Model.Views.tt</DependentUpon>
       <SubType>Code</SubType>
@@ -165,6 +170,13 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="BaseRepository\Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="BaseRepository\Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
     </None>
     <None Include="BaseRepository\Model.Views.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
