@@ -1,7 +1,4 @@
-﻿
-using MPC.Models.DomainModels;
-
-namespace MPC.Models.LoggerModels
+﻿namespace MPC.Models.LoggerModels
 {
     /// <summary>
     /// Category Log class for database logging

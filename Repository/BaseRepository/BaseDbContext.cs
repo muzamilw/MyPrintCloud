@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using MPC.Models.DomainModels;
 using Microsoft.Practices.Unity;
 
 namespace MPC.Repository.BaseRepository
