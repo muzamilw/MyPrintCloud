@@ -8,7 +8,7 @@ namespace MPC.Web.Controllers
 {
     public class SettingsController : Controller
     {
-        //
+        
         // GET: /Settings/
 
         public ActionResult Index()
