@@ -30,6 +30,14 @@ namespace MPC.Web.Controllers
         public ActionResult LoginFull()
         {
             return View();
+
+            /*
+             * Get UserToken from Query String [User is already on its own site]
+             * Make Api Call to verify Security Token and it will return User Details, Roles Details DomainKey 
+             * Use User Details to create Authentication Ticket 
+             * Create Claims Principals for (Role, User, Menus, Menu Rights) 
+             * Redirect to SITE_BASED controller of Dashboard [/Dashboard/Index]
+             */ 
         }
 
        
