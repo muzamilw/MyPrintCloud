@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Add Edit Payment Gateway";
+}
+
+
+
+<div class="modal fade" id="myPaymentGatewayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 420px;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add/Edit Payment Gateway</h4>
+            </div>
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                        </div>
+
+
+                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Gateway</label>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                         <select id="ddPaymentGatway" class="form-control" onchange="ShowHidePaymentSettings();">
+                                                        <option>PayPal</option>
+                                                        <option>Authorized.Net</option>
+                                                        <option>ANZ</option>
+                                                        <option>St George</option>
+                             <option>Cash</option>
+                                                    </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                        </div>
+
+
+                        <label for="txtMerchantID" class="control-label text-right tooltip-float">Merchant ID</label>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="txtMerchantID">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12" >
+                        <div class="col-lg-12" id="marchantIDtxt" style="font-size:12px;">
+                            e.g. The marchant email address used in your PayPal account.
+                        </div>
+                     
+                    </div>
+
+                </div>
+                <div class="form-group paymentSettingsDisplay" style="display:none;">
+                    <div class="col-lg-4 text-right">
+
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                        </div>
+
+
+                        <label for="txtMerchantID" class="control-label text-right tooltip-float">Access Code</label>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="txtMerchantID">
+                    </div>
+
+                </div>
+                <div class="form-group paymentSettingsDisplay" style="display:none;">
+                    <div class="col-lg-4 text-right">
+
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                        </div>
+
+
+                        <label for="txtMerchantID" class="control-label text-right tooltip-float">Secure Hash</label>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="txtMerchantID">
+                    </div>
+
+                </div>
+                 <div class="form-group paymentSettingsDisplay" style="display:none;">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                        </div>
+                        <label for="switchIsTDefault" class="control-label text-right tooltip-float">Is Active</label>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsTDefault" checked>
+                            <label class="onoffswitch-label" for="switchIsTDefault">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                        <span class="help-block text-right"></span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="clearfix">
+                &nbsp;
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+<script>
+    function ShowHidePaymentSettings() {
+        
+        if ($("#ddPaymentGatway option:selected").text() == "PayPal" || $("#ddPaymentGatway option:selected").text() == "Cash") {
+            $('.paymentSettingsDisplay').css("display", "none");
+            $("#marchantIDtxt").text("e.g. The marchant email address used in your PayPal account.");
+        } else {
+            $('.paymentSettingsDisplay').css("display", "block");
+            $("#marchantIDtxt").text("e.g. The marchant email address used in your " + $("#ddPaymentGatway option:selected").text() + " account.");
+        }
+        
+    }
+</script>
+@* Wizard Popup ends here*@

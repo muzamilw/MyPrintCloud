@@ -568,6 +568,7 @@
     <Content Include="Content\themes\Centaurus\img\select2x2.png" />
     <Content Include="Content\themes\Centaurus\img\spritemap%402x.png" />
     <Content Include="Content\themes\Centaurus\img\spritemap.png" />
+    <Content Include="Content\themes\Centaurus\img\youtube-grey.png" />
     <Content Include="Content\themes\Centaurus\js\bootstrap-datepicker.js" />
     <Content Include="Content\themes\Centaurus\js\bootstrap-timepicker.min.js" />
     <Content Include="Content\themes\Centaurus\js\bootstrap-wizard.js" />
@@ -2074,6 +2075,11 @@
     <Content Include="Scripts\Plugins\charts\knob\jQuery Knob demo.url" />
     <Content Include="Scripts\Plugins\misc\jqueryFileTree\jQuery File Tree - A Beautiful Blog.url" />
     <Content Include="Scripts\Plugins\misc\search\tipuesearch_content.json" />
+    <Content Include="Views\Products\ProductCategoryDetail.cshtml" />
+    <Content Include="Views\Shared\Address\_SelectAddress.cshtml" />
+    <Content Include="Views\Shared\Widgets\_AddEditPaymentGateway.cshtml" />
+    <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />
+    <Content Include="Views\Shared\Widgets\_PhraseLibrary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

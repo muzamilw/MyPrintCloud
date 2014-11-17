@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MPC.Web.Controllers
+namespace MPC2014.Web.Controllers
 {
     public class CRMController : Controller
     {
