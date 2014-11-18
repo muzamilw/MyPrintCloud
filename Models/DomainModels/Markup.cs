@@ -5,7 +5,6 @@
     /// </summary>
     public class MarkUp
     {
-
         #region Persisted Properties
 
         /// <summary>
@@ -32,7 +31,12 @@
         /// System Site Id
         /// </summary>
         public int SystemSiteId { get; set; }
-        
+
+        /// <summary>
+        /// User Domain Key
+        /// </summary>
+        public int UserDomainKey { get; set; }
+
         #endregion
     }
 }

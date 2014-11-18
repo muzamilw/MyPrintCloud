@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -34,6 +36,14 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region Public
+
+        /// <summary>
+        /// Get All Chart Of Account for User Domain Key
+        /// </summary>
+        public override IEnumerable<ChartOfAccount> GetAll()
+        {
+            return DbSet.Where(chartOfAccount => chartOfAccount.UserDomainKey == UserDomainKey).ToList();
+        }
         #endregion
     }
 }

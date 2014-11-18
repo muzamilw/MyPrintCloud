@@ -78,23 +78,10 @@ namespace MPC.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // Set MVC resolver
-            //DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             // Set Web Api resolver
-            //GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
 
-        public override void Init()
-        {
-            this.PostAuthenticateRequest += MvcApplication_PostAuthenticateRequest;
-            base.Init();
-        }
-
-        void MvcApplication_PostAuthenticateRequest(object sender, EventArgs e)
-        {
-            System.Web.HttpContext.Current.SetSessionStateBehavior(
-                SessionStateBehavior.Required);
-        }
     }
 }

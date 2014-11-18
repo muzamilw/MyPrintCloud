@@ -1,5 +1,8 @@
-﻿using MPC.Interfaces.IServices;
+﻿using System.Data.Entity;
+using MPC.Interfaces.IServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.Services
 {
@@ -32,6 +35,69 @@ namespace MPC.Implementation.Services
             this.markupRepository = markupRepository;
             this.taxRateRepository = taxRateRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
+        }
+
+        #endregion
+
+        #region Public
+        /// <summary>
+        /// Load My Organization Base data
+        /// </summary>
+        public MyOrganizationBaseResponse GetBaseData()
+        {
+            return new MyOrganizationBaseResponse
+            {
+                ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                Markups = markupRepository.GetAll(),
+                TaxRates = taxRateRepository.GetAll(),
+            };
+        }
+
+        /// <summary>
+        ///  Find Company Site Detail By Company Site ID
+        /// </summary>
+        public CompanySites FindDetailById(int companySiteId)
+        {
+            return companySitesRepository.Find(companySiteId);
+        }
+
+
+        /// <summary>
+        /// Add/Update Company Sites
+        /// </summary>
+        public int SaveCompanySite(CompanySites companySites)
+        {
+            CompanySites companySitesDbVersion = companySitesRepository.Find(companySites.CompanySiteId);
+            if (companySitesDbVersion == null)
+            {
+                return Save(companySites);
+            }
+            else
+            {
+                //Set updated fields
+                return Update(companySitesDbVersion);
+            }
+        }
+
+        /// <summary>
+        /// Add New Company Sites
+        /// </summary>
+        private int Save(CompanySites companySites)
+        {
+            companySites.UserDomainKey = companySitesRepository.UserDomainKey;
+            companySitesRepository.Add(companySites);
+            companySitesRepository.SaveChanges();
+            return companySites.CompanySiteId;
+        }
+
+        /// <summary>
+        /// Update Company Sites
+        /// </summary>
+        private int Update(CompanySites companySites)
+        {
+            companySitesRepository.Update(companySites);
+            companySitesRepository.SaveChanges();
+            return companySites.CompanySiteId;
         }
 
         #endregion

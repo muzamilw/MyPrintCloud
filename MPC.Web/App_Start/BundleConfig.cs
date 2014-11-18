@@ -19,9 +19,6 @@ namespace MPC.Web
                         "~/Scripts/jquery.validate*"));
             /* ============================================================== */
 
-            //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-            //            "~/Scripts/jquery.validate*"));
-
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -44,19 +41,18 @@ namespace MPC.Web
                 .Include("~/Scripts/underscore-ko-1.6.0.js")
                 .Include("~/Scripts/moment.js")
                 .Include("~/Scripts/toastr.js")
-                .Include("~/Scripts/require.js")
                 .Include("~/Scripts/amplify.js")
-                .Include("~/Scripts/respond.js"));
-            
+                .Include("~/Scripts/require.js")
+                .Include("~/Scripts/respond.js")
+                .Include("~/Scripts/App/architecture.js")
+                .Include("~/Scripts/App/requireConfig.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                  "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css", "~/Content/site.css"));
-
             
-        
-
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                                         "~/Content/themes/base/jquery.ui.core.css",
                                         "~/Content/themes/base/jquery.ui.resizable.css",

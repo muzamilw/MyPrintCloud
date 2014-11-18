@@ -7,5 +7,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IChartOfAccountRepository : IBaseRepository<ChartOfAccount, long>
     {
+
     }
 }

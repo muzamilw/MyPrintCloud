@@ -5,7 +5,6 @@
     /// </summary>
     public class CompanySites
     {
-
         #region Persisted Properties
 
         /// <summary>
@@ -167,7 +166,7 @@
         /// Customer Id
         /// </summary>
         public int? CustomerId { get; set; }
-        
+
         /// <summary>
         /// Customer Account Number
         /// </summary>
@@ -212,7 +211,12 @@
         /// Language Id
         /// </summary>
         public int? LanguageId { get; set; }
-        
+
+        /// <summary>
+        /// User Domain Key
+        /// </summary>
+        public int UserDomainKey { get; set; }
+
         #endregion
     }
 }

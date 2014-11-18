@@ -1,11 +1,10 @@
 ﻿namespace MPC.Models.DomainModels
 {
     /// <summary>
-    /// TaxRate
+    /// Tax Rate Domain Model
     /// </summary>
     public class TaxRate
     {
-
         #region Persisted Properties
 
         /// <summary>
@@ -52,7 +51,12 @@
         /// Is Fixed
         /// </summary>
         public bool? IsFixed { get; set; }
-        
+
+        /// <summary>
+        /// User Domain Key
+        /// </summary>
+        public int UserDomainKey { get; set; }
+
         #endregion
     }
 }

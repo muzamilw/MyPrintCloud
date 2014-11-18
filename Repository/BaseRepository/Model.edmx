@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tbl_chartofaccount">
           <Key>
             <PropertyRef Name="ID" />
@@ -25,6 +25,7 @@
           <Property Name="Balance" Type="float" Nullable="false" />
           <Property Name="IsRead" Type="bit" />
           <Property Name="SystemSiteID" Type="int" />
+          <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tbl_company_sites">
           <Key>
@@ -71,6 +72,7 @@
           <Property Name="SystemWeightUnit" Type="int" />
           <Property Name="CurrencyID" Type="int" />
           <Property Name="LanguageID" Type="int" />
+          <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tbl_markup">
           <Key>
@@ -81,6 +83,7 @@
           <Property Name="MarkUpRate" Type="float" />
           <Property Name="IsFixed" Type="int" />
           <Property Name="SystemSiteID" Type="int" Nullable="false" />
+          <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tbl_taxrate">
           <Key>
@@ -95,6 +98,7 @@
           <Property Name="Tax2" Type="float" />
           <Property Name="Tax3" Type="float" />
           <Property Name="IsFixed" Type="bit" />
+          <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="tbl_chartofaccount" EntityType="Self.tbl_chartofaccount" Schema="dbo" store:Type="Tables" />
@@ -102,8 +106,7 @@
           <EntitySet Name="tbl_markup" EntityType="Self.tbl_markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_taxrate" EntityType="Self.tbl_taxrate" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DomainModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -127,6 +130,7 @@
           <Property Name="Balance" Type="Double" Nullable="false" />
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CompanySites">
           <Key>
@@ -173,6 +177,7 @@
           <Property Name="SystemWeightUnit" Type="Int32" />
           <Property Name="CurrencyId" Type="Int32" />
           <Property Name="LanguageId" Type="Int32" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MarkUp">
           <Key>
@@ -183,6 +188,7 @@
           <Property Name="MarkUpRate" Type="Double" />
           <Property Name="IsFixed" Type="Int32" />
           <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TaxRate">
           <Key>
@@ -197,6 +203,7 @@
           <Property Name="Tax2" Type="Double" />
           <Property Name="Tax3" Type="Double" />
           <Property Name="IsFixed" Type="Boolean" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="BaseDbContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
@@ -213,6 +220,7 @@
           <EntitySetMapping Name="ChartOfAccounts">
             <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
               <MappingFragment StoreEntitySet="tbl_chartofaccount">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="Id" ColumnName="ID" />
                 <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -235,6 +243,7 @@
           <EntitySetMapping Name="CompanySites">
             <EntityTypeMapping TypeName="DomainModels.CompanySites">
               <MappingFragment StoreEntitySet="tbl_company_sites">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="CompanySiteId" ColumnName="CompanySiteID" />
                 <ScalarProperty Name="CompanySiteName" ColumnName="CompanySiteName" />
                 <ScalarProperty Name="Address1" ColumnName="Address1" />
@@ -282,6 +291,7 @@
           <EntitySetMapping Name="MarkUps">
             <EntityTypeMapping TypeName="DomainModels.MarkUp">
               <MappingFragment StoreEntitySet="tbl_markup">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="MarkUpId" ColumnName="MarkUpID" />
                 <ScalarProperty Name="MarkUpName" ColumnName="MarkUpName" />
                 <ScalarProperty Name="MarkUpRate" ColumnName="MarkUpRate" />
@@ -293,6 +303,7 @@
           <EntitySetMapping Name="TaxRates">
             <EntityTypeMapping TypeName="DomainModels.TaxRate">
               <MappingFragment StoreEntitySet="tbl_taxrate">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="TaxId" ColumnName="TaxID" />
                 <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
                 <ScalarProperty Name="TaxName" ColumnName="TaxName" />
