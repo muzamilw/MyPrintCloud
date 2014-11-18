@@ -151,7 +151,7 @@ namespace MPC.Repository.BaseRepository
         {
             get
             {
-                return HttpContext.Current.Session["LoggedInUser"] != null ? HttpContext.Current.Session["LoggedInUser"].ToString() : "cares";
+                return "MyPrintCloud";
             }
         }
 
