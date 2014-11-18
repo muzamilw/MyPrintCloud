@@ -1,24 +1,19 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.ExceptionHandling.Logger;
-using MPC.Implementation.Services;
-using MPC.Interfaces.IServices;
 using MPC.Interfaces.Logger;
 
-
-namespace MPC.Implementation
+namespace MPC.ExceptionHandling
 {
     /// <summary>
-    /// Type Registration for Implemention 
+    /// Type Registration for Exception Handling
     /// </summary>
     public static class TypeRegistrations
     {
         /// <summary>
-        /// Register Types for Implementation
+        /// Register Types Exception Handling module
         /// </summary>
         public static void RegisterType(IUnityContainer unityContainer)
-        {
-            Repository.TypeRegistrations.RegisterType(unityContainer);
-            unityContainer.RegisterType<IMyOrganizationService, MyOrganizationService>();
+        {            
             unityContainer.RegisterType<IMPCLogger, MPCLogger>();
         }
     }

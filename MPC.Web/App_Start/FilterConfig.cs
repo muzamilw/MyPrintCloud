@@ -7,7 +7,9 @@ namespace MPC.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters, IUnityContainer container)
         {
-           // filters.Add(container.Resolve<IExceptionFilter>());
+            filters.Add(container.Resolve<IExceptionFilter>());
+            filters.Add(container.Resolve<System.Web.Http.Filters.IExceptionFilter>());
+            
             filters.Add(new HandleErrorAttribute());
         }
     }

@@ -10,7 +10,7 @@ namespace MPC2014.Web.Controllers
     {
        
         public ActionResult InvoicesList()
-        {
+        {            
             return View();
 
         }

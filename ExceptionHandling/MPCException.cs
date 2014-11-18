@@ -10,15 +10,20 @@ namespace MPC.ExceptionHandling
         /// <summary>
         /// Initializes a new instance of MPC Exception
         /// </summary>
-        public MPCException(string message): base(message)
-        {            
+        public MPCException(string message, int domainKey) : base(message)
+        {
+            DomainKey = domainKey;
         }
+
         /// <summary>
         /// Initializes a new instance of Cares Exception
         /// </summary>
-        public MPCException(string message, Exception innerException)
+        public MPCException(string message, int domainKey, Exception innerException)
             : base(message, innerException)
         {
+            DomainKey = domainKey;
         }
+
+        public int DomainKey { get; set; }
     }
 }
