@@ -499,7 +499,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtRegNumber" value="VT124578" placeholder="Enter Registration Number" />
+                                                        <input type="text" class="form-control" id="txtRegNumber" value="VT124578" placeholder="Enter Registration Number" data-bind="value:taxRegistrationNo" />
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -634,13 +634,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Enter in the default MARKUP to apply on all new estimates</label>
-                                                    <select class="form-control">
-                                                        <option>M0</option>
-                                                        <option>M 10</option>
-                                                        <option>M 15</option>
-                                                        <option>M 20</option>
-                                                        <option>M 25</option>
-                                                    </select>
+                                                    <select id="language" class="form-control" data-bind="options: $root.markups, optionsText: 'MarkUpName', optionsValue: 'MarkUpId' ,value:markupId,validationtooltip:markupId"></select>
                                                 </div>
 
                                             </div>
@@ -923,15 +917,6 @@
         </a>
     </script>
     <script id="deleteActionTaxRateTemplate" type="text/html">
-        <div class="btn-group .btn-small">
-            <button class="btn btn-small btn-info" data-bind="click: $root.selectedServiceLineSaveClicked">Save</button>
-            <button class="btn dropdown-toggle btn-small btn-info" data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a data-bind="click: $root.deleteServiceLineItem">Cancel</a></li>
-            </ul>
-        </div>
         <a href="#" class="table-link danger" data-bind="click: $root.onDeleteTaxRate" title="Delete">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>

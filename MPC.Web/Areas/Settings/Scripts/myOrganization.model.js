@@ -45,6 +45,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             lengthUnitId = ko.observable(),
             //System Weight Unit ID
             weightUnitId = ko.observable(),
+            //Tax Registration No
+            taxRegistrationNo = ko.observable(),
+            //Markup ID
+            markupId = ko.observable(),
              // Errors
              errors = ko.validation.group({
                  email: email
@@ -73,7 +77,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  languageId: languageId,
                  lengthUnitId: lengthUnitId,
                  weightUnitIdrl: weightUnitId,
-
+                 taxRegistrationNo: taxRegistrationNo,
+                 markupId: markupId
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -103,6 +108,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              languageId: languageId,
              lengthUnitId: lengthUnitId,
              weightUnitId: weightUnitId,
+             taxRegistrationNo: taxRegistrationNo,
+             markupId: markupId,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -257,6 +264,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.email(source.Email === null ? undefined : source.Email);
         companySites.mobile(source.Mobile === null ? undefined : source.Mobile);
         companySites.url(source.Url === null ? undefined : source.Url);
+        companySites.currencyId(source.CurrencyId === null ? undefined : source.CurrencyId);
+        companySites.languageId(source.LanguageId === null ? undefined : source.LanguageId);
+        companySites.lengthUnitId(source.SystemLengthUnit === null ? undefined : source.SystemLengthUnit);
+        companySites.weightUnitId(source.SystemWeightUnit === null ? undefined : source.SystemWeightUnit);
+        companySites.taxRegistrationNo(source.TaxRegistrationNo === null ? undefined : source.TaxRegistrationNo);
+        companySites.markupId(source.MarkupId === null ? undefined : source.MarkupId);
         return companySites;
     };
     //Convert Server To Client
@@ -303,6 +316,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.LanguageId = source.languageId() === undefined ? null : source.languageId();
         result.SystemLengthUnit = source.lengthUnitId() === undefined ? null : source.lengthUnitId();
         result.SystemWeightUnit = source.weightUnitId() === undefined ? null : source.weightUnitId();
+        result.TaxRegistrationNo = source.taxRegistrationNo() === undefined ? null : source.taxRegistrationNo();
+        result.MarkupId = source.markupId() === undefined ? null : source.markupId();
         return result;
     };
     //Convert Client To Server

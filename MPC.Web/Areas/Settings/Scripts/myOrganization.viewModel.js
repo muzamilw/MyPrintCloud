@@ -45,7 +45,7 @@ define("myOrganization/myOrganization.viewModel",
                     pager = ko.observable(),
                     // #region Utility Functions
                     // Initialize the view model
-                    initialize = function(specifiedView) {
+                    initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
@@ -55,9 +55,9 @@ define("myOrganization/myOrganization.viewModel",
                         selectedMyOrganization(new model.CompanySites());
                     },
                     // Get Base
-                    getBase = function(callBack) {
+                    getBase = function (callBack) {
                         dataservice.getMyOrganizationBase({
-                            success: function(data) {
+                            success: function (data) {
                                 //Currency
                                 currencySymbols.removeAll();
                                 ko.utils.arrayPushAll(currencySymbols(), currencySymbolsGlobal);
@@ -85,7 +85,7 @@ define("myOrganization/myOrganization.viewModel",
                                 //Tax Rates
                                 taxRates.removeAll();
                                 var taxRateList = [];
-                                _.each(data.TaxRates, function(item) {
+                                _.each(data.TaxRates, function (item) {
                                     var taxRate = new model.TaxRateClientMapper(item);
                                     taxRateList.push(taxRate);
                                 });
@@ -95,19 +95,20 @@ define("myOrganization/myOrganization.viewModel",
                                     callBack();
                                 }
                             },
-                            error: function() {
+                            error: function () {
                                 toastr.error(ist.resourceText.loadBaseDataFailedMsg);
                             }
                         });
                     },
                     // Template Chooser
-                    templateToUse = function(taxRate) {
+                    templateToUse = function (taxRate) {
                         return (taxRate === selectedTaxRate() ? 'editTaxRateTemplate' : 'itemTaxRateTemplate');
                     },
                     makeEditable = ko.observable(false),
                      // Select a Tax Rate
                     selectTaxRate = function (taxRate) {
                         if (selectedTaxRate() !== taxRate) {
+                            makeEditable(true);
                             selectedTaxRate(taxRate);
                         }
                         //if (selectedTaxRate() === taxRate) {
@@ -120,6 +121,7 @@ define("myOrganization/myOrganization.viewModel",
                         var taxRate = taxRates()[0];
                         if (taxRate.name() !== undefined && taxRate.tax1() !== undefined) {
                             taxRates.splice(0, 0, model.TaxRate());
+                            selectedTaxRate(taxRates()[0]);
                         }
                     },
                      // Delete a tax Rate
@@ -221,6 +223,7 @@ define("myOrganization/myOrganization.viewModel",
                     selectTaxRate: selectTaxRate,
                     onDeleteTaxRate: onDeleteTaxRate,
                     onCreateNewTaxRate: onCreateNewTaxRate,
+                    makeEditable: makeEditable,
                 };
             })()
         };

@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.IServices
@@ -22,5 +23,7 @@ namespace MPC.Interfaces.IServices
         /// Add/Update Company Sites
         /// </summary>
         int SaveCompanySite(CompanySites companySites);
+
+        IList<int> GetOrganizationIds(int request);
     }
 }
