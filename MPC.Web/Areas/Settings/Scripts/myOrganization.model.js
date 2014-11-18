@@ -1,5 +1,5 @@
 ﻿/*
-    Module with the model for the My Organizationk
+    Module with the model for the My Organization
 */
 define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
@@ -49,6 +49,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             taxRegistrationNo = ko.observable(),
             //Markup ID
             markupId = ko.observable(),
+            //markups In My Organization
+            markupsInMyOrganization = ko.observableArray([]),
+            //Tax Rates In MyOrganization
+            taxRatesInMyOrganization = ko.observableArray([]),
              // Errors
              errors = ko.validation.group({
                  email: email
@@ -110,6 +114,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              weightUnitId: weightUnitId,
              taxRegistrationNo: taxRegistrationNo,
              markupId: markupId,
+             markupsInMyOrganization: markupsInMyOrganization,
+             taxRatesInMyOrganization: taxRatesInMyOrganization,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -318,6 +324,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.SystemWeightUnit = source.weightUnitId() === undefined ? null : source.weightUnitId();
         result.TaxRegistrationNo = source.taxRegistrationNo() === undefined ? null : source.taxRegistrationNo();
         result.MarkupId = source.markupId() === undefined ? null : source.markupId();
+        //Tax Rates
+        result.TaxRates = [];
+        _.each(source.taxRatesInMyOrganization(), function (item) {
+            result.TaxRates.push(TaxRateServerMapper(item));
+        });
+        //Markup
+        result.Markups = [];
+        _.each(source.markupsInMyOrganization(), function (item) {
+            result.Markups.push(MarkupServerMapper(item));
+        });
         return result;
     };
     //Convert Client To Server
