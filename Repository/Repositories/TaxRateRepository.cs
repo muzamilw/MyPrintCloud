@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -30,9 +32,18 @@ namespace MPC.Repository.Repositories
                 return db.TaxRates;
             }
         }
-        
+
         #endregion
 
+        #region Public
+        /// <summary>
+        /// Get All Tax Rate for User Domain Key
+        /// </summary>
+        public override IEnumerable<TaxRate> GetAll()
+        {
+            return DbSet.Where(taxRate => taxRate.UserDomainKey == UserDomainKey).ToList();
+        }
+        #endregion
     }
 }
 

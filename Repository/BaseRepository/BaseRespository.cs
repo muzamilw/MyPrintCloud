@@ -137,11 +137,11 @@ namespace MPC.Repository.BaseRepository
         /// <summary>that specifies the User's domain on the system
         /// User Domain key 
         /// </summary>        
-        public long UserDomainKey
+        public int UserDomainKey
         {
             get
             {
-                return HttpContext.Current.Session["UserDomainKey"] != null ? Convert.ToInt64(HttpContext.Current.Session["UserDomainKey"]) : 1;
+                return 1;
             }
         }
         /// <summary>
@@ -155,7 +155,7 @@ namespace MPC.Repository.BaseRepository
             }
         }
 
-        
+
 
         #endregion
 

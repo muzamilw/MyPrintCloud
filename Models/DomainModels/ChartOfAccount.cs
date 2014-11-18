@@ -7,7 +7,6 @@ namespace MPC.Models.DomainModels
     /// </summary>
     public class ChartOfAccount
     {
-
         #region Persisted Properties
 
         /// <summary>
@@ -89,7 +88,12 @@ namespace MPC.Models.DomainModels
         /// System Site Id
         /// </summary>
         public int? SystemSiteId { get; set; }
-        
+
+        /// <summary>
+        /// User Domain Key
+        /// </summary>
+        public int UserDomainKey { get; set; }
+
         #endregion
     }
 }

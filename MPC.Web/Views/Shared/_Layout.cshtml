@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Bundle/BaseLibs")
     <script type="text/javascript">
         //<![CDATA[
         try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
         //]]>
     </script>
+    <script src="~/Scripts/App/architecture.js"></script>
+    <script src="~/Scripts/App/requireConfig.js"></script>
+   
     <link href="~/Content/themes/Centaurus/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-
-
     <link href="~/Content/themes/Centaurus/css/libs/font-awesome.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/nanoscroller.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/datepicker.css" type="text/css"/>
+    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/datepicker.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/layout.css">
     <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/elements.css">
     <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
@@ -41,9 +44,9 @@
 
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Titillium+Web:200,300,400' rel='stylesheet' type='text/css'>
     <!--[if lt IE 9]>
-		<script src="js/html5shiv.js"></script>
-		<script src="js/respond.min.js"></script>
-	<![endif]-->
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
     <script type="text/javascript">
         /* <![CDATA[ */
         var _gaq = _gaq || [];
@@ -147,7 +150,8 @@
                                     </a>
                                 </li>
                                 <li class="item-footer">
-                                    <a href="#">View all notifications
+                                    <a href="#">
+                                        View all notifications
                                     </a>
                                 </li>
                             </ul>
@@ -167,10 +171,12 @@
                                     <a href="#">
                                         <img src="~/Content/themes/Centaurus/img/samples/messages-photo-1.png" alt="" />
                                         <span class="content">
-                                            <span class="content-headline">George Clooney
+                                            <span class="content-headline">
+                                                George Clooney
                                             </span>
-                                            <span class="content-text">Look, just because I don't be givin' no man a foot massage don't make it
-right for Marsellus to throw...
+                                            <span class="content-text">
+                                                Look, just because I don't be givin' no man a foot massage don't make it
+                                                right for Marsellus to throw...
                                             </span>
                                         </span>
                                         <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
@@ -180,10 +186,12 @@ right for Marsellus to throw...
                                     <a href="#">
                                         <img src="~/Content/themes/Centaurus/img/samples/messages-photo-2.png" alt="" />
                                         <span class="content">
-                                            <span class="content-headline">Emma Watson
+                                            <span class="content-headline">
+                                                Emma Watson
                                             </span>
-                                            <span class="content-text">Look, just because I don't be givin' no man a foot massage don't make it
-right for Marsellus to throw...
+                                            <span class="content-text">
+                                                Look, just because I don't be givin' no man a foot massage don't make it
+                                                right for Marsellus to throw...
                                             </span>
                                         </span>
                                         <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
@@ -193,17 +201,20 @@ right for Marsellus to throw...
                                     <a href="#">
                                         <img src="~/Content/themes/Centaurus/img/samples/messages-photo-3.png" alt="" />
                                         <span class="content">
-                                            <span class="content-headline">Robert Downey Jr.
+                                            <span class="content-headline">
+                                                Robert Downey Jr.
                                             </span>
-                                            <span class="content-text">Look, just because I don't be givin' no man a foot massage don't make it
-right for Marsellus to throw...
+                                            <span class="content-text">
+                                                Look, just because I don't be givin' no man a foot massage don't make it
+                                                right for Marsellus to throw...
                                             </span>
                                         </span>
                                         <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
                                     </a>
                                 </li>
                                 <li class="item-footer">
-                                    <a href="#">View all messages
+                                    <a href="#">
+                                        View all messages
                                     </a>
                                 </li>
                             </ul>
@@ -243,7 +254,8 @@ right for Marsellus to throw...
                         <div id="user-left-box" class="clearfix hidden-sm hidden-xs">
                             <img alt="" src="~/Content/themes/Centaurus/img/samples/scarlet-159.png" />
                             <div class="user-box">
-                                <span class="name">Welcome<br />
+                                <span class="name">
+                                    Welcome<br />
                                     Scarlett
                                 </span>
                                 <span class="status">
@@ -261,7 +273,7 @@ right for Marsellus to throw...
                                         <span>Dashboard</span>
                                     </a>
                                 </li>
-                                     <li id="listores">
+                                <li id="listores">
                                     <a href="~/CRM/ContactCompanies">
                                         <i class="fa fa-th-large"></i>
                                         <span>Stores</span>
@@ -275,25 +287,29 @@ right for Marsellus to throw...
                                     </a>
                                     <ul class="submenu">
                                         <li>
-                                            <a href="~/CRM/CompaniesList">Prospects / Customers
+                                            <a href="~/CRM/CompaniesList">
+                                                Prospects / Customers
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="~/CRM/Calendar">My Calendar
+                                            <a href="~/CRM/Calendar">
+                                                My Calendar
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="~/Settings/PageNotFound">Contacts
+                                            <a href="~/Settings/PageNotFound">
+                                                Contacts
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="~/Settings/PageNotFound">Suppliers
+                                            <a href="~/Settings/PageNotFound">
+                                                Suppliers
                                             </a>
                                         </li>
 
                                     </ul>
                                 </li>
-                                   <li id="liProducts">
+                                <li id="liProducts">
                                     <a href="~/Products/ProductsList">
                                         <i class="fa fa-th-large"></i>
                                         <span>Products</span>
@@ -510,14 +526,14 @@ right for Marsellus to throw...
                                     </a>
                                     <ul class="submenu">
                                         <li id="listOrganization">
-                                            <a href="~/Settings/MyOrganization" >
-                                               
+                                            <a href="~/Settings/MyOrganization">
+
                                                 <span>My Organization</span>
-                                            
+
                                             </a>
-                                         
+
                                         </li>
-                                     
+
                                         <li id="limissettings">
                                             <a href="#" class="dropdown-toggle">
                                                 <i class="fa fa-users"></i>
@@ -525,45 +541,55 @@ right for Marsellus to throw...
                                                 <i class="fa fa-chevron-circle-right drop-icon"></i>
                                             </a>
                                             <ul class="submenu">
-                                               
+
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Paper Sheet
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Paper Sheet
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Cost Centers
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Cost Centers
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Inventory Categories
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Inventory Categories
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/DeliveryCostCentres">Delivery Cost Centers
+                                                    <a href="~/Settings/DeliveryCostCentres">
+                                                        Delivery Cost Centers
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/DeliveryCarrier">Delivery Carrier
+                                                    <a href="~/Settings/DeliveryCarrier">
+                                                        Delivery Carrier
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Inventory
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Inventory
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Charts
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Charts
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Sales and Pipeline
-                                                    </a>
-                                                </li>
-                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">My Reports
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Sales and Pipeline
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Start Numbers
+                                                    <a href="~/Settings/PageNotFound">
+                                                        My Reports
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Start Numbers
                                                     </a>
                                                 </li>
 
@@ -577,11 +603,13 @@ right for Marsellus to throw...
                                             </a>
                                             <ul class="submenu">
                                                 <li>
-                                                    <a href="~/Settings/MachinesList">Machines
+                                                    <a href="~/Settings/MachinesList">
+                                                        Machines
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Lookup Methods
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Lookup Methods
                                                     </a>
                                                 </li>
 
@@ -596,31 +624,38 @@ right for Marsellus to throw...
                                             </a>
                                             <ul class="submenu">
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Phrase Library
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Phrase Library
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Section Flags
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Section Flags
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Import Export
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Import Export
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Archived
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Archived
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Posted Invoices
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Posted Invoices
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Purchase Orders
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Purchase Orders
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/PageNotFound">Campaign Studio
+                                                    <a href="~/Settings/PageNotFound">
+                                                        Campaign Studio
                                                     </a>
                                                 </li>
 

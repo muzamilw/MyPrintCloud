@@ -42,7 +42,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<CompanySites> GetAll()
         {
-            return DbSet.ToList();
+            return DbSet.Where(cs => cs.UserDomainKey == UserDomainKey).ToList();
         }
 
 

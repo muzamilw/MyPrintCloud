@@ -239,7 +239,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\MyOrganizationBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
+    <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\CRMController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -253,7 +257,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CultureHelper.cs" />
+    <Compile Include="ModelMappers\ChartOfAccountMapper.cs" />
+    <Compile Include="ModelMappers\CompanySitesMapper.cs" />
+    <Compile Include="ModelMappers\MarkupMapper.cs" />
+    <Compile Include="ModelMappers\MyOrganizationMapper.cs" />
+    <Compile Include="ModelMappers\TaxRateMapper.cs" />
+    <Compile Include="Models\ChartOfAccount.cs" />
+    <Compile Include="Models\CompanySites.cs" />
+    <Compile Include="Models\Markup.cs" />
+    <Compile Include="Models\TaxRate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
@@ -263,6 +277,10 @@
     <Content Include="Areas\Common\Scripts\confirmation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
+    <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\myOrganization.model.js" />
     <Content Include="Content\colorpicker.css" />
     <Content Include="Content\CSS\bootstrap\bootstrap-responsive.css" />
     <Content Include="Content\CSS\bootstrap\bootstrap-responsive.min.css" />
@@ -939,6 +957,10 @@
     <Content Include="Content\themes\Centaurus\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\themes\Centaurus\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\themes\Centaurus\fonts\glyphicons-halflings-regulard41d.eot" />
+    <Content Include="Areas\Settings\Views\web.config" />
+    <Content Include="Areas\Settings\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2082,10 +2104,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Api\Controllers\" />
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
+    <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Content\Images\gallery\" />
     <Folder Include="Content\Images\icons\" />
     <Folder Include="Content\Images\patterns\body\" />
@@ -2093,8 +2115,6 @@
     <Folder Include="Content\Images\patterns\sidebar\" />
     <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
-    <Folder Include="ModelMappers\" />
-    <Folder Include="Models\" />
     <Folder Include="Reports\" />
     <Folder Include="Resources\" />
     <Folder Include="RichTextEditor\plugins\a11yhelp\dialogs\lang\" />

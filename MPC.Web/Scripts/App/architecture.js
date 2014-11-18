@@ -16,7 +16,7 @@ var ist = {
         UnspecifiedException: 'UnspecifiedException'
     },
     //verify if the string is a valid json
-    verifyValidJSON: function(str) {
+    verifyValidJSON: function (str) {
         try {
             JSON.parse(str);
         } catch (exception) {
@@ -25,7 +25,7 @@ var ist = {
         return true;
     },
     // Validate Url
-    validateUrl: function(field) {
+    validateUrl: function (field) {
         var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
         return (regex.test(field)) ? true : false;
     },
@@ -60,7 +60,7 @@ function hideProgress() {
 
 //status decoder for parsing the exception type and message
 amplify.request.decoders = {
-    istStatusDecoder: function(data, status, xhr, success, error) {
+    istStatusDecoder: function (data, status, xhr, success, error) {
         if (status === "success") {
             success(data);
         } else {
@@ -235,7 +235,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-    
+
     // date formatting. Example <div class="date" data-bind="dateString: today, datePattern: 'dddd, MMMM dd, yyyy'">Thursday, April 05, 2012</div>
     ko.bindingHandlers.dateString = {
         update: function (element, valueAccessor, allBindingsAccessor) {
@@ -299,19 +299,19 @@ require(["ko", "knockout-validation"], function (ko) {
         return result;
     };
     // KO Dirty Flag - Change Tracking
-    
+
     // Common View Model - Editor (Save, Cancel - Reverts changes, Select Item)
     ist.ViewModel = function (model) {
-        
+
         //hold the currently selected item
         this.selectedItem = ko.observable();
-        
+
         // hold the model
         this.model = model;
 
         //make edits to a copy
         this.itemForEditing = ko.observable();
-        
+
     };
 
     ko.utils.extend(ist.ViewModel.prototype, {
@@ -320,9 +320,9 @@ require(["ko", "knockout-validation"], function (ko) {
             this.selectedItem(item);
             this.itemForEditing(this.model.CreateFromClientModel(ko.toJS(item)));
         },
-        
-        acceptItem: function(data) {
-            
+
+        acceptItem: function (data) {
+
             //apply updates from the edited item to the selected item
             this.selectedItem().update(data);
 
@@ -338,7 +338,7 @@ require(["ko", "knockout-validation"], function (ko) {
             this.itemForEditing(null);
         }
     });
-    
+
     // Common View Model
 
     // Used to show popover
@@ -390,7 +390,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
     var options = { insertMessages: false, decorateElement: true, errorElementClass: 'errorFill', messagesOnModified: true, registerExtenders: true };
     ko.validation.init(options);
-    
+
 });
 
 
@@ -424,7 +424,7 @@ function handleSorting(tableId, sortOn, sortAsc, callback) {
                 sortAsc(true);
             }
             sortOn(sortBy);
-            
+
             // Refresh Grid
             if (callback && typeof callback === "function") {
                 callback();
@@ -432,17 +432,29 @@ function handleSorting(tableId, sortOn, sortAsc, callback) {
         }
     });
 }
-//Model Year
-modelYearsGlobal = [{ Id: 2001, Text: '2001' },
-    { Id: 2002, Text: '2002' },
-    { Id: 2003, Text: '2003' },
-    { Id: 2004, Text: '2004' },
-    { Id: 2005, Text: '2005' },
-    { Id: 2006, Text: '2006' },
-    { Id: 2007, Text: '2007' }
-];
 
-$(function() {
+//Unit length
+unitLengthsGlobal = [{ Id: 1, Text: 'mm' },
+    { Id: 2, Text: 'cm' },
+    { Id: 3, Text: 'inch' }
+];
+//Currency Symbol
+currencySymbolsGlobal = [{ Id: 1, Text: 'USD $' },
+    { Id: 2, Text: 'GBD ' },
+    { Id: 3, Text: 'AUD A$' },
+    { Id: 3, Text: 'CAD C$' }
+];
+//Language Pack
+languagePacksGlobal = [{ Id: 1, Text: 'English' },
+    { Id: 2, Text: 'Frech' },
+    { Id: 3, Text: 'Dutch' }
+];
+//Unit Weights
+unitWeightsGlobal = [{ Id: 1, Text: 'lbs' },
+    { Id: 2, Text: 'gsm' },
+    { Id: 3, Text: 'kg' }
+];
+$(function () {
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
         var popovers = $('.popover').not('.in');

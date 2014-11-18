@@ -52,13 +52,13 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// User Domain Key
         /// </summary>
-        long UserDomainKey { get;}
+        int UserDomainKey { get; }
 
         /// <summary>
         /// Logged in user identity
         /// </summary>
         string LoggedInUserIdentity { get; }
 
-        
+
     }
 }
