@@ -101,5 +101,10 @@ namespace MPC.Implementation.Services
         }
 
         #endregion
+
+        public System.Collections.Generic.IList<int> GetOrganizationIds(int request)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -16,23 +16,19 @@
             </div>
         </div>
         <div class="row" id="user-profile">
-            <div class="col-lg-12 col-md-8 col-sm-8">
-                <div class="main-box clearfix " style="padding: 10px">
+            <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
+                <div class="clearfix ">
 
-                    <div class="col-lg-12">
-                        <div class="col-xs-4">
-                        </div>
-                        <div class="col-xs-4">
-                        </div>
+                    <div class="col-xs-4">
+                    </div>
+                    <div class="col-xs-4">
+                    </div>
 
-                        <div class="col-xs-4" style="text-align: right;">
-                            <button type="button" class="btn btn-success btn-lg">
-                                <span class="fa fa-download"></span>Copy Product
-                            </button>
-                            <button type="button" class="btn btn-primary btn-lg">
-                                <span class="fa fa-save"></span>Save
-                            </button>
-                        </div>
+                    <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
+
+                        <button type="button" class="btn btn-primary btn-lg">
+                            <span class="fa fa-save"></span>&nbsp;Save
+                        </button>
                     </div>
 
                 </div>
@@ -77,16 +73,6 @@
                                             </div>
 
                                         </div>
-                                        @*<div class="form-group">
-                                            <label for="txtCompanyName" class="col-lg-2 control-label" >Store Name</label>
-                                            <div class="bs-example-tooltips">
-                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;"  data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the store that will be displayed on the web." data-original-title="" title="">
-                                                </a>
-                                                
-                                            </div>
-
-
-                                        </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
@@ -119,12 +105,6 @@
                                                         Supplier
                                                     </label>
                                                 </div>
-                                                @* <select class="form-control">
-                                                    <option>Corporate/Private Store</option>
-                                                    <option>Retail Customer Store</option>
-                                                    <option>Prospect</option>
-                                                    <option>Supplier</option>
-                                                </select>*@
                                                 <span class="help-block text-right">The store type determines how a store is accessed.</span>
                                             </div>
 
@@ -133,7 +113,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="URL http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -193,13 +173,16 @@
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
-                                                <label class="control-label tooltip-float">Phone</label>
+                                                <label class="control-label tooltip-float" for="maskedPhone">Phone</label>
 
                                             </div>
                                             <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                                    <input type="text" class="form-control" id="maskedPhone">
+                                                </div>
+                                                <span class="help-block">ex. (999) 999-9999</span>
 
-                                                <input type="text" class="form-control" id="maskedPhone">
-                                                <span class="help-block text-right">ex. (999) 999-9999</span>
                                             </div>
 
                                         </div>
@@ -209,7 +192,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="To access private store user must exist." data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="User notes for the store." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -219,7 +202,7 @@
 
                                             <div class="col-lg-6">
                                                 <textarea class="form-control" id="txtNotes" rows="5"></textarea>
-                                                <span class="help-block text-right">End user notes for the store.</span>
+                                                <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
@@ -231,7 +214,6 @@
                                             </header>
                                             <div class="main-box-body clearfix">
                                                 <div class="profile-status">
-                                                    @*<i class="fa fa-circle"></i>Online*@
                                                 </div>
                                                 <a id="uploadLogoIcon" data-toggle="modal" href="#myMediaGalleryModal" class="logoUploadIcon" style="display: none;">
                                                     <i class="fa fa-upload"></i>
@@ -241,11 +223,7 @@
                                                     <span class="label label-danger">Active</span>
                                                 </div>
                                                 <div class="profile-stars">
-                                                    @*    <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>*@
+
                                                     <span>Corporate Store</span>
                                                 </div>
                                                 <div class="profile-since">
@@ -277,7 +255,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="format mm-dd-yyyy" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Opening date of account - format mm-dd-yyyy" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -287,18 +265,16 @@
 
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="datepickerDate">
-                                                <span class="help-block text-right">format mm-dd-yyyy</span>
+                                                <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
-
-
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Account Manager for Store" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Store's Account Manager " data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -315,12 +291,11 @@
                                                 </select>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST registration number" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST registration number will be used for invoices" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -340,7 +315,7 @@
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST reference number" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST reference number will be used for accounts" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -366,7 +341,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="https://www.facebook.com/Pinkcards" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Page URL - e.g. https://www.facebook.com/Pinkcards" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -375,14 +350,14 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="txtFacebookURL" placeholder="Enter Facebook URL">
-                                                <span class="help-block text-right">https://www.facebook.com/Pinkcards</span>
+                                                <span class="help-block text-right"></span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="https://www.facebook.com/Pinkcards" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app Id from https://developers.facebook.com/apps" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -398,7 +373,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="https://www.facebook.com/Pinkcards" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app key from https://developers.facebook.com/apps" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -414,7 +389,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="https://www.facebook.com/Pinkcards" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Page URL - e.g. https://www.twitter.com/Pinkcards " data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -430,7 +405,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="https://www.facebook.com/Pinkcards" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -446,7 +421,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="https://www.facebook.com/Pinkcards" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -462,7 +437,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter LinkedIn URL" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Linkedin Page URL - e.g. https://www.linkedin.com/" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -505,7 +480,7 @@
                                                     <input type="text" class="form-control" placeholder="Search...">
                                                     <i class="fa fa-search search-icon"></i>
                                                 </div>
-                                                <a href="#" class="btn btn-primary pull-right">
+                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="btn btn-primary pull-right">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Gateway
                                                 </a>
                                             </div>
@@ -527,11 +502,11 @@
                                                             </td>
                                                             <td>mpcystemsbiz_1452178@paypal.com
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td>
                                                                 <span class="label label-warning">Inactive</span>
                                                             </td>
                                                             <td class="text-right">
-                                                                <a href="#" class="table-link">
+                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
                                                                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
@@ -551,11 +526,11 @@
                                                             </td>
                                                             <td>1245785412589-5458-45888
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td>
                                                                 <span class="label label-warning">Inactive</span>
                                                             </td>
                                                             <td class="text-right">
-                                                                <a href="#" class="table-link">
+                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
                                                                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
@@ -574,11 +549,11 @@
                                                             </td>
                                                             <td>naveedmnz-78-biz_1452178@paypal.com
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td>
                                                                 <span class="label label-success">Active</span>
                                                             </td>
                                                             <td class="text-right">
-                                                                <a href="#" class="table-link">
+                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
                                                                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
@@ -619,54 +594,54 @@
                                                 <li class="dd-item dd-item-list" data-id="13">
                                                     <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                     <div class="dd-handle">
-                                                        Item 13
+                                                       Marketing Material
                                                         <div class="nested-links">
-                                                            <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                            <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                         </div>
                                                     </div>
                                                 </li>
                                                 <li class="dd-item dd-item-list" data-id="14">
                                                     <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                     <div class="dd-handle">
-                                                        Item 14
+                                                        Business Stationery
                                                             <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                             </div>
                                                     </div>
                                                 </li>
                                                 <li class="dd-item dd-item-list" data-id="15">
                                                     <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                     <div class="dd-handle">
-                                                        Item 15
+                                                         Business Cards
                                                         <div class="nested-links">
-                                                            <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                            <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                         </div>
                                                     </div>
                                                     <ol class="dd-list">
                                                         <li class="dd-item dd-item-list" data-id="16">
                                                             <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                             <div class="dd-handle red-bg txt-white-hover">
-                                                                Item 16
+                                                                 Letterheads
                                                                 <div class="nested-links">
-                                                                    <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                         <li class="dd-item dd-item-list" data-id="17">
                                                             <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                             <div class="dd-handle yellow-bg txt-white-hover">
-                                                                Item 17
+                                                                Compliment Slips
                                                                 <div class="nested-links">
-                                                                    <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                         <li class="dd-item dd-item-list" data-id="18">
                                                             <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                             <div class="dd-handle green-bg txt-white-hover">
-                                                                Item 18
+                                                                Envelopes
                                                                 <div class="nested-links">
-                                                                    <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -675,45 +650,45 @@
                                                 <li class="dd-item dd-item-list" data-id="19">
                                                     <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                     <div class="dd-handle">
-                                                        Item 19
+                                                         Flyers
                                                         <div class="nested-links">
-                                                            <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                            <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                         </div>
                                                     </div>
                                                 </li>
                                                 <li class="dd-item dd-item-list" data-id="20">
                                                     <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                     <div class="dd-handle">
-                                                        Item 20
+                                                        Posters & Postcards
                                                             <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                             </div>
                                                     </div>
                                                 </li>
                                                 <li class="dd-item dd-item-list" data-id="21">
                                                     <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                     <div class="dd-handle">
-                                                        Item 21
+                                                        Retail and POS
                                                         <div class="nested-links">
-                                                            <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                            <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                         </div>
                                                     </div>
                                                     <ol class="dd-list">
                                                         <li class="dd-item dd-item-list" data-id="22">
                                                             <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                             <div class="dd-handle">
-                                                                Item 22
+                                                                Banners
                                                                 <div class="nested-links">
-                                                                    <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                         <li class="dd-item dd-item-list" data-id="23">
                                                             <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                             <div class="dd-handle">
-                                                                Item 23
+                                                                Frames
                                                                 <div class="nested-links">
-                                                                    <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -722,9 +697,9 @@
                                                 <li class="dd-item dd-item-list" data-id="24">
                                                     <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                     <div class="dd-handle">
-                                                        Item 24
+                                                        Events and Exhibitions
                                                         <div class="nested-links">
-                                                            <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                                            <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -736,18 +711,7 @@
                                     <div class="clearfix">
                                         <header class="main-box-header clearfix">
                                             <h2>Products</h2>
-                                            <div class="filter-block pull-right">
-                                                @* <button id="open-wizard" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
-                                                </button>
-                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
-                                                </a>*@
 
-                                                <div id="addproduct">
-                                                    @Html.Partial("_AddProductWizard")
-                                                </div>
-                                            </div>
                                         </header>
                                         <div class="main-box-body clearfix">
                                             @Html.Partial("Product/_Products")
@@ -1340,7 +1304,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="URL http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1360,7 +1324,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="URL http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1380,7 +1344,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="URL http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1400,7 +1364,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="URL http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1420,7 +1384,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="URL http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1440,7 +1404,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="URL http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1466,38 +1430,13 @@
 
                                     <h3 class="group-header">Color Palettes</h3>
                                     <div class="col-md-9">
-                                        @*        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                              <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;"  data-container="body" data-toggle="popover" data-placement="right" data-content="Home page Palette" data-original-title="" title="">
-                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                            </div>
-    
-                                               
-                                                <label class="control-label text-right  tooltip-float">Home page Palette</label>
-                                              
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>Purple Rain</option>
-                                                    <option>Gold Blue</option>
-                                                    <option>Silver Surf</option>
-                                                    <option>Pink Cards</option>
-                                                    <option>Classic</option>
-                                                </select>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>*@
 
                                         <div class="form-group">
                                             <div class="col-md-3">
                                             </div>
                                             <label class="col-md-6">Color 1: Webstore background</label>
                                             <div class="col-md-3">
-                                                <span id="colorPick1" class="label" style="background-color: #320B0B" onclick="">#320B0B    </span>
+                                                <span id="colorPick1" class="label" style="background-color: #320B0B; cursor: pointer;" onclick="">#320B0B    </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1505,7 +1444,7 @@
                                             </div>
                                             <label class="col-md-6">Color 2: Thumbnail background</label>
                                             <div class="col-md-3">
-                                                <span id="colorPick2" class="label" style="background-color: #ffd800">#ffd800    </span>
+                                                <span id="colorPick2" class="label" style="background-color: #ffd800; cursor: pointer;">#ffd800    </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1513,7 +1452,7 @@
                                             </div>
                                             <label class="col-md-6">Color 3: Main logo background</label>
                                             <div class="col-md-3">
-                                                <span id="colorPick3" class="label" style="background-color: #3cdfef">#3cdfef    </span>
+                                                <span id="colorPick3" class="label" style="background-color: #3cdfef; cursor: pointer;">#3cdfef    </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1521,7 +1460,7 @@
                                             </div>
                                             <label class="col-md-6">Color 4: Hearder and footer bar color</label>
                                             <div class="col-md-3">
-                                                <span id="colorPick4" class="label" style="background-color: #808080">#808080    </span>
+                                                <span id="colorPick4" class="label" style="background-color: #808080; cursor: pointer;">#808080    </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1529,7 +1468,7 @@
                                             </div>
                                             <label class="col-md-6">Color 5: Main menue bar color</label>
                                             <div class="col-md-3">
-                                                <span id="colorPick5" class="label" style="background-color: #e8f5f4">#e8f5f4    </span>
+                                                <span id="colorPick5" class="label" style="background-color: #e8f5f4; cursor: pointer;">#e8f5f4    </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1537,20 +1476,20 @@
                                             </div>
                                             <label class="col-md-6">Color 6: Secondary pages panel text color</label>
                                             <div class="col-md-3">
-                                                <span id="colorPick6" class="label" style="background-color: #b6ff00">#b6ff00    </span>
+                                                <span id="colorPick6" class="label" style="background-color: #b6ff00; cursor: pointer;">#b6ff00    </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your store background image. Recommended size is (PNG 2149 x 713 pixels)" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
 
-                                                <label class="control-label text-right tooltip-float">Upload store background (PNG 2149X713 pixels)</label>
-
+                                                <label class="control-label text-right tooltip-float">Upload store background</label>
+                                                <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels)</label>
                                             </div>
 
                                             <div class="col-lg-7">
@@ -1571,11 +1510,11 @@
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
-                                            <label class="col-md-6" for="switchSiteHeader">Would you like to display the FEATURED products Row</label>
+                                            <label class="col-md-6" for="switchSiteFeaturedProduct">Would you like to display the FEATURED products Row</label>
                                             <div class="col-md-3">
                                                 <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSiteHeader" checked>
-                                                    <label class="onoffswitch-label" for="switchSiteHeader">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSiteFeaturedProduct" checked>
+                                                    <label class="onoffswitch-label" for="switchSiteFeaturedProduct">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
                                                     </label>
@@ -1585,36 +1524,34 @@
 
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
-                                            <label class="col-md-6" for="switchSiteHeader">Would you like to display the MOST POPULAR products Row</label>
+                                            <label class="col-md-6" for="switchSitePopularProduct">Would you like to display the MOST POPULAR products Row</label>
                                             <div class="col-md-3">
                                                 <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSiteHeader" checked>
-                                                    <label class="onoffswitch-label" for="switchSiteHeader">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSitePopularProduct" checked>
+                                                    <label class="onoffswitch-label" for="switchSitePopularProduct">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
-                                            <label class="col-md-6" for="switchSiteHeader">Would you like to display the SPECIAL products Row</label>
+                                            <label class="col-md-6" for="specialProductSwitch">Would you like to display the SPECIAL products Row</label>
                                             <div class="col-md-3">
                                                 <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSiteHeader" checked>
-                                                    <label class="onoffswitch-label" for="switchSiteHeader">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="specialProductSwitch" checked />
+                                                    <label class="onoffswitch-label" for="specialProductSwitch">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-md-3"></div>
 
-                                            <label class="col-md-6" for="onofMenueBar">Would you like to display the Menu Bar</label>
+                                            <label class="col-md-6" for="onoffswitchmenuBar">Would you like to display the Menu Bar</label>
                                             <div class="col-md-3">
                                                 <div class="onoffswitch">
                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchmenuBar" checked>
@@ -1671,7 +1608,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Display MAP on Contact US Page using one of these two options. " data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1680,13 +1617,13 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios" id="rdiolatlong" value="option1" checked="checked">
+                                                    <input type="radio" name="optionsRadiosMap" id="rdiolatlong" value="option1" checked>
                                                     <label for="rdiolatlong">
                                                         Display map on contact us page using default adress's latitude and longitude.
                                                     </label>
                                                 </div>
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios" id="rdioZipCode" value="option2">
+                                                    <input type="radio" name="optionsRadiosMap" id="rdioZipCode" value="option2">
                                                     <label for="rdioZipCode">
                                                         Draw map on contact us page using default addresse's zip code.
                                                     </label>
@@ -1703,7 +1640,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload images in your media gallery to access it throughout the store." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1713,10 +1650,10 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div id="dropzoneM" class="dropzonepl">
-                                                    <form id="demo-uploadMM" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                                <div id="dropzone">
+                                                    <form id="demo-upload" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
                                                         <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
+                                                            <span>Drop files here to upload</span>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -1793,7 +1730,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Google Analytics" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -1815,7 +1752,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="it will display selected banner set on store home page." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -2010,7 +1947,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="It will change button backgrounds, icons throughout the store" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -2042,19 +1979,18 @@
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Secondary Pages</h3>
 
-                                    <div class="col-md-10">
+                                    <div class="col-md-10 form-horizontal">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting will Show or Hide Secondary Page Widget on store." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Display in footer</label>
 
                                             </div>
-                                            <label class="col-md-6" for="switchSecondaryPages"></label>
                                             <div class="col-lg-6">
                                                 <div class="onoffswitch">
                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" checked>
@@ -2553,7 +2489,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="To access private store user must exist." data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Determines whether addresses are shared by every user or addresses can be private or public." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -2625,7 +2561,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="To access private store user must exist." data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Payment options force user to process order accordingly" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -2759,7 +2695,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to include VAT?" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting will show prices on webstore by Including GST/VAT or excluding GST/VAT." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -2787,7 +2723,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="If include VAT is No then product VAT are not used" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting defines the percentage of VAT/GST" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                 </div>
@@ -2795,13 +2731,10 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>VAT Free</option>
-                                                    <option>10%</option>
-                                                    <option>15%</option>
-                                                    <option>20%</option>
-                                                    <option>25%</option>
-                                                </select>
+                                                  <div class="input-group" style="width:50%;">
+                                                            <input type="text" class="form-control" id="txtTax"  placeholder="20" >
+                                                            <span class="input-group-addon">%</span>
+                                                            </div>    
                                             </div>
                                         </div>
 
@@ -3005,7 +2938,7 @@
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="To access private store user must exist." data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting determines whether the Delivery Cost includes the VAT/GST or not. ." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                     </div>
@@ -3015,13 +2948,13 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDelvOptions" id="optionsRadiosYesTaxable" value="option1" checked>
-                                                        <label for="optionsRadiosForceDeliverOnShop">
+                                                        <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosYesTaxable" value="option1" checked>
+                                                        <label for="optionsRadiosYesTaxable">
                                                             Yes
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDelvOptions" id="optionsRadiosNotTaxable" value="option1">
+                                                        <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosNotTaxable" value="option1">
                                                         <label for="optionsRadiosNotTaxable">
                                                             No
                                                         </label>
@@ -3035,7 +2968,7 @@
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="To access private store user must exist." data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
                                                     </div>
@@ -3045,13 +2978,13 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceDeliverOnShop" value="option1" checked>
+                                                        <input type="radio" name="optionsRadiosDelvOptions" id="optionsRadiosForceDeliverOnShop" value="option1" checked>
                                                         <label for="optionsRadiosForceDeliverOnShop">
                                                             Display on Shopping Cart 
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosDelvONConfirm" value="option1">
+                                                        <input type="radio" name="optionsRadiosDelvOptions" id="optionsRadiosDelvONConfirm" value="option1">
                                                         <label for="optionsRadiosDelvONConfirm">
                                                             Display on Confirmation Page 
                                                         </label>
@@ -3075,8 +3008,11 @@
 
                                                 </div>
 
-                                                <div class="col-lg-3">
-                                                    <input type="text" class="form-control" id="txtPickUpLocation">
+                                                <div class="col-lg-4">
+                                                    <input type="text" disabled="disabled" class="form-control" style="float:left;width:86%" value="East Region / ER-4569" id="txtPickUpLocation">
+                                                      <a data-toggle="modal" href="#SelectAddressSetModal" class="btn btn-primary pull-right">
+                                                    <i class="fa  fa-lg"></i>&nbsp;....
+                                                </a>
                                                 </div>
 
                                             </div>
@@ -3098,7 +3034,7 @@
 
                                                                     <div class="col-md-3 ">
                                                                         <div class="checkbox-nice">
-                                                                            <input type="checkbox" id="checkbox-2">
+                                                                            <input type="checkbox" id="checkbox-1">
                                                                             <label for="checkbox-1">
                                                                             </label>
                                                                         </div>
@@ -3114,8 +3050,8 @@
 
                                                                     <div class="col-md-3">
                                                                         <div class="checkbox-nice">
-                                                                            <input type="checkbox" id="checkbox-1" checked="checked">
-                                                                            <label for="checkbox-1">
+                                                                            <input type="checkbox" id="checkbox-2" checked="checked">
+                                                                            <label for="checkbox-2">
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -3131,7 +3067,7 @@
                                                                     <div class="col-md-3">
                                                                         <div class="checkbox-nice">
                                                                             <input type="checkbox" id="checkbox-3">
-                                                                            <label for="checkbox-1">
+                                                                            <label for="checkbox-3">
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -3538,14 +3474,22 @@
 @Html.Partial("Widgets/_EditBanner")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
+@Html.Partial("Widgets/_AddEditPaymentGateway")
+@Html.Partial("Address/_SelectAddress")
+
+
+
 @section Scripts {
+    <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>
+
+    <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
+
     <link href="~/Content/colorpicker.css" rel="stylesheet" />
     <script src="~/Scripts/Ace/ace.js"></script>
     <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
     <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
     <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>
-    <script src="js/jquery-ui.custom.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
+
 
     <script type="text/javascript">
         var editor = ace.edit("editor"); editor
@@ -3620,74 +3564,6 @@
             }
             return ret;
         }
-
-
-        $(function () {
-
-            $('#sel2').select2();
-
-            $.fn.wizard.logging = false;
-
-            var wizard = $("#wizard-demo").wizard({
-                showCancel: true
-            });
-
-            //$(".chzn-select").chosen();
-
-            wizard.el.find(".wizard-ns-select").change(function () {
-                wizard.el.find(".wizard-ns-detail").show();
-            });
-
-            wizard.el.find(".create-server-service-list").change(function () {
-                var noOption = $(this).find("option:selected").length == 0;
-                wizard.getCard(this).toggleAlert(null, noOption);
-            });
-
-            wizard.cards["name"].on("validated", function (card) {
-                var hostname = card.el.find("#new-server-fqdn").val();
-            });
-
-            wizard.on("submit", function (wizard) {
-                var submit = {
-                    "hostname": $("#new-server-fqdn").val()
-                };
-
-                setTimeout(function () {
-                    wizard.trigger("success");
-                    wizard.hideButtons();
-                    wizard._submitting = false;
-                    wizard.showSubmitCard("success");
-                    wizard.updateProgressBar(0);
-                }, 2000);
-            });
-
-            wizard.on("reset", function (wizard) {
-                wizard.setSubtitle("");
-                wizard.el.find("#new-server-fqdn").val("");
-                wizard.el.find("#new-server-name").val("");
-            });
-
-            wizard.el.find(".wizard-success .im-done").click(function () {
-                wizard.reset().close();
-            });
-
-            wizard.el.find(".wizard-success .create-another-server").click(function () {
-                wizard.reset();
-            });
-
-            $(".wizard-group-list").click(function () {
-                alert("Disabled for demo.");
-            });
-
-            $("#open-wizard").click(function () {
-                wizard.show();
-            });
-
-
-
-            //wizard.show();
-        });
-
         $(function () {
             $('ul#gallery-photos').sortable({
                 opacity: 0.6, cursor: 'move', update: function () {
@@ -3714,9 +3590,7 @@
         $("#StoreLogo").hover(function () {
             $("#uploadLogoIcon").css("display", "block");
         });
-        $("#StoreLogo").onfocusout(function () {
-            $("#uploadLogoIcon").css("display", "none");
-        });
+
         function showWaterMarkUploader() {
             $("#WaterMarkImageUploadCnt").css("display", "block");
             $("#txtWaterMArk").css("display", "none");
@@ -3816,7 +3690,7 @@
             }
         });
     </script>
-    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+    @*<script src="~/Content/themes/Centaurus/js/jquery.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     <script>
 
