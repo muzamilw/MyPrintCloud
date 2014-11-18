@@ -15,6 +15,8 @@ define("myOrganization/myOrganization.viewModel",
                     selectedTaxRate = ko.observable(),
                     //Active markup
                     selectedMarkup = ko.observable(),
+                    //Active Chart Of Accounts
+                    selectedChartOfAccounts = ko.observable(),
                     // #region Arrays
                     //Currency Symbol list
                     currencySymbols = ko.observableArray([]),
@@ -80,7 +82,12 @@ define("myOrganization/myOrganization.viewModel",
                                 unitWeights.valueHasMutated();
                                 //Chart Of Accounts
                                 chartOfAccounts.removeAll();
-                                ko.utils.arrayPushAll(chartOfAccounts(), data.ChartOfAccounts);
+                                var chartOfAccountsList = [];
+                                _.each(data.ChartOfAccounts, function (item) {
+                                    var chartOfAcc = new model.ChartOfAccountClientMapper(item);
+                                    chartOfAccountsList.push(chartOfAcc);
+                                });
+                                ko.utils.arrayPushAll(chartOfAccounts(), chartOfAccountsList);
                                 chartOfAccounts.valueHasMutated();
 
                                 //Markups
@@ -122,16 +129,26 @@ define("myOrganization/myOrganization.viewModel",
                     templateToUseMarkup = function (markup) {
                         return (markup === selectedMarkup() ? 'editMarkupTemplate' : 'itemMarkupTemplate');
                     },
+                    // Template Chooser For Chart Of Accounts
+                    templateToUseChartOfAccounts = function (chartOfAcc) {
+                        return (chartOfAcc === selectedChartOfAccounts() ? 'editChartOfAccountsTemplate' : 'itemChartOfAccountsTemplate');
+                    },
                       // Select a Tax Rate
                     selectTaxRate = function (taxRate) {
                         if (selectedTaxRate() !== taxRate) {
                             selectedTaxRate(taxRate);
                         }
                     },
-                     // Select a markup
+                     // Select a Markup
                     selectMarkup = function (markup) {
                         if (selectedMarkup() !== markup) {
                             selectedMarkup(markup);
+                        }
+                    },
+                     // Select a Chart Of Accounts
+                    selectChartOfAccounts = function (chartOfAcc) {
+                        if (selectedChartOfAccounts() !== chartOfAcc) {
+                            selectedChartOfAccounts(chartOfAcc);
                         }
                     },
                     onCreateNewTaxRate = function () {
@@ -148,6 +165,13 @@ define("myOrganization/myOrganization.viewModel",
                              selectedMarkup(markups()[0]);
                          }
                      },
+                      onCreateChartOfAccounts = function () {
+                          var chartOfAcc = chartOfAccounts()[0];
+                          if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
+                              chartOfAccounts.splice(0, 0, model.ChartOfAccount());
+                              selectedChartOfAccounts(chartOfAccounts()[0]);
+                          }
+                      },
                      // Delete a tax Rate
                     onDeleteTaxRate = function (taxRate) {
                         if (!taxRate.id()) {
@@ -160,6 +184,19 @@ define("myOrganization/myOrganization.viewModel",
                         });
                         confirmation.show();
                     },
+                       // Delete a Chart Of Accounts
+                    onDeleteChartOfAccounts = function (chartOfAcc) {
+                        if (!chartOfAcc.id()) {
+                            chartOfAccounts.remove(chartOfAcc);
+                            return;
+                        }
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            chartOfAccounts.remove(chartOfAcc);
+                        });
+                        confirmation.show();
+                    },
+
                        // Delete a Markup
                     onDeleteMarkup = function (markup) {
                         if (!markup.id()) {
@@ -244,6 +281,7 @@ define("myOrganization/myOrganization.viewModel",
                     selectedMyOrganization: selectedMyOrganization,
                     selectedTaxRate: selectedTaxRate,
                     selectedMarkup: selectedMarkup,
+                    selectedChartOfAccounts: selectedChartOfAccounts,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     sortOnHg: sortOnHg,
@@ -264,12 +302,16 @@ define("myOrganization/myOrganization.viewModel",
                     onSaveMyOrganization: onSaveMyOrganization,
                     templateToUse: templateToUse,
                     templateToUseMarkup: templateToUseMarkup,
+                    templateToUseChartOfAccounts: templateToUseChartOfAccounts,
                     selectTaxRate: selectTaxRate,
                     selectMarkup: selectMarkup,
+                    selectChartOfAccounts: selectChartOfAccounts,
                     onDeleteTaxRate: onDeleteTaxRate,
                     onDeleteMarkup: onDeleteMarkup,
+                    onDeleteChartOfAccounts: onDeleteChartOfAccounts,
                     onCreateNewTaxRate: onCreateNewTaxRate,
                     onCreateNewMarkup: onCreateNewMarkup,
+                    onCreateChartOfAccounts: onCreateChartOfAccounts,
                 };
             })()
         };

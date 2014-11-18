@@ -565,136 +565,25 @@
                                                                     <input type="text" class="form-control" placeholder="Search...">
                                                                     <i class="fa fa-search search-icon"></i>
                                                                 </div>
-                                                                <a href="#" class="btn btn-primary pull-right">
+                                                                <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateChartOfAccounts">
                                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Nominal Code
                                                                 </a>
                                                             </div>
                                                         </header>
                                                         <div class="main-box-body clearfix">
                                                             <div class="table-responsive">
-                                                                <table class="table table-striped table-hover">
+                                                                <table id="chartOfAccountTablle" class="table table-striped table-hover">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th><a href="#"><span>Account No</span></a></th>
-                                                                            <th><a href="#"><span>Name</span></a></th>
+                                                                            <th> <span>Account No<span></span></span></th>
+                                                                            <th> <span>Name<span></span></span></th>
+                                                                            <th>&nbsp;</th>
                                                                             <th>&nbsp;</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <tr>
-                                                                            <td>
-                                                                                4000
-                                                                            </td>
-                                                                            <td>
-                                                                                Direct Print Sales
-                                                                            </td>
-                                                                            <td class="text-right">
-                                                                                <a href="#" class="table-link">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                                <a href="#" class="table-link danger">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                4001
-                                                                            </td>
-                                                                            <td>
-                                                                                Online Print Sales
-                                                                            </td>
-
-                                                                            <td class="text-right">
-                                                                                <a href="#" class="table-link">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                                <a href="#" class="table-link danger">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                4002
-                                                                            </td>
-                                                                            <td>
-                                                                                Labor Press
-                                                                            </td>
-
-                                                                            <td class="text-right">
-                                                                                <a href="#" class="table-link">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                                <a href="#" class="table-link danger">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                4003
-                                                                            </td>
-                                                                            <td>
-                                                                                Paper
-                                                                            </td>
-
-                                                                            <td class="text-right">
-                                                                                <a href="#" class="table-link">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                                <a href="#" class="table-link danger">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                4004
-                                                                            </td>
-                                                                            <td>
-                                                                                Plates
-                                                                            </td>
-
-                                                                            <td class="text-right">
-                                                                                <a href="#" class="table-link">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                                <a href="#" class="table-link danger">
-                                                                                    <span class="fa-stack">
-                                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                                    </span>
-                                                                                </a>
-                                                                            </td>
-                                                                        </tr>
+                                                                        <!-- ko template: { name: $root.templateToUseChartOfAccounts , foreach: $root.chartOfAccounts } -->
+                                                                        <!-- /ko -->
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -913,6 +802,55 @@
             </td>
             <td>
                 <!-- ko template: { name: 'deleteActionMarkupTemplate' } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    @*Chart Of Accounts*@
+    <script id="editActionChartOfAccountsTemplate" type="text/html">
+        <a href="#" class="table-link" data-bind="click: $root.selectChartOfAccounts, css: { selectedRow: $data === $root.selectedChartOfAccounts() }">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="deleteActionChartOfAccountsTemplate" type="text/html">
+        <a href="#" class="table-link danger" data-bind="click: $root.onDeleteChartOfAccounts" title="Delete">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="editChartOfAccountsTemplate" type="text/html">
+        <tr data-bind="css: { selectedRow: $data === $root.selectedChartOfAccounts() }">
+            <td>
+                <input type="text" data-bind="value: name, validationTooltip: name" />
+            </td>
+            <td>
+                <input style="width: 70px;" type="text" data-bind="value: accountNo, validationTooltip: accountNo" />
+            </td>
+            <td>
+                <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
+                <!-- /ko -->
+            </td>
+            <td>
+                <!-- ko template: { name: 'deleteActionChartOfAccountsTemplate' } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    <script id="itemChartOfAccountsTemplate" type="text/html">
+        <tr>
+            <td data-bind="text: name"></td>
+            <td data-bind="text: accountNo"></td>
+            <td>
+                <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
+                <!-- /ko -->
+            </td>
+            <td>
+                <!-- ko template: { name: 'deleteActionChartOfAccountsTemplate' } -->
                 <!-- /ko -->
             </td>
         </tr>
