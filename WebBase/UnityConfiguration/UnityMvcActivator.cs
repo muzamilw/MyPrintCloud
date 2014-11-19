@@ -4,7 +4,7 @@ using MPC.WebBase.UnityConfiguration;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Mvc;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-using MPC.WebBase.UnityConfiguration;
+
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebActivator), "Start")]

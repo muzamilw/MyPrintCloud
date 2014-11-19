@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
+using MPC.ExceptionHandling;
+using MPC.ExceptionHandling.Logger;
+using MPC.Interfaces.Logger;
+using MPC.WebBase.UnityConfiguration;
 
 namespace MPC.WebBase.Mvc
 {
@@ -15,6 +20,19 @@ namespace MPC.WebBase.Mvc
     {
         #region Private
 
+        private static IMPCLogger mpcLogger;
+        /// <summary>
+        /// Get Configured logger
+        /// </summary>
+        private static IMPCLogger MPCLogger
+        {
+            get
+            {
+                if (mpcLogger != null) return mpcLogger;
+                mpcLogger = (UnityConfig.GetConfiguredContainer()).Resolve<IMPCLogger>();
+                return mpcLogger;
+            }
+        }
         /// <summary>
         /// Route data prefix
         /// </summary>
@@ -27,16 +45,18 @@ namespace MPC.WebBase.Mvc
         {
             if (!filterContext.ExceptionHandled && filterContext.Exception != null)
             {
-                Dictionary<string, object> properties = new Dictionary<string, object>();
-
+                Dictionary<string, object> properties = filterContext.RouteData.Values.Keys.ToDictionary(key => RouteDataPrefix + key, key => filterContext.RouteData.Values[key]);
                 // add route data
-                foreach (string key in filterContext.RouteData.Values.Keys)
-                {
-                    properties.Add(RouteDataPrefix + key, filterContext.RouteData.Values[key]);
-                }
 
-                Logger.Write(filterContext.Exception.ToString(),
-                    LoggerCategories.Error, 0, 0, TraceEventType.Error, "Mvc Controller Error", properties);
+                MPCException execption = filterContext.Exception as MPCException;
+                if (execption != null)
+                {
+                    MPCLogger.Write(execption, MPCLogCategory.Warning, 1, 0, TraceEventType.Information, MPCLogCategory.Warning, properties);
+                }
+                else
+                {
+                    MPCLogger.Write(filterContext.Exception, MPCLogCategory.Error, 1, 0, TraceEventType.Critical, MPCLogCategory.Error, properties);
+                }                  
             }
         }
 
@@ -52,12 +72,6 @@ namespace MPC.WebBase.Mvc
 
             base.OnException(filterContext);
         }
-
-        /// <summary>
-        /// Logger
-        /// </summary>
-        //[Dependency]
-        public string Logger { get; set; }
 
         #endregion
         /// <summary>

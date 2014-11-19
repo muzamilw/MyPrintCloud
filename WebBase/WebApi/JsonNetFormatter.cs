@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Cares.WebBase.WebApi
+namespace MPC.WebBase.WebApi
 {
     /// <summary>
     /// Json.NET formatter
