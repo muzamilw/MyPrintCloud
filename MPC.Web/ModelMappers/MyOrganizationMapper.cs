@@ -50,6 +50,8 @@ namespace MPC.Web.ModelMappers
                 Mobile = source.Mobile,
                 Url = source.URL,
                 MisLogo = source.MISLogo,
+                TaxRegistrationNo = source.TaxRegistrationNo,
+
             };
         }
 
@@ -71,13 +73,29 @@ namespace MPC.Web.ModelMappers
                 ZipCode = source.ZipCode,
                 Tel = source.Tel,
                 Fax = source.Fax,
-                Email = source.Fax,
+                Email = source.Email,
                 Mobile = source.Mobile,
                 URL = source.Url,
                 MISLogo = source.MisLogo,
+                TaxRegistrationNo = source.TaxRegistrationNo,
+                //MarkupId =source.MarkupId,
                 //TaxRates = source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList(),
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
+            };
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static ApiResponse.MyOrganizationSaveResponse CreateFrom(this DomainResponse.MyOrganizationSaveResponse source)
+        {
+            return new ApiResponse.MyOrganizationSaveResponse
+            {
+                OrganizationId = source.OrganizationId,
+                ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
+                Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
+                //TaxRates = source.Markups != null ? source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList() : null,
             };
         }
         #endregion

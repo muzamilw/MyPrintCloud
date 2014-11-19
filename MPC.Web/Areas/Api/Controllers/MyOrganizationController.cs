@@ -39,22 +39,22 @@ namespace MPC.Web.Areas.Api.Controllers
         /// <summary>
         /// Get Organization By Id
         /// </summary>
-        public Organisation Get(Organisation organisation)
+        public Organisation Get(long organisationId)
         {
-            return myOrganizationService.FindDetailById(organisation.OrganisationId).CreateFrom();
+            return myOrganizationService.FindDetailById(organisationId).CreateFrom();
         }
 
         /// <summary>
         /// Add/Update a Organization
         /// </summary>
         [ApiException]
-        public long Post(Organisation organisation)
+        public ResponseModels.MyOrganizationSaveResponse Post(Organisation organisation)
         {
             if (organisation == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return myOrganizationService.SaveOrganization(organisation.CreateFrom());
+            return myOrganizationService.SaveOrganization(organisation.CreateFrom()).CreateFrom();
         }
         #endregion
 
