@@ -1,7 +1,7 @@
 ﻿using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.Web.Models;
 
-namespace MPC.Web.ModelMappers
+namespace MPC.MIS.ModelMappers
 {
     public static class PaperSheetMapper
     {

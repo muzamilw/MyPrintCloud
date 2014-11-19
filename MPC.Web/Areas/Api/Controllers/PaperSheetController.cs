@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Mvc;
-using MPC.Interfaces.IServices;
-using MPC.Models.DomainModels;
-using MPC.Web.ModelMappers;
+using MPC.Interfaces.MISServices;
+using MPC.MIS.ModelMappers;
 using MPC.Web.Models;
 
-namespace MPC.Web.Areas.Api.Controllers
+namespace MPC.MIS.Areas.Api.Controllers
 {
     public class PaperSheetController : ApiController
     {
