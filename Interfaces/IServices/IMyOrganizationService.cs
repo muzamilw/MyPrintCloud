@@ -15,14 +15,14 @@ namespace MPC.Interfaces.IServices
         MyOrganizationBaseResponse GetBaseData();
 
         /// <summary>
-        /// Find Company Site Detail By Company Site ID
+        /// Find Organisation Detail By Organisation ID
         /// </summary>
-        CompanySites FindDetailById(int companySiteId);
+        Organisation FindDetailById(int companySiteId);
 
         /// <summary>
         /// Add/Update Company Sites
         /// </summary>
-        int SaveCompanySite(CompanySites companySites);
+        long SaveCompanySite(Organisation organisation);
 
         IList<int> GetOrganizationIds(int request);
     }

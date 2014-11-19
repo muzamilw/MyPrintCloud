@@ -21,7 +21,18 @@ namespace MPC.Web.ModelMappers
                 Tax1 = source.Tax1,
             };
         }
-
+        /// <summary>
+        /// Crete From Web Model
+        /// </summary>
+        public static DomainModels.TaxRate CreateFrom(this ApiModels.TaxRate source)
+        {
+            return new DomainModels.TaxRate
+            {
+                TaxId = source.TaxId,
+                TaxName = source.TaxName,
+                Tax1 = source.Tax1,
+            };
+        }
         #endregion
     }
 }

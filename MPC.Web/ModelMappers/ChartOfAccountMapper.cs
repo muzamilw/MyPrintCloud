@@ -22,6 +22,19 @@ namespace MPC.Web.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Crete From Web Model
+        /// </summary>
+        public static DomainModels.ChartOfAccount CreateFrom(this Models.ChartOfAccount source)
+        {
+            return new DomainModels.ChartOfAccount
+            {
+                Id = source.Id,
+                Name = source.Name,
+                AccountNo = source.AccountNo,
+            };
+        }
+
         #endregion
     }
 }

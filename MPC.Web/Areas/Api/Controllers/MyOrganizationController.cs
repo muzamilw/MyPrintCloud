@@ -41,7 +41,7 @@ namespace MPC.Web.Areas.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Models.CompanySites Get(int id)
+        public Models.Organisation Get(int id)
         {
             return myOrganizationService.FindDetailById(id).CreateFrom();
         }
@@ -50,7 +50,7 @@ namespace MPC.Web.Areas.Api.Controllers
         /// Add/Update a My Organization
         /// </summary>
         [ApiException]
-        public int Post(CompanySites companySites)
+        public long Post(Organisation companySites)
         {
             if (companySites == null || !ModelState.IsValid)
             {

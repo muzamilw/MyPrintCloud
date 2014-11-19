@@ -11,13 +11,13 @@ namespace MPC.Repository.Repositories
     /// <summary>
     /// Company Sites Repository
     /// </summary>
-    public class CompanySitesRepository : BaseRepository<CompanySites>, ICompanySitesRepository
+    public class OrganisationRepository : BaseRepository<Organisation>, IOrganisationRepository
     {
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public CompanySitesRepository(IUnityContainer container)
+        public OrganisationRepository(IUnityContainer container)
             : base(container)
         {
 
@@ -25,11 +25,11 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Primary database set
         /// </summary>
-        protected override IDbSet<CompanySites> DbSet
+        protected override IDbSet<Organisation> DbSet
         {
             get
             {
-                return db.CompanySites;
+                return db.Organisations;
             }
         }
 
@@ -40,7 +40,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Get All Company Sites for User Domain Key
         /// </summary>
-        public override IEnumerable<CompanySites> GetAll()
+        public override IEnumerable<Organisation> GetAll()
         {
             return DbSet.Where(cs => cs.UserDomainKey == UserDomainKey).ToList();
         }

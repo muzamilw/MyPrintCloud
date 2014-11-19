@@ -21,6 +21,6 @@ namespace MPC.Models.ResponseModels
         /// <summary>
         /// Markup List
         /// </summary>
-        public IEnumerable<MarkUp> Markups { get; set; }
+        public IEnumerable<Markup> Markups { get; set; }
     }
 }

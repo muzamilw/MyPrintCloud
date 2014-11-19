@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Web.Http.Filters;
+using Microsoft.Practices.Unity;
 using MPC.ExceptionHandling;
 using MPC.ExceptionHandling.Logger;
 using MPC.Interfaces.Logger;
+using MPC.WebBase.UnityConfiguration;
 using Newtonsoft.Json;
 
 namespace MPC.WebBase.Mvc
@@ -15,11 +17,19 @@ namespace MPC.WebBase.Mvc
     /// </summary>
     public class ApiException : ActionFilterAttribute
     {
-        private readonly IMPCLogger mpcLogger;
-
-        public ApiException(IMPCLogger mpcLogger)
+        #region Private
+        private static IMPCLogger mpcLogger;
+        /// <summary>
+        /// Get Configured logger
+        /// </summary>
+        private static IMPCLogger MPCLogger
         {
-            this.mpcLogger = mpcLogger;
+            get
+            {
+                if (mpcLogger != null) return mpcLogger;
+                mpcLogger = (UnityConfig.GetConfiguredContainer()).Resolve<IMPCLogger>();
+                return mpcLogger;
+            }
         }
 
         /// <summary>
@@ -54,8 +64,9 @@ namespace MPC.WebBase.Mvc
         /// </summary>
         private void LogError(Exception exp, int domainKey, string requestContents)
         {
-            mpcLogger.Write(exp, MPCLogCategory.Error, -1, -1, TraceEventType.Warning, "", new Dictionary<string, object> { {"DomainKey", domainKey}, { "RequestContents", requestContents} });
+            MPCLogger.Write(exp, MPCLogCategory.Error, -1, -1, TraceEventType.Warning, "", new Dictionary<string, object> { { "DomainKey", domainKey }, { "RequestContents", requestContents } });
         }
+        #endregion
 
         /// <summary>
         /// Exception Handler for api calls; apply this attribute for all the Api calls
