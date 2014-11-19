@@ -8,7 +8,7 @@
         /// <summary>
         /// Markup id
         /// </summary>
-        public int MarkUpId { get; set; }
+        public long MarkUpId { get; set; }
 
         /// <summary>
         /// Markup Name

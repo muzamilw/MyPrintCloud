@@ -1,22 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.MIS.Models
 {
     /// <summary>
-    /// Company Sites Web Model
+    /// Organisation Web Model
     /// </summary>
-    public class CompanySites
+    public class Organisation
     {
         #region Properties
         /// <summary>
         /// Unique Id
         /// </summary>
-        public int CompanySiteId { get; set; }
+        public long OrganisationId { get; set; }
 
         /// <summary>
-        /// Company Site Name
+        /// Organisation Name
         /// </summary>
-        public string CompanySiteName { get; set; }
+        public string OrganisationName { get; set; }
 
         /// <summary>
         /// Address 1
@@ -215,16 +216,23 @@ namespace MPC.MIS.Models
 
         #endregion
 
-        #region
+        #region Reference Properties
         /// <summary>
-        /// Tax Rates
+        /// Tax Rate List
         /// </summary>
         public List<TaxRate> TaxRates { get; set; }
 
         /// <summary>
-        /// Markups
+        /// Markup List
         /// </summary>
         public List<Markup> Markups { get; set; }
+
+        /// <summary>
+        /// Chart Of Accounts List
+        /// </summary>
+        public List<ChartOfAccount> ChartOfAccounts { get; set; }
+
         #endregion
+
     }
 }

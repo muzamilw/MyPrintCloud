@@ -53,6 +53,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             markupsInMyOrganization = ko.observableArray([]),
             //Tax Rates In MyOrganization
             taxRatesInMyOrganization = ko.observableArray([]),
+            //Chart Of Accounts In My Organization
+            chartOfAccountsInMyOrganization = ko.observableArray([]),
              // Errors
              errors = ko.validation.group({
                  email: email
@@ -116,6 +118,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              markupId: markupId,
              markupsInMyOrganization: markupsInMyOrganization,
              taxRatesInMyOrganization: taxRatesInMyOrganization,
+             chartOfAccountsInMyOrganization: chartOfAccountsInMyOrganization,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -257,8 +260,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     //Convert Server To Client
     var CompanySitesClientMapper = function (source) {
         var companySites = new CompanySites();
-        companySites.id(source.CompanySiteId === null ? undefined : source.CompanySiteId);
-        companySites.name(source.CompanySiteName === null ? undefined : source.CompanySiteName);
+        companySites.id(source.OrganisationId === null ? undefined : source.OrganisationId);
+        companySites.name(source.OrganisationName === null ? undefined : source.OrganisationName);
         companySites.address1(source.Address1 === null ? undefined : source.Address1);
         companySites.address2(source.Address2 === null ? undefined : source.Address2);
         companySites.city(source.City === null ? undefined : source.City);
@@ -305,8 +308,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     //Convert Client To Server
     var CompanySitesServerMapper = function (source) {
         var result = {};
-        result.CompanySiteId = source.id() === undefined ? 0 : source.id();
-        result.CompanySiteName = source.name() === undefined ? null : source.name();
+        result.OrganisationId = source.id() === undefined ? 0 : source.id();
+        result.OrganisationName = source.name() === undefined ? null : source.name();
         result.Address1 = source.address1() === undefined ? null : source.address1();
         result.Address2 = source.address2() === undefined ? null : source.address2();
         result.City = source.city() === undefined ? null : source.city();
@@ -334,6 +337,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         _.each(source.markupsInMyOrganization(), function (item) {
             result.Markups.push(MarkupServerMapper(item));
         });
+        //
+        //Chart Of Accounts
+        result.ChartOfAccounts = [];
+        _.each(source.chartOfAccountsInMyOrganization(), function (item) {
+            result.ChartOfAccounts.push(ChartOfAccountServerMapper(item));
+        });
+
         return result;
     };
     //Convert Client To Server

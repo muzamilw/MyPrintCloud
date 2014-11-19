@@ -210,17 +210,17 @@
 
                                             <div class="col-lg-6" style="padding-left:0px;">
                                                  <div class="col-xs-5" style="padding-left:0px;">
-                                                       <a data-toggle="modal" href="#myModalss" style="margin-left:4px;" >
-                                                                <i class="fa fa-lg"></i>&nbsp;Edit Categories
-                                                            </a>
+                                                     <a data-toggle="modal" href="#selectCAT" style="margin-left:4px;">
+                                                         <i class="fa fa-lg"></i>&nbsp;Select Categories
+                                                     </a>
 
                                                  </div>
-                                                 <div class="col-xs-1"> | </div>
+                                                 <div class="col-xs-1">  </div>
                                                  <div class="col-xs-6">
 
-                                                       <a data-toggle="modal" href="#myModalss" class=" pull-right">
+                                                       @*<a data-toggle="modal" href="#myModalss" class=" pull-right">
                                                                 <i class="fa fa-lg"></i>&nbsp;Create a new Category
-                                                            </a>
+                                                            </a>*@
                                                  </div>
                                                  
 
@@ -557,7 +557,7 @@
 
                                             <div class="col-lg-6" style="padding-left:0px;">
                                                  <div class="col-xs-5" style="padding-left:0px;">
-                                                       <a data-toggle="modal" href="#myModal" style="margin-left:4px;" >
+                                                       <a data-toggle="modal" href="#myModalss" style="margin-left:4px;" >
                                                                 <i class="fa fa-lg"></i>&nbsp;Edit Option
                                                             </a>
 
@@ -3221,11 +3221,6 @@
                                                                                                                </div>
 
 
-                                                                                                    
-
-                                        
-
-
                                                                                     </div>
                               
 
@@ -4596,6 +4591,7 @@ Matching Sets - Find similar design concepts for Greetings Cards, Postcards and 
  @Html.Partial("Product/_SignatureEdit")
  @Html.Partial("Widgets/_PhraseLibrary")
  @Html.Partial("Widgets/_AddVideo")
+@Html.Partial("Product/_SelectProductCategory")
 @section Scripts {
 
     <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
