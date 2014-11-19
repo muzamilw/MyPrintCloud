@@ -23,6 +23,7 @@ namespace MPC.Interfaces.IServices
         /// Add/Update Company Sites
         /// </summary>
         int SaveCompanySite(CompanySites companySites);
+
         IList<int> GetOrganizationIds(int request);
     }
 }

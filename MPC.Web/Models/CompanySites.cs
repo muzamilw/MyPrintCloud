@@ -1,4 +1,6 @@
-﻿namespace MPC.Web.Models
+﻿using System.Collections.Generic;
+
+namespace MPC.Web.Models
 {
     /// <summary>
     /// Company Sites Web Model
@@ -213,6 +215,16 @@
 
         #endregion
 
+        #region
+        /// <summary>
+        /// Tax Rates
+        /// </summary>
+        public List<TaxRate> TaxRates { get; set; }
 
+        /// <summary>
+        /// Markups
+        /// </summary>
+        public List<Markup> Markups { get; set; }
+        #endregion
     }
 }

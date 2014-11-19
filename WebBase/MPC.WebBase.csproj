@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Mvc\ApiException.cs" />
+    <Compile Include="Mvc\LogExceptionFilterAttribute.cs" />
     <Compile Include="Mvc\LoggerCategories.cs" />
     <Compile Include="Mvc\SecurityExceptionFilter.cs" />
     <Compile Include="Mvc\SiteAuthorizeAttribute.cs" />

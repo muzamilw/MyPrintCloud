@@ -57,7 +57,6 @@ namespace MPC.Web.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             return myOrganizationService.SaveCompanySite(companySites.CreateFrom());
-
         }
         #endregion
 

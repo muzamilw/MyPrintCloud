@@ -225,6 +225,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExceptionHandling\MPC.ExceptionHandling.csproj">
+      <Project>{5a6acd2d-0701-4e38-99b7-65cc4e6cb8e8}</Project>
+      <Name>MPC.ExceptionHandling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\MPC.Interfaces.csproj">
       <Project>{98f7a831-6d93-48e9-950f-623772aa607a}</Project>
       <Name>MPC.Interfaces</Name>
