@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MPC.Web.Areas.Settings.Controllers
+namespace MPC.MIS.Areas.Settings.Controllers
 {
     public class HomeController : Controller
     {

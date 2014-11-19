@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MPC.Web.Models
+namespace MPC.MIS.Models
 {
     /// <summary>
     /// Company Sites Web Model

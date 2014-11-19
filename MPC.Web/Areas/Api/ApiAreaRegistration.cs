@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Mvc;
 
-namespace MPC.Web.Areas.Api
+namespace MPC.MIS.Areas.Api
 {
     public class ApiAreaRegistration : AreaRegistration 
     {

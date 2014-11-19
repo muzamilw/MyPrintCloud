@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace MPC.Web
+namespace MPC.MIS
 {
     public class BundleConfig
     {

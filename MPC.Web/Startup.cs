@@ -1,6 +1,6 @@
 ﻿using Owin;
 
-namespace MPC.Web
+namespace MPC.MIS
 {
     public partial class Startup
     {

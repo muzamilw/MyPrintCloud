@@ -1,7 +1,7 @@
 ﻿using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.Web.Models;
+using ApiModels = MPC.MIS.Models;
 
-namespace MPC.Web.ModelMappers
+namespace MPC.MIS.ModelMappers
 {
     /// <summary>
     /// Markup Mapper

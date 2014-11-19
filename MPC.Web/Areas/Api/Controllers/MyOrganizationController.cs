@@ -2,12 +2,12 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
-using MPC.Interfaces.IServices;
-using MPC.Web.ModelMappers;
-using MPC.Web.Models;
+using MPC.Interfaces.MISServices;
+using MPC.MIS.ModelMappers;
+using MPC.MIS.Models;
 using MPC.WebBase.Mvc;
 
-namespace MPC.Web.Areas.Api.Controllers
+namespace MPC.MIS.Areas.Api.Controllers
 {
     /// <summary>
     /// My Organization Api Controller
@@ -41,7 +41,7 @@ namespace MPC.Web.Areas.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Models.CompanySites Get(int id)
+        public CompanySites Get(int id)
         {
             return myOrganizationService.FindDetailById(id).CreateFrom();
         }

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MPC.Web.Controllers
+namespace MPC.MIS.Controllers
 {
     public class UnauthorizedRequestController : Controller
     {
