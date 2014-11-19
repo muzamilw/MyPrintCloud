@@ -59,6 +59,8 @@ define("myOrganization/myOrganization.viewModel",
                         //pager(new pagination.Pagination({}, additionalTypeCharges, getAdditionalCharges));
                         //getAdditionalCharges();
                         selectedMyOrganization(new model.CompanySites());
+                        selectedMyOrganization().id(2);
+                        getMyOrganizationById(selectedMyOrganization());
                     },
                     // Get Base
                     getBase = function (callBack) {
@@ -151,6 +153,7 @@ define("myOrganization/myOrganization.viewModel",
                             selectedChartOfAccounts(chartOfAcc);
                         }
                     },
+                    //
                     onCreateNewTaxRate = function () {
                         var taxRate = taxRates()[0];
                         if (taxRate.name() !== undefined && taxRate.tax1() !== undefined) {
@@ -158,6 +161,7 @@ define("myOrganization/myOrganization.viewModel",
                             selectedTaxRate(taxRates()[0]);
                         }
                     },
+                    //
                      onCreateNewMarkup = function () {
                          var markup = markups()[0];
                          if (markup.name() !== undefined && markup.rate() !== undefined) {
@@ -165,13 +169,14 @@ define("myOrganization/myOrganization.viewModel",
                              selectedMarkup(markups()[0]);
                          }
                      },
-                      onCreateChartOfAccounts = function () {
-                          var chartOfAcc = chartOfAccounts()[0];
-                          if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
-                              chartOfAccounts.splice(0, 0, model.ChartOfAccount());
-                              selectedChartOfAccounts(chartOfAccounts()[0]);
-                          }
-                      },
+                     //
+                    onCreateChartOfAccounts = function () {
+                        var chartOfAcc = chartOfAccounts()[0];
+                        if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
+                            chartOfAccounts.splice(0, 0, model.ChartOfAccount());
+                            selectedChartOfAccounts(chartOfAccounts()[0]);
+                        }
+                    },
                      // Delete a tax Rate
                     onDeleteTaxRate = function (taxRate) {
                         if (!taxRate.id()) {
@@ -209,10 +214,10 @@ define("myOrganization/myOrganization.viewModel",
                         });
                         confirmation.show();
                     },
-                    //Get Additional Charge By Id
-                    getMyOrganizationById = function (addChrg) {
+                    //Get Organization By Id
+                    getMyOrganizationById = function (org) {
                         isLoadingMyOrganization(true);
-                        dataservice.getMyOrganizationDetail(model.AdditionalChrgServerMapperForId(addChrg), {
+                        dataservice.getMyOrganizationDetail(model.OrganizationServerMapperForId(org), {
                             success: function (data) {
                                 isLoadingMyOrganization(false);
                             },
@@ -239,7 +244,7 @@ define("myOrganization/myOrganization.viewModel",
                             if (myOrg.chartOfAccountsInMyOrganization.length !== 0) {
                                 myOrg.chartOfAccountsInMyOrganization.removeAll();
                             }
-                            ko.utils.arrayPushAll(myOrg.chartOfAccountsInMyOrganization(), chartOfAccounts);
+                            ko.utils.arrayPushAll(myOrg.chartOfAccountsInMyOrganization(), chartOfAccounts());
                             saveMyOrganization(myOrg);
                         }
                     },
@@ -256,14 +261,12 @@ define("myOrganization/myOrganization.viewModel",
                     saveMyOrganization = function (myOrg) {
                         dataservice.saveMyOrganization(model.CompanySitesServerMapper(myOrg), {
                             success: function (data) {
-                                var additionalCharge = data;
-                                //if (selectedAdditionalChargeType().id() > 0) {
-                                //    selectedAdditionalChargeType().isEditable(additionalCharge.isEditable()),
-                                //        closeAdditionalChargeEditor();
-                                //} else {
-                                //    additionalTypeCharges.splice(0, 0, additionalCharge);
-                                //    closeAdditionalChargeEditor();
-                                //}
+                                var orgId = data;
+                                if (selectedMyOrganization().id() > 0) {
+                                    //Later
+                                } else {
+                                    selectedMyOrganization(), id(orgId);
+                                }
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {

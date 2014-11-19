@@ -17,12 +17,12 @@ namespace MPC.Interfaces.IServices
         /// <summary>
         /// Find Organisation Detail By Organisation ID
         /// </summary>
-        Organisation FindDetailById(int companySiteId);
+        Organisation FindDetailById(long organisationId);
 
         /// <summary>
-        /// Add/Update Company Sites
+        /// Add/Update Organization
         /// </summary>
-        long SaveCompanySite(Organisation organisation);
+        long SaveOrganization(Organisation organisation);
 
         IList<int> GetOrganizationIds(int request);
     }

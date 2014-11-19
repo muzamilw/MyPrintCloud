@@ -370,7 +370,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.Tax1 = source.tax1() === undefined ? null : source.tax1();
         return result;
     };
-
+    // Convert Client to server
+    var OrganizationServerMapperForId = function (source) {
+        var result = {};
+        result.OrganisationId = source.id() === undefined ? 0 : source.id();
+        return result;
+    };
+    
     return {
         CompanySites: CompanySites,
         ChartOfAccount: ChartOfAccount,
@@ -384,5 +390,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         ChartOfAccountServerMapper: ChartOfAccountServerMapper,
         MarkupServerMapper: MarkupServerMapper,
         TaxRateServerMapper: TaxRateServerMapper,
+        OrganizationServerMapperForId: OrganizationServerMapperForId,
     };
 });

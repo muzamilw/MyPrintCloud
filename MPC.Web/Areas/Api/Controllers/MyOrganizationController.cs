@@ -37,26 +37,24 @@ namespace MPC.Web.Areas.Api.Controllers
 
         #region Public
         /// <summary>
-        /// Get My Organization By Id
+        /// Get Organization By Id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public Models.Organisation Get(int id)
+        public Organisation Get(Organisation organisation)
         {
-            return myOrganizationService.FindDetailById(id).CreateFrom();
+            return myOrganizationService.FindDetailById(organisation.OrganisationId).CreateFrom();
         }
 
         /// <summary>
-        /// Add/Update a My Organization
+        /// Add/Update a Organization
         /// </summary>
         [ApiException]
-        public long Post(Organisation companySites)
+        public long Post(Organisation organisation)
         {
-            if (companySites == null || !ModelState.IsValid)
+            if (organisation == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return myOrganizationService.SaveCompanySite(companySites.CreateFrom());
+            return myOrganizationService.SaveOrganization(organisation.CreateFrom());
         }
         #endregion
 

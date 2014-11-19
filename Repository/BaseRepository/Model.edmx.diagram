@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="63">
-        <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DomainModels.TaxRate" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="5.375" PointY="0.625" />
         <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

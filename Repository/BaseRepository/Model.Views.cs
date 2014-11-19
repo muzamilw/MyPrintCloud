@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets0766735C9C473A44ACBE6BCCEADEF1A3B25B441BCEA25CB0B996C80235403D8F))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsADC4A449DD63B0563133CBD9B49357ED726B240E692BF2377DE9E4F6A39BA0EB))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets0766735C9C473A44ACBE6BCCEADEF1A3B25B441BCEA25CB0B996C80235403D8F : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsADC4A449DD63B0563133CBD9B49357ED726B240E692BF2377DE9E4F6A39BA0EB : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets0766735C9C473A44ACBE6BCCEADEF1A3B25B441BCEA25CB0B996C80235403D8F()
+        public ViewsForBaseEntitySetsADC4A449DD63B0563133CBD9B49357ED726B240E692BF2377DE9E4F6A39BA0EB()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "b602cfc7e6b5a3898858b9ff638823e4380316ffb52125a7cc31378ef11ec135";
-            this.HashOverAllExtentViews = "265b2aef2f8646c32dadaf295af317a3cabdc57c277ef099619604d9e5d5208e";
+            this.HashOverMappingClosure = "80381c85f97bfcf4d14b78f0dfb5b09be2a3c519e35c18abbed65961fc24845d";
+            this.HashOverAllExtentViews = "8639e1798bc1f04050ed7ef98b57ed96c87e26fd4269032826959edc3322bd4b";
             this.ViewCount = 8;
         }
         
@@ -73,69 +73,9 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for DomainModelsStoreContainer.tbl_chartofaccount
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView0()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.tbl_chartofaccount", "\r\n    SELECT VALUE -- Constructing tbl_chartofaccount\r\n        [DomainModels.Stor" +
-                    "e.tbl_chartofaccount](T1.[tbl_chartofaccount.ID], T1.[tbl_chartofaccount.Account" +
-                    "No], T1.[tbl_chartofaccount.Name], T1.[tbl_chartofaccount.OpeningBalance], T1.[t" +
-                    "bl_chartofaccount.OpeningBalanceType], T1.[tbl_chartofaccount.TypeID], T1.[tbl_c" +
-                    "hartofaccount.SubTypeID], T1.[tbl_chartofaccount.Description], T1.[tbl_chartofac" +
-                    "count.Nature], T1.[tbl_chartofaccount.IsActive], T1.[tbl_chartofaccount.IsFixed]" +
-                    ", T1.[tbl_chartofaccount.LastActivityDate], T1.[tbl_chartofaccount.IsForReconcil" +
-                    "iation], T1.[tbl_chartofaccount.Balance], T1.[tbl_chartofaccount.IsRead], T1.[tb" +
-                    "l_chartofaccount.SystemSiteID], T1.[tbl_chartofaccount.UserDomainKey])\r\n    FROM" +
-                    " (\r\n        SELECT \r\n            T.Id AS [tbl_chartofaccount.ID], \r\n            " +
-                    "T.AccountNo AS [tbl_chartofaccount.AccountNo], \r\n            T.Name AS [tbl_char" +
-                    "tofaccount.Name], \r\n            T.OpeningBalance AS [tbl_chartofaccount.OpeningB" +
-                    "alance], \r\n            T.OpeningBalanceType AS [tbl_chartofaccount.OpeningBalanc" +
-                    "eType], \r\n            T.TypeId AS [tbl_chartofaccount.TypeID], \r\n            T.S" +
-                    "ubTypeId AS [tbl_chartofaccount.SubTypeID], \r\n            T.Description AS [tbl_" +
-                    "chartofaccount.Description], \r\n            T.Nature AS [tbl_chartofaccount.Natur" +
-                    "e], \r\n            T.IsActive AS [tbl_chartofaccount.IsActive], \r\n            T.I" +
-                    "sFixed AS [tbl_chartofaccount.IsFixed], \r\n            T.LastActivityDate AS [tbl" +
-                    "_chartofaccount.LastActivityDate], \r\n            T.IsForReconciliation AS [tbl_c" +
-                    "hartofaccount.IsForReconciliation], \r\n            T.Balance AS [tbl_chartofaccou" +
-                    "nt.Balance], \r\n            T.IsRead AS [tbl_chartofaccount.IsRead], \r\n          " +
-                    "  T.SystemSiteId AS [tbl_chartofaccount.SystemSiteID], \r\n            T.UserDomai" +
-                    "nKey AS [tbl_chartofaccount.UserDomainKey], \r\n            True AS _from0\r\n      " +
-                    "  FROM BaseDbContext.ChartOfAccounts AS T\r\n    ) AS T1");
-        }
-        
-        /// <Summary>
-        /// return view for BaseDbContext.ChartOfAccounts
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView1()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ChartOfAccounts", "\r\n    SELECT VALUE -- Constructing ChartOfAccounts\r\n        [DomainModels.ChartOf" +
-                    "Account](T1.ChartOfAccount_Id, T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Na" +
-                    "me, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType, T1.C" +
-                    "hartOfAccount_TypeId, T1.ChartOfAccount_SubTypeId, T1.ChartOfAccount_Description" +
-                    ", T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_IsFixe" +
-                    "d, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliation, T1" +
-                    ".ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_SystemSiteI" +
-                    "d, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n            T." +
-                    "ID AS ChartOfAccount_Id, \r\n            T.AccountNo AS ChartOfAccount_AccountNo, " +
-                    "\r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance AS C" +
-                    "hartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOfAccou" +
-                    "nt_OpeningBalanceType, \r\n            T.TypeID AS ChartOfAccount_TypeId, \r\n      " +
-                    "      T.SubTypeID AS ChartOfAccount_SubTypeId, \r\n            T.Description AS Ch" +
-                    "artOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, \r\n   " +
-                    "         T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS Chart" +
-                    "OfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastActivi" +
-                    "tyDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconciliatio" +
-                    "n, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRead AS " +
-                    "ChartOfAccount_IsRead, \r\n            T.SystemSiteID AS ChartOfAccount_SystemSite" +
-                    "Id, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n           " +
-                    " True AS _from0\r\n        FROM DomainModelsStoreContainer.tbl_chartofaccount AS T" +
-                    "\r\n    ) AS T1");
-        }
-        
-        /// <Summary>
         /// return view for DomainModelsStoreContainer.tbl_taxrate
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView2()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView0()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.tbl_taxrate", @"
     SELECT VALUE -- Constructing tbl_taxrate
@@ -160,7 +100,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.TaxRates
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView3()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView1()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TaxRates", @"
     SELECT VALUE -- Constructing TaxRates
@@ -185,7 +125,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Markup
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView4()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView2()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Markup", @"
     SELECT VALUE -- Constructing Markup
@@ -206,7 +146,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Markups
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView5()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView3()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Markups", @"
     SELECT VALUE -- Constructing Markups
@@ -227,7 +167,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Organisation
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView6()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView4()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2519);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisation\r\n        [DomainModels.Store.Org");
@@ -268,7 +208,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Organisations
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView7()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView5()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2526);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
@@ -304,6 +244,64 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ganisation_UserDomainKey, \r\n            True AS _from0\r\n        FROM DomainModel");
             viewString.Append("sStoreContainer.Organisation AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ChartOfAccount
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView6()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ChartOfAccount", "\r\n    SELECT VALUE -- Constructing ChartOfAccount\r\n        [DomainModels.Store.Ch" +
+                    "artOfAccount](T1.ChartOfAccount_ID, T1.ChartOfAccount_AccountNo, T1.ChartOfAccou" +
+                    "nt_Name, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType," +
+                    " T1.ChartOfAccount_TypeID, T1.ChartOfAccount_SubTypeID, T1.ChartOfAccount_Descri" +
+                    "ption, T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_I" +
+                    "sFixed, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliatio" +
+                    "n, T1.ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_System" +
+                    "SiteID, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n         " +
+                    "   T.Id AS ChartOfAccount_ID, \r\n            T.AccountNo AS ChartOfAccount_Accoun" +
+                    "tNo, \r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance" +
+                    " AS ChartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOf" +
+                    "Account_OpeningBalanceType, \r\n            T.TypeId AS ChartOfAccount_TypeID, \r\n " +
+                    "           T.SubTypeId AS ChartOfAccount_SubTypeID, \r\n            T.Description " +
+                    "AS ChartOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, " +
+                    "\r\n            T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS " +
+                    "ChartOfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastA" +
+                    "ctivityDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconcil" +
+                    "iation, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRea" +
+                    "d AS ChartOfAccount_IsRead, \r\n            T.SystemSiteId AS ChartOfAccount_Syste" +
+                    "mSiteID, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n      " +
+                    "      True AS _from0\r\n        FROM BaseDbContext.ChartOfAccounts AS T\r\n    ) AS " +
+                    "T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ChartOfAccounts
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView7()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ChartOfAccounts", "\r\n    SELECT VALUE -- Constructing ChartOfAccounts\r\n        [DomainModels.ChartOf" +
+                    "Account](T1.ChartOfAccount_Id, T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Na" +
+                    "me, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType, T1.C" +
+                    "hartOfAccount_TypeId, T1.ChartOfAccount_SubTypeId, T1.ChartOfAccount_Description" +
+                    ", T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_IsFixe" +
+                    "d, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliation, T1" +
+                    ".ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_SystemSiteI" +
+                    "d, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n            T." +
+                    "ID AS ChartOfAccount_Id, \r\n            T.AccountNo AS ChartOfAccount_AccountNo, " +
+                    "\r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance AS C" +
+                    "hartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOfAccou" +
+                    "nt_OpeningBalanceType, \r\n            T.TypeID AS ChartOfAccount_TypeId, \r\n      " +
+                    "      T.SubTypeID AS ChartOfAccount_SubTypeId, \r\n            T.Description AS Ch" +
+                    "artOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, \r\n   " +
+                    "         T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS Chart" +
+                    "OfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastActivi" +
+                    "tyDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconciliatio" +
+                    "n, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRead AS " +
+                    "ChartOfAccount_IsRead, \r\n            T.SystemSiteID AS ChartOfAccount_SystemSite" +
+                    "Id, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n           " +
+                    " True AS _from0\r\n        FROM DomainModelsStoreContainer.ChartOfAccount AS T\r\n  " +
+                    "  ) AS T1");
         }
     }
 }
