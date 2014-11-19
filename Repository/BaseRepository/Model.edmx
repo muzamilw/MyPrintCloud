@@ -211,7 +211,7 @@
           <Property Name="Area" Type="Double" />
           <Property Name="IsFixed" Type="Int32" Nullable="false" />
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="isArchived" Type="Boolean" />
+          <Property Name="IsArchived" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -307,7 +307,7 @@
           <EntitySetMapping Name="PaperSizes">
             <EntityTypeMapping TypeName="DomainModels.PaperSize">
               <MappingFragment StoreEntitySet="tbl_papersize">
-                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
                 <ScalarProperty Name="Area" ColumnName="Area" />
