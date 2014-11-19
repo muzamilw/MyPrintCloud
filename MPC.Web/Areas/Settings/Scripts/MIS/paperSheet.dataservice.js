@@ -11,21 +11,21 @@ define("paperSheet/paperSheet.dataservice", function () {
             initialize = function () {
                 if (!isInitialized) {
 
-                    // Define request to get My Organization base 
+                    // Define request to get Paper Sheets 
                     amplify.request.define('getPaperSheets', 'ajax', {
-                        url: ist.siteUrl + '/Api/Get',
+                        url: ist.siteUrl + '/Api/PaperSheet',
                         dataType: 'json',
                         type: 'GET'
                     });
                     // Define request to get My Organization detail
                     amplify.request.define('getPaperSheetDetail', 'ajax', {
-                        url: ist.siteUrl + '/Api/Get',
+                        url: ist.siteUrl + '/Api/PaperSheet',
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to save My Organization
-                    amplify.request.define('saveMyOrganization', 'ajax', {
-                        url: ist.siteUrl + '/Api/Add',
+                    // Define request to save paper Sheet
+                    amplify.request.define('saveMyPaperSheet', 'ajax', {
+                        url: ist.siteUrl + '/Api/PaperSheet',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
@@ -33,17 +33,17 @@ define("paperSheet/paperSheet.dataservice", function () {
                     isInitialized = true;
                 }
             },
-            // Get My Organization Base
-            getMyOrganizationBase = function (callbacks) {
+            // getPaperSheets
+            getPaperSheets = function (callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getMyOrganizationBase',
+                    resourceId: 'getPaperSheets',
                     success: callbacks.success,
                     error: callbacks.error,
                 });
             },
-            // Get My Organization by id 
-            getMyOrganizationDetail = function (params, callbacks) {
+            // getPaperSheetDetail
+            getPaperSheetDetail = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getPaperSheetDetail',
@@ -53,10 +53,10 @@ define("paperSheet/paperSheet.dataservice", function () {
                 });
             },
             // Save My Organization
-            saveMyOrganization = function (param, callbacks) {
+            saveMyPaperSheet = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'saveMyOrganization',
+                    resourceId: 'saveMyPaperSheet',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
@@ -64,9 +64,9 @@ define("paperSheet/paperSheet.dataservice", function () {
             };
 
         return {
-            getMyOrganizationBase: getMyOrganizationBase,
-            getMyOrganizationDetail: getMyOrganizationDetail,
-            saveMyOrganization: saveMyOrganization,
+            getPaperSheets: getPaperSheets,
+            getPaperSheetDetail: getPaperSheetDetail,
+            saveMyPaperSheet: saveMyPaperSheet,
         };
     })();
 

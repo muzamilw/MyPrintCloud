@@ -35,7 +35,7 @@ define("paperSheet/paperSheet.viewModel",
                         //isEditable(true);
                     },
                     createNewPaperSheet = function () {
-                        //$('#myModal').modal('show');
+                        $('#myModal').modal('show');
                         var paperSheet = paperSheets()[0];
                         if (paperSheet.name() !== undefined)//&& paperSheet.tax1() !== undefined
                         {
@@ -55,7 +55,7 @@ define("paperSheet/paperSheet.viewModel",
                     },
                     getPaperSheets = function (paperSheet) {
                         isLoadingPaperSheet(true);
-                        dataservice.getPaperSheetDetail(model.paperSheetClientMapper(paperSheet), {
+                        dataservice.getPaperSheets({
                             success: function (data) {
                                 paperSheets.removeAll();
                                 if (data != null) {
@@ -132,7 +132,6 @@ define("paperSheet/paperSheet.viewModel",
                 return {
                     paperSheets: paperSheets,
                     selectedPaperSheet: selectedPaperSheet,
-                    getBase: getBase,
                     isLoadingPaperSheet: isLoadingPaperSheet,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,

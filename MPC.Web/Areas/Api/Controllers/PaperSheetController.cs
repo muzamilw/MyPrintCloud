@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
 using System.Web.Mvc;
 using MPC.Interfaces.IServices;
 using MPC.Models.DomainModels;
@@ -8,7 +9,7 @@ using MPC.Web.Models;
 
 namespace MPC.Web.Areas.Api.Controllers
 {
-    public class PaperSheetController : Controller
+    public class PaperSheetController : ApiController
     {
         private readonly IPaperSheetService paperSheetService;
 

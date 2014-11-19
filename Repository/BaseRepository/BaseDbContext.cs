@@ -77,7 +77,7 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Page Sizes Db Set
         /// </summary>
-        public DbSet<PaperSize> PaperSizes{ get; set; }}
+        public DbSet<PaperSize> PaperSizes{ get; set; }
         #endregion
     }
 }
