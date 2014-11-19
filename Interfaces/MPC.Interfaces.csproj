@@ -57,6 +57,7 @@
     <Compile Include="Repository\IChartOfAccountRepository.cs" />
     <Compile Include="Repository\ICompanySitesRepository.cs" />
     <Compile Include="Repository\IMarkupRepository.cs" />
+    <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
   </ItemGroup>
   <ItemGroup>

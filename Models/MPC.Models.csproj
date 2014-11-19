@@ -102,6 +102,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\PaperSize.cs" />
     <Compile Include="DomainModels\TaxRate.cs" />
     <Compile Include="DomainModels\Markup.cs" />
     <Compile Include="DomainModels\CompanySites.cs" />
