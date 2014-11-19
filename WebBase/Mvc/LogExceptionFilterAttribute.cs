@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
-//using MPC.DatabaseLogger;
-
 using MPC.ExceptionHandling;
 using MPC.ExceptionHandling.Logger;
 using MPC.Interfaces.Logger;
+using MPC.WebBase.UnityConfiguration;
 
 namespace MPC.WebBase.Mvc
 {
@@ -21,10 +20,18 @@ namespace MPC.WebBase.Mvc
     {
         #region Private
 
-        private readonly IMPCLogger mpcLogger;
-        public LogExceptionFilterAttribute(IMPCLogger mpcLogger)
+        private static IMPCLogger mpcLogger;
+        /// <summary>
+        /// Get Configured logger
+        /// </summary>
+        private static IMPCLogger MPCLogger
         {
-            this.mpcLogger = mpcLogger;
+            get
+            {
+                if (mpcLogger != null) return mpcLogger;
+                mpcLogger = (UnityConfig.GetConfiguredContainer()).Resolve<IMPCLogger>();
+                return mpcLogger;
+            }
         }
         /// <summary>
         /// Route data prefix
@@ -44,11 +51,11 @@ namespace MPC.WebBase.Mvc
                 MPCException execption = filterContext.Exception as MPCException;
                 if (execption != null)
                 {
-                    mpcLogger.Write(execption, MPCLogCategory.Warning, 1, 0, TraceEventType.Information, MPCLogCategory.Warning, properties);
+                    MPCLogger.Write(execption, MPCLogCategory.Warning, 1, 0, TraceEventType.Information, MPCLogCategory.Warning, properties);
                 }
                 else
                 {
-                    mpcLogger.Write(filterContext.Exception, MPCLogCategory.Error, 1, 0, TraceEventType.Critical, MPCLogCategory.Error, properties);
+                    MPCLogger.Write(filterContext.Exception, MPCLogCategory.Error, 1, 0, TraceEventType.Critical, MPCLogCategory.Error, properties);
                 }                  
             }
         }
