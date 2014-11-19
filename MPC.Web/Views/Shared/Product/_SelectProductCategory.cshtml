@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "Category List";
+}
+
+<div class="modal fade" id="selectCAT" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width:45%;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Categories</h4>
+            </div>
+            <div class="col-lg-12">
+                <div style="padding-right: 5px;" id="nestable2">
+                    <ol class="dd-list">
+                        <li class="dd-item dd-item-list" data-id="13">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                Marketing Material
+                                <div class="nested-links" style="margin-top: -3px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-9" checked="checked" />
+                                        <label for="checkbox-9">
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dd-item dd-item-list" data-id="14">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                Business Stationery
+                                <div class="nested-links" style="margin-top: -3px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-8" />
+                                        <label for="checkbox-8">
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dd-item dd-item-list" data-id="15">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                Business Cards
+                                <div class="nested-links" style="margin-top: -3px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-7" />
+                                        <label for="checkbox-7">
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <ol class="dd-list">
+                                <li class="dd-item dd-item-list" data-id="16">
+                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle red-bg txt-white-hover">
+                                        Letterheads
+                                        <div class="nested-links" style="margin-top: -3px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="checkbox-6" />
+                                                <label for="checkbox-6">
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dd-item dd-item-list" data-id="17">
+                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle yellow-bg txt-white-hover">
+                                        Compliment Slips
+                                        <div class="nested-links" style="margin-top: -3px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="checkbox-5" />
+                                                <label for="checkbox-5">
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dd-item dd-item-list" data-id="18">
+                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle green-bg txt-white-hover">
+                                        Envelopes
+                                        <div class="nested-links" style="margin-top: -3px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="checkbox-1" />
+                                                <label for="checkbox-1">
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="dd-item dd-item-list" data-id="19">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                Flyers
+                                <div class="nested-links" style="margin-top: -3px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-10" />
+                                        <label for="checkbox-10">
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dd-item dd-item-list" data-id="20">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                Posters & Postcards
+                                <div class="nested-links" style="margin-top: -3px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-2" />
+                                        <label for="checkbox-2">
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dd-item dd-item-list" data-id="21">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                Retail and POS
+                                <div class="nested-links" style="margin-top: -3px;">
+                                  <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-3" />
+                                        <label for="checkbox-3">
+
+                                        </label>
+                                    </div> 
+                                </div>
+                            </div>
+                            <ol class="dd-list">
+                                <li class="dd-item dd-item-list" data-id="22">
+                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle">
+                                        Banners
+                                        <div class="nested-links" style="margin-top: -3px;">
+                                            @*<a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category">*@<div class="checkbox-nice">
+                                                <input type="checkbox" id="checkbox-4"  />
+                                                <label for="checkbox-4">
+      
+                                                </label>
+                                            </div> @*</a>*@
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dd-item dd-item-list" data-id="23">
+                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle">
+                                        Frames
+                                        <div class="nested-links" style="margin-top: -3px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="checkbox-8" />
+                                                <label for="checkbox-8">
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="dd-item dd-item-list" data-id="24">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                Events and Exhibitions
+                                <div class="nested-links" style="margin-top: -3px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="checkbox-9" />
+                                        <label for="checkbox-9">
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* Wizard Popup ends here*@
