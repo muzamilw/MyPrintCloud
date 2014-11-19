@@ -1,6 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿namespace MPC.Web.Models
 {
-    public class PaperSize
+    public class PaperSheet
     {
         #region Persisted Properties
         public int PaperSizeId { get; set; }

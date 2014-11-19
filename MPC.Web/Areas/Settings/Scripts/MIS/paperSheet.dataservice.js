@@ -12,20 +12,20 @@ define("paperSheet/paperSheet.dataservice", function () {
                 if (!isInitialized) {
 
                     // Define request to get My Organization base 
-                    amplify.request.define('getPaperSheet', 'ajax', {
-                        url: ist.siteUrl + '/Api/MyOrganizationBase',
+                    amplify.request.define('getPaperSheets', 'ajax', {
+                        url: ist.siteUrl + '/Api/Get',
                         dataType: 'json',
                         type: 'GET'
                     });
                     // Define request to get My Organization detail
                     amplify.request.define('getPaperSheetDetail', 'ajax', {
-                        url: ist.siteUrl + '/Api/MyOrganization',
+                        url: ist.siteUrl + '/Api/Get',
                         dataType: 'json',
                         type: 'GET'
                     });
                     // Define request to save My Organization
                     amplify.request.define('saveMyOrganization', 'ajax', {
-                        url: ist.siteUrl + '/Api/MyOrganization',
+                        url: ist.siteUrl + '/Api/Add',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'

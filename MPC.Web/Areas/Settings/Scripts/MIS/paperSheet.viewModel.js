@@ -11,27 +11,6 @@ define("paperSheet/paperSheet.viewModel",
                     view,
                     paperSheets = ko.observableArray([]),
                     selectedPaperSheet = ko.observable(),
-                     getBase = function (callBack) {
-                         //dataservice.getPaperSheets({
-                         //    success: function (data) {
-                         //        //Tax Rates
-                         //        taxRates.removeAll();
-                         //        var taxRateList = [];
-                         //        _.each(data.TaxRates, function (item) {
-                         //            var taxRate = new model.TaxRateClientMapper(item);
-                         //            taxRateList.push(taxRate);
-                         //        });
-                         //        ko.utils.arrayPushAll(taxRates(), taxRateList);
-                         //        taxRates.valueHasMutated();
-                         //        if (callBack && typeof callBack === 'function') {
-                         //            callBack();
-                         //        }
-                         //    },
-                         //    error: function () {
-                         //        toastr.error(ist.resourceText.loadBaseDataFailedMsg);
-                         //    }
-                         //});
-                     },//todo
                     isLoadingPaperSheet = ko.observable(false),
                     sortOn = ko.observable(1),
                     sortIsAsc = ko.observable(true),
@@ -56,6 +35,7 @@ define("paperSheet/paperSheet.viewModel",
                         //isEditable(true);
                     },
                     createNewPaperSheet = function () {
+                        //$('#myModal').modal('show');
                         var paperSheet = paperSheets()[0];
                         if (paperSheet.name() !== undefined)//&& paperSheet.tax1() !== undefined
                         {
@@ -77,6 +57,16 @@ define("paperSheet/paperSheet.viewModel",
                         isLoadingPaperSheet(true);
                         dataservice.getPaperSheetDetail(model.paperSheetClientMapper(paperSheet), {
                             success: function (data) {
+                                paperSheets.removeAll();
+                                if (data != null) {
+                                    _.each(data.PaperSheets, function (item) {
+                                        var module = model.paperSheetClientMapper(item);
+                                        paperSheets.push(module);
+                                    });
+                                    if (paperSheets().length > 0) {
+                                        selectedPaperSheet(paperSheets()[0]);
+                                    }
+                                }
                                 isLoadingPaperSheet(false);
                             },
                             error: function () {
@@ -132,7 +122,6 @@ define("paperSheet/paperSheet.viewModel",
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
-                        getBase();
                         getPaperSheets();
                         // Set Pager
                         //pager(new pagination.Pagination({}, additionalTypeCharges, getAdditionalCharges));

@@ -17,6 +17,11 @@
                 </ol>
                 <div class="clearfix">
                     <h1 class="pull-left">Paper Sheets</h1>
+
+                        <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                            <i class="fa fa-lg"></i>&nbsp;....
+                        </a>
+
                     <div class="pull-right top-page-ui">
                         <a data-toggle="modal" data-bind="click: $root.createNewPaperSheet" class=" btn btn-primary">
                             <i class="fa fa-plus-circle fa-lg"></i>Add Paper Sheet
@@ -51,20 +56,6 @@
                                         <!-- /ko -->
                                         <!-- ko if: !($root.paperSheets().length > 0) -->
                                         <!-- /ko -->
-                                        @*<td>
-                                                <a href="/CRM/CompaniesDetail" class="user-link">Unbound Prints</a>
-                                            </td>
-                                            <td>
-                                                2013/08/08
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-default">Inactive</span>
-                                            </td>
-                                            <td>
-                                            </td>
-                                            <td style="width: 20%;">
-
-                                            </td>*@
                                     </tr>
                                 </tbody>
                             </table>
@@ -74,11 +65,7 @@
                     </div>
                 </div>
                 <div id="pagerDiv">
-                    @*<ul class="pagination pull-right">
-                            <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                        </ul>*@
+                    
                 </div>
 
             </div>
@@ -107,7 +94,6 @@
     </script>
     <script id="itemPaperSheet" type="text/html">
         <tr data-bind="click: $root.selectPaperSheet, css: { selectedRow: $data === $root.selectedPaperSheet()}">
-
             <td data-bind="text: name"></td>
             <td data-bind="text: height"></td>
             <td data-bind="text: weight"></td>
@@ -118,6 +104,7 @@
         </tr>
     </script>
 </div>
+@Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
 
 @section Scripts{
 

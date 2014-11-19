@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MyOrganizationService.cs" />
+    <Compile Include="Services\PaperSheetService.cs" />
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>
   <ItemGroup>
