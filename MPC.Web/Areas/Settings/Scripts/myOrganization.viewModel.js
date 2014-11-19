@@ -225,14 +225,21 @@ define("myOrganization/myOrganization.viewModel",
                     // Save My Organization
                     onSaveMyOrganization = function (myOrg) {
                         if (doBeforeSave()) {
+                            //Markup List
                             if (myOrg.markupsInMyOrganization.length !== 0) {
                                 myOrg.markupsInMyOrganization.removeAll();
                             }
                             ko.utils.arrayPushAll(myOrg.markupsInMyOrganization(), markups());
+                            //Tax Rate List
                             if (myOrg.taxRatesInMyOrganization.length !== 0) {
                                 myOrg.taxRatesInMyOrganization.removeAll();
                             }
                             ko.utils.arrayPushAll(myOrg.taxRatesInMyOrganization(), taxRates());
+                            //Chart of Accounts List
+                            if (myOrg.chartOfAccountsInMyOrganization.length !== 0) {
+                                myOrg.chartOfAccountsInMyOrganization.removeAll();
+                            }
+                            ko.utils.arrayPushAll(myOrg.chartOfAccountsInMyOrganization(), chartOfAccounts);
                             saveMyOrganization(myOrg);
                         }
                     },

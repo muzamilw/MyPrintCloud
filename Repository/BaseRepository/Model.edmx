@@ -179,7 +179,7 @@
           <Property Name="LanguageId" Type="Int32" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="MarkUp">
+        <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
           </Key>
@@ -208,7 +208,7 @@
         <EntityContainer Name="BaseDbContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
           <EntitySet Name="Organisations" EntityType="DomainModels.Organisation" />
-          <EntitySet Name="MarkUps" EntityType="DomainModels.MarkUp" />
+          <EntitySet Name="Markups1" EntityType="DomainModels.Markup" />
           <EntitySet Name="TaxRates" EntityType="DomainModels.TaxRate" />
         </EntityContainer>
       </Schema>
@@ -288,8 +288,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MarkUps">
-            <EntityTypeMapping TypeName="DomainModels.MarkUp">
+          <EntitySetMapping Name="Markups1">
+            <EntityTypeMapping TypeName="DomainModels.Markup">
               <MappingFragment StoreEntitySet="tbl_markup">
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="MarkUpId" ColumnName="MarkUpID" />

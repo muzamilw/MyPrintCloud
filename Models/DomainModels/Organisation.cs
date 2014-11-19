@@ -1,22 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MPC.Web.Models
+namespace MPC.Models.DomainModels
 {
     /// <summary>
-    /// Company Sites Web Model
+    /// Company Sites
     /// </summary>
-    public class CompanySites
+    public class Organisation
     {
-        #region Properties
+        #region Persisted Properties
+
         /// <summary>
         /// Unique Id
         /// </summary>
-        public int CompanySiteId { get; set; }
+        public int OrganisationId { get; set; }
 
         /// <summary>
         /// Company Site Name
         /// </summary>
-        public string CompanySiteName { get; set; }
+        public string OrganisationName { get; set; }
 
         /// <summary>
         /// Address 1
@@ -213,18 +215,32 @@ namespace MPC.Web.Models
         /// </summary>
         public int? LanguageId { get; set; }
 
+        /// <summary>
+        /// User Domain Key
+        /// </summary>
+        public int UserDomainKey { get; set; }
+
         #endregion
 
-        #region
+        #region Reference Properties
         /// <summary>
-        /// Tax Rates
+        /// Tax Rate List
         /// </summary>
+        [NotMapped]
         public List<TaxRate> TaxRates { get; set; }
 
         /// <summary>
-        /// Markups
+        /// Markup List
         /// </summary>
+        [NotMapped]
         public List<Markup> Markups { get; set; }
+
+        /// <summary>
+        /// Chart Of Accounts List
+        /// </summary>
+        [NotMapped]
+        public List<ChartOfAccount> ChartOfAccounts { get; set; }
+
         #endregion
     }
 }

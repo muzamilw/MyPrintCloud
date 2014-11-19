@@ -3,7 +3,7 @@
     /// <summary>
     /// Markup
     /// </summary>
-    public class MarkUp
+    public class Markup
     {
         #region Persisted Properties
 

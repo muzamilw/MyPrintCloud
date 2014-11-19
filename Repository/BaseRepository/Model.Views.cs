@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets5C9B802AC844FDAB09DF8A61E936F447BAC34F833CCAD202DB6406F8F48AEAC1))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsB6DE45C74AA475802CDF2ACDDBEB1C5631A97E83054DF605E465647E1BFE905A))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets5C9B802AC844FDAB09DF8A61E936F447BAC34F833CCAD202DB6406F8F48AEAC1 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsB6DE45C74AA475802CDF2ACDDBEB1C5631A97E83054DF605E465647E1BFE905A : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets5C9B802AC844FDAB09DF8A61E936F447BAC34F833CCAD202DB6406F8F48AEAC1()
+        public ViewsForBaseEntitySetsB6DE45C74AA475802CDF2ACDDBEB1C5631A97E83054DF605E465647E1BFE905A()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "29e535ea70056cf84a9024aa75663f5cc55ac76ee28eb2f650142a10a38ef3d1";
-            this.HashOverAllExtentViews = "464d6582432f1df41e0503498de643e251b0862f9a7c42f579648d73263e59a4";
+            this.HashOverMappingClosure = "e7cff06d109fcc14ceac8b1b375f750612fe057f2ae4e7bfbb4fb7d6dc47d73a";
+            this.HashOverAllExtentViews = "5b52b884e8b333646a1c6b75fc5d128b34fb335b63ae4515546ec44bd123f2f8";
             this.ViewCount = 8;
         }
         
@@ -268,26 +268,26 @@ namespace Edm_EntityMappingGeneratedViews
             T.SystemSiteId AS [tbl_markup.SystemSiteID], 
             T.UserDomainKey AS [tbl_markup.UserDomainKey], 
             True AS _from0
-        FROM BaseDbContext.MarkUps AS T
+        FROM BaseDbContext.Markups1 AS T
     ) AS T1");
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.MarkUps
+        /// return view for BaseDbContext.Markups1
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView5()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MarkUps", @"
-    SELECT VALUE -- Constructing MarkUps
-        [DomainModels.MarkUp](T1.MarkUp_MarkUpId, T1.MarkUp_MarkUpName, T1.MarkUp_MarkUpRate, T1.MarkUp_IsFixed, T1.MarkUp_SystemSiteId, T1.MarkUp_UserDomainKey)
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Markups1", @"
+    SELECT VALUE -- Constructing Markups1
+        [DomainModels.Markup](T1.Markup_MarkUpId, T1.Markup_MarkUpName, T1.Markup_MarkUpRate, T1.Markup_IsFixed, T1.Markup_SystemSiteId, T1.Markup_UserDomainKey)
     FROM (
         SELECT 
-            T.MarkUpID AS MarkUp_MarkUpId, 
-            T.MarkUpName AS MarkUp_MarkUpName, 
-            T.MarkUpRate AS MarkUp_MarkUpRate, 
-            T.IsFixed AS MarkUp_IsFixed, 
-            T.SystemSiteID AS MarkUp_SystemSiteId, 
-            T.UserDomainKey AS MarkUp_UserDomainKey, 
+            T.MarkUpID AS Markup_MarkUpId, 
+            T.MarkUpName AS Markup_MarkUpName, 
+            T.MarkUpRate AS Markup_MarkUpRate, 
+            T.IsFixed AS Markup_IsFixed, 
+            T.SystemSiteID AS Markup_SystemSiteId, 
+            T.UserDomainKey AS Markup_UserDomainKey, 
             True AS _from0
         FROM DomainModelsStoreContainer.tbl_markup AS T
     ) AS T1");

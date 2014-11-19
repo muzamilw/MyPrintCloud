@@ -6,7 +6,7 @@ namespace MPC.Interfaces.Repository
     /// <summary>
     /// Company Sites Repository Interface
     /// </summary>
-    public interface ICompanySitesRepository : IBaseRepository<CompanySites, long>
+    public interface IOrganisationRepository : IBaseRepository<Organisation, long>
     {
     }
 }

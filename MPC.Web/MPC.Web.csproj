@@ -259,12 +259,11 @@
     </Compile>
     <Compile Include="Helper\CultureHelper.cs" />
     <Compile Include="ModelMappers\ChartOfAccountMapper.cs" />
-    <Compile Include="ModelMappers\CompanySitesMapper.cs" />
     <Compile Include="ModelMappers\MarkupMapper.cs" />
     <Compile Include="ModelMappers\MyOrganizationMapper.cs" />
     <Compile Include="ModelMappers\TaxRateMapper.cs" />
     <Compile Include="Models\ChartOfAccount.cs" />
-    <Compile Include="Models\CompanySites.cs" />
+    <Compile Include="Models\Organisation.cs" />
     <Compile Include="Models\Markup.cs" />
     <Compile Include="Models\TaxRate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

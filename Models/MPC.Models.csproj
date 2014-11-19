@@ -104,7 +104,7 @@
   <ItemGroup>
     <Compile Include="DomainModels\TaxRate.cs" />
     <Compile Include="DomainModels\Markup.cs" />
-    <Compile Include="DomainModels\CompanySites.cs" />
+    <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\ChartOfAccount.cs" />
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />

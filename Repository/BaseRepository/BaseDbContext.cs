@@ -65,7 +65,7 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// MarkUp Db Set
         /// </summary>
-        public DbSet<MarkUp> MarkUps { get; set; }
+        public DbSet<Markup> Markups { get; set; }
         /// <summary>
         /// Tax Rate Db Set
         /// </summary>
