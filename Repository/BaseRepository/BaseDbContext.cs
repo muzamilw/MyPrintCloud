@@ -74,6 +74,10 @@ namespace MPC.Repository.BaseRepository
         /// Chart Of Account Db Set
         /// </summary>
         public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
+        /// <summary>
+        /// Page Sizes Db Set
+        /// </summary>
+        public DbSet<PaperSize> PaperSizes{ get; set; }}
         #endregion
     }
 }

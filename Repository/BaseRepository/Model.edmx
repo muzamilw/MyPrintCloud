@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tbl_chartofaccount">
           <Key>
             <PropertyRef Name="ID" />
@@ -27,53 +27,6 @@
           <Property Name="SystemSiteID" Type="int" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="tbl_company_sites">
-          <Key>
-            <PropertyRef Name="CompanySiteID" />
-          </Key>
-          <Property Name="CompanySiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CompanySiteName" Type="varchar" MaxLength="100" />
-          <Property Name="Address1" Type="varchar" MaxLength="255" />
-          <Property Name="Address2" Type="varchar" MaxLength="255" />
-          <Property Name="Address3" Type="varchar" MaxLength="255" />
-          <Property Name="City" Type="varchar" MaxLength="50" />
-          <Property Name="State" Type="varchar" MaxLength="100" />
-          <Property Name="Country" Type="varchar" MaxLength="100" />
-          <Property Name="ZipCode" Type="varchar" MaxLength="50" />
-          <Property Name="Tel" Type="varchar" MaxLength="50" />
-          <Property Name="Fax" Type="varchar" MaxLength="50" />
-          <Property Name="Mobile" Type="varchar" MaxLength="50" />
-          <Property Name="Email" Type="varchar" MaxLength="50" />
-          <Property Name="URL" Type="varchar" MaxLength="50" />
-          <Property Name="CompanyID" Type="int" />
-          <Property Name="StateTaxID" Type="int" />
-          <Property Name="Tax1" Type="varchar" MaxLength="50" />
-          <Property Name="Tax2" Type="varchar" MaxLength="50" />
-          <Property Name="Tax3" Type="varchar" MaxLength="50" />
-          <Property Name="ProductionManagerID" Type="int" />
-          <Property Name="MarkupID" Type="int" />
-          <Property Name="OrderManagerID" Type="int" />
-          <Property Name="WebsiteLogo" Type="nvarchar" MaxLength="200" />
-          <Property Name="MISLogo" Type="nvarchar" MaxLength="200" />
-          <Property Name="Tax2ID" Type="int" />
-          <Property Name="Tax3ID" Type="int" />
-          <Property Name="TaxRegistrationNo" Type="varchar" MaxLength="100" />
-          <Property Name="PaymentBusinessEmail" Type="varchar" MaxLength="500" />
-          <Property Name="PaymentIdentityToken" Type="varchar" MaxLength="200" />
-          <Property Name="PaymentGatewayID" Type="int" />
-          <Property Name="LicenseLevel" Type="int" />
-          <Property Name="CustomerID" Type="int" />
-          <Property Name="CustomerAccountNumber" Type="varchar" MaxLength="50" />
-          <Property Name="SmtpServer" Type="varchar" MaxLength="200" />
-          <Property Name="SmtpUserName" Type="varchar" MaxLength="200" />
-          <Property Name="SmtpPassword" Type="varchar" MaxLength="200" />
-          <Property Name="VATRegNumber" Type="varchar" MaxLength="100" />
-          <Property Name="SystemLengthUnit" Type="int" />
-          <Property Name="SystemWeightUnit" Type="int" />
-          <Property Name="CurrencyID" Type="int" />
-          <Property Name="LanguageID" Type="int" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="tbl_markup">
           <Key>
             <PropertyRef Name="MarkUpID" />
@@ -84,6 +37,20 @@
           <Property Name="IsFixed" Type="int" />
           <Property Name="SystemSiteID" Type="int" Nullable="false" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_papersize">
+          <Key>
+            <PropertyRef Name="PaperSizeID" />
+          </Key>
+          <Property Name="PaperSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Height" Type="float" />
+          <Property Name="Width" Type="float" />
+          <Property Name="SizeMeasure" Type="int" />
+          <Property Name="Area" Type="float" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isArchived" Type="bit" />
         </EntityType>
         <EntityType Name="tbl_taxrate">
           <Key>
@@ -102,8 +69,8 @@
         </EntityType>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="tbl_chartofaccount" EntityType="Self.tbl_chartofaccount" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_company_sites" EntityType="Self.tbl_company_sites" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_markup" EntityType="Self.tbl_markup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_papersize" EntityType="Self.tbl_papersize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_taxrate" EntityType="Self.tbl_taxrate" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -210,7 +177,22 @@
           <EntitySet Name="CompanySites" EntityType="DomainModels.CompanySites" />
           <EntitySet Name="MarkUps" EntityType="DomainModels.MarkUp" />
           <EntitySet Name="TaxRates" EntityType="DomainModels.TaxRate" />
+          <EntitySet Name="PaperSizes" EntityType="DomainModels.PaperSize" />
         </EntityContainer>
+        <EntityType Name="PaperSize">
+          <Key>
+            <PropertyRef Name="PaperSizeId" />
+          </Key>
+          <Property Name="PaperSizeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Height" Type="Double" />
+          <Property Name="Width" Type="Double" />
+          <Property Name="SizeMeasure" Type="Int32" />
+          <Property Name="Area" Type="Double" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsArchived" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -240,54 +222,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CompanySites">
-            <EntityTypeMapping TypeName="DomainModels.CompanySites">
-              <MappingFragment StoreEntitySet="tbl_company_sites">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="CompanySiteId" ColumnName="CompanySiteID" />
-                <ScalarProperty Name="CompanySiteName" ColumnName="CompanySiteName" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="Tel" ColumnName="Tel" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Url" ColumnName="URL" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyID" />
-                <ScalarProperty Name="StateTaxId" ColumnName="StateTaxID" />
-                <ScalarProperty Name="Tax1" ColumnName="Tax1" />
-                <ScalarProperty Name="Tax2" ColumnName="Tax2" />
-                <ScalarProperty Name="Tax3" ColumnName="Tax3" />
-                <ScalarProperty Name="ProductionManagerId" ColumnName="ProductionManagerID" />
-                <ScalarProperty Name="MarkupId" ColumnName="MarkupID" />
-                <ScalarProperty Name="OrderManagerId" ColumnName="OrderManagerID" />
-                <ScalarProperty Name="WebsiteLogo" ColumnName="WebsiteLogo" />
-                <ScalarProperty Name="MisLogo" ColumnName="MISLogo" />
-                <ScalarProperty Name="Tax2Id" ColumnName="Tax2ID" />
-                <ScalarProperty Name="Tax3Id" ColumnName="Tax3ID" />
-                <ScalarProperty Name="TaxRegistrationNo" ColumnName="TaxRegistrationNo" />
-                <ScalarProperty Name="PaymentBusinessEmail" ColumnName="PaymentBusinessEmail" />
-                <ScalarProperty Name="PaymentIdentityToken" ColumnName="PaymentIdentityToken" />
-                <ScalarProperty Name="PaymentGatewayId" ColumnName="PaymentGatewayID" />
-                <ScalarProperty Name="LicenseLevel" ColumnName="LicenseLevel" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerAccountNumber" ColumnName="CustomerAccountNumber" />
-                <ScalarProperty Name="SmtpServer" ColumnName="SmtpServer" />
-                <ScalarProperty Name="SmtpUserName" ColumnName="SmtpUserName" />
-                <ScalarProperty Name="SmtpPassword" ColumnName="SmtpPassword" />
-                <ScalarProperty Name="VatRegNumber" ColumnName="VATRegNumber" />
-                <ScalarProperty Name="SystemLengthUnit" ColumnName="SystemLengthUnit" />
-                <ScalarProperty Name="SystemWeightUnit" ColumnName="SystemWeightUnit" />
-                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyID" />
-                <ScalarProperty Name="LanguageId" ColumnName="LanguageID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MarkUps">
             <EntityTypeMapping TypeName="DomainModels.MarkUp">
               <MappingFragment StoreEntitySet="tbl_markup">
@@ -313,6 +247,21 @@
                 <ScalarProperty Name="Tax2" ColumnName="Tax2" />
                 <ScalarProperty Name="Tax3" ColumnName="Tax3" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperSizes">
+            <EntityTypeMapping TypeName="DomainModels.PaperSize">
+              <MappingFragment StoreEntitySet="tbl_papersize">
+                <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="SizeMeasure" ColumnName="SizeMeasure" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaperSizeId" ColumnName="PaperSizeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

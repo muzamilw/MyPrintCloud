@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "PaperSheet";
+}
+@section leftmenue {
+
+}
+
+<div class="row" id="paperSheetBinding">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+
+                    <li class="active"><span>Paper Sheets</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Paper Sheets</h1>
+                    <div class="pull-right top-page-ui">
+                        <a data-toggle="modal" data-bind="click: $root.createNewPaperSheet" class=" btn btn-primary">
+                            <i class="fa fa-plus-circle fa-lg"></i>Add Paper Sheet
+                        </a>
+
+                    </div>
+                    <div class="filter-block pull-right">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th><span id="0">Name</span></th>
+                                        <th><span id="1">Height</span></th>
+                                        <th><span id="2">Width</span></th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- ko foreach: $root.paperSheets -->
+                                        <!-- ko template: { name: 'itemPaperSheet' } -->
+                                        <!-- /ko -->
+                                        <!-- /ko -->
+                                        <!-- ko if: !($root.paperSheets().length > 0) -->
+                                        <!-- /ko -->
+                                        @*<td>
+                                                <a href="/CRM/CompaniesDetail" class="user-link">Unbound Prints</a>
+                                            </td>
+                                            <td>
+                                                2013/08/08
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="label label-default">Inactive</span>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td style="width: 20%;">
+
+                                            </td>*@
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="pagerDiv">
+                    @*<ul class="pagination pull-right">
+                            <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                        </ul>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script id="actionsTemplate" type="text/html">
+
+        <a href="#" class="table-link">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="/CRM/ContactCompanyDetail" class="table-link">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="#" class="table-link danger">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="itemPaperSheet" type="text/html">
+        <tr data-bind="click: $root.selectPaperSheet, css: { selectedRow: $data === $root.selectedPaperSheet()}">
+
+            <td data-bind="text: name"></td>
+            <td data-bind="text: height"></td>
+            <td data-bind="text: weight"></td>
+            <td id="actionColumn">
+                <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+</div>
+
+@section Scripts{
+
+    <script>
+        require(["paperSheet/paperSheet.view", "common/confirmation.view"]);
+        $(function () {
+            $('#lisettings').addClass('active');
+            $('#ligeneralsettings').addClass('active');
+            $('#lipaperSheet').addClass('active');
+        });
+    </script>
+}

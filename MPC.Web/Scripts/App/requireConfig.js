@@ -13,6 +13,7 @@
             "product": ist.siteUrl + "/Areas/Product/Scripts",
             "common": ist.siteUrl + "/Areas/Common/Scripts",
             "myOrganization": ist.siteUrl + "/Areas/Settings/Scripts",
+            "paperSheet": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "Fleet": ist.siteUrl + "/Areas/Fleet/Scripts",
             "hireGroup": ist.siteUrl + "/Areas/Fleet/Scripts",
             "vehicle": ist.siteUrl + "/Areas/Fleet/Scripts",
