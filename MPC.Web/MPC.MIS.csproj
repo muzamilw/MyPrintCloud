@@ -17,10 +17,10 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -246,8 +246,10 @@
     <Compile Include="Areas\Api\Controllers\MyOrganizationBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSettingsBaseData.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
+    <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Settings\Controllers\MISController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\CRMController.cs" />
@@ -265,10 +267,12 @@
     <Compile Include="ModelMappers\ChartOfAccountMapper.cs" />
     <Compile Include="ModelMappers\MarkupMapper.cs" />
     <Compile Include="ModelMappers\MyOrganizationMapper.cs" />
+    <Compile Include="ModelMappers\PaperSheetMapper.cs" />
     <Compile Include="ModelMappers\TaxRateMapper.cs" />
     <Compile Include="Models\ChartOfAccount.cs" />
     <Compile Include="Models\Organisation.cs" />
     <Compile Include="Models\Markup.cs" />
+    <Compile Include="Models\PaperSheet.cs" />
     <Compile Include="Models\TaxRate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
@@ -281,6 +285,9 @@
     <Content Include="Areas\Common\Scripts\confirmation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\paperSheet.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\paperSheet.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\paperSheet.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
@@ -966,6 +973,9 @@
     <Content Include="Areas\Settings\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\PaperSheet.cshtml" />
+    <Content Include="Areas\Settings\Scripts\MIS\paperSheet.view.js" />
+    <Content Include="Areas\Settings\Views\Shared\_PaperSheetDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2116,6 +2126,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Models\" />
+    <Folder Include="Areas\Api\Views\PaperSheet\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Settings\Models\" />
@@ -2209,7 +2220,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>43063</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

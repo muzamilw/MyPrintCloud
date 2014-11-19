@@ -5,6 +5,28 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChartOfAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountNo" Type="varchar" MaxLength="20" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="OpeningBalance" Type="float" Nullable="false" />
+          <Property Name="OpeningBalanceType" Type="smallint" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="SubTypeID" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Nature" Type="smallint" />
+          <Property Name="IsActive" Type="smallint" />
+          <Property Name="IsFixed" Type="smallint" />
+          <Property Name="LastActivityDate" Type="datetime" />
+          <Property Name="IsForReconciliation" Type="smallint" Nullable="false" />
+          <Property Name="Balance" Type="float" Nullable="false" />
+          <Property Name="IsRead" Type="bit" />
+          <Property Name="SystemSiteID" Type="int" />
+          <Property Name="UserDomainKey" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpID" />
@@ -49,27 +71,19 @@
           <Property Name="LanguageID" Type="bigint" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="tbl_chartofaccount">
+        <EntityType Name="tbl_papersize">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="PaperSizeID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AccountNo" Type="varchar" MaxLength="20" />
-          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="OpeningBalance" Type="float" Nullable="false" />
-          <Property Name="OpeningBalanceType" Type="smallint" />
-          <Property Name="TypeID" Type="int" Nullable="false" />
-          <Property Name="SubTypeID" Type="int" />
-          <Property Name="Description" Type="varchar" MaxLength="255" />
-          <Property Name="Nature" Type="smallint" />
-          <Property Name="IsActive" Type="smallint" />
-          <Property Name="IsFixed" Type="smallint" />
-          <Property Name="LastActivityDate" Type="datetime" />
-          <Property Name="IsForReconciliation" Type="smallint" Nullable="false" />
-          <Property Name="Balance" Type="float" Nullable="false" />
-          <Property Name="IsRead" Type="bit" />
-          <Property Name="SystemSiteID" Type="int" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
+          <Property Name="PaperSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Height" Type="float" />
+          <Property Name="Width" Type="float" />
+          <Property Name="SizeMeasure" Type="int" />
+          <Property Name="Area" Type="float" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isArchived" Type="bit" />
         </EntityType>
         <EntityType Name="tbl_taxrate">
           <Key>
@@ -87,37 +101,16 @@
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="DomainModelsStoreContainer">
+          <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_chartofaccount" EntityType="Self.tbl_chartofaccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_papersize" EntityType="Self.tbl_papersize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_taxrate" EntityType="Self.tbl_taxrate" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DomainModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ChartOfAccount">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="OpeningBalance" Type="Double" Nullable="false" />
-          <Property Name="OpeningBalanceType" Type="Int16" />
-          <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="SubTypeId" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Nature" Type="Int16" />
-          <Property Name="IsActive" Type="Int16" />
-          <Property Name="IsFixed" Type="Int16" />
-          <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
-          <Property Name="IsForReconciliation" Type="Int16" Nullable="false" />
-          <Property Name="Balance" Type="Double" Nullable="false" />
-          <Property Name="IsRead" Type="Boolean" />
-          <Property Name="SystemSiteId" Type="Int32" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="TaxRate">
           <Key>
             <PropertyRef Name="TaxId" />
@@ -134,10 +127,11 @@
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="BaseDbContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
           <EntitySet Name="TaxRates" EntityType="DomainModels.TaxRate" />
           <EntitySet Name="Markups" EntityType="DomainModels.Markup" />
           <EntitySet Name="Organisations" EntityType="DomainModels.Organisation" />
+          <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
+          <EntitySet Name="PaperSizes" EntityType="DomainModels.PaperSize" />
         </EntityContainer>
         <EntityType Name="Markup">
           <Key>
@@ -183,35 +177,48 @@
           <Property Name="LanguageId" Type="Int64" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="ChartOfAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OpeningBalance" Type="Double" Nullable="false" />
+          <Property Name="OpeningBalanceType" Type="Int16" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="SubTypeId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Nature" Type="Int16" />
+          <Property Name="IsActive" Type="Int16" />
+          <Property Name="IsFixed" Type="Int16" />
+          <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
+          <Property Name="IsForReconciliation" Type="Int16" Nullable="false" />
+          <Property Name="Balance" Type="Double" Nullable="false" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaperSize">
+          <Key>
+            <PropertyRef Name="PaperSizeId" />
+          </Key>
+          <Property Name="PaperSizeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Height" Type="Double" />
+          <Property Name="Width" Type="Double" />
+          <Property Name="SizeMeasure" Type="Int32" />
+          <Property Name="Area" Type="Double" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isArchived" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DomainModelsStoreContainer" CdmEntityContainer="BaseDbContext">
-          <EntitySetMapping Name="ChartOfAccounts">
-            <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
-              <MappingFragment StoreEntitySet="tbl_chartofaccount">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="Id" ColumnName="ID" />
-                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
-                <ScalarProperty Name="OpeningBalanceType" ColumnName="OpeningBalanceType" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeID" />
-                <ScalarProperty Name="SubTypeId" ColumnName="SubTypeID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Nature" ColumnName="Nature" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
-                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
-                <ScalarProperty Name="IsForReconciliation" ColumnName="IsForReconciliation" />
-                <ScalarProperty Name="Balance" ColumnName="Balance" />
-                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
-                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TaxRates">
             <EntityTypeMapping TypeName="DomainModels.TaxRate">
               <MappingFragment StoreEntitySet="tbl_taxrate">
@@ -271,6 +278,44 @@
                 <ScalarProperty Name="Address1" ColumnName="Address1" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChartOfAccounts">
+            <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
+              <MappingFragment StoreEntitySet="ChartOfAccount">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteID" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="IsForReconciliation" ColumnName="IsForReconciliation" />
+                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Nature" ColumnName="Nature" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SubTypeId" ColumnName="SubTypeID" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeID" />
+                <ScalarProperty Name="OpeningBalanceType" ColumnName="OpeningBalanceType" />
+                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Id" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperSizes">
+            <EntityTypeMapping TypeName="DomainModels.PaperSize">
+              <MappingFragment StoreEntitySet="tbl_papersize">
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="SizeMeasure" ColumnName="SizeMeasure" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaperSizeId" ColumnName="PaperSizeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -11,6 +11,7 @@
             "sammy": ist.siteUrl + "/Scripts/sammy-0.7.5.min",
             "common": ist.siteUrl + "/Areas/Common/Scripts",
             "myOrganization": ist.siteUrl + "/Areas/Settings/Scripts",
+            "paperSheet": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
         }
     });
 

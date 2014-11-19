@@ -1,6 +1,5 @@
 ﻿using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
-using System.Linq;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
@@ -57,15 +56,15 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Find Organisation Detail By Organisation ID
         /// </summary>
-        public Organisation FindDetailById(int companySiteId)
+        public Organisation FindDetailById(long organizationId)
         {
-            return organisationRepository.Find(companySiteId);
+            return organisationRepository.Find(organizationId);
         }
 
         /// <summary>
-        /// Add/Update Company Sites
+        /// Add/Update Organization
         /// </summary>
-        public long SaveCompanySite(Organisation organisation)
+        public long SaveOrganization(Organisation organisation)
         {
             Organisation organisationDbVersion = organisationRepository.Find(organisation.OrganisationId);
             if (organisationDbVersion == null)
@@ -80,7 +79,7 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Add New Company Sites
+        /// Add New Organization
         /// </summary>
         private long Save(Organisation organisation)
         {
@@ -97,28 +96,38 @@ namespace MPC.Implementation.MISServices
             //}
             //#endregion
 
-            //#region Markup
-            //foreach (var item in organisation.Markups)
-            //{
-            //    item.UserDomainKey = organisationRepository.UserDomainKey;
-            //    markupRepository.Add(item);
-            //    markupRepository.SaveChanges();
-            //}
-            //#endregion
+            #region Markup
 
-            //#region Chart Of Accounts
-            //foreach (var item in organisation.ChartOfAccounts)
-            //{
-            //    item.UserDomainKey = organisationRepository.UserDomainKey;
-            //    chartOfAccountRepository.Add(item);
-            //    chartOfAccountRepository.SaveChanges();
-            //}
-            //#endregion
+            if (organisation.Markups != null)
+            {
+                foreach (var item in organisation.Markups)
+                {
+                    item.UserDomainKey = organisationRepository.UserDomainKey;
+                    markupRepository.Add(item);
+                    markupRepository.SaveChanges();
+                }
+            }
+
+            #endregion
+
+            #region Chart Of Accounts
+
+            if (organisation.ChartOfAccounts != null)
+            {
+                foreach (var item in organisation.ChartOfAccounts)
+                {
+                    item.UserDomainKey = organisationRepository.UserDomainKey;
+                    chartOfAccountRepository.Add(item);
+                    chartOfAccountRepository.SaveChanges();
+                }
+            }
+
+            #endregion
             return organisation.OrganisationId;
         }
 
         /// <summary>
-        /// Update Company Sites
+        /// Update Organization
         /// </summary>
         private long Update(Organisation organisation)
         {

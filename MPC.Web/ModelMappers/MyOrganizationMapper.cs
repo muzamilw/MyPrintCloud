@@ -75,9 +75,9 @@ namespace MPC.MIS.ModelMappers
                 Mobile = source.Mobile,
                 URL = source.Url,
                 MISLogo = source.MisLogo,
-                // TaxRates = source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList(),
-                //Markups = source.Markups.Select(markup => markup.CreateFrom()).ToList(),
-                //ChartOfAccounts = source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList(),
+                //TaxRates = source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList(),
+                Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
+                ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
             };
         }
         #endregion

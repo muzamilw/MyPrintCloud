@@ -123,6 +123,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MISServices\MyOrganizationService.cs" />
     <Compile Include="TypeRegistrations.cs" />
