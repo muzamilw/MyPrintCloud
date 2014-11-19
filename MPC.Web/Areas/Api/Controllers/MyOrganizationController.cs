@@ -50,7 +50,7 @@ namespace MPC.Web.Areas.Api.Controllers
         /// Add/Update a My Organization
         /// </summary>
         [ApiException]
-        public int Post(Organisation companySites)
+        public long Post(Organisation companySites)
         {
             if (companySites == null || !ModelState.IsValid)
             {

@@ -20,8 +20,8 @@ namespace MPC.Web.ModelMappers
             return new ApiResponse.MyOrganizationBaseResponse
             {
                 ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
-                Markups = source.Markups.Select(markup => markup.CreateFrom()).ToList(),
-                TaxRates = source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList(),
+                Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
+                TaxRates = source.Markups != null ? source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList() : null,
             };
         }
 
@@ -48,8 +48,8 @@ namespace MPC.Web.ModelMappers
                 Fax = source.Fax,
                 Email = source.Email,
                 Mobile = source.Mobile,
-                Url = source.Url,
-                MisLogo = source.MisLogo,
+                Url = source.URL,
+                MisLogo = source.MISLogo,
             };
         }
 
@@ -73,11 +73,11 @@ namespace MPC.Web.ModelMappers
                 Fax = source.Fax,
                 Email = source.Fax,
                 Mobile = source.Mobile,
-                Url = source.Url,
-                MisLogo = source.MisLogo,
-                TaxRates = source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList(),
-                Markups = source.Markups.Select(markup => markup.CreateFrom()).ToList(),
-                ChartOfAccounts = source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList(),
+                URL = source.Url,
+                MISLogo = source.MisLogo,
+                // TaxRates = source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList(),
+                //Markups = source.Markups.Select(markup => markup.CreateFrom()).ToList(),
+                //ChartOfAccounts = source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList(),
             };
         }
         #endregion

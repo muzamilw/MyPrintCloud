@@ -10,7 +10,7 @@
         /// <summary>
         /// Markup id
         /// </summary>
-        public int MarkUpId { get; set; }
+        public long MarkUpId { get; set; }
 
         /// <summary>
         /// Markup Name
@@ -30,7 +30,7 @@
         /// <summary>
         /// System Site Id
         /// </summary>
-        public int SystemSiteId { get; set; }
+        public bool? IsDefault { get; set; }
 
         /// <summary>
         /// User Domain Key

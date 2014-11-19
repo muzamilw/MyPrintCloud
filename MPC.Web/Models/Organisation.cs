@@ -12,7 +12,7 @@ namespace MPC.Web.Models
         /// <summary>
         /// Unique Id
         /// </summary>
-        public int OrganisationId { get; set; }
+        public long OrganisationId { get; set; }
 
         /// <summary>
         /// Organisation Name
