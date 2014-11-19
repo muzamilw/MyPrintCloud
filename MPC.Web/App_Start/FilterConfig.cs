@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 
-namespace MPC.Web
+namespace MPC.MIS
 {
     public class FilterConfig
     {

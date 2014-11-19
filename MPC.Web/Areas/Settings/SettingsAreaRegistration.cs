@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MPC.Web.Areas.Settings
+namespace MPC.MIS.Areas.Settings
 {
     public class SettingsAreaRegistration : AreaRegistration 
     {

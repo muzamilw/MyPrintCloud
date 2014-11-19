@@ -1,11 +1,9 @@
-﻿using MPC.Interfaces.IServices;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.MISServices;
 
-namespace MPC.Web.Areas.Api.Controllers
+namespace MPC.MIS.Areas.Api.Controllers
 {
     public class GetSettingsBaseData : ApiController
     {

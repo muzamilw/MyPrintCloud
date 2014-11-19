@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MPC.Web.Models
+namespace MPC.MIS.Models
 {
     /// <summary>
     /// Organisation Web Model

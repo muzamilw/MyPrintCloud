@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 
-namespace MPC.Web
+namespace MPC.MIS
 {
     public static class TypeRegistrations
     {

@@ -2,7 +2,7 @@
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
-namespace MPC.Interfaces.IServices
+namespace MPC.Interfaces.MISServices
 {
     /// <summary>
     /// My Organization Service Interface

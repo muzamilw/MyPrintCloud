@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using DomainResponse = MPC.Models.ResponseModels;
-using ApiResponse = MPC.Web.ResponseModels;
+using ApiResponse = MPC.MIS.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.Web.Models;
+using ApiModels = MPC.MIS.Models;
 
-namespace MPC.Web.ModelMappers
+namespace MPC.MIS.ModelMappers
 {
     /// <summary>
     /// My Organization Mapper

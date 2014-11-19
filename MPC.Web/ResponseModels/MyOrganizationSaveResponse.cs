@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MPC.Web.Models;
+using MPC.MIS.Models;
 
-namespace MPC.Web.ResponseModels
+namespace MPC.MIS.ResponseModels
 {
     /// <summary>
     /// My Organization Save Web Response

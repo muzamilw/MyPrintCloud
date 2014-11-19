@@ -1,13 +1,11 @@
-﻿using System;
+﻿using System.Linq;
+using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using MPC.Interfaces.IServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
-namespace MPC.Implementation.Services
+namespace MPC.Implementation.MISServices
 {
     /// <summary>
     /// My Organization Service

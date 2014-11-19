@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace MPC.Web
+namespace MPC.MIS
 {
     public class RouteConfig
     {

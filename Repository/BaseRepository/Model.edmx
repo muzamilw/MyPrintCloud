@@ -71,6 +71,20 @@
           <Property Name="LanguageID" Type="bigint" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tbl_papersize">
+          <Key>
+            <PropertyRef Name="PaperSizeID" />
+          </Key>
+          <Property Name="PaperSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Height" Type="float" />
+          <Property Name="Width" Type="float" />
+          <Property Name="SizeMeasure" Type="int" />
+          <Property Name="Area" Type="float" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isArchived" Type="bit" />
+        </EntityType>
         <EntityType Name="tbl_taxrate">
           <Key>
             <PropertyRef Name="TaxID" />
@@ -90,6 +104,7 @@
           <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_papersize" EntityType="Self.tbl_papersize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_taxrate" EntityType="Self.tbl_taxrate" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -116,6 +131,7 @@
           <EntitySet Name="Markups" EntityType="DomainModels.Markup" />
           <EntitySet Name="Organisations" EntityType="DomainModels.Organisation" />
           <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
+          <EntitySet Name="PaperSizes" EntityType="DomainModels.PaperSize" />
         </EntityContainer>
         <EntityType Name="Markup">
           <Key>
@@ -182,6 +198,20 @@
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="SystemSiteId" Type="Int32" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaperSize">
+          <Key>
+            <PropertyRef Name="PaperSizeId" />
+          </Key>
+          <Property Name="PaperSizeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Height" Type="Double" />
+          <Property Name="Width" Type="Double" />
+          <Property Name="SizeMeasure" Type="Int32" />
+          <Property Name="Area" Type="Double" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsArchived" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -271,6 +301,21 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
                 <ScalarProperty Name="Id" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperSizes">
+            <EntityTypeMapping TypeName="DomainModels.PaperSize">
+              <MappingFragment StoreEntitySet="tbl_papersize">
+                <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="SizeMeasure" ColumnName="SizeMeasure" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaperSizeId" ColumnName="PaperSizeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

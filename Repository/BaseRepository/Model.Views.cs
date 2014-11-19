@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsADC4A449DD63B0563133CBD9B49357ED726B240E692BF2377DE9E4F6A39BA0EB))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets7893FCA2F86632B63B2784ECC0E29467B2BA4F497B9C51B5F390C949356E5428))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsADC4A449DD63B0563133CBD9B49357ED726B240E692BF2377DE9E4F6A39BA0EB : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets7893FCA2F86632B63B2784ECC0E29467B2BA4F497B9C51B5F390C949356E5428 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsADC4A449DD63B0563133CBD9B49357ED726B240E692BF2377DE9E4F6A39BA0EB()
+        public ViewsForBaseEntitySets7893FCA2F86632B63B2784ECC0E29467B2BA4F497B9C51B5F390C949356E5428()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "80381c85f97bfcf4d14b78f0dfb5b09be2a3c519e35c18abbed65961fc24845d";
-            this.HashOverAllExtentViews = "8639e1798bc1f04050ed7ef98b57ed96c87e26fd4269032826959edc3322bd4b";
-            this.ViewCount = 8;
+            this.HashOverMappingClosure = "f158c549dc9b7cf3ff764af2ff677b76c151ddb5c654f7ce1a08fafcb1448466";
+            this.HashOverAllExtentViews = "474ed3d77a77414e470a0a43afc3e524746336def7717397825d193406349c9f";
+            this.ViewCount = 10;
         }
         
         /// <Summary>
@@ -68,6 +68,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 7))
             {
                 return GetView7();
+            }
+            if ((index == 8))
+            {
+                return GetView8();
+            }
+            if ((index == 9))
+            {
+                return GetView9();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -302,6 +310,54 @@ namespace Edm_EntityMappingGeneratedViews
                     "Id, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n           " +
                     " True AS _from0\r\n        FROM DomainModelsStoreContainer.ChartOfAccount AS T\r\n  " +
                     "  ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.tbl_papersize
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView8()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.tbl_papersize", @"
+    SELECT VALUE -- Constructing tbl_papersize
+        [DomainModels.Store.tbl_papersize](T1.[tbl_papersize.PaperSizeID], T1.[tbl_papersize.Name], T1.[tbl_papersize.Height], T1.[tbl_papersize.Width], T1.[tbl_papersize.SizeMeasure], T1.[tbl_papersize.Area], T1.[tbl_papersize.IsFixed], T1.[tbl_papersize.Region], T1.[tbl_papersize.isArchived])
+    FROM (
+        SELECT 
+            T.PaperSizeId AS [tbl_papersize.PaperSizeID], 
+            T.Name AS [tbl_papersize.Name], 
+            T.Height AS [tbl_papersize.Height], 
+            T.Width AS [tbl_papersize.Width], 
+            T.SizeMeasure AS [tbl_papersize.SizeMeasure], 
+            T.Area AS [tbl_papersize.Area], 
+            T.IsFixed AS [tbl_papersize.IsFixed], 
+            T.Region AS [tbl_papersize.Region], 
+            T.IsArchived AS [tbl_papersize.isArchived], 
+            True AS _from0
+        FROM BaseDbContext.PaperSizes AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.PaperSizes
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView9()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaperSizes", @"
+    SELECT VALUE -- Constructing PaperSizes
+        [DomainModels.PaperSize](T1.PaperSize_PaperSizeId, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_IsArchived)
+    FROM (
+        SELECT 
+            T.PaperSizeID AS PaperSize_PaperSizeId, 
+            T.Name AS PaperSize_Name, 
+            T.Height AS PaperSize_Height, 
+            T.Width AS PaperSize_Width, 
+            T.SizeMeasure AS PaperSize_SizeMeasure, 
+            T.Area AS PaperSize_Area, 
+            T.IsFixed AS PaperSize_IsFixed, 
+            T.Region AS PaperSize_Region, 
+            T.isArchived AS PaperSize_IsArchived, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.tbl_papersize AS T
+    ) AS T1");
         }
     }
 }

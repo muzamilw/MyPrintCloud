@@ -17,7 +17,7 @@ using MPC.WebBase.UnityConfiguration;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
 
 
-namespace MPC.Web
+namespace MPC.MIS
 {
     // Note: For instructions on enabling IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=301868

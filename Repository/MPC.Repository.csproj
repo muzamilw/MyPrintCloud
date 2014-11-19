@@ -168,6 +168,7 @@
     <Compile Include="Repositories\ChartOfAccountRepository.cs" />
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\MarkupRepository.cs" />
+    <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>
