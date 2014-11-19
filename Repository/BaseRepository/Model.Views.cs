@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets89D0CEF5D5A3A3541FE1998D40C41DD32D28712BB69D156CBCA0EE1E74BC1100))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets5C9B802AC844FDAB09DF8A61E936F447BAC34F833CCAD202DB6406F8F48AEAC1))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets89D0CEF5D5A3A3541FE1998D40C41DD32D28712BB69D156CBCA0EE1E74BC1100 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets5C9B802AC844FDAB09DF8A61E936F447BAC34F833CCAD202DB6406F8F48AEAC1 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets89D0CEF5D5A3A3541FE1998D40C41DD32D28712BB69D156CBCA0EE1E74BC1100()
+        public ViewsForBaseEntitySets5C9B802AC844FDAB09DF8A61E936F447BAC34F833CCAD202DB6406F8F48AEAC1()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "c36e35770ebad103727e40af030852fa520c5e0e8244ee855fcea7de847775ff";
-            this.HashOverAllExtentViews = "3ce2232519a73f5ffdaed5196943c71a481df4f251b878e00b3ea156049baa36";
+            this.HashOverMappingClosure = "29e535ea70056cf84a9024aa75663f5cc55ac76ee28eb2f650142a10a38ef3d1";
+            this.HashOverAllExtentViews = "464d6582432f1df41e0503498de643e251b0862f9a7c42f579648d73263e59a4";
             this.ViewCount = 8;
         }
         
@@ -137,7 +137,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView2()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4302);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4305);
             viewString.Append("\r\n    SELECT VALUE -- Constructing tbl_company_sites\r\n        [DomainModels.Stor");
             viewString.Append("e.tbl_company_sites](T1.[tbl_company_sites.CompanySiteID], T1.[tbl_company_sites");
             viewString.Append(".CompanySiteName], T1.[tbl_company_sites.Address1], T1.[tbl_company_sites.Addres");
@@ -158,97 +158,97 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("any_sites.VATRegNumber], T1.[tbl_company_sites.SystemLengthUnit], T1.[tbl_compan");
             viewString.Append("y_sites.SystemWeightUnit], T1.[tbl_company_sites.CurrencyID], T1.[tbl_company_si");
             viewString.Append("tes.LanguageID], T1.[tbl_company_sites.UserDomainKey])\r\n    FROM (\r\n        SELE");
-            viewString.Append("CT \r\n            T.CompanySiteId AS [tbl_company_sites.CompanySiteID], \r\n       ");
-            viewString.Append("     T.CompanySiteName AS [tbl_company_sites.CompanySiteName], \r\n            T.A");
-            viewString.Append("ddress1 AS [tbl_company_sites.Address1], \r\n            T.Address2 AS [tbl_compan");
-            viewString.Append("y_sites.Address2], \r\n            T.Address3 AS [tbl_company_sites.Address3], \r\n ");
-            viewString.Append("           T.City AS [tbl_company_sites.City], \r\n            T.State AS [tbl_com");
-            viewString.Append("pany_sites.State], \r\n            T.Country AS [tbl_company_sites.Country], \r\n   ");
-            viewString.Append("         T.ZipCode AS [tbl_company_sites.ZipCode], \r\n            T.Tel AS [tbl_c");
-            viewString.Append("ompany_sites.Tel], \r\n            T.Fax AS [tbl_company_sites.Fax], \r\n           ");
-            viewString.Append(" T.Mobile AS [tbl_company_sites.Mobile], \r\n            T.Email AS [tbl_company_s");
-            viewString.Append("ites.Email], \r\n            T.Url AS [tbl_company_sites.URL], \r\n            T.Com");
-            viewString.Append("panyId AS [tbl_company_sites.CompanyID], \r\n            T.StateTaxId AS [tbl_comp");
-            viewString.Append("any_sites.StateTaxID], \r\n            T.Tax1 AS [tbl_company_sites.Tax1], \r\n     ");
-            viewString.Append("       T.Tax2 AS [tbl_company_sites.Tax2], \r\n            T.Tax3 AS [tbl_company_");
-            viewString.Append("sites.Tax3], \r\n            T.ProductionManagerId AS [tbl_company_sites.Productio");
-            viewString.Append("nManagerID], \r\n            T.MarkupId AS [tbl_company_sites.MarkupID], \r\n       ");
-            viewString.Append("     T.OrderManagerId AS [tbl_company_sites.OrderManagerID], \r\n            T.Web");
-            viewString.Append("siteLogo AS [tbl_company_sites.WebsiteLogo], \r\n            T.MisLogo AS [tbl_com");
-            viewString.Append("pany_sites.MISLogo], \r\n            T.Tax2Id AS [tbl_company_sites.Tax2ID], \r\n   ");
-            viewString.Append("         T.Tax3Id AS [tbl_company_sites.Tax3ID], \r\n            T.TaxRegistration");
-            viewString.Append("No AS [tbl_company_sites.TaxRegistrationNo], \r\n            T.PaymentBusinessEmai");
-            viewString.Append("l AS [tbl_company_sites.PaymentBusinessEmail], \r\n            T.PaymentIdentityTo");
-            viewString.Append("ken AS [tbl_company_sites.PaymentIdentityToken], \r\n            T.PaymentGatewayI");
-            viewString.Append("d AS [tbl_company_sites.PaymentGatewayID], \r\n            T.LicenseLevel AS [tbl_");
-            viewString.Append("company_sites.LicenseLevel], \r\n            T.CustomerId AS [tbl_company_sites.Cu");
-            viewString.Append("stomerID], \r\n            T.CustomerAccountNumber AS [tbl_company_sites.CustomerA");
-            viewString.Append("ccountNumber], \r\n            T.SmtpServer AS [tbl_company_sites.SmtpServer], \r\n ");
-            viewString.Append("           T.SmtpUserName AS [tbl_company_sites.SmtpUserName], \r\n            T.S");
-            viewString.Append("mtpPassword AS [tbl_company_sites.SmtpPassword], \r\n            T.VatRegNumber AS");
-            viewString.Append(" [tbl_company_sites.VATRegNumber], \r\n            T.SystemLengthUnit AS [tbl_comp");
-            viewString.Append("any_sites.SystemLengthUnit], \r\n            T.SystemWeightUnit AS [tbl_company_si");
-            viewString.Append("tes.SystemWeightUnit], \r\n            T.CurrencyId AS [tbl_company_sites.Currency");
-            viewString.Append("ID], \r\n            T.LanguageId AS [tbl_company_sites.LanguageID], \r\n           ");
-            viewString.Append(" T.UserDomainKey AS [tbl_company_sites.UserDomainKey], \r\n            True AS _fr");
-            viewString.Append("om0\r\n        FROM BaseDbContext.CompanySites AS T\r\n    ) AS T1");
+            viewString.Append("CT \r\n            T.OrganisationId AS [tbl_company_sites.CompanySiteID], \r\n      ");
+            viewString.Append("      T.OrganisationName AS [tbl_company_sites.CompanySiteName], \r\n            T");
+            viewString.Append(".Address1 AS [tbl_company_sites.Address1], \r\n            T.Address2 AS [tbl_comp");
+            viewString.Append("any_sites.Address2], \r\n            T.Address3 AS [tbl_company_sites.Address3], \r");
+            viewString.Append("\n            T.City AS [tbl_company_sites.City], \r\n            T.State AS [tbl_c");
+            viewString.Append("ompany_sites.State], \r\n            T.Country AS [tbl_company_sites.Country], \r\n ");
+            viewString.Append("           T.ZipCode AS [tbl_company_sites.ZipCode], \r\n            T.Tel AS [tbl");
+            viewString.Append("_company_sites.Tel], \r\n            T.Fax AS [tbl_company_sites.Fax], \r\n         ");
+            viewString.Append("   T.Mobile AS [tbl_company_sites.Mobile], \r\n            T.Email AS [tbl_company");
+            viewString.Append("_sites.Email], \r\n            T.Url AS [tbl_company_sites.URL], \r\n            T.C");
+            viewString.Append("ompanyId AS [tbl_company_sites.CompanyID], \r\n            T.StateTaxId AS [tbl_co");
+            viewString.Append("mpany_sites.StateTaxID], \r\n            T.Tax1 AS [tbl_company_sites.Tax1], \r\n   ");
+            viewString.Append("         T.Tax2 AS [tbl_company_sites.Tax2], \r\n            T.Tax3 AS [tbl_compan");
+            viewString.Append("y_sites.Tax3], \r\n            T.ProductionManagerId AS [tbl_company_sites.Product");
+            viewString.Append("ionManagerID], \r\n            T.MarkupId AS [tbl_company_sites.MarkupID], \r\n     ");
+            viewString.Append("       T.OrderManagerId AS [tbl_company_sites.OrderManagerID], \r\n            T.W");
+            viewString.Append("ebsiteLogo AS [tbl_company_sites.WebsiteLogo], \r\n            T.MisLogo AS [tbl_c");
+            viewString.Append("ompany_sites.MISLogo], \r\n            T.Tax2Id AS [tbl_company_sites.Tax2ID], \r\n ");
+            viewString.Append("           T.Tax3Id AS [tbl_company_sites.Tax3ID], \r\n            T.TaxRegistrati");
+            viewString.Append("onNo AS [tbl_company_sites.TaxRegistrationNo], \r\n            T.PaymentBusinessEm");
+            viewString.Append("ail AS [tbl_company_sites.PaymentBusinessEmail], \r\n            T.PaymentIdentity");
+            viewString.Append("Token AS [tbl_company_sites.PaymentIdentityToken], \r\n            T.PaymentGatewa");
+            viewString.Append("yId AS [tbl_company_sites.PaymentGatewayID], \r\n            T.LicenseLevel AS [tb");
+            viewString.Append("l_company_sites.LicenseLevel], \r\n            T.CustomerId AS [tbl_company_sites.");
+            viewString.Append("CustomerID], \r\n            T.CustomerAccountNumber AS [tbl_company_sites.Custome");
+            viewString.Append("rAccountNumber], \r\n            T.SmtpServer AS [tbl_company_sites.SmtpServer], \r");
+            viewString.Append("\n            T.SmtpUserName AS [tbl_company_sites.SmtpUserName], \r\n            T");
+            viewString.Append(".SmtpPassword AS [tbl_company_sites.SmtpPassword], \r\n            T.VatRegNumber ");
+            viewString.Append("AS [tbl_company_sites.VATRegNumber], \r\n            T.SystemLengthUnit AS [tbl_co");
+            viewString.Append("mpany_sites.SystemLengthUnit], \r\n            T.SystemWeightUnit AS [tbl_company_");
+            viewString.Append("sites.SystemWeightUnit], \r\n            T.CurrencyId AS [tbl_company_sites.Curren");
+            viewString.Append("cyID], \r\n            T.LanguageId AS [tbl_company_sites.LanguageID], \r\n         ");
+            viewString.Append("   T.UserDomainKey AS [tbl_company_sites.UserDomainKey], \r\n            True AS _");
+            viewString.Append("from0\r\n        FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.tbl_company_sites", viewString.ToString());
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.CompanySites
+        /// return view for BaseDbContext.Organisations
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView3()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3716);
-            viewString.Append("\r\n    SELECT VALUE -- Constructing CompanySites\r\n        [DomainModels.CompanySi");
-            viewString.Append("tes](T1.CompanySites_CompanySiteId, T1.CompanySites_CompanySiteName, T1.CompanyS");
-            viewString.Append("ites_Address1, T1.CompanySites_Address2, T1.CompanySites_Address3, T1.CompanySit");
-            viewString.Append("es_City, T1.CompanySites_State, T1.CompanySites_Country, T1.CompanySites_ZipCode");
-            viewString.Append(", T1.CompanySites_Tel, T1.CompanySites_Fax, T1.CompanySites_Mobile, T1.CompanySi");
-            viewString.Append("tes_Email, T1.CompanySites_Url, T1.CompanySites_CompanyId, T1.CompanySites_State");
-            viewString.Append("TaxId, T1.CompanySites_Tax1, T1.CompanySites_Tax2, T1.CompanySites_Tax3, T1.Comp");
-            viewString.Append("anySites_ProductionManagerId, T1.CompanySites_MarkupId, T1.CompanySites_OrderMan");
-            viewString.Append("agerId, T1.CompanySites_WebsiteLogo, T1.CompanySites_MisLogo, T1.CompanySites_Ta");
-            viewString.Append("x2Id, T1.CompanySites_Tax3Id, T1.CompanySites_TaxRegistrationNo, T1.CompanySites");
-            viewString.Append("_PaymentBusinessEmail, T1.CompanySites_PaymentIdentityToken, T1.CompanySites_Pay");
-            viewString.Append("mentGatewayId, T1.CompanySites_LicenseLevel, T1.CompanySites_CustomerId, T1.Comp");
-            viewString.Append("anySites_CustomerAccountNumber, T1.CompanySites_SmtpServer, T1.CompanySites_Smtp");
-            viewString.Append("UserName, T1.CompanySites_SmtpPassword, T1.CompanySites_VatRegNumber, T1.Company");
-            viewString.Append("Sites_SystemLengthUnit, T1.CompanySites_SystemWeightUnit, T1.CompanySites_Curren");
-            viewString.Append("cyId, T1.CompanySites_LanguageId, T1.CompanySites_UserDomainKey)\r\n    FROM (\r\n  ");
-            viewString.Append("      SELECT \r\n            T.CompanySiteID AS CompanySites_CompanySiteId, \r\n    ");
-            viewString.Append("        T.CompanySiteName AS CompanySites_CompanySiteName, \r\n            T.Addre");
-            viewString.Append("ss1 AS CompanySites_Address1, \r\n            T.Address2 AS CompanySites_Address2,");
-            viewString.Append(" \r\n            T.Address3 AS CompanySites_Address3, \r\n            T.City AS Comp");
-            viewString.Append("anySites_City, \r\n            T.State AS CompanySites_State, \r\n            T.Coun");
-            viewString.Append("try AS CompanySites_Country, \r\n            T.ZipCode AS CompanySites_ZipCode, \r\n");
-            viewString.Append("            T.Tel AS CompanySites_Tel, \r\n            T.Fax AS CompanySites_Fax, ");
-            viewString.Append("\r\n            T.Mobile AS CompanySites_Mobile, \r\n            T.Email AS CompanyS");
-            viewString.Append("ites_Email, \r\n            T.URL AS CompanySites_Url, \r\n            T.CompanyID A");
-            viewString.Append("S CompanySites_CompanyId, \r\n            T.StateTaxID AS CompanySites_StateTaxId,");
-            viewString.Append(" \r\n            T.Tax1 AS CompanySites_Tax1, \r\n            T.Tax2 AS CompanySites");
-            viewString.Append("_Tax2, \r\n            T.Tax3 AS CompanySites_Tax3, \r\n            T.ProductionMana");
-            viewString.Append("gerID AS CompanySites_ProductionManagerId, \r\n            T.MarkupID AS CompanySi");
-            viewString.Append("tes_MarkupId, \r\n            T.OrderManagerID AS CompanySites_OrderManagerId, \r\n ");
-            viewString.Append("           T.WebsiteLogo AS CompanySites_WebsiteLogo, \r\n            T.MISLogo AS");
-            viewString.Append(" CompanySites_MisLogo, \r\n            T.Tax2ID AS CompanySites_Tax2Id, \r\n        ");
-            viewString.Append("    T.Tax3ID AS CompanySites_Tax3Id, \r\n            T.TaxRegistrationNo AS Compan");
-            viewString.Append("ySites_TaxRegistrationNo, \r\n            T.PaymentBusinessEmail AS CompanySites_P");
-            viewString.Append("aymentBusinessEmail, \r\n            T.PaymentIdentityToken AS CompanySites_Paymen");
-            viewString.Append("tIdentityToken, \r\n            T.PaymentGatewayID AS CompanySites_PaymentGatewayI");
-            viewString.Append("d, \r\n            T.LicenseLevel AS CompanySites_LicenseLevel, \r\n            T.Cu");
-            viewString.Append("stomerID AS CompanySites_CustomerId, \r\n            T.CustomerAccountNumber AS Co");
-            viewString.Append("mpanySites_CustomerAccountNumber, \r\n            T.SmtpServer AS CompanySites_Smt");
-            viewString.Append("pServer, \r\n            T.SmtpUserName AS CompanySites_SmtpUserName, \r\n          ");
-            viewString.Append("  T.SmtpPassword AS CompanySites_SmtpPassword, \r\n            T.VATRegNumber AS C");
-            viewString.Append("ompanySites_VatRegNumber, \r\n            T.SystemLengthUnit AS CompanySites_Syste");
-            viewString.Append("mLengthUnit, \r\n            T.SystemWeightUnit AS CompanySites_SystemWeightUnit, ");
-            viewString.Append("\r\n            T.CurrencyID AS CompanySites_CurrencyId, \r\n            T.LanguageI");
-            viewString.Append("D AS CompanySites_LanguageId, \r\n            T.UserDomainKey AS CompanySites_User");
-            viewString.Append("DomainKey, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer");
-            viewString.Append(".tbl_company_sites AS T\r\n    ) AS T1");
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanySites", viewString.ToString());
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3721);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
+            viewString.Append("tion](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.Organ");
+            viewString.Append("isation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Organis");
+            viewString.Append("ation_City, T1.Organisation_State, T1.Organisation_Country, T1.Organisation_ZipC");
+            viewString.Append("ode, T1.Organisation_Tel, T1.Organisation_Fax, T1.Organisation_Mobile, T1.Organi");
+            viewString.Append("sation_Email, T1.Organisation_Url, T1.Organisation_CompanyId, T1.Organisation_St");
+            viewString.Append("ateTaxId, T1.Organisation_Tax1, T1.Organisation_Tax2, T1.Organisation_Tax3, T1.O");
+            viewString.Append("rganisation_ProductionManagerId, T1.Organisation_MarkupId, T1.Organisation_Order");
+            viewString.Append("ManagerId, T1.Organisation_WebsiteLogo, T1.Organisation_MisLogo, T1.Organisation");
+            viewString.Append("_Tax2Id, T1.Organisation_Tax3Id, T1.Organisation_TaxRegistrationNo, T1.Organisat");
+            viewString.Append("ion_PaymentBusinessEmail, T1.Organisation_PaymentIdentityToken, T1.Organisation_");
+            viewString.Append("PaymentGatewayId, T1.Organisation_LicenseLevel, T1.Organisation_CustomerId, T1.O");
+            viewString.Append("rganisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organisation_S");
+            viewString.Append("mtpUserName, T1.Organisation_SmtpPassword, T1.Organisation_VatRegNumber, T1.Orga");
+            viewString.Append("nisation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisation_Cur");
+            viewString.Append("rencyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey)\r\n    FROM (\r");
+            viewString.Append("\n        SELECT \r\n            T.CompanySiteID AS Organisation_OrganisationId, \r\n");
+            viewString.Append("            T.CompanySiteName AS Organisation_OrganisationName, \r\n            T.");
+            viewString.Append("Address1 AS Organisation_Address1, \r\n            T.Address2 AS Organisation_Addr");
+            viewString.Append("ess2, \r\n            T.Address3 AS Organisation_Address3, \r\n            T.City AS");
+            viewString.Append(" Organisation_City, \r\n            T.State AS Organisation_State, \r\n            T");
+            viewString.Append(".Country AS Organisation_Country, \r\n            T.ZipCode AS Organisation_ZipCod");
+            viewString.Append("e, \r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisation_");
+            viewString.Append("Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email AS Org");
+            viewString.Append("anisation_Email, \r\n            T.URL AS Organisation_Url, \r\n            T.Compan");
+            viewString.Append("yID AS Organisation_CompanyId, \r\n            T.StateTaxID AS Organisation_StateT");
+            viewString.Append("axId, \r\n            T.Tax1 AS Organisation_Tax1, \r\n            T.Tax2 AS Organis");
+            viewString.Append("ation_Tax2, \r\n            T.Tax3 AS Organisation_Tax3, \r\n            T.Productio");
+            viewString.Append("nManagerID AS Organisation_ProductionManagerId, \r\n            T.MarkupID AS Orga");
+            viewString.Append("nisation_MarkupId, \r\n            T.OrderManagerID AS Organisation_OrderManagerId");
+            viewString.Append(", \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n            T.MISLo");
+            viewString.Append("go AS Organisation_MisLogo, \r\n            T.Tax2ID AS Organisation_Tax2Id, \r\n   ");
+            viewString.Append("         T.Tax3ID AS Organisation_Tax3Id, \r\n            T.TaxRegistrationNo AS O");
+            viewString.Append("rganisation_TaxRegistrationNo, \r\n            T.PaymentBusinessEmail AS Organisat");
+            viewString.Append("ion_PaymentBusinessEmail, \r\n            T.PaymentIdentityToken AS Organisation_P");
+            viewString.Append("aymentIdentityToken, \r\n            T.PaymentGatewayID AS Organisation_PaymentGat");
+            viewString.Append("ewayId, \r\n            T.LicenseLevel AS Organisation_LicenseLevel, \r\n           ");
+            viewString.Append(" T.CustomerID AS Organisation_CustomerId, \r\n            T.CustomerAccountNumber ");
+            viewString.Append("AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer AS Organisatio");
+            viewString.Append("n_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUserName, \r\n     ");
+            viewString.Append("       T.SmtpPassword AS Organisation_SmtpPassword, \r\n            T.VATRegNumber");
+            viewString.Append(" AS Organisation_VatRegNumber, \r\n            T.SystemLengthUnit AS Organisation_");
+            viewString.Append("SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisation_SystemWeightU");
+            viewString.Append("nit, \r\n            T.CurrencyID AS Organisation_CurrencyId, \r\n            T.Lang");
+            viewString.Append("uageID AS Organisation_LanguageId, \r\n            T.UserDomainKey AS Organisation");
+            viewString.Append("_UserDomainKey, \r\n            True AS _from0\r\n        FROM DomainModelsStoreCont");
+            viewString.Append("ainer.tbl_company_sites AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
         
         /// <Summary>

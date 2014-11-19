@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1">
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DomainModels.CompanySites" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DomainModels.MarkUp" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DomainModels.TaxRate" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
       </Diagram>

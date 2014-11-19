@@ -132,12 +132,12 @@
           <Property Name="SystemSiteId" Type="Int32" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="CompanySites">
+        <EntityType Name="Organisation">
           <Key>
-            <PropertyRef Name="CompanySiteId" />
+            <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="CompanySiteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanySiteName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -207,7 +207,7 @@
         </EntityType>
         <EntityContainer Name="BaseDbContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
-          <EntitySet Name="CompanySites" EntityType="DomainModels.CompanySites" />
+          <EntitySet Name="Organisations" EntityType="DomainModels.Organisation" />
           <EntitySet Name="MarkUps" EntityType="DomainModels.MarkUp" />
           <EntitySet Name="TaxRates" EntityType="DomainModels.TaxRate" />
         </EntityContainer>
@@ -240,12 +240,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CompanySites">
-            <EntityTypeMapping TypeName="DomainModels.CompanySites">
+          <EntitySetMapping Name="Organisations">
+            <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="tbl_company_sites">
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="CompanySiteId" ColumnName="CompanySiteID" />
-                <ScalarProperty Name="CompanySiteName" ColumnName="CompanySiteName" />
+                <ScalarProperty Name="OrganisationId" ColumnName="CompanySiteID" />
+                <ScalarProperty Name="OrganisationName" ColumnName="CompanySiteName" />
                 <ScalarProperty Name="Address1" ColumnName="Address1" />
                 <ScalarProperty Name="Address2" ColumnName="Address2" />
                 <ScalarProperty Name="Address3" ColumnName="Address3" />

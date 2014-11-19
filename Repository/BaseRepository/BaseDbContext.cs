@@ -59,9 +59,9 @@ namespace MPC.Repository.BaseRepository
             this.container = container;
         }
         /// <summary>
-        /// Company Sites Db Set
+        /// Organisation Db Set
         /// </summary>
-        public DbSet<CompanySites> CompanySites { get; set; }
+        public DbSet<Organisation> Organisations { get; set; }
         /// <summary>
         /// MarkUp Db Set
         /// </summary>
