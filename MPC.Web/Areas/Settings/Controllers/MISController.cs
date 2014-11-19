@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MPC.Web.Areas.Settings.Controllers
+namespace MPC.MIS.Areas.Settings.Controllers
 {
     public class MISController : Controller
     {
