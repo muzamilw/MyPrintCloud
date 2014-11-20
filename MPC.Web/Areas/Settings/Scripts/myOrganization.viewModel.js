@@ -219,6 +219,7 @@ define("myOrganization/myOrganization.viewModel",
                         isLoadingMyOrganization(true);
                         dataservice.getMyOrganizationDetail(model.OrganizationServerMapperForId(org), {
                             success: function (data) {
+                                selectedMyOrganization(model.CompanySitesClientMapper(data));
                                 isLoadingMyOrganization(false);
                             },
                             error: function () {
@@ -261,9 +262,31 @@ define("myOrganization/myOrganization.viewModel",
                     saveMyOrganization = function (myOrg) {
                         dataservice.saveMyOrganization(model.CompanySitesServerMapper(myOrg), {
                             success: function (data) {
-                                var orgId = data;
+                                var orgId = data.OrganizationId;
                                 if (selectedMyOrganization().id() > 0) {
-                                    //Later
+                                    //Update IDs of Newly added Chart of Accounts
+                                    _.each(data.ChartOfAccounts, function (item) {
+                                        var chartOfAcc = new model.ChartOfAccountClientMapper(item);
+                                        _.each(chartOfAccounts(), function (chartOfAccount) {
+                                            if (chartOfAccount.id() === undefined) {
+                                                if (chartOfAcc.name() === chartOfAccount.name() && chartOfAcc.accountNo() === chartOfAccount.accountNo()) {
+                                                    chartOfAccount.id(chartOfAcc.id());
+                                                }
+                                            }
+                                        });
+                                    });
+                                    //Update IDs of Newly added Markups
+                                    _.each(data.Markups, function (item) {
+                                        var markup = new model.MarkupClientMapper(item);
+                                        _.each(markups(), function (markupListItem) {
+                                            if (markupListItem.id() === undefined) {
+                                                if (markup.name() === markupListItem.name() && markup.rate() === markupListItem.rate()) {
+                                                    markupListItem.id(markup.id());
+                                                }
+                                            }
+                                        });
+                                    });
+
                                 } else {
                                     selectedMyOrganization(), id(orgId);
                                 }

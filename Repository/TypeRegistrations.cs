@@ -20,7 +20,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<IMarkupRepository, MarkupRepository>();
             unityContainer.RegisterType<ITaxRateRepository, TaxRateRepository>();
             unityContainer.RegisterType<IChartOfAccountRepository, ChartOfAccountRepository>();
+            unityContainer.RegisterType<ICompanyDomainRepository, CompanyDomainRepository>();
             unityContainer.RegisterType<IPaperSheetRepository, PaperSheetRepository>();
+            unityContainer.RegisterType<ICompanyRepository, CompanyRepository>();
         }
     }
 }

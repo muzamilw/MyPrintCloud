@@ -136,11 +136,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Unique key
             id = ko.observable(),
             //AccountNo
-            accountNo = ko.observable(),
+            accountNo = ko.observable().extend({ required: true, number: true }),
             //Name
             name = ko.observable().extend({ required: true }),
                // Errors
             errors = ko.validation.group({
+                name: name,
+                accountNo: accountNo
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -179,11 +181,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Unique key
             id = ko.observable(),
             //Name
-            name = ko.observable(),
+            name = ko.observable().extend({ required: true }),
             //Rate
-            rate = ko.observable().extend({ required: true }),
+            rate = ko.observable().extend({ required: true, number: true }),
                // Errors
             errors = ko.validation.group({
+                name: name,
+                rate: rate
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -373,10 +377,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Convert Client to server
     var OrganizationServerMapperForId = function (source) {
         var result = {};
-        result.OrganisationId = source.id() === undefined ? 0 : source.id();
+        result.organisationId = source.id() === undefined ? 0 : source.id();
         return result;
     };
-    
+
     return {
         CompanySites: CompanySites,
         ChartOfAccount: ChartOfAccount,

@@ -22,7 +22,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Add/Update Organization
         /// </summary>
-        long SaveOrganization(Organisation organisation);
+        MyOrganizationSaveResponse SaveOrganization(Organisation organisation);
 
         IList<int> GetOrganizationIds(int request);
     }
