@@ -1,4 +1,4 @@
-﻿namespace MPC.Web.Models
+﻿namespace MPC.MIS.Models
 {
     /// <summary>
     /// Markup Web Model

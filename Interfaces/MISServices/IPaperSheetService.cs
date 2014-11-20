@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 
-namespace MPC.Interfaces.IServices
+namespace MPC.Interfaces.MISServices
 {
     public interface IPaperSheetService
     {

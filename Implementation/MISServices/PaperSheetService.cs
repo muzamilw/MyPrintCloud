@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using MPC.Interfaces.IServices;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 
-namespace MPC.Implementation.Services
+namespace MPC.Implementation.MISServices
 {
     public class PaperSheetService : IPaperSheetService
     {

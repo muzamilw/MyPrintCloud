@@ -1,8 +1,10 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.ExceptionHandling.Logger;
-using MPC.Implementation.Services;
-using MPC.Interfaces.IServices;
+using MPC.Implementation.MISServices;
+using MPC.Implementation.WebStoreServices;
 using MPC.Interfaces.Logger;
+using MPC.Interfaces.MISServices;
+using MPC.Interfaces.WebStoreServices;
 
 
 namespace MPC.Implementation
@@ -19,6 +21,8 @@ namespace MPC.Implementation
         {
             Repository.TypeRegistrations.RegisterType(unityContainer);
             unityContainer.RegisterType<IMyOrganizationService, MyOrganizationService>();
+            unityContainer.RegisterType<IMyCompanyDomainService, MyCompanyDomainService>();
+            unityContainer.RegisterType<ICompanyService, CompanyService>();
             unityContainer.RegisterType<IMPCLogger, MPCLogger>();
             unityContainer.RegisterType<IPaperSheetService, PaperSheetService>();
         }

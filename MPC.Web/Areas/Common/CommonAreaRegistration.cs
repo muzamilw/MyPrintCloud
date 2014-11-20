@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Cares.Web.Areas.Common
+namespace MPC.MIS.Areas.Common
 {
     public class CommonAreaRegistration : AreaRegistration 
     {

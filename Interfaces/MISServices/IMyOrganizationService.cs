@@ -2,7 +2,7 @@
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
-namespace MPC.Interfaces.IServices
+namespace MPC.Interfaces.MISServices
 {
     /// <summary>
     /// My Organization Service Interface
@@ -22,7 +22,7 @@ namespace MPC.Interfaces.IServices
         /// <summary>
         /// Add/Update Organization
         /// </summary>
-        long SaveOrganization(Organisation organisation);
+        MyOrganizationSaveResponse SaveOrganization(Organisation organisation);
 
         IList<int> GetOrganizationIds(int request);
     }

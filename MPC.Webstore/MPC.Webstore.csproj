@@ -216,10 +216,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelMappers\CompanyDomainMapper.cs" />
+    <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CompanyDomain.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseModels\MyCompanyDomainBaseResponse.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +317,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExceptionHandling\MPC.ExceptionHandling.csproj">
+      <Project>{5a6acd2d-0701-4e38-99b7-65cc4e6cb8e8}</Project>
+      <Name>MPC.ExceptionHandling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Implementation\MPC.Implementation.csproj">
       <Project>{42d2e6c0-74f1-46fb-b7ba-43251156275d}</Project>
       <Name>MPC.Implementation</Name>

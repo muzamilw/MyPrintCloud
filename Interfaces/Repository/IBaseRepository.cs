@@ -59,6 +59,6 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         string LoggedInUserIdentity { get; }
 
-
+       
     }
 }
