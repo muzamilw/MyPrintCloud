@@ -29,9 +29,9 @@
         </EntityType>
         <EntityType Name="Markup">
           <Key>
-            <PropertyRef Name="MarkUpID" />
+            <PropertyRef Name="MarkUpId" />
           </Key>
-          <Property Name="MarkUpID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarkUpId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MarkUpName" Type="varchar" MaxLength="50" />
           <Property Name="MarkUpRate" Type="float" />
           <Property Name="IsFixed" Type="int" />
@@ -40,9 +40,9 @@
         </EntityType>
         <EntityType Name="Organisation">
           <Key>
-            <PropertyRef Name="OrganisationID" />
+            <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="OrganisationID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrganisationName" Type="varchar" MaxLength="100" />
           <Property Name="Address1" Type="varchar" MaxLength="255" />
           <Property Name="Address2" Type="varchar" MaxLength="255" />
@@ -67,11 +67,11 @@
           <Property Name="VATRegNumber" Type="varchar" MaxLength="100" />
           <Property Name="SystemLengthUnit" Type="bigint" />
           <Property Name="SystemWeightUnit" Type="bigint" />
-          <Property Name="CurrencyID" Type="bigint" />
-          <Property Name="LanguageID" Type="bigint" />
+          <Property Name="CurrencyId" Type="bigint" />
+          <Property Name="LanguageId" Type="bigint" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="tbl_papersize">
+        <EntityType Name="PaperSize">
           <Key>
             <PropertyRef Name="PaperSizeID" />
           </Key>
@@ -104,7 +104,7 @@
           <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_papersize" EntityType="Self.tbl_papersize" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_taxrate" EntityType="Self.tbl_taxrate" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -136,6 +136,7 @@
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
+            <PropertyRef Name="MarkUpId1" />
           </Key>
           <Property Name="MarkUpId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MarkUpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -143,10 +144,12 @@
           <Property Name="IsFixed" Type="Int32" />
           <Property Name="IsDefault" Type="Boolean" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+          <Property Name="MarkUpId1" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="Organisation">
           <Key>
             <PropertyRef Name="OrganisationId" />
+            <PropertyRef Name="OrganisationId1" />
           </Key>
           <Property Name="OrganisationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrganisationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -176,6 +179,9 @@
           <Property Name="CurrencyId" Type="Int64" />
           <Property Name="LanguageId" Type="Int64" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId1" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrencyId1" Type="Int64" />
+          <Property Name="LanguageId1" Type="Int64" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -238,21 +244,22 @@
           <EntitySetMapping Name="Markups">
             <EntityTypeMapping TypeName="DomainModels.Markup">
               <MappingFragment StoreEntitySet="Markup">
+                <ScalarProperty Name="MarkUpId1" ColumnName="MarkUpId" />
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
                 <ScalarProperty Name="MarkUpRate" ColumnName="MarkUpRate" />
                 <ScalarProperty Name="MarkUpName" ColumnName="MarkUpName" />
-                <ScalarProperty Name="MarkUpId" ColumnName="MarkUpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="LanguageId1" ColumnName="LanguageId" />
+                <ScalarProperty Name="CurrencyId1" ColumnName="CurrencyId" />
+                <ScalarProperty Name="OrganisationId1" ColumnName="OrganisationId" />
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="LanguageId" ColumnName="LanguageID" />
-                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyID" />
                 <ScalarProperty Name="SystemWeightUnit" ColumnName="SystemWeightUnit" />
                 <ScalarProperty Name="SystemLengthUnit" ColumnName="SystemLengthUnit" />
                 <ScalarProperty Name="VATRegNumber" ColumnName="VATRegNumber" />
@@ -277,7 +284,6 @@
                 <ScalarProperty Name="Address2" ColumnName="Address2" />
                 <ScalarProperty Name="Address1" ColumnName="Address1" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -306,7 +312,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="PaperSizes">
             <EntityTypeMapping TypeName="DomainModels.PaperSize">
-              <MappingFragment StoreEntitySet="tbl_papersize">
+              <MappingFragment StoreEntitySet="PaperSize">
                 <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />

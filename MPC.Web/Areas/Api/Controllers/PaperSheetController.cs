@@ -4,6 +4,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using MPC.Interfaces.IServices;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Web.ModelMappers;
 using MPC.Web.Models;
 
@@ -21,9 +23,16 @@ namespace MPC.Web.Areas.Api.Controllers
         /// Get All Paper Sheets
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PaperSheet> Get()
+        public PaperSheetResponseModel Get()
         {
-            return paperSheetService.GetAll().Select(x => x.CreateFrom());
+            IEnumerable<PaperSize> paperSizes = null;
+            paperSizes = paperSheetService.GetAll();
+            var paperSheets = paperSizes as IList<PaperSize> ?? paperSizes.ToList();
+            return new PaperSheetResponseModel
+                   {
+                       PaperSheets = paperSheets,
+                       RowCount = paperSheets.Count()
+                   };
         }
         /// <summary>
         /// Update Paper Sheet
@@ -43,14 +52,15 @@ namespace MPC.Web.Areas.Api.Controllers
         {
             return paperSheetService.Update(paperSheet.CreateFrom()).CreateFrom();
         }
+
         /// <summary>
         /// Delete Paper Sheet
         /// </summary>
-        /// <param name="paperSheetId"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public bool Delete(int paperSheetId)
+        public bool Delete(PaperSheetRequestModel model)
         {
-            return paperSheetService.Delete(paperSheetId);
+            return paperSheetService.Delete(model.PaperSheetId);
         }
     }
 }

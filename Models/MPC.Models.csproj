@@ -116,7 +116,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
+    <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -133,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="RequestModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

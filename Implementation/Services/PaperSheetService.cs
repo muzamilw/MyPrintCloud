@@ -22,19 +22,22 @@ namespace MPC.Implementation.Services
         public PaperSize Add(PaperSize paperSize)
         {
             paperSheetRepository.Add(paperSize);
+            paperSheetRepository.SaveChanges();
             return paperSize;
         }
 
         public PaperSize Update(PaperSize paperSize)
         {
             paperSheetRepository.Update(paperSize);
-            return null;
+            paperSheetRepository.SaveChanges();
+            return paperSize;
         }
 
         public bool Delete(int paperSheetId)
         {
 
             paperSheetRepository.Delete(GetPaperSheetById(paperSheetId));
+            paperSheetRepository.SaveChanges();
             return true;
         }
 
