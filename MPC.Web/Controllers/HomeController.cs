@@ -27,6 +27,7 @@ namespace MPC.MIS.Controllers
             else
                 return RedirectToRoute("Login");
         }
+
         public ActionResult LoginFull()
         {
             /*
@@ -40,7 +41,8 @@ namespace MPC.MIS.Controllers
             var userId = Request.QueryString["UserId"];
 
             // Authenticate User For this Site
-
+            // TODO: AuthenticateUser() // will return user
+            var user = ""; 
 
             return View();
         }

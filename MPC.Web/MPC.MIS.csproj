@@ -2121,6 +2121,8 @@
     <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />
     <Content Include="Views\Shared\Widgets\_PhraseLibrary.cshtml" />
     <Content Include="Views\Shared\Product\_SelectProductCategory.cshtml" />
+    <Content Include="Views\Shared\Company\_RaveReviews.cshtml" />
+    <Content Include="Views\Shared\Company\_ProductsFilter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
