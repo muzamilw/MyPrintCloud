@@ -102,7 +102,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\PaperSize.cs" />
+    <Compile Include="DomainModels\Company.cs" />
+    <Compile Include="DomainModels\CompanyContact.cs" />
+    <Compile Include="DomainModels\CompanyDomain.cs" />
+    <Compile Include="DomainModels\CompanyTerritory.cs" />
+    <Compile Include="DomainModels\CompanyType.cs" />
     <Compile Include="DomainModels\TaxRate.cs" />
     <Compile Include="DomainModels\Markup.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
@@ -116,7 +122,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
+    <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
+    <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,7 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="RequestModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

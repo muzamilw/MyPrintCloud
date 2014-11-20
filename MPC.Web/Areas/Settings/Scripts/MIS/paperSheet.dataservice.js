@@ -17,23 +17,30 @@ define("paperSheet/paperSheet.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get My Organization detail
-                    amplify.request.define('getPaperSheetDetail', 'ajax', {
+                    // Define request to delete paper sheet
+                    amplify.request.define('deletePaperSheet', 'ajax', {
                         url: ist.siteUrl + '/Api/PaperSheet',
                         dataType: 'json',
-                        type: 'GET'
+                        type: 'DELETE'
                     });
                     // Define request to save paper Sheet
-                    amplify.request.define('saveMyPaperSheet', 'ajax', {
+                    amplify.request.define('savePaperSheet', 'ajax', {
                         url: ist.siteUrl + '/Api/PaperSheet',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save New paper Sheet
+                    amplify.request.define('saveNewPaperSheet', 'ajax', {
+                        url: ist.siteUrl + '/Api/PaperSheet',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Put'
+                    });
                     isInitialized = true;
                 }
             },
-            // getPaperSheets
+            // get Paper Sheets
             getPaperSheets = function (callbacks) {
                 initialize();
                 return amplify.request({
@@ -42,31 +49,42 @@ define("paperSheet/paperSheet.dataservice", function () {
                     error: callbacks.error,
                 });
             },
-            // getPaperSheetDetail
-            getPaperSheetDetail = function (params, callbacks) {
+            // delete Paper Sheet
+            deletePaperSheet = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getPaperSheetDetail',
+                    resourceId: 'deletePaperSheet',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
                 });
             },
-            // Save My Organization
-            saveMyPaperSheet = function (param, callbacks) {
+            // Save New paper Sheet
+            saveNewPaperSheet = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'saveMyPaperSheet',
+                    resourceId: 'saveNewPaperSheet',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
                 });
-            };
+            },
+        // Save paper Sheet
+        savePaperSheet = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'savePaperSheet',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        };
 
         return {
             getPaperSheets: getPaperSheets,
-            getPaperSheetDetail: getPaperSheetDetail,
-            saveMyPaperSheet: saveMyPaperSheet,
+            deletePaperSheet: deletePaperSheet,
+            saveNewPaperSheet: saveNewPaperSheet,
+            savePaperSheet: savePaperSheet,
         };
     })();
 

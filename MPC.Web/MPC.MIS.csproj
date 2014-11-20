@@ -924,8 +924,12 @@
     <Content Include="Scripts\Ace\theme-clouds.js" />
     <Content Include="Scripts\affix.js" />
     <Content Include="Scripts\alert.js" />
-    <Content Include="Areas\Api\Views\web.config" />
-    <Content Include="Areas\Common\Views\web.config" />
+    <Content Include="Areas\Api\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Common\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\Common\Views\Shared\_ConfirmationDialog.cshtml" />
     <Content Include="Areas\Common\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_Layout.cshtml" />
@@ -2118,6 +2122,8 @@
     <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />
     <Content Include="Views\Shared\Widgets\_PhraseLibrary.cshtml" />
     <Content Include="Views\Shared\Product\_SelectProductCategory.cshtml" />
+    <Content Include="Views\Shared\Company\_RaveReviews.cshtml" />
+    <Content Include="Views\Shared\Company\_ProductsFilter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

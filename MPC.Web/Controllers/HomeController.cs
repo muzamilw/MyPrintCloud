@@ -27,8 +27,23 @@ namespace MPC.MIS.Controllers
             else
                 return RedirectToRoute("Login");
         }
+
         public ActionResult LoginFull()
         {
+            /*
+             * Entry Point For MIS
+             * Get User Id, DomainKey From Url
+             * Call WebStore Service to Authenticate User
+             * On Call back, if user is authenticated then add Claims
+             */
+
+            var domainKey = Request.QueryString["DomainKey"];
+            var userId = Request.QueryString["UserId"];
+
+            // Authenticate User For this Site
+            // TODO: AuthenticateUser() // will return user
+            var user = ""; 
+
             return View();
         }
 
