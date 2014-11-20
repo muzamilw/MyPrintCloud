@@ -18,7 +18,7 @@ define("paperSheet/paperSheet.viewModel",
                     pager = ko.observable(),
 
                     templateToUse = function (paperSheet) {
-                        //return (paperSheet === selectedPaperSheet() ? 'editPaperSheetTemplate' : 'itemPaperSheetTemplate');
+                        return (paperSheet === selectedPaperSheet() ? 'editPaperSheetTemplate' : 'itemPaperSheetTemplate');
                     },
 
                     makeEditable = ko.observable(false),
@@ -33,12 +33,12 @@ define("paperSheet/paperSheet.viewModel",
                         //isEditable(true);
                     },
                     createNewPaperSheet = function () {
-                        //var paperSheet = new model.PaperSheet();
-                       // selectedPaperSheet(paperSheet);
-                       // paperSheets.splice(0, 0, paperSheet);
-                        paperSheets.splice(0, 0, model.PaperSheet());
-                        selectedPaperSheet(paperSheets()[0]);
-                        openEditDialog();
+                        var paperSheet = new model.PaperSheet();
+                        selectedPaperSheet(paperSheet);
+                        paperSheets.splice(0, 0, paperSheet);
+                        //paperSheets.splice(0, 0, model.PaperSheet());
+                        //selectedPaperSheet(paperSheets()[0]);
+                        //openEditDialog();
                     },
                     deletePaperSheet = function (paperSheet) {
                         dataservice.deletePaperSheet({
