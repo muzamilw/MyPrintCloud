@@ -59,13 +59,13 @@ namespace MPC.Repository.BaseRepository
             this.container = container;
         }
         /// <summary>
-        /// Company Sites Db Set
+        /// Organisation Db Set
         /// </summary>
-        public DbSet<CompanySites> CompanySites { get; set; }
+        public DbSet<Organisation> Organisations { get; set; }
         /// <summary>
         /// MarkUp Db Set
         /// </summary>
-        public DbSet<MarkUp> MarkUps { get; set; }
+        public DbSet<Markup> Markups { get; set; }
         /// <summary>
         /// Tax Rate Db Set
         /// </summary>
@@ -78,6 +78,10 @@ namespace MPC.Repository.BaseRepository
 
         public DbSet<CompanyDomain> CompanyDomains { get; set; }
 
+        /// <summary>
+        /// Page Sizes Db Set
+        /// </summary>
+        public DbSet<PaperSize> PaperSizes{ get; set; }
        
 
         //public DbSet<CompanyContact> CompanyContact { get; set; }

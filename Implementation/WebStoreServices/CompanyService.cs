@@ -1,16 +1,10 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using  MPC.Interfaces;
-using MPC.Interfaces.IServices;
 using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 
 
-namespace MPC.Implementation.Services
+namespace MPC.Implementation.WebStoreServices
 {
     public class CompanyService : ICompanyService   
     {
@@ -19,7 +13,9 @@ namespace MPC.Implementation.Services
         /// <summary>
         /// Private members
         /// </summary>
+// ReSharper disable InconsistentNaming
         private readonly ICompanyRepository companyRepository;
+// ReSharper restore InconsistentNaming
      
 
         #endregion

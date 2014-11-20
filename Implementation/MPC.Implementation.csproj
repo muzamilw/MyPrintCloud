@@ -123,10 +123,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CompanyService.cs" />
-    <Compile Include="Services\MyCompanyDomainService.cs" />
-    <Compile Include="Services\MyOrganizationService.cs" />
+    <Compile Include="WebStoreServices\CompanyService.cs" />
+    <Compile Include="MISServices\MyOrganizationService.cs" />
+    <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>
   <ItemGroup>

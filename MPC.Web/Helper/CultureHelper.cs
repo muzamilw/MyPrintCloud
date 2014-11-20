@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace MPC.Web.Helper
+namespace MPC.MIS.Helper
 {
     public static class CultureHelper
     {

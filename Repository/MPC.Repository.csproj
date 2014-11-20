@@ -167,9 +167,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ChartOfAccountRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
+    <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
-    <Compile Include="Repositories\CompanySitesRepository.cs" />
     <Compile Include="Repositories\MarkupRepository.cs" />
+    <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>

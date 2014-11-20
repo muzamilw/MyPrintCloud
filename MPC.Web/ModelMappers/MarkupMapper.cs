@@ -1,7 +1,7 @@
 ﻿using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.Web.Models;
+using ApiModels = MPC.MIS.Models;
 
-namespace MPC.Web.ModelMappers
+namespace MPC.MIS.ModelMappers
 {
     /// <summary>
     /// Markup Mapper
@@ -12,9 +12,9 @@ namespace MPC.Web.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static Models.Markup CreateFrom(this DomainModels.MarkUp source)
+        public static ApiModels.Markup CreateFrom(this DomainModels.Markup source)
         {
-            return new Models.Markup
+            return new ApiModels.Markup
             {
                 MarkUpId = source.MarkUpId,
                 MarkUpName = source.MarkUpName,
@@ -22,6 +22,18 @@ namespace MPC.Web.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Crete From Web Model
+        /// </summary>
+        public static DomainModels.Markup CreateFrom(this ApiModels.Markup source)
+        {
+            return new DomainModels.Markup
+            {
+                MarkUpId = source.MarkUpId,
+                MarkUpName = source.MarkUpName,
+                MarkUpRate = source.MarkUpRate,
+            };
+        }
         #endregion
     }
 }

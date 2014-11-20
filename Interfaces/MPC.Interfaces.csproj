@@ -51,17 +51,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IServices\ICompanyService.cs" />
-    <Compile Include="IServices\IMyCompanyDomainService.cs" />
-    <Compile Include="IServices\IMyOrganizationService.cs" />
+    <Compile Include="WebStoreServices\ICompanyService.cs" />
+    <Compile Include="MISServices\IMyOrganizationService.cs" />
+    <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
     <Compile Include="Logger\IMPCLogWriter.cs" />
+    <Compile Include="MISServices\IPaperSheetService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IBaseRepository.cs" />
     <Compile Include="Repository\IChartOfAccountRepository.cs" />
     <Compile Include="Repository\ICompanyDomainRepository.cs" />
+    <Compile Include="Repository\IOrganisationRepository.cs" />
     <Compile Include="Repository\ICompanyRepository.cs" />
-    <Compile Include="Repository\ICompanySitesRepository.cs" />
     <Compile Include="Repository\IMarkupRepository.cs" />
+    <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
   </ItemGroup>
   <ItemGroup>

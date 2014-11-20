@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using MPC.Interfaces.IServices;
-using MPC.Webstore.Models;
+using MPC.Interfaces.WebStoreServices;
 
 namespace MPC.Webstore.Controllers
 {
@@ -12,7 +8,9 @@ namespace MPC.Webstore.Controllers
     {
          #region Private
 
+// ReSharper disable InconsistentNaming
         private readonly ICompanyService companyService;
+// ReSharper restore InconsistentNaming
 
         #endregion
 

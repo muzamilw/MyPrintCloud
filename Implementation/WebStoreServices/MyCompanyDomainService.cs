@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MPC.Interfaces.IServices;
-using MPC.Models.DomainModels;
-using MPC.Models.ResponseModels;
+﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Interfaces.Repository;
 
-namespace MPC.Implementation.Services
+namespace MPC.Implementation.WebStoreServices
 {
     public class MyCompanyDomainService: IMyCompanyDomainService
     {

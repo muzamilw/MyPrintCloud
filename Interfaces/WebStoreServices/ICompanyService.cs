@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using MPC.Models.DomainModels;
-using MPC.Models.ResponseModels;
+﻿using MPC.Models.DomainModels;
 
-namespace MPC.Interfaces.IServices
+namespace MPC.Interfaces.WebStoreServices
 {
     /// <summary>
     /// My Organization Service Interface

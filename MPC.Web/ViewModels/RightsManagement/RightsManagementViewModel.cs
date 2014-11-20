@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MPC.Web.ViewModels.RightsManagement
+namespace MPC.MIS.ViewModels.RightsManagement
 {
     /// <summary>
     /// Rights Management

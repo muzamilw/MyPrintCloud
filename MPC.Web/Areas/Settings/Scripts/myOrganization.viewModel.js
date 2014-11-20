@@ -59,6 +59,8 @@ define("myOrganization/myOrganization.viewModel",
                         //pager(new pagination.Pagination({}, additionalTypeCharges, getAdditionalCharges));
                         //getAdditionalCharges();
                         selectedMyOrganization(new model.CompanySites());
+                        selectedMyOrganization().id(2);
+                        getMyOrganizationById(selectedMyOrganization());
                     },
                     // Get Base
                     getBase = function (callBack) {
@@ -151,6 +153,7 @@ define("myOrganization/myOrganization.viewModel",
                             selectedChartOfAccounts(chartOfAcc);
                         }
                     },
+                    //
                     onCreateNewTaxRate = function () {
                         var taxRate = taxRates()[0];
                         if (taxRate.name() !== undefined && taxRate.tax1() !== undefined) {
@@ -158,6 +161,7 @@ define("myOrganization/myOrganization.viewModel",
                             selectedTaxRate(taxRates()[0]);
                         }
                     },
+                    //
                      onCreateNewMarkup = function () {
                          var markup = markups()[0];
                          if (markup.name() !== undefined && markup.rate() !== undefined) {
@@ -165,13 +169,14 @@ define("myOrganization/myOrganization.viewModel",
                              selectedMarkup(markups()[0]);
                          }
                      },
-                      onCreateChartOfAccounts = function () {
-                          var chartOfAcc = chartOfAccounts()[0];
-                          if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
-                              chartOfAccounts.splice(0, 0, model.ChartOfAccount());
-                              selectedChartOfAccounts(chartOfAccounts()[0]);
-                          }
-                      },
+                     //
+                    onCreateChartOfAccounts = function () {
+                        var chartOfAcc = chartOfAccounts()[0];
+                        if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
+                            chartOfAccounts.splice(0, 0, model.ChartOfAccount());
+                            selectedChartOfAccounts(chartOfAccounts()[0]);
+                        }
+                    },
                      // Delete a tax Rate
                     onDeleteTaxRate = function (taxRate) {
                         if (!taxRate.id()) {
@@ -209,11 +214,12 @@ define("myOrganization/myOrganization.viewModel",
                         });
                         confirmation.show();
                     },
-                    //Get Additional Charge By Id
-                    getMyOrganizationById = function (addChrg) {
+                    //Get Organization By Id
+                    getMyOrganizationById = function (org) {
                         isLoadingMyOrganization(true);
-                        dataservice.getMyOrganizationDetail(model.AdditionalChrgServerMapperForId(addChrg), {
+                        dataservice.getMyOrganizationDetail(model.OrganizationServerMapperForId(org), {
                             success: function (data) {
+                                selectedMyOrganization(model.CompanySitesClientMapper(data));
                                 isLoadingMyOrganization(false);
                             },
                             error: function () {
@@ -225,14 +231,21 @@ define("myOrganization/myOrganization.viewModel",
                     // Save My Organization
                     onSaveMyOrganization = function (myOrg) {
                         if (doBeforeSave()) {
+                            //Markup List
                             if (myOrg.markupsInMyOrganization.length !== 0) {
                                 myOrg.markupsInMyOrganization.removeAll();
                             }
                             ko.utils.arrayPushAll(myOrg.markupsInMyOrganization(), markups());
+                            //Tax Rate List
                             if (myOrg.taxRatesInMyOrganization.length !== 0) {
                                 myOrg.taxRatesInMyOrganization.removeAll();
                             }
                             ko.utils.arrayPushAll(myOrg.taxRatesInMyOrganization(), taxRates());
+                            //Chart of Accounts List
+                            if (myOrg.chartOfAccountsInMyOrganization.length !== 0) {
+                                myOrg.chartOfAccountsInMyOrganization.removeAll();
+                            }
+                            ko.utils.arrayPushAll(myOrg.chartOfAccountsInMyOrganization(), chartOfAccounts());
                             saveMyOrganization(myOrg);
                         }
                     },
@@ -249,14 +262,34 @@ define("myOrganization/myOrganization.viewModel",
                     saveMyOrganization = function (myOrg) {
                         dataservice.saveMyOrganization(model.CompanySitesServerMapper(myOrg), {
                             success: function (data) {
-                                var additionalCharge = data;
-                                //if (selectedAdditionalChargeType().id() > 0) {
-                                //    selectedAdditionalChargeType().isEditable(additionalCharge.isEditable()),
-                                //        closeAdditionalChargeEditor();
-                                //} else {
-                                //    additionalTypeCharges.splice(0, 0, additionalCharge);
-                                //    closeAdditionalChargeEditor();
-                                //}
+                                var orgId = data.OrganizationId;
+                                if (selectedMyOrganization().id() > 0) {
+                                    //Update IDs of Newly added Chart of Accounts
+                                    _.each(data.ChartOfAccounts, function (item) {
+                                        var chartOfAcc = new model.ChartOfAccountClientMapper(item);
+                                        _.each(chartOfAccounts(), function (chartOfAccount) {
+                                            if (chartOfAccount.id() === undefined) {
+                                                if (chartOfAcc.name() === chartOfAccount.name() && chartOfAcc.accountNo() === chartOfAccount.accountNo()) {
+                                                    chartOfAccount.id(chartOfAcc.id());
+                                                }
+                                            }
+                                        });
+                                    });
+                                    //Update IDs of Newly added Markups
+                                    _.each(data.Markups, function (item) {
+                                        var markup = new model.MarkupClientMapper(item);
+                                        _.each(markups(), function (markupListItem) {
+                                            if (markupListItem.id() === undefined) {
+                                                if (markup.name() === markupListItem.name() && markup.rate() === markupListItem.rate()) {
+                                                    markupListItem.id(markup.id());
+                                                }
+                                            }
+                                        });
+                                    });
+
+                                } else {
+                                    selectedMyOrganization(), id(orgId);
+                                }
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {

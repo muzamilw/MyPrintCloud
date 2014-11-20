@@ -11,7 +11,7 @@ namespace MPC.Repository.Repositories
     /// <summary>
     /// Markup Repository
     /// </summary>
-    public class MarkupRepository : BaseRepository<MarkUp>, IMarkupRepository
+    public class MarkupRepository : BaseRepository<Markup>, IMarkupRepository
     {
         #region Constructor
         /// <summary>
@@ -25,11 +25,11 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Primary database set
         /// </summary>
-        protected override IDbSet<MarkUp> DbSet
+        protected override IDbSet<Markup> DbSet
         {
             get
             {
-                return db.MarkUps;
+                return db.Markups;
             }
         }
 
@@ -39,7 +39,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Get All MarkUp for User Domain Key
         /// </summary>
-        public override IEnumerable<MarkUp> GetAll()
+        public override IEnumerable<Markup> GetAll()
         {
             return DbSet.Where(markup => markup.UserDomainKey == UserDomainKey).ToList();
         }

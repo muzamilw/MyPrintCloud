@@ -2,12 +2,12 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
-using MPC.Interfaces.IServices;
-using MPC.Web.ModelMappers;
-using MPC.Web.Models;
+using MPC.Interfaces.MISServices;
+using MPC.MIS.ModelMappers;
+using MPC.MIS.Models;
 using MPC.WebBase.Mvc;
 
-namespace MPC.Web.Areas.Api.Controllers
+namespace MPC.MIS.Areas.Api.Controllers
 {
     /// <summary>
     /// My Organization Api Controller
@@ -37,26 +37,24 @@ namespace MPC.Web.Areas.Api.Controllers
 
         #region Public
         /// <summary>
-        /// Get My Organization By Id
+        /// Get Organization By Id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public Models.CompanySites Get(int id)
+        public Organisation Get(long organisationId)
         {
-            return myOrganizationService.FindDetailById(id).CreateFrom();
+            return myOrganizationService.FindDetailById(organisationId).CreateFrom();
         }
 
         /// <summary>
-        /// Add/Update a My Organization
+        /// Add/Update a Organization
         /// </summary>
         [ApiException]
-        public int Post(CompanySites companySites)
+        public ResponseModels.MyOrganizationSaveResponse Post(Organisation organisation)
         {
-            if (companySites == null || !ModelState.IsValid)
+            if (organisation == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return myOrganizationService.SaveCompanySite(companySites.CreateFrom());
+            return myOrganizationService.SaveOrganization(organisation.CreateFrom()).CreateFrom();
         }
         #endregion
 

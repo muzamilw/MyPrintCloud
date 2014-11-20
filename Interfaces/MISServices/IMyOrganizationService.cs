@@ -2,7 +2,7 @@
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
-namespace MPC.Interfaces.IServices
+namespace MPC.Interfaces.MISServices
 {
     /// <summary>
     /// My Organization Service Interface
@@ -15,14 +15,14 @@ namespace MPC.Interfaces.IServices
         MyOrganizationBaseResponse GetBaseData();
 
         /// <summary>
-        /// Find Company Site Detail By Company Site ID
+        /// Find Organisation Detail By Organisation ID
         /// </summary>
-        CompanySites FindDetailById(int companySiteId);
+        Organisation FindDetailById(long organisationId);
 
         /// <summary>
-        /// Add/Update Company Sites
+        /// Add/Update Organization
         /// </summary>
-        int SaveCompanySite(CompanySites companySites);
+        MyOrganizationSaveResponse SaveOrganization(Organisation organisation);
 
         IList<int> GetOrganizationIds(int request);
     }
