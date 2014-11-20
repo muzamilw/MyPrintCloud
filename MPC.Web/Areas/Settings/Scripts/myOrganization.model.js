@@ -51,9 +51,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             markupId = ko.observable(),
             //markups In My Organization
             markupsInMyOrganization = ko.observableArray([]),
-            //Tax Rates In MyOrganization
-            taxRatesInMyOrganization = ko.observableArray([]),
-            //Chart Of Accounts In My Organization
+               //Chart Of Accounts In My Organization
             chartOfAccountsInMyOrganization = ko.observableArray([]),
              // Errors
              errors = ko.validation.group({
@@ -117,7 +115,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              taxRegistrationNo: taxRegistrationNo,
              markupId: markupId,
              markupsInMyOrganization: markupsInMyOrganization,
-             taxRatesInMyOrganization: taxRatesInMyOrganization,
              chartOfAccountsInMyOrganization: chartOfAccountsInMyOrganization,
              errors: errors,
              isValid: isValid,
@@ -217,50 +214,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
         return self;
     };
-    //Tax Rate Entity
-    // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-    TaxRate = function () {
-        // ReSharper restore InconsistentNaming
-        var // Reference to this object
-            self,
-            // Unique key
-            id = ko.observable(),
-             //Name
-            name = ko.observable().extend({ required: true }),
-            //Tax1
-            tax1 = ko.observable().extend({ required: true }),
-               // Errors
-            errors = ko.validation.group({
-            }),
-            // Is Valid
-            isValid = ko.computed(function () {
-                return errors().length === 0;
-            }),
 
-            // ReSharper disable InconsistentNaming
-            dirtyFlag = new ko.dirtyFlag({
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty();
-            }),
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
-            };
-
-        self = {
-            id: id,
-            name: name,
-            tax1: tax1,
-            errors: errors,
-            isValid: isValid,
-            dirtyFlag: dirtyFlag,
-            hasChanges: hasChanges,
-            reset: reset,
-        };
-        return self;
-    };
     //Convert Server To Client
     var CompanySitesClientMapper = function (source) {
         var companySites = new CompanySites();
@@ -283,6 +237,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.weightUnitId(source.SystemWeightUnit === null ? undefined : source.SystemWeightUnit);
         companySites.taxRegistrationNo(source.TaxRegistrationNo === null ? undefined : source.TaxRegistrationNo);
         companySites.markupId(source.MarkupId === null ? undefined : source.MarkupId);
+        companySites.reset();
         return companySites;
     };
     //Convert Server To Client
@@ -300,14 +255,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         markup.name(source.MarkUpName === null ? undefined : source.MarkUpName);
         markup.rate(source.MarkUpRate === null ? undefined : source.MarkUpRate);
         return markup;
-    };
-    //Convert Server To Client
-    var TaxRateClientMapper = function (source) {
-        var taxRate = new TaxRate();
-        taxRate.id(source.TaxId === null ? undefined : source.TaxId);
-        taxRate.name(source.TaxName === null ? undefined : source.TaxName);
-        taxRate.tax1(source.Tax1 === null ? undefined : source.Tax1);
-        return taxRate;
     };
     //Convert Client To Server
     var CompanySitesServerMapper = function (source) {
@@ -331,11 +278,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.SystemWeightUnit = source.weightUnitId() === undefined ? null : source.weightUnitId();
         result.TaxRegistrationNo = source.taxRegistrationNo() === undefined ? null : source.taxRegistrationNo();
         result.MarkupId = source.markupId() === undefined ? null : source.markupId();
-        //Tax Rates
-        result.TaxRates = [];
-        _.each(source.taxRatesInMyOrganization(), function (item) {
-            result.TaxRates.push(TaxRateServerMapper(item));
-        });
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {
@@ -366,14 +308,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.MarkUpRate = source.rate() === undefined ? null : source.rate();
         return result;
     };
-    //Convert Client To Server
-    var TaxRateServerMapper = function (source) {
-        var result = {};
-        result.TaxId = source.id() === undefined ? 0 : source.id();
-        result.TaxName = source.name() === undefined ? null : source.name();
-        result.Tax1 = source.tax1() === undefined ? null : source.tax1();
-        return result;
-    };
     // Convert Client to server
     var OrganizationServerMapperForId = function (source) {
         var result = {};
@@ -385,15 +319,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         CompanySites: CompanySites,
         ChartOfAccount: ChartOfAccount,
         Markup: Markup,
-        TaxRate: TaxRate,
         CompanySitesClientMapper: CompanySitesClientMapper,
         ChartOfAccountClientMapper: ChartOfAccountClientMapper,
         MarkupClientMapper: MarkupClientMapper,
-        TaxRateClientMapper: TaxRateClientMapper,
         CompanySitesServerMapper: CompanySitesServerMapper,
         ChartOfAccountServerMapper: ChartOfAccountServerMapper,
         MarkupServerMapper: MarkupServerMapper,
-        TaxRateServerMapper: TaxRateServerMapper,
         OrganizationServerMapperForId: OrganizationServerMapperForId,
     };
 });

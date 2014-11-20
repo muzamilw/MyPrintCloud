@@ -6,7 +6,6 @@
 }
 <div class="row" id="myOrganizationBinding">
     <div data-bind="with:selectedMyOrganization">
-        <button class="btn  btn-info" id="saveBtn" data-bind="click: $root.onSaveMyOrganization, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
         <form>
             <div class="col-lg-12">
                 <div class="row">
@@ -17,14 +16,23 @@
                             <li class="active"><span>My Organization</span></li>
                         </ol>
                         <h1>My Organization</h1>
+                        <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
+                            <p> Please corresct these errors.</p>
+                            <table id="table">
+                                <tbody>
+                                    <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="row" id="user-profile">
-
+                    <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.onSaveMyOrganization, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                     <div class="col-lg-12 col-md-8 col-sm-8">
                         <div class="main-box clearfix">
                             <div class="tabs-wrapper profile-tabs">
-                                <ul class="nav nav-tabs">
+                                <ul class="nav nav-tabs" id="myTab">
                                     <li class="active"><a href="#tab-ORGDetail" data-toggle="tab">Organization Details</a></li>
                                     <li><a href="#tab-RegionalSettings" data-toggle="tab">Regional Settings</a></li>
                                     <li><a href="#tab-NominalCodes" data-toggle="tab">Nominal Codes</a></li>
@@ -41,7 +49,6 @@
                                                         <div class="col-lg-4 text-right">
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
-
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
@@ -442,72 +449,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 form-horizontal">
-                                            <h3>Tax Codes</h3>
-                                            <div class="col-md-6">
-                                                <div class="main-box clearfix">
-                                                    <header class="main-box-header clearfix">
-                                                        <h2>Taxes</h2>
-                                                        <div class="filter-block pull-right">
-                                                            <div class="form-group pull-left">
-                                                                <input type="text" class="form-control" placeholder="Search...">
-                                                                <i class="fa fa-search search-icon"></i>
-                                                            </div>
-                                                            <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewTaxRate">
-                                                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Tax
-                                                            </a>
-                                                        </div>
-                                                    </header>
-                                                    <div class="main-box-body clearfix">
-                                                        <div class="table-responsive">
-                                                            <table id="taxRateTablle" class="table table-striped table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th> <span>Tax Details<span></span></span></th>
-                                                                        <th> <span>% Rate<span></span></span></th>
-                                                                        <th>&nbsp;</th>
-                                                                        <th>&nbsp;</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <!-- ko template: { name: $root.templateToUse , foreach: $root.taxRates } -->
-                                                                    <!-- /ko -->
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <h3>Tax Settings</h3>
-                                            <div class="col-md-6">
-
-                                                <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-
-                                                        </div>
-                                                        <label for="txtCompanyName" class="control-label text-right tooltip-float">VAT Registration Number</label>
-
-                                                    </div>
-
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtRegNumber" value="VT124578" placeholder="Enter Registration Number" data-bind="value:taxRegistrationNo" />
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-
-                                                </div>
-
-
-
-                                            </div>
-                                        </div>
                                         <div class="col-md-12">
                                             <h3>Markups</h3>
                                             <div class="col-md-6">
@@ -708,54 +649,6 @@
     <!-- ko stopBinding: true -->
     @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
     <!-- /ko -->
-    <script id="editActionTaxRateTemplate" type="text/html">
-        <a href="#" class="table-link" data-bind="click: $root.selectTaxRate, css: { selectedRow: $data === $root.selectedTaxRate() }">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </script>
-    <script id="deleteActionTaxRateTemplate" type="text/html">
-        <a href="#" class="table-link danger" data-bind="click: $root.onDeleteTaxRate" title="Delete">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </script>
-    <script id="editTaxRateTemplate" type="text/html">
-        <tr data-bind="css: { selectedRow: $data === $root.selectedTaxRate() }">
-            <td>
-                <input type="text" data-bind="value: name, validationTooltip: name" />
-            </td>
-            <td>
-                <input style="width: 70px;" type="text" data-bind="value: tax1, validationTooltip: tax1" />
-            </td>
-            <td>
-                <!-- ko template: { name: 'editActionTaxRateTemplate' } -->
-                <!-- /ko -->
-            </td>
-            <td>
-                <!-- ko template: { name: 'deleteActionTaxRateTemplate' } -->
-                <!-- /ko -->
-            </td>
-        </tr>
-    </script>
-    <script id="itemTaxRateTemplate" type="text/html">
-        <tr>
-            <td data-bind="text: name"></td>
-            <td data-bind="text: tax1"></td>
-            <td>
-                <!-- ko template: { name: 'editActionTaxRateTemplate' } -->
-                <!-- /ko -->
-            </td>
-            <td>
-                <!-- ko template: { name: 'deleteActionTaxRateTemplate' } -->
-                <!-- /ko -->
-            </td>
-        </tr>
-    </script>
     @*Markup*@
     <script id="editActionMarkupTemplate" type="text/html">
         <a href="#" class="table-link" data-bind="click: $root.selectMarkup, css: { selectedRow: $data === $root.selectedMarkup() }">
@@ -776,7 +669,7 @@
     <script id="editMarkupTemplate" type="text/html">
         <tr data-bind="css: { selectedRow: $data === $root.selectedMarkup() }">
             <td>
-                <input type="text" data-bind="value: name, validationTooltip: name" />
+                <input type="text" data-bind="value: name, validationTooltip: name, attr: { id: 'markupName' + $index() }" />
             </td>
             <td>
                 <input style="width: 70px;" type="text" data-bind="value: rate, validationTooltip: rate" />
@@ -793,7 +686,7 @@
     </script>
     <script id="itemMarkupTemplate" type="text/html">
         <tr>
-            <td data-bind="text: name"></td>
+            <td data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
             <td data-bind="text: rate"></td>
             <td>
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
@@ -825,7 +718,7 @@
     <script id="editChartOfAccountsTemplate" type="text/html">
         <tr data-bind="css: { selectedRow: $data === $root.selectedChartOfAccounts() }">
             <td>
-                <input type="text" data-bind="value: name, validationTooltip: name" />
+                <input type="text" data-bind="value: name, validationTooltip: name, attr: { id: 'nominalCodeName' + $index() }" />
             </td>
             <td>
                 <input style="width: 70px;" type="text" data-bind="value: accountNo, validationTooltip: accountNo" />
@@ -842,7 +735,7 @@
     </script>
     <script id="itemChartOfAccountsTemplate" type="text/html">
         <tr>
-            <td data-bind="text: name"></td>
+            <td data-bind="text: name, attr: { id: 'nominalCodeName' + $index() }"></td>
             <td data-bind="text: accountNo"></td>
             <td>
                 <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
@@ -854,6 +747,25 @@
             </td>
         </tr>
     </script>
+    @**Error Template*@
+    <script id="itemErrorTemplate" type="text/html">
+        <tr>
+            <!-- ko if: tabId === 1 -->
+            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+            <!-- /ko -->
+        </tr>
+        <tr>
+            <!-- ko if: tabId === 2 -->
+            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+            <!-- /ko -->
+        </tr>
+        <tr>
+            <!-- ko if: tabId === 3 -->
+            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+            <!-- /ko -->
+        </tr>
+    </script>
+
 </div>
 @section Scripts{
 
