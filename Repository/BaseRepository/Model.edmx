@@ -5,7 +5,7 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="tbl_chartofaccount">
+        <EntityType Name="ChartOfAccount">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -27,62 +27,123 @@
           <Property Name="SystemSiteID" Type="int" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="tbl_company_sites">
+        <EntityType Name="Company">
           <Key>
-            <PropertyRef Name="CompanySiteID" />
+            <PropertyRef Name="CompanyId" />
           </Key>
-          <Property Name="CompanySiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CompanySiteName" Type="varchar" MaxLength="100" />
-          <Property Name="Address1" Type="varchar" MaxLength="255" />
-          <Property Name="Address2" Type="varchar" MaxLength="255" />
-          <Property Name="Address3" Type="varchar" MaxLength="255" />
-          <Property Name="City" Type="varchar" MaxLength="50" />
-          <Property Name="State" Type="varchar" MaxLength="100" />
-          <Property Name="Country" Type="varchar" MaxLength="100" />
-          <Property Name="ZipCode" Type="varchar" MaxLength="50" />
-          <Property Name="Tel" Type="varchar" MaxLength="50" />
-          <Property Name="Fax" Type="varchar" MaxLength="50" />
-          <Property Name="Mobile" Type="varchar" MaxLength="50" />
-          <Property Name="Email" Type="varchar" MaxLength="50" />
-          <Property Name="URL" Type="varchar" MaxLength="50" />
-          <Property Name="CompanyID" Type="int" />
-          <Property Name="StateTaxID" Type="int" />
-          <Property Name="Tax1" Type="varchar" MaxLength="50" />
-          <Property Name="Tax2" Type="varchar" MaxLength="50" />
-          <Property Name="Tax3" Type="varchar" MaxLength="50" />
-          <Property Name="ProductionManagerID" Type="int" />
-          <Property Name="MarkupID" Type="int" />
-          <Property Name="OrderManagerID" Type="int" />
-          <Property Name="WebsiteLogo" Type="nvarchar" MaxLength="200" />
-          <Property Name="MISLogo" Type="nvarchar" MaxLength="200" />
-          <Property Name="Tax2ID" Type="int" />
-          <Property Name="Tax3ID" Type="int" />
-          <Property Name="TaxRegistrationNo" Type="varchar" MaxLength="100" />
-          <Property Name="PaymentBusinessEmail" Type="varchar" MaxLength="500" />
-          <Property Name="PaymentIdentityToken" Type="varchar" MaxLength="200" />
-          <Property Name="PaymentGatewayID" Type="int" />
-          <Property Name="LicenseLevel" Type="int" />
-          <Property Name="CustomerID" Type="int" />
-          <Property Name="CustomerAccountNumber" Type="varchar" MaxLength="50" />
-          <Property Name="SmtpServer" Type="varchar" MaxLength="200" />
-          <Property Name="SmtpUserName" Type="varchar" MaxLength="200" />
-          <Property Name="SmtpPassword" Type="varchar" MaxLength="200" />
-          <Property Name="VATRegNumber" Type="varchar" MaxLength="100" />
-          <Property Name="SystemLengthUnit" Type="int" />
-          <Property Name="SystemWeightUnit" Type="int" />
-          <Property Name="CurrencyID" Type="int" />
-          <Property Name="LanguageID" Type="int" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="10" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="URL" Type="varchar" MaxLength="150" />
+          <Property Name="CreditReference" Type="varchar" MaxLength="50" />
+          <Property Name="CreditLimit" Type="float" />
+          <Property Name="Terms" Type="nvarchar" MaxLength="3000" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="DefaultNominalCode" Type="int" Nullable="false" />
+          <Property Name="DefaultMarkUpId" Type="int" Nullable="false" />
+          <Property Name="AccountOpenDate" Type="datetime" />
+          <Property Name="AccountManagerId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="smallint" Nullable="false" />
+          <Property Name="IsCustomer" Type="smallint" Nullable="false" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="3000" />
+          <Property Name="NotesLastUpdatedDate" Type="datetime" />
+          <Property Name="NotesLastUpdatedBy" Type="int" />
+          <Property Name="AccountStatusId" Type="smallint" Nullable="false" />
+          <Property Name="IsDisabled" Type="smallint" Nullable="false" />
+          <Property Name="LockedBy" Type="int" Nullable="false" />
+          <Property Name="AccountBalance" Type="float" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="VATRegNumber" Type="varchar" MaxLength="50" />
+          <Property Name="VATRegReference" Type="varchar" MaxLength="50" />
+          <Property Name="FlagID" Type="int" Nullable="false" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="3000" />
+          <Property Name="IsGeneral" Type="smallint" />
+          <Property Name="SalesPerson" Type="int" />
+          <Property Name="Image" Type="varchar" MaxLength="200" />
+          <Property Name="WebAccessCode" Type="varchar" MaxLength="50" />
+          <Property Name="isArchived" Type="bit" />
+          <Property Name="PayByPersonalCredeitCard" Type="bit" />
+          <Property Name="PONumberRequired" Type="bit" />
+          <Property Name="ShowPrices" Type="bit" />
+          <Property Name="CarrierWebPath" Type="varchar" MaxLength="200" />
+          <Property Name="CarrierTrackingPath" Type="varchar" MaxLength="200" />
+          <Property Name="CorporateOrderingPolicy" Type="nvarchar(max)" />
+          <Property Name="isDisplaySiteHeader" Type="bit" />
+          <Property Name="isDisplayMenuBar" Type="bit" />
+          <Property Name="isDisplayBanners" Type="bit" />
+          <Property Name="isDisplayFeaturedProducts" Type="bit" />
+          <Property Name="isDisplayPromotionalProducts" Type="bit" />
+          <Property Name="isDisplayChooseUsIcons" Type="bit" />
+          <Property Name="isDisplaySecondaryPages" Type="bit" />
+          <Property Name="isDisplaySiteFooter" Type="bit" />
+          <Property Name="RedirectWebstoreURL" Type="varchar" MaxLength="500" />
+          <Property Name="defaultPalleteId" Type="int" />
+          <Property Name="isDisplaylBrokerBanners" Type="bit" />
+          <Property Name="isBrokerCanLaminate" Type="bit" />
+          <Property Name="isBrokerCanRoundCorner" Type="bit" />
+          <Property Name="isBrokerCanDeliverSameDay" Type="bit" />
+          <Property Name="isBrokerCanAcceptPaymentOnline" Type="bit" />
+          <Property Name="isBrokerOrderApprovalRequired" Type="bit" />
+          <Property Name="isBrokerPaymentRequired" Type="bit" />
+          <Property Name="isWhiteLabel" Type="bit" />
+          <Property Name="TwitterURL" Type="varchar" MaxLength="100" />
+          <Property Name="FacebookURL" Type="varchar" MaxLength="200" />
+          <Property Name="LinkedinURL" Type="varchar" MaxLength="200" />
+          <Property Name="WebMasterTag" Type="nvarchar(max)" />
+          <Property Name="WebAnalyticCode" Type="nvarchar(max)" />
+          <Property Name="isShowGoogleMap" Type="bit" />
+          <Property Name="isTextWatermark" Type="bit" />
+          <Property Name="WatermarkText" Type="varchar" MaxLength="100" />
+          <Property Name="CoreCustomerId" Type="int" />
+          <Property Name="StoreBackgroundImage" Type="varchar" MaxLength="200" />
+          <Property Name="isDisplayBrokerSecondaryPages" Type="bit" />
+          <Property Name="PriceFlagId" Type="int" />
+          <Property Name="isIncludeVAT" Type="bit" />
+          <Property Name="isAllowRegistrationFromWeb" Type="bit" />
+          <Property Name="MarketingBriefRecipient" Type="varchar" MaxLength="100" />
+          <Property Name="isLoginFirstTime" Type="bit" />
+          <Property Name="facebookAppId" Type="varchar" MaxLength="200" />
+          <Property Name="facebookAppKey" Type="varchar" MaxLength="200" />
+          <Property Name="twitterAppId" Type="varchar" MaxLength="200" />
+          <Property Name="twitterAppKey" Type="varchar" MaxLength="200" />
+          <Property Name="isStoreModePrivate" Type="bit" />
+          <Property Name="CustomCSS" Type="varchar(max)" />
+          <Property Name="TaxPercentageID" Type="int" />
+          <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
+          <Property Name="canUserPlaceOrderWithoutApproval" Type="bit" />
+          <Property Name="CanUserEditProfile" Type="bit" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="includeEmailBrokerArtworkOrderReport" Type="bit" />
+          <Property Name="includeEmailBrokerArtworkOrderXML" Type="bit" />
+          <Property Name="includeEmailBrokerArtworkOrderJobCard" Type="bit" />
+          <Property Name="makeEmailBrokerArtworkOrderProductionReady" Type="bit" />
+          <Property Name="SalesAndOrderManagerId1" Type="bigint" />
+          <Property Name="SalesAndOrderManagerId2" Type="bigint" />
+          <Property Name="ProductionManagerId1" Type="bigint" />
+          <Property Name="ProductionManagerId2" Type="bigint" />
+          <Property Name="StockNotificationManagerId1" Type="bigint" />
+          <Property Name="StockNotificationManagerId2" Type="bigint" />
+          <Property Name="IsDeliveryTaxAble" Type="bit" />
+          <Property Name="IsDisplayDeliveryOnCheckout" Type="bit" />
+          <Property Name="DeliveryPickUpAddressId" Type="bigint" />
         </EntityType>
-        <EntityType Name="tbl_markup">
+        <EntityType Name="CompanyDomain">
           <Key>
-            <PropertyRef Name="MarkUpID" />
+            <PropertyRef Name="CompanyDomainId" />
           </Key>
-          <Property Name="MarkUpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyDomainId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar(max)" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Markup">
+          <Key>
+            <PropertyRef Name="MarkUpId" />
+          </Key>
+          <Property Name="MarkUpId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MarkUpName" Type="varchar" MaxLength="50" />
           <Property Name="MarkUpRate" Type="float" />
           <Property Name="IsFixed" Type="int" />
-          <Property Name="SystemSiteID" Type="int" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tbl_taxrate">
@@ -100,96 +161,33 @@
           <Property Name="IsFixed" Type="bit" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_CompanyDomain_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="CompanyDomain" Type="Self.CompanyDomain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyDomain">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DomainModelsStoreContainer">
-          <EntitySet Name="tbl_chartofaccount" EntityType="Self.tbl_chartofaccount" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_company_sites" EntityType="Self.tbl_company_sites" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_markup" EntityType="Self.tbl_markup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_taxrate" EntityType="Self.tbl_taxrate" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CompanyDomain_Company" Association="Self.FK_CompanyDomain_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CompanyDomain" EntitySet="CompanyDomain" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DomainModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ChartOfAccount">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="OpeningBalance" Type="Double" Nullable="false" />
-          <Property Name="OpeningBalanceType" Type="Int16" />
-          <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="SubTypeId" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Nature" Type="Int16" />
-          <Property Name="IsActive" Type="Int16" />
-          <Property Name="IsFixed" Type="Int16" />
-          <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
-          <Property Name="IsForReconciliation" Type="Int16" Nullable="false" />
-          <Property Name="Balance" Type="Double" Nullable="false" />
-          <Property Name="IsRead" Type="Boolean" />
-          <Property Name="SystemSiteId" Type="Int32" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CompanySites">
-          <Key>
-            <PropertyRef Name="CompanySiteId" />
-          </Key>
-          <Property Name="CompanySiteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanySiteName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="StateTaxId" Type="Int32" />
-          <Property Name="Tax1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Tax2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Tax3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductionManagerId" Type="Int32" />
-          <Property Name="MarkupId" Type="Int32" />
-          <Property Name="OrderManagerId" Type="Int32" />
-          <Property Name="WebsiteLogo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MisLogo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Tax2Id" Type="Int32" />
-          <Property Name="Tax3Id" Type="Int32" />
-          <Property Name="TaxRegistrationNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentBusinessEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentIdentityToken" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentGatewayId" Type="Int32" />
-          <Property Name="LicenseLevel" Type="Int32" />
-          <Property Name="CustomerId" Type="Int32" />
-          <Property Name="CustomerAccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpServer" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpUserName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VatRegNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SystemLengthUnit" Type="Int32" />
-          <Property Name="SystemWeightUnit" Type="Int32" />
-          <Property Name="CurrencyId" Type="Int32" />
-          <Property Name="LanguageId" Type="Int32" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MarkUp">
-          <Key>
-            <PropertyRef Name="MarkUpId" />
-          </Key>
-          <Property Name="MarkUpId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MarkUpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MarkUpRate" Type="Double" />
-          <Property Name="IsFixed" Type="Int32" />
-          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="TaxRate">
           <Key>
             <PropertyRef Name="TaxId" />
@@ -206,100 +204,177 @@
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="BaseDbContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
-          <EntitySet Name="CompanySites" EntityType="DomainModels.CompanySites" />
-          <EntitySet Name="MarkUps" EntityType="DomainModels.MarkUp" />
           <EntitySet Name="TaxRates" EntityType="DomainModels.TaxRate" />
-        </EntityContainer>
-      </Schema>
+          <EntitySet Name="Companies" EntityType="DomainModels.Company" />
+          <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
+          <EntitySet Name="Markups" EntityType="DomainModels.Markup" />
+          <EntitySet Name="CompanyDomains" EntityType="DomainModels.CompanyDomain" />
+          <AssociationSet Name="FK_CompanyDomain_Company" Association="DomainModels.FK_CompanyDomain_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CompanyDomain" EntitySet="CompanyDomains" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CreditReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreditLimit" Type="Double" />
+          <Property Name="Terms" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="DefaultNominalCode" Type="Int32" Nullable="false" />
+          <Property Name="DefaultMarkUpId" Type="Int32" Nullable="false" />
+          <Property Name="AccountOpenDate" Type="DateTime" Precision="3" />
+          <Property Name="AccountManagerId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+          <Property Name="IsCustomer" Type="Int16" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="NotesLastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="NotesLastUpdatedBy" Type="Int32" />
+          <Property Name="AccountStatusId" Type="Int16" Nullable="false" />
+          <Property Name="IsDisabled" Type="Int16" Nullable="false" />
+          <Property Name="LockedBy" Type="Int32" Nullable="false" />
+          <Property Name="AccountBalance" Type="Double" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="VATRegNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VATRegReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlagId" Type="Int32" Nullable="false" />
+          <Property Name="PhoneNo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="IsGeneral" Type="Int16" />
+          <Property Name="SalesPerson" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="WebAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isArchived" Type="Boolean" />
+          <Property Name="PayByPersonalCredeitCard" Type="Boolean" />
+          <Property Name="PONumberRequired" Type="Boolean" />
+          <Property Name="ShowPrices" Type="Boolean" />
+          <Property Name="CarrierWebPath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierTrackingPath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CorporateOrderingPolicy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isDisplaySiteHeader" Type="Boolean" />
+          <Property Name="isDisplayMenuBar" Type="Boolean" />
+          <Property Name="isDisplayBanners" Type="Boolean" />
+          <Property Name="isDisplayFeaturedProducts" Type="Boolean" />
+          <Property Name="isDisplayPromotionalProducts" Type="Boolean" />
+          <Property Name="isDisplayChooseUsIcons" Type="Boolean" />
+          <Property Name="isDisplaySecondaryPages" Type="Boolean" />
+          <Property Name="isDisplaySiteFooter" Type="Boolean" />
+          <Property Name="RedirectWebstoreURL" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="defaultPalleteId" Type="Int32" />
+          <Property Name="isDisplaylBrokerBanners" Type="Boolean" />
+          <Property Name="isBrokerCanLaminate" Type="Boolean" />
+          <Property Name="isBrokerCanRoundCorner" Type="Boolean" />
+          <Property Name="isBrokerCanDeliverSameDay" Type="Boolean" />
+          <Property Name="isBrokerCanAcceptPaymentOnline" Type="Boolean" />
+          <Property Name="isBrokerOrderApprovalRequired" Type="Boolean" />
+          <Property Name="isBrokerPaymentRequired" Type="Boolean" />
+          <Property Name="isWhiteLabel" Type="Boolean" />
+          <Property Name="TwitterURL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FacebookURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LinkedinURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="WebMasterTag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WebAnalyticCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isShowGoogleMap" Type="Boolean" />
+          <Property Name="isTextWatermark" Type="Boolean" />
+          <Property Name="WatermarkText" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CoreCustomerId" Type="Int32" />
+          <Property Name="StoreBackgroundImage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isDisplayBrokerSecondaryPages" Type="Boolean" />
+          <Property Name="PriceFlagId" Type="Int32" />
+          <Property Name="isIncludeVAT" Type="Boolean" />
+          <Property Name="isAllowRegistrationFromWeb" Type="Boolean" />
+          <Property Name="MarketingBriefRecipient" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="isLoginFirstTime" Type="Boolean" />
+          <Property Name="facebookAppId" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="facebookAppKey" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="twitterAppId" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="twitterAppKey" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isStoreModePrivate" Type="Boolean" />
+          <Property Name="CustomCSS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TaxPercentageId" Type="Int32" />
+          <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="canUserPlaceOrderWithoutApproval" Type="Boolean" />
+          <Property Name="CanUserEditProfile" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="includeEmailBrokerArtworkOrderReport" Type="Boolean" />
+          <Property Name="includeEmailBrokerArtworkOrderXML" Type="Boolean" />
+          <Property Name="includeEmailBrokerArtworkOrderJobCard" Type="Boolean" />
+          <Property Name="makeEmailBrokerArtworkOrderProductionReady" Type="Boolean" />
+          <Property Name="SalesAndOrderManagerId1" Type="Int64" />
+          <Property Name="SalesAndOrderManagerId2" Type="Int64" />
+          <Property Name="ProductionManagerId1" Type="Int64" />
+          <Property Name="ProductionManagerId2" Type="Int64" />
+          <Property Name="StockNotificationManagerId1" Type="Int64" />
+          <Property Name="StockNotificationManagerId2" Type="Int64" />
+          <Property Name="IsDeliveryTaxAble" Type="Boolean" />
+          <Property Name="IsDisplayDeliveryOnCheckout" Type="Boolean" />
+          <Property Name="DeliveryPickUpAddressId" Type="Int64" />
+          <NavigationProperty Name="CompanyDomains" Relationship="DomainModels.FK_CompanyDomain_Company" FromRole="Company" ToRole="CompanyDomain" />
+        </EntityType>
+        <EntityType Name="ChartOfAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OpeningBalance" Type="Double" Nullable="false" />
+          <Property Name="OpeningBalanceType" Type="Int16" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" />
+          <Property Name="SubTypeID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Nature" Type="Int16" />
+          <Property Name="IsActive" Type="Int16" />
+          <Property Name="IsFixed" Type="Int16" />
+          <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
+          <Property Name="IsForReconciliation" Type="Int16" Nullable="false" />
+          <Property Name="Balance" Type="Double" Nullable="false" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="SystemSiteID" Type="Int32" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Markup">
+          <Key>
+            <PropertyRef Name="MarkUpId" />
+          </Key>
+          <Property Name="MarkUpId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarkUpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MarkUpRate" Type="Double" />
+          <Property Name="IsFixed" Type="Int32" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyDomain">
+          <Key>
+            <PropertyRef Name="CompanyDomainId" />
+          </Key>
+          <Property Name="CompanyDomainId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Domain" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_CompanyDomain_Company" FromRole="CompanyDomain" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_CompanyDomain_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyDomain" Role="CompanyDomain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyDomain">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DomainModelsStoreContainer" CdmEntityContainer="BaseDbContext">
-          <EntitySetMapping Name="ChartOfAccounts">
-            <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
-              <MappingFragment StoreEntitySet="tbl_chartofaccount">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="Id" ColumnName="ID" />
-                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
-                <ScalarProperty Name="OpeningBalanceType" ColumnName="OpeningBalanceType" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeID" />
-                <ScalarProperty Name="SubTypeId" ColumnName="SubTypeID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Nature" ColumnName="Nature" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
-                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
-                <ScalarProperty Name="IsForReconciliation" ColumnName="IsForReconciliation" />
-                <ScalarProperty Name="Balance" ColumnName="Balance" />
-                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
-                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CompanySites">
-            <EntityTypeMapping TypeName="DomainModels.CompanySites">
-              <MappingFragment StoreEntitySet="tbl_company_sites">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="CompanySiteId" ColumnName="CompanySiteID" />
-                <ScalarProperty Name="CompanySiteName" ColumnName="CompanySiteName" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="Tel" ColumnName="Tel" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Url" ColumnName="URL" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyID" />
-                <ScalarProperty Name="StateTaxId" ColumnName="StateTaxID" />
-                <ScalarProperty Name="Tax1" ColumnName="Tax1" />
-                <ScalarProperty Name="Tax2" ColumnName="Tax2" />
-                <ScalarProperty Name="Tax3" ColumnName="Tax3" />
-                <ScalarProperty Name="ProductionManagerId" ColumnName="ProductionManagerID" />
-                <ScalarProperty Name="MarkupId" ColumnName="MarkupID" />
-                <ScalarProperty Name="OrderManagerId" ColumnName="OrderManagerID" />
-                <ScalarProperty Name="WebsiteLogo" ColumnName="WebsiteLogo" />
-                <ScalarProperty Name="MisLogo" ColumnName="MISLogo" />
-                <ScalarProperty Name="Tax2Id" ColumnName="Tax2ID" />
-                <ScalarProperty Name="Tax3Id" ColumnName="Tax3ID" />
-                <ScalarProperty Name="TaxRegistrationNo" ColumnName="TaxRegistrationNo" />
-                <ScalarProperty Name="PaymentBusinessEmail" ColumnName="PaymentBusinessEmail" />
-                <ScalarProperty Name="PaymentIdentityToken" ColumnName="PaymentIdentityToken" />
-                <ScalarProperty Name="PaymentGatewayId" ColumnName="PaymentGatewayID" />
-                <ScalarProperty Name="LicenseLevel" ColumnName="LicenseLevel" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerAccountNumber" ColumnName="CustomerAccountNumber" />
-                <ScalarProperty Name="SmtpServer" ColumnName="SmtpServer" />
-                <ScalarProperty Name="SmtpUserName" ColumnName="SmtpUserName" />
-                <ScalarProperty Name="SmtpPassword" ColumnName="SmtpPassword" />
-                <ScalarProperty Name="VatRegNumber" ColumnName="VATRegNumber" />
-                <ScalarProperty Name="SystemLengthUnit" ColumnName="SystemLengthUnit" />
-                <ScalarProperty Name="SystemWeightUnit" ColumnName="SystemWeightUnit" />
-                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyID" />
-                <ScalarProperty Name="LanguageId" ColumnName="LanguageID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MarkUps">
-            <EntityTypeMapping TypeName="DomainModels.MarkUp">
-              <MappingFragment StoreEntitySet="tbl_markup">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="MarkUpId" ColumnName="MarkUpID" />
-                <ScalarProperty Name="MarkUpName" ColumnName="MarkUpName" />
-                <ScalarProperty Name="MarkUpRate" ColumnName="MarkUpRate" />
-                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
-                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TaxRates">
             <EntityTypeMapping TypeName="DomainModels.TaxRate">
               <MappingFragment StoreEntitySet="tbl_taxrate">
@@ -313,6 +388,151 @@
                 <ScalarProperty Name="Tax2" ColumnName="Tax2" />
                 <ScalarProperty Name="Tax3" ColumnName="Tax3" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="DomainModels.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="DeliveryPickUpAddressId" ColumnName="DeliveryPickUpAddressId" />
+                <ScalarProperty Name="IsDisplayDeliveryOnCheckout" ColumnName="IsDisplayDeliveryOnCheckout" />
+                <ScalarProperty Name="IsDeliveryTaxAble" ColumnName="IsDeliveryTaxAble" />
+                <ScalarProperty Name="StockNotificationManagerId2" ColumnName="StockNotificationManagerId2" />
+                <ScalarProperty Name="StockNotificationManagerId1" ColumnName="StockNotificationManagerId1" />
+                <ScalarProperty Name="ProductionManagerId2" ColumnName="ProductionManagerId2" />
+                <ScalarProperty Name="ProductionManagerId1" ColumnName="ProductionManagerId1" />
+                <ScalarProperty Name="SalesAndOrderManagerId2" ColumnName="SalesAndOrderManagerId2" />
+                <ScalarProperty Name="SalesAndOrderManagerId1" ColumnName="SalesAndOrderManagerId1" />
+                <ScalarProperty Name="makeEmailBrokerArtworkOrderProductionReady" ColumnName="makeEmailBrokerArtworkOrderProductionReady" />
+                <ScalarProperty Name="includeEmailBrokerArtworkOrderJobCard" ColumnName="includeEmailBrokerArtworkOrderJobCard" />
+                <ScalarProperty Name="includeEmailBrokerArtworkOrderXML" ColumnName="includeEmailBrokerArtworkOrderXML" />
+                <ScalarProperty Name="includeEmailBrokerArtworkOrderReport" ColumnName="includeEmailBrokerArtworkOrderReport" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CanUserEditProfile" ColumnName="CanUserEditProfile" />
+                <ScalarProperty Name="canUserPlaceOrderWithoutApproval" ColumnName="canUserPlaceOrderWithoutApproval" />
+                <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
+                <ScalarProperty Name="TaxPercentageId" ColumnName="TaxPercentageID" />
+                <ScalarProperty Name="CustomCSS" ColumnName="CustomCSS" />
+                <ScalarProperty Name="isStoreModePrivate" ColumnName="isStoreModePrivate" />
+                <ScalarProperty Name="twitterAppKey" ColumnName="twitterAppKey" />
+                <ScalarProperty Name="twitterAppId" ColumnName="twitterAppId" />
+                <ScalarProperty Name="facebookAppKey" ColumnName="facebookAppKey" />
+                <ScalarProperty Name="facebookAppId" ColumnName="facebookAppId" />
+                <ScalarProperty Name="isLoginFirstTime" ColumnName="isLoginFirstTime" />
+                <ScalarProperty Name="MarketingBriefRecipient" ColumnName="MarketingBriefRecipient" />
+                <ScalarProperty Name="isAllowRegistrationFromWeb" ColumnName="isAllowRegistrationFromWeb" />
+                <ScalarProperty Name="isIncludeVAT" ColumnName="isIncludeVAT" />
+                <ScalarProperty Name="PriceFlagId" ColumnName="PriceFlagId" />
+                <ScalarProperty Name="isDisplayBrokerSecondaryPages" ColumnName="isDisplayBrokerSecondaryPages" />
+                <ScalarProperty Name="StoreBackgroundImage" ColumnName="StoreBackgroundImage" />
+                <ScalarProperty Name="CoreCustomerId" ColumnName="CoreCustomerId" />
+                <ScalarProperty Name="WatermarkText" ColumnName="WatermarkText" />
+                <ScalarProperty Name="isTextWatermark" ColumnName="isTextWatermark" />
+                <ScalarProperty Name="isShowGoogleMap" ColumnName="isShowGoogleMap" />
+                <ScalarProperty Name="WebAnalyticCode" ColumnName="WebAnalyticCode" />
+                <ScalarProperty Name="WebMasterTag" ColumnName="WebMasterTag" />
+                <ScalarProperty Name="LinkedinURL" ColumnName="LinkedinURL" />
+                <ScalarProperty Name="FacebookURL" ColumnName="FacebookURL" />
+                <ScalarProperty Name="TwitterURL" ColumnName="TwitterURL" />
+                <ScalarProperty Name="isWhiteLabel" ColumnName="isWhiteLabel" />
+                <ScalarProperty Name="isBrokerPaymentRequired" ColumnName="isBrokerPaymentRequired" />
+                <ScalarProperty Name="isBrokerOrderApprovalRequired" ColumnName="isBrokerOrderApprovalRequired" />
+                <ScalarProperty Name="isBrokerCanAcceptPaymentOnline" ColumnName="isBrokerCanAcceptPaymentOnline" />
+                <ScalarProperty Name="isBrokerCanDeliverSameDay" ColumnName="isBrokerCanDeliverSameDay" />
+                <ScalarProperty Name="isBrokerCanRoundCorner" ColumnName="isBrokerCanRoundCorner" />
+                <ScalarProperty Name="isBrokerCanLaminate" ColumnName="isBrokerCanLaminate" />
+                <ScalarProperty Name="isDisplaylBrokerBanners" ColumnName="isDisplaylBrokerBanners" />
+                <ScalarProperty Name="defaultPalleteId" ColumnName="defaultPalleteId" />
+                <ScalarProperty Name="RedirectWebstoreURL" ColumnName="RedirectWebstoreURL" />
+                <ScalarProperty Name="isDisplaySiteFooter" ColumnName="isDisplaySiteFooter" />
+                <ScalarProperty Name="isDisplaySecondaryPages" ColumnName="isDisplaySecondaryPages" />
+                <ScalarProperty Name="isDisplayChooseUsIcons" ColumnName="isDisplayChooseUsIcons" />
+                <ScalarProperty Name="isDisplayPromotionalProducts" ColumnName="isDisplayPromotionalProducts" />
+                <ScalarProperty Name="isDisplayFeaturedProducts" ColumnName="isDisplayFeaturedProducts" />
+                <ScalarProperty Name="isDisplayBanners" ColumnName="isDisplayBanners" />
+                <ScalarProperty Name="isDisplayMenuBar" ColumnName="isDisplayMenuBar" />
+                <ScalarProperty Name="isDisplaySiteHeader" ColumnName="isDisplaySiteHeader" />
+                <ScalarProperty Name="CorporateOrderingPolicy" ColumnName="CorporateOrderingPolicy" />
+                <ScalarProperty Name="CarrierTrackingPath" ColumnName="CarrierTrackingPath" />
+                <ScalarProperty Name="CarrierWebPath" ColumnName="CarrierWebPath" />
+                <ScalarProperty Name="ShowPrices" ColumnName="ShowPrices" />
+                <ScalarProperty Name="PONumberRequired" ColumnName="PONumberRequired" />
+                <ScalarProperty Name="PayByPersonalCredeitCard" ColumnName="PayByPersonalCredeitCard" />
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="WebAccessCode" ColumnName="WebAccessCode" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+                <ScalarProperty Name="IsGeneral" ColumnName="IsGeneral" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagID" />
+                <ScalarProperty Name="VATRegReference" ColumnName="VATRegReference" />
+                <ScalarProperty Name="VATRegNumber" ColumnName="VATRegNumber" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="AccountBalance" ColumnName="AccountBalance" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />
+                <ScalarProperty Name="NotesLastUpdatedBy" ColumnName="NotesLastUpdatedBy" />
+                <ScalarProperty Name="NotesLastUpdatedDate" ColumnName="NotesLastUpdatedDate" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="IsCustomer" ColumnName="IsCustomer" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AccountManagerId" ColumnName="AccountManagerId" />
+                <ScalarProperty Name="AccountOpenDate" ColumnName="AccountOpenDate" />
+                <ScalarProperty Name="DefaultMarkUpId" ColumnName="DefaultMarkUpId" />
+                <ScalarProperty Name="DefaultNominalCode" ColumnName="DefaultNominalCode" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Terms" ColumnName="Terms" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="CreditReference" ColumnName="CreditReference" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChartOfAccounts">
+            <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
+              <MappingFragment StoreEntitySet="ChartOfAccount">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
+                <ScalarProperty Name="SystemSiteID" ColumnName="SystemSiteID" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="IsForReconciliation" ColumnName="IsForReconciliation" />
+                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Nature" ColumnName="Nature" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SubTypeID" ColumnName="SubTypeID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="OpeningBalanceType" ColumnName="OpeningBalanceType" />
+                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Markups">
+            <EntityTypeMapping TypeName="DomainModels.Markup">
+              <MappingFragment StoreEntitySet="Markup">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="MarkUpRate" ColumnName="MarkUpRate" />
+                <ScalarProperty Name="MarkUpName" ColumnName="MarkUpName" />
+                <ScalarProperty Name="MarkUpId" ColumnName="MarkUpId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyDomains">
+            <EntityTypeMapping TypeName="DomainModels.CompanyDomain">
+              <MappingFragment StoreEntitySet="CompanyDomain">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="CompanyDomainId" ColumnName="CompanyDomainId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

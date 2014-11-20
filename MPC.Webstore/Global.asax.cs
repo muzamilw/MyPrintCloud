@@ -25,7 +25,7 @@ namespace MPC.Webstore
             DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
             IConfigurationSource configurationSource = ConfigurationSourceFactory.Create();
             LogWriterFactory logWriterFactory = new LogWriterFactory(configurationSource);
-            Logger.SetLogWriter(logWriterFactory.Create());
+           // Logger.SetLogWriter(logWriterFactory.Create());
         }
         /// <summary>
         /// Create the unity container
@@ -59,6 +59,24 @@ namespace MPC.Webstore
         #endregion
         protected void Application_Start()
         {
+
+            RegisterIoC();
+            ConfigureLogger();
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Set MVC resolver
+            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+            // Set Web Api resolver
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            
+            
+            
+            
+            
+            
             //AreaRegistration.RegisterAllAreas();
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -67,10 +85,10 @@ namespace MPC.Webstore
 
 
 
-
-            RegisterIoC();
+            //Commented By Naveed
+          /*  RegisterIoC();
             AreaRegistration.RegisterAllAreas();
-            ConfigureLogger();
+          //  ConfigureLogger();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -81,19 +99,19 @@ namespace MPC.Webstore
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             // Set Web Api resolver
             //GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);*/
         }
 
-        public override void Init()
-        {
-            this.PostAuthenticateRequest += MvcApplication_PostAuthenticateRequest;
-            base.Init();
-        }
+        //public override void Init()
+        //{
+        //    this.PostAuthenticateRequest += MvcApplication_PostAuthenticateRequest;
+        //    base.Init();
+        //}
 
-        void MvcApplication_PostAuthenticateRequest(object sender, EventArgs e)
-        {
-            System.Web.HttpContext.Current.SetSessionStateBehavior(
-                SessionStateBehavior.Required);
-        }
+        //void MvcApplication_PostAuthenticateRequest(object sender, EventArgs e)
+        //{
+        //    System.Web.HttpContext.Current.SetSessionStateBehavior(
+        //        SessionStateBehavior.Required);
+        //}
     }
 }

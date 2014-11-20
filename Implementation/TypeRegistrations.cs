@@ -19,6 +19,8 @@ namespace MPC.Implementation
         {
             Repository.TypeRegistrations.RegisterType(unityContainer);
             unityContainer.RegisterType<IMyOrganizationService, MyOrganizationService>();
+            unityContainer.RegisterType<IMyCompanyDomainService, MyCompanyDomainService>();
+            unityContainer.RegisterType<ICompanyService, CompanyService>();
             unityContainer.RegisterType<IMPCLogger, MPCLogger>();
         }
     }
