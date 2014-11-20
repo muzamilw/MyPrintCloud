@@ -5,29 +5,32 @@
             var
                 self,
                 paperSizeId = ko.observable(),
-                name = ko.observable(),
-                height = ko.observable(),
-                weight = ko.observable(),
+                name = ko.observable().extend({ required: true }),
+                height = ko.observable().extend({ required: true }),
+                width = ko.observable().extend({ required: true }),
                 sizeMeasure = ko.observable(),
                 area = ko.observable(),
                 isFixed = ko.observable(),
                 region = ko.observable(),
                 isArchived = ko.observable(),
-                // Is Valid 
-             isValid = ko.computed(function () {// self  paperSizeId,name height weight sizeMeasure area isFixed region isArchived  isValid  dirtyFlag
-                 //return errors().length === 0;
-             }),
              // Errors
              errors = ko.validation.group({
-
+                 name: name,
+                 height: height,
+                 width: width
              }),
+                // Is Valid 
+             isValid = ko.computed(function () {
+                 return errors().length === 0 ? true : false;
+             }),
+
              // True if the booking has been changed
              // ReSharper disable InconsistentNaming
              dirtyFlag = new ko.dirtyFlag({
                  paperSizeId: paperSizeId,
                  name: name,
                  height: height,
-                 weight: weight,
+                 width: width,
                  sizeMeasure: sizeMeasure,
                  area: area,
                  isFixed: isFixed,
@@ -46,7 +49,7 @@
                 paperSizeId: paperSizeId,
                 name: name,
                 height: height,
-                weight: weight,
+                width: width,
                 sizeMeasure: sizeMeasure,
                 area: area,
                 isFixed: isFixed,
@@ -66,7 +69,7 @@
         papersheet.paperSizeId(source.PaperSizeId === null ? undefined : source.PaperSizeId);
         papersheet.name(source.Name === null ? undefined : source.Name);
         papersheet.height(source.Height === null ? undefined : source.Height);
-        papersheet.weight(source.Weight === null ? undefined : source.Weight);
+        papersheet.width(source.Weight === null ? undefined : source.Width);
         papersheet.sizeMeasure(source.SizeMeasure === null ? undefined : source.SizeMeasure);
         papersheet.area(source.Area === null ? undefined : source.Area);
         papersheet.isFixed(source.IsFixed === null ? undefined : source.IsFixed);
@@ -78,7 +81,7 @@
         result.PaperSizeId = source.paperSizeId() === null ? undefined : source.paperSizeId();
         result.Name = source.name() === null ? undefined : source.name();
         result.Height = source.height() === null ? undefined : source.height();
-        result.Weight = source.weight() === null ? undefined : source.weight();
+        result.Width = source.width() === null ? undefined : source.width();
         result.SizeMeasure = source.sizeMeasure() === null ? undefined : source.sizeMeasure();
         result.Area = source.area() === null ? undefined : source.area();
         result.IsFixed = source.isFixed() === null ? undefined : source.isFixed();

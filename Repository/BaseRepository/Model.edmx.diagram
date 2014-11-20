@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="81">
-        <EntityTypeShape EntityType="DomainModels.TaxRate" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="29">
         <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="DomainModels.Company" Width="6.625" PointX="6.375" PointY="1.375" />
+        <EntityTypeShape EntityType="DomainModels.Company" Width="1.875" PointX="7.625" PointY="1.25" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="2.75" PointY="5.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyDomain" Width="1.5" PointX="3" PointY="9.25" />
         <AssociationConnector Association="DomainModels.FK_CompanyDomain_Company" />
+        <EntityTypeShape EntityType="DomainModels.PaperSize" Width="1.5" PointX="11.375" PointY="0.75" />
       </Diagram>
       <Diagram DiagramId="ba00683825174285b13129da724620c4" Name="Diagram2" ZoomLevel="35" >
       </Diagram>

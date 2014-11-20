@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets2ED1060E936C470F925AD04F9DC558E2D99C70BBAC423FDAAA743EEF1F7014BE))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets2ED1060E936C470F925AD04F9DC558E2D99C70BBAC423FDAAA743EEF1F7014BE : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets2ED1060E936C470F925AD04F9DC558E2D99C70BBAC423FDAAA743EEF1F7014BE()
+        public ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "9cd763d9f26fe348cddf85cdfeb4355068e53abbda7a82688ab76eb317e5cffa";
-            this.HashOverAllExtentViews = "3a75e325f90575b05a605c160badc739cdee9c8a7e4312ca5cde741d8399fd41";
+            this.HashOverMappingClosure = "de38aeed9199b13670fe84a42a8df0928ca49b1396a9c4a0edd3c60bb7f634e0";
+            this.HashOverAllExtentViews = "49e0e5ff336240f3a4ecd6ff563cf1a0dc7890f65eb65766daa93f30ff4ca432";
             this.ViewCount = 10;
         }
         
@@ -81,59 +81,9 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for DomainModelsStoreContainer.tbl_taxrate
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView0()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.tbl_taxrate", @"
-    SELECT VALUE -- Constructing tbl_taxrate
-        [DomainModels.Store.tbl_taxrate](T1.[tbl_taxrate.TaxID], T1.[tbl_taxrate.TaxCode], T1.[tbl_taxrate.TaxName], T1.[tbl_taxrate.SourceStateID], T1.[tbl_taxrate.DestinationStateID], T1.[tbl_taxrate.Tax1], T1.[tbl_taxrate.Tax2], T1.[tbl_taxrate.Tax3], T1.[tbl_taxrate.IsFixed], T1.[tbl_taxrate.UserDomainKey])
-    FROM (
-        SELECT 
-            T.TaxId AS [tbl_taxrate.TaxID], 
-            T.TaxCode AS [tbl_taxrate.TaxCode], 
-            T.TaxName AS [tbl_taxrate.TaxName], 
-            T.SourceStateId AS [tbl_taxrate.SourceStateID], 
-            T.DestinationStateId AS [tbl_taxrate.DestinationStateID], 
-            T.Tax1 AS [tbl_taxrate.Tax1], 
-            T.Tax2 AS [tbl_taxrate.Tax2], 
-            T.Tax3 AS [tbl_taxrate.Tax3], 
-            T.IsFixed AS [tbl_taxrate.IsFixed], 
-            T.UserDomainKey AS [tbl_taxrate.UserDomainKey], 
-            True AS _from0
-        FROM BaseDbContext.TaxRates AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
-        /// return view for BaseDbContext.TaxRates
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView1()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TaxRates", @"
-    SELECT VALUE -- Constructing TaxRates
-        [DomainModels.TaxRate](T1.TaxRate_TaxId, T1.TaxRate_TaxCode, T1.TaxRate_TaxName, T1.TaxRate_SourceStateId, T1.TaxRate_DestinationStateId, T1.TaxRate_Tax1, T1.TaxRate_Tax2, T1.TaxRate_Tax3, T1.TaxRate_IsFixed, T1.TaxRate_UserDomainKey)
-    FROM (
-        SELECT 
-            T.TaxID AS TaxRate_TaxId, 
-            T.TaxCode AS TaxRate_TaxCode, 
-            T.TaxName AS TaxRate_TaxName, 
-            T.SourceStateID AS TaxRate_SourceStateId, 
-            T.DestinationStateID AS TaxRate_DestinationStateId, 
-            T.Tax1 AS TaxRate_Tax1, 
-            T.Tax2 AS TaxRate_Tax2, 
-            T.Tax3 AS TaxRate_Tax3, 
-            T.IsFixed AS TaxRate_IsFixed, 
-            T.UserDomainKey AS TaxRate_UserDomainKey, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.tbl_taxrate AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
         /// return view for DomainModelsStoreContainer.Company
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView2()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView0()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(9102);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Company\r\n        [DomainModels.Store.Company]");
@@ -144,7 +94,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ustomer, T1.Company_Notes, T1.Company_NotesLastUpdatedDate, T1.Company_NotesLast");
             viewString.Append("UpdatedBy, T1.Company_AccountStatusId, T1.Company_IsDisabled, T1.Company_LockedB");
             viewString.Append("y, T1.Company_AccountBalance, T1.Company_CreationDate, T1.Company_VATRegNumber, ");
-            viewString.Append("T1.Company_VATRegReference, T1.Company_FlagID, T1.Company_PhoneNo, T1.Company_Is");
+            viewString.Append("T1.Company_VATRegReference, T1.Company_FlagId, T1.Company_PhoneNo, T1.Company_Is");
             viewString.Append("General, T1.Company_SalesPerson, T1.Company_Image, T1.Company_WebAccessCode, T1.");
             viewString.Append("Company_isArchived, T1.Company_PayByPersonalCredeitCard, T1.Company_PONumberRequ");
             viewString.Append("ired, T1.Company_ShowPrices, T1.Company_CarrierWebPath, T1.Company_CarrierTracki");
@@ -164,7 +114,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("egistrationFromWeb, T1.Company_MarketingBriefRecipient, T1.Company_isLoginFirstT");
             viewString.Append("ime, T1.Company_facebookAppId, T1.Company_facebookAppKey, T1.Company_twitterAppI");
             viewString.Append("d, T1.Company_twitterAppKey, T1.Company_isStoreModePrivate, T1.Company_CustomCSS");
-            viewString.Append(", T1.Company_TaxPercentageID, T1.Company_XeroAccessCode, T1.Company_canUserPlace");
+            viewString.Append(", T1.Company_TaxPercentageId, T1.Company_XeroAccessCode, T1.Company_canUserPlace");
             viewString.Append("OrderWithoutApproval, T1.Company_CanUserEditProfile, T1.Company_OrganisationId, ");
             viewString.Append("T1.Company_includeEmailBrokerArtworkOrderReport, T1.Company_includeEmailBrokerAr");
             viewString.Append("tworkOrderXML, T1.Company_includeEmailBrokerArtworkOrderJobCard, T1.Company_make");
@@ -189,7 +139,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("          T.AccountBalance AS Company_AccountBalance, \r\n            T.CreationDa");
             viewString.Append("te AS Company_CreationDate, \r\n            T.VATRegNumber AS Company_VATRegNumber");
             viewString.Append(", \r\n            T.VATRegReference AS Company_VATRegReference, \r\n            T.Fl");
-            viewString.Append("agId AS Company_FlagID, \r\n            T.PhoneNo AS Company_PhoneNo, \r\n          ");
+            viewString.Append("agId AS Company_FlagId, \r\n            T.PhoneNo AS Company_PhoneNo, \r\n          ");
             viewString.Append("  T.IsGeneral AS Company_IsGeneral, \r\n            T.SalesPerson AS Company_Sales");
             viewString.Append("Person, \r\n            T.Image AS Company_Image, \r\n            T.WebAccessCode AS");
             viewString.Append(" Company_WebAccessCode, \r\n            T.isArchived AS Company_isArchived, \r\n    ");
@@ -231,7 +181,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("            T.twitterAppId AS Company_twitterAppId, \r\n            T.twitterAppKe");
             viewString.Append("y AS Company_twitterAppKey, \r\n            T.isStoreModePrivate AS Company_isStor");
             viewString.Append("eModePrivate, \r\n            T.CustomCSS AS Company_CustomCSS, \r\n            T.Ta");
-            viewString.Append("xPercentageId AS Company_TaxPercentageID, \r\n            T.XeroAccessCode AS Comp");
+            viewString.Append("xPercentageId AS Company_TaxPercentageId, \r\n            T.XeroAccessCode AS Comp");
             viewString.Append("any_XeroAccessCode, \r\n            T.canUserPlaceOrderWithoutApproval AS Company_");
             viewString.Append("canUserPlaceOrderWithoutApproval, \r\n            T.CanUserEditProfile AS Company_");
             viewString.Append("CanUserEditProfile, \r\n            T.OrganisationId AS Company_OrganisationId, \r\n");
@@ -256,7 +206,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyDomain
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView3()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView1()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CompanyDomain", @"
     SELECT VALUE -- Constructing CompanyDomain
@@ -274,7 +224,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Companies
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView4()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView2()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(9109);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Companies\r\n        [DomainModels.Company](T1.");
@@ -285,35 +235,35 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("mer, T1.Company_Notes, T1.Company_NotesLastUpdatedDate, T1.Company_NotesLastUpda");
             viewString.Append("tedBy, T1.Company_AccountStatusId, T1.Company_IsDisabled, T1.Company_LockedBy, T");
             viewString.Append("1.Company_AccountBalance, T1.Company_CreationDate, T1.Company_VATRegNumber, T1.C");
-            viewString.Append("ompany_VATRegReference, T1.Company_FlagId, T1.Company_PhoneNo, T1.Company_IsGene");
-            viewString.Append("ral, T1.Company_SalesPerson, T1.Company_Image, T1.Company_WebAccessCode, T1.Comp");
-            viewString.Append("any_isArchived, T1.Company_PayByPersonalCredeitCard, T1.Company_PONumberRequired");
-            viewString.Append(", T1.Company_ShowPrices, T1.Company_CarrierWebPath, T1.Company_CarrierTrackingPa");
-            viewString.Append("th, T1.Company_CorporateOrderingPolicy, T1.Company_isDisplaySiteHeader, T1.Compa");
-            viewString.Append("ny_isDisplayMenuBar, T1.Company_isDisplayBanners, T1.Company_isDisplayFeaturedPr");
-            viewString.Append("oducts, T1.Company_isDisplayPromotionalProducts, T1.Company_isDisplayChooseUsIco");
-            viewString.Append("ns, T1.Company_isDisplaySecondaryPages, T1.Company_isDisplaySiteFooter, T1.Compa");
-            viewString.Append("ny_RedirectWebstoreURL, T1.Company_defaultPalleteId, T1.Company_isDisplaylBroker");
-            viewString.Append("Banners, T1.Company_isBrokerCanLaminate, T1.Company_isBrokerCanRoundCorner, T1.C");
-            viewString.Append("ompany_isBrokerCanDeliverSameDay, T1.Company_isBrokerCanAcceptPaymentOnline, T1.");
-            viewString.Append("Company_isBrokerOrderApprovalRequired, T1.Company_isBrokerPaymentRequired, T1.Co");
-            viewString.Append("mpany_isWhiteLabel, T1.Company_TwitterURL, T1.Company_FacebookURL, T1.Company_Li");
-            viewString.Append("nkedinURL, T1.Company_WebMasterTag, T1.Company_WebAnalyticCode, T1.Company_isSho");
-            viewString.Append("wGoogleMap, T1.Company_isTextWatermark, T1.Company_WatermarkText, T1.Company_Cor");
-            viewString.Append("eCustomerId, T1.Company_StoreBackgroundImage, T1.Company_isDisplayBrokerSecondar");
-            viewString.Append("yPages, T1.Company_PriceFlagId, T1.Company_isIncludeVAT, T1.Company_isAllowRegis");
-            viewString.Append("trationFromWeb, T1.Company_MarketingBriefRecipient, T1.Company_isLoginFirstTime,");
-            viewString.Append(" T1.Company_facebookAppId, T1.Company_facebookAppKey, T1.Company_twitterAppId, T");
-            viewString.Append("1.Company_twitterAppKey, T1.Company_isStoreModePrivate, T1.Company_CustomCSS, T1");
-            viewString.Append(".Company_TaxPercentageId, T1.Company_XeroAccessCode, T1.Company_canUserPlaceOrde");
-            viewString.Append("rWithoutApproval, T1.Company_CanUserEditProfile, T1.Company_OrganisationId, T1.C");
-            viewString.Append("ompany_includeEmailBrokerArtworkOrderReport, T1.Company_includeEmailBrokerArtwor");
-            viewString.Append("kOrderXML, T1.Company_includeEmailBrokerArtworkOrderJobCard, T1.Company_makeEmai");
-            viewString.Append("lBrokerArtworkOrderProductionReady, T1.Company_SalesAndOrderManagerId1, T1.Compa");
-            viewString.Append("ny_SalesAndOrderManagerId2, T1.Company_ProductionManagerId1, T1.Company_Producti");
-            viewString.Append("onManagerId2, T1.Company_StockNotificationManagerId1, T1.Company_StockNotificati");
-            viewString.Append("onManagerId2, T1.Company_IsDeliveryTaxAble, T1.Company_IsDisplayDeliveryOnChecko");
-            viewString.Append("ut, T1.Company_DeliveryPickUpAddressId)\r\n    FROM (\r\n        SELECT \r\n          ");
+            viewString.Append("ompany_VATRegReference, T1.Company_PhoneNo, T1.Company_IsGeneral, T1.Company_Sal");
+            viewString.Append("esPerson, T1.Company_Image, T1.Company_WebAccessCode, T1.Company_isArchived, T1.");
+            viewString.Append("Company_PayByPersonalCredeitCard, T1.Company_PONumberRequired, T1.Company_ShowPr");
+            viewString.Append("ices, T1.Company_CarrierWebPath, T1.Company_CarrierTrackingPath, T1.Company_Corp");
+            viewString.Append("orateOrderingPolicy, T1.Company_isDisplaySiteHeader, T1.Company_isDisplayMenuBar");
+            viewString.Append(", T1.Company_isDisplayBanners, T1.Company_isDisplayFeaturedProducts, T1.Company_");
+            viewString.Append("isDisplayPromotionalProducts, T1.Company_isDisplayChooseUsIcons, T1.Company_isDi");
+            viewString.Append("splaySecondaryPages, T1.Company_isDisplaySiteFooter, T1.Company_RedirectWebstore");
+            viewString.Append("URL, T1.Company_defaultPalleteId, T1.Company_isDisplaylBrokerBanners, T1.Company");
+            viewString.Append("_isBrokerCanLaminate, T1.Company_isBrokerCanRoundCorner, T1.Company_isBrokerCanD");
+            viewString.Append("eliverSameDay, T1.Company_isBrokerCanAcceptPaymentOnline, T1.Company_isBrokerOrd");
+            viewString.Append("erApprovalRequired, T1.Company_isBrokerPaymentRequired, T1.Company_isWhiteLabel,");
+            viewString.Append(" T1.Company_TwitterURL, T1.Company_FacebookURL, T1.Company_LinkedinURL, T1.Compa");
+            viewString.Append("ny_WebMasterTag, T1.Company_WebAnalyticCode, T1.Company_isShowGoogleMap, T1.Comp");
+            viewString.Append("any_isTextWatermark, T1.Company_WatermarkText, T1.Company_CoreCustomerId, T1.Com");
+            viewString.Append("pany_StoreBackgroundImage, T1.Company_isDisplayBrokerSecondaryPages, T1.Company_");
+            viewString.Append("PriceFlagId, T1.Company_isIncludeVAT, T1.Company_isAllowRegistrationFromWeb, T1.");
+            viewString.Append("Company_MarketingBriefRecipient, T1.Company_isLoginFirstTime, T1.Company_faceboo");
+            viewString.Append("kAppId, T1.Company_facebookAppKey, T1.Company_twitterAppId, T1.Company_twitterAp");
+            viewString.Append("pKey, T1.Company_isStoreModePrivate, T1.Company_CustomCSS, T1.Company_XeroAccess");
+            viewString.Append("Code, T1.Company_canUserPlaceOrderWithoutApproval, T1.Company_CanUserEditProfile");
+            viewString.Append(", T1.Company_OrganisationId, T1.Company_includeEmailBrokerArtworkOrderReport, T1");
+            viewString.Append(".Company_includeEmailBrokerArtworkOrderXML, T1.Company_includeEmailBrokerArtwork");
+            viewString.Append("OrderJobCard, T1.Company_makeEmailBrokerArtworkOrderProductionReady, T1.Company_");
+            viewString.Append("SalesAndOrderManagerId1, T1.Company_SalesAndOrderManagerId2, T1.Company_Producti");
+            viewString.Append("onManagerId1, T1.Company_ProductionManagerId2, T1.Company_StockNotificationManag");
+            viewString.Append("erId1, T1.Company_StockNotificationManagerId2, T1.Company_IsDeliveryTaxAble, T1.");
+            viewString.Append("Company_IsDisplayDeliveryOnCheckout, T1.Company_DeliveryPickUpAddressId, T1.Comp");
+            viewString.Append("any_FlagId, T1.Company_TaxPercentageId)\r\n    FROM (\r\n        SELECT \r\n          ");
             viewString.Append("  T.CompanyId AS Company_CompanyId, \r\n            T.AccountNumber AS Company_Acc");
             viewString.Append("ountNumber, \r\n            T.Name AS Company_Name, \r\n            T.URL AS Company");
             viewString.Append("_URL, \r\n            T.CreditReference AS Company_CreditReference, \r\n            ");
@@ -329,67 +279,67 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ed AS Company_IsDisabled, \r\n            T.LockedBy AS Company_LockedBy, \r\n      ");
             viewString.Append("      T.AccountBalance AS Company_AccountBalance, \r\n            T.CreationDate A");
             viewString.Append("S Company_CreationDate, \r\n            T.VATRegNumber AS Company_VATRegNumber, \r\n");
-            viewString.Append("            T.VATRegReference AS Company_VATRegReference, \r\n            T.FlagID");
-            viewString.Append(" AS Company_FlagId, \r\n            T.PhoneNo AS Company_PhoneNo, \r\n            T.");
-            viewString.Append("IsGeneral AS Company_IsGeneral, \r\n            T.SalesPerson AS Company_SalesPers");
-            viewString.Append("on, \r\n            T.Image AS Company_Image, \r\n            T.WebAccessCode AS Com");
-            viewString.Append("pany_WebAccessCode, \r\n            T.isArchived AS Company_isArchived, \r\n        ");
-            viewString.Append("    T.PayByPersonalCredeitCard AS Company_PayByPersonalCredeitCard, \r\n          ");
-            viewString.Append("  T.PONumberRequired AS Company_PONumberRequired, \r\n            T.ShowPrices AS ");
-            viewString.Append("Company_ShowPrices, \r\n            T.CarrierWebPath AS Company_CarrierWebPath, \r\n");
-            viewString.Append("            T.CarrierTrackingPath AS Company_CarrierTrackingPath, \r\n            ");
-            viewString.Append("T.CorporateOrderingPolicy AS Company_CorporateOrderingPolicy, \r\n            T.is");
-            viewString.Append("DisplaySiteHeader AS Company_isDisplaySiteHeader, \r\n            T.isDisplayMenuB");
-            viewString.Append("ar AS Company_isDisplayMenuBar, \r\n            T.isDisplayBanners AS Company_isDi");
-            viewString.Append("splayBanners, \r\n            T.isDisplayFeaturedProducts AS Company_isDisplayFeat");
-            viewString.Append("uredProducts, \r\n            T.isDisplayPromotionalProducts AS Company_isDisplayP");
-            viewString.Append("romotionalProducts, \r\n            T.isDisplayChooseUsIcons AS Company_isDisplayC");
-            viewString.Append("hooseUsIcons, \r\n            T.isDisplaySecondaryPages AS Company_isDisplaySecond");
-            viewString.Append("aryPages, \r\n            T.isDisplaySiteFooter AS Company_isDisplaySiteFooter, \r\n");
-            viewString.Append("            T.RedirectWebstoreURL AS Company_RedirectWebstoreURL, \r\n            ");
-            viewString.Append("T.defaultPalleteId AS Company_defaultPalleteId, \r\n            T.isDisplaylBroker");
-            viewString.Append("Banners AS Company_isDisplaylBrokerBanners, \r\n            T.isBrokerCanLaminate ");
-            viewString.Append("AS Company_isBrokerCanLaminate, \r\n            T.isBrokerCanRoundCorner AS Compan");
-            viewString.Append("y_isBrokerCanRoundCorner, \r\n            T.isBrokerCanDeliverSameDay AS Company_i");
-            viewString.Append("sBrokerCanDeliverSameDay, \r\n            T.isBrokerCanAcceptPaymentOnline AS Comp");
-            viewString.Append("any_isBrokerCanAcceptPaymentOnline, \r\n            T.isBrokerOrderApprovalRequire");
-            viewString.Append("d AS Company_isBrokerOrderApprovalRequired, \r\n            T.isBrokerPaymentRequi");
-            viewString.Append("red AS Company_isBrokerPaymentRequired, \r\n            T.isWhiteLabel AS Company_");
-            viewString.Append("isWhiteLabel, \r\n            T.TwitterURL AS Company_TwitterURL, \r\n            T.");
-            viewString.Append("FacebookURL AS Company_FacebookURL, \r\n            T.LinkedinURL AS Company_Linke");
-            viewString.Append("dinURL, \r\n            T.WebMasterTag AS Company_WebMasterTag, \r\n            T.We");
-            viewString.Append("bAnalyticCode AS Company_WebAnalyticCode, \r\n            T.isShowGoogleMap AS Com");
-            viewString.Append("pany_isShowGoogleMap, \r\n            T.isTextWatermark AS Company_isTextWatermark");
-            viewString.Append(", \r\n            T.WatermarkText AS Company_WatermarkText, \r\n            T.CoreCu");
-            viewString.Append("stomerId AS Company_CoreCustomerId, \r\n            T.StoreBackgroundImage AS Comp");
-            viewString.Append("any_StoreBackgroundImage, \r\n            T.isDisplayBrokerSecondaryPages AS Compa");
-            viewString.Append("ny_isDisplayBrokerSecondaryPages, \r\n            T.PriceFlagId AS Company_PriceFl");
-            viewString.Append("agId, \r\n            T.isIncludeVAT AS Company_isIncludeVAT, \r\n            T.isAl");
-            viewString.Append("lowRegistrationFromWeb AS Company_isAllowRegistrationFromWeb, \r\n            T.Ma");
-            viewString.Append("rketingBriefRecipient AS Company_MarketingBriefRecipient, \r\n            T.isLogi");
-            viewString.Append("nFirstTime AS Company_isLoginFirstTime, \r\n            T.facebookAppId AS Company");
-            viewString.Append("_facebookAppId, \r\n            T.facebookAppKey AS Company_facebookAppKey, \r\n    ");
-            viewString.Append("        T.twitterAppId AS Company_twitterAppId, \r\n            T.twitterAppKey AS");
-            viewString.Append(" Company_twitterAppKey, \r\n            T.isStoreModePrivate AS Company_isStoreMod");
-            viewString.Append("ePrivate, \r\n            T.CustomCSS AS Company_CustomCSS, \r\n            T.TaxPer");
-            viewString.Append("centageID AS Company_TaxPercentageId, \r\n            T.XeroAccessCode AS Company_");
-            viewString.Append("XeroAccessCode, \r\n            T.canUserPlaceOrderWithoutApproval AS Company_canU");
-            viewString.Append("serPlaceOrderWithoutApproval, \r\n            T.CanUserEditProfile AS Company_CanU");
-            viewString.Append("serEditProfile, \r\n            T.OrganisationId AS Company_OrganisationId, \r\n    ");
-            viewString.Append("        T.includeEmailBrokerArtworkOrderReport AS Company_includeEmailBrokerArtw");
-            viewString.Append("orkOrderReport, \r\n            T.includeEmailBrokerArtworkOrderXML AS Company_inc");
-            viewString.Append("ludeEmailBrokerArtworkOrderXML, \r\n            T.includeEmailBrokerArtworkOrderJo");
-            viewString.Append("bCard AS Company_includeEmailBrokerArtworkOrderJobCard, \r\n            T.makeEmai");
-            viewString.Append("lBrokerArtworkOrderProductionReady AS Company_makeEmailBrokerArtworkOrderProduct");
-            viewString.Append("ionReady, \r\n            T.SalesAndOrderManagerId1 AS Company_SalesAndOrderManage");
-            viewString.Append("rId1, \r\n            T.SalesAndOrderManagerId2 AS Company_SalesAndOrderManagerId2");
-            viewString.Append(", \r\n            T.ProductionManagerId1 AS Company_ProductionManagerId1, \r\n      ");
-            viewString.Append("      T.ProductionManagerId2 AS Company_ProductionManagerId2, \r\n            T.St");
-            viewString.Append("ockNotificationManagerId1 AS Company_StockNotificationManagerId1, \r\n            ");
-            viewString.Append("T.StockNotificationManagerId2 AS Company_StockNotificationManagerId2, \r\n        ");
-            viewString.Append("    T.IsDeliveryTaxAble AS Company_IsDeliveryTaxAble, \r\n            T.IsDisplayD");
-            viewString.Append("eliveryOnCheckout AS Company_IsDisplayDeliveryOnCheckout, \r\n            T.Delive");
-            viewString.Append("ryPickUpAddressId AS Company_DeliveryPickUpAddressId, \r\n            True AS _fro");
+            viewString.Append("            T.VATRegReference AS Company_VATRegReference, \r\n            T.PhoneN");
+            viewString.Append("o AS Company_PhoneNo, \r\n            T.IsGeneral AS Company_IsGeneral, \r\n        ");
+            viewString.Append("    T.SalesPerson AS Company_SalesPerson, \r\n            T.Image AS Company_Image");
+            viewString.Append(", \r\n            T.WebAccessCode AS Company_WebAccessCode, \r\n            T.isArch");
+            viewString.Append("ived AS Company_isArchived, \r\n            T.PayByPersonalCredeitCard AS Company_");
+            viewString.Append("PayByPersonalCredeitCard, \r\n            T.PONumberRequired AS Company_PONumberRe");
+            viewString.Append("quired, \r\n            T.ShowPrices AS Company_ShowPrices, \r\n            T.Carrie");
+            viewString.Append("rWebPath AS Company_CarrierWebPath, \r\n            T.CarrierTrackingPath AS Compa");
+            viewString.Append("ny_CarrierTrackingPath, \r\n            T.CorporateOrderingPolicy AS Company_Corpo");
+            viewString.Append("rateOrderingPolicy, \r\n            T.isDisplaySiteHeader AS Company_isDisplaySite");
+            viewString.Append("Header, \r\n            T.isDisplayMenuBar AS Company_isDisplayMenuBar, \r\n        ");
+            viewString.Append("    T.isDisplayBanners AS Company_isDisplayBanners, \r\n            T.isDisplayFea");
+            viewString.Append("turedProducts AS Company_isDisplayFeaturedProducts, \r\n            T.isDisplayPro");
+            viewString.Append("motionalProducts AS Company_isDisplayPromotionalProducts, \r\n            T.isDisp");
+            viewString.Append("layChooseUsIcons AS Company_isDisplayChooseUsIcons, \r\n            T.isDisplaySec");
+            viewString.Append("ondaryPages AS Company_isDisplaySecondaryPages, \r\n            T.isDisplaySiteFoo");
+            viewString.Append("ter AS Company_isDisplaySiteFooter, \r\n            T.RedirectWebstoreURL AS Compa");
+            viewString.Append("ny_RedirectWebstoreURL, \r\n            T.defaultPalleteId AS Company_defaultPalle");
+            viewString.Append("teId, \r\n            T.isDisplaylBrokerBanners AS Company_isDisplaylBrokerBanners");
+            viewString.Append(", \r\n            T.isBrokerCanLaminate AS Company_isBrokerCanLaminate, \r\n        ");
+            viewString.Append("    T.isBrokerCanRoundCorner AS Company_isBrokerCanRoundCorner, \r\n            T.");
+            viewString.Append("isBrokerCanDeliverSameDay AS Company_isBrokerCanDeliverSameDay, \r\n            T.");
+            viewString.Append("isBrokerCanAcceptPaymentOnline AS Company_isBrokerCanAcceptPaymentOnline, \r\n    ");
+            viewString.Append("        T.isBrokerOrderApprovalRequired AS Company_isBrokerOrderApprovalRequired");
+            viewString.Append(", \r\n            T.isBrokerPaymentRequired AS Company_isBrokerPaymentRequired, \r\n");
+            viewString.Append("            T.isWhiteLabel AS Company_isWhiteLabel, \r\n            T.TwitterURL A");
+            viewString.Append("S Company_TwitterURL, \r\n            T.FacebookURL AS Company_FacebookURL, \r\n    ");
+            viewString.Append("        T.LinkedinURL AS Company_LinkedinURL, \r\n            T.WebMasterTag AS Co");
+            viewString.Append("mpany_WebMasterTag, \r\n            T.WebAnalyticCode AS Company_WebAnalyticCode, ");
+            viewString.Append("\r\n            T.isShowGoogleMap AS Company_isShowGoogleMap, \r\n            T.isTe");
+            viewString.Append("xtWatermark AS Company_isTextWatermark, \r\n            T.WatermarkText AS Company");
+            viewString.Append("_WatermarkText, \r\n            T.CoreCustomerId AS Company_CoreCustomerId, \r\n    ");
+            viewString.Append("        T.StoreBackgroundImage AS Company_StoreBackgroundImage, \r\n            T.");
+            viewString.Append("isDisplayBrokerSecondaryPages AS Company_isDisplayBrokerSecondaryPages, \r\n      ");
+            viewString.Append("      T.PriceFlagId AS Company_PriceFlagId, \r\n            T.isIncludeVAT AS Comp");
+            viewString.Append("any_isIncludeVAT, \r\n            T.isAllowRegistrationFromWeb AS Company_isAllowR");
+            viewString.Append("egistrationFromWeb, \r\n            T.MarketingBriefRecipient AS Company_Marketing");
+            viewString.Append("BriefRecipient, \r\n            T.isLoginFirstTime AS Company_isLoginFirstTime, \r\n");
+            viewString.Append("            T.facebookAppId AS Company_facebookAppId, \r\n            T.facebookAp");
+            viewString.Append("pKey AS Company_facebookAppKey, \r\n            T.twitterAppId AS Company_twitterA");
+            viewString.Append("ppId, \r\n            T.twitterAppKey AS Company_twitterAppKey, \r\n            T.is");
+            viewString.Append("StoreModePrivate AS Company_isStoreModePrivate, \r\n            T.CustomCSS AS Com");
+            viewString.Append("pany_CustomCSS, \r\n            T.XeroAccessCode AS Company_XeroAccessCode, \r\n    ");
+            viewString.Append("        T.canUserPlaceOrderWithoutApproval AS Company_canUserPlaceOrderWithoutAp");
+            viewString.Append("proval, \r\n            T.CanUserEditProfile AS Company_CanUserEditProfile, \r\n    ");
+            viewString.Append("        T.OrganisationId AS Company_OrganisationId, \r\n            T.includeEmail");
+            viewString.Append("BrokerArtworkOrderReport AS Company_includeEmailBrokerArtworkOrderReport, \r\n    ");
+            viewString.Append("        T.includeEmailBrokerArtworkOrderXML AS Company_includeEmailBrokerArtwork");
+            viewString.Append("OrderXML, \r\n            T.includeEmailBrokerArtworkOrderJobCard AS Company_inclu");
+            viewString.Append("deEmailBrokerArtworkOrderJobCard, \r\n            T.makeEmailBrokerArtworkOrderPro");
+            viewString.Append("ductionReady AS Company_makeEmailBrokerArtworkOrderProductionReady, \r\n          ");
+            viewString.Append("  T.SalesAndOrderManagerId1 AS Company_SalesAndOrderManagerId1, \r\n            T.");
+            viewString.Append("SalesAndOrderManagerId2 AS Company_SalesAndOrderManagerId2, \r\n            T.Prod");
+            viewString.Append("uctionManagerId1 AS Company_ProductionManagerId1, \r\n            T.ProductionMana");
+            viewString.Append("gerId2 AS Company_ProductionManagerId2, \r\n            T.StockNotificationManager");
+            viewString.Append("Id1 AS Company_StockNotificationManagerId1, \r\n            T.StockNotificationMan");
+            viewString.Append("agerId2 AS Company_StockNotificationManagerId2, \r\n            T.IsDeliveryTaxAbl");
+            viewString.Append("e AS Company_IsDeliveryTaxAble, \r\n            T.IsDisplayDeliveryOnCheckout AS C");
+            viewString.Append("ompany_IsDisplayDeliveryOnCheckout, \r\n            T.DeliveryPickUpAddressId AS C");
+            viewString.Append("ompany_DeliveryPickUpAddressId, \r\n            T.FlagId AS Company_FlagId, \r\n    ");
+            viewString.Append("        T.TaxPercentageId AS Company_TaxPercentageId, \r\n            True AS _fro");
             viewString.Append("m0\r\n        FROM DomainModelsStoreContainer.Company AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Companies", viewString.ToString());
         }
@@ -397,7 +347,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyDomains
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView5()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView3()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyDomains", @"
     SELECT VALUE -- Constructing CompanyDomains
@@ -415,7 +365,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ChartOfAccount
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView6()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView4()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ChartOfAccount", "\r\n    SELECT VALUE -- Constructing ChartOfAccount\r\n        [DomainModels.Store.Ch" +
                     "artOfAccount](T1.ChartOfAccount_ID, T1.ChartOfAccount_AccountNo, T1.ChartOfAccou" +
@@ -444,7 +394,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ChartOfAccounts
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView7()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView5()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ChartOfAccounts", "\r\n    SELECT VALUE -- Constructing ChartOfAccounts\r\n        [DomainModels.ChartOf" +
                     "Account](T1.ChartOfAccount_ID, T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Na" +
@@ -473,7 +423,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Markup
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView8()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Markup", @"
     SELECT VALUE -- Constructing Markup
@@ -494,7 +444,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Markups
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView9()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView7()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Markups", @"
     SELECT VALUE -- Constructing Markups
@@ -509,6 +459,54 @@ namespace Edm_EntityMappingGeneratedViews
             T.UserDomainKey AS Markup_UserDomainKey, 
             True AS _from0
         FROM DomainModelsStoreContainer.Markup AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.PaperSize
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView8()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaperSize", @"
+    SELECT VALUE -- Constructing PaperSize
+        [DomainModels.Store.PaperSize](T1.PaperSize_PaperSizeID, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_isArchived)
+    FROM (
+        SELECT 
+            T.PaperSizeId AS PaperSize_PaperSizeID, 
+            T.Name AS PaperSize_Name, 
+            T.Height AS PaperSize_Height, 
+            T.Width AS PaperSize_Width, 
+            T.SizeMeasure AS PaperSize_SizeMeasure, 
+            T.Area AS PaperSize_Area, 
+            T.IsFixed AS PaperSize_IsFixed, 
+            T.Region AS PaperSize_Region, 
+            T.IsArchived AS PaperSize_isArchived, 
+            True AS _from0
+        FROM BaseDbContext.PaperSizes AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.PaperSizes
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView9()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaperSizes", @"
+    SELECT VALUE -- Constructing PaperSizes
+        [DomainModels.PaperSize](T1.PaperSize_PaperSizeId, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_IsArchived)
+    FROM (
+        SELECT 
+            T.PaperSizeID AS PaperSize_PaperSizeId, 
+            T.Name AS PaperSize_Name, 
+            T.Height AS PaperSize_Height, 
+            T.Width AS PaperSize_Width, 
+            T.SizeMeasure AS PaperSize_SizeMeasure, 
+            T.Area AS PaperSize_Area, 
+            T.IsFixed AS PaperSize_IsFixed, 
+            T.Region AS PaperSize_Region, 
+            T.isArchived AS PaperSize_IsArchived, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.PaperSize AS T
     ) AS T1");
         }
     }

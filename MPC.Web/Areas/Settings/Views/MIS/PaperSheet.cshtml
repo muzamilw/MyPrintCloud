@@ -17,19 +17,12 @@
                 </ol>
                 <div class="clearfix">
                     <h1 class="pull-left">Paper Sheets</h1>
-
-                        <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
-                            <i class="fa fa-lg"></i>&nbsp;....
-                        </a>
-
                     <div class="pull-right top-page-ui">
                         <a data-toggle="modal" data-bind="click: $root.createNewPaperSheet" class=" btn btn-primary">
                             <i class="fa fa-plus-circle fa-lg"></i>Add Paper Sheet
                         </a>
-
                     </div>
                     <div class="filter-block pull-right">
-
                     </div>
                 </div>
             </div>
@@ -45,47 +38,35 @@
                                         <th><span id="0">Name</span></th>
                                         <th><span id="1">Height</span></th>
                                         <th><span id="2">Width</span></th>
-                                        <th>&nbsp;</th>
+                                        <th><span id="3"></span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
                                         <!-- ko foreach: $root.paperSheets -->
                                         <!-- ko template: { name: 'itemPaperSheet' } -->
                                         <!-- /ko -->
                                         <!-- /ko -->
                                         <!-- ko if: !($root.paperSheets().length > 0) -->
                                         <!-- /ko -->
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
-
                         </div>
-
                     </div>
                 </div>
                 <div id="pagerDiv">
-                    
                 </div>
-
             </div>
         </div>
     </div>
     <script id="actionsTemplate" type="text/html">
-
-        <a href="#" class="table-link">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a href="/CRM/ContactCompanyDetail" class="table-link">
+        <a class="table-link" data-bind="click : $root.openEditDialog">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a href="#" class="table-link danger">
+        <a href="#" class="table-link danger" data-bind="click : $root.deletePaperSheet">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -96,15 +77,16 @@
         <tr data-bind="click: $root.selectPaperSheet, css: { selectedRow: $data === $root.selectedPaperSheet()}">
             <td data-bind="text: name"></td>
             <td data-bind="text: height"></td>
-            <td data-bind="text: weight"></td>
+            <td data-bind="text: width"></td>
             <td id="actionColumn">
                 <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->
             </td>
         </tr>
     </script>
+    @Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
 </div>
-@Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
+
 
 @section Scripts{
 

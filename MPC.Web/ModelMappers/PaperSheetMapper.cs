@@ -1,5 +1,5 @@
 ﻿using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.Web.Models;
+using ApiModels = MPC.MIS.Models;
 
 namespace MPC.MIS.ModelMappers
 {

@@ -13,6 +13,14 @@ define("paperSheet/paperSheet.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#paperSheetBinding")[0],
+                // Show Activity the dialog
+                showPaperSheetDialog = function () {
+                    $("#paperSheetDialog").modal("show");
+                },
+                // Hide Activity the dialog
+                hidePaperSheetDialog = function () {
+                    $("#paperSheetDialog").modal("hide");
+                },
                 // Initialize
                 initialize = function () {
                 	if (!bindingRoot) {
@@ -25,7 +33,9 @@ define("paperSheet/paperSheet.view",
     		initialize();
     		return {
     			bindingRoot: bindingRoot,
-    			viewModel: viewModel
+    			viewModel: viewModel,
+    			showPaperSheetDialog: showPaperSheetDialog,
+    			hidePaperSheetDialog: hidePaperSheetDialog
     		};
     	})(paperSheetViewModel);
 

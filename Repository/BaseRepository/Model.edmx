@@ -55,7 +55,7 @@
           <Property Name="CreationDate" Type="datetime" />
           <Property Name="VATRegNumber" Type="varchar" MaxLength="50" />
           <Property Name="VATRegReference" Type="varchar" MaxLength="50" />
-          <Property Name="FlagID" Type="int" Nullable="false" />
+          <Property Name="FlagId" Type="int" Nullable="false" />
           <Property Name="PhoneNo" Type="nvarchar" MaxLength="3000" />
           <Property Name="IsGeneral" Type="smallint" />
           <Property Name="SalesPerson" Type="int" />
@@ -108,7 +108,7 @@
           <Property Name="twitterAppKey" Type="varchar" MaxLength="200" />
           <Property Name="isStoreModePrivate" Type="bit" />
           <Property Name="CustomCSS" Type="varchar(max)" />
-          <Property Name="TaxPercentageID" Type="int" />
+          <Property Name="TaxPercentageId" Type="int" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="canUserPlaceOrderWithoutApproval" Type="bit" />
           <Property Name="CanUserEditProfile" Type="bit" />
@@ -146,20 +146,19 @@
           <Property Name="IsDefault" Type="bit" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="tbl_taxrate">
+        <EntityType Name="PaperSize">
           <Key>
-            <PropertyRef Name="TaxID" />
+            <PropertyRef Name="PaperSizeID" />
           </Key>
-          <Property Name="TaxID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TaxCode" Type="varchar" MaxLength="50" />
-          <Property Name="TaxName" Type="varchar" MaxLength="50" />
-          <Property Name="SourceStateID" Type="int" />
-          <Property Name="DestinationStateID" Type="int" />
-          <Property Name="Tax1" Type="float" />
-          <Property Name="Tax2" Type="float" />
-          <Property Name="Tax3" Type="float" />
-          <Property Name="IsFixed" Type="bit" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
+          <Property Name="PaperSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Height" Type="float" />
+          <Property Name="Width" Type="float" />
+          <Property Name="SizeMeasure" Type="int" />
+          <Property Name="Area" Type="float" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isArchived" Type="bit" />
         </EntityType>
         <Association Name="FK_CompanyDomain_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
@@ -178,7 +177,7 @@
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_taxrate" EntityType="Self.tbl_taxrate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CompanyDomain_Company" Association="Self.FK_CompanyDomain_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyDomain" EntitySet="CompanyDomain" />
@@ -188,23 +187,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DomainModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="TaxRate">
-          <Key>
-            <PropertyRef Name="TaxId" />
-          </Key>
-          <Property Name="TaxId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TaxName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SourceStateId" Type="Int32" />
-          <Property Name="DestinationStateId" Type="Int32" />
-          <Property Name="Tax1" Type="Double" />
-          <Property Name="Tax2" Type="Double" />
-          <Property Name="Tax3" Type="Double" />
-          <Property Name="IsFixed" Type="Boolean" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="BaseDbContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="TaxRates" EntityType="DomainModels.TaxRate" />
           <EntitySet Name="Companies" EntityType="DomainModels.Company" />
           <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
           <EntitySet Name="Markups" EntityType="DomainModels.Markup" />
@@ -213,6 +196,7 @@
             <End Role="Company" EntitySet="Companies" />
             <End Role="CompanyDomain" EntitySet="CompanyDomains" />
           </AssociationSet>
+          <EntitySet Name="PaperSizes" EntityType="DomainModels.PaperSize" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -242,7 +226,6 @@
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
           <Property Name="VATRegNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="VATRegReference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FlagId" Type="Int32" Nullable="false" />
           <Property Name="PhoneNo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="IsGeneral" Type="Int16" />
           <Property Name="SalesPerson" Type="Int32" />
@@ -295,7 +278,6 @@
           <Property Name="twitterAppKey" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="isStoreModePrivate" Type="Boolean" />
           <Property Name="CustomCSS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TaxPercentageId" Type="Int32" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="canUserPlaceOrderWithoutApproval" Type="Boolean" />
           <Property Name="CanUserEditProfile" Type="Boolean" />
@@ -314,7 +296,9 @@
           <Property Name="IsDisplayDeliveryOnCheckout" Type="Boolean" />
           <Property Name="DeliveryPickUpAddressId" Type="Int64" />
           <NavigationProperty Name="CompanyDomains" Relationship="DomainModels.FK_CompanyDomain_Company" FromRole="Company" ToRole="CompanyDomain" />
-        </EntityType>
+          <Property Name="FlagId" Type="Int32" Nullable="false" />
+          <Property Name="TaxPercentageId" Type="Int32" />
+          </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
             <PropertyRef Name="ID" />
@@ -369,31 +353,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PaperSize">
+          <Key>
+            <PropertyRef Name="PaperSizeId" />
+          </Key>
+          <Property Name="PaperSizeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Height" Type="Double" />
+          <Property Name="Width" Type="Double" />
+          <Property Name="SizeMeasure" Type="Int32" />
+          <Property Name="Area" Type="Double" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsArchived" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DomainModelsStoreContainer" CdmEntityContainer="BaseDbContext">
-          <EntitySetMapping Name="TaxRates">
-            <EntityTypeMapping TypeName="DomainModels.TaxRate">
-              <MappingFragment StoreEntitySet="tbl_taxrate">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="TaxId" ColumnName="TaxID" />
-                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
-                <ScalarProperty Name="TaxName" ColumnName="TaxName" />
-                <ScalarProperty Name="SourceStateId" ColumnName="SourceStateID" />
-                <ScalarProperty Name="DestinationStateId" ColumnName="DestinationStateID" />
-                <ScalarProperty Name="Tax1" ColumnName="Tax1" />
-                <ScalarProperty Name="Tax2" ColumnName="Tax2" />
-                <ScalarProperty Name="Tax3" ColumnName="Tax3" />
-                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="TaxPercentageId" ColumnName="TaxPercentageId" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
                 <ScalarProperty Name="DeliveryPickUpAddressId" ColumnName="DeliveryPickUpAddressId" />
                 <ScalarProperty Name="IsDisplayDeliveryOnCheckout" ColumnName="IsDisplayDeliveryOnCheckout" />
                 <ScalarProperty Name="IsDeliveryTaxAble" ColumnName="IsDeliveryTaxAble" />
@@ -411,7 +395,6 @@
                 <ScalarProperty Name="CanUserEditProfile" ColumnName="CanUserEditProfile" />
                 <ScalarProperty Name="canUserPlaceOrderWithoutApproval" ColumnName="canUserPlaceOrderWithoutApproval" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
-                <ScalarProperty Name="TaxPercentageId" ColumnName="TaxPercentageID" />
                 <ScalarProperty Name="CustomCSS" ColumnName="CustomCSS" />
                 <ScalarProperty Name="isStoreModePrivate" ColumnName="isStoreModePrivate" />
                 <ScalarProperty Name="twitterAppKey" ColumnName="twitterAppKey" />
@@ -464,7 +447,6 @@
                 <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
                 <ScalarProperty Name="IsGeneral" ColumnName="IsGeneral" />
                 <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
-                <ScalarProperty Name="FlagId" ColumnName="FlagID" />
                 <ScalarProperty Name="VATRegReference" ColumnName="VATRegReference" />
                 <ScalarProperty Name="VATRegNumber" ColumnName="VATRegNumber" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
@@ -533,6 +515,21 @@
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="CompanyDomainId" ColumnName="CompanyDomainId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperSizes">
+            <EntityTypeMapping TypeName="DomainModels.PaperSize">
+              <MappingFragment StoreEntitySet="PaperSize">
+                <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="SizeMeasure" ColumnName="SizeMeasure" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaperSizeId" ColumnName="PaperSizeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
