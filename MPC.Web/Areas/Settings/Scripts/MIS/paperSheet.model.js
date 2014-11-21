@@ -1,18 +1,19 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
 // ReSharper disable once InconsistentNaming
-        PaperSheet = function () {
+        PaperSheet = function (specifiedPaperSizeId, specifiedName, specifiedHeight, specifiedWidth, specifiedSizeMeasure, specifiedArea,
+                                specifiedIsFixed, specifiedRegion, specifiedIsArchived) {
             var
                 self,
-                paperSizeId = ko.observable(),
-                name = ko.observable().extend({ required: true }),
-                height = ko.observable().extend({ required: true }),
-                width = ko.observable().extend({ required: true }),
-                sizeMeasure = ko.observable(),
-                area = ko.observable(),
-                isFixed = ko.observable(),
-                region = ko.observable(),
-                isArchived = ko.observable(),
+                paperSizeId = ko.observable(specifiedPaperSizeId),
+                name = ko.observable(specifiedName).extend({ required: true }),
+                height = ko.observable(specifiedHeight).extend({ required: true, number: true }),
+                width = ko.observable(specifiedWidth).extend({ required: true, number: true }),
+                sizeMeasure = ko.observable(specifiedSizeMeasure),
+                area = ko.observable(specifiedArea),
+                isFixed = ko.observable(specifiedIsFixed),
+                region = ko.observable(specifiedRegion),
+                isArchived = ko.observable(specifiedIsArchived),
              // Errors
              errors = ko.validation.group({
                  name: name,
@@ -41,7 +42,20 @@
              hasChanges = ko.computed(function () {
                  return dirtyFlag.isDirty();
              }),
-             // Reset
+             convertToServerData = function() {
+                return {
+                    PaperSizeId: paperSizeId(),
+                    Name: name(),
+                    Height: height(),
+                    Width: width(),
+                    SizeMeasure: sizeMeasure(),
+                    Area: area(),
+                    IsFixed: isFixed(),
+                    Region: region(),
+                    IsArchived: isArchived()
+                }
+            },
+            // Reset
              reset = function () {
                  dirtyFlag.reset();
              };
@@ -59,38 +73,28 @@
                 errors: errors,
                 dirtyFlag: dirtyFlag,
                 hasChanges: hasChanges,
+                convertToServerData: convertToServerData,
                 reset: reset
             };
             return self;
         };
+    //function to attain cancel button functionality 
+    PaperSheet.CreateFromClientModel = function (source) {
+         return new PaperSheet(source.paperSizeId, source.name, source.height, source.width, source.sizeMeasure, source.area,
+                               source.isFixed, source.region, source.isArchived);
+     };
+    // server to client mapper
+     var paperSheetServertoClientMapper = function (source) {
+         return PaperSheet.Create(source);
+     };
 
-    var paperSheetClientMapper = function (source) {
-        var papersheet = new PaperSheet();
-        papersheet.paperSizeId(source.PaperSizeId === null ? undefined : source.PaperSizeId);
-        papersheet.name(source.Name === null ? undefined : source.Name);
-        papersheet.height(source.Height === null ? undefined : source.Height);
-        papersheet.width(source.Weight === null ? undefined : source.Width);
-        papersheet.sizeMeasure(source.SizeMeasure === null ? undefined : source.SizeMeasure);
-        papersheet.area(source.Area === null ? undefined : source.Area);
-        papersheet.isFixed(source.IsFixed === null ? undefined : source.IsFixed);
-        papersheet.region(source.Region === null ? undefined : source.Region);
-        return papersheet;
-    };
-    var paperSheetServerMapper = function (source) {
-        var result = {};
-        result.PaperSizeId = source.paperSizeId() === null ? undefined : source.paperSizeId();
-        result.Name = source.name() === null ? undefined : source.name();
-        result.Height = source.height() === null ? undefined : source.height();
-        result.Width = source.width() === null ? undefined : source.width();
-        result.SizeMeasure = source.sizeMeasure() === null ? undefined : source.sizeMeasure();
-        result.Area = source.area() === null ? undefined : source.area();
-        result.IsFixed = source.isFixed() === null ? undefined : source.isFixed();
-        result.Region = source.region() === null ? undefined : source.region();
-        return result;
-    };
+    // Area Factory
+     PaperSheet.Create = function (source) {
+         return new PaperSheet(source.PaperSizeId, source.Name, source.Height, source.Width, source.SizeMeasure, source.Area,
+                               source.IsFixed, source.Region, source.IsArchived);
+     };
     return {
         PaperSheet: PaperSheet,
-        paperSheetClientMapper: paperSheetClientMapper,
-        paperSheetServerMapper: paperSheetServerMapper
+        paperSheetServertoClientMapper: paperSheetServertoClientMapper
     };
 });
