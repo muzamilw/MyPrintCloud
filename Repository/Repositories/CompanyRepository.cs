@@ -36,9 +36,12 @@ namespace MPC.Repository.Repositories
 
         public Company GetCompanyByDomain(string domain)
         {
-            var q = from c in db.Company join cc in db.CompanyDomains on c.CompanyId equals cc.CompanyId  where  cc.Domain.Contains(domain) && c.OrganisationId == UserDomainKey select c;
+            var companyDomain = from c in db.Company 
+                                join cc in db.CompanyDomains on c.CompanyId equals cc.CompanyId  
+                                where cc.Domain.Contains(domain) && c.OrganisationId == UserDomainKey 
+                                select c;
 
-            return DbSet.FirstOrDefault();
+            return companyDomain.FirstOrDefault();
         }
 
     }
