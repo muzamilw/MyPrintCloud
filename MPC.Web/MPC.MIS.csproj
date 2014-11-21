@@ -405,6 +405,7 @@
     <Content Include="Content\Images\loaders\circular\069.gif" />
     <Content Include="Content\Images\loaders\circular\070.gif" />
     <Content Include="Content\Images\loaders\circular\072.gif" />
+    <Content Include="Content\Images\loaders\circular\spinner.gif" />
     <Content Include="Content\Images\loaders\horizontal\004.gif" />
     <Content Include="Content\Images\loaders\horizontal\005.gif" />
     <Content Include="Content\Images\loaders\horizontal\006.gif" />
