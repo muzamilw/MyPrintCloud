@@ -11,7 +11,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyRepository : IBaseRepository<Company, long>
     {
-
         Company GetCompanyByDomain(string domain);
     }
 }

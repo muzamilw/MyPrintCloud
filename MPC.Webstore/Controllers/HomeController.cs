@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -32,7 +34,12 @@ namespace MPC.Webstore.Controllers
         
         public ActionResult Index()
         {
-            ViewBag.Companyname =  companyService.GetCompanyByDomain("yolk").Name;
+            List<string> widgets = new List<string>();
+            widgets.Add("News");
+            widgets.Add("RaveReviews");
+
+            ViewBag.Companyname =  Session["store"] as Company;
+            ViewBag.widgets = widgets;
             return View();
         }
 

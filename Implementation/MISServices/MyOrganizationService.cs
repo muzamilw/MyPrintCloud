@@ -19,7 +19,6 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private readonly IOrganisationRepository organisationRepository;
         private readonly IMarkupRepository markupRepository;
-        private readonly ITaxRateRepository taxRateRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
 
         #endregion
@@ -30,11 +29,10 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
-            ITaxRateRepository taxRateRepository, IChartOfAccountRepository chartOfAccountRepository)
+         IChartOfAccountRepository chartOfAccountRepository)
         {
             this.organisationRepository = organisationRepository;
             this.markupRepository = markupRepository;
-            this.taxRateRepository = taxRateRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
         }
 
@@ -50,7 +48,6 @@ namespace MPC.Implementation.MISServices
             {
                 ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
-                TaxRates = taxRateRepository.GetAll(),
             };
         }
 
@@ -121,7 +118,6 @@ namespace MPC.Implementation.MISServices
                 OrganizationId = organisation.OrganisationId,
                 ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
-                //TaxRates = taxRateRepository.GetAll(),
             };
         }
 
@@ -133,70 +129,8 @@ namespace MPC.Implementation.MISServices
             organisation.UserDomainKey = organisationRepository.UserDomainKey;
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
-            IEnumerable<TaxRate> taxRatesDbVersion = taxRateRepository.GetAll();
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
-
-            #region Tax Rate
-            //if (organisation.TaxRates != null)
-            //{
-            //    foreach (var item in organisation.TaxRates)
-            //    {
-            //        //In case of added new Tax Rates
-            //        if (
-            //            taxRatesDbVersion.All(
-            //                x =>
-            //                    x.TaxId != item.TaxId ||
-            //                    item.TaxId == 0))
-            //        {
-            //            item.UserDomainKey = taxRateRepository.UserDomainKey;
-            //            taxRateRepository.Add(item);
-            //            taxRateRepository.SaveChanges();
-            //        }
-            //        else
-            //        {
-            //            //In case of Tax Rate Updated
-            //            foreach (var dbItem in taxRatesDbVersion)
-            //            {
-            //                if (dbItem.TaxId == item.TaxId)
-            //                {
-            //                    if (dbItem.TaxName != item.TaxName || dbItem.TaxCode != item.TaxCode)
-            //                    {
-            //                        taxRateRepository.Update(item);
-            //                        taxRateRepository.SaveChanges();
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            ////find missing items
-            //List<TaxRate> missingTaxRateListItems = new List<TaxRate>();
-            //foreach (TaxRate dbversionTaxRateItem in taxRatesDbVersion)
-            //{
-            //    if (organisation.TaxRates != null && organisation.TaxRates.All(x => x.TaxId != dbversionTaxRateItem.TaxId))
-            //    {
-            //        missingTaxRateListItems.Add(dbversionTaxRateItem);
-            //    }
-            //    //In case user delete all Tax Rate items from client side then it delete all items from db
-            //    if (organisation.TaxRates == null)
-            //    {
-            //        missingTaxRateListItems.Add(dbversionTaxRateItem);
-            //    }
-            //}
-            ////remove missing items
-            //foreach (TaxRate missingTaxRateItem in missingTaxRateListItems)
-            //{
-            //    TaxRate dbVersionMissingItem = taxRatesDbVersion.First(x => x.TaxId == missingTaxRateItem.TaxId);
-            //    if (dbVersionMissingItem.TaxId > 0)
-            //    {
-            //        taxRateRepository.Delete(dbVersionMissingItem);
-            //        taxRateRepository.SaveChanges();
-            //    }
-            //}
-
-            #endregion
-
             #region Markup
             if (organisation.Markups != null)
             {
@@ -322,7 +256,6 @@ namespace MPC.Implementation.MISServices
                 OrganizationId = organisation.OrganisationId,
                 ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
-                //TaxRates = taxRateRepository.GetAll(),
             };
         }
 

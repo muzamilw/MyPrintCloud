@@ -14,7 +14,7 @@ namespace MPC.Implementation.WebStoreServices
         /// Private members
         /// </summary>
 // ReSharper disable InconsistentNaming
-        private readonly ICompanyRepository companyRepository;
+        public readonly ICompanyRepository companyRepository;
 // ReSharper restore InconsistentNaming
      
 

@@ -405,6 +405,7 @@
     <Content Include="Content\Images\loaders\circular\069.gif" />
     <Content Include="Content\Images\loaders\circular\070.gif" />
     <Content Include="Content\Images\loaders\circular\072.gif" />
+    <Content Include="Content\Images\loaders\circular\spinner.gif" />
     <Content Include="Content\Images\loaders\horizontal\004.gif" />
     <Content Include="Content\Images\loaders\horizontal\005.gif" />
     <Content Include="Content\Images\loaders\horizontal\006.gif" />
@@ -923,8 +924,12 @@
     <Content Include="Scripts\Ace\theme-clouds.js" />
     <Content Include="Scripts\affix.js" />
     <Content Include="Scripts\alert.js" />
-    <Content Include="Areas\Api\Views\web.config" />
-    <Content Include="Areas\Common\Views\web.config" />
+    <Content Include="Areas\Api\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Common\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\Common\Views\Shared\_ConfirmationDialog.cshtml" />
     <Content Include="Areas\Common\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_Layout.cshtml" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Policy;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -8,15 +9,25 @@ using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.Unity;
+using MPC.Implementation.WebStoreServices;
+using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
+using System.Web;
+using MPC.Interfaces.WebStoreServices;
 
 namespace MPC.Webstore
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+     
+
         #region Private
         private static IUnityContainer container;
+        private ICompanyService companyService;
+
         /// <summary>
         /// Configure Logger
         /// </summary>
@@ -73,10 +84,6 @@ namespace MPC.Webstore
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
             
             
-            
-            
-            
-            
             //AreaRegistration.RegisterAllAreas();
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -113,5 +120,21 @@ namespace MPC.Webstore
         //    System.Web.HttpContext.Current.SetSessionStateBehavior(
         //        SessionStateBehavior.Required);
         //}
+      
+        protected void Session_Start()
+        {
+            companyService = container.Resolve<ICompanyService>();
+
+            string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
+            var store = companyService.GetCompanyByDomain(url);
+            if (store == null)
+            {
+                Response.Redirect("/Home/About");
+            }
+            else
+            {
+                Session["store"] = store;
+            }
+        }
     }
 }
