@@ -2124,6 +2124,7 @@
     <Content Include="Views\Shared\Product\_SelectProductCategory.cshtml" />
     <Content Include="Views\Shared\Company\_RaveReviews.cshtml" />
     <Content Include="Views\Shared\Company\_ProductsFilter.cshtml" />
+    <Content Include="Views\Shared\Company\_ChooseUsIcon.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
