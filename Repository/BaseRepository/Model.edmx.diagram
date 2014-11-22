@@ -4,14 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="29">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.875" PointX="7.625" PointY="1.25" />
-        <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="2.75" PointY="5.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyDomain" Width="1.5" PointX="3" PointY="9.25" />
         <AssociationConnector Association="DomainModels.FK_CompanyDomain_Company" />
-        <EntityTypeShape EntityType="DomainModels.PaperSize" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.CmsPage" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="2.25" PointX="10.625" PointY="8.5" />
+        <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidgetParam" Width="2.25" PointX="15.125" PointY="8.875" />
+        <AssociationConnector Association="DomainModels.FK_Company_CmsSkinPageWidget" />
+        <AssociationConnector Association="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" />
+        <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.PaperSize" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.Widget" Width="1.875" PointX="10.375" PointY="0.875" />
+        <AssociationConnector Association="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategory" Width="1.5" PointX="10.25" PointY="12.75" />
+        <AssociationConnector Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" />
+        <EntityTypeShape EntityType="DomainModels.CategoryTerritory" Width="1.5" PointX="10.375" PointY="3.75" />
       </Diagram>
       <Diagram DiagramId="ba00683825174285b13129da724620c4" Name="Diagram2" ZoomLevel="35" >
       </Diagram>

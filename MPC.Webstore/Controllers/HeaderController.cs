@@ -7,7 +7,7 @@ using MPC.Models.DomainModels;
 
 namespace MPC.Webstore.Controllers
 {
-    public class NewsController : Controller
+    public class HeaderController : Controller
     {
 
         // GET: News
@@ -15,7 +15,7 @@ namespace MPC.Webstore.Controllers
         {
             var model = Session["store"] as Company;
 
-            return PartialView("PartialViews/News", model);
+            return PartialView("PartialViews/Header", model);
         }
     }
 }

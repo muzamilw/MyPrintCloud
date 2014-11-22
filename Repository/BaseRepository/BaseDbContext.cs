@@ -82,13 +82,16 @@ namespace MPC.Repository.BaseRepository
         /// Page Sizes Db Set
         /// </summary>
         public DbSet<PaperSize> PaperSizes{ get; set; }
-       
 
-        //public DbSet<CompanyContact> CompanyContact { get; set; }
+        public DbSet<CmsPage> CmsPage { get; set; }
 
-        //public DbSet<Address> Address { get; set; }
+        public DbSet<CmsSkinPageWidget> PageWidgets { get; set; }
 
-        //public DbSet<CompanyTerritory> CompanyTerritory { get; set; }
+        public DbSet<CmsSkinPageWidgetParam> PageWidgetParams { get; set; }
+        public DbSet<Widget> Widgets { get; set; }
+
+        public DbSet<CategoryTerritory> CategoryTerritories { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
 
         #endregion
     }

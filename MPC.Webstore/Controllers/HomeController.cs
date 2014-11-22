@@ -10,9 +10,7 @@ namespace MPC.Webstore.Controllers
     {
          #region Private
 
-// ReSharper disable InconsistentNaming
-        private readonly ICompanyService companyService;
-// ReSharper restore InconsistentNaming
+        private readonly ICmsSkinPageWidgetService _widgetService;
 
         #endregion
 
@@ -20,13 +18,13 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICompanyService companyService)
+        public HomeController(ICmsSkinPageWidgetService widgetService)
         {
-            if (companyService == null)
+            if (widgetService == null)
             {
-                throw new ArgumentNullException("companyService");
+                throw new ArgumentNullException("widgetService");
             }
-            this.companyService = companyService;
+            this._widgetService = widgetService;
         }
 
         #endregion
@@ -34,12 +32,20 @@ namespace MPC.Webstore.Controllers
         
         public ActionResult Index()
         {
-            List<string> widgets = new List<string>();
-            widgets.Add("News");
-            widgets.Add("RaveReviews");
+           
+            var model = Session["store"] as Company;
+            if (model == null)
+            {
 
-            ViewBag.Companyname =  Session["store"] as Company;
-            ViewBag.widgets = widgets;
+            }
+            else
+            {
+                var widgets = _widgetService.GetDomainWidgetsById(model.CompanyId, model.OrganisationId ?? 0);
+                ViewBag.Company = model;
+                ViewBag.widgets = widgets;
+                ViewBag.ContentFile = "/Content/Site.css";
+            }
+            
             return View();
         }
 
@@ -56,5 +62,6 @@ namespace MPC.Webstore.Controllers
 
             return View();
         }
+        
     }
 }

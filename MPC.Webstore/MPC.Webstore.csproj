@@ -215,8 +215,10 @@
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginBarController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\RaveReviewsController.cs" />
+    <Compile Include="Controllers\BannerController.cs" />
+    <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,11 +231,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseResponse.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\HeaderController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\js-image-slider.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -302,8 +306,10 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
-    <Content Include="Views\Shared\PartialViews\News.cshtml" />
-    <Content Include="Views\Shared\PartialViews\RaveReviews.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Header.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Banner.cshtml" />
+    <Content Include="Views\Shared\PartialViews\LoginBar.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ParentCategories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -315,7 +321,9 @@
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
+    <Folder Include="Views\LoginBar\" />
     <Folder Include="Views\News\" />
+    <Folder Include="Views\ParentCategories\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

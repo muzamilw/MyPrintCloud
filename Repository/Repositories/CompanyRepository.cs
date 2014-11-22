@@ -43,6 +43,6 @@ namespace MPC.Repository.Repositories
 
             return companyDomain.FirstOrDefault();
         }
-
+      
     }
 }

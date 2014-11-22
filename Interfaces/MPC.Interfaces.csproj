@@ -56,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
+    <Compile Include="Repository\ICategoryTerritoryRepository.cs" />
+    <Compile Include="Repository\ICmsSkinPageWidgetRepository.cs" />
+    <Compile Include="WebStoreServices\ICmsSkinPageWidgetService.cs" />
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
