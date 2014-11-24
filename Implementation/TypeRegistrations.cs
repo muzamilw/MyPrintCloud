@@ -26,6 +26,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IMPCLogger, MPCLogger>();
             unityContainer.RegisterType<IPaperSheetService, PaperSheetService>();
             unityContainer.RegisterType<IAuthorizationChecker, AuthorizationChecker>();
+            unityContainer.RegisterType<ICmsSkinPageWidgetService, CmsSkinPageWidgetService>();
             unityContainer.RegisterType<IClaimsSecurityService, ClaimsSecurityService>();
         }
     }

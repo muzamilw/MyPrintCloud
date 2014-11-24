@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets791752E81DA279E0313843D1A682975580004CD6CDE1E5D9849776BCEE942014))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets791752E81DA279E0313843D1A682975580004CD6CDE1E5D9849776BCEE942014 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623()
+        public ViewsForBaseEntitySets791752E81DA279E0313843D1A682975580004CD6CDE1E5D9849776BCEE942014()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "de38aeed9199b13670fe84a42a8df0928ca49b1396a9c4a0edd3c60bb7f634e0";
-            this.HashOverAllExtentViews = "49e0e5ff336240f3a4ecd6ff563cf1a0dc7890f65eb65766daa93f30ff4ca432";
-            this.ViewCount = 10;
+            this.HashOverMappingClosure = "e4f033d5b07871c019049897a861cb14ee2909b914cce58bd56c879d764489db";
+            this.HashOverAllExtentViews = "72631f17760db10a65e3b8bc651d9e331abb340ec35c4ac4ee9a19f1ecbce2fb";
+            this.ViewCount = 22;
         }
         
         /// <Summary>
@@ -76,6 +76,54 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 9))
             {
                 return GetView9();
+            }
+            if ((index == 10))
+            {
+                return GetView10();
+            }
+            if ((index == 11))
+            {
+                return GetView11();
+            }
+            if ((index == 12))
+            {
+                return GetView12();
+            }
+            if ((index == 13))
+            {
+                return GetView13();
+            }
+            if ((index == 14))
+            {
+                return GetView14();
+            }
+            if ((index == 15))
+            {
+                return GetView15();
+            }
+            if ((index == 16))
+            {
+                return GetView16();
+            }
+            if ((index == 17))
+            {
+                return GetView17();
+            }
+            if ((index == 18))
+            {
+                return GetView18();
+            }
+            if ((index == 19))
+            {
+                return GetView19();
+            }
+            if ((index == 20))
+            {
+                return GetView20();
+            }
+            if ((index == 21))
+            {
+                return GetView21();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -222,9 +270,125 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.Companies
+        /// return view for DomainModelsStoreContainer.CmsSkinPageWidget
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView2()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CmsSkinPageWidget", @"
+    SELECT VALUE -- Constructing CmsSkinPageWidget
+        [DomainModels.Store.CmsSkinPageWidget](T1.CmsSkinPageWidget_PageWidgetId, T1.CmsSkinPageWidget_PageId, T1.CmsSkinPageWidget_WidgetId, T1.CmsSkinPageWidget_SkinId, T1.CmsSkinPageWidget_Sequence, T1.CmsSkinPageWidget_CompanyId, T1.CmsSkinPageWidget_OrganisationId)
+    FROM (
+        SELECT 
+            T.PageWidgetId AS CmsSkinPageWidget_PageWidgetId, 
+            T.PageId AS CmsSkinPageWidget_PageId, 
+            T.WidgetId AS CmsSkinPageWidget_WidgetId, 
+            T.SkinId AS CmsSkinPageWidget_SkinId, 
+            T.Sequence AS CmsSkinPageWidget_Sequence, 
+            T.CompanyId AS CmsSkinPageWidget_CompanyId, 
+            T.OrganisationId AS CmsSkinPageWidget_OrganisationId, 
+            True AS _from0
+        FROM BaseDbContext.CmsSkinPageWidgets AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.CmsSkinPageWidgetParam
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView3()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CmsSkinPageWidgetParam", @"
+    SELECT VALUE -- Constructing CmsSkinPageWidgetParam
+        [DomainModels.Store.CmsSkinPageWidgetParam](T1.CmsSkinPageWidgetParam_PageWidgetParamId, T1.CmsSkinPageWidgetParam_PageWidgetId, T1.CmsSkinPageWidgetParam_ParamName, T1.CmsSkinPageWidgetParam_ParamValue)
+    FROM (
+        SELECT 
+            T.PageWidgetParamId AS CmsSkinPageWidgetParam_PageWidgetParamId, 
+            T.PageWidgetId AS CmsSkinPageWidgetParam_PageWidgetId, 
+            T.ParamName AS CmsSkinPageWidgetParam_ParamName, 
+            T.ParamValue AS CmsSkinPageWidgetParam_ParamValue, 
+            True AS _from0
+        FROM BaseDbContext.CmsSkinPageWidgetParams AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Widgets
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView4()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Widgets", @"
+    SELECT VALUE -- Constructing Widgets
+        [DomainModels.Store.Widgets](T1.Widgets_WidgetId, T1.Widgets_WidgetCode, T1.Widgets_WidgetName, T1.Widgets_WidgetControlName)
+    FROM (
+        SELECT 
+            T.WidgetId AS Widgets_WidgetId, 
+            T.WidgetCode AS Widgets_WidgetCode, 
+            T.WidgetName AS Widgets_WidgetName, 
+            T.WidgetControlName AS Widgets_WidgetControlName, 
+            True AS _from0
+        FROM BaseDbContext.Widgets AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ProductCategory
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView5()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3698);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing ProductCategory\r\n        [DomainModels.Store.");
+            viewString.Append("ProductCategory](T1.ProductCategory_ProductCategoryId, T1.ProductCategory_Catego");
+            viewString.Append("ryName, T1.ProductCategory_ContentType, T1.ProductCategory_Description1, T1.Prod");
+            viewString.Append("uctCategory_Description2, T1.ProductCategory_LockedBy, T1.ProductCategory_Compan");
+            viewString.Append("yId, T1.ProductCategory_ParentCategoryId, T1.ProductCategory_DisplayOrder, T1.Pr");
+            viewString.Append("oductCategory_ImagePath, T1.ProductCategory_ThumbnailPath, T1.ProductCategory_is");
+            viewString.Append("Enabled, T1.ProductCategory_isMarketPlace, T1.ProductCategory_TemplateDesignerMa");
+            viewString.Append("ppedCategoryName, T1.ProductCategory_isArchived, T1.ProductCategory_isPublished,");
+            viewString.Append(" T1.ProductCategory_TrimmedWidth, T1.ProductCategory_TrimmedHeight, T1.ProductCa");
+            viewString.Append("tegory_isColorImposition, T1.ProductCategory_isOrderImposition, T1.ProductCatego");
+            viewString.Append("ry_isLinkToTemplates, T1.ProductCategory_Sides, T1.ProductCategory_ApplySizeRest");
+            viewString.Append("rictions, T1.ProductCategory_ApplyFoldLines, T1.ProductCategory_WidthRestriction");
+            viewString.Append(", T1.ProductCategory_HeightRestriction, T1.ProductCategory_CategoryTypeId, T1.Pr");
+            viewString.Append("oductCategory_RegionId, T1.ProductCategory_ZoomFactor, T1.ProductCategory_ScaleF");
+            viewString.Append("actor, T1.ProductCategory_isShelfProductCategory, T1.ProductCategory_MetaKeyword");
+            viewString.Append("s, T1.ProductCategory_MetaDescription, T1.ProductCategory_MetaTitle, T1.ProductC");
+            viewString.Append("ategory_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.ProductCateg");
+            viewString.Append("oryId AS ProductCategory_ProductCategoryId, \r\n            T.CategoryName AS Prod");
+            viewString.Append("uctCategory_CategoryName, \r\n            T.ContentType AS ProductCategory_Content");
+            viewString.Append("Type, \r\n            T.Description1 AS ProductCategory_Description1, \r\n          ");
+            viewString.Append("  T.Description2 AS ProductCategory_Description2, \r\n            T.LockedBy AS Pr");
+            viewString.Append("oductCategory_LockedBy, \r\n            T.CompanyId AS ProductCategory_CompanyId, ");
+            viewString.Append("\r\n            T.ParentCategoryId AS ProductCategory_ParentCategoryId, \r\n        ");
+            viewString.Append("    T.DisplayOrder AS ProductCategory_DisplayOrder, \r\n            T.ImagePath AS");
+            viewString.Append(" ProductCategory_ImagePath, \r\n            T.ThumbnailPath AS ProductCategory_Thu");
+            viewString.Append("mbnailPath, \r\n            T.isEnabled AS ProductCategory_isEnabled, \r\n          ");
+            viewString.Append("  T.isMarketPlace AS ProductCategory_isMarketPlace, \r\n            T.TemplateDesi");
+            viewString.Append("gnerMappedCategoryName AS ProductCategory_TemplateDesignerMappedCategoryName, \r\n");
+            viewString.Append("            T.isArchived AS ProductCategory_isArchived, \r\n            T.isPublis");
+            viewString.Append("hed AS ProductCategory_isPublished, \r\n            T.TrimmedWidth AS ProductCateg");
+            viewString.Append("ory_TrimmedWidth, \r\n            T.TrimmedHeight AS ProductCategory_TrimmedHeight");
+            viewString.Append(", \r\n            T.isColorImposition AS ProductCategory_isColorImposition, \r\n    ");
+            viewString.Append("        T.isOrderImposition AS ProductCategory_isOrderImposition, \r\n            ");
+            viewString.Append("T.isLinkToTemplates AS ProductCategory_isLinkToTemplates, \r\n            T.Sides ");
+            viewString.Append("AS ProductCategory_Sides, \r\n            T.ApplySizeRestrictions AS ProductCatego");
+            viewString.Append("ry_ApplySizeRestrictions, \r\n            T.ApplyFoldLines AS ProductCategory_Appl");
+            viewString.Append("yFoldLines, \r\n            T.WidthRestriction AS ProductCategory_WidthRestriction");
+            viewString.Append(", \r\n            T.HeightRestriction AS ProductCategory_HeightRestriction, \r\n    ");
+            viewString.Append("        T.CategoryTypeId AS ProductCategory_CategoryTypeId, \r\n            T.Regi");
+            viewString.Append("onId AS ProductCategory_RegionId, \r\n            T.ZoomFactor AS ProductCategory_");
+            viewString.Append("ZoomFactor, \r\n            T.ScaleFactor AS ProductCategory_ScaleFactor, \r\n      ");
+            viewString.Append("      T.isShelfProductCategory AS ProductCategory_isShelfProductCategory, \r\n    ");
+            viewString.Append("        T.MetaKeywords AS ProductCategory_MetaKeywords, \r\n            T.MetaDesc");
+            viewString.Append("ription AS ProductCategory_MetaDescription, \r\n            T.MetaTitle AS Product");
+            viewString.Append("Category_MetaTitle, \r\n            T.OrganisationId AS ProductCategory_Organisati");
+            viewString.Append("onId, \r\n            True AS _from0\r\n        FROM BaseDbContext.ProductCategories");
+            viewString.Append(" AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ProductCategory", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Companies
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(9109);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Companies\r\n        [DomainModels.Company](T1.");
@@ -347,7 +511,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyDomains
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView3()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView7()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyDomains", @"
     SELECT VALUE -- Constructing CompanyDomains
@@ -363,67 +527,125 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for DomainModelsStoreContainer.ChartOfAccount
+        /// return view for BaseDbContext.CmsSkinPageWidgets
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView4()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView8()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ChartOfAccount", "\r\n    SELECT VALUE -- Constructing ChartOfAccount\r\n        [DomainModels.Store.Ch" +
-                    "artOfAccount](T1.ChartOfAccount_ID, T1.ChartOfAccount_AccountNo, T1.ChartOfAccou" +
-                    "nt_Name, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType," +
-                    " T1.ChartOfAccount_TypeID, T1.ChartOfAccount_SubTypeID, T1.ChartOfAccount_Descri" +
-                    "ption, T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_I" +
-                    "sFixed, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliatio" +
-                    "n, T1.ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_System" +
-                    "SiteID, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n         " +
-                    "   T.ID AS ChartOfAccount_ID, \r\n            T.AccountNo AS ChartOfAccount_Accoun" +
-                    "tNo, \r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance" +
-                    " AS ChartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOf" +
-                    "Account_OpeningBalanceType, \r\n            T.TypeID AS ChartOfAccount_TypeID, \r\n " +
-                    "           T.SubTypeID AS ChartOfAccount_SubTypeID, \r\n            T.Description " +
-                    "AS ChartOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, " +
-                    "\r\n            T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS " +
-                    "ChartOfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastA" +
-                    "ctivityDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconcil" +
-                    "iation, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRea" +
-                    "d AS ChartOfAccount_IsRead, \r\n            T.SystemSiteID AS ChartOfAccount_Syste" +
-                    "mSiteID, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n      " +
-                    "      True AS _from0\r\n        FROM BaseDbContext.ChartOfAccounts AS T\r\n    ) AS " +
-                    "T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsSkinPageWidgets", @"
+    SELECT VALUE -- Constructing CmsSkinPageWidgets
+        [DomainModels.CmsSkinPageWidget](T1.CmsSkinPageWidget_PageWidgetId, T1.CmsSkinPageWidget_PageId, T1.CmsSkinPageWidget_WidgetId, T1.CmsSkinPageWidget_SkinId, T1.CmsSkinPageWidget_Sequence, T1.CmsSkinPageWidget_CompanyId, T1.CmsSkinPageWidget_OrganisationId)
+    FROM (
+        SELECT 
+            T.PageWidgetId AS CmsSkinPageWidget_PageWidgetId, 
+            T.PageId AS CmsSkinPageWidget_PageId, 
+            T.WidgetId AS CmsSkinPageWidget_WidgetId, 
+            T.SkinId AS CmsSkinPageWidget_SkinId, 
+            T.Sequence AS CmsSkinPageWidget_Sequence, 
+            T.CompanyId AS CmsSkinPageWidget_CompanyId, 
+            T.OrganisationId AS CmsSkinPageWidget_OrganisationId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.CmsSkinPageWidget AS T
+    ) AS T1");
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.ChartOfAccounts
+        /// return view for BaseDbContext.CmsSkinPageWidgetParams
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView5()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView9()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ChartOfAccounts", "\r\n    SELECT VALUE -- Constructing ChartOfAccounts\r\n        [DomainModels.ChartOf" +
-                    "Account](T1.ChartOfAccount_ID, T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Na" +
-                    "me, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType, T1.C" +
-                    "hartOfAccount_TypeID, T1.ChartOfAccount_SubTypeID, T1.ChartOfAccount_Description" +
-                    ", T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_IsFixe" +
-                    "d, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliation, T1" +
-                    ".ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_SystemSiteI" +
-                    "D, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n            T." +
-                    "ID AS ChartOfAccount_ID, \r\n            T.AccountNo AS ChartOfAccount_AccountNo, " +
-                    "\r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance AS C" +
-                    "hartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOfAccou" +
-                    "nt_OpeningBalanceType, \r\n            T.TypeID AS ChartOfAccount_TypeID, \r\n      " +
-                    "      T.SubTypeID AS ChartOfAccount_SubTypeID, \r\n            T.Description AS Ch" +
-                    "artOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, \r\n   " +
-                    "         T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS Chart" +
-                    "OfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastActivi" +
-                    "tyDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconciliatio" +
-                    "n, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRead AS " +
-                    "ChartOfAccount_IsRead, \r\n            T.SystemSiteID AS ChartOfAccount_SystemSite" +
-                    "ID, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n           " +
-                    " True AS _from0\r\n        FROM DomainModelsStoreContainer.ChartOfAccount AS T\r\n  " +
-                    "  ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsSkinPageWidgetParams", @"
+    SELECT VALUE -- Constructing CmsSkinPageWidgetParams
+        [DomainModels.CmsSkinPageWidgetParam](T1.CmsSkinPageWidgetParam_PageWidgetParamId, T1.CmsSkinPageWidgetParam_PageWidgetId, T1.CmsSkinPageWidgetParam_ParamName, T1.CmsSkinPageWidgetParam_ParamValue)
+    FROM (
+        SELECT 
+            T.PageWidgetParamId AS CmsSkinPageWidgetParam_PageWidgetParamId, 
+            T.PageWidgetId AS CmsSkinPageWidgetParam_PageWidgetId, 
+            T.ParamName AS CmsSkinPageWidgetParam_ParamName, 
+            T.ParamValue AS CmsSkinPageWidgetParam_ParamValue, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.CmsSkinPageWidgetParam AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Widgets
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView10()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Widgets", @"
+    SELECT VALUE -- Constructing Widgets
+        [DomainModels.Widget](T1.Widget_WidgetId, T1.Widget_WidgetCode, T1.Widget_WidgetName, T1.Widget_WidgetControlName)
+    FROM (
+        SELECT 
+            T.WidgetId AS Widget_WidgetId, 
+            T.WidgetCode AS Widget_WidgetCode, 
+            T.WidgetName AS Widget_WidgetName, 
+            T.WidgetControlName AS Widget_WidgetControlName, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.Widgets AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ProductCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView11()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3705);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing ProductCategories\r\n        [DomainModels.Prod");
+            viewString.Append("uctCategory](T1.ProductCategory_ProductCategoryId, T1.ProductCategory_CategoryNa");
+            viewString.Append("me, T1.ProductCategory_ContentType, T1.ProductCategory_Description1, T1.ProductC");
+            viewString.Append("ategory_Description2, T1.ProductCategory_LockedBy, T1.ProductCategory_CompanyId,");
+            viewString.Append(" T1.ProductCategory_ParentCategoryId, T1.ProductCategory_DisplayOrder, T1.Produc");
+            viewString.Append("tCategory_ImagePath, T1.ProductCategory_ThumbnailPath, T1.ProductCategory_isEnab");
+            viewString.Append("led, T1.ProductCategory_isMarketPlace, T1.ProductCategory_TemplateDesignerMapped");
+            viewString.Append("CategoryName, T1.ProductCategory_isArchived, T1.ProductCategory_isPublished, T1.");
+            viewString.Append("ProductCategory_TrimmedWidth, T1.ProductCategory_TrimmedHeight, T1.ProductCatego");
+            viewString.Append("ry_isColorImposition, T1.ProductCategory_isOrderImposition, T1.ProductCategory_i");
+            viewString.Append("sLinkToTemplates, T1.ProductCategory_Sides, T1.ProductCategory_ApplySizeRestrict");
+            viewString.Append("ions, T1.ProductCategory_ApplyFoldLines, T1.ProductCategory_WidthRestriction, T1");
+            viewString.Append(".ProductCategory_HeightRestriction, T1.ProductCategory_CategoryTypeId, T1.Produc");
+            viewString.Append("tCategory_RegionId, T1.ProductCategory_ZoomFactor, T1.ProductCategory_ScaleFacto");
+            viewString.Append("r, T1.ProductCategory_isShelfProductCategory, T1.ProductCategory_MetaKeywords, T");
+            viewString.Append("1.ProductCategory_MetaDescription, T1.ProductCategory_MetaTitle, T1.ProductCateg");
+            viewString.Append("ory_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.ProductCategoryI");
+            viewString.Append("d AS ProductCategory_ProductCategoryId, \r\n            T.CategoryName AS ProductC");
+            viewString.Append("ategory_CategoryName, \r\n            T.ContentType AS ProductCategory_ContentType");
+            viewString.Append(", \r\n            T.Description1 AS ProductCategory_Description1, \r\n            T.");
+            viewString.Append("Description2 AS ProductCategory_Description2, \r\n            T.LockedBy AS Produc");
+            viewString.Append("tCategory_LockedBy, \r\n            T.CompanyId AS ProductCategory_CompanyId, \r\n  ");
+            viewString.Append("          T.ParentCategoryId AS ProductCategory_ParentCategoryId, \r\n            ");
+            viewString.Append("T.DisplayOrder AS ProductCategory_DisplayOrder, \r\n            T.ImagePath AS Pro");
+            viewString.Append("ductCategory_ImagePath, \r\n            T.ThumbnailPath AS ProductCategory_Thumbna");
+            viewString.Append("ilPath, \r\n            T.isEnabled AS ProductCategory_isEnabled, \r\n            T.");
+            viewString.Append("isMarketPlace AS ProductCategory_isMarketPlace, \r\n            T.TemplateDesigner");
+            viewString.Append("MappedCategoryName AS ProductCategory_TemplateDesignerMappedCategoryName, \r\n    ");
+            viewString.Append("        T.isArchived AS ProductCategory_isArchived, \r\n            T.isPublished ");
+            viewString.Append("AS ProductCategory_isPublished, \r\n            T.TrimmedWidth AS ProductCategory_");
+            viewString.Append("TrimmedWidth, \r\n            T.TrimmedHeight AS ProductCategory_TrimmedHeight, \r\n");
+            viewString.Append("            T.isColorImposition AS ProductCategory_isColorImposition, \r\n        ");
+            viewString.Append("    T.isOrderImposition AS ProductCategory_isOrderImposition, \r\n            T.is");
+            viewString.Append("LinkToTemplates AS ProductCategory_isLinkToTemplates, \r\n            T.Sides AS P");
+            viewString.Append("roductCategory_Sides, \r\n            T.ApplySizeRestrictions AS ProductCategory_A");
+            viewString.Append("pplySizeRestrictions, \r\n            T.ApplyFoldLines AS ProductCategory_ApplyFol");
+            viewString.Append("dLines, \r\n            T.WidthRestriction AS ProductCategory_WidthRestriction, \r\n");
+            viewString.Append("            T.HeightRestriction AS ProductCategory_HeightRestriction, \r\n        ");
+            viewString.Append("    T.CategoryTypeId AS ProductCategory_CategoryTypeId, \r\n            T.RegionId");
+            viewString.Append(" AS ProductCategory_RegionId, \r\n            T.ZoomFactor AS ProductCategory_Zoom");
+            viewString.Append("Factor, \r\n            T.ScaleFactor AS ProductCategory_ScaleFactor, \r\n          ");
+            viewString.Append("  T.isShelfProductCategory AS ProductCategory_isShelfProductCategory, \r\n        ");
+            viewString.Append("    T.MetaKeywords AS ProductCategory_MetaKeywords, \r\n            T.MetaDescript");
+            viewString.Append("ion AS ProductCategory_MetaDescription, \r\n            T.MetaTitle AS ProductCate");
+            viewString.Append("gory_MetaTitle, \r\n            T.OrganisationId AS ProductCategory_OrganisationId");
+            viewString.Append(", \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.ProductC");
+            viewString.Append("ategory AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ProductCategories", viewString.ToString());
         }
         
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Markup
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView6()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView12()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Markup", @"
     SELECT VALUE -- Constructing Markup
@@ -444,7 +666,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Markups
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView7()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView13()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Markups", @"
     SELECT VALUE -- Constructing Markups
@@ -463,16 +685,162 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
+        /// return view for DomainModelsStoreContainer.CmsPage
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView14()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2770);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CmsPage\r\n        [DomainModels.Store.CmsPage]");
+            viewString.Append("(T1.CmsPage_PageId, T1.CmsPage_PageName, T1.CmsPage_PageTitle, T1.CmsPage_MenuTi");
+            viewString.Append("tle, T1.CmsPage_description, T1.CmsPage_PageRelativePath, T1.CmsPage_SortOrder, ");
+            viewString.Append("T1.[CmsPage.Meta_KeywordContent], T1.[CmsPage.Meta_DescriptionContent], T1.[CmsP");
+            viewString.Append("age.Meta_HiddenDescriptionContent], T1.[CmsPage.Meta_CategoryContent], T1.[CmsPa");
+            viewString.Append("ge.Meta_RobotsContent], T1.[CmsPage.Meta_AuthorContent], T1.[CmsPage.Meta_DateCo");
+            viewString.Append("ntent], T1.[CmsPage.Meta_LanguageContent], T1.[CmsPage.Meta_RevisitAfterContent]");
+            viewString.Append(", T1.[CmsPage.Meta_Title], T1.CmsPage_PageHTML, T1.CmsPage_isUserDefined, T1.Cms");
+            viewString.Append("Page_CategoryId, T1.CmsPage_isPromotionalOffer, T1.CmsPage_isSepecialOffer, T1.C");
+            viewString.Append("msPage_isMPCAdd, T1.CmsPage_LastModifiedDate, T1.CmsPage_PageBanner, T1.CmsPage_");
+            viewString.Append("PageKeywords, T1.CmsPage_isEnabled, T1.CmsPage_isDisplay, T1.CmsPage_CompanyId, ");
+            viewString.Append("T1.CmsPage_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.PageId AS");
+            viewString.Append(" CmsPage_PageId, \r\n            T.PageName AS CmsPage_PageName, \r\n            T.P");
+            viewString.Append("ageTitle AS CmsPage_PageTitle, \r\n            T.MenuTitle AS CmsPage_MenuTitle, \r");
+            viewString.Append("\n            T.description AS CmsPage_description, \r\n            T.PageRelativeP");
+            viewString.Append("ath AS CmsPage_PageRelativePath, \r\n            T.SortOrder AS CmsPage_SortOrder,");
+            viewString.Append(" \r\n            T.Meta_KeywordContent AS [CmsPage.Meta_KeywordContent], \r\n       ");
+            viewString.Append("     T.Meta_DescriptionContent AS [CmsPage.Meta_DescriptionContent], \r\n         ");
+            viewString.Append("   T.Meta_HiddenDescriptionContent AS [CmsPage.Meta_HiddenDescriptionContent], \r");
+            viewString.Append("\n            T.Meta_CategoryContent AS [CmsPage.Meta_CategoryContent], \r\n       ");
+            viewString.Append("     T.Meta_RobotsContent AS [CmsPage.Meta_RobotsContent], \r\n            T.Meta_");
+            viewString.Append("AuthorContent AS [CmsPage.Meta_AuthorContent], \r\n            T.Meta_DateContent ");
+            viewString.Append("AS [CmsPage.Meta_DateContent], \r\n            T.Meta_LanguageContent AS [CmsPage.");
+            viewString.Append("Meta_LanguageContent], \r\n            T.Meta_RevisitAfterContent AS [CmsPage.Meta");
+            viewString.Append("_RevisitAfterContent], \r\n            T.Meta_Title AS [CmsPage.Meta_Title], \r\n   ");
+            viewString.Append("         T.PageHTML AS CmsPage_PageHTML, \r\n            T.isUserDefined AS CmsPag");
+            viewString.Append("e_isUserDefined, \r\n            T.CategoryId AS CmsPage_CategoryId, \r\n           ");
+            viewString.Append(" T.isPromotionalOffer AS CmsPage_isPromotionalOffer, \r\n            T.isSepecialO");
+            viewString.Append("ffer AS CmsPage_isSepecialOffer, \r\n            T.isMPCAdd AS CmsPage_isMPCAdd, \r");
+            viewString.Append("\n            T.LastModifiedDate AS CmsPage_LastModifiedDate, \r\n            T.Pag");
+            viewString.Append("eBanner AS CmsPage_PageBanner, \r\n            T.PageKeywords AS CmsPage_PageKeywo");
+            viewString.Append("rds, \r\n            T.isEnabled AS CmsPage_isEnabled, \r\n            T.isDisplay A");
+            viewString.Append("S CmsPage_isDisplay, \r\n            T.CompanyId AS CmsPage_CompanyId, \r\n         ");
+            viewString.Append("   T.OrganisationId AS CmsPage_OrganisationId, \r\n            True AS _from0\r\n   ");
+            viewString.Append("     FROM BaseDbContext.CmsPages AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CmsPage", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.CmsPages
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView15()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2777);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CmsPages\r\n        [DomainModels.CmsPage](T1.C");
+            viewString.Append("msPage_PageId, T1.CmsPage_PageName, T1.CmsPage_PageTitle, T1.CmsPage_MenuTitle, ");
+            viewString.Append("T1.CmsPage_description, T1.CmsPage_PageRelativePath, T1.CmsPage_SortOrder, T1.[C");
+            viewString.Append("msPage.Meta_KeywordContent], T1.[CmsPage.Meta_DescriptionContent], T1.[CmsPage.M");
+            viewString.Append("eta_HiddenDescriptionContent], T1.[CmsPage.Meta_CategoryContent], T1.[CmsPage.Me");
+            viewString.Append("ta_RobotsContent], T1.[CmsPage.Meta_AuthorContent], T1.[CmsPage.Meta_DateContent");
+            viewString.Append("], T1.[CmsPage.Meta_LanguageContent], T1.[CmsPage.Meta_RevisitAfterContent], T1.");
+            viewString.Append("[CmsPage.Meta_Title], T1.CmsPage_PageHTML, T1.CmsPage_isUserDefined, T1.CmsPage_");
+            viewString.Append("CategoryId, T1.CmsPage_isPromotionalOffer, T1.CmsPage_isSepecialOffer, T1.CmsPag");
+            viewString.Append("e_isMPCAdd, T1.CmsPage_LastModifiedDate, T1.CmsPage_PageBanner, T1.CmsPage_PageK");
+            viewString.Append("eywords, T1.CmsPage_isEnabled, T1.CmsPage_isDisplay, T1.CmsPage_CompanyId, T1.Cm");
+            viewString.Append("sPage_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.PageId AS CmsP");
+            viewString.Append("age_PageId, \r\n            T.PageName AS CmsPage_PageName, \r\n            T.PageTi");
+            viewString.Append("tle AS CmsPage_PageTitle, \r\n            T.MenuTitle AS CmsPage_MenuTitle, \r\n    ");
+            viewString.Append("        T.description AS CmsPage_description, \r\n            T.PageRelativePath A");
+            viewString.Append("S CmsPage_PageRelativePath, \r\n            T.SortOrder AS CmsPage_SortOrder, \r\n  ");
+            viewString.Append("          T.Meta_KeywordContent AS [CmsPage.Meta_KeywordContent], \r\n            ");
+            viewString.Append("T.Meta_DescriptionContent AS [CmsPage.Meta_DescriptionContent], \r\n            T.");
+            viewString.Append("Meta_HiddenDescriptionContent AS [CmsPage.Meta_HiddenDescriptionContent], \r\n    ");
+            viewString.Append("        T.Meta_CategoryContent AS [CmsPage.Meta_CategoryContent], \r\n            ");
+            viewString.Append("T.Meta_RobotsContent AS [CmsPage.Meta_RobotsContent], \r\n            T.Meta_Autho");
+            viewString.Append("rContent AS [CmsPage.Meta_AuthorContent], \r\n            T.Meta_DateContent AS [C");
+            viewString.Append("msPage.Meta_DateContent], \r\n            T.Meta_LanguageContent AS [CmsPage.Meta_");
+            viewString.Append("LanguageContent], \r\n            T.Meta_RevisitAfterContent AS [CmsPage.Meta_Revi");
+            viewString.Append("sitAfterContent], \r\n            T.Meta_Title AS [CmsPage.Meta_Title], \r\n        ");
+            viewString.Append("    T.PageHTML AS CmsPage_PageHTML, \r\n            T.isUserDefined AS CmsPage_isU");
+            viewString.Append("serDefined, \r\n            T.CategoryId AS CmsPage_CategoryId, \r\n            T.is");
+            viewString.Append("PromotionalOffer AS CmsPage_isPromotionalOffer, \r\n            T.isSepecialOffer ");
+            viewString.Append("AS CmsPage_isSepecialOffer, \r\n            T.isMPCAdd AS CmsPage_isMPCAdd, \r\n    ");
+            viewString.Append("        T.LastModifiedDate AS CmsPage_LastModifiedDate, \r\n            T.PageBann");
+            viewString.Append("er AS CmsPage_PageBanner, \r\n            T.PageKeywords AS CmsPage_PageKeywords, ");
+            viewString.Append("\r\n            T.isEnabled AS CmsPage_isEnabled, \r\n            T.isDisplay AS Cms");
+            viewString.Append("Page_isDisplay, \r\n            T.CompanyId AS CmsPage_CompanyId, \r\n            T.");
+            viewString.Append("OrganisationId AS CmsPage_OrganisationId, \r\n            True AS _from0\r\n        ");
+            viewString.Append("FROM DomainModelsStoreContainer.CmsPage AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsPages", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ChartOfAccount
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView16()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ChartOfAccount", "\r\n    SELECT VALUE -- Constructing ChartOfAccount\r\n        [DomainModels.Store.Ch" +
+                    "artOfAccount](T1.ChartOfAccount_Id, T1.ChartOfAccount_AccountNo, T1.ChartOfAccou" +
+                    "nt_Name, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType," +
+                    " T1.ChartOfAccount_TypeId, T1.ChartOfAccount_SubTypeId, T1.ChartOfAccount_Descri" +
+                    "ption, T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_I" +
+                    "sFixed, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliatio" +
+                    "n, T1.ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_System" +
+                    "SiteId, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n         " +
+                    "   T.Id AS ChartOfAccount_Id, \r\n            T.AccountNo AS ChartOfAccount_Accoun" +
+                    "tNo, \r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance" +
+                    " AS ChartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOf" +
+                    "Account_OpeningBalanceType, \r\n            T.TypeId AS ChartOfAccount_TypeId, \r\n " +
+                    "           T.SubTypeId AS ChartOfAccount_SubTypeId, \r\n            T.Description " +
+                    "AS ChartOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, " +
+                    "\r\n            T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS " +
+                    "ChartOfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastA" +
+                    "ctivityDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconcil" +
+                    "iation, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRea" +
+                    "d AS ChartOfAccount_IsRead, \r\n            T.SystemSiteId AS ChartOfAccount_Syste" +
+                    "mSiteId, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n      " +
+                    "      True AS _from0\r\n        FROM BaseDbContext.ChartOfAccounts AS T\r\n    ) AS " +
+                    "T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ChartOfAccounts
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView17()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ChartOfAccounts", "\r\n    SELECT VALUE -- Constructing ChartOfAccounts\r\n        [DomainModels.ChartOf" +
+                    "Account](T1.ChartOfAccount_Id, T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Na" +
+                    "me, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType, T1.C" +
+                    "hartOfAccount_TypeId, T1.ChartOfAccount_SubTypeId, T1.ChartOfAccount_Description" +
+                    ", T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_IsFixe" +
+                    "d, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliation, T1" +
+                    ".ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_SystemSiteI" +
+                    "d, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n            T." +
+                    "Id AS ChartOfAccount_Id, \r\n            T.AccountNo AS ChartOfAccount_AccountNo, " +
+                    "\r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance AS C" +
+                    "hartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOfAccou" +
+                    "nt_OpeningBalanceType, \r\n            T.TypeId AS ChartOfAccount_TypeId, \r\n      " +
+                    "      T.SubTypeId AS ChartOfAccount_SubTypeId, \r\n            T.Description AS Ch" +
+                    "artOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, \r\n   " +
+                    "         T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS Chart" +
+                    "OfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastActivi" +
+                    "tyDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconciliatio" +
+                    "n, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRead AS " +
+                    "ChartOfAccount_IsRead, \r\n            T.SystemSiteId AS ChartOfAccount_SystemSite" +
+                    "Id, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n           " +
+                    " True AS _from0\r\n        FROM DomainModelsStoreContainer.ChartOfAccount AS T\r\n  " +
+                    "  ) AS T1");
+        }
+        
+        /// <Summary>
         /// return view for DomainModelsStoreContainer.PaperSize
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView8()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView18()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaperSize", @"
     SELECT VALUE -- Constructing PaperSize
-        [DomainModels.Store.PaperSize](T1.PaperSize_PaperSizeID, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_isArchived)
+        [DomainModels.Store.PaperSize](T1.PaperSize_PaperSizeId, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_isArchived)
     FROM (
         SELECT 
-            T.PaperSizeId AS PaperSize_PaperSizeID, 
+            T.PaperSizeId AS PaperSize_PaperSizeId, 
             T.Name AS PaperSize_Name, 
             T.Height AS PaperSize_Height, 
             T.Width AS PaperSize_Width, 
@@ -480,7 +848,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.Area AS PaperSize_Area, 
             T.IsFixed AS PaperSize_IsFixed, 
             T.Region AS PaperSize_Region, 
-            T.IsArchived AS PaperSize_isArchived, 
+            T.isArchived AS PaperSize_isArchived, 
             True AS _from0
         FROM BaseDbContext.PaperSizes AS T
     ) AS T1");
@@ -489,14 +857,14 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PaperSizes
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView9()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView19()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaperSizes", @"
     SELECT VALUE -- Constructing PaperSizes
-        [DomainModels.PaperSize](T1.PaperSize_PaperSizeId, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_IsArchived)
+        [DomainModels.PaperSize](T1.PaperSize_PaperSizeId, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_isArchived)
     FROM (
         SELECT 
-            T.PaperSizeID AS PaperSize_PaperSizeId, 
+            T.PaperSizeId AS PaperSize_PaperSizeId, 
             T.Name AS PaperSize_Name, 
             T.Height AS PaperSize_Height, 
             T.Width AS PaperSize_Width, 
@@ -504,9 +872,49 @@ namespace Edm_EntityMappingGeneratedViews
             T.Area AS PaperSize_Area, 
             T.IsFixed AS PaperSize_IsFixed, 
             T.Region AS PaperSize_Region, 
-            T.isArchived AS PaperSize_IsArchived, 
+            T.isArchived AS PaperSize_isArchived, 
             True AS _from0
         FROM DomainModelsStoreContainer.PaperSize AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.CategoryTerritory
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView20()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CategoryTerritory", @"
+    SELECT VALUE -- Constructing CategoryTerritory
+        [DomainModels.Store.CategoryTerritory](T1.CategoryTerritory_CategoryTerritoryId, T1.CategoryTerritory_ContactCompanyId, T1.CategoryTerritory_ProductCategoryId, T1.CategoryTerritory_TerritoryId, T1.CategoryTerritory_OrganisationId)
+    FROM (
+        SELECT 
+            T.CategoryTerritoryId AS CategoryTerritory_CategoryTerritoryId, 
+            T.ContactCompanyId AS CategoryTerritory_ContactCompanyId, 
+            T.ProductCategoryId AS CategoryTerritory_ProductCategoryId, 
+            T.TerritoryId AS CategoryTerritory_TerritoryId, 
+            T.OrganisationId AS CategoryTerritory_OrganisationId, 
+            True AS _from0
+        FROM BaseDbContext.CategoryTerritories AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.CategoryTerritories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView21()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CategoryTerritories", @"
+    SELECT VALUE -- Constructing CategoryTerritories
+        [DomainModels.CategoryTerritory](T1.CategoryTerritory_CategoryTerritoryId, T1.CategoryTerritory_ContactCompanyId, T1.CategoryTerritory_ProductCategoryId, T1.CategoryTerritory_TerritoryId, T1.CategoryTerritory_OrganisationId)
+    FROM (
+        SELECT 
+            T.CategoryTerritoryId AS CategoryTerritory_CategoryTerritoryId, 
+            T.ContactCompanyId AS CategoryTerritory_ContactCompanyId, 
+            T.ProductCategoryId AS CategoryTerritory_ProductCategoryId, 
+            T.TerritoryId AS CategoryTerritory_TerritoryId, 
+            T.OrganisationId AS CategoryTerritory_OrganisationId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.CategoryTerritory AS T
     ) AS T1");
         }
     }

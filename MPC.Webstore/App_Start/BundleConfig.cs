@@ -12,8 +12,7 @@ namespace MPC.Webstore
                         "~/Scripts/jquery-1.10.2.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Slider").Include(
-                       "~/Scripts/js-image-slider.js",
-                       "~/Scripts/zoomSlider.js"));
+                       "~/Scripts/js-image-slider.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
@@ -33,10 +32,9 @@ namespace MPC.Webstore
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
-
+            bundles.Add(new StyleBundle("~/Content/CSS").Include(
+                      "~/Content/bootstrap.css"
+                      ));
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;

@@ -1,4 +1,5 @@
-﻿using DomainModels = MPC.Models.DomainModels;
+﻿using System.Globalization;
+using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Models;
 
 namespace MPC.MIS.ModelMappers
@@ -30,13 +31,13 @@ namespace MPC.MIS.ModelMappers
         {
             return new DomainModels.PaperSize
                    {
-                       Area = source.Area,
+                       Area = source.Height * source.Width,
                        Height = source.Height,
-                       IsArchived = source.IsArchived,
+                       IsArchived = source.IsArchived == true? source.IsArchived : false,
                        IsFixed = source.IsFixed,
                        Name = source.Name,
                        PaperSizeId = source.PaperSizeId,
-                       Region = source.Region,
+                       Region = source.Region ?? CultureInfo.CurrentCulture.Name,
                        SizeMeasure = source.SizeMeasure,
                        Width = source.Width
                    };

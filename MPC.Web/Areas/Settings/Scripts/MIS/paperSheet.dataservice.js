@@ -41,12 +41,13 @@ define("paperSheet/paperSheet.dataservice", function () {
                 }
             },
             // get Paper Sheets
-            getPaperSheets = function (callbacks) {
+            getPaperSheets = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getPaperSheets',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: params
                 });
             },
             // delete Paper Sheet

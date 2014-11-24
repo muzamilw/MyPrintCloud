@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -8,9 +10,7 @@ namespace MPC.Webstore.Controllers
     {
          #region Private
 
-// ReSharper disable InconsistentNaming
-        private readonly ICompanyService companyService;
-// ReSharper restore InconsistentNaming
+        private readonly ICmsSkinPageWidgetService _widgetService;
 
         #endregion
 
@@ -18,13 +18,13 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICompanyService companyService)
+        public HomeController(ICmsSkinPageWidgetService widgetService)
         {
-            if (companyService == null)
+            if (widgetService == null)
             {
-                throw new ArgumentNullException("companyService");
+                throw new ArgumentNullException("widgetService");
             }
-            this.companyService = companyService;
+            this._widgetService = widgetService;
         }
 
         #endregion
@@ -32,7 +32,20 @@ namespace MPC.Webstore.Controllers
         
         public ActionResult Index()
         {
-            ViewBag.Companyname =  companyService.GetCompanyByDomain("yolk").Name;
+           
+            var model = Session["store"] as Company;
+            if (model == null)
+            {
+
+            }
+            else
+            {
+                var widgets = _widgetService.GetDomainWidgetsById(model.CompanyId, model.OrganisationId ?? 0);
+                ViewBag.Company = model;
+                ViewBag.widgets = widgets;
+                ViewBag.ContentFile = "/Content/Site.css";
+            }
+            
             return View();
         }
 
@@ -49,5 +62,6 @@ namespace MPC.Webstore.Controllers
 
             return View();
         }
+        
     }
 }
