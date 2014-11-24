@@ -8,7 +8,7 @@ namespace MPC.Models.DomainModels
 {
     public class CmsPage
     {
-        public int PageId { get; set; }
+        public long PageId { get; set; }
         public string PageName { get; set; }
         public string PageTitle { get; set; }
         public string MenuTitle { get; set; }
@@ -27,7 +27,7 @@ namespace MPC.Models.DomainModels
         public string Meta_Title { get; set; }
         public string PageHTML { get; set; }
         public Nullable<bool> isUserDefined { get; set; }
-        public Nullable<int> CategoryId { get; set; }
+        public Nullable<long> CategoryId { get; set; }
         public Nullable<bool> isPromotionalOffer { get; set; }
         public Nullable<bool> isSepecialOffer { get; set; }
         public Nullable<bool> isMPCAdd { get; set; }
@@ -36,7 +36,9 @@ namespace MPC.Models.DomainModels
         public string PageKeywords { get; set; }
         public Nullable<bool> isEnabled { get; set; }
         public Nullable<bool> isDisplay { get; set; }
-        public Nullable<int> CompanyId { get; set; }
+        public Nullable<long> CompanyId { get; set; }
         public Nullable<long> OrganisationId { get; set; }
+
+        public virtual Company Company { get; set; }
     }
 }

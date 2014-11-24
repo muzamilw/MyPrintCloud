@@ -24,6 +24,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IPaperSheetRepository, PaperSheetRepository>();
             unityContainer.RegisterType<ICompanyRepository, CompanyRepository>();
             unityContainer.RegisterType<ICmsSkinPageWidgetRepository, CmsSkinPageWidgetRepository>();
+            unityContainer.RegisterType<ICompanyBannerSetRepository, CompanyBannerSetRepository>();
         }
     }
 }

@@ -26,6 +26,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IMPCLogger, MPCLogger>();
             unityContainer.RegisterType<IPaperSheetService, PaperSheetService>();
             unityContainer.RegisterType<ICmsSkinPageWidgetService, CmsSkinPageWidgetService>();
+            unityContainer.RegisterType<ICompanyBannerSetService, CompanyBannerSetService>();
         }
     }
 }

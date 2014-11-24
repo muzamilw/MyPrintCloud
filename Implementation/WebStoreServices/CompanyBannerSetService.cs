@@ -4,17 +4,16 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using System.Collections.Generic;
 
-
 namespace MPC.Implementation.WebStoreServices
 {
-    public class CompanyService : ICompanyService   
+    public class CompanyBannerSetService : ICompanyBannerSetService
     {
         #region Private
 
         /// <summary>
         /// Private members
         /// </summary>
-        public readonly ICompanyRepository companyRepository;
+        public readonly ICompanyBannerSetRepository companySetRepository;
      
 
         #endregion
@@ -24,9 +23,9 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public CompanyService(ICompanyRepository companyRepository)
+        public CompanyBannerSetService(ICompanyBannerSetRepository companySetepository)
         {
-            this.companyRepository = companyRepository;
+            this.companySetRepository = companySetepository;
          
         }
 
@@ -39,9 +38,9 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// <param name="domain"></param>
         /// <returns></returns>
-        public Company GetCompanyByDomain(string domain)
+        public List<CompanyBannerSet> GetCompanyBannersById(long companyId, long organisationId)
         {
-            return companyRepository.GetCompanyByDomain(domain);
+            return companySetRepository.GetCompanyBannersById(companyId, organisationId);
         }
       
         #endregion
