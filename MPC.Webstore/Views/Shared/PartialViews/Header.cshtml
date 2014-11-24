@@ -1,0 +1,65 @@
+﻿@model MPC.Models.DomainModels.Company
+@{ Layout = null;}
+
+<div class="container content_area">
+    <div class="row left_right_padding">
+        <div class="padding_top_bottom_topheader">
+            <div class="company_logo col-md-3 col-lg-3 col-xs-12 col-sm-4">
+                <a href='/Home/Index'>
+                    <img src="http://pinkcards.com//StoredImages/CompanyLogo/1_WebSiteLogo.png" class="pink_company_top_logo LOgo_ImgeP" />
+                </a>
+                <a class="MLF top_header" target="_blank" href="http://www.myprintcloud.com/">Powered by&nbsp; MyPrintCloud</a>
+              
+            </div>
+            <div style="float: right; padding-right: 0px; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-12 col-sm-8 cntrightMenu">
+
+                <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple"  >
+
+                    <asp:HyperLink ID="lnkAllProducts"   NavigateUrl="~/Allproducts.aspx" CssClass="iconHover">All Products</asp:HyperLink><a id="A1"   class="piplineClr">&nbsp;|&nbsp;</a>
+                   <a id="lnkRequestQuote" style="cursor: pointer;" class="iconHover">Request a Quote</a><a id="rfqPipeline"   class="piplineClr">&nbsp;|&nbsp;</a>
+
+                    <asp:HyperLink ID="lnkContactUs"   NavigateUrl="~/ContactUs.aspx" CssClass="iconHover">Contact Us</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="phone_number_sec ">
+                    <div class="TeleImg"   id="telephoneIcon">
+                    </div>
+                    <div id="CompanyName" visible="false"   class="HeaderCompnyNameCs">
+                        <asp:Label ID="ltrlCompanyName"   CssClass="BrokerCompanyNameCs"></asp:Label>
+                        <asp:Label ID="ltrlCity"   CssClass="BrokerCompanyCityCs"></asp:Label>
+                    </div>
+                    <div id="lblPoneNumber"   class="lblPhoneNo">
+                    </div>
+
+                </div>
+                <div id="cntresponsiveMenu"  >
+
+
+                    <div id="CollapseBtn" class="float_right">
+                        <a class="icon-align-justify">
+
+                        </a>
+                    </div>
+                    <div class="clearBoth">
+                    </div>
+
+                </div>
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <ul id="ulCollapseMenu" style="">
+                    <li>
+                        <asp:HyperLink ID="pullDownMenuAllPro"   NavigateUrl="~/Allproducts.aspx">All Products</asp:HyperLink>
+                    </li>
+                    <li>
+                        <a id="pullDownMenuRFQ" style="cursor: pointer;">Request a Quote</a>
+                    </li>
+                    <li>
+                        <asp:HyperLink ID="pullDownMenuCU"   NavigateUrl="~/ContactUs.aspx">Contact Us</asp:HyperLink>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategoryTerritory">
+          <Key>
+            <PropertyRef Name="CategoryTerritoryId" />
+          </Key>
+          <Property Name="CategoryTerritoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContactCompanyId" Type="int" />
+          <Property Name="ProductCategoryId" Type="int" />
+          <Property Name="TerritoryId" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
             <PropertyRef Name="Id" />
@@ -26,6 +36,62 @@
           <Property Name="IsRead" Type="bit" />
           <Property Name="SystemSiteId" Type="int" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CmsPage">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PageTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="MenuTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="description" Type="nvarchar" MaxLength="500" />
+          <Property Name="PageRelativePath" Type="nvarchar" MaxLength="200" />
+          <Property Name="SortOrder" Type="int" />
+          <Property Name="Meta_KeywordContent" Type="ntext" />
+          <Property Name="Meta_DescriptionContent" Type="nvarchar" MaxLength="500" />
+          <Property Name="Meta_HiddenDescriptionContent" Type="nvarchar" MaxLength="500" />
+          <Property Name="Meta_CategoryContent" Type="nvarchar" MaxLength="500" />
+          <Property Name="Meta_RobotsContent" Type="nvarchar" MaxLength="500" />
+          <Property Name="Meta_AuthorContent" Type="varchar" MaxLength="100" />
+          <Property Name="Meta_DateContent" Type="varchar" MaxLength="50" />
+          <Property Name="Meta_LanguageContent" Type="varchar" MaxLength="50" />
+          <Property Name="Meta_RevisitAfterContent" Type="varchar" MaxLength="50" />
+          <Property Name="Meta_Title" Type="varchar" MaxLength="150" />
+          <Property Name="PageHTML" Type="varchar(max)" />
+          <Property Name="isUserDefined" Type="bit" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="isPromotionalOffer" Type="bit" />
+          <Property Name="isSepecialOffer" Type="bit" />
+          <Property Name="isMPCAdd" Type="bit" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="PageBanner" Type="nvarchar" MaxLength="200" />
+          <Property Name="PageKeywords" Type="nvarchar" MaxLength="1000" />
+          <Property Name="isEnabled" Type="bit" />
+          <Property Name="isDisplay" Type="bit" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CmsSkinPageWidget">
+          <Key>
+            <PropertyRef Name="PageWidgetId" />
+          </Key>
+          <Property Name="PageWidgetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageId" Type="int" />
+          <Property Name="WidgetId" Type="int" />
+          <Property Name="SkinId" Type="int" />
+          <Property Name="Sequence" Type="smallint" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CmsSkinPageWidgetParam">
+          <Key>
+            <PropertyRef Name="PageWidgetParamId" />
+          </Key>
+          <Property Name="PageWidgetParamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageWidgetId" Type="int" />
+          <Property Name="ParamName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ParamValue" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -193,6 +259,67 @@
           <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isArchived" Type="bit" />
         </EntityType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryId" />
+          </Key>
+          <Property Name="ProductCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" />
+          <Property Name="ContentType" Type="varchar" MaxLength="50" />
+          <Property Name="Description1" Type="varchar(max)" />
+          <Property Name="Description2" Type="varchar(max)" />
+          <Property Name="LockedBy" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="ParentCategoryId" Type="int" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="100" />
+          <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="100" />
+          <Property Name="isEnabled" Type="bit" />
+          <Property Name="isMarketPlace" Type="bit" />
+          <Property Name="TemplateDesignerMappedCategoryName" Type="nvarchar" MaxLength="200" />
+          <Property Name="isArchived" Type="bit" />
+          <Property Name="isPublished" Type="bit" />
+          <Property Name="TrimmedWidth" Type="float" />
+          <Property Name="TrimmedHeight" Type="float" />
+          <Property Name="isColorImposition" Type="bit" />
+          <Property Name="isOrderImposition" Type="bit" />
+          <Property Name="isLinkToTemplates" Type="bit" />
+          <Property Name="Sides" Type="int" />
+          <Property Name="ApplySizeRestrictions" Type="bit" />
+          <Property Name="ApplyFoldLines" Type="bit" />
+          <Property Name="WidthRestriction" Type="float" />
+          <Property Name="HeightRestriction" Type="float" />
+          <Property Name="CategoryTypeId" Type="int" />
+          <Property Name="RegionId" Type="int" />
+          <Property Name="ZoomFactor" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ScaleFactor" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="isShelfProductCategory" Type="bit" />
+          <Property Name="MetaKeywords" Type="nvarchar(max)" />
+          <Property Name="MetaDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="MetaTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Widgets">
+          <Key>
+            <PropertyRef Name="WidgetId" />
+          </Key>
+          <Property Name="WidgetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WidgetCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="WidgetName" Type="varchar" MaxLength="100" />
+          <Property Name="WidgetControlName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Company_CmsSkinPageWidget">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CompanyDomain_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CompanyDomain" Type="Self.CompanyDomain" Multiplicity="*" />
@@ -205,16 +332,74 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_cmsPageWidgets_tbl_cmsWidgets">
+          <End Role="Widgets" Type="Self.Widgets" Multiplicity="0..1" />
+          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widgets">
+              <PropertyRef Name="WidgetId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="WidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
+          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="0..1" />
+          <End Role="CmsSkinPageWidgetParam" Type="Self.CmsSkinPageWidgetParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageWidgetId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidgetParam">
+              <PropertyRef Name="PageWidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductCategory_tbl_contactcompanies">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ProductCategory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DomainModelsStoreContainer">
+          <EntitySet Name="CategoryTerritory" EntityType="Self.CategoryTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsPage" EntityType="Self.CmsPage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsSkinPageWidget" EntityType="Self.CmsSkinPageWidget" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsSkinPageWidgetParam" EntityType="Self.CmsSkinPageWidgetParam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
+          </AssociationSet>
           <AssociationSet Name="FK_CompanyDomain_Company" Association="Self.FK_CompanyDomain_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyDomain" EntitySet="CompanyDomain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_cmsPageWidgets_tbl_cmsWidgets" Association="Self.FK_tbl_cmsPageWidgets_tbl_cmsWidgets">
+            <End Role="Widgets" EntitySet="Widgets" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" Association="Self.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
+            <End Role="CmsSkinPageWidgetParam" EntitySet="CmsSkinPageWidgetParam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -223,15 +408,37 @@
       <Schema Namespace="DomainModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="BaseDbContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Companies" EntityType="DomainModels.Company" />
-          <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
           <EntitySet Name="Markups" EntityType="DomainModels.Markup" />
           <EntitySet Name="CompanyDomains" EntityType="DomainModels.CompanyDomain" />
           <AssociationSet Name="FK_CompanyDomain_Company" Association="DomainModels.FK_CompanyDomain_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="CompanyDomain" EntitySet="CompanyDomains" />
           </AssociationSet>
+          <EntitySet Name="CmsPages" EntityType="DomainModels.CmsPage" />
+          <EntitySet Name="CmsSkinPageWidgets" EntityType="DomainModels.CmsSkinPageWidget" />
+          <EntitySet Name="CmsSkinPageWidgetParams" EntityType="DomainModels.CmsSkinPageWidgetParam" />
+          <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="DomainModels.FK_Company_CmsSkinPageWidget">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" Association="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
+            <End Role="CmsSkinPageWidgetParam" EntitySet="CmsSkinPageWidgetParams" />
+          </AssociationSet>
+          <EntitySet Name="ChartOfAccounts" EntityType="DomainModels.ChartOfAccount" />
           <EntitySet Name="PaperSizes" EntityType="DomainModels.PaperSize" />
           <EntitySet Name="Organisations" EntityType="DomainModels.Organisation" />
+          <EntitySet Name="Widgets" EntityType="DomainModels.Widget" />
+          <AssociationSet Name="FK_tbl_cmsPageWidgets_tbl_cmsWidgets" Association="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets">
+            <End Role="Widget" EntitySet="Widgets" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
+          </AssociationSet>
+          <EntitySet Name="ProductCategories" EntityType="DomainModels.ProductCategory" />
+          <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <EntitySet Name="CategoryTerritories" EntityType="DomainModels.CategoryTerritory" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -333,29 +540,11 @@
           <NavigationProperty Name="CompanyDomains" Relationship="DomainModels.FK_CompanyDomain_Company" FromRole="Company" ToRole="CompanyDomain" />
           <Property Name="FlagId" Type="Int32" Nullable="false" />
           <Property Name="TaxPercentageId" Type="Int32" />
+          <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_Company_CmsSkinPageWidget" FromRole="Company" ToRole="CmsSkinPageWidget" />
+          <NavigationProperty Name="ProductCategories" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="Company" ToRole="ProductCategory" />
+          
           </EntityType>
-        <EntityType Name="ChartOfAccount">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="OpeningBalance" Type="Double" Nullable="false" />
-          <Property Name="OpeningBalanceType" Type="Int16" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Nature" Type="Int16" />
-          <Property Name="IsActive" Type="Int16" />
-          <Property Name="IsFixed" Type="Int16" />
-          <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
-          <Property Name="IsForReconciliation" Type="Int16" Nullable="false" />
-          <Property Name="Balance" Type="Double" Nullable="false" />
-          <Property Name="IsRead" Type="Boolean" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="SubTypeId" Type="Int32" />
-          <Property Name="SystemSiteId" Type="Int32" />
-        </EntityType>
+          
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
@@ -388,10 +577,201 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PaperSize">
+        <EntityType Name="CmsPage">
           <Key>
-            <PropertyRef Name="PaperSizeId" />
+            <PropertyRef Name="PageId" />
           </Key>
+          <Property Name="PageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PageTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MenuTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PageRelativePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="Meta_KeywordContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_DescriptionContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_HiddenDescriptionContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_CategoryContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_RobotsContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_AuthorContent" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_DateContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_LanguageContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_RevisitAfterContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="PageHTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="isUserDefined" Type="Boolean" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="isPromotionalOffer" Type="Boolean" />
+          <Property Name="isSepecialOffer" Type="Boolean" />
+          <Property Name="isMPCAdd" Type="Boolean" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="PageBanner" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PageKeywords" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="isEnabled" Type="Boolean" />
+          <Property Name="isDisplay" Type="Boolean" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="CmsSkinPageWidget">
+          <Key>
+            <PropertyRef Name="PageWidgetId" />
+          </Key>
+          <Property Name="PageWidgetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageId" Type="Int32" />
+          <Property Name="WidgetId" Type="Int32" />
+          <Property Name="SkinId" Type="Int32" />
+          <Property Name="Sequence" Type="Int16" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Company_CmsSkinPageWidget" FromRole="CmsSkinPageWidget" ToRole="Company" />
+          <NavigationProperty Name="CmsSkinPageWidgetParams" Relationship="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" FromRole="CmsSkinPageWidget" ToRole="CmsSkinPageWidgetParam" />
+          <NavigationProperty Name="Widget" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" FromRole="CmsSkinPageWidget" ToRole="Widget" />
+        </EntityType>
+        <EntityType Name="CmsSkinPageWidgetParam">
+          <Key>
+            <PropertyRef Name="PageWidgetParamId" />
+          </Key>
+          <Property Name="PageWidgetParamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageWidgetId" Type="Int32" />
+          <Property Name="ParamName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ParamValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CmsSkinPageWidget" Relationship="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" FromRole="CmsSkinPageWidgetParam" ToRole="CmsSkinPageWidget" />
+        </EntityType>
+        <Association Name="FK_Company_CmsSkinPageWidget">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
+          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsSkinPageWidgetParam" Role="CmsSkinPageWidgetParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageWidgetId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidgetParam">
+              <PropertyRef Name="PageWidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ChartOfAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OpeningBalance" Type="Double" Nullable="false" />
+          <Property Name="OpeningBalanceType" Type="Int16" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="SubTypeId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Nature" Type="Int16" />
+          <Property Name="IsActive" Type="Int16" />
+          <Property Name="IsFixed" Type="Int16" />
+          <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
+          <Property Name="IsForReconciliation" Type="Int16" Nullable="false" />
+          <Property Name="Balance" Type="Double" Nullable="false" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Widget">
+          <Key>
+            <PropertyRef Name="WidgetId" />
+          </Key>
+          <Property Name="WidgetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WidgetCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="WidgetName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WidgetControlName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" FromRole="Widget" ToRole="CmsSkinPageWidget" />
+        </EntityType>
+        <Association Name="FK_tbl_cmsPageWidgets_tbl_cmsWidgets">
+          <End Type="DomainModels.Widget" Role="Widget" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widget">
+              <PropertyRef Name="WidgetId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="WidgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryId" />
+          </Key>
+          <Property Name="ProductCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LockedBy" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="ParentCategoryId" Type="Int32" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ThumbnailPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="isEnabled" Type="Boolean" />
+          <Property Name="isMarketPlace" Type="Boolean" />
+          <Property Name="TemplateDesignerMappedCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="isArchived" Type="Boolean" />
+          <Property Name="isPublished" Type="Boolean" />
+          <Property Name="TrimmedWidth" Type="Double" />
+          <Property Name="TrimmedHeight" Type="Double" />
+          <Property Name="isColorImposition" Type="Boolean" />
+          <Property Name="isOrderImposition" Type="Boolean" />
+          <Property Name="isLinkToTemplates" Type="Boolean" />
+          <Property Name="Sides" Type="Int32" />
+          <Property Name="ApplySizeRestrictions" Type="Boolean" />
+          <Property Name="ApplyFoldLines" Type="Boolean" />
+          <Property Name="WidthRestriction" Type="Double" />
+          <Property Name="HeightRestriction" Type="Double" />
+          <Property Name="CategoryTypeId" Type="Int32" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="ZoomFactor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ScaleFactor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="isShelfProductCategory" Type="Boolean" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_tbl_ProductCategory_tbl_contactcompanies">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ProductCategory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CategoryTerritory">
+          <Key>
+            <PropertyRef Name="CategoryTerritoryId" />
+          </Key>
+          <Property Name="CategoryTerritoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactCompanyId" Type="Int32" />
+          <Property Name="ProductCategoryId" Type="Int32" />
+          <Property Name="TerritoryId" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="PaperSize">
+           <Key>
+            <PropertyRef Name="PaperSizeId" />
+           </Key>
           <Property Name="PaperSizeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Height" Type="Double" />
@@ -401,7 +781,7 @@
           <Property Name="IsFixed" Type="Int32" Nullable="false" />
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
-        </EntityType>
+         </EntityType>
         <EntityType Name="Organisation">
           <Key>
             <PropertyRef Name="OrganisationId" />
@@ -542,29 +922,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ChartOfAccounts">
-            <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
-              <MappingFragment StoreEntitySet="ChartOfAccount">
-                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
-                <ScalarProperty Name="SubTypeId" ColumnName="SubTypeId" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
-                <ScalarProperty Name="Balance" ColumnName="Balance" />
-                <ScalarProperty Name="IsForReconciliation" ColumnName="IsForReconciliation" />
-                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
-                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Nature" ColumnName="Nature" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="OpeningBalanceType" ColumnName="OpeningBalanceType" />
-                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Markups">
             <EntityTypeMapping TypeName="DomainModels.Markup">
               <MappingFragment StoreEntitySet="Markup">
@@ -583,6 +940,88 @@
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="CompanyDomainId" ColumnName="CompanyDomainId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CmsPages">
+            <EntityTypeMapping TypeName="DomainModels.CmsPage">
+              <MappingFragment StoreEntitySet="CmsPage">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="isDisplay" ColumnName="isDisplay" />
+                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
+                <ScalarProperty Name="PageKeywords" ColumnName="PageKeywords" />
+                <ScalarProperty Name="PageBanner" ColumnName="PageBanner" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="isMPCAdd" ColumnName="isMPCAdd" />
+                <ScalarProperty Name="isSepecialOffer" ColumnName="isSepecialOffer" />
+                <ScalarProperty Name="isPromotionalOffer" ColumnName="isPromotionalOffer" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="isUserDefined" ColumnName="isUserDefined" />
+                <ScalarProperty Name="PageHTML" ColumnName="PageHTML" />
+                <ScalarProperty Name="Meta_Title" ColumnName="Meta_Title" />
+                <ScalarProperty Name="Meta_RevisitAfterContent" ColumnName="Meta_RevisitAfterContent" />
+                <ScalarProperty Name="Meta_LanguageContent" ColumnName="Meta_LanguageContent" />
+                <ScalarProperty Name="Meta_DateContent" ColumnName="Meta_DateContent" />
+                <ScalarProperty Name="Meta_AuthorContent" ColumnName="Meta_AuthorContent" />
+                <ScalarProperty Name="Meta_RobotsContent" ColumnName="Meta_RobotsContent" />
+                <ScalarProperty Name="Meta_CategoryContent" ColumnName="Meta_CategoryContent" />
+                <ScalarProperty Name="Meta_HiddenDescriptionContent" ColumnName="Meta_HiddenDescriptionContent" />
+                <ScalarProperty Name="Meta_DescriptionContent" ColumnName="Meta_DescriptionContent" />
+                <ScalarProperty Name="Meta_KeywordContent" ColumnName="Meta_KeywordContent" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="PageRelativePath" ColumnName="PageRelativePath" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="MenuTitle" ColumnName="MenuTitle" />
+                <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CmsSkinPageWidgets">
+            <EntityTypeMapping TypeName="DomainModels.CmsSkinPageWidget">
+              <MappingFragment StoreEntitySet="CmsSkinPageWidget">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="SkinId" ColumnName="SkinId" />
+                <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="PageWidgetId" ColumnName="PageWidgetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CmsSkinPageWidgetParams">
+            <EntityTypeMapping TypeName="DomainModels.CmsSkinPageWidgetParam">
+              <MappingFragment StoreEntitySet="CmsSkinPageWidgetParam">
+                <ScalarProperty Name="ParamValue" ColumnName="ParamValue" />
+                <ScalarProperty Name="ParamName" ColumnName="ParamName" />
+                <ScalarProperty Name="PageWidgetId" ColumnName="PageWidgetId" />
+                <ScalarProperty Name="PageWidgetParamId" ColumnName="PageWidgetParamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChartOfAccounts">
+            <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
+              <MappingFragment StoreEntitySet="ChartOfAccount">
+                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="IsForReconciliation" ColumnName="IsForReconciliation" />
+                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Nature" ColumnName="Nature" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SubTypeId" ColumnName="SubTypeId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="OpeningBalanceType" ColumnName="OpeningBalanceType" />
+                <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -632,6 +1071,69 @@
                 <ScalarProperty Name="Address1" ColumnName="Address1" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+               
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+           <EntitySetMapping Name="ProductCategories">
+            <EntityTypeMapping TypeName="DomainModels.ProductCategory">
+              <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="isShelfProductCategory" ColumnName="isShelfProductCategory" />
+                <ScalarProperty Name="ScaleFactor" ColumnName="ScaleFactor" />
+                <ScalarProperty Name="ZoomFactor" ColumnName="ZoomFactor" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CategoryTypeId" ColumnName="CategoryTypeId" />
+                <ScalarProperty Name="HeightRestriction" ColumnName="HeightRestriction" />
+                <ScalarProperty Name="WidthRestriction" ColumnName="WidthRestriction" />
+                <ScalarProperty Name="ApplyFoldLines" ColumnName="ApplyFoldLines" />
+                <ScalarProperty Name="ApplySizeRestrictions" ColumnName="ApplySizeRestrictions" />
+                <ScalarProperty Name="Sides" ColumnName="Sides" />
+                <ScalarProperty Name="isLinkToTemplates" ColumnName="isLinkToTemplates" />
+                <ScalarProperty Name="isOrderImposition" ColumnName="isOrderImposition" />
+                <ScalarProperty Name="isColorImposition" ColumnName="isColorImposition" />
+                <ScalarProperty Name="TrimmedHeight" ColumnName="TrimmedHeight" />
+                <ScalarProperty Name="TrimmedWidth" ColumnName="TrimmedWidth" />
+                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="TemplateDesignerMappedCategoryName" ColumnName="TemplateDesignerMappedCategoryName" />
+                <ScalarProperty Name="isMarketPlace" ColumnName="isMarketPlace" />
+                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
+                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="Description2" ColumnName="Description2" />
+                <ScalarProperty Name="Description1" ColumnName="Description1" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryTerritories">
+            <EntityTypeMapping TypeName="DomainModels.CategoryTerritory">
+              <MappingFragment StoreEntitySet="CategoryTerritory">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="CategoryTerritoryId" ColumnName="CategoryTerritoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Widgets">
+            <EntityTypeMapping TypeName="IsTypeOf(DomainModels.Widget)">
+              <MappingFragment StoreEntitySet="Widgets">
+                <ScalarProperty Name="WidgetControlName" ColumnName="WidgetControlName" />
+                <ScalarProperty Name="WidgetName" ColumnName="WidgetName" />
+                <ScalarProperty Name="WidgetCode" ColumnName="WidgetCode" />
+                <ScalarProperty Name="WidgetId" ColumnName="WidgetId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

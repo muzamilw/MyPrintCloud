@@ -104,6 +104,8 @@ namespace MPC.Models.DomainModels
         public Nullable<bool> IsDisplayDeliveryOnCheckout { get; set; }
         public Nullable<long> DeliveryPickUpAddressId { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
+        public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
+       public virtual ICollection<ProductCategory> ProductCategories { get; set; }
 
         //public virtual ICollection<Address> Addresses { get; set; }
       

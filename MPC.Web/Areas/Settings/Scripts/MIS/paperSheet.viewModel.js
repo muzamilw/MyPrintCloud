@@ -8,41 +8,45 @@ define("paperSheet/paperSheet.viewModel",
         ist.paperSheet = {
             viewModel: (function () {
                 var
+                    //View
                     view,
+                    //Paper Sheets
                     paperSheets = ko.observableArray([]),
-                    selectedPaperSheet = ko.observable(),
-                    selectedPaperSheetCopy = ko.observable(),
+                    //Is Loading Paper Sheet
                     isLoadingPaperSheet = ko.observable(false),
+                    //Sort On
                     sortOn = ko.observable(1),
+                    //Sort In Ascending
                     sortIsAsc = ko.observable(true),
+                    //Pager
                     pager = ko.observable(),
-
+                    //Search Filter
+                    searchFilter = ko.observable(),
+                    // Editor View Model
+                    editorViewModel = new ist.ViewModel(model.PaperSheet),
+                    //Selected Paper Sheet
+                    selectedPaperSheet = editorViewModel.itemForEditing,
+                    //Template To Use
                     templateToUse = function (paperSheet) {
                         return (paperSheet === selectedPaperSheet() ? 'editPaperSheetTemplate' : 'itemPaperSheetTemplate');
                     },
-
+                    //Make Edittable
                     makeEditable = ko.observable(false),
-                    selectPaperSheet = function (paperSheet) {
-                        if (selectedPaperSheet() !== paperSheet) {
-                            selectedPaperSheet(paperSheet);
-                        }
-                        //if (selectedTaxRate() === taxRate) {
-                        //    makeEditable(true);
-                        //    return (selectedTaxRate() === taxRate && taxRate() ? "editTaxRateTemplate" : "itemTaxRateTemplate");
-                        //}
-                        //isEditable(true);
-                    },
+                    //Create New Paper Sheet
                     createNewPaperSheet = function () {
                         var paperSheet = new model.PaperSheet();
-                        selectedPaperSheet(paperSheet);
-                        paperSheets.splice(0, 0, paperSheet);
-                        //paperSheets.splice(0, 0, model.PaperSheet());
-                        //selectedPaperSheet(paperSheets()[0]);
-                        //openEditDialog();
+                        editorViewModel.selectItem(paperSheet);
+                        openEditDialog();
                     },
+                    //On Edit Click Of Paper Sheet
+                    onEditItem = function (item) {
+                        editorViewModel.selectItem(item);
+                        openEditDialog();
+                    },
+                    //Delete Paper Sheet
                     deletePaperSheet = function (paperSheet) {
                         dataservice.deletePaperSheet({
-                            PaperSheetId: selectedPaperSheet().paperSizeId(),
+                            PaperSheetId: paperSheet.paperSizeId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -55,19 +59,24 @@ define("paperSheet/paperSheet.viewModel",
                             }
                         });
                     },
+                    //GET Paper Sheets
                     getPaperSheets = function () {
                         isLoadingPaperSheet(true);
                         dataservice.getPaperSheets({
+                            PaperSheetFilterText: searchFilter(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
                             success: function (data) {
                                 paperSheets.removeAll();
                                 if (data != null) {
+                                    pager().totalCount(data.RowCount);
                                     _.each(data.PaperSheets, function (item) {
-                                        var module = model.paperSheetClientMapper(item);
+                                        var module = model.paperSheetServertoClientMapper(item);
                                         paperSheets.push(module);
                                     });
-                                    if (paperSheets().length > 0) {
-                                        selectedPaperSheet(paperSheets()[0]);
-                                    }
                                 }
                                 isLoadingPaperSheet(false);
                             },
@@ -77,6 +86,7 @@ define("paperSheet/paperSheet.viewModel",
                             }
                         });
                     },
+                    //Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
                         if (!selectedPaperSheet().isValid()) {
@@ -86,18 +96,20 @@ define("paperSheet/paperSheet.viewModel",
                         return flag;
                     },
                     //Save Paper Sheet
-                    savePaperSheet = function () {
-                        if (doBeforeSave()) {
-                            if (selectedPaperSheet().paperSizeId()> 0) {
+                    savePaperSheet = function (item) {
+                        if (selectedPaperSheet() != undefined && doBeforeSave()) {
+                            if (selectedPaperSheet().paperSizeId() > 0) {
                                 saveEdittedPaperSheet();
                             } else {
-                                saveNewPaperSheet();
+                                saveNewPaperSheet(item);
                             }
                         }
                     },
-                    saveNewPaperSheet = function() {
-                        dataservice.saveNewPaperSheet(model.paperSheetServerMapper(selectedPaperSheet()), {
+                    //Save NEW Paper Sheets
+                    saveNewPaperSheet = function () {
+                        dataservice.saveNewPaperSheet(selectedPaperSheet().convertToServerData(), {
                             success: function (data) {
+                                selectedPaperSheet().paperSizeId(data.PaperSizeId);
                                 paperSheets.splice(0, 0, selectedPaperSheet());
                                 view.hidePaperSheetDialog();
                                 toastr.success("Successfully save.");
@@ -110,51 +122,56 @@ define("paperSheet/paperSheet.viewModel",
                                 }
                             }
                         });
-                    }, 
-                    saveEdittedPaperSheet = function() {
-                            dataservice.savePaperSheet(model.paperSheetServerMapper(selectedPaperSheet()), {
-                                success: function (data) {
-                                    paperSheets.splice(0, 0, selectedPaperSheet());
-                                    view.hidePaperSheetDialog();
-                                    toastr.success("Successfully save.");
-                                },
-                                error: function (exceptionMessage, exceptionType) {
-                                    if (exceptionType === ist.exceptionType.CaresGeneralException) {
-                                        toastr.error(exceptionMessage);
-                                    } else {
-                                        toastr.error("Failed to save.");
-                                    }
-                                }
-                            });
                     },
+                    //Save EDIT Paper Sheets
+                    saveEdittedPaperSheet = function () {
+                        dataservice.savePaperSheet(selectedPaperSheet().convertToServerData(), {
+                            success: function (data) {
+                                var newItem = model.paperSheetServertoClientMapper(data);
+                                var newObjtodelete = paperSheets.find(function (temp) {
+                                    return temp.paperSizeId() == newItem.paperSizeId();
+                                });
+                                paperSheets.remove(newObjtodelete);
+                                paperSheets.push(newItem);
+                                view.hidePaperSheetDialog();
+                                toastr.success("Successfully save.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                    toastr.error(exceptionMessage);
+                                } else {
+                                    toastr.error("Failed to save.");
+                                }
+                            }
+                        });
+                    },
+                    //Open Paper Sheet Dialog
                     openEditDialog = function () {
                         view.showPaperSheetDialog();
-                        selectedPaperSheetCopy(selectedPaperSheet());
                     },
-                    closeEditDialog = function() {
-                        if (selectedPaperSheet().paperSizeId() > 0) {
-                            view.hidePaperSheetDialog();
-                            selectedPaperSheet(selectedPaperSheetCopy());
-                        } else {
-                            view.hidePaperSheetDialog();
-                            paperSheets.remove(selectedPaperSheet());
+                    //CLose Paper Sheet Dialog
+                    closeEditDialog = function () {
+                        if (selectedPaperSheet() != undefined) {
+                            if (selectedPaperSheet().paperSizeId() > 0) {
+                                view.hidePaperSheetDialog();
+                            } else {
+                                view.hidePaperSheetDialog();
+                                paperSheets.remove(selectedPaperSheet());
+                            }
+                            editorViewModel.revertItem();
                         }
-                    }
-
+                    },
+                //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
+                    pager(pagination.Pagination({ PageSize: 5 }, paperSheets, getPaperSheets));
                     getPaperSheets();
-                    // Set Pager
-                    //pager(new pagination.Pagination({}, additionalTypeCharges, getAdditionalCharges));
-                    //getAdditionalCharges();
-                    // selectedPaperSheet(new model.CompanySites());
                 };
 
                 return {
                     paperSheets: paperSheets,
                     selectedPaperSheet: selectedPaperSheet,
-                    selectedPaperSheetCopy: selectedPaperSheetCopy,
                     isLoadingPaperSheet: isLoadingPaperSheet,
                     deletePaperSheet: deletePaperSheet,
                     sortOn: sortOn,
@@ -162,7 +179,6 @@ define("paperSheet/paperSheet.viewModel",
                     pager: pager,
                     templateToUse: templateToUse,
                     makeEditable: makeEditable,
-                    selectPaperSheet: selectPaperSheet,
                     createNewPaperSheet: createNewPaperSheet,
                     getPaperSheets: getPaperSheets,
                     doBeforeSave: doBeforeSave,
@@ -171,6 +187,9 @@ define("paperSheet/paperSheet.viewModel",
                     saveEdittedPaperSheet: saveEdittedPaperSheet,
                     openEditDialog: openEditDialog,
                     closeEditDialog: closeEditDialog,
+                    searchFilter: searchFilter,
+                    editorViewModel: editorViewModel,
+                    onEditItem: onEditItem,
                     initialize: initialize,
                 };
             })()

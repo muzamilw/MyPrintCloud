@@ -9,6 +9,7 @@ namespace MPC.Models.ResponseModels
         /// Row Count
         /// </summary>
         public int RowCount { get; set; }
+
         /// <summary>
         /// List of Paper Sheets
         /// </summary>

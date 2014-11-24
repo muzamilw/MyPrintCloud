@@ -12,7 +12,6 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
-
                     <li class="active"><span>Paper Sheets</span></li>
                 </ol>
                 <div class="clearfix">
@@ -48,54 +47,57 @@
                                         <!-- /ko -->
                                         <!-- ko if: !($root.paperSheets().length > 0) -->
                                         <!-- /ko -->
-                                    
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div id="pagerDiv">
+                    @*@Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")*@
+                    <!-- ko with: pager -->
+                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
+                        </div>
+                    </div>
                 </div>
             </div>
+            <script id="actionsTemplate" type="text/html">
+                <a class="table-link" data-bind="click : $root.onEditItem">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="table-link danger" data-bind="click : $root.deletePaperSheet">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </script>
+            <script id="itemPaperSheet" type="text/html">
+                <tr data-bind="click: $root.selectPaperSheet, css: { selectedRow: $data === $root.selectedPaperSheet}">
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: height"></td>
+                    <td data-bind="text: width"></td>
+                    <td id="actionColumn">
+                        <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>
+                </tr>
+            </script>
+            @Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
         </div>
-    </div>
-    <script id="actionsTemplate" type="text/html">
-        <a class="table-link" data-bind="click : $root.openEditDialog">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a href="#" class="table-link danger" data-bind="click : $root.deletePaperSheet">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </script>
-    <script id="itemPaperSheet" type="text/html">
-        <tr data-bind="click: $root.selectPaperSheet, css: { selectedRow: $data === $root.selectedPaperSheet()}">
-            <td data-bind="text: name"></td>
-            <td data-bind="text: height"></td>
-            <td data-bind="text: width"></td>
-            <td id="actionColumn">
-                <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>
-        </tr>
-    </script>
-    @Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
-</div>
 
 
-@section Scripts{
+        @section Scripts{
 
-    <script>
-        require(["paperSheet/paperSheet.view", "common/confirmation.view"]);
-        $(function () {
-            $('#lisettings').addClass('active');
-            $('#ligeneralsettings').addClass('active');
-            $('#lipaperSheet').addClass('active');
-        });
-    </script>
-}
+            <script>
+                require(["paperSheet/paperSheet.view", "common/confirmation.view"]);
+                $(function () {
+                    $('#lisettings').addClass('active');
+                    $('#ligeneralsettings').addClass('active');
+                    $('#lipaperSheet').addClass('active');
+                });
+            </script>
+        }
