@@ -7,15 +7,15 @@
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ChartOfAccount">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AccountNo" Type="varchar" MaxLength="20" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="OpeningBalance" Type="float" Nullable="false" />
           <Property Name="OpeningBalanceType" Type="smallint" />
-          <Property Name="TypeID" Type="int" Nullable="false" />
-          <Property Name="SubTypeID" Type="int" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="SubTypeId" Type="int" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="Nature" Type="smallint" />
           <Property Name="IsActive" Type="smallint" />
@@ -24,7 +24,7 @@
           <Property Name="IsForReconciliation" Type="smallint" Nullable="false" />
           <Property Name="Balance" Type="float" Nullable="false" />
           <Property Name="IsRead" Type="bit" />
-          <Property Name="SystemSiteID" Type="int" />
+          <Property Name="SystemSiteId" Type="int" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Company">
@@ -38,7 +38,7 @@
           <Property Name="CreditReference" Type="varchar" MaxLength="50" />
           <Property Name="CreditLimit" Type="float" />
           <Property Name="Terms" Type="nvarchar" MaxLength="3000" />
-          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="TypeId" Type="bigint" Nullable="false" />
           <Property Name="DefaultNominalCode" Type="int" Nullable="false" />
           <Property Name="DefaultMarkUpId" Type="int" Nullable="false" />
           <Property Name="AccountOpenDate" Type="datetime" />
@@ -148,9 +148,9 @@
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
-            <PropertyRef Name="PaperSizeID" />
+            <PropertyRef Name="PaperSizeId" />
           </Key>
-          <Property Name="PaperSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperSizeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Height" Type="float" />
           <Property Name="Width" Type="float" />
@@ -159,6 +159,42 @@
           <Property Name="IsFixed" Type="int" Nullable="false" />
           <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isArchived" Type="bit" />
+        </EntityType>
+        <EntityType Name="StockCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="5" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="fixed" Type="smallint" Nullable="false" />
+          <Property Name="ItemWeight" Type="smallint" Nullable="false" />
+          <Property Name="ItemColour" Type="smallint" Nullable="false" />
+          <Property Name="ItemSizeCustom" Type="smallint" Nullable="false" />
+          <Property Name="ItemPaperSize" Type="smallint" Nullable="false" />
+          <Property Name="ItemCoatedType" Type="smallint" Nullable="false" />
+          <Property Name="ItemCoated" Type="smallint" />
+          <Property Name="ItemExposure" Type="smallint" Nullable="false" />
+          <Property Name="ItemCharge" Type="smallint" Nullable="false" />
+          <Property Name="recLock" Type="smallint" Nullable="false" />
+          <Property Name="TaxId" Type="int" />
+          <Property Name="Flag1" Type="smallint" />
+          <Property Name="Flag2" Type="smallint" />
+          <Property Name="Flag3" Type="smallint" />
+          <Property Name="Flag4" Type="smallint" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockSubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="5" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_CompanyDomain_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
@@ -178,6 +214,8 @@
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockCategory" EntityType="Self.StockCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockSubCategory" EntityType="Self.StockSubCategory" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CompanyDomain_Company" Association="Self.FK_CompanyDomain_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyDomain" EntitySet="CompanyDomain" />
@@ -197,6 +235,8 @@
             <End Role="CompanyDomain" EntitySet="CompanyDomains" />
           </AssociationSet>
           <EntitySet Name="PaperSizes" EntityType="DomainModels.PaperSize" />
+          <EntitySet Name="StockCategories" EntityType="DomainModels.StockCategory" />
+          <EntitySet Name="StockSubCategories" EntityType="DomainModels.StockSubCategory" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -302,6 +342,7 @@
         <EntityType Name="ChartOfAccount">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -320,6 +361,10 @@
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="SystemSiteID" Type="Int32" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="SubTypeId" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" />
         </EntityType>
         <EntityType Name="Markup">
           <Key>
@@ -366,6 +411,42 @@
           <Property Name="IsFixed" Type="Int32" Nullable="false" />
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="StockCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Fixed" Type="Int16" Nullable="false" />
+          <Property Name="ItemWeight" Type="Int16" Nullable="false" />
+          <Property Name="ItemColour" Type="Int16" Nullable="false" />
+          <Property Name="ItemSizeCustom" Type="Int16" Nullable="false" />
+          <Property Name="ItemPaperSize" Type="Int16" Nullable="false" />
+          <Property Name="ItemCoatedType" Type="Int16" Nullable="false" />
+          <Property Name="ItemCoated" Type="Int16" />
+          <Property Name="ItemExposure" Type="Int16" Nullable="false" />
+          <Property Name="ItemCharge" Type="Int16" Nullable="false" />
+          <Property Name="RecLock" Type="Int16" Nullable="false" />
+          <Property Name="TaxId" Type="Int32" />
+          <Property Name="Flag1" Type="Int16" />
+          <Property Name="Flag2" Type="Int16" />
+          <Property Name="Flag3" Type="Int16" />
+          <Property Name="Flag4" Type="Int16" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockSubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Fixed" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -477,8 +558,11 @@
           <EntitySetMapping Name="ChartOfAccounts">
             <EntityTypeMapping TypeName="DomainModels.ChartOfAccount">
               <MappingFragment StoreEntitySet="ChartOfAccount">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="SubTypeId" ColumnName="SubTypeId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
-                <ScalarProperty Name="SystemSiteID" ColumnName="SystemSiteID" />
                 <ScalarProperty Name="IsRead" ColumnName="IsRead" />
                 <ScalarProperty Name="Balance" ColumnName="Balance" />
                 <ScalarProperty Name="IsForReconciliation" ColumnName="IsForReconciliation" />
@@ -487,13 +571,10 @@
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Nature" ColumnName="Nature" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SubTypeID" ColumnName="SubTypeID" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
                 <ScalarProperty Name="OpeningBalanceType" ColumnName="OpeningBalanceType" />
                 <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -529,7 +610,44 @@
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PaperSizeId" ColumnName="PaperSizeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockCategories">
+            <EntityTypeMapping TypeName="DomainModels.StockCategory">
+              <MappingFragment StoreEntitySet="StockCategory">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Flag4" ColumnName="Flag4" />
+                <ScalarProperty Name="Flag3" ColumnName="Flag3" />
+                <ScalarProperty Name="Flag2" ColumnName="Flag2" />
+                <ScalarProperty Name="Flag1" ColumnName="Flag1" />
+                <ScalarProperty Name="TaxId" ColumnName="TaxId" />
+                <ScalarProperty Name="RecLock" ColumnName="recLock" />
+                <ScalarProperty Name="ItemCharge" ColumnName="ItemCharge" />
+                <ScalarProperty Name="ItemExposure" ColumnName="ItemExposure" />
+                <ScalarProperty Name="ItemCoated" ColumnName="ItemCoated" />
+                <ScalarProperty Name="ItemCoatedType" ColumnName="ItemCoatedType" />
+                <ScalarProperty Name="ItemPaperSize" ColumnName="ItemPaperSize" />
+                <ScalarProperty Name="ItemSizeCustom" ColumnName="ItemSizeCustom" />
+                <ScalarProperty Name="ItemColour" ColumnName="ItemColour" />
+                <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
+                <ScalarProperty Name="Fixed" ColumnName="fixed" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockSubCategories">
+            <EntityTypeMapping TypeName="DomainModels.StockSubCategory">
+              <MappingFragment StoreEntitySet="StockSubCategory">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Fixed" ColumnName="Fixed" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
