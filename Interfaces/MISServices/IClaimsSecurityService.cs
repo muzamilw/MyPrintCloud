@@ -1,5 +1,5 @@
 ﻿using Microsoft.IdentityModel.Claims;
-using Microsoft.IdentityModel.Web;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -10,11 +10,6 @@ namespace MPC.Interfaces.MISServices
     public interface IClaimsSecurityService
     {
         /// <summary>
-        /// Handles the <see cref="WSFederationAuthenticationModule.SecurityTokenValidated"/> event
-        /// </summary>
-        void SecurityTokenValidated(object sender, SecurityTokenValidatedEventArgs e, string ipAddress);
-
-        /// <summary>
         /// Lookup identity using the claims identity
         /// </summary>
         IClaimsIdentity LookupIdentity(IClaimsIdentity claimsIdentity);
@@ -22,7 +17,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Add claims to the identity
         /// </summary>
-        void AddClaimsToIdentity(IClaimsIdentity identity, IClaimsIdentity claimsIdentity);
+        void AddClaimsToIdentity(UserIdentityModel identity, IClaimsIdentity claimsIdentity);
 
         /// <summary>
         /// Lookup name id and provider name

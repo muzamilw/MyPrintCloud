@@ -102,6 +102,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AccessRight.cs" />
+    <Compile Include="Common\AccessRightClaimValue.cs" />
+    <Compile Include="Common\OrganisationClaimValue.cs" />
+    <Compile Include="Common\MisRoleClaimValue.cs" />
+    <Compile Include="Common\Section.cs" />
+    <Compile Include="Common\RoleSection.cs" />
+    <Compile Include="Common\MisUser.cs" />
+    <Compile Include="Common\SecurityRoles.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\PaperSize.cs" />
