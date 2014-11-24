@@ -487,6 +487,7 @@
     <Content Include="Content\themes\Centaurus\img\error-404-v3.png" />
     <Content Include="Content\themes\Centaurus\img\error-500-v1.png" />
     <Content Include="Content\themes\Centaurus\img\forwardArrow.png" />
+    <Content Include="Content\themes\Centaurus\img\kodak.png" />
     <Content Include="Content\themes\Centaurus\img\login-img.jpg" />
     <Content Include="Content\themes\Centaurus\img\logo-black.png" />
     <Content Include="Content\themes\Centaurus\img\logo-black_.png" />
@@ -2125,6 +2126,8 @@
     <Content Include="Views\Shared\Company\_RaveReviews.cshtml" />
     <Content Include="Views\Shared\Company\_ProductsFilter.cshtml" />
     <Content Include="Views\Shared\Company\_ChooseUsIcon.cshtml" />
+    <Content Include="Views\CRM\SuppliersList.cshtml" />
+    <Content Include="Views\CRM\SupplierDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

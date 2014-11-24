@@ -39,7 +39,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
                             <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
-                            <li><a href="#tab-SEO" data-toggle="tab">SEO & Keyword</a></li>
+                            <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                             <li><a href="#tab-territory" data-toggle="tab">Users & Addresses</a></li>
                             <li><a href="#tab-products" data-toggle="tab">Products</a></li>
                             <li><a href="#tab-mailseries" data-toggle="tab">Emails</a></li>
@@ -97,14 +97,7 @@
                                                         <input type="radio" name="options" id="option2">
                                                         Retail 
                                                     </label>
-                                                    <label class="btn btn-primary">
-                                                        <input type="radio" name="options" id="option3">
-                                                        Prospect
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                        <input type="radio" name="options" id="option4">
-                                                        Supplier
-                                                    </label>
+                                                 
                                                 </div>
                                                 <span class="help-block text-right">The store type determines how a store is accessed.</span>
                                             </div>
@@ -292,44 +285,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST registration number will be used for invoices" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                </div>
-                                                <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
-
-
-                                                <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter GST Registration Number">
-                                                <span class="help-block text-right">GST registration number</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST reference number will be used for accounts" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                </div>
-                                                <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">GST Ref. No.</label>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter GST Reference Number">
-                                                <span class="help-block text-right">GST reference number</span>
-                                            </div>
-                                        </div>
-
+                              
 
                                     </div>
                                 </div>
@@ -471,112 +427,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-9 form-horizontal">
-                                    <h3 class="group-header">Payment Gateways</h3>
-
-                                    <div class="col-lg-12 clearfix">
-                                        <header class="main-box-header clearfix">
-                                            <div class="filter-block pull-right">
-                                                <div class="form-group pull-left">
-                                                    <input type="text" class="form-control" placeholder="Search...">
-                                                    <i class="fa fa-search search-icon"></i>
-                                                </div>
-                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Gateway
-                                                </a>
-                                            </div>
-                                        </header>
-                                        <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><a href="#"><span>Gateway</span></a></th>
-                                                            <th><a href="#" class="asc"><span>Description</span></a></th>
-                                                            <th><span>Status</span></th>
-                                                            <th>&nbsp;</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Paypal
-                                                            </td>
-                                                            <td>mpcystemsbiz_1452178@paypal.com
-                                                            </td>
-                                                            <td>
-                                                                <span class="label label-warning">Inactive</span>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Authorize.Net
-                                                            </td>
-                                                            <td>1245785412589-5458-45888
-                                                            </td>
-                                                            <td>
-                                                                <span class="label label-warning">Inactive</span>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Paypal
-                                                            </td>
-                                                            <td>naveedmnz-78-biz_1452178@paypal.com
-                                                            </td>
-                                                            <td>
-                                                                <span class="label label-success">Active</span>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                              
 
 
                             </div>
@@ -2372,7 +2223,7 @@
                                 </div>
 
 
-                                <div class="col-lg-12">
+                               @*<div class="col-lg-12">
                                     <h3 class="group-header">Keywords</h3>
                                     <div class="col-lg-9 clearfix">
                                         <header class="main-box-header clearfix">
@@ -2414,12 +2265,7 @@
                                                                 </div>
                                                             </td>
                                                             <td class="text-right">
-                                                                @*<a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>*@
+                                                              
                                                                 <a href="#" class="table-link danger">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
@@ -2445,12 +2291,7 @@
                                                                 </div>
                                                             </td>
                                                             <td class="text-right">
-                                                                @*<a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>*@
+                                                           
                                                                 <a href="#" class="table-link danger">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
@@ -2476,12 +2317,7 @@
                                                                 </div>
                                                             </td>
                                                             <td class="text-right">
-                                                                @*<a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>*@
+                                                             
                                                                 <a href="#" class="table-link danger">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
@@ -2507,12 +2343,7 @@
                                                                 </div>
                                                             </td>
                                                             <td class="text-right">
-                                                                @*<a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>*@
+                                                            
                                                                 <a href="#" class="table-link danger">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
@@ -2538,12 +2369,7 @@
                                                                 </div>
                                                             </td>
                                                             <td class="text-right">
-                                                                        @*<a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>*@
+                                                                       
                                                                 <a href="#" class="table-link danger">
                                                                     <span class="fa-stack">
                                                                         <i class="fa fa-square fa-stack-2x"></i>
@@ -2571,7 +2397,7 @@
                                             </div>
                                         </footer>
                                     </div>
-                                </div>
+                                </div>*@
 
 
                                 <div class="col-lg-12">
@@ -3148,7 +2974,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-lg-9 form-horizontal">
+                                <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Price Settings</h3>
 
                                     <div class="col-lg-12 clearfix">
@@ -3196,6 +3022,45 @@
                                                             <input type="text" class="form-control" id="txtTax"  placeholder="20" >
                                                             <span class="input-group-addon">%</span>
                                                             </div>    
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST registration number will be used for invoices" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+
+                                                <input type="text" class="form-control" id="txtGSTRegNo" style="width:50%;" placeholder="Enter GST Registration Number">
+                                                <span class="help-block text-right" style="width:50%;">GST registration number</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST reference number will be used for accounts" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">GST Ref. No.</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" style="width:50%;" id="txtGSTRefNo" placeholder="Enter GST Reference Number">
+                                                <span class="help-block text-right" style="width:50%;">GST reference number</span>
                                             </div>
                                         </div>
 
@@ -3303,6 +3168,120 @@
                                      
                                     </div>
                                 </div>
+
+                                <div class="col-lg-9 form-horizontal">
+                                    <h3 class="group-header">Payment Gateways</h3>
+
+                                    <div class="col-lg-12 clearfix">
+                                        <header class="main-box-header clearfix">
+                                            <div class="filter-block pull-right">
+                                                <div class="form-group pull-left">
+                                                    <input type="text" class="form-control" placeholder="Search...">
+                                                    <i class="fa fa-search search-icon"></i>
+                                                </div>
+                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Gateway
+                                                </a>
+                                            </div>
+                                        </header>
+                                        <div class="main-box-body clearfix">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><a href="#"><span>Gateway</span></a></th>
+                                                            <th><a href="#" class="asc"><span>Description</span></a></th>
+                                                            <th><span>Status</span></th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                Paypal
+                                                            </td>
+                                                            <td>
+                                                                mpcystemsbiz_1452178@paypal.com
+                                                            </td>
+                                                            <td>
+                                                                <span class="label label-warning">Inactive</span>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                                <a href="#" class="table-link danger">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Authorize.Net
+                                                            </td>
+                                                            <td>
+                                                                1245785412589-5458-45888
+                                                            </td>
+                                                            <td>
+                                                                <span class="label label-warning">Inactive</span>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                                <a href="#" class="table-link danger">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Paypal
+                                                            </td>
+                                                            <td>
+                                                                naveedmnz-78-biz_1452178@paypal.com
+                                                            </td>
+                                                            <td>
+                                                                <span class="label label-success">Active</span>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                                <a href="#" class="table-link danger">
+                                                                    <span class="fa-stack">
+                                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
                             </div>
 
 
