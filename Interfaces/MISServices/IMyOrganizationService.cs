@@ -24,6 +24,11 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         MyOrganizationSaveResponse SaveOrganization(Organisation organisation);
 
+        /// <summary>
+        /// Save File Path In Db against organization ID
+        /// </summary>
+        void SaveFile(string filePath);
+
         IList<int> GetOrganizationIds(int request);
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsE6FBDA00D7B8E2F7E330A0D32263569996E07E7B749249F09885B69E389BE6AF))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsE6FBDA00D7B8E2F7E330A0D32263569996E07E7B749249F09885B69E389BE6AF : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsDD19A7DAD8B1851933428CA57454407D5AE58B35B8AC53B5FA16F21F36B24623()
+        public ViewsForBaseEntitySetsE6FBDA00D7B8E2F7E330A0D32263569996E07E7B749249F09885B69E389BE6AF()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "de38aeed9199b13670fe84a42a8df0928ca49b1396a9c4a0edd3c60bb7f634e0";
-            this.HashOverAllExtentViews = "49e0e5ff336240f3a4ecd6ff563cf1a0dc7890f65eb65766daa93f30ff4ca432";
-            this.ViewCount = 10;
+            this.HashOverMappingClosure = "df78f479b7bb857547fa1b115094f583cfa2062fa6781553c33545a2e5e74716";
+            this.HashOverAllExtentViews = "6561744dc3ead75ced9b7212d04a1946aa2477020aaf85f7a632c44e5c9b04df";
+            this.ViewCount = 12;
         }
         
         /// <Summary>
@@ -76,6 +76,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 9))
             {
                 return GetView9();
+            }
+            if ((index == 10))
+            {
+                return GetView10();
+            }
+            if ((index == 11))
+            {
+                return GetView11();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -368,25 +376,25 @@ namespace Edm_EntityMappingGeneratedViews
         private System.Collections.Generic.KeyValuePair<string, string> GetView4()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ChartOfAccount", "\r\n    SELECT VALUE -- Constructing ChartOfAccount\r\n        [DomainModels.Store.Ch" +
-                    "artOfAccount](T1.ChartOfAccount_ID, T1.ChartOfAccount_AccountNo, T1.ChartOfAccou" +
+                    "artOfAccount](T1.ChartOfAccount_Id, T1.ChartOfAccount_AccountNo, T1.ChartOfAccou" +
                     "nt_Name, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType," +
-                    " T1.ChartOfAccount_TypeID, T1.ChartOfAccount_SubTypeID, T1.ChartOfAccount_Descri" +
+                    " T1.ChartOfAccount_TypeId, T1.ChartOfAccount_SubTypeId, T1.ChartOfAccount_Descri" +
                     "ption, T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_I" +
                     "sFixed, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliatio" +
                     "n, T1.ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_System" +
-                    "SiteID, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n         " +
-                    "   T.ID AS ChartOfAccount_ID, \r\n            T.AccountNo AS ChartOfAccount_Accoun" +
+                    "SiteId, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n         " +
+                    "   T.Id AS ChartOfAccount_Id, \r\n            T.AccountNo AS ChartOfAccount_Accoun" +
                     "tNo, \r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance" +
                     " AS ChartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOf" +
-                    "Account_OpeningBalanceType, \r\n            T.TypeID AS ChartOfAccount_TypeID, \r\n " +
-                    "           T.SubTypeID AS ChartOfAccount_SubTypeID, \r\n            T.Description " +
+                    "Account_OpeningBalanceType, \r\n            T.TypeId AS ChartOfAccount_TypeId, \r\n " +
+                    "           T.SubTypeId AS ChartOfAccount_SubTypeId, \r\n            T.Description " +
                     "AS ChartOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, " +
                     "\r\n            T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS " +
                     "ChartOfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastA" +
                     "ctivityDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconcil" +
                     "iation, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRea" +
-                    "d AS ChartOfAccount_IsRead, \r\n            T.SystemSiteID AS ChartOfAccount_Syste" +
-                    "mSiteID, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n      " +
+                    "d AS ChartOfAccount_IsRead, \r\n            T.SystemSiteId AS ChartOfAccount_Syste" +
+                    "mSiteId, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n      " +
                     "      True AS _from0\r\n        FROM BaseDbContext.ChartOfAccounts AS T\r\n    ) AS " +
                     "T1");
         }
@@ -397,25 +405,25 @@ namespace Edm_EntityMappingGeneratedViews
         private System.Collections.Generic.KeyValuePair<string, string> GetView5()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ChartOfAccounts", "\r\n    SELECT VALUE -- Constructing ChartOfAccounts\r\n        [DomainModels.ChartOf" +
-                    "Account](T1.ChartOfAccount_ID, T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Na" +
-                    "me, T1.ChartOfAccount_OpeningBalance, T1.ChartOfAccount_OpeningBalanceType, T1.C" +
-                    "hartOfAccount_TypeID, T1.ChartOfAccount_SubTypeID, T1.ChartOfAccount_Description" +
-                    ", T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_IsFixe" +
-                    "d, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliation, T1" +
-                    ".ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_SystemSiteI" +
-                    "D, T1.ChartOfAccount_UserDomainKey)\r\n    FROM (\r\n        SELECT \r\n            T." +
-                    "ID AS ChartOfAccount_ID, \r\n            T.AccountNo AS ChartOfAccount_AccountNo, " +
-                    "\r\n            T.Name AS ChartOfAccount_Name, \r\n            T.OpeningBalance AS C" +
-                    "hartOfAccount_OpeningBalance, \r\n            T.OpeningBalanceType AS ChartOfAccou" +
-                    "nt_OpeningBalanceType, \r\n            T.TypeID AS ChartOfAccount_TypeID, \r\n      " +
-                    "      T.SubTypeID AS ChartOfAccount_SubTypeID, \r\n            T.Description AS Ch" +
-                    "artOfAccount_Description, \r\n            T.Nature AS ChartOfAccount_Nature, \r\n   " +
-                    "         T.IsActive AS ChartOfAccount_IsActive, \r\n            T.IsFixed AS Chart" +
-                    "OfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAccount_LastActivi" +
-                    "tyDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsForReconciliatio" +
-                    "n, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n            T.IsRead AS " +
-                    "ChartOfAccount_IsRead, \r\n            T.SystemSiteID AS ChartOfAccount_SystemSite" +
-                    "ID, \r\n            T.UserDomainKey AS ChartOfAccount_UserDomainKey, \r\n           " +
+                    "Account](T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Name, T1.ChartOfAccount_" +
+                    "OpeningBalance, T1.ChartOfAccount_OpeningBalanceType, T1.ChartOfAccount_Descript" +
+                    "ion, T1.ChartOfAccount_Nature, T1.ChartOfAccount_IsActive, T1.ChartOfAccount_IsF" +
+                    "ixed, T1.ChartOfAccount_LastActivityDate, T1.ChartOfAccount_IsForReconciliation," +
+                    " T1.ChartOfAccount_Balance, T1.ChartOfAccount_IsRead, T1.ChartOfAccount_UserDoma" +
+                    "inKey, T1.ChartOfAccount_Id, T1.ChartOfAccount_TypeId, T1.ChartOfAccount_SubType" +
+                    "Id, T1.ChartOfAccount_SystemSiteId)\r\n    FROM (\r\n        SELECT \r\n            T." +
+                    "AccountNo AS ChartOfAccount_AccountNo, \r\n            T.Name AS ChartOfAccount_Na" +
+                    "me, \r\n            T.OpeningBalance AS ChartOfAccount_OpeningBalance, \r\n         " +
+                    "   T.OpeningBalanceType AS ChartOfAccount_OpeningBalanceType, \r\n            T.De" +
+                    "scription AS ChartOfAccount_Description, \r\n            T.Nature AS ChartOfAccoun" +
+                    "t_Nature, \r\n            T.IsActive AS ChartOfAccount_IsActive, \r\n            T.I" +
+                    "sFixed AS ChartOfAccount_IsFixed, \r\n            T.LastActivityDate AS ChartOfAcc" +
+                    "ount_LastActivityDate, \r\n            T.IsForReconciliation AS ChartOfAccount_IsF" +
+                    "orReconciliation, \r\n            T.Balance AS ChartOfAccount_Balance, \r\n         " +
+                    "   T.IsRead AS ChartOfAccount_IsRead, \r\n            T.UserDomainKey AS ChartOfAc" +
+                    "count_UserDomainKey, \r\n            T.Id AS ChartOfAccount_Id, \r\n            T.Ty" +
+                    "peId AS ChartOfAccount_TypeId, \r\n            T.SubTypeId AS ChartOfAccount_SubTy" +
+                    "peId, \r\n            T.SystemSiteId AS ChartOfAccount_SystemSiteId, \r\n           " +
                     " True AS _from0\r\n        FROM DomainModelsStoreContainer.ChartOfAccount AS T\r\n  " +
                     "  ) AS T1");
         }
@@ -469,10 +477,10 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaperSize", @"
     SELECT VALUE -- Constructing PaperSize
-        [DomainModels.Store.PaperSize](T1.PaperSize_PaperSizeID, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_isArchived)
+        [DomainModels.Store.PaperSize](T1.PaperSize_PaperSizeId, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_isArchived)
     FROM (
         SELECT 
-            T.PaperSizeId AS PaperSize_PaperSizeID, 
+            T.PaperSizeId AS PaperSize_PaperSizeId, 
             T.Name AS PaperSize_Name, 
             T.Height AS PaperSize_Height, 
             T.Width AS PaperSize_Width, 
@@ -496,7 +504,7 @@ namespace Edm_EntityMappingGeneratedViews
         [DomainModels.PaperSize](T1.PaperSize_PaperSizeId, T1.PaperSize_Name, T1.PaperSize_Height, T1.PaperSize_Width, T1.PaperSize_SizeMeasure, T1.PaperSize_Area, T1.PaperSize_IsFixed, T1.PaperSize_Region, T1.PaperSize_IsArchived)
     FROM (
         SELECT 
-            T.PaperSizeID AS PaperSize_PaperSizeId, 
+            T.PaperSizeId AS PaperSize_PaperSizeId, 
             T.Name AS PaperSize_Name, 
             T.Height AS PaperSize_Height, 
             T.Width AS PaperSize_Width, 
@@ -508,6 +516,88 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM DomainModelsStoreContainer.PaperSize AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Organisation
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView10()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2519);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Organisation\r\n        [DomainModels.Store.Org");
+            viewString.Append("anisation](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.");
+            viewString.Append("Organisation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Or");
+            viewString.Append("ganisation_City, T1.Organisation_State, T1.Organisation_Country, T1.Organisation");
+            viewString.Append("_ZipCode, T1.Organisation_Tel, T1.Organisation_Fax, T1.Organisation_Mobile, T1.O");
+            viewString.Append("rganisation_Email, T1.Organisation_URL, T1.Organisation_WebsiteLogo, T1.Organisa");
+            viewString.Append("tion_MISLogo, T1.Organisation_TaxRegistrationNo, T1.Organisation_LicenseLevel, T");
+            viewString.Append("1.Organisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organisatio");
+            viewString.Append("n_SmtpUserName, T1.Organisation_SmtpPassword, T1.Organisation_VATRegNumber, T1.O");
+            viewString.Append("rganisation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisation_");
+            viewString.Append("CurrencyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey)\r\n    FROM");
+            viewString.Append(" (\r\n        SELECT \r\n            T.OrganisationId AS Organisation_OrganisationId");
+            viewString.Append(", \r\n            T.OrganisationName AS Organisation_OrganisationName, \r\n         ");
+            viewString.Append("   T.Address1 AS Organisation_Address1, \r\n            T.Address2 AS Organisation");
+            viewString.Append("_Address2, \r\n            T.Address3 AS Organisation_Address3, \r\n            T.Ci");
+            viewString.Append("ty AS Organisation_City, \r\n            T.State AS Organisation_State, \r\n        ");
+            viewString.Append("    T.Country AS Organisation_Country, \r\n            T.ZipCode AS Organisation_Z");
+            viewString.Append("ipCode, \r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisa");
+            viewString.Append("tion_Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email A");
+            viewString.Append("S Organisation_Email, \r\n            T.URL AS Organisation_URL, \r\n            T.W");
+            viewString.Append("ebsiteLogo AS Organisation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_");
+            viewString.Append("MISLogo, \r\n            T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n");
+            viewString.Append("            T.LicenseLevel AS Organisation_LicenseLevel, \r\n            T.Custome");
+            viewString.Append("rAccountNumber AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer");
+            viewString.Append(" AS Organisation_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUs");
+            viewString.Append("erName, \r\n            T.SmtpPassword AS Organisation_SmtpPassword, \r\n           ");
+            viewString.Append(" T.VATRegNumber AS Organisation_VATRegNumber, \r\n            T.SystemLengthUnit A");
+            viewString.Append("S Organisation_SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisatio");
+            viewString.Append("n_SystemWeightUnit, \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n   ");
+            viewString.Append("         T.LanguageId AS Organisation_LanguageId, \r\n            T.UserDomainKey ");
+            viewString.Append("AS Organisation_UserDomainKey, \r\n            True AS _from0\r\n        FROM BaseDb");
+            viewString.Append("Context.Organisations AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Organisation", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Organisations
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView11()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2526);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
+            viewString.Append("tion](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.Organ");
+            viewString.Append("isation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Organis");
+            viewString.Append("ation_City, T1.Organisation_State, T1.Organisation_Country, T1.Organisation_ZipC");
+            viewString.Append("ode, T1.Organisation_Tel, T1.Organisation_Fax, T1.Organisation_Mobile, T1.Organi");
+            viewString.Append("sation_Email, T1.Organisation_URL, T1.Organisation_WebsiteLogo, T1.Organisation_");
+            viewString.Append("MISLogo, T1.Organisation_TaxRegistrationNo, T1.Organisation_LicenseLevel, T1.Org");
+            viewString.Append("anisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organisation_Smt");
+            viewString.Append("pUserName, T1.Organisation_SmtpPassword, T1.Organisation_VATRegNumber, T1.Organi");
+            viewString.Append("sation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisation_Curre");
+            viewString.Append("ncyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey)\r\n    FROM (\r\n ");
+            viewString.Append("       SELECT \r\n            T.OrganisationId AS Organisation_OrganisationId, \r\n ");
+            viewString.Append("           T.OrganisationName AS Organisation_OrganisationName, \r\n            T.");
+            viewString.Append("Address1 AS Organisation_Address1, \r\n            T.Address2 AS Organisation_Addr");
+            viewString.Append("ess2, \r\n            T.Address3 AS Organisation_Address3, \r\n            T.City AS");
+            viewString.Append(" Organisation_City, \r\n            T.State AS Organisation_State, \r\n            T");
+            viewString.Append(".Country AS Organisation_Country, \r\n            T.ZipCode AS Organisation_ZipCod");
+            viewString.Append("e, \r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisation_");
+            viewString.Append("Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email AS Org");
+            viewString.Append("anisation_Email, \r\n            T.URL AS Organisation_URL, \r\n            T.Websit");
+            viewString.Append("eLogo AS Organisation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_MISLo");
+            viewString.Append("go, \r\n            T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n     ");
+            viewString.Append("       T.LicenseLevel AS Organisation_LicenseLevel, \r\n            T.CustomerAcco");
+            viewString.Append("untNumber AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer AS O");
+            viewString.Append("rganisation_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUserNam");
+            viewString.Append("e, \r\n            T.SmtpPassword AS Organisation_SmtpPassword, \r\n            T.VA");
+            viewString.Append("TRegNumber AS Organisation_VATRegNumber, \r\n            T.SystemLengthUnit AS Org");
+            viewString.Append("anisation_SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisation_Sys");
+            viewString.Append("temWeightUnit, \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n        ");
+            viewString.Append("    T.LanguageId AS Organisation_LanguageId, \r\n            T.UserDomainKey AS Or");
+            viewString.Append("ganisation_UserDomainKey, \r\n            True AS _from0\r\n        FROM DomainModel");
+            viewString.Append("sStoreContainer.Organisation AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
     }
 }

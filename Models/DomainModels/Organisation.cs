@@ -224,11 +224,6 @@ namespace MPC.Models.DomainModels
         #endregion
 
         #region Additional Properties
-        ///// <summary>
-        ///// Tax Rate List
-        ///// </summary>
-        //[NotMapped]
-        //public List<TaxRate> TaxRates { get; set; }
 
         // <summary>
         // Markup List
@@ -241,6 +236,12 @@ namespace MPC.Models.DomainModels
         // </summary>
         [NotMapped]
         public List<ChartOfAccount> ChartOfAccounts { get; set; }
+
+        /// <summary>
+        /// Markup Id
+        /// </summary>
+        [NotMapped]
+        public long? MarkupId { get; set; }
 
         #endregion
     }

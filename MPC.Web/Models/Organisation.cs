@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace MPC.MIS.Models
 {
@@ -112,7 +114,7 @@ namespace MPC.MIS.Models
         /// <summary>
         /// Markup Id
         /// </summary>
-        public int? MarkupId { get; set; }
+        public long? MarkupId { get; set; }
 
         /// <summary>
         /// Order Manager Id
@@ -197,24 +199,45 @@ namespace MPC.MIS.Models
         /// <summary>
         /// System Length Unit
         /// </summary>
-        public int? SystemLengthUnit { get; set; }
+        public long? SystemLengthUnit { get; set; }
 
         /// <summary>
         /// System Weight Unit
         /// </summary>
-        public int? SystemWeightUnit { get; set; }
+        public long? SystemWeightUnit { get; set; }
 
         /// <summary>
         /// Currency Id
         /// </summary>
-        public int? CurrencyId { get; set; }
+        public long? CurrencyId { get; set; }
 
         /// <summary>
         /// Language Id
         /// </summary>
-        public int? LanguageId { get; set; }
+        public long? LanguageId { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Image
+        /// </summary>
+        public byte[] Image { get; set; }
+
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ImageSource
+        {
+            get
+            {
+                if (Image == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(Image);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+          #endregion
 
         #region Reference Properties
         /// <summary>
