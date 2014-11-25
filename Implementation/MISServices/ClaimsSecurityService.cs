@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.IdentityModel.Claims;
-using MPC.Common;
+using Microsoft.IdentityModel.Web;
 using MPC.Interfaces.MISServices;
-using MPC.Models.Common;
 
 namespace MPC.Implementation.MISServices
 {
@@ -18,73 +19,70 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Add the user's name to the claims
         /// </summary>
-        private void CheckName(MisUser user, IClaimsIdentity claimsIdentity)
+        private void CheckName(string user, IClaimsIdentity claimsIdentity)
         {
             Claim nameClaim = claimsIdentity.Claims.FirstOrDefault(c => c.ClaimType == ClaimTypes.Name);
             if (nameClaim == null)
             {
-                claimsIdentity.Claims.Add(new Claim(ClaimTypes.Name, user.FullName));
+       //         claimsIdentity.Claims.Add(new Claim(ClaimTypes.Name, user));
             }
         }
-
-        /// <summary>
-        /// Add Access Right claims
-        /// </summary>
-        private static void AddAccessRightClaims(MisUser user, IClaimsIdentity claimsIdentity)
-        {
-            List<AccessRight> accessRights = user.RoleSections.SelectMany(roleSection => roleSection.Section.AccessRights).ToList();
-            foreach (AccessRight accessRight in accessRights)
-            {
-                Claim claim = new Claim(MpcClaimTypes.AccessRight,
-                                        ClaimHelper.Serialize(
-                                            new AccessRightClaimValue 
-                                            { 
-                                                RightId = accessRight.RightId, 
-                                                Right = accessRight.RightName, 
-                                                SectionId = accessRight.SectionId 
-                                            }),
-                                        typeof(AccessRightClaimValue).AssemblyQualifiedName);
-                claimsIdentity.Claims.Add(claim);
-            }
-        }
-
-        /// <summary>
-        /// Add security role claims
-        /// </summary>
-        private static void AddRoleClaims(MisUser user, IClaimsIdentity claimsIdentity)
-        {
-            Claim claim = new Claim(MpcClaimTypes.MisRole,
-                                        ClaimHelper.Serialize(
-                                            new MisRoleClaimValue { Role = user.Role }),
-                                        typeof(MisRoleClaimValue).AssemblyQualifiedName);
-            claimsIdentity.Claims.Add(claim);
-        }
-
-        /// <summary>
-        /// Add Organisation Claims
-        /// </summary>
-        private static void AddOrganisationClaims(MisUser user, IClaimsIdentity claimsIdentity)
-        {
-            Claim claim = new Claim(MpcClaimTypes.Organisation,
-                                        ClaimHelper.Serialize(
-                                            new OrganisationClaimValue { OrganisationId = user.OrganisationId }),
-                                        typeof(OrganisationClaimValue).AssemblyQualifiedName);
-            claimsIdentity.Claims.Add(claim);
-        }
-
+        
+        ///// <summary>
+        ///// Add security role claims
+        ///// </summary>
+        //private static void AddRoleClaims(IClaimsIdentity claimsIdentity, SiteUser siteUser)
+        //{
+        //    foreach (SecurityRole role in siteUser.SecurityRoles)
+        //    {
+        //        Claim claim = new Claim(OdyPortalClaimTypes.OdyPortalRole,
+        //                                ClaimHelper.Serialize(
+        //                                    new RoleClaimValue { Role = role.Name, SiteUrlPostFix = siteUser.Site.UrlPostFix }),
+        //                                typeof(RoleClaimValue).AssemblyQualifiedName);
+        //        claimsIdentity.Claims.Add(claim);
+        //    }
+        //}
+        
         /// <summary>
         /// Add role claims
         /// </summary>
-        private void AddUserClaims(MisUser user, IClaimsIdentity claimsIdentity)
+        private void AddSiteUserClaims(IClaimsIdentity claimsIdentity, string siteUser)
         {
-            AddRoleClaims(user, claimsIdentity);
-            AddOrganisationClaims(user, claimsIdentity);
-            AddAccessRightClaims(user, claimsIdentity);
+           // AddSiteAccessClaims(claimsIdentity, siteUser);
+          //  AddRoleClaims(claimsIdentity, siteUser);
+          //  AddRepresentationClaims(claimsIdentity, siteUser);
         }
 
         #endregion
+        #region Constructor
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ClaimsSecurityService()
+        {
+        }
+        #endregion
         #region Public
+
+        /// <summary>
+        /// Handles the <see cref="WSFederationAuthenticationModule.SecurityTokenValidated"/> event
+        /// </summary>
+        public void SecurityTokenValidated(object sender, SecurityTokenValidatedEventArgs e, string ipAddress)
+        {
+            IClaimsPrincipal claimsPrincipal = e.ClaimsPrincipal;
+            IClaimsIdentity claimsIdentity = (IClaimsIdentity)claimsPrincipal.Identity;
+
+            if (claimsIdentity.IsAuthenticated)
+            {
+                //UserLoginIdentity identity = LookupIdentity(claimsIdentity);
+
+                //if (identity != null)
+              //  {
+                //    AddClaimsToIdentity(identity, claimsIdentity);
+              //  }
+            }
+        }
         
         /// <summary>
         /// Lookup name id and provider name
@@ -128,13 +126,17 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Add claims to the identity
         /// </summary>
-        public void AddClaimsToIdentity(UserIdentityModel identity, IClaimsIdentity claimsIdentity)
+        public void AddClaimsToIdentity(IClaimsIdentity identity, IClaimsIdentity claimsIdentity)
         {
-            if (identity.User != null)
-            {
-                CheckName(identity.User, claimsIdentity);
-                AddUserClaims(identity.User, claimsIdentity);
-            }
+          //  if (identity.User != null)
+       //     {
+         //       CheckName(identity.User, claimsIdentity);
+
+         //       foreach (SiteUser siteUser in identity.User.SiteUsers)
+          //      {
+             //       AddSiteUserClaims(claimsIdentity, siteUser);
+         //       }
+        //    }
         }
 
 

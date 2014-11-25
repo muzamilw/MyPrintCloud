@@ -33,12 +33,12 @@ namespace MPC.MIS.ModelMappers
                    {
                        Area = source.Height * source.Width,
                        Height = source.Height,
-                       IsArchived = source.IsArchived == true? source.IsArchived : false,
+                       IsArchived = source.IsArchived == true ? source.IsArchived : false,
                        IsFixed = source.IsFixed,
                        Name = source.Name,
                        PaperSizeId = source.PaperSizeId,
                        Region = source.Region ?? CultureInfo.CurrentCulture.Name,
-                       SizeMeasure = source.SizeMeasure,
+                       SizeMeasure = source.SizeMeasure ?? 0,
                        Width = source.Width
                    };
         }

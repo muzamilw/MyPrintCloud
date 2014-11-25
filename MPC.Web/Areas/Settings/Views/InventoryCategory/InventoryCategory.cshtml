@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "InventoryCategory";
+}
+
+@section leftmenue {
+
+}
+<div class="row" id="inventoryCategoriesBinding">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/StockCategory/Index">Home</a></li>
+                    <li class="active"><span>Inventory Categories</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Inventory Categories</h1>
+                    <div class="pull-right top-page-ui">
+                        <a data-toggle="modal" data-bind="click: $root.createNewStockCategory" class=" btn btn-primary">
+                            <i class="fa fa-plus-circle fa-lg"></i>Add Inventory Category
+                        </a>
+                    </div>
+                    <div class="filter-block pull-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th><span id="0">Name</span></th>
+                                        <th><span id="1">Description</span></th>
+                                        <th><span id="3"></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko foreach: $root.stockCategories -->
+                                    <!-- ko template: { name: 'itemStockCategory' } -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- ko if: !($root.stockCategories().length > 0) -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="pagerDiv">
+                    <!-- ko with: pager -->
+                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="actionsTemplate" type="text/html">
+        <a class="table-link" data-bind="click : $root.onEditItem">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="#" class="table-link danger" data-bind="click : $root.deleteStockCategory">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="itemStockCategory" type="text/html">
+        <tr data-bind="click: $root.selectStockCategory, css: { selectedRow: $data === $root.selectedStockCategory}">
+            <td data-bind="text: name"></td>
+            <td data-bind="text: description"></td>
+            <td id="actionColumn">
+                <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    @Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
+</div>
+
+
+@section Scripts{
+
+    <script>
+        require(["inventoryCategory/inventoryCategory.view", "common/confirmation.view"]);
+        $(function () {
+            $('#lisettings').addClass('active');
+            $('#ligeneralsettings').addClass('active');
+            $('#liInventoryCategory').addClass('active');
+        });
+    </script>
+}

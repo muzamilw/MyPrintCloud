@@ -82,6 +82,8 @@ namespace MPC.Repository.BaseRepository
         /// Page Sizes Db Set
         /// </summary>
         public DbSet<PaperSize> PaperSizes{ get; set; }
+        public DbSet<StockCategory> StockCategories{ get; set; }
+        public DbSet<StockSubCategory> StockSubCategories{ get; set; }
 
         public DbSet<CmsPage> CmsPage { get; set; }
 

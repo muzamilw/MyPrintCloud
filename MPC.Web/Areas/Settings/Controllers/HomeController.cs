@@ -6,7 +6,6 @@ using MPC.Interfaces.MISServices;
 
 namespace MPC.MIS.Areas.Settings.Controllers
 {
-    //[SiteAuthorize(MisRoles = new []{ SecurityRoles.Admin }, AccessRights = new []{ SecurityAccessRight.CanViewSecurity })]
     public class HomeController : Controller
     {
 
@@ -31,7 +30,6 @@ namespace MPC.MIS.Areas.Settings.Controllers
         }
         #endregion
         // GET: Settings/Home
-        //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         public ActionResult Index()
         {
             return View();
