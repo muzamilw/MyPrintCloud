@@ -39,12 +39,12 @@ namespace MPC.WebBase.Mvc
         {
             MPCExceptionContent contents = new MPCExceptionContent
             {
-                Message = filterContext.Exception.Message                
+                Message = filterContext.Exception.Message
             };
             filterContext.Response = new HttpResponseMessage
             {
                 StatusCode = System.Net.HttpStatusCode.BadRequest,
-                Content = new StringContent(JsonConvert.SerializeObject(contents))                
+                Content = new StringContent(JsonConvert.SerializeObject(contents))
             };
         }
         private void SetGeneralExceptionApplicationResponse(HttpActionExecutedContext filterContext)
@@ -73,9 +73,13 @@ namespace MPC.WebBase.Mvc
         /// </summary>
         public override void OnActionExecuted(HttpActionExecutedContext filterContext)
         {
+            if (filterContext.Exception == null)
+            {
+                return;
+            }
             if (filterContext.Exception is MPCException)
             {
-                SetApplicationResponse(filterContext);                
+                SetApplicationResponse(filterContext);
                 MPCException exp = filterContext.Exception as MPCException;
                 LogError(exp, exp.DomainKey, filterContext.Request.Content.ToString());
             }
@@ -84,7 +88,7 @@ namespace MPC.WebBase.Mvc
                 SetGeneralExceptionApplicationResponse(filterContext);
                 LogError(filterContext.Exception, -1, filterContext.Request.Content.ToString());
             }
-            
+
         }
     }
 }

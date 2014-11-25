@@ -22,6 +22,6 @@ namespace MPC.Models.DomainModels
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<long> CompanySetId { get; set; }
 
-        public virtual CompanyBannerSet CompanySet { get; set; }
+        public virtual CompanyBannerSet CompanyBannerSet { get; set; }
     }
 }

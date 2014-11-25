@@ -15,6 +15,8 @@ define("myOrganization/myOrganization.viewModel",
                     selectedMarkup = ko.observable(),
                     //Active Chart Of Accounts
                     selectedChartOfAccounts = ko.observable(),
+                    //Orgnization Image
+                    orgnizationImage = ko.observable(),
                     // #region Arrays
                     //Currency Symbol list
                     currencySymbols = ko.observableArray([]),
@@ -57,8 +59,9 @@ define("myOrganization/myOrganization.viewModel",
                         //pager(new pagination.Pagination({}, additionalTypeCharges, getAdditionalCharges));
                         //getAdditionalCharges();
                         selectedMyOrganization(new model.CompanySites());
-                        selectedMyOrganization().id(2);
+                       selectedMyOrganization().id(2);
                         getMyOrganizationById(selectedMyOrganization());
+                        view.initializeForm();
                     },
                     // Get Base
                     getBase = function (callBack) {
@@ -178,6 +181,8 @@ define("myOrganization/myOrganization.viewModel",
                         dataservice.getMyOrganizationDetail(model.OrganizationServerMapperForId(org), {
                             success: function (data) {
                                 selectedMyOrganization(model.CompanySitesClientMapper(data));
+                                orgnizationImage(data.ImageSource);
+                                view.initializeForm();
                                 isLoadingMyOrganization(false);
                             },
                             error: function () {
@@ -323,6 +328,7 @@ define("myOrganization/myOrganization.viewModel",
                     selectedMyOrganization: selectedMyOrganization,
                     selectedMarkup: selectedMarkup,
                     selectedChartOfAccounts: selectedChartOfAccounts,
+                    orgnizationImage: orgnizationImage,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     sortOnHg: sortOnHg,
