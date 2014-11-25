@@ -84,13 +84,19 @@ namespace MPC.Repository.BaseRepository
         public DbSet<PaperSize> PaperSizes{ get; set; }
         public DbSet<StockCategory> StockCategories{ get; set; }
         public DbSet<StockSubCategory> StockSubCategories{ get; set; }
-       
 
-        //public DbSet<CompanyContact> CompanyContact { get; set; }
+        public DbSet<CmsPage> CmsPage { get; set; }
 
-        //public DbSet<Address> Address { get; set; }
+        public DbSet<CmsSkinPageWidget> PageWidgets { get; set; }
 
-        //public DbSet<CompanyTerritory> CompanyTerritory { get; set; }
+        public DbSet<CmsSkinPageWidgetParam> PageWidgetParams { get; set; }
+        public DbSet<Widget> Widgets { get; set; }
+
+        public DbSet<CompanyBanner> CompanyBanner { get; set; }
+
+        public DbSet<CompanyBannerSet> CompanyBannerSets { get; set; }
+
+        public DbSet<ProductCategory> ProductCategories { get; set; }
 
         #endregion
     }

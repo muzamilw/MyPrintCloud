@@ -6,13 +6,12 @@ using System.Web.Mvc;
 
 namespace MPC.Webstore.Controllers
 {
-    public class RaveReviewsController : Controller
+    public class ParentCategoriesController : Controller
     {
-        // GET: News
+        // GET: ParentCategories
         public ActionResult Index()
         {
-
-            return PartialView("PartialViews/RaveReviews");
+            return PartialView("PartialViews/ParentCategories");
         }
     }
 }

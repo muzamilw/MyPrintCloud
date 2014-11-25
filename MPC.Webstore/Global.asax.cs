@@ -127,6 +127,7 @@ namespace MPC.Webstore
 
             string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
             var store = companyService.GetCompanyByDomain(url);
+      
             if (store == null)
             {
                 Response.Redirect("/Home/About");

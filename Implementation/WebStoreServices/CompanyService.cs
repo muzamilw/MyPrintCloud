@@ -2,6 +2,7 @@
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
+using System.Collections.Generic;
 
 
 namespace MPC.Implementation.WebStoreServices
@@ -13,9 +14,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         /// Private members
         /// </summary>
-// ReSharper disable InconsistentNaming
         public readonly ICompanyRepository companyRepository;
-// ReSharper restore InconsistentNaming
      
 
         #endregion
@@ -25,7 +24,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public CompanyService(ICompanyRepository companyRepository )
+        public CompanyService(ICompanyRepository companyRepository)
         {
             this.companyRepository = companyRepository;
          
@@ -44,7 +43,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return companyRepository.GetCompanyByDomain(domain);
         }
-
+      
         #endregion
     }
 }

@@ -102,21 +102,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\PaperSheetByColumn.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
+    <Compile Include="Common\OrganisationClaimValue.cs" />
+    <Compile Include="Common\MisRoleClaimValue.cs" />
+    <Compile Include="Common\Section.cs" />
+    <Compile Include="Common\RoleSection.cs" />
+    <Compile Include="Common\MisUser.cs" />
+    <Compile Include="Common\SecurityRoles.cs" />
+    <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\CmsPage.cs" />
+    <Compile Include="DomainModels\CmsSkinPageWidget.cs" />
+    <Compile Include="DomainModels\CmsSkinPageWidgetParam.cs" />
+    <Compile Include="DomainModels\CompanyBanner.cs" />
+    <Compile Include="DomainModels\CompanyBannerSet.cs" />
     <Compile Include="DomainModels\PaperSize.cs" />
     <Compile Include="DomainModels\Company.cs" />
     <Compile Include="DomainModels\CompanyContact.cs" />
     <Compile Include="DomainModels\CompanyDomain.cs" />
-    <Compile Include="DomainModels\CompanyTerritory.cs" />
+    <Compile Include="DomainModels\CategoryTerritory.cs" />
     <Compile Include="DomainModels\CompanyType.cs" />
-    <Compile Include="DomainModels\StockCategory.cs" />
+    <Compile Include="DomainModels\ProductCategory.cs" />
     <Compile Include="DomainModels\StockSubCategory.cs" />
     <Compile Include="DomainModels\TaxRate.cs" />
     <Compile Include="DomainModels\Markup.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\ChartOfAccount.cs" />
+    <Compile Include="DomainModels\Widget.cs" />
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
