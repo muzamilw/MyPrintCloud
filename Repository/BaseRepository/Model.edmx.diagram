@@ -26,6 +26,8 @@
         <EntityTypeShape EntityType="DomainModels.CompanyBannerSet" Width="1.5" PointX="4.875" PointY="1" />
         <AssociationConnector Association="DomainModels.FK_CompanySet_Company" />
         <AssociationConnector Association="DomainModels.FK_CompanyBanner_CompanySet" />
+        <EntityTypeShape EntityType="DomainModels.StockCategory" Width="1.5" PointX="3.375" PointY="12.75" />
+        <EntityTypeShape EntityType="DomainModels.StockSubCategory" Width="1.5" PointX="13.375" PointY="0.75" />
         </Diagram>
       <Diagram DiagramId="ba00683825174285b13129da724620c4" Name="Diagram2" ZoomLevel="35" >
       </Diagram>

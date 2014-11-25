@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsF3BDE2B8EACA8EF06AAA1F3C482D074CE522E564FF0D15C3E6117489AA253A29))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsE3CBE92C25348DCFF1FA1F72BBD7989A5C3ABABB096E16777A050859B696343A))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsF3BDE2B8EACA8EF06AAA1F3C482D074CE522E564FF0D15C3E6117489AA253A29 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsE3CBE92C25348DCFF1FA1F72BBD7989A5C3ABABB096E16777A050859B696343A : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsF3BDE2B8EACA8EF06AAA1F3C482D074CE522E564FF0D15C3E6117489AA253A29()
+        public ViewsForBaseEntitySetsE3CBE92C25348DCFF1FA1F72BBD7989A5C3ABABB096E16777A050859B696343A()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "998633fd3f2dcef219361ed2ea9c66022aa30a95d3f1522cbd6719497c527599";
-            this.HashOverAllExtentViews = "08d931f1cbf883855b07aeb708000b95bacf572f11b187f9ada15af2151b71ab";
-            this.ViewCount = 24;
+            this.HashOverMappingClosure = "c00f83b0849f7adc40042fc7150d4f3ebd24af183621fed8086dcda2721305bf";
+            this.HashOverAllExtentViews = "1fa944364763ba1e076c2f2e75d356d1756b12178cd018e8a05b4d47d280a36f";
+            this.ViewCount = 28;
         }
         
         /// <Summary>
@@ -132,6 +132,22 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 23))
             {
                 return GetView23();
+            }
+            if ((index == 24))
+            {
+                return GetView24();
+            }
+            if ((index == 25))
+            {
+                return GetView25();
+            }
+            if ((index == 26))
+            {
+                return GetView26();
+            }
+            if ((index == 27))
+            {
+                return GetView27();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -396,7 +412,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3698);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5804);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ProductCategory\r\n        [DomainModels.Store.");
             viewString.Append("ProductCategory](T1.ProductCategory_ProductCategoryId, T1.ProductCategory_Catego");
             viewString.Append("ryName, T1.ProductCategory_ContentType, T1.ProductCategory_Description1, T1.Prod");
@@ -413,37 +429,63 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("oductCategory_RegionId, T1.ProductCategory_ZoomFactor, T1.ProductCategory_ScaleF");
             viewString.Append("actor, T1.ProductCategory_isShelfProductCategory, T1.ProductCategory_MetaKeyword");
             viewString.Append("s, T1.ProductCategory_MetaDescription, T1.ProductCategory_MetaTitle, T1.ProductC");
-            viewString.Append("ategory_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.ProductCateg");
-            viewString.Append("oryId AS ProductCategory_ProductCategoryId, \r\n            T.CategoryName AS Prod");
-            viewString.Append("uctCategory_CategoryName, \r\n            T.ContentType AS ProductCategory_Content");
-            viewString.Append("Type, \r\n            T.Description1 AS ProductCategory_Description1, \r\n          ");
-            viewString.Append("  T.Description2 AS ProductCategory_Description2, \r\n            T.LockedBy AS Pr");
-            viewString.Append("oductCategory_LockedBy, \r\n            T.CompanyId AS ProductCategory_CompanyId, ");
-            viewString.Append("\r\n            T.ParentCategoryId AS ProductCategory_ParentCategoryId, \r\n        ");
-            viewString.Append("    T.DisplayOrder AS ProductCategory_DisplayOrder, \r\n            T.ImagePath AS");
-            viewString.Append(" ProductCategory_ImagePath, \r\n            T.ThumbnailPath AS ProductCategory_Thu");
-            viewString.Append("mbnailPath, \r\n            T.isEnabled AS ProductCategory_isEnabled, \r\n          ");
-            viewString.Append("  T.isMarketPlace AS ProductCategory_isMarketPlace, \r\n            T.TemplateDesi");
-            viewString.Append("gnerMappedCategoryName AS ProductCategory_TemplateDesignerMappedCategoryName, \r\n");
-            viewString.Append("            T.isArchived AS ProductCategory_isArchived, \r\n            T.isPublis");
-            viewString.Append("hed AS ProductCategory_isPublished, \r\n            T.TrimmedWidth AS ProductCateg");
-            viewString.Append("ory_TrimmedWidth, \r\n            T.TrimmedHeight AS ProductCategory_TrimmedHeight");
-            viewString.Append(", \r\n            T.isColorImposition AS ProductCategory_isColorImposition, \r\n    ");
-            viewString.Append("        T.isOrderImposition AS ProductCategory_isOrderImposition, \r\n            ");
-            viewString.Append("T.isLinkToTemplates AS ProductCategory_isLinkToTemplates, \r\n            T.Sides ");
-            viewString.Append("AS ProductCategory_Sides, \r\n            T.ApplySizeRestrictions AS ProductCatego");
-            viewString.Append("ry_ApplySizeRestrictions, \r\n            T.ApplyFoldLines AS ProductCategory_Appl");
-            viewString.Append("yFoldLines, \r\n            T.WidthRestriction AS ProductCategory_WidthRestriction");
-            viewString.Append(", \r\n            T.HeightRestriction AS ProductCategory_HeightRestriction, \r\n    ");
-            viewString.Append("        T.CategoryTypeId AS ProductCategory_CategoryTypeId, \r\n            T.Regi");
-            viewString.Append("onId AS ProductCategory_RegionId, \r\n            T.ZoomFactor AS ProductCategory_");
-            viewString.Append("ZoomFactor, \r\n            T.ScaleFactor AS ProductCategory_ScaleFactor, \r\n      ");
-            viewString.Append("      T.isShelfProductCategory AS ProductCategory_isShelfProductCategory, \r\n    ");
-            viewString.Append("        T.MetaKeywords AS ProductCategory_MetaKeywords, \r\n            T.MetaDesc");
-            viewString.Append("ription AS ProductCategory_MetaDescription, \r\n            T.MetaTitle AS Product");
-            viewString.Append("Category_MetaTitle, \r\n            T.OrganisationId AS ProductCategory_Organisati");
-            viewString.Append("onId, \r\n            True AS _from0\r\n        FROM BaseDbContext.ProductCategories");
-            viewString.Append(" AS T\r\n    ) AS T1");
+            viewString.Append("ategory_OrganisationId, T1.ProductCategory_SubCategoryDisplayMode1, T1.ProductCa");
+            viewString.Append("tegory_SubCategoryDisplayMode2, T1.ProductCategory_SubCategoryDisplayColumns, T1");
+            viewString.Append(".ProductCategory_CategoryURLText, T1.ProductCategory_MetaOverride, T1.ProductCat");
+            viewString.Append("egory_ShortDescription, T1.ProductCategory_SecondaryDescription, T1.ProductCateg");
+            viewString.Append("ory_DefaultSortBy, T1.ProductCategory_ProductsDisplayColumns, T1.ProductCategory");
+            viewString.Append("_ProductsDisplayRows, T1.ProductCategory_IsDisplayFeaturedproducts, T1.ProductCa");
+            viewString.Append("tegory_IsShowAvailablity, T1.ProductCategory_IsShowRewardPoints, T1.ProductCateg");
+            viewString.Append("ory_IsShowListPrice, T1.ProductCategory_IsShowSalePrice, T1.ProductCategory_IsSh");
+            viewString.Append("owStockStatus, T1.ProductCategory_IsShowProductDescription, T1.ProductCategory_I");
+            viewString.Append("sShowProductShortDescription)\r\n    FROM (\r\n        SELECT \r\n            T.Produc");
+            viewString.Append("tCategoryId AS ProductCategory_ProductCategoryId, \r\n            T.CategoryName A");
+            viewString.Append("S ProductCategory_CategoryName, \r\n            T.ContentType AS ProductCategory_C");
+            viewString.Append("ontentType, \r\n            T.Description1 AS ProductCategory_Description1, \r\n    ");
+            viewString.Append("        T.Description2 AS ProductCategory_Description2, \r\n            T.LockedBy");
+            viewString.Append(" AS ProductCategory_LockedBy, \r\n            T.CompanyId AS ProductCategory_Compa");
+            viewString.Append("nyId, \r\n            T.ParentCategoryId AS ProductCategory_ParentCategoryId, \r\n  ");
+            viewString.Append("          T.DisplayOrder AS ProductCategory_DisplayOrder, \r\n            T.ImageP");
+            viewString.Append("ath AS ProductCategory_ImagePath, \r\n            T.ThumbnailPath AS ProductCatego");
+            viewString.Append("ry_ThumbnailPath, \r\n            T.isEnabled AS ProductCategory_isEnabled, \r\n    ");
+            viewString.Append("        T.isMarketPlace AS ProductCategory_isMarketPlace, \r\n            T.Templa");
+            viewString.Append("teDesignerMappedCategoryName AS ProductCategory_TemplateDesignerMappedCategoryNa");
+            viewString.Append("me, \r\n            T.isArchived AS ProductCategory_isArchived, \r\n            T.is");
+            viewString.Append("Published AS ProductCategory_isPublished, \r\n            T.TrimmedWidth AS Produc");
+            viewString.Append("tCategory_TrimmedWidth, \r\n            T.TrimmedHeight AS ProductCategory_Trimmed");
+            viewString.Append("Height, \r\n            T.isColorImposition AS ProductCategory_isColorImposition, ");
+            viewString.Append("\r\n            T.isOrderImposition AS ProductCategory_isOrderImposition, \r\n      ");
+            viewString.Append("      T.isLinkToTemplates AS ProductCategory_isLinkToTemplates, \r\n            T.");
+            viewString.Append("Sides AS ProductCategory_Sides, \r\n            T.ApplySizeRestrictions AS Product");
+            viewString.Append("Category_ApplySizeRestrictions, \r\n            T.ApplyFoldLines AS ProductCategor");
+            viewString.Append("y_ApplyFoldLines, \r\n            T.WidthRestriction AS ProductCategory_WidthRestr");
+            viewString.Append("iction, \r\n            T.HeightRestriction AS ProductCategory_HeightRestriction, ");
+            viewString.Append("\r\n            T.CategoryTypeId AS ProductCategory_CategoryTypeId, \r\n            ");
+            viewString.Append("T.RegionId AS ProductCategory_RegionId, \r\n            T.ZoomFactor AS ProductCat");
+            viewString.Append("egory_ZoomFactor, \r\n            T.ScaleFactor AS ProductCategory_ScaleFactor, \r\n");
+            viewString.Append("            T.isShelfProductCategory AS ProductCategory_isShelfProductCategory, ");
+            viewString.Append("\r\n            T.MetaKeywords AS ProductCategory_MetaKeywords, \r\n            T.Me");
+            viewString.Append("taDescription AS ProductCategory_MetaDescription, \r\n            T.MetaTitle AS P");
+            viewString.Append("roductCategory_MetaTitle, \r\n            T.OrganisationId AS ProductCategory_Orga");
+            viewString.Append("nisationId, \r\n            T.SubCategoryDisplayMode1 AS ProductCategory_SubCatego");
+            viewString.Append("ryDisplayMode1, \r\n            T.SubCategoryDisplayMode2 AS ProductCategory_SubCa");
+            viewString.Append("tegoryDisplayMode2, \r\n            T.SubCategoryDisplayColumns AS ProductCategory");
+            viewString.Append("_SubCategoryDisplayColumns, \r\n            T.CategoryURLText AS ProductCategory_C");
+            viewString.Append("ategoryURLText, \r\n            T.MetaOverride AS ProductCategory_MetaOverride, \r\n");
+            viewString.Append("            T.ShortDescription AS ProductCategory_ShortDescription, \r\n          ");
+            viewString.Append("  T.SecondaryDescription AS ProductCategory_SecondaryDescription, \r\n            ");
+            viewString.Append("T.DefaultSortBy AS ProductCategory_DefaultSortBy, \r\n            T.ProductsDispla");
+            viewString.Append("yColumns AS ProductCategory_ProductsDisplayColumns, \r\n            T.ProductsDisp");
+            viewString.Append("layRows AS ProductCategory_ProductsDisplayRows, \r\n            T.IsDisplayFeature");
+            viewString.Append("dproducts AS ProductCategory_IsDisplayFeaturedproducts, \r\n            T.IsShowAv");
+            viewString.Append("ailablity AS ProductCategory_IsShowAvailablity, \r\n            T.IsShowRewardPoin");
+            viewString.Append("ts AS ProductCategory_IsShowRewardPoints, \r\n            T.IsShowListPrice AS Pro");
+            viewString.Append("ductCategory_IsShowListPrice, \r\n            T.IsShowSalePrice AS ProductCategory");
+            viewString.Append("_IsShowSalePrice, \r\n            T.IsShowStockStatus AS ProductCategory_IsShowSto");
+            viewString.Append("ckStatus, \r\n            T.IsShowProductDescription AS ProductCategory_IsShowProd");
+            viewString.Append("uctDescription, \r\n            T.IsShowProductShortDescription AS ProductCategory");
+            viewString.Append("_IsShowProductShortDescription, \r\n            True AS _from0\r\n        FROM BaseD");
+            viewString.Append("bContext.ProductCategories AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ProductCategory", viewString.ToString());
         }
         
@@ -745,7 +787,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView15()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3705);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5811);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ProductCategories\r\n        [DomainModels.Prod");
             viewString.Append("uctCategory](T1.ProductCategory_ProductCategoryId, T1.ProductCategory_CategoryNa");
             viewString.Append("me, T1.ProductCategory_ContentType, T1.ProductCategory_Description1, T1.ProductC");
@@ -762,37 +804,63 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("tCategory_RegionId, T1.ProductCategory_ZoomFactor, T1.ProductCategory_ScaleFacto");
             viewString.Append("r, T1.ProductCategory_isShelfProductCategory, T1.ProductCategory_MetaKeywords, T");
             viewString.Append("1.ProductCategory_MetaDescription, T1.ProductCategory_MetaTitle, T1.ProductCateg");
-            viewString.Append("ory_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.ProductCategoryI");
-            viewString.Append("d AS ProductCategory_ProductCategoryId, \r\n            T.CategoryName AS ProductC");
-            viewString.Append("ategory_CategoryName, \r\n            T.ContentType AS ProductCategory_ContentType");
-            viewString.Append(", \r\n            T.Description1 AS ProductCategory_Description1, \r\n            T.");
-            viewString.Append("Description2 AS ProductCategory_Description2, \r\n            T.LockedBy AS Produc");
-            viewString.Append("tCategory_LockedBy, \r\n            T.CompanyId AS ProductCategory_CompanyId, \r\n  ");
-            viewString.Append("          T.ParentCategoryId AS ProductCategory_ParentCategoryId, \r\n            ");
-            viewString.Append("T.DisplayOrder AS ProductCategory_DisplayOrder, \r\n            T.ImagePath AS Pro");
-            viewString.Append("ductCategory_ImagePath, \r\n            T.ThumbnailPath AS ProductCategory_Thumbna");
-            viewString.Append("ilPath, \r\n            T.isEnabled AS ProductCategory_isEnabled, \r\n            T.");
-            viewString.Append("isMarketPlace AS ProductCategory_isMarketPlace, \r\n            T.TemplateDesigner");
-            viewString.Append("MappedCategoryName AS ProductCategory_TemplateDesignerMappedCategoryName, \r\n    ");
-            viewString.Append("        T.isArchived AS ProductCategory_isArchived, \r\n            T.isPublished ");
-            viewString.Append("AS ProductCategory_isPublished, \r\n            T.TrimmedWidth AS ProductCategory_");
-            viewString.Append("TrimmedWidth, \r\n            T.TrimmedHeight AS ProductCategory_TrimmedHeight, \r\n");
-            viewString.Append("            T.isColorImposition AS ProductCategory_isColorImposition, \r\n        ");
-            viewString.Append("    T.isOrderImposition AS ProductCategory_isOrderImposition, \r\n            T.is");
-            viewString.Append("LinkToTemplates AS ProductCategory_isLinkToTemplates, \r\n            T.Sides AS P");
-            viewString.Append("roductCategory_Sides, \r\n            T.ApplySizeRestrictions AS ProductCategory_A");
-            viewString.Append("pplySizeRestrictions, \r\n            T.ApplyFoldLines AS ProductCategory_ApplyFol");
-            viewString.Append("dLines, \r\n            T.WidthRestriction AS ProductCategory_WidthRestriction, \r\n");
-            viewString.Append("            T.HeightRestriction AS ProductCategory_HeightRestriction, \r\n        ");
-            viewString.Append("    T.CategoryTypeId AS ProductCategory_CategoryTypeId, \r\n            T.RegionId");
-            viewString.Append(" AS ProductCategory_RegionId, \r\n            T.ZoomFactor AS ProductCategory_Zoom");
-            viewString.Append("Factor, \r\n            T.ScaleFactor AS ProductCategory_ScaleFactor, \r\n          ");
-            viewString.Append("  T.isShelfProductCategory AS ProductCategory_isShelfProductCategory, \r\n        ");
-            viewString.Append("    T.MetaKeywords AS ProductCategory_MetaKeywords, \r\n            T.MetaDescript");
-            viewString.Append("ion AS ProductCategory_MetaDescription, \r\n            T.MetaTitle AS ProductCate");
-            viewString.Append("gory_MetaTitle, \r\n            T.OrganisationId AS ProductCategory_OrganisationId");
-            viewString.Append(", \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.ProductC");
-            viewString.Append("ategory AS T\r\n    ) AS T1");
+            viewString.Append("ory_OrganisationId, T1.ProductCategory_SubCategoryDisplayMode1, T1.ProductCatego");
+            viewString.Append("ry_SubCategoryDisplayMode2, T1.ProductCategory_SubCategoryDisplayColumns, T1.Pro");
+            viewString.Append("ductCategory_CategoryURLText, T1.ProductCategory_MetaOverride, T1.ProductCategor");
+            viewString.Append("y_ShortDescription, T1.ProductCategory_SecondaryDescription, T1.ProductCategory_");
+            viewString.Append("DefaultSortBy, T1.ProductCategory_ProductsDisplayColumns, T1.ProductCategory_Pro");
+            viewString.Append("ductsDisplayRows, T1.ProductCategory_IsDisplayFeaturedproducts, T1.ProductCatego");
+            viewString.Append("ry_IsShowAvailablity, T1.ProductCategory_IsShowRewardPoints, T1.ProductCategory_");
+            viewString.Append("IsShowListPrice, T1.ProductCategory_IsShowSalePrice, T1.ProductCategory_IsShowSt");
+            viewString.Append("ockStatus, T1.ProductCategory_IsShowProductDescription, T1.ProductCategory_IsSho");
+            viewString.Append("wProductShortDescription)\r\n    FROM (\r\n        SELECT \r\n            T.ProductCat");
+            viewString.Append("egoryId AS ProductCategory_ProductCategoryId, \r\n            T.CategoryName AS Pr");
+            viewString.Append("oductCategory_CategoryName, \r\n            T.ContentType AS ProductCategory_Conte");
+            viewString.Append("ntType, \r\n            T.Description1 AS ProductCategory_Description1, \r\n        ");
+            viewString.Append("    T.Description2 AS ProductCategory_Description2, \r\n            T.LockedBy AS ");
+            viewString.Append("ProductCategory_LockedBy, \r\n            T.CompanyId AS ProductCategory_CompanyId");
+            viewString.Append(", \r\n            T.ParentCategoryId AS ProductCategory_ParentCategoryId, \r\n      ");
+            viewString.Append("      T.DisplayOrder AS ProductCategory_DisplayOrder, \r\n            T.ImagePath ");
+            viewString.Append("AS ProductCategory_ImagePath, \r\n            T.ThumbnailPath AS ProductCategory_T");
+            viewString.Append("humbnailPath, \r\n            T.isEnabled AS ProductCategory_isEnabled, \r\n        ");
+            viewString.Append("    T.isMarketPlace AS ProductCategory_isMarketPlace, \r\n            T.TemplateDe");
+            viewString.Append("signerMappedCategoryName AS ProductCategory_TemplateDesignerMappedCategoryName, ");
+            viewString.Append("\r\n            T.isArchived AS ProductCategory_isArchived, \r\n            T.isPubl");
+            viewString.Append("ished AS ProductCategory_isPublished, \r\n            T.TrimmedWidth AS ProductCat");
+            viewString.Append("egory_TrimmedWidth, \r\n            T.TrimmedHeight AS ProductCategory_TrimmedHeig");
+            viewString.Append("ht, \r\n            T.isColorImposition AS ProductCategory_isColorImposition, \r\n  ");
+            viewString.Append("          T.isOrderImposition AS ProductCategory_isOrderImposition, \r\n          ");
+            viewString.Append("  T.isLinkToTemplates AS ProductCategory_isLinkToTemplates, \r\n            T.Side");
+            viewString.Append("s AS ProductCategory_Sides, \r\n            T.ApplySizeRestrictions AS ProductCate");
+            viewString.Append("gory_ApplySizeRestrictions, \r\n            T.ApplyFoldLines AS ProductCategory_Ap");
+            viewString.Append("plyFoldLines, \r\n            T.WidthRestriction AS ProductCategory_WidthRestricti");
+            viewString.Append("on, \r\n            T.HeightRestriction AS ProductCategory_HeightRestriction, \r\n  ");
+            viewString.Append("          T.CategoryTypeId AS ProductCategory_CategoryTypeId, \r\n            T.Re");
+            viewString.Append("gionId AS ProductCategory_RegionId, \r\n            T.ZoomFactor AS ProductCategor");
+            viewString.Append("y_ZoomFactor, \r\n            T.ScaleFactor AS ProductCategory_ScaleFactor, \r\n    ");
+            viewString.Append("        T.isShelfProductCategory AS ProductCategory_isShelfProductCategory, \r\n  ");
+            viewString.Append("          T.MetaKeywords AS ProductCategory_MetaKeywords, \r\n            T.MetaDe");
+            viewString.Append("scription AS ProductCategory_MetaDescription, \r\n            T.MetaTitle AS Produ");
+            viewString.Append("ctCategory_MetaTitle, \r\n            T.OrganisationId AS ProductCategory_Organisa");
+            viewString.Append("tionId, \r\n            T.SubCategoryDisplayMode1 AS ProductCategory_SubCategoryDi");
+            viewString.Append("splayMode1, \r\n            T.SubCategoryDisplayMode2 AS ProductCategory_SubCatego");
+            viewString.Append("ryDisplayMode2, \r\n            T.SubCategoryDisplayColumns AS ProductCategory_Sub");
+            viewString.Append("CategoryDisplayColumns, \r\n            T.CategoryURLText AS ProductCategory_Categ");
+            viewString.Append("oryURLText, \r\n            T.MetaOverride AS ProductCategory_MetaOverride, \r\n    ");
+            viewString.Append("        T.ShortDescription AS ProductCategory_ShortDescription, \r\n            T.");
+            viewString.Append("SecondaryDescription AS ProductCategory_SecondaryDescription, \r\n            T.De");
+            viewString.Append("faultSortBy AS ProductCategory_DefaultSortBy, \r\n            T.ProductsDisplayCol");
+            viewString.Append("umns AS ProductCategory_ProductsDisplayColumns, \r\n            T.ProductsDisplayR");
+            viewString.Append("ows AS ProductCategory_ProductsDisplayRows, \r\n            T.IsDisplayFeaturedpro");
+            viewString.Append("ducts AS ProductCategory_IsDisplayFeaturedproducts, \r\n            T.IsShowAvaila");
+            viewString.Append("blity AS ProductCategory_IsShowAvailablity, \r\n            T.IsShowRewardPoints A");
+            viewString.Append("S ProductCategory_IsShowRewardPoints, \r\n            T.IsShowListPrice AS Product");
+            viewString.Append("Category_IsShowListPrice, \r\n            T.IsShowSalePrice AS ProductCategory_IsS");
+            viewString.Append("howSalePrice, \r\n            T.IsShowStockStatus AS ProductCategory_IsShowStockSt");
+            viewString.Append("atus, \r\n            T.IsShowProductDescription AS ProductCategory_IsShowProductD");
+            viewString.Append("escription, \r\n            T.IsShowProductShortDescription AS ProductCategory_IsS");
+            viewString.Append("howProductShortDescription, \r\n            True AS _from0\r\n        FROM DomainMod");
+            viewString.Append("elsStoreContainer.ProductCategory AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ProductCategories", viewString.ToString());
         }
         
@@ -979,6 +1047,108 @@ namespace Edm_EntityMappingGeneratedViews
             T.isArchived AS PaperSize_isArchived, 
             True AS _from0
         FROM DomainModelsStoreContainer.PaperSize AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.StockCategory
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView24()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockCategory", "\r\n    SELECT VALUE -- Constructing StockCategory\r\n        [DomainModels.Store.Sto" +
+                    "ckCategory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory" +
+                    "_Name, T1.StockCategory_Description, T1.StockCategory_fixed, T1.StockCategory_It" +
+                    "emWeight, T1.StockCategory_ItemColour, T1.StockCategory_ItemSizeCustom, T1.Stock" +
+                    "Category_ItemPaperSize, T1.StockCategory_ItemCoatedType, T1.StockCategory_ItemCo" +
+                    "ated, T1.StockCategory_ItemExposure, T1.StockCategory_ItemCharge, T1.StockCatego" +
+                    "ry_recLock, T1.StockCategory_TaxId, T1.StockCategory_Flag1, T1.StockCategory_Fla" +
+                    "g2, T1.StockCategory_Flag3, T1.StockCategory_Flag4, T1.StockCategory_CompanyId)\r" +
+                    "\n    FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_Category" +
+                    "Id, \r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCat" +
+                    "egory_Name, \r\n            T.Description AS StockCategory_Description, \r\n        " +
+                    "    T.fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_" +
+                    "ItemWeight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n          " +
+                    "  T.ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSiz" +
+                    "e AS StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategor" +
+                    "y_ItemCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n    " +
+                    "        T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge" +
+                    " AS StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_recLock, " +
+                    "\r\n            T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCate" +
+                    "gory_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 " +
+                    "AS StockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n        " +
+                    "    T.CompanyId AS StockCategory_CompanyId, \r\n            True AS _from0\r\n      " +
+                    "  FROM BaseDbContext.StockCategories AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView25()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCategories", "\r\n    SELECT VALUE -- Constructing StockCategories\r\n        [DomainModels.StockCa" +
+                    "tegory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory_Nam" +
+                    "e, T1.StockCategory_Description, T1.StockCategory_fixed, T1.StockCategory_ItemWe" +
+                    "ight, T1.StockCategory_ItemColour, T1.StockCategory_ItemSizeCustom, T1.StockCate" +
+                    "gory_ItemPaperSize, T1.StockCategory_ItemCoatedType, T1.StockCategory_ItemCoated" +
+                    ", T1.StockCategory_ItemExposure, T1.StockCategory_ItemCharge, T1.StockCategory_r" +
+                    "ecLock, T1.StockCategory_TaxId, T1.StockCategory_Flag1, T1.StockCategory_Flag2, " +
+                    "T1.StockCategory_Flag3, T1.StockCategory_Flag4, T1.StockCategory_CompanyId)\r\n   " +
+                    " FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_CategoryId, " +
+                    "\r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCategor" +
+                    "y_Name, \r\n            T.Description AS StockCategory_Description, \r\n            " +
+                    "T.fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_Item" +
+                    "Weight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n            T." +
+                    "ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSize AS" +
+                    " StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategory_It" +
+                    "emCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n        " +
+                    "    T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge AS " +
+                    "StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_recLock, \r\n  " +
+                    "          T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCategory" +
+                    "_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 AS S" +
+                    "tockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n            " +
+                    "T.CompanyId AS StockCategory_CompanyId, \r\n            True AS _from0\r\n        FR" +
+                    "OM DomainModelsStoreContainer.StockCategory AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.StockSubCategory
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView26()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockSubCategory", @"
+    SELECT VALUE -- Constructing StockSubCategory
+        [DomainModels.Store.StockSubCategory](T1.StockSubCategory_SubCategoryId, T1.StockSubCategory_Code, T1.StockSubCategory_Name, T1.StockSubCategory_Description, T1.StockSubCategory_Fixed, T1.StockSubCategory_CategoryId)
+    FROM (
+        SELECT 
+            T.SubCategoryId AS StockSubCategory_SubCategoryId, 
+            T.Code AS StockSubCategory_Code, 
+            T.Name AS StockSubCategory_Name, 
+            T.Description AS StockSubCategory_Description, 
+            T.Fixed AS StockSubCategory_Fixed, 
+            T.CategoryId AS StockSubCategory_CategoryId, 
+            True AS _from0
+        FROM BaseDbContext.StockSubCategories AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockSubCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView27()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockSubCategories", @"
+    SELECT VALUE -- Constructing StockSubCategories
+        [DomainModels.StockSubCategory](T1.StockSubCategory_SubCategoryId, T1.StockSubCategory_Code, T1.StockSubCategory_Name, T1.StockSubCategory_Description, T1.StockSubCategory_Fixed, T1.StockSubCategory_CategoryId)
+    FROM (
+        SELECT 
+            T.SubCategoryId AS StockSubCategory_SubCategoryId, 
+            T.Code AS StockSubCategory_Code, 
+            T.Name AS StockSubCategory_Name, 
+            T.Description AS StockSubCategory_Description, 
+            T.Fixed AS StockSubCategory_Fixed, 
+            T.CategoryId AS StockSubCategory_CategoryId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.StockSubCategory AS T
     ) AS T1");
         }
     }

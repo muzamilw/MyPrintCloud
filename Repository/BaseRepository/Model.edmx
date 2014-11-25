@@ -282,6 +282,60 @@
           <Property Name="MetaDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="MetaTitle" Type="nvarchar" MaxLength="100" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="SubCategoryDisplayMode1" Type="int" />
+          <Property Name="SubCategoryDisplayMode2" Type="int" />
+          <Property Name="SubCategoryDisplayColumns" Type="int" />
+          <Property Name="CategoryURLText" Type="varchar" MaxLength="200" />
+          <Property Name="MetaOverride" Type="varchar" MaxLength="200" />
+          <Property Name="ShortDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="SecondaryDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="DefaultSortBy" Type="int" />
+          <Property Name="ProductsDisplayColumns" Type="int" />
+          <Property Name="ProductsDisplayRows" Type="int" />
+          <Property Name="IsDisplayFeaturedproducts" Type="bit" />
+          <Property Name="IsShowAvailablity" Type="bit" />
+          <Property Name="IsShowRewardPoints" Type="bit" />
+          <Property Name="IsShowListPrice" Type="bit" />
+          <Property Name="IsShowSalePrice" Type="bit" />
+          <Property Name="IsShowStockStatus" Type="bit" />
+          <Property Name="IsShowProductDescription" Type="bit" />
+          <Property Name="IsShowProductShortDescription" Type="bit" />
+        </EntityType>
+        <EntityType Name="StockCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="5" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="fixed" Type="smallint" Nullable="false" />
+          <Property Name="ItemWeight" Type="smallint" Nullable="false" />
+          <Property Name="ItemColour" Type="smallint" Nullable="false" />
+          <Property Name="ItemSizeCustom" Type="smallint" Nullable="false" />
+          <Property Name="ItemPaperSize" Type="smallint" Nullable="false" />
+          <Property Name="ItemCoatedType" Type="smallint" Nullable="false" />
+          <Property Name="ItemCoated" Type="smallint" />
+          <Property Name="ItemExposure" Type="smallint" Nullable="false" />
+          <Property Name="ItemCharge" Type="smallint" Nullable="false" />
+          <Property Name="recLock" Type="smallint" Nullable="false" />
+          <Property Name="TaxId" Type="int" />
+          <Property Name="Flag1" Type="smallint" />
+          <Property Name="Flag2" Type="smallint" />
+          <Property Name="Flag3" Type="smallint" />
+          <Property Name="Flag4" Type="smallint" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockSubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="5" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Widgets">
           <Key>
@@ -400,6 +454,8 @@
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockCategory" EntityType="Self.StockCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockSubCategory" EntityType="Self.StockSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
             <End Role="Company" EntitySet="Company" />
@@ -483,6 +539,8 @@
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSets" />
             <End Role="CompanyBanner" EntitySet="CompanyBanners" />
           </AssociationSet>
+          <EntitySet Name="StockCategories" EntityType="DomainModels.StockCategory" />
+          <EntitySet Name="StockSubCategories" EntityType="DomainModels.StockSubCategory" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -777,6 +835,24 @@
           <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
+          <Property Name="SubCategoryDisplayMode1" Type="Int32" />
+          <Property Name="SubCategoryDisplayMode2" Type="Int32" />
+          <Property Name="SubCategoryDisplayColumns" Type="Int32" />
+          <Property Name="CategoryURLText" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MetaOverride" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultSortBy" Type="Int32" />
+          <Property Name="ProductsDisplayColumns" Type="Int32" />
+          <Property Name="ProductsDisplayRows" Type="Int32" />
+          <Property Name="IsDisplayFeaturedproducts" Type="Boolean" />
+          <Property Name="IsShowAvailablity" Type="Boolean" />
+          <Property Name="IsShowRewardPoints" Type="Boolean" />
+          <Property Name="IsShowListPrice" Type="Boolean" />
+          <Property Name="IsShowSalePrice" Type="Boolean" />
+          <Property Name="IsShowStockStatus" Type="Boolean" />
+          <Property Name="IsShowProductDescription" Type="Boolean" />
+          <Property Name="IsShowProductShortDescription" Type="Boolean" />
         </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -883,6 +959,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="StockCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fixed" Type="Int16" Nullable="false" />
+          <Property Name="ItemWeight" Type="Int16" Nullable="false" />
+          <Property Name="ItemColour" Type="Int16" Nullable="false" />
+          <Property Name="ItemSizeCustom" Type="Int16" Nullable="false" />
+          <Property Name="ItemPaperSize" Type="Int16" Nullable="false" />
+          <Property Name="ItemCoatedType" Type="Int16" Nullable="false" />
+          <Property Name="ItemCoated" Type="Int16" />
+          <Property Name="ItemExposure" Type="Int16" Nullable="false" />
+          <Property Name="ItemCharge" Type="Int16" Nullable="false" />
+          <Property Name="recLock" Type="Int16" Nullable="false" />
+          <Property Name="TaxId" Type="Int32" />
+          <Property Name="Flag1" Type="Int16" />
+          <Property Name="Flag2" Type="Int16" />
+          <Property Name="Flag3" Type="Int16" />
+          <Property Name="Flag4" Type="Int16" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockSubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Fixed" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1130,6 +1242,24 @@
           <EntitySetMapping Name="ProductCategories">
             <EntityTypeMapping TypeName="DomainModels.ProductCategory">
               <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="IsShowProductShortDescription" ColumnName="IsShowProductShortDescription" />
+                <ScalarProperty Name="IsShowProductDescription" ColumnName="IsShowProductDescription" />
+                <ScalarProperty Name="IsShowStockStatus" ColumnName="IsShowStockStatus" />
+                <ScalarProperty Name="IsShowSalePrice" ColumnName="IsShowSalePrice" />
+                <ScalarProperty Name="IsShowListPrice" ColumnName="IsShowListPrice" />
+                <ScalarProperty Name="IsShowRewardPoints" ColumnName="IsShowRewardPoints" />
+                <ScalarProperty Name="IsShowAvailablity" ColumnName="IsShowAvailablity" />
+                <ScalarProperty Name="IsDisplayFeaturedproducts" ColumnName="IsDisplayFeaturedproducts" />
+                <ScalarProperty Name="ProductsDisplayRows" ColumnName="ProductsDisplayRows" />
+                <ScalarProperty Name="ProductsDisplayColumns" ColumnName="ProductsDisplayColumns" />
+                <ScalarProperty Name="DefaultSortBy" ColumnName="DefaultSortBy" />
+                <ScalarProperty Name="SecondaryDescription" ColumnName="SecondaryDescription" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="MetaOverride" ColumnName="MetaOverride" />
+                <ScalarProperty Name="CategoryURLText" ColumnName="CategoryURLText" />
+                <ScalarProperty Name="SubCategoryDisplayColumns" ColumnName="SubCategoryDisplayColumns" />
+                <ScalarProperty Name="SubCategoryDisplayMode2" ColumnName="SubCategoryDisplayMode2" />
+                <ScalarProperty Name="SubCategoryDisplayMode1" ColumnName="SubCategoryDisplayMode1" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
                 <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
@@ -1185,6 +1315,44 @@
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="SetName" ColumnName="SetName" />
                 <ScalarProperty Name="CompanySetId" ColumnName="CompanySetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockCategories">
+            <EntityTypeMapping TypeName="DomainModels.StockCategory">
+              <MappingFragment StoreEntitySet="StockCategory">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Flag4" ColumnName="Flag4" />
+                <ScalarProperty Name="Flag3" ColumnName="Flag3" />
+                <ScalarProperty Name="Flag2" ColumnName="Flag2" />
+                <ScalarProperty Name="Flag1" ColumnName="Flag1" />
+                <ScalarProperty Name="TaxId" ColumnName="TaxId" />
+                <ScalarProperty Name="recLock" ColumnName="recLock" />
+                <ScalarProperty Name="ItemCharge" ColumnName="ItemCharge" />
+                <ScalarProperty Name="ItemExposure" ColumnName="ItemExposure" />
+                <ScalarProperty Name="ItemCoated" ColumnName="ItemCoated" />
+                <ScalarProperty Name="ItemCoatedType" ColumnName="ItemCoatedType" />
+                <ScalarProperty Name="ItemPaperSize" ColumnName="ItemPaperSize" />
+                <ScalarProperty Name="ItemSizeCustom" ColumnName="ItemSizeCustom" />
+                <ScalarProperty Name="ItemColour" ColumnName="ItemColour" />
+                <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
+                <ScalarProperty Name="fixed" ColumnName="fixed" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockSubCategories">
+            <EntityTypeMapping TypeName="DomainModels.StockSubCategory">
+              <MappingFragment StoreEntitySet="StockSubCategory">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Fixed" ColumnName="Fixed" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
