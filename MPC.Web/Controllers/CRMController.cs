@@ -61,17 +61,5 @@ namespace MPC.MIS.Controllers
         {
             return View();
         }
-
-        public ActionResult SuppliersList()
-        {
-
-            return View();
-        }
-
-        public ActionResult SupplierDetail()
-        {
-
-            return View();
-        }
     }
 }
