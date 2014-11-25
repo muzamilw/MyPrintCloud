@@ -243,12 +243,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSettingsBaseData.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Settings\Controllers\InventoryCategoryController.cs" />
     <Compile Include="Areas\Settings\Controllers\MISController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\BillingController.cs" />
@@ -273,6 +275,8 @@
     <Compile Include="Models\Organisation.cs" />
     <Compile Include="Models\Markup.cs" />
     <Compile Include="Models\PaperSheet.cs" />
+    <Compile Include="Models\StockCategory.cs" />
+    <Compile Include="Models\StockSubCategory.cs" />
     <Compile Include="Models\TaxRate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
@@ -286,6 +290,11 @@
     <Content Include="Areas\Common\Scripts\confirmation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventorySubCategories.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.viewModel.js" />
@@ -982,6 +991,7 @@
     <Content Include="Areas\Settings\Views\MIS\PaperSheet.cshtml" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.view.js" />
     <Content Include="Areas\Settings\Views\Shared\_PaperSheetDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\InventoryCategory\InventoryCategory.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2135,7 +2145,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Models\" />
-    <Folder Include="Areas\Api\Views\PaperSheet\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Settings\Models\" />
