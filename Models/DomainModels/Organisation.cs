@@ -222,7 +222,13 @@ namespace MPC.Models.DomainModels
 
 
         #endregion
+        #region Reference Properties
 
+        /// <summary>
+        /// Cms Skin Page Widgets
+        /// </summary>
+        public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
+        #endregion
         #region Additional Properties
 
         // <summary>

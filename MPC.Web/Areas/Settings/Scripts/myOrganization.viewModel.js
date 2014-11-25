@@ -59,7 +59,7 @@ define("myOrganization/myOrganization.viewModel",
                         //pager(new pagination.Pagination({}, additionalTypeCharges, getAdditionalCharges));
                         //getAdditionalCharges();
                         selectedMyOrganization(new model.CompanySites());
-                        selectedMyOrganization().id(2);
+                       selectedMyOrganization().id(2);
                         getMyOrganizationById(selectedMyOrganization());
                         view.initializeForm();
                     },

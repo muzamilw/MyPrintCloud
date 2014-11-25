@@ -90,7 +90,10 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CmsSkinPageWidgetParam> PageWidgetParams { get; set; }
         public DbSet<Widget> Widgets { get; set; }
 
-        public DbSet<CategoryTerritory> CategoryTerritories { get; set; }
+        public DbSet<CompanyBanner> CompanyBanner { get; set; }
+
+        public DbSet<CompanyBannerSet> CompanyBannerSets { get; set; }
+
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
         #endregion

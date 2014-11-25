@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -9,5 +10,6 @@ namespace MPC.Interfaces.WebStoreServices
     {
 
         Company GetCompanyByDomain(string domain);
+
     }
 }

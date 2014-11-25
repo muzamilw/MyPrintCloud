@@ -60,10 +60,15 @@
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
     <Compile Include="Repository\ICategoryTerritoryRepository.cs" />
+    <Compile Include="Repository\ICmsPageRepository.cs" />
+    <Compile Include="Repository\ICmsSkinPageWidgetParamRepository.cs" />
     <Compile Include="Repository\ICmsSkinPageWidgetRepository.cs" />
+    <Compile Include="Repository\ICompanyBannerRepository.cs" />
+    <Compile Include="Repository\ICompanyBannerSetRepository.cs" />
     <Compile Include="WebStoreServices\ICmsSkinPageWidgetService.cs" />
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
+    <Compile Include="WebStoreServices\ICompanyBannerSetService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
     <Compile Include="Logger\IMPCLogWriter.cs" />
     <Compile Include="MISServices\IPaperSheetService.cs" />
