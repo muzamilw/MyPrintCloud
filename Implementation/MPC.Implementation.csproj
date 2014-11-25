@@ -132,6 +132,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MISServices\AuthorizationChecker.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
@@ -155,6 +156,10 @@
     <ProjectReference Include="..\Models\MPC.Models.csproj">
       <Project>{81067904-2176-4648-87ab-014b0d76b85e}</Project>
       <Name>MPC.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPC.Common\MPC.Common.csproj">
+      <Project>{4ba9e712-f447-4a6b-bae6-18eeb43087c6}</Project>
+      <Name>MPC.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Repository\MPC.Repository.csproj">
       <Project>{852bdc39-3388-4cb1-a959-f3bd06e9df92}</Project>
