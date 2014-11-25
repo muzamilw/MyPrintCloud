@@ -992,6 +992,7 @@
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.view.js" />
     <Content Include="Areas\Settings\Views\Shared\_PaperSheetDialog.cshtml" />
     <Content Include="Areas\Settings\Views\InventoryCategory\InventoryCategory.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_InventoryCategoryDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />

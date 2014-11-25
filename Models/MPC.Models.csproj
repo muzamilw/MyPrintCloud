@@ -108,7 +108,6 @@
     <Compile Include="Common\MisUser.cs" />
     <Compile Include="Common\OrganisationClaimValue.cs" />
     <Compile Include="Common\PaperSheetByColumn.cs" />
-    <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\RoleSection.cs" />
     <Compile Include="Common\Section.cs" />
     <Compile Include="Common\SecurityRoles.cs" />

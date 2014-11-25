@@ -161,6 +161,14 @@ define("inventoryCategory/inventoryCategory.viewModel",
                             editorViewModel.revertItem();
                         }
                     },
+                    //*** Stock Sub Categories Region ***
+                    //Get All Stock Sub Categories By Stock Category Id
+
+                    //Delete Stock Sub Category
+
+                    //Edit Stock Sub Category
+
+                    //*** Stock Sub Categories Region ***
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
