@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Security.Principal;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Microsoft.Practices.Unity;
-using MPC.Interfaces.Data;
-using MPC.Interfaces.MISServices;
 
 namespace MPC.WebBase.Mvc
 {
@@ -15,31 +13,18 @@ namespace MPC.WebBase.Mvc
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class SiteAuthorizeAttribute : AuthorizeAttribute
     {
-        #region Private
-
-        private SecurityAccessRight[] accessRights = new SecurityAccessRight[0];
-        private string[] misRoles = { };
-
-        #endregion
-
         /// <summary>
         /// Check if user is authorized on a given permissionKey
         /// </summary>
         private bool IsAuthorized()
         {
-            IPrincipal user = HttpContext.Current.User;
-            if (!user.Identity.IsAuthenticated)
+            object userPermissionSet = HttpContext.Current.Session["UserPermissionSet"];
+            if (userPermissionSet != null)
             {
-                return false;
+                IList<string> userPermissionsSet = (IList<string>)userPermissionSet;
+                return (userPermissionsSet.Contains(PermissionKey));
             }
-            if (AuthorizationChecker == null)
-            {
-                throw new InvalidOperationException(
-                    LanguageResources.SiteAuthorizeAttribute_AuthorizationCheckerMissing);
-            }
-            
-            return AuthorizationChecker.Check(
-                new AuthorizationCheckRequest(MisRoles, AccessRights));
+            return false;
         }
         /// <summary>
         /// Perform the authorization
@@ -69,46 +54,6 @@ namespace MPC.WebBase.Mvc
                             new { area = "", controller = "UnauthorizedRequest", action = "Index" }));
             }
         }        
-        
-        #region Public
-
-        /// <summary>
-        /// Access rights
-        /// </summary>
-        public SecurityAccessRight[] AccessRights
-        {
-            get
-            {
-                return accessRights;
-            }
-            set
-            {
-                accessRights = value;
-            }
-        }
-
-        /// <summary>
-        /// MIS Roles
-        /// </summary>
-        public string[] MisRoles
-        {
-            get
-            {
-                return misRoles;
-            }
-            set
-            {
-                misRoles = value;
-            }
-        }
-        
-        /// <summary>
-        /// Authorization check
-        /// </summary>
-        [Dependency]
-        public IAuthorizationChecker AuthorizationChecker { get; set; }
-
-        #endregion
-
+        public string PermissionKey { get; set; }        
     }
 }
