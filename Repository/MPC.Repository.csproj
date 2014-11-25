@@ -167,10 +167,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryTerritoryRepository.cs" />
     <Compile Include="Repositories\ChartOfAccountRepository.cs" />
-    <Compile Include="Repositories\CmsPage.cs" />
+    <Compile Include="Repositories\CmsPageRepository.cs" />
     <Compile Include="Repositories\CmsSkinPageWidgetRepository.cs" />
-    <Compile Include="Repositories\CmsSkinPageWidgetParam.cs" />
+    <Compile Include="Repositories\CmsSkinPageWidgetParamRepository.cs" />
+    <Compile Include="Repositories\CompanyBannerRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
+    <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\MarkupRepository.cs" />

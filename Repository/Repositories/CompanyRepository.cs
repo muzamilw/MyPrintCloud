@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using MPC.Models.DomainModels;
 using MPC.Interfaces.Repository;
@@ -36,13 +33,12 @@ namespace MPC.Repository.Repositories
 
         public Company GetCompanyByDomain(string domain)
         {
-            var companyDomain = from c in db.Company 
+            var companyDomain = from c in db.Company.Include("CmsSkinPageWidgetParams").Include("Widget")
                                 join cc in db.CompanyDomains on c.CompanyId equals cc.CompanyId  
                                 where cc.Domain.Contains(domain) && c.OrganisationId == UserDomainKey 
                                 select c;
 
             return companyDomain.FirstOrDefault();
         }
-      
     }
 }

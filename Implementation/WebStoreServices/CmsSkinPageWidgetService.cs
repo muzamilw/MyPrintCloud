@@ -47,6 +47,7 @@ namespace MPC.Implementation.WebStoreServices
             return widgetRepository.GetDomainWidgetsById(companyId, organisationId);
         }
 
+       
         #endregion
     }
 }

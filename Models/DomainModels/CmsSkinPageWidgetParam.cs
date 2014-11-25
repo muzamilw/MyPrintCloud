@@ -8,8 +8,8 @@ namespace MPC.Models.DomainModels
 {
     public class CmsSkinPageWidgetParam
     {
-        public int PageWidgetParamId { get; set; }
-        public Nullable<int> PageWidgetId { get; set; }
+        public long PageWidgetParamId { get; set; }
+        public Nullable<long> PageWidgetId { get; set; }
         public string ParamName { get; set; }
         public string ParamValue { get; set; }
 

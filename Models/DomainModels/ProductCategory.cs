@@ -8,7 +8,7 @@ namespace MPC.Models.DomainModels
 {
     public partial class ProductCategory
     {
-        public int ProductCategoryId { get; set; }
+        public long ProductCategoryId { get; set; }
         public string CategoryName { get; set; }
         public string ContentType { get; set; }
         public string Description1 { get; set; }
