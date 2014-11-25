@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using DomainResponse = MPC.Models.ResponseModels;
 using ApiResponse = MPC.MIS.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
@@ -34,25 +35,31 @@ namespace MPC.MIS.ModelMappers
         public static ApiModels.Organisation CreateFrom(this DomainModels.Organisation source)
         {
             return new ApiModels.Organisation
-            {
-                OrganisationId = source.OrganisationId,
-                OrganisationName = source.OrganisationName,
-                Address1 = source.Address1,
-                Address2 = source.Address2,
-                Address3 = source.Address3,
-                City = source.City,
-                State = source.State,
-                Country = source.Country,
-                ZipCode = source.ZipCode,
-                Tel = source.Tel,
-                Fax = source.Fax,
-                Email = source.Email,
-                Mobile = source.Mobile,
-                Url = source.URL,
-                MisLogo = source.MISLogo,
-                TaxRegistrationNo = source.TaxRegistrationNo,
+         {
+             OrganisationId = source.OrganisationId,
+             OrganisationName = source.OrganisationName,
+             Address1 = source.Address1,
+             Address2 = source.Address2,
+             Address3 = source.Address3,
+             City = source.City,
+             State = source.State,
+             Country = source.Country,
+             ZipCode = source.ZipCode,
+             Tel = source.Tel,
+             Fax = source.Fax,
+             MarkupId = source.MarkupId,
+             LanguageId = source.LanguageId,
+             CurrencyId = source.CurrencyId,
+             SystemLengthUnit = source.SystemLengthUnit,
+             SystemWeightUnit = source.SystemWeightUnit,
 
-            };
+             Email = source.Email,
+             Mobile = source.Mobile,
+             Url = source.URL,
+             MisLogo = source.MISLogo,
+             TaxRegistrationNo = source.TaxRegistrationNo,
+             Image = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null
+         };
         }
 
         /// <summary>
@@ -78,8 +85,11 @@ namespace MPC.MIS.ModelMappers
                 URL = source.Url,
                 MISLogo = source.MisLogo,
                 TaxRegistrationNo = source.TaxRegistrationNo,
-                //MarkupId =source.MarkupId,
-                //TaxRates = source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList(),
+                MarkupId = source.MarkupId,
+                LanguageId = source.LanguageId,
+                CurrencyId = source.CurrencyId,
+                SystemLengthUnit = source.SystemLengthUnit,
+                SystemWeightUnit = source.SystemWeightUnit,
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
             };

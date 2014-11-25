@@ -346,6 +346,7 @@
     <Content Include="Content\CSS\supr-theme\jquery.ui.spinner.css" />
     <Content Include="Content\CSS\supr-theme\jquery.ui.supr.css" />
     <Content Include="Content\CSS\supr-theme\jquery.ui.theme.css" />
+    <Content Include="Content\CSS\toastr.css" />
     <Content Include="Content\Images\colorpicker_background.png" />
     <Content Include="Content\Images\colorpicker_hex.png" />
     <Content Include="Content\Images\colorpicker_hsb_b.png" />
@@ -2157,7 +2158,7 @@
     <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Reports\" />
-    <Folder Include="Resources\" />
+    <Folder Include="Resources\Organisations\" />
     <Folder Include="RichTextEditor\plugins\a11yhelp\dialogs\lang\" />
     <Folder Include="RichTextEditor\plugins\colordialog\dialogs\" />
     <Folder Include="RichTextEditor\plugins\div\dialogs\" />

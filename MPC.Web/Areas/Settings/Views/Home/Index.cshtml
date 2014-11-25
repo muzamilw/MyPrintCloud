@@ -6,7 +6,7 @@
 }
 <div class="row" id="myOrganizationBinding">
     <div data-bind="with:selectedMyOrganization">
-        <form>
+        <form method="post" enctype="multipart/form-data" id="fileUploadForm">
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12">
@@ -343,14 +343,19 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <div id="dropzone1" class="dropzonepl">
-                                                                <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                                    <div class="dz-default dz-message">
-                                                                        <span>Drop file here to upload</span>
-                                                                    </div>
-                                                                </form>
+                                                            <div class="col-md-6">
+                                                                <input type="file" class="form-control" id="orgLogo" name="file" onchange="readURL(this);" />
                                                             </div>
-                                                            <span class="help-block text-right">Company logo on MIS Dashboard</span>
+                                                            <div class="col-md-6">
+                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary">Upload</button>
+                                                            </div>
+                                                            <div class="col-md-12" style="margin-top: 10px;">
+                                                                <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: $root.orgnizationImage }" />
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <span class="help-block text-right">Company logo on MIS Dashboard</span>
+                                                            </div>
+                                                            <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
                                                         </div>
 
                                                     </div>
@@ -769,6 +774,45 @@
 </div>
 @section Scripts{
 
+    <script src="~/Scripts/jquery.form.js"></script>
+
+    @*<script type="text/javascript">
+
+            //File Upload response from the server
+            Dropzone.options.dropzoneForm = {
+                maxFiles: 2,
+                init: function () {
+                    this.on("maxfilesexceeded", function (data) {
+                        var res = eval('(' + data.xhr.responseText + ')');
+
+                    });
+                    this.on("addedfile", function (file) {
+
+                        // Create the remove button
+                        var removeButton = Dropzone.createElement("<button>Remove file</button>");
+
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function (e) {
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Remove the file preview.
+                            _this.removeFile(file);
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                    });
+                }
+            };
+
+        </script>*@
     <script>
         require(["myOrganization/myOrganization.view", "common/confirmation.view"]);
         $(function () {

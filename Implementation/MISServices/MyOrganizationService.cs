@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
 using MPC.Interfaces.Repository;
@@ -56,7 +57,13 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public Organisation FindDetailById(long organizationId)
         {
-            return organisationRepository.Find(organizationId);
+            Organisation organization = organisationRepository.Find(organizationId);
+            IEnumerable<Markup> markups = markupRepository.GetAll();
+            if (markups != null)
+            {
+                organization.MarkupId = markupRepository.GetAll().First(x => x.IsDefault != null).MarkUpId;
+            }
+            return organization;
         }
 
         /// <summary>
@@ -72,8 +79,24 @@ namespace MPC.Implementation.MISServices
             else
             {
                 //Set updated fields
-                return Update(organisation);
+                return Update(organisation, organisationDbVersion);
             }
+        }
+
+        /// <summary>
+        /// Save File path 
+        /// </summary>
+        /// <param name="filePath"></param>
+        public void SaveFile(string filePath)
+        {
+            Organisation organisation = organisationRepository.Find(2);
+            if (organisation.MISLogo != null)
+            {
+                //If already organisation logo is save,it delete it 
+                File.Delete(organisation.MISLogo);
+            }
+            organisation.MISLogo = filePath;
+            organisationRepository.SaveChanges();
         }
 
         /// <summary>
@@ -124,14 +147,28 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Update Organization
         /// </summary>
-        private MyOrganizationSaveResponse Update(Organisation organisation)
+        private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
             organisation.UserDomainKey = organisationRepository.UserDomainKey;
+            organisation.MISLogo = organisationDbVersion.MISLogo;
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
             #region Markup
+
+            if (organisation.MarkupId != null)
+            {
+                if (organisation.MarkupId != markupsDbVersion.First(x => x.IsDefault != null).MarkUpId)
+                {
+                    Markup markup = markupsDbVersion.First(x => x.MarkUpId == organisation.MarkupId);
+                    markup.IsDefault = true;
+                    Markup markupOld = markupsDbVersion.First(x => x.IsDefault != null);
+                    markupOld.IsDefault = null;
+                    markupRepository.SaveChanges();
+                }
+            }
+
             if (organisation.Markups != null)
             {
                 foreach (var item in organisation.Markups)
