@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -10,7 +12,8 @@ namespace MPC.Repository.Repositories
     {
         #region Constructor
 
-        public StockSubCategoryRepository(IUnityContainer container) : base(container)
+        public StockSubCategoryRepository(IUnityContainer container)
+            : base(container)
         {
         }
 
@@ -22,5 +25,13 @@ namespace MPC.Repository.Repositories
             }
         }
         #endregion
+
+        /// <summary>
+        /// Get All Stock Sub Category
+        /// </summary>
+        public override IEnumerable<StockSubCategory> GetAll()
+        {
+            return DbSet.ToList();
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IStockSubCategoryRepository, StockSubCategoryRepository>();
             unityContainer.RegisterType<ICmsSkinPageWidgetRepository, CmsSkinPageWidgetRepository>();
             unityContainer.RegisterType<ICompanyBannerSetRepository, CompanyBannerSetRepository>();
+            unityContainer.RegisterType<IStockItemRepository, StockItemRepository>();
+            unityContainer.RegisterType<IStockCostAndPriceRepository, StockCostAndPriceRepository>();
         }
     }
 }
