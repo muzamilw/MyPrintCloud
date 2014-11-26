@@ -11,9 +11,16 @@ define("inventory/inventory.dataservice", function () {
             initialize = function () {
                 if (!isInitialized) {
 
-                    // Define request to get Paper Sheets 
-                    amplify.request.define('getPaperSheets', 'ajax', {
-                        url: ist.siteUrl + '/Api/PaperSheet',
+                    // Define request to get Stock Items
+                    amplify.request.define('getInventories', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inventory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
+                    // Define request to get Inventory base 
+                    amplify.request.define('getInventoryBase', 'ajax', {
+                        url: ist.siteUrl + '/Api/InventoryBase',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -40,14 +47,23 @@ define("inventory/inventory.dataservice", function () {
                     isInitialized = true;
                 }
             },
-            // get Paper Sheets
-            getPaperSheets = function (params, callbacks) {
+            // get Stock items
+            getInventories = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getPaperSheets',
+                    resourceId: 'getInventories',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
+                });
+            },
+             // Get My Organization Base
+            getInventoryBase = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getInventoryBase',
+                    success: callbacks.success,
+                    error: callbacks.error,
                 });
             },
             // delete Paper Sheet
@@ -82,10 +98,8 @@ define("inventory/inventory.dataservice", function () {
         };
 
         return {
-            getPaperSheets: getPaperSheets,
-            deletePaperSheet: deletePaperSheet,
-            saveNewPaperSheet: saveNewPaperSheet,
-            savePaperSheet: savePaperSheet,
+            getInventories: getInventories,
+            getInventoryBase: getInventoryBase,
         };
     })();
 

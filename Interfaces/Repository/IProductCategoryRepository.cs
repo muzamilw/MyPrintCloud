@@ -7,8 +7,8 @@ using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
-    public interface ICmsSkinPageWidgetRepository : IBaseRepository<CmsSkinPageWidget, long>
+    public interface IProductCategoryRepository : IBaseRepository<ProductCategory, long>
     {
-        List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId);
+        List<ProductCategory> GetParentCategoriesByTerritory(long companyId);
     }
 }

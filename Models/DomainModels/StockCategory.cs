@@ -31,5 +31,6 @@ namespace MPC.Models.DomainModels
         public short? Flag4 { get; set; }
         public int CompanyId { get; set; }
         public virtual ICollection<StockSubCategory> StockSubCategories { get; set; }
+        public virtual ICollection<StockItem> StockItems { get; set; }
     }
 }

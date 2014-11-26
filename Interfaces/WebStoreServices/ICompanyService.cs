@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -9,7 +10,8 @@ namespace MPC.Interfaces.WebStoreServices
     public interface ICompanyService
     {
 
-        Company GetCompanyByDomain(string domain);
-
+        MyCompanyDomainBaseReponse GetBaseData(long companyId);
+        long GetCompanyIdByDomain(string domain);
+        List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
     }
 }

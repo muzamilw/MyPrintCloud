@@ -9,6 +9,16 @@ namespace MPC.Models.ResponseModels
 {
     public class MyCompanyDomainBaseReponse
     {
-        public CompanyDomain CompanyDomain { get; set; }
+        public Company Company { get; set; }
+
+        /// <summary>
+        /// Tax Rate List
+        /// </summary>
+        public List<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
+
+        /// <summary>
+        /// Markup List
+        /// </summary>
+        public List<CompanyBanner> Banners { get; set; }
     }
 }

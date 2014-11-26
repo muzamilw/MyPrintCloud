@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 namespace MPC.Implementation.WebStoreServices
 {
-    public class CompanyBannerSetService : ICompanyBannerSetService
+    public class CompanyBannerService : ICompanyBannerService
     {
         #region Private
 
         /// <summary>
         /// Private members
         /// </summary>
-        public readonly ICompanyBannerSetRepository companySetRepository;
+        public readonly ICompanyBannerRepository CompanyBannerRepositoryRepository;
      
 
         #endregion
@@ -23,9 +23,9 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public CompanyBannerSetService(ICompanyBannerSetRepository companySetepository)
+        public CompanyBannerService(ICompanyBannerRepository companyBannerRepository)
         {
-            this.companySetRepository = companySetepository;
+            this.CompanyBannerRepositoryRepository = companyBannerRepository;
          
         }
 
@@ -38,9 +38,9 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// <param name="domain"></param>
         /// <returns></returns>
-        public List<CompanyBannerSet> GetCompanyBannersById(long companyId, long organisationId)
+        public List<CompanyBanner> GetCompanyBannersById(long companyId)
         {
-            return companySetRepository.GetCompanyBannersById(companyId, organisationId);
+            return CompanyBannerRepositoryRepository.GetCompanyBannersById(companyId);
         }
       
         #endregion

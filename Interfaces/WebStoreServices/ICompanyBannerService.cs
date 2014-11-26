@@ -8,8 +8,8 @@ using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.WebStoreServices
 {
-    public interface ICompanyBannerSetService 
+    public interface ICompanyBannerService 
     {
-        List<CompanyBannerSet> GetCompanyBannersById(long companyId, long organisationId);
+        List<CompanyBanner> GetCompanyBannersById(long companyId);
     }
 }

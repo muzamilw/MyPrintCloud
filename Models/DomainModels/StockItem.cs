@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -100,6 +101,11 @@ namespace MPC.Models.DomainModels
         public int? LastModifiedBy { get; set; }
 
         /// <summary>
+        /// StockLevel
+        /// </summary>
+        public int? StockLevel { get; set; }
+
+        /// <summary>
         /// Package Quantity
         /// </summary>
         public double? PackageQty { get; set; }
@@ -170,6 +176,11 @@ namespace MPC.Models.DomainModels
         public int? LockedBy { get; set; }
 
         /// <summary>
+        /// Reorder Qty
+        /// </summary>
+        public int? ReorderQty { get; set; }
+
+        /// <summary>
         /// Last Order Qty
         /// </summary>
         public int? LastOrderQty { get; set; }
@@ -182,12 +193,12 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// In Stock
         /// </summary>
-        public double? InStock { get; set; }
+        public double? inStock { get; set; }
 
         /// <summary>
         /// On Order
         /// </summary>
-        public double? OnOrder { get; set; }
+        public double? onOrder { get; set; }
 
         /// <summary>
         /// Allocated
@@ -197,12 +208,12 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// TaxID
         /// </summary>
-        public int? TaxId { get; set; }
+        public int? TaxID { get; set; }
 
         /// <summary>
         /// Unit Rate
         /// </summary>
-        public double? UnitRate { get; set; }
+        public double? unitRate { get; set; }
 
         /// <summary>
         /// Item Coated
@@ -222,7 +233,7 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Flag ID
         /// </summary>
-        public int? FlagId { get; set; }
+        public int? FlagID { get; set; }
 
         /// <summary>
         /// Ink Absorption
@@ -257,12 +268,12 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Roll Width
         /// </summary>
-        public float? RollWidth { get; set; }
+        public double? RollWidth { get; set; }
 
         /// <summary>
         /// Roll Length
         /// </summary>
-        public float? RollLength { get; set; }
+        public double? RollLength { get; set; }
 
         /// <summary>
         /// Roll Standards
@@ -282,12 +293,12 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Per Qty Price
         /// </summary>
-        public float? PerQtyPrice { get; set; }
+        public double? PerQtyPrice { get; set; }
 
         /// <summary>
         /// Pack Price
         /// </summary>
-        public float? PackPrice { get; set; }
+        public double? PackPrice { get; set; }
 
         /// <summary>
         /// Region
@@ -297,7 +308,7 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Is Disabled
         /// </summary>
-        public bool? IsDisabled { get; set; }
+        public bool? isDisabled { get; set; }
 
         /// <summary>
         /// Ink Standards
@@ -336,6 +347,11 @@ namespace MPC.Models.DomainModels
         /// Stock Sub Category
         /// </summary>
         public virtual StockSubCategory StockSubCategory { get; set; }
+
+        /// <summary>
+        /// Stock Cost And Prices
+        /// </summary>
+        public virtual IEnumerable<StockCostAndPrice> StockCostAndPrices { get; set; }
 
         #endregion
     }

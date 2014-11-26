@@ -1,9 +1,9 @@
 ﻿
+using System.Collections.Generic;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
-using System.Collections.Generic;
-
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -14,8 +14,10 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         /// Private members
         /// </summary>
-        public readonly ICompanyRepository companyRepository;
-     
+        public readonly ICompanyRepository _companyRepository;
+        private readonly ICmsSkinPageWidgetRepository _widgetRepository;
+        private readonly ICompanyBannerRepository _companyBannerRepository;
+        private readonly IProductCategoryRepository _productCategoryRepository;
 
         #endregion
 
@@ -24,10 +26,13 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public CompanyService(ICompanyRepository companyRepository)
+        public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
+         ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository)
         {
-            this.companyRepository = companyRepository;
-         
+            this._companyRepository = companyRepository;
+            this._widgetRepository = widgetRepository;
+            this._companyBannerRepository = companyBannerRepository;
+            this._productCategoryRepository = productCategoryRepository;
         }
 
         #endregion
@@ -39,11 +44,24 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// <param name="domain"></param>
         /// <returns></returns>
-        public Company GetCompanyByDomain(string domain)
+
+        public MyCompanyDomainBaseReponse GetBaseData(long companyId)
         {
-            return companyRepository.GetCompanyByDomain(domain);
+            return new MyCompanyDomainBaseReponse
+            {
+                Company = _companyRepository.GetCompanyById(companyId),
+                CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(companyId),
+                Banners = _companyBannerRepository.GetCompanyBannersById(companyId)
+            };
+        } 
+        public long GetCompanyIdByDomain(string domain)
+        {
+            return _companyRepository.GetCompanyIdByDomain(domain);
         }
-      
+        public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
+        {
+            return _productCategoryRepository.GetParentCategoriesByTerritory(companyId);
+        }
         #endregion
     }
 }
