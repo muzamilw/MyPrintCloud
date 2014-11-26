@@ -19,6 +19,7 @@ namespace MPC.Implementation
         /// </summary>
         public static void RegisterType(IUnityContainer unityContainer)
         {
+            UnityConfig.UnityContainer = unityContainer;
             Repository.TypeRegistrations.RegisterType(unityContainer);
             unityContainer.RegisterType<IMyOrganizationService, MyOrganizationService>();
             unityContainer.RegisterType<IMyCompanyDomainService, MyCompanyDomainService>();

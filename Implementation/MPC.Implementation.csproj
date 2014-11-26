@@ -117,6 +117,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Transactions" />
@@ -132,6 +133,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MISServices\ApplicationUserManager.cs" />
     <Compile Include="MISServices\AuthorizationChecker.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
