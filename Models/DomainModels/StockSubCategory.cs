@@ -8,5 +8,6 @@
         public string Description { get; set; }
         public string Fixed { get; set; }
         public int CategoryId { get; set; }
+        public virtual StockCategory StockCategory { get; set; }
     }
 }
