@@ -437,6 +437,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockCategory_StockSubCategory">
+          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1" />
+          <End Role="StockSubCategory" Type="Self.StockSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockSubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_cmsPageWidgets_tbl_cmsPages">
           <End Role="Organisation" Type="Self.Organisation" Multiplicity="0..1" />
           <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
@@ -530,6 +542,10 @@
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSet" />
           </AssociationSet>
+          <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
+            <End Role="StockCategory" EntitySet="StockCategory" />
+            <End Role="StockSubCategory" EntitySet="StockSubCategory" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_cmsPageWidgets_tbl_cmsPages" Association="Self.FK_tbl_cmsPageWidgets_tbl_cmsPages">
             <End Role="Organisation" EntitySet="Organisation" />
             <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
@@ -566,7 +582,6 @@
           <EntitySet Name="Markups" EntityType="DomainModels.Markup" />
           <EntitySet Name="Organisations" EntityType="DomainModels.Organisation" />
           <EntitySet Name="PaperSizes" EntityType="DomainModels.PaperSize" />
-          <EntitySet Name="ProductCategories" EntityType="DomainModels.ProductCategory" />
           <EntitySet Name="Widgets" EntityType="DomainModels.Widget" />
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="DomainModels.FK_Company_CmsSkinPageWidget">
             <End Role="Company" EntitySet="Companies" />
@@ -592,10 +607,6 @@
             <End Role="Company" EntitySet="Companies" />
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSets" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="ProductCategory" EntitySet="ProductCategories" />
-          </AssociationSet>
           <AssociationSet Name="FK_CompanyBanner_CompanySet" Association="DomainModels.FK_CompanyBanner_CompanySet">
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSets" />
             <End Role="CompanyBanner" EntitySet="CompanyBanners" />
@@ -607,6 +618,15 @@
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Companies" />
             <End Role="CmsPage" EntitySet="CmsPages" />
+          </AssociationSet>
+          <EntitySet Name="ProductCategories" EntityType="DomainModels.ProductCategory" />
+          <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="DomainModels.FK_StockCategory_StockSubCategory">
+            <End Role="StockCategory" EntitySet="StockCategories" />
+            <End Role="StockSubCategory" EntitySet="StockSubCategories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
@@ -711,8 +731,8 @@
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_Company_CmsSkinPageWidget" FromRole="Company" ToRole="CmsSkinPageWidget" />
           <NavigationProperty Name="CompanyDomains" Relationship="DomainModels.FK_CompanyDomain_Company" FromRole="Company" ToRole="CompanyDomain" />
           <NavigationProperty Name="CompanyBannerSets" Relationship="DomainModels.FK_CompanySet_Company" FromRole="Company" ToRole="CompanyBannerSet" />
-          <NavigationProperty Name="ProductCategories" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="Company" ToRole="ProductCategory" />
           <NavigationProperty Name="CmsPages" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="Company" ToRole="CmsPage" />
+          <NavigationProperty Name="ProductCategories" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="Company" ToRole="ProductCategory" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -860,65 +880,6 @@
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
         </EntityType>
-        <EntityType Name="ProductCategory">
-          <Key>
-            <PropertyRef Name="ProductCategoryId" />
-          </Key>
-          <Property Name="ProductCategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Description2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LockedBy" Type="Int32" Nullable="false" />
-          <Property Name="CompanyId" Type="Int64" />
-          <Property Name="ParentCategoryId" Type="Int32" />
-          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThumbnailPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="isEnabled" Type="Boolean" />
-          <Property Name="isMarketPlace" Type="Boolean" />
-          <Property Name="TemplateDesignerMappedCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="isArchived" Type="Boolean" />
-          <Property Name="isPublished" Type="Boolean" />
-          <Property Name="TrimmedWidth" Type="Double" />
-          <Property Name="TrimmedHeight" Type="Double" />
-          <Property Name="isColorImposition" Type="Boolean" />
-          <Property Name="isOrderImposition" Type="Boolean" />
-          <Property Name="isLinkToTemplates" Type="Boolean" />
-          <Property Name="Sides" Type="Int32" />
-          <Property Name="ApplySizeRestrictions" Type="Boolean" />
-          <Property Name="ApplyFoldLines" Type="Boolean" />
-          <Property Name="WidthRestriction" Type="Double" />
-          <Property Name="HeightRestriction" Type="Double" />
-          <Property Name="CategoryTypeId" Type="Int32" />
-          <Property Name="RegionId" Type="Int32" />
-          <Property Name="ZoomFactor" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ScaleFactor" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="isShelfProductCategory" Type="Boolean" />
-          <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="OrganisationId" Type="Int64" />
-          <Property Name="SubCategoryDisplayMode1" Type="Int32" />
-          <Property Name="SubCategoryDisplayMode2" Type="Int32" />
-          <Property Name="SubCategoryDisplayColumns" Type="Int32" />
-          <Property Name="CategoryURLText" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="MetaOverride" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="ShortDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="SecondaryDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="DefaultSortBy" Type="Int32" />
-          <Property Name="ProductsDisplayColumns" Type="Int32" />
-          <Property Name="ProductsDisplayRows" Type="Int32" />
-          <Property Name="IsDisplayFeaturedproducts" Type="Boolean" />
-          <Property Name="IsShowAvailablity" Type="Boolean" />
-          <Property Name="IsShowRewardPoints" Type="Boolean" />
-          <Property Name="IsShowListPrice" Type="Boolean" />
-          <Property Name="IsShowSalePrice" Type="Boolean" />
-          <Property Name="IsShowStockStatus" Type="Boolean" />
-          <Property Name="IsShowProductDescription" Type="Boolean" />
-          <Property Name="IsShowProductShortDescription" Type="Boolean" />
-          <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
-          </EntityType>
         <EntityType Name="Widget">
           <Key>
             <PropertyRef Name="WidgetId" />
@@ -997,18 +958,6 @@
               <PropertyRef Name="CompanyId" />
             </Principal>
             <Dependent Role="CompanyBannerSet">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_ProductCategory_tbl_contactcompanies">
-          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
-          <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="ProductCategory">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1095,6 +1044,7 @@
           <Property Name="Flag3" Type="Int16" />
           <Property Name="Flag4" Type="Int16" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StockSubCategories" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockCategory" ToRole="StockSubCategory" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -1106,6 +1056,7 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Fixed" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockSubCategory" ToRole="StockCategory" />
         </EntityType>
 
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
@@ -1117,6 +1068,89 @@
             </Principal>
             <Dependent Role="CmsPage">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryId" />
+          </Key>
+          <Property Name="ProductCategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LockedBy" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="ParentCategoryId" Type="Int32" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ThumbnailPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="isEnabled" Type="Boolean" />
+          <Property Name="isMarketPlace" Type="Boolean" />
+          <Property Name="TemplateDesignerMappedCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="isArchived" Type="Boolean" />
+          <Property Name="isPublished" Type="Boolean" />
+          <Property Name="TrimmedWidth" Type="Double" />
+          <Property Name="TrimmedHeight" Type="Double" />
+          <Property Name="isColorImposition" Type="Boolean" />
+          <Property Name="isOrderImposition" Type="Boolean" />
+          <Property Name="isLinkToTemplates" Type="Boolean" />
+          <Property Name="Sides" Type="Int32" />
+          <Property Name="ApplySizeRestrictions" Type="Boolean" />
+          <Property Name="ApplyFoldLines" Type="Boolean" />
+          <Property Name="WidthRestriction" Type="Double" />
+          <Property Name="HeightRestriction" Type="Double" />
+          <Property Name="CategoryTypeId" Type="Int32" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="ZoomFactor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ScaleFactor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="isShelfProductCategory" Type="Boolean" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="SubCategoryDisplayMode1" Type="Int32" />
+          <Property Name="SubCategoryDisplayMode2" Type="Int32" />
+          <Property Name="SubCategoryDisplayColumns" Type="Int32" />
+          <Property Name="CategoryURLText" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MetaOverride" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultSortBy" Type="Int32" />
+          <Property Name="ProductsDisplayColumns" Type="Int32" />
+          <Property Name="ProductsDisplayRows" Type="Int32" />
+          <Property Name="IsDisplayFeaturedproducts" Type="Boolean" />
+          <Property Name="IsShowAvailablity" Type="Boolean" />
+          <Property Name="IsShowRewardPoints" Type="Boolean" />
+          <Property Name="IsShowListPrice" Type="Boolean" />
+          <Property Name="IsShowSalePrice" Type="Boolean" />
+          <Property Name="IsShowStockStatus" Type="Boolean" />
+          <Property Name="IsShowProductDescription" Type="Boolean" />
+          <Property Name="IsShowProductShortDescription" Type="Boolean" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_tbl_ProductCategory_tbl_contactcompanies">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ProductCategory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockCategory_StockSubCategory">
+          <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="1" />
+          <End Type="DomainModels.StockSubCategory" Role="StockSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockSubCategory">
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1373,65 +1407,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProductCategories">
-            <EntityTypeMapping TypeName="DomainModels.ProductCategory">
-              <MappingFragment StoreEntitySet="ProductCategory">
-                <ScalarProperty Name="IsShowProductShortDescription" ColumnName="IsShowProductShortDescription" />
-                <ScalarProperty Name="IsShowProductDescription" ColumnName="IsShowProductDescription" />
-                <ScalarProperty Name="IsShowStockStatus" ColumnName="IsShowStockStatus" />
-                <ScalarProperty Name="IsShowSalePrice" ColumnName="IsShowSalePrice" />
-                <ScalarProperty Name="IsShowListPrice" ColumnName="IsShowListPrice" />
-                <ScalarProperty Name="IsShowRewardPoints" ColumnName="IsShowRewardPoints" />
-                <ScalarProperty Name="IsShowAvailablity" ColumnName="IsShowAvailablity" />
-                <ScalarProperty Name="IsDisplayFeaturedproducts" ColumnName="IsDisplayFeaturedproducts" />
-                <ScalarProperty Name="ProductsDisplayRows" ColumnName="ProductsDisplayRows" />
-                <ScalarProperty Name="ProductsDisplayColumns" ColumnName="ProductsDisplayColumns" />
-                <ScalarProperty Name="DefaultSortBy" ColumnName="DefaultSortBy" />
-                <ScalarProperty Name="SecondaryDescription" ColumnName="SecondaryDescription" />
-                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
-                <ScalarProperty Name="MetaOverride" ColumnName="MetaOverride" />
-                <ScalarProperty Name="CategoryURLText" ColumnName="CategoryURLText" />
-                <ScalarProperty Name="SubCategoryDisplayColumns" ColumnName="SubCategoryDisplayColumns" />
-                <ScalarProperty Name="SubCategoryDisplayMode2" ColumnName="SubCategoryDisplayMode2" />
-                <ScalarProperty Name="SubCategoryDisplayMode1" ColumnName="SubCategoryDisplayMode1" />
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
-                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
-                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
-                <ScalarProperty Name="isShelfProductCategory" ColumnName="isShelfProductCategory" />
-                <ScalarProperty Name="ScaleFactor" ColumnName="ScaleFactor" />
-                <ScalarProperty Name="ZoomFactor" ColumnName="ZoomFactor" />
-                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
-                <ScalarProperty Name="CategoryTypeId" ColumnName="CategoryTypeId" />
-                <ScalarProperty Name="HeightRestriction" ColumnName="HeightRestriction" />
-                <ScalarProperty Name="WidthRestriction" ColumnName="WidthRestriction" />
-                <ScalarProperty Name="ApplyFoldLines" ColumnName="ApplyFoldLines" />
-                <ScalarProperty Name="ApplySizeRestrictions" ColumnName="ApplySizeRestrictions" />
-                <ScalarProperty Name="Sides" ColumnName="Sides" />
-                <ScalarProperty Name="isLinkToTemplates" ColumnName="isLinkToTemplates" />
-                <ScalarProperty Name="isOrderImposition" ColumnName="isOrderImposition" />
-                <ScalarProperty Name="isColorImposition" ColumnName="isColorImposition" />
-                <ScalarProperty Name="TrimmedHeight" ColumnName="TrimmedHeight" />
-                <ScalarProperty Name="TrimmedWidth" ColumnName="TrimmedWidth" />
-                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
-                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
-                <ScalarProperty Name="TemplateDesignerMappedCategoryName" ColumnName="TemplateDesignerMappedCategoryName" />
-                <ScalarProperty Name="isMarketPlace" ColumnName="isMarketPlace" />
-                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
-                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
-                <ScalarProperty Name="Description2" ColumnName="Description2" />
-                <ScalarProperty Name="Description1" ColumnName="Description1" />
-                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Widgets">
             <EntityTypeMapping TypeName="DomainModels.Widget">
               <MappingFragment StoreEntitySet="Widgets">
@@ -1527,6 +1502,65 @@
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategories">
+            <EntityTypeMapping TypeName="DomainModels.ProductCategory">
+              <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="IsShowProductShortDescription" ColumnName="IsShowProductShortDescription" />
+                <ScalarProperty Name="IsShowProductDescription" ColumnName="IsShowProductDescription" />
+                <ScalarProperty Name="IsShowStockStatus" ColumnName="IsShowStockStatus" />
+                <ScalarProperty Name="IsShowSalePrice" ColumnName="IsShowSalePrice" />
+                <ScalarProperty Name="IsShowListPrice" ColumnName="IsShowListPrice" />
+                <ScalarProperty Name="IsShowRewardPoints" ColumnName="IsShowRewardPoints" />
+                <ScalarProperty Name="IsShowAvailablity" ColumnName="IsShowAvailablity" />
+                <ScalarProperty Name="IsDisplayFeaturedproducts" ColumnName="IsDisplayFeaturedproducts" />
+                <ScalarProperty Name="ProductsDisplayRows" ColumnName="ProductsDisplayRows" />
+                <ScalarProperty Name="ProductsDisplayColumns" ColumnName="ProductsDisplayColumns" />
+                <ScalarProperty Name="DefaultSortBy" ColumnName="DefaultSortBy" />
+                <ScalarProperty Name="SecondaryDescription" ColumnName="SecondaryDescription" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="MetaOverride" ColumnName="MetaOverride" />
+                <ScalarProperty Name="CategoryURLText" ColumnName="CategoryURLText" />
+                <ScalarProperty Name="SubCategoryDisplayColumns" ColumnName="SubCategoryDisplayColumns" />
+                <ScalarProperty Name="SubCategoryDisplayMode2" ColumnName="SubCategoryDisplayMode2" />
+                <ScalarProperty Name="SubCategoryDisplayMode1" ColumnName="SubCategoryDisplayMode1" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="isShelfProductCategory" ColumnName="isShelfProductCategory" />
+                <ScalarProperty Name="ScaleFactor" ColumnName="ScaleFactor" />
+                <ScalarProperty Name="ZoomFactor" ColumnName="ZoomFactor" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CategoryTypeId" ColumnName="CategoryTypeId" />
+                <ScalarProperty Name="HeightRestriction" ColumnName="HeightRestriction" />
+                <ScalarProperty Name="WidthRestriction" ColumnName="WidthRestriction" />
+                <ScalarProperty Name="ApplyFoldLines" ColumnName="ApplyFoldLines" />
+                <ScalarProperty Name="ApplySizeRestrictions" ColumnName="ApplySizeRestrictions" />
+                <ScalarProperty Name="Sides" ColumnName="Sides" />
+                <ScalarProperty Name="isLinkToTemplates" ColumnName="isLinkToTemplates" />
+                <ScalarProperty Name="isOrderImposition" ColumnName="isOrderImposition" />
+                <ScalarProperty Name="isColorImposition" ColumnName="isColorImposition" />
+                <ScalarProperty Name="TrimmedHeight" ColumnName="TrimmedHeight" />
+                <ScalarProperty Name="TrimmedWidth" ColumnName="TrimmedWidth" />
+                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="TemplateDesignerMappedCategoryName" ColumnName="TemplateDesignerMappedCategoryName" />
+                <ScalarProperty Name="isMarketPlace" ColumnName="isMarketPlace" />
+                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
+                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="Description2" ColumnName="Description2" />
+                <ScalarProperty Name="Description1" ColumnName="Description1" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>

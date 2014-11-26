@@ -35,7 +35,7 @@ namespace MPC.Repository.Repositories
         }
 
       
-        public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId, long organisationId)
+        public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId)
         {
             var widgets = (from result in db.PageWidgets.Include("CmsSkinPageWidgetParams").Include("Widget")
                            select result).Where(g => g.PageId == 1 && g.CompanyId == companyId).OrderBy(c => c.Sequence).ToList();

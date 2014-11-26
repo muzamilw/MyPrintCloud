@@ -42,9 +42,9 @@ namespace MPC.Implementation.WebStoreServices
         /// Resolves the Company/Store widgets 
         /// </summary>
         /// <returns></returns>
-        public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId, long organisationId)
+        public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId)
         {
-            return widgetRepository.GetDomainWidgetsById(companyId, organisationId);
+            return widgetRepository.GetDomainWidgetsById(companyId);
         }
 
        

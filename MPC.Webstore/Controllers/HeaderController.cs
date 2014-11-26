@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MPC.Models.DomainModels;
+using System.Runtime.Caching;
+using MPC.Webstore.ResponseModels;
+using MPC.Webstore.Models;
 
 namespace MPC.Webstore.Controllers
 {
@@ -13,7 +15,14 @@ namespace MPC.Webstore.Controllers
         // GET: News
         public ActionResult Index()
         {
-            var model = Session["store"] as Company;
+            Company model = null;
+            ObjectCache cache = MemoryCache.Default;
+
+            MyCompanyDomainBaseResponse obj = cache.Get("CompanyBaseResponse") as MyCompanyDomainBaseResponse;
+            if (obj != null)
+            {
+                model = obj.Company;
+            }
 
             return PartialView("PartialViews/Header", model);
         }

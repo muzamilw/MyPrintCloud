@@ -97,6 +97,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CompanyBannerSet> CompanyBannerSets { get; set; }
 
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<CategoryTerritory> CategoryTerritories { get; set; }
 
         #endregion
     }

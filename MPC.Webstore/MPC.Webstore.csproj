@@ -75,6 +75,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -222,12 +223,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ModelMappers\CompanyDomainMapper.cs" />
+    <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
+    <Compile Include="ModelMappers\CompanyBannerMapper.cs" />
+    <Compile Include="ModelMappers\CompanyMapper.cs" />
     <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CmsSkinPageWidget.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\CompanyBanner.cs" />
     <Compile Include="Models\CompanyDomain.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Organisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseResponse.cs" />
     <Compile Include="Startup.cs" />

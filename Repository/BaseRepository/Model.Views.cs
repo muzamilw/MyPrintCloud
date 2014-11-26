@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsE2CF066C06859589786537718B387D520E7264B8F69F373E286EC9199213B5D8))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsE2CF066C06859589786537718B387D520E7264B8F69F373E286EC9199213B5D8 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8()
+        public ViewsForBaseEntitySetsE2CF066C06859589786537718B387D520E7264B8F69F373E286EC9199213B5D8()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "e54d3a4d063c6e3ff2bc4334c981473a968ffd5d6eb335131922b8c6ec315451";
-            this.HashOverAllExtentViews = "49b120cfe8d64e72c53ac0be9d0a24f974c06f7b3c0c860fe26e32760572e99c";
+            this.HashOverMappingClosure = "43236ce3797b9cd1f0dce46a1cbb7c9a3016767642d21dbd17998aca0ee72746";
+            this.HashOverAllExtentViews = "c5bdb53eba8c006e13fc7ddd3bcd9f1dfa4816f77bb46ea0f28d911febfb294b";
             this.ViewCount = 32;
         }
         
@@ -439,9 +439,72 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for DomainModelsStoreContainer.ProductCategory
+        /// return view for DomainModelsStoreContainer.Widgets
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView7()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Widgets", @"
+    SELECT VALUE -- Constructing Widgets
+        [DomainModels.Store.Widgets](T1.Widgets_WidgetId, T1.Widgets_WidgetCode, T1.Widgets_WidgetName, T1.Widgets_WidgetControlName)
+    FROM (
+        SELECT 
+            T.WidgetId AS Widgets_WidgetId, 
+            T.WidgetCode AS Widgets_WidgetCode, 
+            T.WidgetName AS Widgets_WidgetName, 
+            T.WidgetControlName AS Widgets_WidgetControlName, 
+            True AS _from0
+        FROM BaseDbContext.Widgets AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.CmsPage
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView8()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2770);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CmsPage\r\n        [DomainModels.Store.CmsPage]");
+            viewString.Append("(T1.CmsPage_PageId, T1.CmsPage_PageName, T1.CmsPage_PageTitle, T1.CmsPage_MenuTi");
+            viewString.Append("tle, T1.CmsPage_description, T1.CmsPage_PageRelativePath, T1.CmsPage_SortOrder, ");
+            viewString.Append("T1.[CmsPage.Meta_KeywordContent], T1.[CmsPage.Meta_DescriptionContent], T1.[CmsP");
+            viewString.Append("age.Meta_HiddenDescriptionContent], T1.[CmsPage.Meta_CategoryContent], T1.[CmsPa");
+            viewString.Append("ge.Meta_RobotsContent], T1.[CmsPage.Meta_AuthorContent], T1.[CmsPage.Meta_DateCo");
+            viewString.Append("ntent], T1.[CmsPage.Meta_LanguageContent], T1.[CmsPage.Meta_RevisitAfterContent]");
+            viewString.Append(", T1.[CmsPage.Meta_Title], T1.CmsPage_PageHTML, T1.CmsPage_isUserDefined, T1.Cms");
+            viewString.Append("Page_CategoryId, T1.CmsPage_isPromotionalOffer, T1.CmsPage_isSepecialOffer, T1.C");
+            viewString.Append("msPage_isMPCAdd, T1.CmsPage_LastModifiedDate, T1.CmsPage_PageBanner, T1.CmsPage_");
+            viewString.Append("PageKeywords, T1.CmsPage_isEnabled, T1.CmsPage_isDisplay, T1.CmsPage_CompanyId, ");
+            viewString.Append("T1.CmsPage_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.PageId AS");
+            viewString.Append(" CmsPage_PageId, \r\n            T.PageName AS CmsPage_PageName, \r\n            T.P");
+            viewString.Append("ageTitle AS CmsPage_PageTitle, \r\n            T.MenuTitle AS CmsPage_MenuTitle, \r");
+            viewString.Append("\n            T.description AS CmsPage_description, \r\n            T.PageRelativeP");
+            viewString.Append("ath AS CmsPage_PageRelativePath, \r\n            T.SortOrder AS CmsPage_SortOrder,");
+            viewString.Append(" \r\n            T.Meta_KeywordContent AS [CmsPage.Meta_KeywordContent], \r\n       ");
+            viewString.Append("     T.Meta_DescriptionContent AS [CmsPage.Meta_DescriptionContent], \r\n         ");
+            viewString.Append("   T.Meta_HiddenDescriptionContent AS [CmsPage.Meta_HiddenDescriptionContent], \r");
+            viewString.Append("\n            T.Meta_CategoryContent AS [CmsPage.Meta_CategoryContent], \r\n       ");
+            viewString.Append("     T.Meta_RobotsContent AS [CmsPage.Meta_RobotsContent], \r\n            T.Meta_");
+            viewString.Append("AuthorContent AS [CmsPage.Meta_AuthorContent], \r\n            T.Meta_DateContent ");
+            viewString.Append("AS [CmsPage.Meta_DateContent], \r\n            T.Meta_LanguageContent AS [CmsPage.");
+            viewString.Append("Meta_LanguageContent], \r\n            T.Meta_RevisitAfterContent AS [CmsPage.Meta");
+            viewString.Append("_RevisitAfterContent], \r\n            T.Meta_Title AS [CmsPage.Meta_Title], \r\n   ");
+            viewString.Append("         T.PageHTML AS CmsPage_PageHTML, \r\n            T.isUserDefined AS CmsPag");
+            viewString.Append("e_isUserDefined, \r\n            T.CategoryId AS CmsPage_CategoryId, \r\n           ");
+            viewString.Append(" T.isPromotionalOffer AS CmsPage_isPromotionalOffer, \r\n            T.isSepecialO");
+            viewString.Append("ffer AS CmsPage_isSepecialOffer, \r\n            T.isMPCAdd AS CmsPage_isMPCAdd, \r");
+            viewString.Append("\n            T.LastModifiedDate AS CmsPage_LastModifiedDate, \r\n            T.Pag");
+            viewString.Append("eBanner AS CmsPage_PageBanner, \r\n            T.PageKeywords AS CmsPage_PageKeywo");
+            viewString.Append("rds, \r\n            T.isEnabled AS CmsPage_isEnabled, \r\n            T.isDisplay A");
+            viewString.Append("S CmsPage_isDisplay, \r\n            T.CompanyId AS CmsPage_CompanyId, \r\n         ");
+            viewString.Append("   T.OrganisationId AS CmsPage_OrganisationId, \r\n            True AS _from0\r\n   ");
+            viewString.Append("     FROM BaseDbContext.CmsPages AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CmsPage", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ProductCategory
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView9()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5804);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ProductCategory\r\n        [DomainModels.Store.");
@@ -518,69 +581,6 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("_IsShowProductShortDescription, \r\n            True AS _from0\r\n        FROM BaseD");
             viewString.Append("bContext.ProductCategories AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ProductCategory", viewString.ToString());
-        }
-        
-        /// <Summary>
-        /// return view for DomainModelsStoreContainer.Widgets
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView8()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Widgets", @"
-    SELECT VALUE -- Constructing Widgets
-        [DomainModels.Store.Widgets](T1.Widgets_WidgetId, T1.Widgets_WidgetCode, T1.Widgets_WidgetName, T1.Widgets_WidgetControlName)
-    FROM (
-        SELECT 
-            T.WidgetId AS Widgets_WidgetId, 
-            T.WidgetCode AS Widgets_WidgetCode, 
-            T.WidgetName AS Widgets_WidgetName, 
-            T.WidgetControlName AS Widgets_WidgetControlName, 
-            True AS _from0
-        FROM BaseDbContext.Widgets AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
-        /// return view for DomainModelsStoreContainer.CmsPage
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView9()
-        {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2770);
-            viewString.Append("\r\n    SELECT VALUE -- Constructing CmsPage\r\n        [DomainModels.Store.CmsPage]");
-            viewString.Append("(T1.CmsPage_PageId, T1.CmsPage_PageName, T1.CmsPage_PageTitle, T1.CmsPage_MenuTi");
-            viewString.Append("tle, T1.CmsPage_description, T1.CmsPage_PageRelativePath, T1.CmsPage_SortOrder, ");
-            viewString.Append("T1.[CmsPage.Meta_KeywordContent], T1.[CmsPage.Meta_DescriptionContent], T1.[CmsP");
-            viewString.Append("age.Meta_HiddenDescriptionContent], T1.[CmsPage.Meta_CategoryContent], T1.[CmsPa");
-            viewString.Append("ge.Meta_RobotsContent], T1.[CmsPage.Meta_AuthorContent], T1.[CmsPage.Meta_DateCo");
-            viewString.Append("ntent], T1.[CmsPage.Meta_LanguageContent], T1.[CmsPage.Meta_RevisitAfterContent]");
-            viewString.Append(", T1.[CmsPage.Meta_Title], T1.CmsPage_PageHTML, T1.CmsPage_isUserDefined, T1.Cms");
-            viewString.Append("Page_CategoryId, T1.CmsPage_isPromotionalOffer, T1.CmsPage_isSepecialOffer, T1.C");
-            viewString.Append("msPage_isMPCAdd, T1.CmsPage_LastModifiedDate, T1.CmsPage_PageBanner, T1.CmsPage_");
-            viewString.Append("PageKeywords, T1.CmsPage_isEnabled, T1.CmsPage_isDisplay, T1.CmsPage_CompanyId, ");
-            viewString.Append("T1.CmsPage_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.PageId AS");
-            viewString.Append(" CmsPage_PageId, \r\n            T.PageName AS CmsPage_PageName, \r\n            T.P");
-            viewString.Append("ageTitle AS CmsPage_PageTitle, \r\n            T.MenuTitle AS CmsPage_MenuTitle, \r");
-            viewString.Append("\n            T.description AS CmsPage_description, \r\n            T.PageRelativeP");
-            viewString.Append("ath AS CmsPage_PageRelativePath, \r\n            T.SortOrder AS CmsPage_SortOrder,");
-            viewString.Append(" \r\n            T.Meta_KeywordContent AS [CmsPage.Meta_KeywordContent], \r\n       ");
-            viewString.Append("     T.Meta_DescriptionContent AS [CmsPage.Meta_DescriptionContent], \r\n         ");
-            viewString.Append("   T.Meta_HiddenDescriptionContent AS [CmsPage.Meta_HiddenDescriptionContent], \r");
-            viewString.Append("\n            T.Meta_CategoryContent AS [CmsPage.Meta_CategoryContent], \r\n       ");
-            viewString.Append("     T.Meta_RobotsContent AS [CmsPage.Meta_RobotsContent], \r\n            T.Meta_");
-            viewString.Append("AuthorContent AS [CmsPage.Meta_AuthorContent], \r\n            T.Meta_DateContent ");
-            viewString.Append("AS [CmsPage.Meta_DateContent], \r\n            T.Meta_LanguageContent AS [CmsPage.");
-            viewString.Append("Meta_LanguageContent], \r\n            T.Meta_RevisitAfterContent AS [CmsPage.Meta");
-            viewString.Append("_RevisitAfterContent], \r\n            T.Meta_Title AS [CmsPage.Meta_Title], \r\n   ");
-            viewString.Append("         T.PageHTML AS CmsPage_PageHTML, \r\n            T.isUserDefined AS CmsPag");
-            viewString.Append("e_isUserDefined, \r\n            T.CategoryId AS CmsPage_CategoryId, \r\n           ");
-            viewString.Append(" T.isPromotionalOffer AS CmsPage_isPromotionalOffer, \r\n            T.isSepecialO");
-            viewString.Append("ffer AS CmsPage_isSepecialOffer, \r\n            T.isMPCAdd AS CmsPage_isMPCAdd, \r");
-            viewString.Append("\n            T.LastModifiedDate AS CmsPage_LastModifiedDate, \r\n            T.Pag");
-            viewString.Append("eBanner AS CmsPage_PageBanner, \r\n            T.PageKeywords AS CmsPage_PageKeywo");
-            viewString.Append("rds, \r\n            T.isEnabled AS CmsPage_isEnabled, \r\n            T.isDisplay A");
-            viewString.Append("S CmsPage_isDisplay, \r\n            T.CompanyId AS CmsPage_CompanyId, \r\n         ");
-            viewString.Append("   T.OrganisationId AS CmsPage_OrganisationId, \r\n            True AS _from0\r\n   ");
-            viewString.Append("     FROM BaseDbContext.CmsPages AS T\r\n    ) AS T1");
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CmsPage", viewString.ToString());
         }
         
         /// <Summary>
@@ -854,9 +854,72 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.ProductCategories
+        /// return view for BaseDbContext.Widgets
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView17()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Widgets", @"
+    SELECT VALUE -- Constructing Widgets
+        [DomainModels.Widget](T1.Widget_WidgetId, T1.Widget_WidgetCode, T1.Widget_WidgetName, T1.Widget_WidgetControlName)
+    FROM (
+        SELECT 
+            T.WidgetId AS Widget_WidgetId, 
+            T.WidgetCode AS Widget_WidgetCode, 
+            T.WidgetName AS Widget_WidgetName, 
+            T.WidgetControlName AS Widget_WidgetControlName, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.Widgets AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.CmsPages
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView18()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2777);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CmsPages\r\n        [DomainModels.CmsPage](T1.C");
+            viewString.Append("msPage_PageId, T1.CmsPage_PageName, T1.CmsPage_PageTitle, T1.CmsPage_MenuTitle, ");
+            viewString.Append("T1.CmsPage_description, T1.CmsPage_PageRelativePath, T1.CmsPage_SortOrder, T1.[C");
+            viewString.Append("msPage.Meta_KeywordContent], T1.[CmsPage.Meta_DescriptionContent], T1.[CmsPage.M");
+            viewString.Append("eta_HiddenDescriptionContent], T1.[CmsPage.Meta_CategoryContent], T1.[CmsPage.Me");
+            viewString.Append("ta_RobotsContent], T1.[CmsPage.Meta_AuthorContent], T1.[CmsPage.Meta_DateContent");
+            viewString.Append("], T1.[CmsPage.Meta_LanguageContent], T1.[CmsPage.Meta_RevisitAfterContent], T1.");
+            viewString.Append("[CmsPage.Meta_Title], T1.CmsPage_PageHTML, T1.CmsPage_isUserDefined, T1.CmsPage_");
+            viewString.Append("CategoryId, T1.CmsPage_isPromotionalOffer, T1.CmsPage_isSepecialOffer, T1.CmsPag");
+            viewString.Append("e_isMPCAdd, T1.CmsPage_LastModifiedDate, T1.CmsPage_PageBanner, T1.CmsPage_PageK");
+            viewString.Append("eywords, T1.CmsPage_isEnabled, T1.CmsPage_isDisplay, T1.CmsPage_CompanyId, T1.Cm");
+            viewString.Append("sPage_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.PageId AS CmsP");
+            viewString.Append("age_PageId, \r\n            T.PageName AS CmsPage_PageName, \r\n            T.PageTi");
+            viewString.Append("tle AS CmsPage_PageTitle, \r\n            T.MenuTitle AS CmsPage_MenuTitle, \r\n    ");
+            viewString.Append("        T.description AS CmsPage_description, \r\n            T.PageRelativePath A");
+            viewString.Append("S CmsPage_PageRelativePath, \r\n            T.SortOrder AS CmsPage_SortOrder, \r\n  ");
+            viewString.Append("          T.Meta_KeywordContent AS [CmsPage.Meta_KeywordContent], \r\n            ");
+            viewString.Append("T.Meta_DescriptionContent AS [CmsPage.Meta_DescriptionContent], \r\n            T.");
+            viewString.Append("Meta_HiddenDescriptionContent AS [CmsPage.Meta_HiddenDescriptionContent], \r\n    ");
+            viewString.Append("        T.Meta_CategoryContent AS [CmsPage.Meta_CategoryContent], \r\n            ");
+            viewString.Append("T.Meta_RobotsContent AS [CmsPage.Meta_RobotsContent], \r\n            T.Meta_Autho");
+            viewString.Append("rContent AS [CmsPage.Meta_AuthorContent], \r\n            T.Meta_DateContent AS [C");
+            viewString.Append("msPage.Meta_DateContent], \r\n            T.Meta_LanguageContent AS [CmsPage.Meta_");
+            viewString.Append("LanguageContent], \r\n            T.Meta_RevisitAfterContent AS [CmsPage.Meta_Revi");
+            viewString.Append("sitAfterContent], \r\n            T.Meta_Title AS [CmsPage.Meta_Title], \r\n        ");
+            viewString.Append("    T.PageHTML AS CmsPage_PageHTML, \r\n            T.isUserDefined AS CmsPage_isU");
+            viewString.Append("serDefined, \r\n            T.CategoryId AS CmsPage_CategoryId, \r\n            T.is");
+            viewString.Append("PromotionalOffer AS CmsPage_isPromotionalOffer, \r\n            T.isSepecialOffer ");
+            viewString.Append("AS CmsPage_isSepecialOffer, \r\n            T.isMPCAdd AS CmsPage_isMPCAdd, \r\n    ");
+            viewString.Append("        T.LastModifiedDate AS CmsPage_LastModifiedDate, \r\n            T.PageBann");
+            viewString.Append("er AS CmsPage_PageBanner, \r\n            T.PageKeywords AS CmsPage_PageKeywords, ");
+            viewString.Append("\r\n            T.isEnabled AS CmsPage_isEnabled, \r\n            T.isDisplay AS Cms");
+            viewString.Append("Page_isDisplay, \r\n            T.CompanyId AS CmsPage_CompanyId, \r\n            T.");
+            viewString.Append("OrganisationId AS CmsPage_OrganisationId, \r\n            True AS _from0\r\n        ");
+            viewString.Append("FROM DomainModelsStoreContainer.CmsPage AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsPages", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ProductCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView19()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5811);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ProductCategories\r\n        [DomainModels.Prod");
@@ -933,69 +996,6 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("howProductShortDescription, \r\n            True AS _from0\r\n        FROM DomainMod");
             viewString.Append("elsStoreContainer.ProductCategory AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ProductCategories", viewString.ToString());
-        }
-        
-        /// <Summary>
-        /// return view for BaseDbContext.Widgets
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView18()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Widgets", @"
-    SELECT VALUE -- Constructing Widgets
-        [DomainModels.Widget](T1.Widget_WidgetId, T1.Widget_WidgetCode, T1.Widget_WidgetName, T1.Widget_WidgetControlName)
-    FROM (
-        SELECT 
-            T.WidgetId AS Widget_WidgetId, 
-            T.WidgetCode AS Widget_WidgetCode, 
-            T.WidgetName AS Widget_WidgetName, 
-            T.WidgetControlName AS Widget_WidgetControlName, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.Widgets AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
-        /// return view for BaseDbContext.CmsPages
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView19()
-        {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2777);
-            viewString.Append("\r\n    SELECT VALUE -- Constructing CmsPages\r\n        [DomainModels.CmsPage](T1.C");
-            viewString.Append("msPage_PageId, T1.CmsPage_PageName, T1.CmsPage_PageTitle, T1.CmsPage_MenuTitle, ");
-            viewString.Append("T1.CmsPage_description, T1.CmsPage_PageRelativePath, T1.CmsPage_SortOrder, T1.[C");
-            viewString.Append("msPage.Meta_KeywordContent], T1.[CmsPage.Meta_DescriptionContent], T1.[CmsPage.M");
-            viewString.Append("eta_HiddenDescriptionContent], T1.[CmsPage.Meta_CategoryContent], T1.[CmsPage.Me");
-            viewString.Append("ta_RobotsContent], T1.[CmsPage.Meta_AuthorContent], T1.[CmsPage.Meta_DateContent");
-            viewString.Append("], T1.[CmsPage.Meta_LanguageContent], T1.[CmsPage.Meta_RevisitAfterContent], T1.");
-            viewString.Append("[CmsPage.Meta_Title], T1.CmsPage_PageHTML, T1.CmsPage_isUserDefined, T1.CmsPage_");
-            viewString.Append("CategoryId, T1.CmsPage_isPromotionalOffer, T1.CmsPage_isSepecialOffer, T1.CmsPag");
-            viewString.Append("e_isMPCAdd, T1.CmsPage_LastModifiedDate, T1.CmsPage_PageBanner, T1.CmsPage_PageK");
-            viewString.Append("eywords, T1.CmsPage_isEnabled, T1.CmsPage_isDisplay, T1.CmsPage_CompanyId, T1.Cm");
-            viewString.Append("sPage_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.PageId AS CmsP");
-            viewString.Append("age_PageId, \r\n            T.PageName AS CmsPage_PageName, \r\n            T.PageTi");
-            viewString.Append("tle AS CmsPage_PageTitle, \r\n            T.MenuTitle AS CmsPage_MenuTitle, \r\n    ");
-            viewString.Append("        T.description AS CmsPage_description, \r\n            T.PageRelativePath A");
-            viewString.Append("S CmsPage_PageRelativePath, \r\n            T.SortOrder AS CmsPage_SortOrder, \r\n  ");
-            viewString.Append("          T.Meta_KeywordContent AS [CmsPage.Meta_KeywordContent], \r\n            ");
-            viewString.Append("T.Meta_DescriptionContent AS [CmsPage.Meta_DescriptionContent], \r\n            T.");
-            viewString.Append("Meta_HiddenDescriptionContent AS [CmsPage.Meta_HiddenDescriptionContent], \r\n    ");
-            viewString.Append("        T.Meta_CategoryContent AS [CmsPage.Meta_CategoryContent], \r\n            ");
-            viewString.Append("T.Meta_RobotsContent AS [CmsPage.Meta_RobotsContent], \r\n            T.Meta_Autho");
-            viewString.Append("rContent AS [CmsPage.Meta_AuthorContent], \r\n            T.Meta_DateContent AS [C");
-            viewString.Append("msPage.Meta_DateContent], \r\n            T.Meta_LanguageContent AS [CmsPage.Meta_");
-            viewString.Append("LanguageContent], \r\n            T.Meta_RevisitAfterContent AS [CmsPage.Meta_Revi");
-            viewString.Append("sitAfterContent], \r\n            T.Meta_Title AS [CmsPage.Meta_Title], \r\n        ");
-            viewString.Append("    T.PageHTML AS CmsPage_PageHTML, \r\n            T.isUserDefined AS CmsPage_isU");
-            viewString.Append("serDefined, \r\n            T.CategoryId AS CmsPage_CategoryId, \r\n            T.is");
-            viewString.Append("PromotionalOffer AS CmsPage_isPromotionalOffer, \r\n            T.isSepecialOffer ");
-            viewString.Append("AS CmsPage_isSepecialOffer, \r\n            T.isMPCAdd AS CmsPage_isMPCAdd, \r\n    ");
-            viewString.Append("        T.LastModifiedDate AS CmsPage_LastModifiedDate, \r\n            T.PageBann");
-            viewString.Append("er AS CmsPage_PageBanner, \r\n            T.PageKeywords AS CmsPage_PageKeywords, ");
-            viewString.Append("\r\n            T.isEnabled AS CmsPage_isEnabled, \r\n            T.isDisplay AS Cms");
-            viewString.Append("Page_isDisplay, \r\n            T.CompanyId AS CmsPage_CompanyId, \r\n            T.");
-            viewString.Append("OrganisationId AS CmsPage_OrganisationId, \r\n            True AS _from0\r\n        ");
-            viewString.Append("FROM DomainModelsStoreContainer.CmsPage AS T\r\n    ) AS T1");
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsPages", viewString.ToString());
         }
         
         /// <Summary>
@@ -1217,9 +1217,30 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.StockCategories
+        /// return view for DomainModelsStoreContainer.StockSubCategory
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView29()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockSubCategory", @"
+    SELECT VALUE -- Constructing StockSubCategory
+        [DomainModels.Store.StockSubCategory](T1.StockSubCategory_SubCategoryId, T1.StockSubCategory_Code, T1.StockSubCategory_Name, T1.StockSubCategory_Description, T1.StockSubCategory_Fixed, T1.StockSubCategory_CategoryId)
+    FROM (
+        SELECT 
+            T.SubCategoryId AS StockSubCategory_SubCategoryId, 
+            T.Code AS StockSubCategory_Code, 
+            T.Name AS StockSubCategory_Name, 
+            T.Description AS StockSubCategory_Description, 
+            T.Fixed AS StockSubCategory_Fixed, 
+            T.CategoryId AS StockSubCategory_CategoryId, 
+            True AS _from0
+        FROM BaseDbContext.StockSubCategories AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView30()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCategories", "\r\n    SELECT VALUE -- Constructing StockCategories\r\n        [DomainModels.StockCa" +
                     "tegory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory_Nam" +
@@ -1244,27 +1265,6 @@ namespace Edm_EntityMappingGeneratedViews
                     "tockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n            " +
                     "T.CompanyId AS StockCategory_CompanyId, \r\n            True AS _from0\r\n        FR" +
                     "OM DomainModelsStoreContainer.StockCategory AS T\r\n    ) AS T1");
-        }
-        
-        /// <Summary>
-        /// return view for DomainModelsStoreContainer.StockSubCategory
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView30()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockSubCategory", @"
-    SELECT VALUE -- Constructing StockSubCategory
-        [DomainModels.Store.StockSubCategory](T1.StockSubCategory_SubCategoryId, T1.StockSubCategory_Code, T1.StockSubCategory_Name, T1.StockSubCategory_Description, T1.StockSubCategory_Fixed, T1.StockSubCategory_CategoryId)
-    FROM (
-        SELECT 
-            T.SubCategoryId AS StockSubCategory_SubCategoryId, 
-            T.Code AS StockSubCategory_Code, 
-            T.Name AS StockSubCategory_Name, 
-            T.Description AS StockSubCategory_Description, 
-            T.Fixed AS StockSubCategory_Fixed, 
-            T.CategoryId AS StockSubCategory_CategoryId, 
-            True AS _from0
-        FROM BaseDbContext.StockSubCategories AS T
-    ) AS T1");
         }
         
         /// <Summary>

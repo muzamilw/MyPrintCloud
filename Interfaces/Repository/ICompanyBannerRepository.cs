@@ -9,5 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyBannerRepository : IBaseRepository<CompanyBanner, long>
     {
+        List<CompanyBanner> GetCompanyBannersById(long companyId);
     }
 }
