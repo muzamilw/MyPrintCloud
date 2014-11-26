@@ -437,6 +437,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockCategory_StockSubCategory">
+          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1" />
+          <End Role="StockSubCategory" Type="Self.StockSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockSubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_cmsPageWidgets_tbl_cmsPages">
           <End Role="Organisation" Type="Self.Organisation" Multiplicity="0..1" />
           <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
@@ -530,6 +542,10 @@
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSet" />
           </AssociationSet>
+          <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
+            <End Role="StockCategory" EntitySet="StockCategory" />
+            <End Role="StockSubCategory" EntitySet="StockSubCategory" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_cmsPageWidgets_tbl_cmsPages" Association="Self.FK_tbl_cmsPageWidgets_tbl_cmsPages">
             <End Role="Organisation" EntitySet="Organisation" />
             <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
@@ -607,6 +623,10 @@
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Companies" />
             <End Role="CmsPage" EntitySet="CmsPages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="DomainModels.FK_StockCategory_StockSubCategory">
+            <End Role="StockCategory" EntitySet="StockCategories" />
+            <End Role="StockSubCategory" EntitySet="StockSubCategories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
@@ -1079,7 +1099,7 @@
           <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="fixed" Type="Int16" Nullable="false" />
+          <Property Name="Fixed" Type="Int16" Nullable="false" />
           <Property Name="ItemWeight" Type="Int16" Nullable="false" />
           <Property Name="ItemColour" Type="Int16" Nullable="false" />
           <Property Name="ItemSizeCustom" Type="Int16" Nullable="false" />
@@ -1088,13 +1108,14 @@
           <Property Name="ItemCoated" Type="Int16" />
           <Property Name="ItemExposure" Type="Int16" Nullable="false" />
           <Property Name="ItemCharge" Type="Int16" Nullable="false" />
-          <Property Name="recLock" Type="Int16" Nullable="false" />
+          <Property Name="RecLock" Type="Int16" Nullable="false" />
           <Property Name="TaxId" Type="Int32" />
           <Property Name="Flag1" Type="Int16" />
           <Property Name="Flag2" Type="Int16" />
           <Property Name="Flag3" Type="Int16" />
           <Property Name="Flag4" Type="Int16" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StockSubCategories" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockCategory" ToRole="StockSubCategory" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -1106,6 +1127,7 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Fixed" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockSubCategory" ToRole="StockCategory" />
         </EntityType>
 
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
@@ -1117,6 +1139,18 @@
             </Principal>
             <Dependent Role="CmsPage">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockCategory_StockSubCategory">
+          <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="1" />
+          <End Type="DomainModels.StockSubCategory" Role="StockSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockSubCategory">
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1462,7 +1496,7 @@
                 <ScalarProperty Name="Flag2" ColumnName="Flag2" />
                 <ScalarProperty Name="Flag1" ColumnName="Flag1" />
                 <ScalarProperty Name="TaxId" ColumnName="TaxId" />
-                <ScalarProperty Name="recLock" ColumnName="recLock" />
+                <ScalarProperty Name="RecLock" ColumnName="recLock" />
                 <ScalarProperty Name="ItemCharge" ColumnName="ItemCharge" />
                 <ScalarProperty Name="ItemExposure" ColumnName="ItemExposure" />
                 <ScalarProperty Name="ItemCoated" ColumnName="ItemCoated" />
@@ -1471,7 +1505,7 @@
                 <ScalarProperty Name="ItemSizeCustom" ColumnName="ItemSizeCustom" />
                 <ScalarProperty Name="ItemColour" ColumnName="ItemColour" />
                 <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
-                <ScalarProperty Name="fixed" ColumnName="fixed" />
+                <ScalarProperty Name="Fixed" ColumnName="fixed" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />

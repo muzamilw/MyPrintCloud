@@ -149,6 +149,7 @@
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
+    <Compile Include="ResponseModels\StockCategoryResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

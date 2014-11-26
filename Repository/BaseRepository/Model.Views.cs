@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets8871CD0A106526C81500BD1FF30BEFCAFC7BCCD7918EA64D0061B6A8A2AEFA53))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets8871CD0A106526C81500BD1FF30BEFCAFC7BCCD7918EA64D0061B6A8A2AEFA53 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8()
+        public ViewsForBaseEntitySets8871CD0A106526C81500BD1FF30BEFCAFC7BCCD7918EA64D0061B6A8A2AEFA53()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "e54d3a4d063c6e3ff2bc4334c981473a968ffd5d6eb335131922b8c6ec315451";
-            this.HashOverAllExtentViews = "49b120cfe8d64e72c53ac0be9d0a24f974c06f7b3c0c860fe26e32760572e99c";
+            this.HashOverMappingClosure = "e6e053a3692b7e16d286031b2179775fa918fbddd4161d08f39614b0c5e318a7";
+            this.HashOverAllExtentViews = "77ef88992dfa9b957c15a2ad66aa21ccfed9e508332d4969b352e210fd2abfe7";
             this.ViewCount = 32;
         }
         
@@ -1202,13 +1202,13 @@ namespace Edm_EntityMappingGeneratedViews
                     "\n    FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_Category" +
                     "Id, \r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCat" +
                     "egory_Name, \r\n            T.Description AS StockCategory_Description, \r\n        " +
-                    "    T.fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_" +
+                    "    T.Fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_" +
                     "ItemWeight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n          " +
                     "  T.ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSiz" +
                     "e AS StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategor" +
                     "y_ItemCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n    " +
                     "        T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge" +
-                    " AS StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_recLock, " +
+                    " AS StockCategory_ItemCharge, \r\n            T.RecLock AS StockCategory_recLock, " +
                     "\r\n            T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCate" +
                     "gory_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 " +
                     "AS StockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n        " +
@@ -1217,39 +1217,9 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.StockCategories
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView29()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCategories", "\r\n    SELECT VALUE -- Constructing StockCategories\r\n        [DomainModels.StockCa" +
-                    "tegory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory_Nam" +
-                    "e, T1.StockCategory_Description, T1.StockCategory_fixed, T1.StockCategory_ItemWe" +
-                    "ight, T1.StockCategory_ItemColour, T1.StockCategory_ItemSizeCustom, T1.StockCate" +
-                    "gory_ItemPaperSize, T1.StockCategory_ItemCoatedType, T1.StockCategory_ItemCoated" +
-                    ", T1.StockCategory_ItemExposure, T1.StockCategory_ItemCharge, T1.StockCategory_r" +
-                    "ecLock, T1.StockCategory_TaxId, T1.StockCategory_Flag1, T1.StockCategory_Flag2, " +
-                    "T1.StockCategory_Flag3, T1.StockCategory_Flag4, T1.StockCategory_CompanyId)\r\n   " +
-                    " FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_CategoryId, " +
-                    "\r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCategor" +
-                    "y_Name, \r\n            T.Description AS StockCategory_Description, \r\n            " +
-                    "T.fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_Item" +
-                    "Weight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n            T." +
-                    "ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSize AS" +
-                    " StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategory_It" +
-                    "emCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n        " +
-                    "    T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge AS " +
-                    "StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_recLock, \r\n  " +
-                    "          T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCategory" +
-                    "_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 AS S" +
-                    "tockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n            " +
-                    "T.CompanyId AS StockCategory_CompanyId, \r\n            True AS _from0\r\n        FR" +
-                    "OM DomainModelsStoreContainer.StockCategory AS T\r\n    ) AS T1");
-        }
-        
-        /// <Summary>
         /// return view for DomainModelsStoreContainer.StockSubCategory
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView30()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView29()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockSubCategory", @"
     SELECT VALUE -- Constructing StockSubCategory
@@ -1265,6 +1235,36 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM BaseDbContext.StockSubCategories AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView30()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCategories", "\r\n    SELECT VALUE -- Constructing StockCategories\r\n        [DomainModels.StockCa" +
+                    "tegory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory_Nam" +
+                    "e, T1.StockCategory_Description, T1.StockCategory_Fixed, T1.StockCategory_ItemWe" +
+                    "ight, T1.StockCategory_ItemColour, T1.StockCategory_ItemSizeCustom, T1.StockCate" +
+                    "gory_ItemPaperSize, T1.StockCategory_ItemCoatedType, T1.StockCategory_ItemCoated" +
+                    ", T1.StockCategory_ItemExposure, T1.StockCategory_ItemCharge, T1.StockCategory_R" +
+                    "ecLock, T1.StockCategory_TaxId, T1.StockCategory_Flag1, T1.StockCategory_Flag2, " +
+                    "T1.StockCategory_Flag3, T1.StockCategory_Flag4, T1.StockCategory_CompanyId)\r\n   " +
+                    " FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_CategoryId, " +
+                    "\r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCategor" +
+                    "y_Name, \r\n            T.Description AS StockCategory_Description, \r\n            " +
+                    "T.fixed AS StockCategory_Fixed, \r\n            T.ItemWeight AS StockCategory_Item" +
+                    "Weight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n            T." +
+                    "ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSize AS" +
+                    " StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategory_It" +
+                    "emCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n        " +
+                    "    T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge AS " +
+                    "StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_RecLock, \r\n  " +
+                    "          T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCategory" +
+                    "_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 AS S" +
+                    "tockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n            " +
+                    "T.CompanyId AS StockCategory_CompanyId, \r\n            True AS _from0\r\n        FR" +
+                    "OM DomainModelsStoreContainer.StockCategory AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
