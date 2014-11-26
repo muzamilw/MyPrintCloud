@@ -18,6 +18,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,6 +30,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             this.inventoryService = inventoryService;
         }
+        #endregion
 
         #region Public
         // GET api/<controller>

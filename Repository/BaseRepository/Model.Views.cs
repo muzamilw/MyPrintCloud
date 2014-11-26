@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsA0D7919FEA3D562B3496528C2BD0E9018E5BD7C9F721C0096F0D9D3DD5D422C3))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsA0D7919FEA3D562B3496528C2BD0E9018E5BD7C9F721C0096F0D9D3DD5D422C3 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsA0D7919FEA3D562B3496528C2BD0E9018E5BD7C9F721C0096F0D9D3DD5D422C3()
+        public ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "4eb8f403f11a973839673df4cc2f1541cd03cfe92a18fbf3412ce7ea187b2495";
-            this.HashOverAllExtentViews = "8443fedfa00822b71716031ba0a644736b87e0a198719cf2dafdb6e873bcb877";
+            this.HashOverMappingClosure = "f9a8118b9c4bd22171fdc892665ad49d4abe839dedd38e4d287bf4be6644cc33";
+            this.HashOverAllExtentViews = "4936c2b33264500e08543acb88bf136843ba75c9ab71a48bba73b3d167eab0bd";
             this.ViewCount = 36;
         }
         
@@ -1329,13 +1329,13 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("Item_PerQtyQty, \r\n            T.ItemDescription AS StockItem_ItemDescription, \r\n");
             viewString.Append("            T.LockedBy AS StockItem_LockedBy, \r\n            T.ReorderQty AS Stoc");
             viewString.Append("kItem_ReorderQty, \r\n            T.LastOrderQty AS StockItem_LastOrderQty, \r\n    ");
-            viewString.Append("        T.LastOrderDate AS StockItem_LastOrderDate, \r\n            T.InStock AS S");
-            viewString.Append("tockItem_inStock, \r\n            T.OnOrder AS StockItem_onOrder, \r\n            T.");
-            viewString.Append("Allocated AS StockItem_Allocated, \r\n            T.TaxId AS StockItem_TaxID, \r\n  ");
-            viewString.Append("          T.UnitRate AS StockItem_unitRate, \r\n            T.ItemCoated AS StockI");
+            viewString.Append("        T.LastOrderDate AS StockItem_LastOrderDate, \r\n            T.inStock AS S");
+            viewString.Append("tockItem_inStock, \r\n            T.onOrder AS StockItem_onOrder, \r\n            T.");
+            viewString.Append("Allocated AS StockItem_Allocated, \r\n            T.TaxID AS StockItem_TaxID, \r\n  ");
+            viewString.Append("          T.unitRate AS StockItem_unitRate, \r\n            T.ItemCoated AS StockI");
             viewString.Append("tem_ItemCoated, \r\n            T.ItemSizeSelectedUnit AS StockItem_ItemSizeSelect");
             viewString.Append("edUnit, \r\n            T.ItemWeightSelectedUnit AS StockItem_ItemWeightSelectedUn");
-            viewString.Append("it, \r\n            T.FlagId AS StockItem_FlagID, \r\n            T.InkAbsorption AS");
+            viewString.Append("it, \r\n            T.FlagID AS StockItem_FlagID, \r\n            T.InkAbsorption AS");
             viewString.Append(" StockItem_InkAbsorption, \r\n            T.WashupCounter AS StockItem_WashupCount");
             viewString.Append("er, \r\n            T.InkYield AS StockItem_InkYield, \r\n            T.PaperBasicAr");
             viewString.Append("eaId AS StockItem_PaperBasicAreaId, \r\n            T.PaperType AS StockItem_Paper");
@@ -1345,7 +1345,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("mentId AS StockItem_DepartmentId, \r\n            T.InkYieldStandards AS StockItem");
             viewString.Append("_InkYieldStandards, \r\n            T.PerQtyPrice AS StockItem_PerQtyPrice, \r\n    ");
             viewString.Append("        T.PackPrice AS StockItem_PackPrice, \r\n            T.Region AS StockItem_");
-            viewString.Append("Region, \r\n            T.IsDisabled AS StockItem_isDisabled, \r\n            T.InkS");
+            viewString.Append("Region, \r\n            T.isDisabled AS StockItem_isDisabled, \r\n            T.InkS");
             viewString.Append("tandards AS StockItem_InkStandards, \r\n            T.BarCode AS StockItem_BarCode");
             viewString.Append(", \r\n            T.Image AS StockItem_Image, \r\n            T.XeroAccessCode AS St");
             viewString.Append("ockItem_XeroAccessCode, \r\n            T.OrganisationId AS StockItem_Organisation");
@@ -1447,14 +1447,14 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("Charge, T1.StockItem_ItemType, T1.StockItem_StockCreated, T1.StockItem_PerQtyRat");
             viewString.Append("e, T1.StockItem_PerQtyQty, T1.StockItem_ItemDescription, T1.StockItem_LockedBy, ");
             viewString.Append("T1.StockItem_ReorderQty, T1.StockItem_LastOrderQty, T1.StockItem_LastOrderDate, ");
-            viewString.Append("T1.StockItem_InStock, T1.StockItem_OnOrder, T1.StockItem_Allocated, T1.StockItem");
-            viewString.Append("_TaxId, T1.StockItem_UnitRate, T1.StockItem_ItemCoated, T1.StockItem_ItemSizeSel");
-            viewString.Append("ectedUnit, T1.StockItem_ItemWeightSelectedUnit, T1.StockItem_FlagId, T1.StockIte");
+            viewString.Append("T1.StockItem_inStock, T1.StockItem_onOrder, T1.StockItem_Allocated, T1.StockItem");
+            viewString.Append("_TaxID, T1.StockItem_unitRate, T1.StockItem_ItemCoated, T1.StockItem_ItemSizeSel");
+            viewString.Append("ectedUnit, T1.StockItem_ItemWeightSelectedUnit, T1.StockItem_FlagID, T1.StockIte");
             viewString.Append("m_InkAbsorption, T1.StockItem_WashupCounter, T1.StockItem_InkYield, T1.StockItem");
             viewString.Append("_PaperBasicAreaId, T1.StockItem_PaperType, T1.StockItem_PerQtyType, T1.StockItem");
             viewString.Append("_RollWidth, T1.StockItem_RollLength, T1.StockItem_RollStandards, T1.StockItem_De");
             viewString.Append("partmentId, T1.StockItem_InkYieldStandards, T1.StockItem_PerQtyPrice, T1.StockIt");
-            viewString.Append("em_PackPrice, T1.StockItem_Region, T1.StockItem_IsDisabled, T1.StockItem_InkStan");
+            viewString.Append("em_PackPrice, T1.StockItem_Region, T1.StockItem_isDisabled, T1.StockItem_InkStan");
             viewString.Append("dards, T1.StockItem_BarCode, T1.StockItem_Image, T1.StockItem_XeroAccessCode, T1");
             viewString.Append(".StockItem_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.StockItem");
             viewString.Append("Id AS StockItem_StockItemId, \r\n            T.ItemCode AS StockItem_ItemCode, \r\n ");
@@ -1482,12 +1482,12 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("       T.LockedBy AS StockItem_LockedBy, \r\n            T.ReorderQty AS StockItem");
             viewString.Append("_ReorderQty, \r\n            T.LastOrderQty AS StockItem_LastOrderQty, \r\n         ");
             viewString.Append("   T.LastOrderDate AS StockItem_LastOrderDate, \r\n            T.inStock AS StockI");
-            viewString.Append("tem_InStock, \r\n            T.onOrder AS StockItem_OnOrder, \r\n            T.Alloc");
-            viewString.Append("ated AS StockItem_Allocated, \r\n            T.TaxID AS StockItem_TaxId, \r\n       ");
-            viewString.Append("     T.unitRate AS StockItem_UnitRate, \r\n            T.ItemCoated AS StockItem_I");
+            viewString.Append("tem_inStock, \r\n            T.onOrder AS StockItem_onOrder, \r\n            T.Alloc");
+            viewString.Append("ated AS StockItem_Allocated, \r\n            T.TaxID AS StockItem_TaxID, \r\n       ");
+            viewString.Append("     T.unitRate AS StockItem_unitRate, \r\n            T.ItemCoated AS StockItem_I");
             viewString.Append("temCoated, \r\n            T.ItemSizeSelectedUnit AS StockItem_ItemSizeSelectedUni");
             viewString.Append("t, \r\n            T.ItemWeightSelectedUnit AS StockItem_ItemWeightSelectedUnit, \r");
-            viewString.Append("\n            T.FlagID AS StockItem_FlagId, \r\n            T.InkAbsorption AS Stoc");
+            viewString.Append("\n            T.FlagID AS StockItem_FlagID, \r\n            T.InkAbsorption AS Stoc");
             viewString.Append("kItem_InkAbsorption, \r\n            T.WashupCounter AS StockItem_WashupCounter, \r");
             viewString.Append("\n            T.InkYield AS StockItem_InkYield, \r\n            T.PaperBasicAreaId ");
             viewString.Append("AS StockItem_PaperBasicAreaId, \r\n            T.PaperType AS StockItem_PaperType,");
@@ -1497,7 +1497,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("d AS StockItem_DepartmentId, \r\n            T.InkYieldStandards AS StockItem_InkY");
             viewString.Append("ieldStandards, \r\n            T.PerQtyPrice AS StockItem_PerQtyPrice, \r\n         ");
             viewString.Append("   T.PackPrice AS StockItem_PackPrice, \r\n            T.Region AS StockItem_Regio");
-            viewString.Append("n, \r\n            T.isDisabled AS StockItem_IsDisabled, \r\n            T.InkStanda");
+            viewString.Append("n, \r\n            T.isDisabled AS StockItem_isDisabled, \r\n            T.InkStanda");
             viewString.Append("rds AS StockItem_InkStandards, \r\n            T.BarCode AS StockItem_BarCode, \r\n ");
             viewString.Append("           T.Image AS StockItem_Image, \r\n            T.XeroAccessCode AS StockIt");
             viewString.Append("em_XeroAccessCode, \r\n            T.OrganisationId AS StockItem_OrganisationId, \r");

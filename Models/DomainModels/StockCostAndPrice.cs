@@ -21,12 +21,12 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Cost Price
         /// </summary>
-        public float CostPrice { get; set; }
+        public double CostPrice { get; set; }
 
         /// <summary>
         /// Pack Cost Price
         /// </summary>
-        public float PackCostPrice { get; set; }
+        public double PackCostPrice { get; set; }
 
         /// <summary>
         /// From Date
@@ -46,7 +46,7 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Processing Charge
         /// </summary>
-        public float ProcessingCharge { get; set; }
+        public double ProcessingCharge { get; set; }
         #endregion
 
         #region Reference Properties

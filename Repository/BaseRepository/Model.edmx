@@ -775,7 +775,7 @@
             <End Role="StockSubCategory" EntitySet="StockSubCategories" />
             <End Role="StockItem" EntitySet="StockItems" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="CompanyId" />
@@ -1357,15 +1357,15 @@
           <Property Name="ReorderQty" Type="Int32" />
           <Property Name="LastOrderQty" Type="Int32" />
           <Property Name="LastOrderDate" Type="DateTime" Precision="3" />
-          <Property Name="InStock" Type="Double" />
-          <Property Name="OnOrder" Type="Double" />
+          <Property Name="inStock" Type="Double" />
+          <Property Name="onOrder" Type="Double" />
           <Property Name="Allocated" Type="Double" />
-          <Property Name="TaxId" Type="Int32" />
-          <Property Name="UnitRate" Type="Double" />
+          <Property Name="TaxID" Type="Int32" />
+          <Property Name="unitRate" Type="Double" />
           <Property Name="ItemCoated" Type="Boolean" />
           <Property Name="ItemSizeSelectedUnit" Type="Int32" />
           <Property Name="ItemWeightSelectedUnit" Type="Int32" />
-          <Property Name="FlagId" Type="Int32" />
+          <Property Name="FlagID" Type="Int32" />
           <Property Name="InkAbsorption" Type="Double" />
           <Property Name="WashupCounter" Type="Int32" />
           <Property Name="InkYield" Type="Double" />
@@ -1380,7 +1380,7 @@
           <Property Name="PerQtyPrice" Type="Double" />
           <Property Name="PackPrice" Type="Double" />
           <Property Name="Region" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="IsDisabled" Type="Boolean" />
+          <Property Name="isDisabled" Type="Boolean" />
           <Property Name="InkStandards" Type="Int32" />
           <Property Name="BarCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -1426,7 +1426,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1857,7 +1856,7 @@
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="BarCode" ColumnName="BarCode" />
                 <ScalarProperty Name="InkStandards" ColumnName="InkStandards" />
-                <ScalarProperty Name="IsDisabled" ColumnName="isDisabled" />
+                <ScalarProperty Name="isDisabled" ColumnName="isDisabled" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="PackPrice" ColumnName="PackPrice" />
                 <ScalarProperty Name="PerQtyPrice" ColumnName="PerQtyPrice" />
@@ -1872,15 +1871,15 @@
                 <ScalarProperty Name="InkYield" ColumnName="InkYield" />
                 <ScalarProperty Name="WashupCounter" ColumnName="WashupCounter" />
                 <ScalarProperty Name="InkAbsorption" ColumnName="InkAbsorption" />
-                <ScalarProperty Name="FlagId" ColumnName="FlagID" />
+                <ScalarProperty Name="FlagID" ColumnName="FlagID" />
                 <ScalarProperty Name="ItemWeightSelectedUnit" ColumnName="ItemWeightSelectedUnit" />
                 <ScalarProperty Name="ItemSizeSelectedUnit" ColumnName="ItemSizeSelectedUnit" />
                 <ScalarProperty Name="ItemCoated" ColumnName="ItemCoated" />
-                <ScalarProperty Name="UnitRate" ColumnName="unitRate" />
-                <ScalarProperty Name="TaxId" ColumnName="TaxID" />
+                <ScalarProperty Name="unitRate" ColumnName="unitRate" />
+                <ScalarProperty Name="TaxID" ColumnName="TaxID" />
                 <ScalarProperty Name="Allocated" ColumnName="Allocated" />
-                <ScalarProperty Name="OnOrder" ColumnName="onOrder" />
-                <ScalarProperty Name="InStock" ColumnName="inStock" />
+                <ScalarProperty Name="onOrder" ColumnName="onOrder" />
+                <ScalarProperty Name="inStock" ColumnName="inStock" />
                 <ScalarProperty Name="LastOrderDate" ColumnName="LastOrderDate" />
                 <ScalarProperty Name="LastOrderQty" ColumnName="LastOrderQty" />
                 <ScalarProperty Name="ReorderQty" ColumnName="ReorderQty" />

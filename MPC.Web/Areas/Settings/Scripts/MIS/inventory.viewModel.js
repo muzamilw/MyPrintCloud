@@ -12,9 +12,7 @@ define("inventory/inventory.viewModel",
                     view,
                     //Active Inventory
                     selectedInventory = ko.observable(),
-                    //Paper Sheets
-                    inventories = ko.observableArray([]),
-                    //Is Loading Paper Sheet
+                      //Is Loading Paper Sheet
                     isLoadingInventory = ko.observable(false),
                     //is Inventory Editor Visible
                     isInventoryEditorVisible = ko.observable(false),
@@ -26,7 +24,23 @@ define("inventory/inventory.viewModel",
                     pager = ko.observable(),
                     //Search Filter
                     searchFilter = ko.observable(),
-                       // Delete a Inventory
+                    //Category Filter
+                    categoryFilter = ko.observable(),
+                    //Sub category filter
+                    subCategoryFilter = ko.observable(),
+                    // #region Arrays
+                    //Paper Sheets
+                    inventories = ko.observableArray([]),
+                    //Stock Categories
+                    categories = ko.observableArray([]),
+                    //Sub Categories
+                    subCategories = ko.observableArray([]),
+                    //Filtered Sub Categories
+                    filteredSubCategories = ko.observableArray([]),
+                    // #endregion Arrays
+
+                    // #region Utility Functions
+                      // Delete a Inventory
                     onDeleteInventory = function (inventory) {
                         //if (!inventory.id()) {
                         //    inventories.remove(inventory);
@@ -39,13 +53,51 @@ define("inventory/inventory.viewModel",
                         confirmation.show();
                     },
                     //Get Inventories
-                  getInventories = function () {
-
-                  },
-                  //Get Inventories
-                  createInventory = function () {
-                      showInventoryEditor();
-                  },
+                    getInventories = function () {
+                        isLoadingInventory(true);
+                        dataservice.getInventories({
+                            SearchString: searchFilter(),
+                            CategoryId: categoryFilter(),
+                            SubCategoryId: subCategoryFilter(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                pager().totalCount(data.TotalCount);
+                                inventories.removeAll();
+                                //maptariffTypes(data);
+                                isLoadingInventory(false);
+                            },
+                            error: function () {
+                                isLoadingInventory(false);
+                                toastr.error("Failed to load inventories.");
+                            }
+                        });
+                    },
+                    // Get Base
+                    getBase = function () {
+                        dataservice.getInventoryBase({
+                            success: function (data) {
+                                //Categories
+                                categories.removeAll();
+                                ko.utils.arrayPushAll(categories(), data.StockCategories);
+                                categories.valueHasMutated();
+                                //Stock Sub Categories
+                                subCategories.removeAll();
+                                ko.utils.arrayPushAll(subCategories(), data.StockSubCategories);
+                                subCategories.valueHasMutated();
+                            },
+                            error: function () {
+                                toastr.error("Failed to base data.");
+                            }
+                        });
+                    },
+                   //Get Inventories
+                   createInventory = function () {
+                       showInventoryEditor();
+                   },
                    // close Inventory Editor
                     closeInventoryEditor = function () {
                         isInventoryEditorVisible(false);
@@ -54,23 +106,29 @@ define("inventory/inventory.viewModel",
                     showInventoryEditor = function () {
                         isInventoryEditorVisible(true);
                     },
-                //Initialize
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    //pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
-                    //getInventories();
-                };
+                  //Initialize
+                   initialize = function (specifiedView) {
+                       view = specifiedView;
+                       ko.applyBindings(view.viewModel, view.bindingRoot);
+                       getBase();
+                       pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
+                       //getInventories();
+                   };
+                // #endregion Arrays
 
                 return {
                     searchFilter: searchFilter,
                     isInventoryEditorVisible: isInventoryEditorVisible,
-                    inventories: inventories,
                     selectedInventory: selectedInventory,
                     isLoadingInventory: isLoadingInventory,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     pager: pager,
+                    //Arrays
+                    inventories: inventories,
+                    filteredSubCategories: filteredSubCategories,
+                    categories: categories,
+                    subCategories: subCategories,
                     initialize: initialize,
                     getInventories: getInventories,
                     onDeleteInventory: onDeleteInventory,

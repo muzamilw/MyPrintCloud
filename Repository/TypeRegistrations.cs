@@ -28,6 +28,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICmsSkinPageWidgetRepository, CmsSkinPageWidgetRepository>();
             unityContainer.RegisterType<ICompanyBannerRepository, CompanyBannerRepository>();
             unityContainer.RegisterType<IProductCategoryRepository, ProductCategoryRepository>();
+            unityContainer.RegisterType<IStockItemRepository, StockItemRepository>();
+            unityContainer.RegisterType<IStockCostAndPriceRepository, StockCostAndPriceRepository>();
         }
     }
 }
