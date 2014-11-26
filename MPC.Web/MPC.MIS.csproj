@@ -273,6 +273,8 @@
     <Compile Include="ModelMappers\MyOrganizationMapper.cs" />
     <Compile Include="ModelMappers\PaperSheetMapper.cs" />
     <Compile Include="ModelMappers\StockItemMapper.cs" />
+    <Compile Include="ModelMappers\StockCategoryMapper.cs" />
+    <Compile Include="ModelMappers\StockSubCategoryMapper.cs" />
     <Compile Include="ModelMappers\TaxRateMapper.cs" />
     <Compile Include="Models\ChartOfAccount.cs" />
     <Compile Include="Models\Organisation.cs" />
@@ -289,6 +291,7 @@
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
+    <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
@@ -298,11 +301,10 @@
     <Content Include="Areas\Common\Scripts\confirmation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.dataservice.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.model.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.view.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategories.viewModel.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\inventorySubCategories.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.model.js" />

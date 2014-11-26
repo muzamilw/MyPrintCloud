@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsA0D7919FEA3D562B3496528C2BD0E9018E5BD7C9F721C0096F0D9D3DD5D422C3))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsA0D7919FEA3D562B3496528C2BD0E9018E5BD7C9F721C0096F0D9D3DD5D422C3 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets9E6A3BFB6D558BAFCBE25B16B9488EE411C1252261145550AD8EA331C510DAA8()
+        public ViewsForBaseEntitySetsA0D7919FEA3D562B3496528C2BD0E9018E5BD7C9F721C0096F0D9D3DD5D422C3()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "e54d3a4d063c6e3ff2bc4334c981473a968ffd5d6eb335131922b8c6ec315451";
-            this.HashOverAllExtentViews = "49b120cfe8d64e72c53ac0be9d0a24f974c06f7b3c0c860fe26e32760572e99c";
-            this.ViewCount = 32;
+            this.HashOverMappingClosure = "4eb8f403f11a973839673df4cc2f1541cd03cfe92a18fbf3412ce7ea187b2495";
+            this.HashOverAllExtentViews = "8443fedfa00822b71716031ba0a644736b87e0a198719cf2dafdb6e873bcb877";
+            this.ViewCount = 36;
         }
         
         /// <Summary>
@@ -164,6 +164,22 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 31))
             {
                 return GetView31();
+            }
+            if ((index == 32))
+            {
+                return GetView32();
+            }
+            if ((index == 33))
+            {
+                return GetView33();
+            }
+            if ((index == 34))
+            {
+                return GetView34();
+            }
+            if ((index == 35))
+            {
+                return GetView35();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -1202,13 +1218,13 @@ namespace Edm_EntityMappingGeneratedViews
                     "\n    FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_Category" +
                     "Id, \r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCat" +
                     "egory_Name, \r\n            T.Description AS StockCategory_Description, \r\n        " +
-                    "    T.fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_" +
+                    "    T.Fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_" +
                     "ItemWeight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n          " +
                     "  T.ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSiz" +
                     "e AS StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategor" +
                     "y_ItemCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n    " +
                     "        T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge" +
-                    " AS StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_recLock, " +
+                    " AS StockCategory_ItemCharge, \r\n            T.RecLock AS StockCategory_recLock, " +
                     "\r\n            T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCate" +
                     "gory_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 " +
                     "AS StockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n        " +
@@ -1217,39 +1233,9 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.StockCategories
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView29()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCategories", "\r\n    SELECT VALUE -- Constructing StockCategories\r\n        [DomainModels.StockCa" +
-                    "tegory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory_Nam" +
-                    "e, T1.StockCategory_Description, T1.StockCategory_fixed, T1.StockCategory_ItemWe" +
-                    "ight, T1.StockCategory_ItemColour, T1.StockCategory_ItemSizeCustom, T1.StockCate" +
-                    "gory_ItemPaperSize, T1.StockCategory_ItemCoatedType, T1.StockCategory_ItemCoated" +
-                    ", T1.StockCategory_ItemExposure, T1.StockCategory_ItemCharge, T1.StockCategory_r" +
-                    "ecLock, T1.StockCategory_TaxId, T1.StockCategory_Flag1, T1.StockCategory_Flag2, " +
-                    "T1.StockCategory_Flag3, T1.StockCategory_Flag4, T1.StockCategory_CompanyId)\r\n   " +
-                    " FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_CategoryId, " +
-                    "\r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCategor" +
-                    "y_Name, \r\n            T.Description AS StockCategory_Description, \r\n            " +
-                    "T.fixed AS StockCategory_fixed, \r\n            T.ItemWeight AS StockCategory_Item" +
-                    "Weight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n            T." +
-                    "ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSize AS" +
-                    " StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategory_It" +
-                    "emCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n        " +
-                    "    T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge AS " +
-                    "StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_recLock, \r\n  " +
-                    "          T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCategory" +
-                    "_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 AS S" +
-                    "tockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n            " +
-                    "T.CompanyId AS StockCategory_CompanyId, \r\n            True AS _from0\r\n        FR" +
-                    "OM DomainModelsStoreContainer.StockCategory AS T\r\n    ) AS T1");
-        }
-        
-        /// <Summary>
         /// return view for DomainModelsStoreContainer.StockSubCategory
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView30()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView29()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockSubCategory", @"
     SELECT VALUE -- Constructing StockSubCategory
@@ -1268,9 +1254,140 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.StockSubCategories
+        /// return view for DomainModelsStoreContainer.StockCostAndPrice
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView30()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockCostAndPrice", @"
+    SELECT VALUE -- Constructing StockCostAndPrice
+        [DomainModels.Store.StockCostAndPrice](T1.StockCostAndPrice_CostPriceId, T1.StockCostAndPrice_ItemId, T1.StockCostAndPrice_CostPrice, T1.StockCostAndPrice_PackCostPrice, T1.StockCostAndPrice_FromDate, T1.StockCostAndPrice_ToDate, T1.StockCostAndPrice_CostOrPriceIdentifier, T1.StockCostAndPrice_ProcessingCharge)
+    FROM (
+        SELECT 
+            T.CostPriceId AS StockCostAndPrice_CostPriceId, 
+            T.ItemId AS StockCostAndPrice_ItemId, 
+            T.CostPrice AS StockCostAndPrice_CostPrice, 
+            T.PackCostPrice AS StockCostAndPrice_PackCostPrice, 
+            T.FromDate AS StockCostAndPrice_FromDate, 
+            T.ToDate AS StockCostAndPrice_ToDate, 
+            T.CostOrPriceIdentifier AS StockCostAndPrice_CostOrPriceIdentifier, 
+            T.ProcessingCharge AS StockCostAndPrice_ProcessingCharge, 
+            True AS _from0
+        FROM BaseDbContext.StockCostAndPrices AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.StockItem
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView31()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5449);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing StockItem\r\n        [DomainModels.Store.StockI");
+            viewString.Append("tem](T1.StockItem_StockItemId, T1.StockItem_ItemCode, T1.StockItem_ItemName, T1.");
+            viewString.Append("StockItem_AlternateName, T1.StockItem_ItemWeight, T1.StockItem_ItemColour, T1.St");
+            viewString.Append("ockItem_ItemSizeCustom, T1.StockItem_ItemSizeId, T1.StockItem_ItemSizeHeight, T1");
+            viewString.Append(".StockItem_ItemSizeWidth, T1.StockItem_ItemSizeDim, T1.StockItem_ItemUnitSize, T");
+            viewString.Append("1.StockItem_SupplierId, T1.StockItem_CostPrice, T1.StockItem_CategoryId, T1.Stoc");
+            viewString.Append("kItem_SubCategoryId, T1.StockItem_LastModifiedDateTime, T1.StockItem_LastModifie");
+            viewString.Append("dBy, T1.StockItem_StockLevel, T1.StockItem_PackageQty, T1.StockItem_Status, T1.S");
+            viewString.Append("tockItem_ReOrderLevel, T1.StockItem_StockLocation, T1.StockItem_ItemCoatedType, ");
+            viewString.Append("T1.StockItem_ItemExposure, T1.StockItem_ItemExposureTime, T1.StockItem_ItemProce");
+            viewString.Append("ssingCharge, T1.StockItem_ItemType, T1.StockItem_StockCreated, T1.StockItem_PerQ");
+            viewString.Append("tyRate, T1.StockItem_PerQtyQty, T1.StockItem_ItemDescription, T1.StockItem_Locke");
+            viewString.Append("dBy, T1.StockItem_ReorderQty, T1.StockItem_LastOrderQty, T1.StockItem_LastOrderD");
+            viewString.Append("ate, T1.StockItem_inStock, T1.StockItem_onOrder, T1.StockItem_Allocated, T1.Stoc");
+            viewString.Append("kItem_TaxID, T1.StockItem_unitRate, T1.StockItem_ItemCoated, T1.StockItem_ItemSi");
+            viewString.Append("zeSelectedUnit, T1.StockItem_ItemWeightSelectedUnit, T1.StockItem_FlagID, T1.Sto");
+            viewString.Append("ckItem_InkAbsorption, T1.StockItem_WashupCounter, T1.StockItem_InkYield, T1.Stoc");
+            viewString.Append("kItem_PaperBasicAreaId, T1.StockItem_PaperType, T1.StockItem_PerQtyType, T1.Stoc");
+            viewString.Append("kItem_RollWidth, T1.StockItem_RollLength, T1.StockItem_RollStandards, T1.StockIt");
+            viewString.Append("em_DepartmentId, T1.StockItem_InkYieldStandards, T1.StockItem_PerQtyPrice, T1.St");
+            viewString.Append("ockItem_PackPrice, T1.StockItem_Region, T1.StockItem_isDisabled, T1.StockItem_In");
+            viewString.Append("kStandards, T1.StockItem_BarCode, T1.StockItem_Image, T1.StockItem_XeroAccessCod");
+            viewString.Append("e, T1.StockItem_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.Stoc");
+            viewString.Append("kItemId AS StockItem_StockItemId, \r\n            T.ItemCode AS StockItem_ItemCode");
+            viewString.Append(", \r\n            T.ItemName AS StockItem_ItemName, \r\n            T.AlternateName ");
+            viewString.Append("AS StockItem_AlternateName, \r\n            T.ItemWeight AS StockItem_ItemWeight, ");
+            viewString.Append("\r\n            T.ItemColour AS StockItem_ItemColour, \r\n            T.ItemSizeCust");
+            viewString.Append("om AS StockItem_ItemSizeCustom, \r\n            T.ItemSizeId AS StockItem_ItemSize");
+            viewString.Append("Id, \r\n            T.ItemSizeHeight AS StockItem_ItemSizeHeight, \r\n            T.");
+            viewString.Append("ItemSizeWidth AS StockItem_ItemSizeWidth, \r\n            T.ItemSizeDim AS StockIt");
+            viewString.Append("em_ItemSizeDim, \r\n            T.ItemUnitSize AS StockItem_ItemUnitSize, \r\n      ");
+            viewString.Append("      T.SupplierId AS StockItem_SupplierId, \r\n            T.CostPrice AS StockIt");
+            viewString.Append("em_CostPrice, \r\n            T.CategoryId AS StockItem_CategoryId, \r\n            ");
+            viewString.Append("T.SubCategoryId AS StockItem_SubCategoryId, \r\n            T.LastModifiedDateTime");
+            viewString.Append(" AS StockItem_LastModifiedDateTime, \r\n            T.LastModifiedBy AS StockItem_");
+            viewString.Append("LastModifiedBy, \r\n            T.StockLevel AS StockItem_StockLevel, \r\n          ");
+            viewString.Append("  T.PackageQty AS StockItem_PackageQty, \r\n            T.Status AS StockItem_Stat");
+            viewString.Append("us, \r\n            T.ReOrderLevel AS StockItem_ReOrderLevel, \r\n            T.Stoc");
+            viewString.Append("kLocation AS StockItem_StockLocation, \r\n            T.ItemCoatedType AS StockIte");
+            viewString.Append("m_ItemCoatedType, \r\n            T.ItemExposure AS StockItem_ItemExposure, \r\n    ");
+            viewString.Append("        T.ItemExposureTime AS StockItem_ItemExposureTime, \r\n            T.ItemPr");
+            viewString.Append("ocessingCharge AS StockItem_ItemProcessingCharge, \r\n            T.ItemType AS St");
+            viewString.Append("ockItem_ItemType, \r\n            T.StockCreated AS StockItem_StockCreated, \r\n    ");
+            viewString.Append("        T.PerQtyRate AS StockItem_PerQtyRate, \r\n            T.PerQtyQty AS Stock");
+            viewString.Append("Item_PerQtyQty, \r\n            T.ItemDescription AS StockItem_ItemDescription, \r\n");
+            viewString.Append("            T.LockedBy AS StockItem_LockedBy, \r\n            T.ReorderQty AS Stoc");
+            viewString.Append("kItem_ReorderQty, \r\n            T.LastOrderQty AS StockItem_LastOrderQty, \r\n    ");
+            viewString.Append("        T.LastOrderDate AS StockItem_LastOrderDate, \r\n            T.InStock AS S");
+            viewString.Append("tockItem_inStock, \r\n            T.OnOrder AS StockItem_onOrder, \r\n            T.");
+            viewString.Append("Allocated AS StockItem_Allocated, \r\n            T.TaxId AS StockItem_TaxID, \r\n  ");
+            viewString.Append("          T.UnitRate AS StockItem_unitRate, \r\n            T.ItemCoated AS StockI");
+            viewString.Append("tem_ItemCoated, \r\n            T.ItemSizeSelectedUnit AS StockItem_ItemSizeSelect");
+            viewString.Append("edUnit, \r\n            T.ItemWeightSelectedUnit AS StockItem_ItemWeightSelectedUn");
+            viewString.Append("it, \r\n            T.FlagId AS StockItem_FlagID, \r\n            T.InkAbsorption AS");
+            viewString.Append(" StockItem_InkAbsorption, \r\n            T.WashupCounter AS StockItem_WashupCount");
+            viewString.Append("er, \r\n            T.InkYield AS StockItem_InkYield, \r\n            T.PaperBasicAr");
+            viewString.Append("eaId AS StockItem_PaperBasicAreaId, \r\n            T.PaperType AS StockItem_Paper");
+            viewString.Append("Type, \r\n            T.PerQtyType AS StockItem_PerQtyType, \r\n            T.RollWi");
+            viewString.Append("dth AS StockItem_RollWidth, \r\n            T.RollLength AS StockItem_RollLength, ");
+            viewString.Append("\r\n            T.RollStandards AS StockItem_RollStandards, \r\n            T.Depart");
+            viewString.Append("mentId AS StockItem_DepartmentId, \r\n            T.InkYieldStandards AS StockItem");
+            viewString.Append("_InkYieldStandards, \r\n            T.PerQtyPrice AS StockItem_PerQtyPrice, \r\n    ");
+            viewString.Append("        T.PackPrice AS StockItem_PackPrice, \r\n            T.Region AS StockItem_");
+            viewString.Append("Region, \r\n            T.IsDisabled AS StockItem_isDisabled, \r\n            T.InkS");
+            viewString.Append("tandards AS StockItem_InkStandards, \r\n            T.BarCode AS StockItem_BarCode");
+            viewString.Append(", \r\n            T.Image AS StockItem_Image, \r\n            T.XeroAccessCode AS St");
+            viewString.Append("ockItem_XeroAccessCode, \r\n            T.OrganisationId AS StockItem_Organisation");
+            viewString.Append("Id, \r\n            True AS _from0\r\n        FROM BaseDbContext.StockItems AS T\r\n  ");
+            viewString.Append("  ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.StockItem", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView32()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCategories", "\r\n    SELECT VALUE -- Constructing StockCategories\r\n        [DomainModels.StockCa" +
+                    "tegory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory_Nam" +
+                    "e, T1.StockCategory_Description, T1.StockCategory_Fixed, T1.StockCategory_ItemWe" +
+                    "ight, T1.StockCategory_ItemColour, T1.StockCategory_ItemSizeCustom, T1.StockCate" +
+                    "gory_ItemPaperSize, T1.StockCategory_ItemCoatedType, T1.StockCategory_ItemCoated" +
+                    ", T1.StockCategory_ItemExposure, T1.StockCategory_ItemCharge, T1.StockCategory_R" +
+                    "ecLock, T1.StockCategory_TaxId, T1.StockCategory_Flag1, T1.StockCategory_Flag2, " +
+                    "T1.StockCategory_Flag3, T1.StockCategory_Flag4, T1.StockCategory_CompanyId)\r\n   " +
+                    " FROM (\r\n        SELECT \r\n            T.CategoryId AS StockCategory_CategoryId, " +
+                    "\r\n            T.Code AS StockCategory_Code, \r\n            T.Name AS StockCategor" +
+                    "y_Name, \r\n            T.Description AS StockCategory_Description, \r\n            " +
+                    "T.fixed AS StockCategory_Fixed, \r\n            T.ItemWeight AS StockCategory_Item" +
+                    "Weight, \r\n            T.ItemColour AS StockCategory_ItemColour, \r\n            T." +
+                    "ItemSizeCustom AS StockCategory_ItemSizeCustom, \r\n            T.ItemPaperSize AS" +
+                    " StockCategory_ItemPaperSize, \r\n            T.ItemCoatedType AS StockCategory_It" +
+                    "emCoatedType, \r\n            T.ItemCoated AS StockCategory_ItemCoated, \r\n        " +
+                    "    T.ItemExposure AS StockCategory_ItemExposure, \r\n            T.ItemCharge AS " +
+                    "StockCategory_ItemCharge, \r\n            T.recLock AS StockCategory_RecLock, \r\n  " +
+                    "          T.TaxId AS StockCategory_TaxId, \r\n            T.Flag1 AS StockCategory" +
+                    "_Flag1, \r\n            T.Flag2 AS StockCategory_Flag2, \r\n            T.Flag3 AS S" +
+                    "tockCategory_Flag3, \r\n            T.Flag4 AS StockCategory_Flag4, \r\n            " +
+                    "T.CompanyId AS StockCategory_CompanyId, \r\n            True AS _from0\r\n        FR" +
+                    "OM DomainModelsStoreContainer.StockCategory AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockSubCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView33()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockSubCategories", @"
     SELECT VALUE -- Constructing StockSubCategories
@@ -1286,6 +1403,107 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM DomainModelsStoreContainer.StockSubCategory AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockCostAndPrices
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView34()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCostAndPrices", @"
+    SELECT VALUE -- Constructing StockCostAndPrices
+        [DomainModels.StockCostAndPrice](T1.StockCostAndPrice_CostPriceId, T1.StockCostAndPrice_ItemId, T1.StockCostAndPrice_CostPrice, T1.StockCostAndPrice_PackCostPrice, T1.StockCostAndPrice_FromDate, T1.StockCostAndPrice_ToDate, T1.StockCostAndPrice_CostOrPriceIdentifier, T1.StockCostAndPrice_ProcessingCharge)
+    FROM (
+        SELECT 
+            T.CostPriceId AS StockCostAndPrice_CostPriceId, 
+            T.ItemId AS StockCostAndPrice_ItemId, 
+            T.CostPrice AS StockCostAndPrice_CostPrice, 
+            T.PackCostPrice AS StockCostAndPrice_PackCostPrice, 
+            T.FromDate AS StockCostAndPrice_FromDate, 
+            T.ToDate AS StockCostAndPrice_ToDate, 
+            T.CostOrPriceIdentifier AS StockCostAndPrice_CostOrPriceIdentifier, 
+            T.ProcessingCharge AS StockCostAndPrice_ProcessingCharge, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.StockCostAndPrice AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.StockItems
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView35()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5456);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing StockItems\r\n        [DomainModels.StockItem](");
+            viewString.Append("T1.StockItem_StockItemId, T1.StockItem_ItemCode, T1.StockItem_ItemName, T1.Stock");
+            viewString.Append("Item_AlternateName, T1.StockItem_ItemWeight, T1.StockItem_ItemColour, T1.StockIt");
+            viewString.Append("em_ItemSizeCustom, T1.StockItem_ItemSizeId, T1.StockItem_ItemSizeHeight, T1.Stoc");
+            viewString.Append("kItem_ItemSizeWidth, T1.StockItem_ItemSizeDim, T1.StockItem_ItemUnitSize, T1.Sto");
+            viewString.Append("ckItem_SupplierId, T1.StockItem_CostPrice, T1.StockItem_CategoryId, T1.StockItem");
+            viewString.Append("_SubCategoryId, T1.StockItem_LastModifiedDateTime, T1.StockItem_LastModifiedBy, ");
+            viewString.Append("T1.StockItem_StockLevel, T1.StockItem_PackageQty, T1.StockItem_Status, T1.StockI");
+            viewString.Append("tem_ReOrderLevel, T1.StockItem_StockLocation, T1.StockItem_ItemCoatedType, T1.St");
+            viewString.Append("ockItem_ItemExposure, T1.StockItem_ItemExposureTime, T1.StockItem_ItemProcessing");
+            viewString.Append("Charge, T1.StockItem_ItemType, T1.StockItem_StockCreated, T1.StockItem_PerQtyRat");
+            viewString.Append("e, T1.StockItem_PerQtyQty, T1.StockItem_ItemDescription, T1.StockItem_LockedBy, ");
+            viewString.Append("T1.StockItem_ReorderQty, T1.StockItem_LastOrderQty, T1.StockItem_LastOrderDate, ");
+            viewString.Append("T1.StockItem_InStock, T1.StockItem_OnOrder, T1.StockItem_Allocated, T1.StockItem");
+            viewString.Append("_TaxId, T1.StockItem_UnitRate, T1.StockItem_ItemCoated, T1.StockItem_ItemSizeSel");
+            viewString.Append("ectedUnit, T1.StockItem_ItemWeightSelectedUnit, T1.StockItem_FlagId, T1.StockIte");
+            viewString.Append("m_InkAbsorption, T1.StockItem_WashupCounter, T1.StockItem_InkYield, T1.StockItem");
+            viewString.Append("_PaperBasicAreaId, T1.StockItem_PaperType, T1.StockItem_PerQtyType, T1.StockItem");
+            viewString.Append("_RollWidth, T1.StockItem_RollLength, T1.StockItem_RollStandards, T1.StockItem_De");
+            viewString.Append("partmentId, T1.StockItem_InkYieldStandards, T1.StockItem_PerQtyPrice, T1.StockIt");
+            viewString.Append("em_PackPrice, T1.StockItem_Region, T1.StockItem_IsDisabled, T1.StockItem_InkStan");
+            viewString.Append("dards, T1.StockItem_BarCode, T1.StockItem_Image, T1.StockItem_XeroAccessCode, T1");
+            viewString.Append(".StockItem_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.StockItem");
+            viewString.Append("Id AS StockItem_StockItemId, \r\n            T.ItemCode AS StockItem_ItemCode, \r\n ");
+            viewString.Append("           T.ItemName AS StockItem_ItemName, \r\n            T.AlternateName AS St");
+            viewString.Append("ockItem_AlternateName, \r\n            T.ItemWeight AS StockItem_ItemWeight, \r\n   ");
+            viewString.Append("         T.ItemColour AS StockItem_ItemColour, \r\n            T.ItemSizeCustom AS");
+            viewString.Append(" StockItem_ItemSizeCustom, \r\n            T.ItemSizeId AS StockItem_ItemSizeId, \r");
+            viewString.Append("\n            T.ItemSizeHeight AS StockItem_ItemSizeHeight, \r\n            T.ItemS");
+            viewString.Append("izeWidth AS StockItem_ItemSizeWidth, \r\n            T.ItemSizeDim AS StockItem_It");
+            viewString.Append("emSizeDim, \r\n            T.ItemUnitSize AS StockItem_ItemUnitSize, \r\n           ");
+            viewString.Append(" T.SupplierId AS StockItem_SupplierId, \r\n            T.CostPrice AS StockItem_Co");
+            viewString.Append("stPrice, \r\n            T.CategoryId AS StockItem_CategoryId, \r\n            T.Sub");
+            viewString.Append("CategoryId AS StockItem_SubCategoryId, \r\n            T.LastModifiedDateTime AS S");
+            viewString.Append("tockItem_LastModifiedDateTime, \r\n            T.LastModifiedBy AS StockItem_LastM");
+            viewString.Append("odifiedBy, \r\n            T.StockLevel AS StockItem_StockLevel, \r\n            T.P");
+            viewString.Append("ackageQty AS StockItem_PackageQty, \r\n            T.Status AS StockItem_Status, \r");
+            viewString.Append("\n            T.ReOrderLevel AS StockItem_ReOrderLevel, \r\n            T.StockLoca");
+            viewString.Append("tion AS StockItem_StockLocation, \r\n            T.ItemCoatedType AS StockItem_Ite");
+            viewString.Append("mCoatedType, \r\n            T.ItemExposure AS StockItem_ItemExposure, \r\n         ");
+            viewString.Append("   T.ItemExposureTime AS StockItem_ItemExposureTime, \r\n            T.ItemProcess");
+            viewString.Append("ingCharge AS StockItem_ItemProcessingCharge, \r\n            T.ItemType AS StockIt");
+            viewString.Append("em_ItemType, \r\n            T.StockCreated AS StockItem_StockCreated, \r\n         ");
+            viewString.Append("   T.PerQtyRate AS StockItem_PerQtyRate, \r\n            T.PerQtyQty AS StockItem_");
+            viewString.Append("PerQtyQty, \r\n            T.ItemDescription AS StockItem_ItemDescription, \r\n     ");
+            viewString.Append("       T.LockedBy AS StockItem_LockedBy, \r\n            T.ReorderQty AS StockItem");
+            viewString.Append("_ReorderQty, \r\n            T.LastOrderQty AS StockItem_LastOrderQty, \r\n         ");
+            viewString.Append("   T.LastOrderDate AS StockItem_LastOrderDate, \r\n            T.inStock AS StockI");
+            viewString.Append("tem_InStock, \r\n            T.onOrder AS StockItem_OnOrder, \r\n            T.Alloc");
+            viewString.Append("ated AS StockItem_Allocated, \r\n            T.TaxID AS StockItem_TaxId, \r\n       ");
+            viewString.Append("     T.unitRate AS StockItem_UnitRate, \r\n            T.ItemCoated AS StockItem_I");
+            viewString.Append("temCoated, \r\n            T.ItemSizeSelectedUnit AS StockItem_ItemSizeSelectedUni");
+            viewString.Append("t, \r\n            T.ItemWeightSelectedUnit AS StockItem_ItemWeightSelectedUnit, \r");
+            viewString.Append("\n            T.FlagID AS StockItem_FlagId, \r\n            T.InkAbsorption AS Stoc");
+            viewString.Append("kItem_InkAbsorption, \r\n            T.WashupCounter AS StockItem_WashupCounter, \r");
+            viewString.Append("\n            T.InkYield AS StockItem_InkYield, \r\n            T.PaperBasicAreaId ");
+            viewString.Append("AS StockItem_PaperBasicAreaId, \r\n            T.PaperType AS StockItem_PaperType,");
+            viewString.Append(" \r\n            T.PerQtyType AS StockItem_PerQtyType, \r\n            T.RollWidth A");
+            viewString.Append("S StockItem_RollWidth, \r\n            T.RollLength AS StockItem_RollLength, \r\n   ");
+            viewString.Append("         T.RollStandards AS StockItem_RollStandards, \r\n            T.DepartmentI");
+            viewString.Append("d AS StockItem_DepartmentId, \r\n            T.InkYieldStandards AS StockItem_InkY");
+            viewString.Append("ieldStandards, \r\n            T.PerQtyPrice AS StockItem_PerQtyPrice, \r\n         ");
+            viewString.Append("   T.PackPrice AS StockItem_PackPrice, \r\n            T.Region AS StockItem_Regio");
+            viewString.Append("n, \r\n            T.isDisabled AS StockItem_IsDisabled, \r\n            T.InkStanda");
+            viewString.Append("rds AS StockItem_InkStandards, \r\n            T.BarCode AS StockItem_BarCode, \r\n ");
+            viewString.Append("           T.Image AS StockItem_Image, \r\n            T.XeroAccessCode AS StockIt");
+            viewString.Append("em_XeroAccessCode, \r\n            T.OrganisationId AS StockItem_OrganisationId, \r");
+            viewString.Append("\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.StockItem A");
+            viewString.Append("S T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockItems", viewString.ToString());
         }
     }
 }
