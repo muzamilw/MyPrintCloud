@@ -12,6 +12,7 @@
             "common": ist.siteUrl + "/Areas/Common/Scripts",
             "myOrganization": ist.siteUrl + "/Areas/Settings/Scripts",
             "paperSheet": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "inventory": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
         }
     });
 
