@@ -29,6 +29,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICmsSkinPageWidgetService, CmsSkinPageWidgetService>();
             unityContainer.RegisterType<ICompanyBannerSetService, CompanyBannerSetService>();
             unityContainer.RegisterType<IClaimsSecurityService, ClaimsSecurityService>();
+            unityContainer.RegisterType<IInventoryService, InventoryService>();
+            unityContainer.RegisterType<IStockCategoryService, StockCategoryService>();
         }
     }
 }

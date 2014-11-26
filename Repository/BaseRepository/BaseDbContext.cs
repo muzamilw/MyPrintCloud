@@ -62,6 +62,16 @@ namespace MPC.Repository.BaseRepository
         /// Organisation Db Set
         /// </summary>
         public DbSet<Organisation> Organisations { get; set; }
+
+        /// <summary>
+        /// Stock Items Db Set
+        /// </summary>
+        public DbSet<StockItem> StockItems { get; set; }
+
+        /// <summary>
+        /// Stock Cost And Price Db Set
+        /// </summary>
+        public DbSet<StockCostAndPrice> StockCostAndPrices { get; set; }
         /// <summary>
         /// MarkUp Db Set
         /// </summary>
@@ -81,9 +91,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Page Sizes Db Set
         /// </summary>
-        public DbSet<PaperSize> PaperSizes{ get; set; }
-        public DbSet<StockCategory> StockCategories{ get; set; }
-        public DbSet<StockSubCategory> StockSubCategories{ get; set; }
+        public DbSet<PaperSize> PaperSizes { get; set; }
+        public DbSet<StockCategory> StockCategories { get; set; }
+        public DbSet<StockSubCategory> StockSubCategories { get; set; }
 
         public DbSet<CmsPage> CmsPage { get; set; }
 

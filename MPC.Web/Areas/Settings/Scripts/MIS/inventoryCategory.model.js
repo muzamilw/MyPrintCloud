@@ -1,4 +1,4 @@
-﻿define(["ko", "underscore", "underscore-ko", "inventorySubCategory/inventorySubCategory.model"], function (ko, stockSubCategoriesModel) {
+﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
         // ReSharper disable once InconsistentNaming
         InventoryCategory = function (specifiedCategoryId, specifiedCode, specifiedName, specifiedDescription, specifiedFixed, specifiedItemWeight,
@@ -28,14 +28,14 @@
                 flag4 = ko.observable(specifiedFlag4),
                 companyId = ko.observable(specifiedCompanyId),
                 //stockSubCategories = ko.observable(specifiedStockSubCategories),
-                stockSubCategories = ko.observableArray([]),
+                stockSubCategories = ko.observableArray(specifiedStockSubCategories),
                 // Errors
                 errors = ko.validation.group({
                     code: code,
                     name: name,
                 }),
                 // Is Valid 
-                isValid = ko.computed(function() {
+                isValid = ko.computed(function () {
                     return errors().length === 0 ? true : false;
                 }),
 
@@ -56,14 +56,14 @@
                     itemExposure: itemExposure,
                     itemCharge: itemCharge,
                     recLock: recLock,
-                    taxId: taxId ,
-                    flag1 : flag1 ,
-                    flag2 : flag2 ,
-                    flag3 : flag3 ,
-                    flag4 : flag4 ,
-                    companyId : companyId ,
+                    taxId: taxId,
+                    flag1: flag1,
+                    flag2: flag2,
+                    flag3: flag3,
+                    flag4: flag4,
+                    companyId: companyId,
                     stockSubCategories: stockSubCategories
-             }),
+                }),
              // Has Changes
              hasChanges = ko.computed(function () {
                  return dirtyFlag.isDirty();
@@ -112,12 +112,12 @@
                 itemExposure: itemExposure,
                 itemCharge: itemCharge,
                 recLock: recLock,
-                taxId: taxId ,
-                flag1 : flag1 ,
-                flag2 : flag2 ,
-                flag3 : flag3 ,
-                flag4 : flag4 ,
-                companyId : companyId ,
+                taxId: taxId,
+                flag1: flag1,
+                flag2: flag2,
+                flag3: flag3,
+                flag4: flag4,
+                companyId: companyId,
                 stockSubCategories: stockSubCategories,
                 isValid: isValid,
                 errors: errors,
@@ -130,29 +130,149 @@
         };
     //function to attain cancel button functionality 
     InventoryCategory.CreateFromClientModel = function (source) {
-        return new InventoryCategory(source.categoryId, source.code, source.name, source.description, source.fixed, source.itemWeight,
-                                     source.itemColour, source.itemSizeCustom, source.itemPaperSize, source.itemCoatedType, source.itemCoated,
-                                     source.itemExposure, source.itemCharge, source.recLock, source.taxId, source.flag1, source.flag2,
-                                     source.flag3, source.flag4, source.companyId, source.stockSubCategories);
+        return new InventoryCategory(
+            source.categoryId,
+            source.code,
+            source.name,
+            source.description,
+            source.fixed,
+            source.itemWeight,
+            source.itemColour,
+            source.itemSizeCustom,
+            source.itemPaperSize,
+            source.itemCoatedType,
+            source.itemCoated,
+            source.itemExposure,
+            source.itemCharge,
+            source.recLock,
+            source.taxId,
+            source.flag1,
+            source.flag2,
+            source.flag3,
+            source.flag4,
+            source.companyId,
+            source.stockSubCategories);
     };
     // server to client mapper
+    // ReSharper disable once InconsistentNaming
     var InventoryCategoryServertoClientMapper = function (source) {
         return InventoryCategory.Create(source);
     };
 
     // InventoryCategory Factory
     InventoryCategory.Create = function (source) {
-        var newInventoryCategory =  new InventoryCategory(source.CategoryId, source.Code, source.Name, source.Description, source.Fixed, source.ItemWeight, source.ItemColour,
-                                     source.ItemSizeCustom, source.ItemPaperSize, source.ItemCoatedType, source.ItemCoated,
-                                     source.ItemExposure, source.ItemCharge, source.RecLock, source.TaxId, source.Flag1, source.Flag2,
-                                     source.Flag3, source.Flag4, source.CompanyId);
-            _.each(source.StockSubCategories, function (item) {
-                newInventoryCategory.stockSubCategories.push(stockSubCategoriesModel.inventorySubCategoryServertoClientMapper(item));
-            });
+        var newInventoryCategory = new InventoryCategory(
+            source.CategoryId,
+            source.Code,
+            source.Name,
+            source.Description,
+            source.Fixed,
+            source.ItemWeight,
+            source.ItemColour,
+            source.ItemSizeCustom,
+            source.ItemPaperSize,
+            source.ItemCoatedType,
+            source.ItemCoated,
+            source.ItemExposure,
+            source.ItemCharge,
+            source.RecLock,
+            source.TaxId,
+            source.Flag1,
+            source.Flag2,
+            source.Flag3,
+            source.Flag4,
+            source.CompanyId
+            );
+        _.each(source.StockSubCategories, function (item) {
+            newInventoryCategory.stockSubCategories.push(inventorySubCategoryServertoClientMapper(item));
+        });
         return newInventoryCategory;
     };
+
+    // *** INVENTORY SUB CATEGORY***
+
+    // ReSharper disable once AssignToImplicitGlobalInFunctionScope
+    InventorySubCategory = function (specifiedSubCategoryId, specifiedCode, specifiedName, specifiedDescription, specifiedFixed, specifiedCategoryId) {
+        var
+            self,
+            subCategoryId = ko.observable(specifiedSubCategoryId),
+            code = ko.observable(specifiedCode).extend({ required: true }),
+            name = ko.observable(specifiedName).extend({ required: true }),
+            description = ko.observable(specifiedDescription),
+            fixed = ko.observable(specifiedFixed),
+            categoryId = ko.observable(specifiedCategoryId),
+         // Errors
+         errors = ko.validation.group({
+             code: code,
+             name: name
+         }),
+            // Is Valid 
+         isValid = ko.computed(function () {
+             return errors().length === 0 ? true : false;
+         }),
+
+         // True if the booking has been changed
+         // ReSharper disable InconsistentNaming
+         dirtyFlag = new ko.dirtyFlag({
+             subCategoryId: subCategoryId,
+             code: code,
+             name: name,
+             description: description,
+             fixed: fixed,
+             categoryId: categoryId
+         }),
+         // Has Changes
+         hasChanges = ko.computed(function () {
+             return dirtyFlag.isDirty();
+         }),
+         convertToServerData = function () {
+             return {
+                 SubCategoryId: subCategoryId(),
+                 Code: code(),
+                 Name: name(),
+                 Description: description(),
+                 Fixed: fixed(),
+                 CategoryId: categoryId()
+             }
+         },
+        // Reset
+         reset = function () {
+             dirtyFlag.reset();
+         };
+        self = {
+
+            subCategoryId: subCategoryId,
+            code: code,
+            name: name,
+            description: description,
+            fixed: fixed,
+            categoryId: categoryId,
+
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //function to attain cancel button functionality 
+    InventorySubCategory.CreateFromClientModel = function (source) {
+        return new InventorySubCategory(source.subCategoryId, source.code, source.name, source.description, source.fixed, source.categoryId);
+    };
+    // server to client mapper
+    var inventorySubCategoryServertoClientMapper = function (source) {
+        return InventorySubCategory.Create(source);
+    };
+    InventorySubCategory.Create = function (source) {
+        return new InventorySubCategory(source.SubCategoryId, source.Code, source.Name, source.Description, source.Fixed, source.CategoryId);
+    };
+
     return {
         InventoryCategory: InventoryCategory,
-        InventoryCategoryServertoClientMapper: InventoryCategoryServertoClientMapper
+        InventoryCategoryServertoClientMapper: InventoryCategoryServertoClientMapper,
+        InventorySubCategory: InventorySubCategory,
+        inventorySubCategoryServertoClientMapper: inventorySubCategoryServertoClientMapper
     };
 });

@@ -369,6 +369,89 @@
           <Property Name="Flag4" Type="smallint" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StockCostAndPrice">
+          <Key>
+            <PropertyRef Name="CostPriceId" />
+          </Key>
+          <Property Name="CostPriceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="CostPrice" Type="float" Nullable="false" />
+          <Property Name="PackCostPrice" Type="float" Nullable="false" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="CostOrPriceIdentifier" Type="smallint" Nullable="false" />
+          <Property Name="ProcessingCharge" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockItem">
+          <Key>
+            <PropertyRef Name="StockItemId" />
+          </Key>
+          <Property Name="StockItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemCode" Type="varchar" MaxLength="50" />
+          <Property Name="ItemName" Type="varchar" MaxLength="255" />
+          <Property Name="AlternateName" Type="varchar" MaxLength="255" />
+          <Property Name="ItemWeight" Type="int" />
+          <Property Name="ItemColour" Type="varchar" MaxLength="50" />
+          <Property Name="ItemSizeCustom" Type="smallint" />
+          <Property Name="ItemSizeId" Type="int" />
+          <Property Name="ItemSizeHeight" Type="float" />
+          <Property Name="ItemSizeWidth" Type="float" />
+          <Property Name="ItemSizeDim" Type="int" />
+          <Property Name="ItemUnitSize" Type="int" />
+          <Property Name="SupplierId" Type="int" />
+          <Property Name="CostPrice" Type="float" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="SubCategoryId" Type="int" />
+          <Property Name="LastModifiedDateTime" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="StockLevel" Type="int" />
+          <Property Name="PackageQty" Type="float" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ReOrderLevel" Type="float" />
+          <Property Name="StockLocation" Type="varchar" MaxLength="50" />
+          <Property Name="ItemCoatedType" Type="smallint" />
+          <Property Name="ItemExposure" Type="smallint" />
+          <Property Name="ItemExposureTime" Type="int" />
+          <Property Name="ItemProcessingCharge" Type="float" />
+          <Property Name="ItemType" Type="varchar" MaxLength="50" />
+          <Property Name="StockCreated" Type="datetime" />
+          <Property Name="PerQtyRate" Type="float" />
+          <Property Name="PerQtyQty" Type="float" />
+          <Property Name="ItemDescription" Type="varchar" MaxLength="255" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="ReorderQty" Type="int" />
+          <Property Name="LastOrderQty" Type="int" />
+          <Property Name="LastOrderDate" Type="datetime" />
+          <Property Name="inStock" Type="float" />
+          <Property Name="onOrder" Type="float" />
+          <Property Name="Allocated" Type="float" />
+          <Property Name="TaxID" Type="int" />
+          <Property Name="unitRate" Type="float" />
+          <Property Name="ItemCoated" Type="bit" />
+          <Property Name="ItemSizeSelectedUnit" Type="int" />
+          <Property Name="ItemWeightSelectedUnit" Type="int" />
+          <Property Name="FlagID" Type="int" />
+          <Property Name="InkAbsorption" Type="float" />
+          <Property Name="WashupCounter" Type="int" />
+          <Property Name="InkYield" Type="float" />
+          <Property Name="PaperBasicAreaId" Type="int" />
+          <Property Name="PaperType" Type="int" />
+          <Property Name="PerQtyType" Type="int" />
+          <Property Name="RollWidth" Type="float" />
+          <Property Name="RollLength" Type="float" />
+          <Property Name="RollStandards" Type="int" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="InkYieldStandards" Type="int" />
+          <Property Name="PerQtyPrice" Type="float" />
+          <Property Name="PackPrice" Type="float" />
+          <Property Name="Region" Type="varchar" MaxLength="10" />
+          <Property Name="isDisabled" Type="bit" />
+          <Property Name="InkStandards" Type="int" />
+          <Property Name="BarCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Image" Type="varchar" MaxLength="200" />
+          <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
             <PropertyRef Name="SubCategoryId" />
@@ -437,6 +520,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockCategory_StockSubCategory">
+          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1" />
+          <End Role="StockSubCategory" Type="Self.StockSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockSubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_cmsPageWidgets_tbl_cmsPages">
           <End Role="Organisation" Type="Self.Organisation" Multiplicity="0..1" />
           <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
@@ -485,6 +580,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_stock_cost_and_price_tbl_stockitems">
+          <End Role="StockItem" Type="Self.StockItem" Multiplicity="1" />
+          <End Role="StockCostAndPrice" Type="Self.StockCostAndPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItem">
+              <PropertyRef Name="StockItemId" />
+            </Principal>
+            <Dependent Role="StockCostAndPrice">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_stockitems_tbl_stockcategories">
+          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="0..1" />
+          <End Role="StockItem" Type="Self.StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_stockitems_tbl_stocksubcategories">
+          <End Role="StockSubCategory" Type="Self.StockSubCategory" Multiplicity="0..1" />
+          <End Role="StockItem" Type="Self.StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockSubCategory">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -512,6 +643,8 @@
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCategory" EntityType="Self.StockCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockCostAndPrice" EntityType="Self.StockCostAndPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockItem" EntityType="Self.StockItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockSubCategory" EntityType="Self.StockSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
@@ -530,6 +663,10 @@
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSet" />
           </AssociationSet>
+          <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
+            <End Role="StockCategory" EntitySet="StockCategory" />
+            <End Role="StockSubCategory" EntitySet="StockSubCategory" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_cmsPageWidgets_tbl_cmsPages" Association="Self.FK_tbl_cmsPageWidgets_tbl_cmsPages">
             <End Role="Organisation" EntitySet="Organisation" />
             <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
@@ -545,6 +682,18 @@
           <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="ProductCategory" EntitySet="ProductCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_stock_cost_and_price_tbl_stockitems" Association="Self.FK_tbl_stock_cost_and_price_tbl_stockitems">
+            <End Role="StockItem" EntitySet="StockItem" />
+            <End Role="StockCostAndPrice" EntitySet="StockCostAndPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_stockitems_tbl_stockcategories" Association="Self.FK_tbl_stockitems_tbl_stockcategories">
+            <End Role="StockCategory" EntitySet="StockCategory" />
+            <End Role="StockItem" EntitySet="StockItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_stockitems_tbl_stocksubcategories" Association="Self.FK_tbl_stockitems_tbl_stocksubcategories">
+            <End Role="StockSubCategory" EntitySet="StockSubCategory" />
+            <End Role="StockItem" EntitySet="StockItem" />
           </AssociationSet>
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="Self.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Company" />
@@ -607,6 +756,24 @@
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Companies" />
             <End Role="CmsPage" EntitySet="CmsPages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="DomainModels.FK_StockCategory_StockSubCategory">
+            <End Role="StockCategory" EntitySet="StockCategories" />
+            <End Role="StockSubCategory" EntitySet="StockSubCategories" />
+          </AssociationSet>
+          <EntitySet Name="StockCostAndPrices" EntityType="DomainModels.StockCostAndPrice" />
+          <EntitySet Name="StockItems" EntityType="DomainModels.StockItem" />
+          <AssociationSet Name="FK_tbl_stockitems_tbl_stockcategories" Association="DomainModels.FK_tbl_stockitems_tbl_stockcategories">
+            <End Role="StockCategory" EntitySet="StockCategories" />
+            <End Role="StockItem" EntitySet="StockItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_stock_cost_and_price_tbl_stockitems" Association="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems">
+            <End Role="StockItem" EntitySet="StockItems" />
+            <End Role="StockCostAndPrice" EntitySet="StockCostAndPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_stockitems_tbl_stocksubcategories" Association="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories">
+            <End Role="StockSubCategory" EntitySet="StockSubCategories" />
+            <End Role="StockItem" EntitySet="StockItems" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
@@ -1079,7 +1246,7 @@
           <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="fixed" Type="Int16" Nullable="false" />
+          <Property Name="Fixed" Type="Int16" Nullable="false" />
           <Property Name="ItemWeight" Type="Int16" Nullable="false" />
           <Property Name="ItemColour" Type="Int16" Nullable="false" />
           <Property Name="ItemSizeCustom" Type="Int16" Nullable="false" />
@@ -1088,13 +1255,15 @@
           <Property Name="ItemCoated" Type="Int16" />
           <Property Name="ItemExposure" Type="Int16" Nullable="false" />
           <Property Name="ItemCharge" Type="Int16" Nullable="false" />
-          <Property Name="recLock" Type="Int16" Nullable="false" />
+          <Property Name="RecLock" Type="Int16" Nullable="false" />
           <Property Name="TaxId" Type="Int32" />
           <Property Name="Flag1" Type="Int16" />
           <Property Name="Flag2" Type="Int16" />
           <Property Name="Flag3" Type="Int16" />
           <Property Name="Flag4" Type="Int16" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StockSubCategories" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockCategory" ToRole="StockSubCategory" />
+          <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_tbl_stockitems_tbl_stockcategories" FromRole="StockCategory" ToRole="StockItem" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -1106,6 +1275,8 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Fixed" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockSubCategory" ToRole="StockCategory" />
+          <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" FromRole="StockSubCategory" ToRole="StockItem" />
         </EntityType>
 
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
@@ -1117,6 +1288,141 @@
             </Principal>
             <Dependent Role="CmsPage">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockCategory_StockSubCategory">
+          <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="1" />
+          <End Type="DomainModels.StockSubCategory" Role="StockSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockSubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StockCostAndPrice">
+          <Key>
+            <PropertyRef Name="CostPriceId" />
+          </Key>
+          <Property Name="CostPriceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="CostPrice" Type="Double" Nullable="false" />
+          <Property Name="PackCostPrice" Type="Double" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="CostOrPriceIdentifier" Type="Int16" Nullable="false" />
+          <Property Name="ProcessingCharge" Type="Double" Nullable="false" />
+          <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" FromRole="StockCostAndPrice" ToRole="StockItem" />
+        </EntityType>
+        <EntityType Name="StockItem">
+          <Key>
+            <PropertyRef Name="StockItemId" />
+          </Key>
+          <Property Name="StockItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ItemName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AlternateName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ItemWeight" Type="Int32" />
+          <Property Name="ItemColour" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ItemSizeCustom" Type="Int16" />
+          <Property Name="ItemSizeId" Type="Int32" />
+          <Property Name="ItemSizeHeight" Type="Double" />
+          <Property Name="ItemSizeWidth" Type="Double" />
+          <Property Name="ItemSizeDim" Type="Int32" />
+          <Property Name="ItemUnitSize" Type="Int32" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="CostPrice" Type="Double" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="SubCategoryId" Type="Int32" />
+          <Property Name="LastModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <Property Name="StockLevel" Type="Int32" />
+          <Property Name="PackageQty" Type="Double" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ReOrderLevel" Type="Double" />
+          <Property Name="StockLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ItemCoatedType" Type="Int16" />
+          <Property Name="ItemExposure" Type="Int16" />
+          <Property Name="ItemExposureTime" Type="Int32" />
+          <Property Name="ItemProcessingCharge" Type="Double" />
+          <Property Name="ItemType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StockCreated" Type="DateTime" Precision="3" />
+          <Property Name="PerQtyRate" Type="Double" />
+          <Property Name="PerQtyQty" Type="Double" />
+          <Property Name="ItemDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="ReorderQty" Type="Int32" />
+          <Property Name="LastOrderQty" Type="Int32" />
+          <Property Name="LastOrderDate" Type="DateTime" Precision="3" />
+          <Property Name="InStock" Type="Double" />
+          <Property Name="OnOrder" Type="Double" />
+          <Property Name="Allocated" Type="Double" />
+          <Property Name="TaxId" Type="Int32" />
+          <Property Name="UnitRate" Type="Double" />
+          <Property Name="ItemCoated" Type="Boolean" />
+          <Property Name="ItemSizeSelectedUnit" Type="Int32" />
+          <Property Name="ItemWeightSelectedUnit" Type="Int32" />
+          <Property Name="FlagId" Type="Int32" />
+          <Property Name="InkAbsorption" Type="Double" />
+          <Property Name="WashupCounter" Type="Int32" />
+          <Property Name="InkYield" Type="Double" />
+          <Property Name="PaperBasicAreaId" Type="Int32" />
+          <Property Name="PaperType" Type="Int32" />
+          <Property Name="PerQtyType" Type="Int32" />
+          <Property Name="RollWidth" Type="Double" />
+          <Property Name="RollLength" Type="Double" />
+          <Property Name="RollStandards" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="InkYieldStandards" Type="Int32" />
+          <Property Name="PerQtyPrice" Type="Double" />
+          <Property Name="PackPrice" Type="Double" />
+          <Property Name="Region" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsDisabled" Type="Boolean" />
+          <Property Name="InkStandards" Type="Int32" />
+          <Property Name="BarCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_tbl_stockitems_tbl_stockcategories" FromRole="StockItem" ToRole="StockCategory" />
+          <NavigationProperty Name="StockCostAndPrices" Relationship="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" FromRole="StockItem" ToRole="StockCostAndPrice" />
+          <NavigationProperty Name="StockSubCategory" Relationship="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" FromRole="StockItem" ToRole="StockSubCategory" />
+        </EntityType>
+        <Association Name="FK_tbl_stockitems_tbl_stockcategories">
+          <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
+          <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_stock_cost_and_price_tbl_stockitems">
+          <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="1" />
+          <End Type="DomainModels.StockCostAndPrice" Role="StockCostAndPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItem">
+              <PropertyRef Name="StockItemId" />
+            </Principal>
+            <Dependent Role="StockCostAndPrice">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_stockitems_tbl_stocksubcategories">
+          <End Type="DomainModels.StockSubCategory" Role="StockSubCategory" Multiplicity="0..1" />
+          <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockSubCategory">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="SubCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1462,7 +1768,7 @@
                 <ScalarProperty Name="Flag2" ColumnName="Flag2" />
                 <ScalarProperty Name="Flag1" ColumnName="Flag1" />
                 <ScalarProperty Name="TaxId" ColumnName="TaxId" />
-                <ScalarProperty Name="recLock" ColumnName="recLock" />
+                <ScalarProperty Name="RecLock" ColumnName="recLock" />
                 <ScalarProperty Name="ItemCharge" ColumnName="ItemCharge" />
                 <ScalarProperty Name="ItemExposure" ColumnName="ItemExposure" />
                 <ScalarProperty Name="ItemCoated" ColumnName="ItemCoated" />
@@ -1471,7 +1777,7 @@
                 <ScalarProperty Name="ItemSizeCustom" ColumnName="ItemSizeCustom" />
                 <ScalarProperty Name="ItemColour" ColumnName="ItemColour" />
                 <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
-                <ScalarProperty Name="fixed" ColumnName="fixed" />
+                <ScalarProperty Name="Fixed" ColumnName="fixed" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -1527,6 +1833,91 @@
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockCostAndPrices">
+            <EntityTypeMapping TypeName="DomainModels.StockCostAndPrice">
+              <MappingFragment StoreEntitySet="StockCostAndPrice">
+                <ScalarProperty Name="ProcessingCharge" ColumnName="ProcessingCharge" />
+                <ScalarProperty Name="CostOrPriceIdentifier" ColumnName="CostOrPriceIdentifier" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="PackCostPrice" ColumnName="PackCostPrice" />
+                <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="CostPriceId" ColumnName="CostPriceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockItems">
+            <EntityTypeMapping TypeName="DomainModels.StockItem">
+              <MappingFragment StoreEntitySet="StockItem">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="InkStandards" ColumnName="InkStandards" />
+                <ScalarProperty Name="IsDisabled" ColumnName="isDisabled" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="PackPrice" ColumnName="PackPrice" />
+                <ScalarProperty Name="PerQtyPrice" ColumnName="PerQtyPrice" />
+                <ScalarProperty Name="InkYieldStandards" ColumnName="InkYieldStandards" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="RollStandards" ColumnName="RollStandards" />
+                <ScalarProperty Name="RollLength" ColumnName="RollLength" />
+                <ScalarProperty Name="RollWidth" ColumnName="RollWidth" />
+                <ScalarProperty Name="PerQtyType" ColumnName="PerQtyType" />
+                <ScalarProperty Name="PaperType" ColumnName="PaperType" />
+                <ScalarProperty Name="PaperBasicAreaId" ColumnName="PaperBasicAreaId" />
+                <ScalarProperty Name="InkYield" ColumnName="InkYield" />
+                <ScalarProperty Name="WashupCounter" ColumnName="WashupCounter" />
+                <ScalarProperty Name="InkAbsorption" ColumnName="InkAbsorption" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagID" />
+                <ScalarProperty Name="ItemWeightSelectedUnit" ColumnName="ItemWeightSelectedUnit" />
+                <ScalarProperty Name="ItemSizeSelectedUnit" ColumnName="ItemSizeSelectedUnit" />
+                <ScalarProperty Name="ItemCoated" ColumnName="ItemCoated" />
+                <ScalarProperty Name="UnitRate" ColumnName="unitRate" />
+                <ScalarProperty Name="TaxId" ColumnName="TaxID" />
+                <ScalarProperty Name="Allocated" ColumnName="Allocated" />
+                <ScalarProperty Name="OnOrder" ColumnName="onOrder" />
+                <ScalarProperty Name="InStock" ColumnName="inStock" />
+                <ScalarProperty Name="LastOrderDate" ColumnName="LastOrderDate" />
+                <ScalarProperty Name="LastOrderQty" ColumnName="LastOrderQty" />
+                <ScalarProperty Name="ReorderQty" ColumnName="ReorderQty" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="PerQtyQty" ColumnName="PerQtyQty" />
+                <ScalarProperty Name="PerQtyRate" ColumnName="PerQtyRate" />
+                <ScalarProperty Name="StockCreated" ColumnName="StockCreated" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="ItemProcessingCharge" ColumnName="ItemProcessingCharge" />
+                <ScalarProperty Name="ItemExposureTime" ColumnName="ItemExposureTime" />
+                <ScalarProperty Name="ItemExposure" ColumnName="ItemExposure" />
+                <ScalarProperty Name="ItemCoatedType" ColumnName="ItemCoatedType" />
+                <ScalarProperty Name="StockLocation" ColumnName="StockLocation" />
+                <ScalarProperty Name="ReOrderLevel" ColumnName="ReOrderLevel" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PackageQty" ColumnName="PackageQty" />
+                <ScalarProperty Name="StockLevel" ColumnName="StockLevel" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="LastModifiedDateTime" ColumnName="LastModifiedDateTime" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="ItemUnitSize" ColumnName="ItemUnitSize" />
+                <ScalarProperty Name="ItemSizeDim" ColumnName="ItemSizeDim" />
+                <ScalarProperty Name="ItemSizeWidth" ColumnName="ItemSizeWidth" />
+                <ScalarProperty Name="ItemSizeHeight" ColumnName="ItemSizeHeight" />
+                <ScalarProperty Name="ItemSizeId" ColumnName="ItemSizeId" />
+                <ScalarProperty Name="ItemSizeCustom" ColumnName="ItemSizeCustom" />
+                <ScalarProperty Name="ItemColour" ColumnName="ItemColour" />
+                <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
+                <ScalarProperty Name="AlternateName" ColumnName="AlternateName" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="StockItemId" ColumnName="StockItemId" />
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>
