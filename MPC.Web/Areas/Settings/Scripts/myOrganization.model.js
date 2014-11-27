@@ -3,7 +3,7 @@
 */
 define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
-    //Company Sites Entity
+    //Oraganisation Entity
     // ReSharper disable InconsistentNaming
      CompanySites = function () {
          // ReSharper restore InconsistentNaming

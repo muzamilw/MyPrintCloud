@@ -55,9 +55,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Find Organisation Detail By Organisation ID
         /// </summary>
-        public Organisation FindDetailById(long organizationId)
+        public Organisation GetOrganisationDetail()
         {
-            Organisation organization = organisationRepository.Find(organizationId);
+            Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
             IEnumerable<Markup> markups = markupRepository.GetAll();
             if (markups != null)
             {
@@ -86,11 +86,14 @@ namespace MPC.Implementation.MISServices
         /// <param name="filePath"></param>
         public void SaveFile(string filePath)
         {
-            Organisation organisation = organisationRepository.Find(2);
+            Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
             if (organisation.MISLogo != null)
             {
-                //If already organisation logo is save,it delete it 
-                File.Delete(organisation.MISLogo);
+                if (File.Exists(organisation.MISLogo))
+                {
+                    //If already organisation logo is save,it delete it 
+                    File.Delete(organisation.MISLogo);
+                }
             }
             organisation.MISLogo = filePath;
             organisationRepository.SaveChanges();

@@ -9,7 +9,7 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Settings.Controllers
 {
-    [SiteAuthorize(MisRoles = new []{ SecurityRoles.Admin }, AccessRights = new []{ SecurityAccessRight.CanViewSecurity })]
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
     public class HomeController : Controller
     {
 
@@ -46,28 +46,25 @@ namespace MPC.MIS.Areas.Settings.Controllers
         {
             if (file != null && file.InputStream != null)
             {
-
                 // Before attempting to save the file, verify
-                SaveFile(file);
+                SaveFile(file, organizationId);
 
             }
-            //return Json("Uploaded successfully", JsonRequestBehavior.AllowGet);
             return null;
         }
 
         //upload Files
-        private void SaveFile(HttpPostedFileBase file)
+        private void SaveFile(HttpPostedFileBase file, long organizationId)
         {
-            long organisationId = 2;
             // Specify the path to save organisations files.
-            string organisationDirectoryPath = Server.MapPath("~/Organisations/" + organisationId);
+            string organisationDirectoryPath = Server.MapPath("~/Organisations/" + organizationId);
 
             if (!Directory.Exists(organisationDirectoryPath))
             {
                 Directory.CreateDirectory(organisationDirectoryPath);
 
             }
-            string savePath = Server.MapPath("~/Organisations/" + organisationId + "/");
+            string savePath = Server.MapPath("~/Organisations/" + organizationId + "/");
             string fileName = file.FileName;
             // Append the name of the file to upload to the path.
             savePath += fileName;
