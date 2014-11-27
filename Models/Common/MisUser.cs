@@ -52,6 +52,6 @@ namespace MPC.Models.Common
             // Add custom user claims here
             return userIdentity;
         }
-
+        
     }
 }

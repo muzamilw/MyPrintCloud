@@ -34,59 +34,59 @@ namespace MPC.Implementation.MISServices
         {
         }
 
-        /// <summary>
-        /// Create User
-        /// </summary>
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
-            IOwinContext context)
-        {
+        ///// <summary>
+        ///// Create User
+        ///// </summary>
+        //public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
+        //    IOwinContext context)
+        //{
 
-            string connectionString = ConfigurationManager.ConnectionStrings["BaseDbContext"].ConnectionString;
+        //    string connectionString = ConfigurationManager.ConnectionStrings["BaseDbContext"].ConnectionString;
 
 
-            BaseDbContext db = (BaseDbContext)UnityConfig.UnityContainer.Resolve(typeof(BaseDbContext),
-                new ResolverOverride[] { new ParameterOverride("connectionString", connectionString) });
+        //    BaseDbContext db = (BaseDbContext)UnityConfig.UnityContainer.Resolve(typeof(BaseDbContext),
+        //        new ResolverOverride[] { new ParameterOverride("connectionString", connectionString) });
 
-            var manager = new ApplicationUserManager(new UserStore<MisUser>(db));
-            // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<MisUser, string>(manager)
-            {
-                AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
-            };
-            // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator
-            {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = false,
-                RequireUppercase = false,
-            };
-            // Configure user lockout defaults
-            manager.UserLockoutEnabledByDefault = true;
-            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            manager.MaxFailedAccessAttemptsBeforeLockout = 5;
-            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
-            // You can write your own provider and plug in here.
-            manager.RegisterTwoFactorProvider("PhoneCode", new PhoneNumberTokenProvider<MisUser, string>
-            {
-                MessageFormat = "Your security code is: {0}"
-            });
-            manager.RegisterTwoFactorProvider("EmailCode", new EmailTokenProvider<MisUser, string>
-            {
-                Subject = "SecurityCode",
-                BodyFormat = "Your security code is {0}"
-            });
-            
-            var dataProtectionProvider = options.DataProtectionProvider;
-            if (dataProtectionProvider != null)
-            {
-                manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<MisUser, string>(dataProtectionProvider.Create("ASP.NET Identity"));
-            }
-            return manager;
-        }
+        //    var manager = new ApplicationUserManager(new UserStore<MisUser>(db));
+        //    // Configure validation logic for usernames
+        //    manager.UserValidator = new UserValidator<MisUser, string>(manager)
+        //    {
+        //        AllowOnlyAlphanumericUserNames = false,
+        //        RequireUniqueEmail = true
+        //    };
+        //    // Configure validation logic for passwords
+        //    manager.PasswordValidator = new PasswordValidator
+        //    {
+        //        RequiredLength = 6,
+        //        RequireNonLetterOrDigit = false,
+        //        RequireDigit = false,
+        //        RequireLowercase = false,
+        //        RequireUppercase = false,
+        //    };
+        //    // Configure user lockout defaults
+        //    manager.UserLockoutEnabledByDefault = true;
+        //    manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        //    manager.MaxFailedAccessAttemptsBeforeLockout = 5;
+        //    // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
+        //    // You can write your own provider and plug in here.
+        //    manager.RegisterTwoFactorProvider("PhoneCode", new PhoneNumberTokenProvider<MisUser, string>
+        //    {
+        //        MessageFormat = "Your security code is: {0}"
+        //    });
+        //    manager.RegisterTwoFactorProvider("EmailCode", new EmailTokenProvider<MisUser, string>
+        //    {
+        //        Subject = "SecurityCode",
+        //        BodyFormat = "Your security code is {0}"
+        //    });
+
+        //    var dataProtectionProvider = options.DataProtectionProvider;
+        //    if (dataProtectionProvider != null)
+        //    {
+        //        manager.UserTokenProvider =
+        //            new DataProtectorTokenProvider<MisUser, string>(dataProtectionProvider.Create("ASP.NET Identity"));
+        //    }
+        //    return manager;
+        //}
     }
 
 }
