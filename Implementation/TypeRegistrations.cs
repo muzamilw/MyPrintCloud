@@ -19,6 +19,7 @@ namespace MPC.Implementation
         /// </summary>
         public static void RegisterType(IUnityContainer unityContainer)
         {
+            UnityConfig.UnityContainer = unityContainer;
             Repository.TypeRegistrations.RegisterType(unityContainer);
             unityContainer.RegisterType<IMyOrganizationService, MyOrganizationService>();
             unityContainer.RegisterType<IMyCompanyDomainService, MyCompanyDomainService>();
@@ -27,8 +28,9 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IPaperSheetService, PaperSheetService>();
             unityContainer.RegisterType<IAuthorizationChecker, AuthorizationChecker>();
             unityContainer.RegisterType<ICmsSkinPageWidgetService, CmsSkinPageWidgetService>();
-            unityContainer.RegisterType<ICompanyBannerSetService, CompanyBannerSetService>();
+            unityContainer.RegisterType<ICompanyBannerService, CompanyBannerService>();
             unityContainer.RegisterType<IClaimsSecurityService, ClaimsSecurityService>();
+            unityContainer.RegisterType<IInventoryService, InventoryService>();
             unityContainer.RegisterType<IStockCategoryService, StockCategoryService>();
         }
     }

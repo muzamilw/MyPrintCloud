@@ -12,9 +12,7 @@ namespace MPC.Webstore.Controllers
         // GET: LoginBar
         public ActionResult Index()
         {
-            var model = Session["store"] as Company;
-
-            return PartialView("PartialViews/LoginBar", model);
+            return PartialView("PartialViews/LoginBar");
         }
     }
 }

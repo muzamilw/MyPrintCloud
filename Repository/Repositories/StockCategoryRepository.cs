@@ -46,7 +46,15 @@ namespace MPC.Repository.Repositories
 
         #endregion
         #region Public
-        public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
+
+        /// <summary>
+        /// Get All Stock Category
+        /// </summary>
+        public override IEnumerable<StockCategory> GetAll()
+        {
+            return DbSet.ToList();
+        }
+public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
