@@ -95,6 +95,24 @@ namespace MPC.MIS.Controllers
                                         RightName = "CanViewOrganisation",
                                         RightId = 1,
                                         SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewPaperSheet",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewInventory",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewInventoryCategory",
+                                        RightId = 1,
+                                        SectionId = 1
                                     }
                                 }
                         

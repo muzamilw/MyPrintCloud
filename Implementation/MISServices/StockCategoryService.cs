@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
+using MPC.Repository.Repositories;
 
 namespace MPC.Implementation.MISServices
 {
-    public class StockCategoryService: IStockCategoryService
+    public class StockCategoryService : IStockCategoryService
     {
         #region Private
 
@@ -14,7 +18,7 @@ namespace MPC.Implementation.MISServices
         private readonly IStockSubCategoryRepository stockSubCategoryRepository;
 
         #endregion
-         #region Constructor
+        #region Constructor
 
         public StockCategoryService(IStockCategoryRepository stockCategoryRepository, IStockSubCategoryRepository stockSubCategoryRepository)
         {
@@ -23,10 +27,10 @@ namespace MPC.Implementation.MISServices
         }
 
         #endregion
-        public IEnumerable<StockCategory> GetAll(StockCategoryRequestModel request)
+        public StockCategoryResponse GetAll(StockCategoryRequestModel request)
         {
             int rowCount;
-            return stockCategoryRepository.SearchStockCategory(request, out rowCount);
+            return stockCategoryRepository.SearchStockCategory(request);
         }
 
         public StockCategory Add(StockCategory stockCategory)
@@ -38,6 +42,55 @@ namespace MPC.Implementation.MISServices
 
         public StockCategory Update(StockCategory stockCategory)
         {
+            var stockDbVersion = stockCategoryRepository.Find(stockCategory.CategoryId);
+            #region Sub Stock Categories Items
+            //Add  SubStockCategories 
+            if (stockCategory.StockSubCategories != null)
+            {
+                foreach (var item in stockCategory.StockSubCategories)
+                {
+                    if (stockDbVersion.StockSubCategories.All(x => x.SubCategoryId != item.SubCategoryId) || item.SubCategoryId == 0)
+                    {
+                        item.CategoryId = stockCategory.CategoryId;
+                        stockDbVersion.StockSubCategories.Add(item);
+                    }
+                }
+            }
+            //find missing items
+
+            List<StockSubCategory> missingStockSubCategories = new List<StockSubCategory>();
+            //List<VehicleCheckListItem> missingCheckListItems = new List<VehicleCheckListItem>();
+            foreach (StockSubCategory dbversionStockSubCategories in stockDbVersion.StockSubCategories)
+            {
+                if (stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId))
+                {
+                    missingStockSubCategories.Add(dbversionStockSubCategories);
+                }
+            }
+
+            //remove missing items
+            foreach (StockSubCategory missingStockSubCategory in missingStockSubCategories)
+            {
+
+                StockSubCategory dbVersionMissingItem = stockDbVersion.StockSubCategories.First(x => x.SubCategoryId == missingStockSubCategory.SubCategoryId);
+                if (dbVersionMissingItem.SubCategoryId > 0)
+                {
+                    stockDbVersion.StockSubCategories.Remove(dbVersionMissingItem);
+                    stockSubCategoryRepository.Delete(dbVersionMissingItem);
+                    stockSubCategoryRepository.SaveChanges();
+                }
+            }
+            if (stockCategory.StockSubCategories != null)
+            {
+                //updating stock sub categories
+                foreach (var subCategoryItem in stockCategory.StockSubCategories)
+                {
+                    stockSubCategoryRepository.Update(subCategoryItem);
+                    stockSubCategoryRepository.SaveChanges();
+                }
+            }
+
+            #endregion
             stockCategoryRepository.Update(stockCategory);
             stockCategoryRepository.SaveChanges();
             return stockCategory;
