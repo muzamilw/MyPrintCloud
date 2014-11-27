@@ -10,7 +10,7 @@ using MPC.Repository.Repositories;
 
 namespace MPC.Implementation.MISServices
 {
-    public class StockCategoryService: IStockCategoryService
+    public class StockCategoryService : IStockCategoryService
     {
         #region Private
 
@@ -18,7 +18,7 @@ namespace MPC.Implementation.MISServices
         private readonly IStockSubCategoryRepository stockSubCategoryRepository;
 
         #endregion
-         #region Constructor
+        #region Constructor
 
         public StockCategoryService(IStockCategoryRepository stockCategoryRepository, IStockSubCategoryRepository stockSubCategoryRepository)
         {
@@ -49,7 +49,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in stockCategory.StockSubCategories)
                 {
-                    if (stockDbVersion.StockSubCategories.All( x=> x.SubCategoryId != item.SubCategoryId) || item.SubCategoryId == 0)
+                    if (stockDbVersion.StockSubCategories.All(x => x.SubCategoryId != item.SubCategoryId) || item.SubCategoryId == 0)
                     {
                         item.CategoryId = stockCategory.CategoryId;
                         stockDbVersion.StockSubCategories.Add(item);
@@ -58,16 +58,16 @@ namespace MPC.Implementation.MISServices
             }
             //find missing items
 
-            List<StockSubCategory> missingStockSubCategories= new List<StockSubCategory>();
+            List<StockSubCategory> missingStockSubCategories = new List<StockSubCategory>();
             //List<VehicleCheckListItem> missingCheckListItems = new List<VehicleCheckListItem>();
             foreach (StockSubCategory dbversionStockSubCategories in stockDbVersion.StockSubCategories)
             {
-                if (stockCategory.StockSubCategories !=null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId))
+                if (stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId))
                 {
                     missingStockSubCategories.Add(dbversionStockSubCategories);
                 }
             }
-            
+
             //remove missing items
             foreach (StockSubCategory missingStockSubCategory in missingStockSubCategories)
             {
@@ -80,11 +80,14 @@ namespace MPC.Implementation.MISServices
                     stockSubCategoryRepository.SaveChanges();
                 }
             }
-            //updating stock sub categories
-            foreach (var subCategoryItem in stockCategory.StockSubCategories)
+            if (stockCategory.StockSubCategories != null)
             {
-                stockSubCategoryRepository.Update(subCategoryItem);
-                stockSubCategoryRepository.SaveChanges();
+                //updating stock sub categories
+                foreach (var subCategoryItem in stockCategory.StockSubCategories)
+                {
+                    stockSubCategoryRepository.Update(subCategoryItem);
+                    stockSubCategoryRepository.SaveChanges();
+                }
             }
 
             #endregion
