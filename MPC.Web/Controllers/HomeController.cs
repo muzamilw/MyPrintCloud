@@ -133,7 +133,7 @@ namespace MPC.MIS.Controllers
                 AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
             }
 
-            return View();
+            return RedirectToAction("Index", "Dashboard");
         }
 
     }
