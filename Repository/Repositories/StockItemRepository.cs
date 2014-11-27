@@ -65,7 +65,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public InventorySearchResponse GetStockItems(InventorySearchRequestModel request)
         {
-            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int fromRow = (request.PageNo) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<StockItem, bool>> query =
                 stockItem =>

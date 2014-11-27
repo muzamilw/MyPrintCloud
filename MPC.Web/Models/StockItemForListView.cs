@@ -21,8 +21,33 @@
         public int? ItemWeight { get; set; }
 
         /// <summary>
-        /// Item Colour
+        /// Weight Unit Name
         /// </summary>
-        public string ItemColour { get; set; }
+        public string WeightUnitName { get; set; }
+
+        /// <summary>
+        /// Per Qty Qty(/1000)
+        /// </summary>
+        public double? PerQtyQty { get; set; }
+
+        /// <summary>
+        /// Item Colour(Code)
+        /// </summary>
+        public string FlagColor { get; set; }
+
+        /// <summary>
+        /// Category Name
+        /// </summary>
+        public string CategoryName { get; set; }
+
+        /// <summary>
+        /// Sub Category Name
+        /// </summary>
+        public string SubCategoryName { get; set; }
+
+        /// <summary>
+        /// Full Category Name(Category and Sub Category Name)
+        /// </summary>
+        public string FullCategoryName { get; set; }
     }
 }

@@ -127,6 +127,8 @@
     <Compile Include="DomainModels\CategoryTerritory.cs" />
     <Compile Include="DomainModels\CompanyType.cs" />
     <Compile Include="DomainModels\ProductCategory.cs" />
+    <Compile Include="DomainModels\Section.cs" />
+    <Compile Include="DomainModels\SectionFlag.cs" />
     <Compile Include="DomainModels\StockCategory.cs" />
     <Compile Include="DomainModels\StockCostAndPrice.cs" />
     <Compile Include="DomainModels\StockItem.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="DomainModels\Markup.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\ChartOfAccount.cs" />
+    <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />

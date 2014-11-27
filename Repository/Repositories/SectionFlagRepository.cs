@@ -1,0 +1,57 @@
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using Microsoft.Practices.Unity;
+using MPC.Interfaces.Repository;
+using MPC.Models.DomainModels;
+using MPC.Repository.BaseRepository;
+
+namespace MPC.Repository.Repositories
+{
+    /// <summary>
+    /// Section Flag Repository
+    /// </summary>
+    public class SectionFlagRepository : BaseRepository<SectionFlag>, ISectionFlagRepository
+    {
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public SectionFlagRepository(IUnityContainer container)
+            : base(container)
+        {
+
+        }
+        /// <summary>
+        /// Primary database set
+        /// </summary>
+        protected override IDbSet<SectionFlag> DbSet
+        {
+            get
+            {
+                return db.SectionFlags;
+            }
+        }
+
+        #endregion
+
+        #region Public
+        /// <summary>
+        /// Get All Section Flags
+        /// </summary>
+        public override IEnumerable<SectionFlag> GetAll()
+        {
+            return DbSet.ToList();
+        }
+
+        /// <summary>
+        /// Get Section Flag For Inventory
+        /// </summary>
+        public IEnumerable<SectionFlag> GetSectionFlagForInventory()
+        {
+            return DbSet.Where(sf => sf.SectionId == sf.Section.SectionId && sf.Section.SectionName == "Inventory").ToList();
+        }
+        #endregion
+    }
+}

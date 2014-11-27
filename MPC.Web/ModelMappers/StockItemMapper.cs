@@ -19,8 +19,8 @@ namespace MPC.MIS.ModelMappers
         {
             return new ApiResponse.InventoryBaseResponse
             {
-                //StockCategories = source.StockCategories.Select(coa => coa.CreateFrom()).ToList(),
-                //StockSubCategories = source.StockSubCategories.Select(markup => markup.CreateFrom()).ToList(),
+                StockCategories = source.StockCategories.Select(s => s.CreateFromDropDown()).ToList(),
+                StockSubCategories = source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList(),
             };
         }
 
@@ -46,6 +46,15 @@ namespace MPC.MIS.ModelMappers
         {
             return new ApiModels.StockItemForListView
             {
+                StockItemId = source.StockItemId,
+                ItemName = source.ItemName,
+                ItemWeight = source.ItemWeight,
+                CategoryName = source.StockCategory != null ? source.StockCategory.Name : string.Empty,
+                FullCategoryName = (source.StockCategory != null ? source.StockCategory.Name : string.Empty) + (source.StockSubCategory != null ? "  ( " + source.StockSubCategory.Name + " )" : string.Empty),
+                SubCategoryName = source.StockSubCategory != null ? source.StockSubCategory.Name : string.Empty,
+                WeightUnitName = source.WeightUnitName,
+                PerQtyQty = source.PerQtyQty,
+                FlagColor = source.FlagColor,
             };
         }
         #endregion

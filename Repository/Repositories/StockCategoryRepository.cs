@@ -50,7 +50,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<StockCategory> GetAll()
         {
-            return DbSet.ToList();
+            return DbSet.ToList(); ;
         }
         public IEnumerable<StockCategory> SearchStockCategory(StockCategoryRequestModel request, out int rowCount)
         {
