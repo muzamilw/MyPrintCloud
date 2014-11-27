@@ -41,18 +41,20 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         public ResponseModels.StockCategoryResponse Get([FromUri] StockCategoryRequestModel request)
         {
-            IEnumerable<Models.StockCategory> stockCategories= null;
-            stockCategories = stockCategoryService.GetAll(request).Select(x=>x.CreateFrom()).ToList();
-            var categories = stockCategories as IList<StockCategory> ?? stockCategories.ToList();
+            //IEnumerable<Models.StockCategory> stockCategories= null;
+
+            //stockCategories = stockCategoryService.GetAll(request).StockCategories.Select(x=>x.CreateFrom()).ToList();
+            //var categories = stockCategories as IList<StockCategory> ?? stockCategories.ToList();
+            var result = stockCategoryService.GetAll(request);
             return new ResponseModels.StockCategoryResponse
             {
-                StockCategories = categories,
-                RowCount = categories.Count()
+                StockCategories = result.StockCategories.Select(x => x.CreateFrom()).ToList(),
+                RowCount = result.RowCount
             };
         }
 
         /// <summary>
-        /// Update Stock Categories
+        /// New Stock Categories
         /// </summary>
         /// <param name="stockCategory"></param>
         /// <returns></returns>
@@ -66,7 +68,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         /// <summary>
-        /// Create New stock Category
+        /// Update stock Category
         /// </summary>
         /// <param name="stockCategory"></param>
         /// <returns></returns>

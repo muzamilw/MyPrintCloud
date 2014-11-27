@@ -438,7 +438,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_StockCategory_StockSubCategory">
-          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1" />
+          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="StockSubCategory" Type="Self.StockSubCategory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="StockCategory">
