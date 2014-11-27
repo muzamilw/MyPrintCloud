@@ -9,6 +9,6 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICmsSkinPageWidgetService
     {
-        List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId, long organisationId);
+        List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId);
     }
 }

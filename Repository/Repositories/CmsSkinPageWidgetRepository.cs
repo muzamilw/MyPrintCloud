@@ -31,11 +31,11 @@ namespace MPC.Repository.Repositories
 
         public override IEnumerable<CmsSkinPageWidget> GetAll()
         {
-            return DbSet.Where(c => c.OrganisationId == UserDomainKey).ToList();
+            return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
 
       
-        public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId, long organisationId)
+        public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId)
         {
             var widgets = (from result in db.PageWidgets.Include("CmsSkinPageWidgetParams").Include("Widget")
                            select result).Where(g => g.PageId == 1 && g.CompanyId == companyId).OrderBy(c => c.Sequence).ToList();

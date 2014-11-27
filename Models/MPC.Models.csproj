@@ -107,6 +107,7 @@
     <Compile Include="Common\InventoryByColumn.cs" />
     <Compile Include="Common\MisRoleClaimValue.cs" />
     <Compile Include="Common\MisUser.cs" />
+    <Compile Include="Common\NameClaimValue.cs" />
     <Compile Include="Common\OrganisationClaimValue.cs" />
     <Compile Include="Common\PaperSheetByColumn.cs" />
     <Compile Include="Common\RoleSection.cs" />

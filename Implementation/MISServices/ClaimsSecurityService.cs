@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Claims;
-using Microsoft.IdentityModel.Web;
+//using Microsoft.IdentityModel.Claims;
+//using Microsoft.IdentityModel.Web;
+using MPC.Common;
 using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
+using System.Security.Claims;
 
 namespace MPC.Implementation.MISServices
 {
@@ -19,83 +20,121 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Add the user's name to the claims
         /// </summary>
-        private void CheckName(string user, IClaimsIdentity claimsIdentity)
+        private void CheckName(MisUser user, ClaimsIdentity claimsIdentity)
         {
-            Claim nameClaim = claimsIdentity.Claims.FirstOrDefault(c => c.ClaimType == ClaimTypes.Name);
+            Claim nameClaim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
             if (nameClaim == null)
             {
-       //         claimsIdentity.Claims.Add(new Claim(ClaimTypes.Name, user));
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, user.FullName));
+                claimsIdentity.AddClaim(new Claim(MpcClaimTypes.MisUser,
+                                        ClaimHelper.Serialize(
+                                            new NameClaimValue
+                                            {
+                                                Name = user.FullName
+                                            }),
+                                        typeof(NameClaimValue).AssemblyQualifiedName));
             }
         }
         
-        ///// <summary>
-        ///// Add security role claims
-        ///// </summary>
-        //private static void AddRoleClaims(IClaimsIdentity claimsIdentity, SiteUser siteUser)
-        //{
-        //    foreach (SecurityRole role in siteUser.SecurityRoles)
-        //    {
-        //        Claim claim = new Claim(OdyPortalClaimTypes.OdyPortalRole,
-        //                                ClaimHelper.Serialize(
-        //                                    new RoleClaimValue { Role = role.Name, SiteUrlPostFix = siteUser.Site.UrlPostFix }),
-        //                                typeof(RoleClaimValue).AssemblyQualifiedName);
-        //        claimsIdentity.Claims.Add(claim);
-        //    }
-        //}
-        
         /// <summary>
-        /// Add role claims
+        /// Add Access Right claims
         /// </summary>
-        private void AddSiteUserClaims(IClaimsIdentity claimsIdentity, string siteUser)
+       private static void AddAccessRightClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
-           // AddSiteAccessClaims(claimsIdentity, siteUser);
-          //  AddRoleClaims(claimsIdentity, siteUser);
-          //  AddRepresentationClaims(claimsIdentity, siteUser);
+           
+            List<AccessRight> accessRights = user.RoleSections.SelectMany(roleSection => roleSection.Section.AccessRights).ToList();
+            foreach (AccessRight accessRight in accessRights)
+            {
+                Claim claim = new Claim(MpcClaimTypes.AccessRight,
+                                        ClaimHelper.Serialize(
+                                            new AccessRightClaimValue 
+                                            { 
+                                                RightId = accessRight.RightId, 
+                                                Right = accessRight.RightName, 
+                                                SectionId = accessRight.SectionId 
+                                            }),
+                                        typeof(AccessRightClaimValue).AssemblyQualifiedName);
+                claimsIdentity.AddClaim(claim);
+            }
         }
 
         #endregion
         #region Constructor
+        /// <summary>
+        /// Add security role claims
+        /// </summary>
+        private static void AddRoleClaims(MisUser user, ClaimsIdentity claimsIdentity)
+        {
+            Claim claim = new Claim(MpcClaimTypes.MisRole,
+                                        ClaimHelper.Serialize(
+                                            new MisRoleClaimValue { Role = user.Role }),
+                                        typeof(MisRoleClaimValue).AssemblyQualifiedName);
+            claimsIdentity.AddClaim(claim);
+        }
 
         /// <summary>
-        /// Constructor
+        /// Add Organisation Claims
         /// </summary>
-        public ClaimsSecurityService()
+        private static void AddOrganisationClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
+            Claim claim = new Claim(MpcClaimTypes.Organisation,
+                                        ClaimHelper.Serialize(
+                                            new OrganisationClaimValue { OrganisationId = user.OrganisationId }),
+                                        typeof(OrganisationClaimValue).AssemblyQualifiedName);
+            claimsIdentity.AddClaim(claim);
         }
+
         #endregion
+
+        #region Public
+        
+        /// <summary>
+        /// Add User Claims
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="claimsIdentity"></param>
+        private void AddUserClaims(MisUser user, ClaimsIdentity claimsIdentity)
+        {
+            AddRoleClaims(user, claimsIdentity);
+            AddOrganisationClaims(user, claimsIdentity);
+            AddAccessRightClaims(user, claimsIdentity);
+        }
+        
+        #endregion
+        
         #region Public
 
-        /// <summary>
-        /// Handles the <see cref="WSFederationAuthenticationModule.SecurityTokenValidated"/> event
-        /// </summary>
-        public void SecurityTokenValidated(object sender, SecurityTokenValidatedEventArgs e, string ipAddress)
-        {
-            IClaimsPrincipal claimsPrincipal = e.ClaimsPrincipal;
-            IClaimsIdentity claimsIdentity = (IClaimsIdentity)claimsPrincipal.Identity;
+        ///// <summary>
+        ///// Handles the <see cref="WSFederationAuthenticationModule.SecurityTokenValidated"/> event
+        ///// </summary>
+        //public void SecurityTokenValidated(object sender, SecurityTokenValidatedEventArgs e, string ipAddress)
+        //{
+        //    IClaimsPrincipal claimsPrincipal = e.ClaimsPrincipal;
+        //    IClaimsIdentity claimsIdentity = (IClaimsIdentity)claimsPrincipal.Identity;
 
-            if (claimsIdentity.IsAuthenticated)
-            {
-                //UserLoginIdentity identity = LookupIdentity(claimsIdentity);
+        //    if (claimsIdentity.IsAuthenticated)
+        //    {
+        //        IClaimsIdentity identity = LookupIdentity(claimsIdentity);
 
-                //if (identity != null)
-              //  {
-                //    AddClaimsToIdentity(identity, claimsIdentity);
-              //  }
-            }
-        }
+        //        if (identity != null)
+        //        {
+        //            // Add Claims To Identity
+        //        }
+        //    }
+        //}
         
         /// <summary>
         /// Lookup name id and provider name
         /// </summary>
-        public void LookupIdentityClaimValues(IClaimsIdentity claimsIdentity, out string providerName, out string nameIdentifier)
+        public void LookupIdentityClaimValues(ClaimsIdentity claimsIdentity, out string providerName, out string nameIdentifier)
         {
-            Claim nameIdentifierClaim = claimsIdentity.Claims.SingleOrDefault(c => c.ClaimType == ClaimTypes.NameIdentifier);
+            Claim nameIdentifierClaim = claimsIdentity.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             if (nameIdentifierClaim == null)
             {
                 throw new InvalidOperationException(LanguageResources.ClaimsSecurityService_MissingNameIdentifierClaim);
             }
 
-            Claim identityProviderClaim = claimsIdentity.Claims.SingleOrDefault(c => c.ClaimType == IdentityProviderClaimType);
+            Claim identityProviderClaim = claimsIdentity.Claims.SingleOrDefault(c => c.Type == IdentityProviderClaimType);
             if (identityProviderClaim == null)
             {
                 throw new InvalidOperationException(LanguageResources.ClaimsSecurityService_IdentityProviderClaim);
@@ -108,7 +147,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Lookup identity using the claims identity
         /// </summary>
-        public IClaimsIdentity LookupIdentity(IClaimsIdentity claimsIdentity)
+        public ClaimsIdentity LookupIdentity(ClaimsIdentity claimsIdentity)
         {
             if (claimsIdentity == null)
             {
@@ -126,17 +165,13 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Add claims to the identity
         /// </summary>
-        public void AddClaimsToIdentity(IClaimsIdentity identity, IClaimsIdentity claimsIdentity)
+        public void AddClaimsToIdentity(UserIdentityModel identity, ClaimsIdentity claimsIdentity)
         {
-          //  if (identity.User != null)
-       //     {
-         //       CheckName(identity.User, claimsIdentity);
-
-         //       foreach (SiteUser siteUser in identity.User.SiteUsers)
-          //      {
-             //       AddSiteUserClaims(claimsIdentity, siteUser);
-         //       }
-        //    }
+            if (identity.User != null)
+            {
+                CheckName(identity.User, claimsIdentity);
+                AddUserClaims(identity.User, claimsIdentity);
+            }
         }
 
 

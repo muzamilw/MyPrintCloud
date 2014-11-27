@@ -76,11 +76,8 @@ namespace MPC.Implementation.MISServices
             {
                 return Save(organisation);
             }
-            else
-            {
-                //Set updated fields
-                return Update(organisation, organisationDbVersion);
-            }
+            //Set updated fields
+            return Update(organisation, organisationDbVersion);
         }
 
         /// <summary>
@@ -104,7 +101,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Save(Organisation organisation)
         {
-            organisation.UserDomainKey = organisationRepository.UserDomainKey;
+            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
             organisationRepository.Add(organisation);
             organisationRepository.SaveChanges();
 
@@ -114,7 +111,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in organisation.Markups)
                 {
-                    item.UserDomainKey = organisationRepository.UserDomainKey;
+                    item.UserDomainKey = (int)organisationRepository.OrganisationId;
                     markupRepository.Add(item);
                     markupRepository.SaveChanges();
                 }
@@ -128,7 +125,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in organisation.ChartOfAccounts)
                 {
-                    item.UserDomainKey = organisationRepository.UserDomainKey;
+                    item.UserDomainKey = (int)organisationRepository.OrganisationId;
                     chartOfAccountRepository.Add(item);
                     chartOfAccountRepository.SaveChanges();
                 }
@@ -149,7 +146,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
-            organisation.UserDomainKey = organisationRepository.UserDomainKey;
+            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
             organisation.MISLogo = organisationDbVersion.MISLogo;
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
@@ -180,7 +177,7 @@ namespace MPC.Implementation.MISServices
                                 x.MarkUpId != item.MarkUpId ||
                                 item.MarkUpId == 0))
                     {
-                        item.UserDomainKey = organisationRepository.UserDomainKey;
+                        item.UserDomainKey = (int)organisationRepository.OrganisationId;
                         markupRepository.Add(item);
                         markupRepository.SaveChanges();
                     }
@@ -240,7 +237,7 @@ namespace MPC.Implementation.MISServices
                                 x.Id != item.Id ||
                                 item.Id == 0))
                     {
-                        item.UserDomainKey = organisationRepository.UserDomainKey;
+                        item.UserDomainKey = (int)organisationRepository.OrganisationId;
                         chartOfAccountRepository.Add(item);
                         chartOfAccountRepository.SaveChanges();
                     }
@@ -298,9 +295,9 @@ namespace MPC.Implementation.MISServices
 
         #endregion
 
-        public System.Collections.Generic.IList<int> GetOrganizationIds(int request)
+        public IList<int> GetOrganizationIds(int request)
         {
-            throw new System.NotImplementedException();
+            return new List<int>();
         }
     }
 }

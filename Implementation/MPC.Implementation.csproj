@@ -117,6 +117,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Transactions" />
@@ -141,7 +142,7 @@
     <Compile Include="WebStoreServices\CmsSkinPageWidgetService.cs" />
     <Compile Include="WebStoreServices\CompanyService.cs" />
     <Compile Include="MISServices\MyOrganizationService.cs" />
-    <Compile Include="WebStoreServices\CompanyBannerSetService.cs" />
+    <Compile Include="WebStoreServices\CompanyBannerService.cs" />
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>

@@ -178,6 +178,7 @@
     <Compile Include="Repositories\MarkupRepository.cs" />
     <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\SectionFlagRepository.cs" />
+    <Compile Include="Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Repositories\SectionRepository.cs" />
     <Compile Include="Repositories\StockCategoryRepository.cs" />
     <Compile Include="Repositories\StockCostAndPriceRepository.cs" />
@@ -216,6 +217,10 @@
     <ProjectReference Include="..\Models\MPC.Models.csproj">
       <Project>{81067904-2176-4648-87AB-014B0D76B85E}</Project>
       <Name>MPC.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPC.Common\MPC.Common.csproj">
+      <Project>{4ba9e712-f447-4a6b-bae6-18eeb43087c6}</Project>
+      <Name>MPC.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

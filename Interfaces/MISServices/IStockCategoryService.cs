@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -11,7 +12,7 @@ namespace MPC.Interfaces.MISServices
         /// Get All Stock Categories
         /// </summary>
         /// <returns></returns>
-        IEnumerable<StockCategory> GetAll(StockCategoryRequestModel request);
+        StockCategoryResponse GetAll(StockCategoryRequestModel request);
 
         /// <summary>
         /// Add New Stock Category

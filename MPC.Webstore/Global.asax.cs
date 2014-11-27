@@ -126,15 +126,15 @@ namespace MPC.Webstore
             companyService = container.Resolve<ICompanyService>();
 
             string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
-            var store = companyService.GetCompanyByDomain(url);
-      
-            if (store == null)
+            long storeid = companyService.GetCompanyIdByDomain(url);
+
+            if (storeid == 0)
             {
                 Response.Redirect("/Home/About");
             }
             else
             {
-                Session["store"] = store;
+                Session["storeId"] = storeid;
             }
         }
     }

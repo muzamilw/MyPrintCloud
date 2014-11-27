@@ -27,15 +27,8 @@ namespace MPC.Repository.Repositories
 
         public override IEnumerable<CompanyBannerSet> GetAll()
         {
-            return DbSet.Where(c => c.OrganisationId == UserDomainKey).ToList();
+            return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
-        public List<CompanyBannerSet> GetCompanyBannersById(long companyId, long organisationId)
-        {
-            var companyBanners = from b in db.CompanyBannerSets.Include("CompanyBanner")
-                                where b.CompanyId == companyId && b.OrganisationId == organisationId
-                                select b;
-
-            return companyBanners.ToList();
-        }
+      
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,6 +9,7 @@ using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 
 namespace MPC.Repository.Repositories
@@ -52,16 +54,20 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList(); ;
         }
-        public IEnumerable<StockCategory> SearchStockCategory(StockCategoryRequestModel request, out int rowCount)
+public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            bool isCategoryIdSpecified = request.StockCategoryId != 0;
             Expression<Func<StockCategory, bool>> query =
-                paperSize =>
-                    (string.IsNullOrEmpty(request.SearchString));
+                s =>
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
+                                                                     !isStringSpecified) &&
+                                                                     ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified);
 
-            rowCount = DbSet.Count(query);
-            return request.IsAsc
+            int rowCount = DbSet.Count(query);
+            IEnumerable<StockCategory> stockCategories= request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(stockCategoryOrderByClause[request.StockCategoryOrderBy])
                     .Skip(fromRow)
@@ -72,6 +78,11 @@ namespace MPC.Repository.Repositories
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
+            return new StockCategoryResponse
+                   {
+                       RowCount = rowCount,
+                       StockCategories = stockCategories
+                   };
         }
         #endregion
     }
