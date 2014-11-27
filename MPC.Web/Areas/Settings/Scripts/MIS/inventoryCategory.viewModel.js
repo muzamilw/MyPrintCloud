@@ -23,9 +23,11 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     //Search Filter
                     searchFilter = ko.observable(),
                     // Editor View Model
-                    editorViewModel = new ist.ViewModel(model.StockCategory),
+                    editorViewModel = new ist.ViewModel(model.InventoryCategory),
                     //Selected Paper Sheet
                     selectedStockCategory = editorViewModel.itemForEditing,
+                    //Selected Stock Sub Category
+                    selectedStockSubCategory = ko.observable(),
                     //Template To Use
                     templateToUse = function (stockCategory) {
                         return (stockCategory === selectedStockCategory() ? 'editStockCategoryTemplate' : 'itemStockCategoryTemplate');
@@ -34,7 +36,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     makeEditable = ko.observable(false),
                     //Create New Stock Category
                     createNewStockCategory = function () {
-                        var stockCategory = new model.StockCategory();
+                        var stockCategory = new model.InventoryCategory();
                         editorViewModel.selectItem(stockCategory);
                         openEditDialog();
                     },
@@ -74,7 +76,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                                 if (data != null) {
                                     pager().totalCount(data.RowCount);
                                     _.each(data.StockCategories, function (item) {
-                                        var module = model.stockCategoryServertoClientMapper(item);
+                                        var module = model.InventoryCategoryServertoClientMapper(item);
                                         stockCategories.push(module);
                                     });
                                 }
@@ -98,7 +100,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     //Save Stock Category
                     saveStockCategory = function (item) {
                         if (selectedStockCategory() != undefined && doBeforeSave()) {
-                            if (selectedStockCategory().stockCategoryId() > 0) {
+                            if (selectedStockCategory().categoryId() > 0) {
                                 saveEdittedStockCategory();
                             } else {
                                 saveNewStockCategory(item);
@@ -127,7 +129,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     saveEdittedStockCategory = function () {
                         dataservice.saveStockCategory(selectedStockCategory().convertToServerData(), {
                             success: function (data) {
-                                var newItem = model.stockCategoryServertoClientMapper(data);
+                                var newItem = model.InventoryCategoryServertoClientMapper(data);
                                 var newObjtodelete = stockCategories.find(function (temp) {
                                     return temp.stockCategoryId() == newItem.stockCategoryId();
                                 });
@@ -146,7 +148,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         });
                     },
                     //Open Stock Category Dialog
-                    openEditDialog = function () {
+                    openEditDialog = function (item) {
                         view.showInventoryCategoryDialog();
                     },
                     //CLose Stock Category Dialog
@@ -162,13 +164,37 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         }
                     },
                     //*** Stock Sub Categories Region ***
-                    //Get All Stock Sub Categories By Stock Category Id
+                    // Select a Sub Category
+                    selectSubCategory = function (stockSubCategory) {
+                        if (selectedStockSubCategory() !== stockSubCategory) {
+                            selectedStockSubCategory(stockSubCategory);
+                        }
+                    },
+                    // Template Chooser For Stock Sub Categories
+                    templateToUseStockSubCategories = function (stockSubCategory) {
+                        return (stockSubCategory === selectedStockSubCategory() ? 'editStockSubCategoryTemplate' : 'itemStockSubCategoryTemplate');
+                    },
+                     //Create Stock Sub Category
+                     onCreateNewStockSubCategory = function () {
+                         //var stockSubCategory = selectedStockCategory().stockSubCategories()[0];
+                         //if (stockSubCategory.name() !== undefined && markup.code() !== undefined) {
+                         selectedStockCategory().stockSubCategories.splice(0, 0, model.InventorySubCategory());
+                         selectedStockSubCategory(selectedStockCategory().stockSubCategories()[0]);
+                         //}
+                     },
+                     // Delete a Stock Sub Category
+                    onDeleteStockSubCategory = function (stockSubCategory) {
+                        if (!stockSubCategory.subCategoryId()) {
+                            selectedStockCategory().stockSubCategories.remove(stockSubCategory);
+                            return;
+                        }
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            selectedStockCategory().stockSubCategories.remove(stockSubCategory);
+                        });
+                        confirmation.show();
+                    },
 
-                    //Delete Stock Sub Category
-
-                    //Edit Stock Sub Category
-
-                    //*** Stock Sub Categories Region ***
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -186,6 +212,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     searchFilter: searchFilter,
                     editorViewModel: editorViewModel,
                     selectedStockCategory: selectedStockCategory,
+                    selectedStockSubCategory: selectedStockSubCategory,
                     templateToUse: templateToUse,
                     makeEditable: makeEditable,
                     createNewStockCategory: createNewStockCategory,
@@ -193,10 +220,15 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     deleteStockCategory: deleteStockCategory,
                     getStockCategories: getStockCategories,
                     doBeforeSave: doBeforeSave,
+                    saveStockCategory: saveStockCategory,
                     saveNewStockCategory: saveNewStockCategory,
                     saveEdittedStockCategory: saveEdittedStockCategory,
                     openEditDialog: openEditDialog,
                     closeEditDialog: closeEditDialog,
+                    selectSubCategory: selectSubCategory,
+                    templateToUseStockSubCategories: templateToUseStockSubCategories,
+                    onCreateNewStockSubCategory: onCreateNewStockSubCategory,
+                    onDeleteStockSubCategory: onDeleteStockSubCategory,
                     initialize: initialize
                 };
             })()

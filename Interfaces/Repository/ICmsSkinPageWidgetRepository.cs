@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICmsSkinPageWidgetRepository : IBaseRepository<CmsSkinPageWidget, long>
     {
-        List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId, long organisationId);
+        List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId);
     }
 }

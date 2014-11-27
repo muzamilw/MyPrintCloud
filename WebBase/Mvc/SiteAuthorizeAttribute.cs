@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Microsoft.Practices.Unity;
+using MPC.Interfaces.Data;
+using MPC.Interfaces.MISServices;
 
 namespace MPC.WebBase.Mvc
 {
@@ -13,19 +15,35 @@ namespace MPC.WebBase.Mvc
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class SiteAuthorizeAttribute : AuthorizeAttribute
     {
+        #region Private
+
+        private SecurityAccessRight[] accessRights = new SecurityAccessRight[0];
+        private string[] misRoles = { };
+
+        #endregion
+
         /// <summary>
         /// Check if user is authorized on a given permissionKey
         /// </summary>
         private bool IsAuthorized()
         {
-            object userPermissionSet = HttpContext.Current.Session["UserPermissionSet"];
-            if (userPermissionSet != null)
+            IPrincipal user = HttpContext.Current.User;
+            if (!user.Identity.IsAuthenticated)
             {
-                IList<string> userPermissionsSet = (IList<string>)userPermissionSet;
-                return (userPermissionsSet.Contains(PermissionKey));
+                return false;
             }
-            return false;
+            if (AuthorizationChecker == null)
+            {
+                throw new InvalidOperationException(
+                    LanguageResources.SiteAuthorizeAttribute_AuthorizationCheckerMissing);
+            }
+
+            return AuthorizationChecker.Check(
+                new AuthorizationCheckRequest(MisRoles, AccessRights));
         }
+
+        #region Public
+
         /// <summary>
         /// Perform the authorization
         /// </summary>
@@ -53,7 +71,45 @@ namespace MPC.WebBase.Mvc
                         new RouteValueDictionary(
                             new { area = "", controller = "UnauthorizedRequest", action = "Index" }));
             }
-        }        
-        public string PermissionKey { get; set; }        
+        }
+
+        /// <summary>
+        /// Access rights
+        /// </summary>
+        public SecurityAccessRight[] AccessRights
+        {
+            get
+            {
+                return accessRights;
+            }
+            set
+            {
+                accessRights = value;
+            }
+        }
+
+        /// <summary>
+        /// MIS Roles
+        /// </summary>
+        public string[] MisRoles
+        {
+            get
+            {
+                return misRoles;
+            }
+            set
+            {
+                misRoles = value;
+            }
+        }
+
+        /// <summary>
+        /// Authorization check
+        /// </summary>
+        [Dependency]
+        public IAuthorizationChecker AuthorizationChecker { get; set; }
+
+        #endregion
+
     }
 }

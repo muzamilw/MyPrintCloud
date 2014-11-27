@@ -17,7 +17,8 @@ namespace MPC.MIS.Areas.Settings
             context.MapRoute(
                 "Settings_default",
                 "Settings/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "MPC.MIS.Areas.Settings.Controllers" }
             );
         }
     }

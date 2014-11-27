@@ -29,13 +29,6 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(c => c.OrganisationId == UserDomainKey).ToList();
         }
-        public List<CompanyBannerSet> GetCompanyBannersById(long companyId, long organisationId)
-        {
-            var companyBanners = from b in db.CompanyBannerSets.Include("CompanyBanner")
-                                where b.CompanyId == companyId && b.OrganisationId == organisationId
-                                select b;
-
-            return companyBanners.ToList();
-        }
+      
     }
 }

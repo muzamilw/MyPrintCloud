@@ -177,7 +177,10 @@
     <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\MarkupRepository.cs" />
     <Compile Include="Repositories\PaperSheetRepository.cs" />
+    <Compile Include="Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Repositories\StockCategoryRepository.cs" />
+    <Compile Include="Repositories\StockCostAndPriceRepository.cs" />
+    <Compile Include="Repositories\StockItemRepository.cs" />
     <Compile Include="Repositories\StockSubCategoryRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="TypeRegistrations.cs" />

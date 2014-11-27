@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using MPC.Interfaces.WebStoreServices;
-using MPC.Models.DomainModels;
+using MPC.Webstore.ModelMappers;
+using MPC.Webstore.ResponseModels;
+using System.Runtime.Caching;
+using MPC.Webstore.Models;
 
 namespace MPC.Webstore.Controllers
 {
@@ -10,7 +14,7 @@ namespace MPC.Webstore.Controllers
     {
          #region Private
 
-        private readonly ICmsSkinPageWidgetService _widgetService;
+        private readonly ICompanyService _myCompanyService;
 
         #endregion
 
@@ -18,35 +22,42 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICmsSkinPageWidgetService widgetService)
+        public HomeController(ICompanyService myCompanyService)
         {
-            if (widgetService == null)
+            if (myCompanyService == null)
             {
-                throw new ArgumentNullException("widgetService");
+                throw new ArgumentNullException("myCompanyService");
             }
-            this._widgetService = widgetService;
+            this._myCompanyService = myCompanyService;
         }
 
         #endregion
-
-        
         public ActionResult Index()
         {
-           
-            var model = Session["store"] as Company;
-            if (model == null)
-            {
+            List<CmsSkinPageWidget> model = null;
+            string CacheKeyName = "CompanyBaseResponse";
 
-            }
-            else
+            ObjectCache cache = MemoryCache.Default;
+
+            MyCompanyDomainBaseResponse obj = cache.Get(CacheKeyName) as MyCompanyDomainBaseResponse;
+
+            if (obj == null)
             {
-                var widgets = _widgetService.GetDomainWidgetsById(model.CompanyId, model.OrganisationId ?? 0);
-                ViewBag.Company = model;
-                ViewBag.widgets = widgets;
-                ViewBag.ContentFile = "/Content/Site.css";
+                long storeId = Convert.ToInt64(Session["storeId"]);
+                MyCompanyDomainBaseResponse response = _myCompanyService.GetBaseData(storeId).CreateFrom();
+                
+                CacheItemPolicy policy = null;
+                CacheEntryRemovedCallback callback = null;
+
+                policy = new CacheItemPolicy();
+                policy.Priority = CacheItemPriority.NotRemovable;
+                policy.SlidingExpiration =
+                    TimeSpan.FromMinutes(5);
+                policy.RemovedCallback = callback;
+                cache.Set(CacheKeyName, response, policy);
+                model = response.CmsSkinPageWidgets.ToList();
             }
-            
-            return View();
+            return View(model);
         }
 
         public ActionResult About()

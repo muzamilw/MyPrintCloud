@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.Models.DomainModels
 {
     public class StockSubCategory
     {
@@ -8,5 +10,7 @@
         public string Description { get; set; }
         public string Fixed { get; set; }
         public int CategoryId { get; set; }
+        public virtual StockCategory StockCategory { get; set; }
+        public virtual ICollection<StockItem> StockItems { get; set; }
     }
 }

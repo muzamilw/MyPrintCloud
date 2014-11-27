@@ -1,4 +1,5 @@
-﻿@foreach (var widget in ViewBag.widgets)
+﻿@model List<MPC.Webstore.Models.CmsSkinPageWidget>
+@foreach (var widget in Model)
 {
     <div>
         @{ string widgetname = widget.Widget.WidgetName; }
