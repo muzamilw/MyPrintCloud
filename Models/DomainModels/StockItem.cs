@@ -368,6 +368,12 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public string WeightUnitName { get; set; }
+
+        /// <summary>
+        /// Supplier Company Name
+        /// </summary>
+        [NotMapped]
+        public string SupplierCompanyName { get; set; }
         #endregion
     }
 }

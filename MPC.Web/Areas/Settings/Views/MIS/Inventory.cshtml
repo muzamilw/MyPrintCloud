@@ -36,6 +36,7 @@
                                         <th> <span>Category<span></span></span></th>
                                         <th>Cost</th>
                                         <th>&nbsp;</th>
+                                        <th>&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,12 +96,14 @@
 <script id="itemInventoryTemplate" type="text/html">
     <tr data-bind="click: $root.selectedInventory">
         <td data-bind="style: {backgroundColor: colour}"></td>
-        <td data-bind="text: name"></td>
+        <td>
+            <span data-bind="text: name"></span><span class="user-subhead" data-bind="text:supplierCompanyName"></span>
+        </td>
         <td data-bind="text: fullCategoryName"></td>
         <td>
             <span data-bind="text: weight"></span> <span data-bind="text: weightUnitName"></span>
             <br /><br />
-            <span data-bind="text:perQtyQty">Sheets</span>
+            <span data-bind="text:perQtyQty"> Sheets</span>
         </td>
         <td>
             <!-- ko template: { name: 'editActionInventoryTemplate' } -->

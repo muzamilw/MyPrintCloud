@@ -107,6 +107,7 @@ define("inventory/inventory.viewModel",
                     },
                    //Get Inventories
                    createInventory = function () {
+                       selectedInventory(model.StockItem.Create());
                        showInventoryEditor();
                    },
                    // close Inventory Editor

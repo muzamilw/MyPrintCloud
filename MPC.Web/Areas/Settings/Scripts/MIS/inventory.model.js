@@ -1,8 +1,7 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
- // ReSharper disable once InconsistentNaming
     InventoryListView = function (specifiedStockItemId, specifiedName, specifiedWeight, specifiedPerQtyQty, specifiedSizecolour, specifiedCategoryName,
-                            specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName) {
+                            specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName, specifiedSupplierCompanyName) {
         var
             self,
             //Unique ID
@@ -21,7 +20,10 @@
             subCategoryName = ko.observable(specifiedSubCategoryName),
             //Selected Unit Name
             weightUnitName = ko.observable(specifiedWeightUnitName),
+            //category + Sub Category Name
             fullCategoryName = ko.observable(specifiedFullCategoryName),
+            ///Supplier Company Name
+            supplierCompanyName = ko.observable(specifiedSupplierCompanyName),
             convertToServerData = function () {
                 return {
                     StockItemId: id(),
@@ -37,16 +39,106 @@
             subCategoryName: subCategoryName,
             weightUnitName: weightUnitName,
             fullCategoryName: fullCategoryName,
+            supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
         };
         return self;
     };
+    var StockItem = function (specifiedItemId, specifiedItemName, specifiedItemCode, specifiedSupplierId, specifiedCategoryId, specifiedSubCategoryId,
+        specifiedBarCode, specifiedInStock, specifiedDescription, specifiedCreatedDate, specifiedFlagId, specifiedStatusId, specifiedIsDisabled) {
+        var
+            self,
+            //item Id
+            itemId = ko.observable(specifiedItemId),
+            //Item Name
+            itemName = ko.observable(specifiedItemName).extend({ required: true }),
+            //Item Code
+            itemCode = ko.observable(specifiedItemCode),
+            //Supplier Id
+            supplierId = ko.observable(specifiedSupplierId).extend({ required: true }),
+            //Category Id
+            categoryId = ko.observable(specifiedCategoryId).extend({ required: true }),
+            //Sub Category Id
+            subCategoryId = ko.observable(specifiedSubCategoryId),
+            //Bar Code
+            barCode = ko.observable(specifiedBarCode),
+            //in Stock
+            inStock = ko.observable(specifiedInStock),
+            //Item Description
+            description = ko.observable(specifiedDescription),
+            //Created Date
+            createdDate = ko.observable(specifiedCreatedDate),
+            //Flag ID
+            flagId = ko.observable(specifiedFlagId),
+            //Status ID
+            statusId = ko.observable(specifiedStatusId),
+            //Is Disabled
+            isDisabled = ko.observable(specifiedIsDisabled),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // True if the booking has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            convertToServerData = function () {
+                return {
+                    ItemId: itemId(),
+                }
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            itemId: itemId,
+            itemName: itemName,
+            itemCode: itemCode,
+            supplierId: supplierId,
+            categoryId: categoryId,
+            subCategoryId: subCategoryId,
+            barCode: barCode,
+            inStock: inStock,
+            description: description,
+            createdDate: createdDate,
+            flagId: flagId,
+            statusId: statusId,
+            isDisabled: isDisabled,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //Stock Item For Client Factory
+    StockItem.CreateForClient = function (source) {
+        return new StockItem(source.StockItemId, source.ItemName, source.ItemCode, source.SupplierId, source.CategoryId, source.SubCategoryId, source.BarCode,
+         source.inStock, source.ItemDescription, source.StockCreated, source.FlagID, source.Status, source.isDisabled);
+    };
+    // Stock Item Factory
+    StockItem.Create = function () {
+        return new StockItem(1, "", "", undefined, undefined, undefined, "",
+         0, "", undefined, undefined, undefined, false);
+    };
     //Create Factory 
     InventoryListView.Create = function (source) {
         return new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
-                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName);
+                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName);
     };
     return {
         InventoryListView: InventoryListView,
+        StockItem: StockItem,
     };
 });
