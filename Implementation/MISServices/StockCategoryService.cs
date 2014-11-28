@@ -6,7 +6,6 @@ using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
-using MPC.Repository.Repositories;
 
 namespace MPC.Implementation.MISServices
 {
@@ -29,12 +28,12 @@ namespace MPC.Implementation.MISServices
         #endregion
         public StockCategoryResponse GetAll(StockCategoryRequestModel request)
         {
-            int rowCount;
             return stockCategoryRepository.SearchStockCategory(request);
         }
 
         public StockCategory Add(StockCategory stockCategory)
         {
+            //stockCategory.CompanyId = 324234;todo
             stockCategoryRepository.Add(stockCategory);
             stockCategoryRepository.SaveChanges();
             return stockCategory;
@@ -59,7 +58,7 @@ namespace MPC.Implementation.MISServices
             //find missing items
 
             List<StockSubCategory> missingStockSubCategories = new List<StockSubCategory>();
-            //List<VehicleCheckListItem> missingCheckListItems = new List<VehicleCheckListItem>();
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (StockSubCategory dbversionStockSubCategories in stockDbVersion.StockSubCategories)
             {
                 if (stockCategory.StockSubCategories != null && stockCategory.StockSubCategories.All(x => x.SubCategoryId != dbversionStockSubCategories.SubCategoryId))
@@ -75,9 +74,13 @@ namespace MPC.Implementation.MISServices
                 StockSubCategory dbVersionMissingItem = stockDbVersion.StockSubCategories.First(x => x.SubCategoryId == missingStockSubCategory.SubCategoryId);
                 if (dbVersionMissingItem.SubCategoryId > 0)
                 {
+                    if (dbVersionMissingItem.StockItems.Count > 0)
+                    {
+                        throw new Exception(" It is Being used In Stock Items! "); 
+                    }
+                    
                     stockDbVersion.StockSubCategories.Remove(dbVersionMissingItem);
                     stockSubCategoryRepository.Delete(dbVersionMissingItem);
-                    stockSubCategoryRepository.SaveChanges();
                 }
             }
             if (stockCategory.StockSubCategories != null)
@@ -86,7 +89,6 @@ namespace MPC.Implementation.MISServices
                 foreach (var subCategoryItem in stockCategory.StockSubCategories)
                 {
                     stockSubCategoryRepository.Update(subCategoryItem);
-                    stockSubCategoryRepository.SaveChanges();
                 }
             }
 
@@ -98,6 +100,11 @@ namespace MPC.Implementation.MISServices
 
         public bool Delete(int stockCategoryId)
         {
+            var stockCategoryToBeDeleted = GetStockCategoryById(stockCategoryId);
+            if (stockCategoryToBeDeleted.StockItems.Count > 0)
+            {
+                throw new Exception (" It is Being used In Stock Items! ");
+            }
             stockCategoryRepository.Delete(GetStockCategoryById(stockCategoryId));
             stockCategoryRepository.SaveChanges();
             return true;

@@ -80,9 +80,9 @@ define("paperSheet/paperSheet.viewModel",
                                 }
                                 isLoadingPaperSheet(false);
                             },
-                            error: function () {
+                            error: function (response) {
                                 isLoadingPaperSheet(false);
-                                toastr.error(ist.resourceText.loadAddChargeDetailFailedMsg);
+                                toastr.error("Error: Failed to Load Paper Sheet Data." + response);
                             }
                         });
                     },
@@ -114,12 +114,8 @@ define("paperSheet/paperSheet.viewModel",
                                 view.hidePaperSheetDialog();
                                 toastr.success("Successfully save.");
                             },
-                            error: function (exceptionMessage, exceptionType) {
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
-                                    toastr.error(exceptionMessage);
-                                } else {
-                                    toastr.error("Failed to save.");
-                                }
+                            error: function (response) {
+                                    toastr.error("Failed to save." + response);
                             }
                         });
                     },

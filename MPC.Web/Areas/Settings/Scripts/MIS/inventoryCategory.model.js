@@ -31,7 +31,6 @@
                 flag3 = ko.observable(specifiedFlag3),
                 flag4 = ko.observable(specifiedFlag4),
                 companyId = ko.observable(specifiedCompanyId),
-                //stockSubCategories = ko.observable(specifiedStockSubCategories),
                 stockSubCategories = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
@@ -43,9 +42,10 @@
                     return errors().length === 0 ? true : false;
                 }),
 
-                // True if the booking has been changed
+
                 // ReSharper disable InconsistentNaming
                 dirtyFlag = new ko.dirtyFlag({
+                    // ReSharper restore InconsistentNaming
                     categoryId: categoryId,
                     code: code,
                     name: name,
@@ -72,33 +72,34 @@
              hasChanges = ko.computed(function () {
                  return dirtyFlag.isDirty();
              }),
+             //Convert To Server
              convertToServerData = function (source) {
                  var result = {};
-                 result.CategoryId= source.categoryId();
-                     result.Code= source.code();
-                     result.Name= source.name();
-                     result.Description= source.description();
-                     result.Fixed= source.fixed() == false ? 0 : 1;
-                     result.ItemWeight= source.itemWeight() == false ? 0 : 1;
-                     result.ItemColour= source.itemColour() == false ? 0 : 1;
-                     result.ItemSizeCustom= source.itemSizeCustom() == false ? 0 : 1;
-                     result.ItemPaperSize= source.itemPaperSize() == false ? 0 : 1;
-                     result.ItemCoatedType= source.itemCoatedType() == false ? 0 : 1;
-                     result.ItemCoated= source.itemCoated() == false ? 0 : 1;
-                     result.ItemExposure= source.itemExposure() == false ? 0 : 1;
-                     result.ItemCharge= source.itemCharge() == false ? 0 : 1;
-                     result.RecLock= source.recLock() == false ? 0 : 1;
-                     result.TaxId= source.taxId();
-                     result.Flag1= source.flag1() == false ? 0 : 1;
-                     result.Flag2= source.flag2() == false ? 0 : 1;
-                     result.Flag3= source.flag3() == false ? 0 : 1;
-                     result.Flag4= source.flag4() == false ? 0 : 1;
-                     result.CompanyId = source.companyId();
+                 result.CategoryId = source.categoryId();
+                 result.Code = source.code();
+                 result.Name = source.name();
+                 result.Description = source.description();
+                 result.Fixed = source.fixed() == false ? 0 : 1;
+                 result.ItemWeight = source.itemWeight() == false ? 0 : 1;
+                 result.ItemColour = source.itemColour() == false ? 0 : 1;
+                 result.ItemSizeCustom = source.itemSizeCustom() == false ? 0 : 1;
+                 result.ItemPaperSize = source.itemPaperSize() == false ? 0 : 1;
+                 result.ItemCoatedType = source.itemCoatedType() == false ? 0 : 1;
+                 result.ItemCoated = source.itemCoated() == false ? 0 : 1;
+                 result.ItemExposure = source.itemExposure() == false ? 0 : 1;
+                 result.ItemCharge = source.itemCharge() == false ? 0 : 1;
+                 result.RecLock = source.recLock() == false ? 0 : 1;
+                 result.TaxId = source.taxId();
+                 result.Flag1 = source.flag1() == false ? 0 : 1;
+                 result.Flag2 = source.flag2() == false ? 0 : 1;
+                 result.Flag3 = source.flag3() == false ? 0 : 1;
+                 result.Flag4 = source.flag4() == false ? 0 : 1;
+                 result.CompanyId = source.companyId();
                  //SubCategories
-                     result.StockSubCategories = [];
-                     _.each(source.stockSubCategories(), function (item) {
-                         result.StockSubCategories.push(item.convertToServerData());
-                     });
+                 result.StockSubCategories = [];
+                 _.each(source.stockSubCategories(), function (item) {
+                     result.StockSubCategories.push(item.convertToServerData());
+                 });
                  return result;
              },
             // Reset
@@ -137,8 +138,7 @@
             return self;
         };
     //function to attain cancel button functionality 
-    InventoryCategory.CreateFromClientModel = function (source)
-    {
+    InventoryCategory.CreateFromClientModel = function (source) {
         var newInventoryCategory = new InventoryCategory(
             source.categoryId,
             source.code,
@@ -165,7 +165,7 @@
         });
         return newInventoryCategory;
     };
-    
+
 
     // InventoryCategory Factory
     InventoryCategory.Create = function (source) {
@@ -196,7 +196,7 @@
         });
         return newInventoryCategory;
     };
-    
+
 
     // *** INVENTORY SUB CATEGORY***
 
@@ -212,7 +212,7 @@
             categoryId = ko.observable(specifiedCategoryId),
          // Errors
          errors = ko.validation.group({
-            // code: code,
+             // code: code,
              name: name
          }),
             // Is Valid 
@@ -271,8 +271,8 @@
     InventorySubCategory.CreateFromClientModel = function (source) {
         return new InventorySubCategory(source.subCategoryId, source.code, source.name, source.description, source.fixed, source.categoryId);
     };
-    
-    
+
+
     InventorySubCategory.Create = function (source) {
         return new InventorySubCategory(source.SubCategoryId, source.Code, source.Name, source.Description, source.Fixed, source.CategoryId);
     };

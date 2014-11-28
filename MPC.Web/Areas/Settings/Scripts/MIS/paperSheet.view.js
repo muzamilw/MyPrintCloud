@@ -1,7 +1,4 @@
-﻿/*
-    View for the tariff Type. Used to keep the viewmodel clear of UI related logic
-*/
-define("paperSheet/paperSheet.view",
+﻿define("paperSheet/paperSheet.view",
     ["jquery", "paperSheet/paperSheet.viewModel"], function ($, paperSheetViewModel) {
 
     	var ist = window.ist || {};
@@ -26,9 +23,6 @@ define("paperSheet/paperSheet.view",
                 	if (!bindingRoot) {
                 		return;
                 	}
-
-                	// Handle Sorting
-                	// handleSorting("tariffTypeTable", viewModel.sortOn, viewModel.sortIsAsc, viewModel.getTariffType);
                 };
     		initialize();
     		return {

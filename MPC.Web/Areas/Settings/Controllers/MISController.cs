@@ -21,5 +21,10 @@ namespace MPC.MIS.Areas.Settings.Controllers
         {
             return View();
         }
+        // GET: Settings/InventoryCategory
+        public ActionResult InventoryCategory()
+        {
+            return View();
+        }
     }
 }
