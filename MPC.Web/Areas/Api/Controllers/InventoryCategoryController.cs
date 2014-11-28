@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -9,10 +8,7 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.ModelMappers;
 using MPC.MIS.Models;
 using MPC.Models.RequestModels;
-using MPC.Models.ResponseModels;
 using MPC.WebBase.Mvc;
-using Models = MPC.MIS.Models;
-using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -44,10 +40,6 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         public ResponseModels.StockCategoryResponse Get([FromUri] StockCategoryRequestModel request)
         {
-            //IEnumerable<Models.StockCategory> stockCategories= null;
-
-            //stockCategories = stockCategoryService.GetAll(request).StockCategories.Select(x=>x.CreateFrom()).ToList();
-            //var categories = stockCategories as IList<StockCategory> ?? stockCategories.ToList();
             var result = stockCategoryService.GetAll(request);
             return new ResponseModels.StockCategoryResponse
             {

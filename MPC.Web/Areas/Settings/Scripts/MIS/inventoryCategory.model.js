@@ -31,7 +31,6 @@
                 flag3 = ko.observable(specifiedFlag3),
                 flag4 = ko.observable(specifiedFlag4),
                 companyId = ko.observable(specifiedCompanyId),
-                //stockSubCategories = ko.observable(specifiedStockSubCategories),
                 stockSubCategories = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({

@@ -54,7 +54,7 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
-public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
+        public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
@@ -67,7 +67,7 @@ public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel reque
                                                                      ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified);
 
             int rowCount = DbSet.Count(query);
-            IEnumerable<StockCategory> stockCategories= request.IsAsc
+            IEnumerable<StockCategory> stockCategories = request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(stockCategoryOrderByClause[request.StockCategoryOrderBy])
                     .Skip(fromRow)
