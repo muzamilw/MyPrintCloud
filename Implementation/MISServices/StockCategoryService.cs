@@ -35,6 +35,7 @@ namespace MPC.Implementation.MISServices
 
         public StockCategory Add(StockCategory stockCategory)
         {
+            //stockCategory.CompanyId = 324234;todo
             stockCategoryRepository.Add(stockCategory);
             stockCategoryRepository.SaveChanges();
             return stockCategory;
@@ -75,9 +76,14 @@ namespace MPC.Implementation.MISServices
                 StockSubCategory dbVersionMissingItem = stockDbVersion.StockSubCategories.First(x => x.SubCategoryId == missingStockSubCategory.SubCategoryId);
                 if (dbVersionMissingItem.SubCategoryId > 0)
                 {
+                    if (dbVersionMissingItem.StockItems.Count > 0)
+                    {
+                        throw new Exception(" It is Being used In Stock Items! "); 
+                    }
+                    
                     stockDbVersion.StockSubCategories.Remove(dbVersionMissingItem);
                     stockSubCategoryRepository.Delete(dbVersionMissingItem);
-                    stockSubCategoryRepository.SaveChanges();
+                    //stockSubCategoryRepository.SaveChanges();
                 }
             }
             if (stockCategory.StockSubCategories != null)
@@ -86,7 +92,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var subCategoryItem in stockCategory.StockSubCategories)
                 {
                     stockSubCategoryRepository.Update(subCategoryItem);
-                    stockSubCategoryRepository.SaveChanges();
+                    //stockSubCategoryRepository.SaveChanges();
                 }
             }
 
@@ -98,6 +104,11 @@ namespace MPC.Implementation.MISServices
 
         public bool Delete(int stockCategoryId)
         {
+            var stockCategoryToBeDeleted = GetStockCategoryById(stockCategoryId);
+            if (stockCategoryToBeDeleted.StockItems.Count > 0)
+            {
+                throw new Exception (" It is Being used In Stock Items! ");
+            }
             stockCategoryRepository.Delete(GetStockCategoryById(stockCategoryId));
             stockCategoryRepository.SaveChanges();
             return true;
