@@ -19,6 +19,21 @@
         /// <summary>
         /// Can Change Marup
         /// </summary>
-        CanChangeMarkup = 3
+        CanChangeMarkup = 3,
+
+        /// <summary>
+        /// Can View PaperSheet
+        /// </summary>
+        CanVeiwPaperSheet = 4,
+
+        /// <summary>
+        /// Can View Inventory
+        /// </summary>
+        CanVeiwInventory = 5,
+
+        /// <summary>
+        /// Can View Inventory Category
+        /// </summary>
+        CanVeiwInventoryCategory = 6
     }
 }

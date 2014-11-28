@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
-using Microsoft.IdentityModel.Claims;
+//using Microsoft.IdentityModel.Claims;
 
 namespace MPC.Common
 {
@@ -51,19 +52,19 @@ namespace MPC.Common
                 throw new ArgumentException(LanguageResources.InvalidString, "claimType");
             }
 
-            IClaimsPrincipal claimsPrincipal = Thread.CurrentPrincipal as IClaimsPrincipal;
+            ClaimsPrincipal claimsPrincipal = Thread.CurrentPrincipal as ClaimsPrincipal;
             if (claimsPrincipal == null)
             {
                 throw new InvalidOperationException(LanguageResources.ClaimHelper_UnexpectedPrincipalType);
             }
 
-            IClaimsIdentity identity = claimsPrincipal.Identity as IClaimsIdentity;
+            ClaimsIdentity identity = claimsPrincipal.Identity as ClaimsIdentity;
             if (identity == null)
             {
                 throw new InvalidOperationException(LanguageResources.ClaimHelper_UnexpectedIdentityType);
             }
 
-            IEnumerable<Claim> claims = identity.Claims.Where(c => c.ClaimType == claimType);
+            IEnumerable<Claim> claims = identity.Claims.Where(c => c.Type == claimType);
             return claims.Select(claim => claim.Deserialize<T>()).ToList();
         }
 

@@ -50,9 +50,10 @@ namespace MPC.Interfaces.Repository
         void SaveChanges();
 
         /// <summary>
-        /// User Domain Key
+        /// Organisation Id
+        /// Muti-tenant Key
         /// </summary>
-        int UserDomainKey { get; }
+        long OrganisationId { get; }
 
         /// <summary>
         /// Logged in user identity

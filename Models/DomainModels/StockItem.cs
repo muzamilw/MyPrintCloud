@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -353,6 +354,20 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual IEnumerable<StockCostAndPrice> StockCostAndPrices { get; set; }
 
+        #endregion
+
+        #region Additional Properties
+        /// <summary>
+        /// Flag Color
+        /// </summary>
+        [NotMapped]
+        public string FlagColor { get; set; }
+
+        /// <summary>
+        /// Weight Unit Name
+        /// </summary>
+        [NotMapped]
+        public string WeightUnitName { get; set; }
         #endregion
     }
 }

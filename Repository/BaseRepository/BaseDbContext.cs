@@ -69,6 +69,21 @@ namespace MPC.Repository.BaseRepository
         public DbSet<StockItem> StockItems { get; set; }
 
         /// <summary>
+        /// Section Db Set
+        /// </summary>
+        public DbSet<Section> Sections { get; set; }
+
+        /// <summary>
+        /// Section Flag
+        /// </summary>
+        public DbSet<SectionFlag> SectionFlags { get; set; }
+
+        /// <summary>
+        /// Weight Units
+        /// </summary>
+        public DbSet<WeightUnit> WeightUnits { get; set; }
+
+        /// <summary>
         /// Stock Cost And Price Db Set
         /// </summary>
         public DbSet<StockCostAndPrice> StockCostAndPrices { get; set; }

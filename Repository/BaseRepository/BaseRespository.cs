@@ -6,9 +6,12 @@ using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Web;
 using Microsoft.Practices.Unity;
+using MPC.Common;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 
 namespace MPC.Repository.BaseRepository
@@ -135,16 +138,19 @@ namespace MPC.Repository.BaseRepository
         {
             db.LoadProperty(entity, propertyExpression, isCollection);
         }
+
         /// <summary>that specifies the User's domain on the system
         /// User Domain key 
         /// </summary>        
-        public int UserDomainKey
+        public long OrganisationId
         {
             get
             {
-                return 1;
+                IEnumerable<OrganisationClaimValue> organisationClaimValues = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(MpcClaimTypes.Organisation);
+                return organisationClaimValues != null && organisationClaimValues.Any() ? organisationClaimValues.ElementAt(0).OrganisationId : 1;
             }
         }
+        
         /// <summary>
         /// Logged in User Identity
         /// </summary>
@@ -152,7 +158,10 @@ namespace MPC.Repository.BaseRepository
         {
             get
             {
-                return "MyPrintCloud";
+                IEnumerable<NameClaimValue> nameClaimValues = ClaimHelper.GetClaimsByType<NameClaimValue>(MpcClaimTypes.MisUser);
+                return nameClaimValues != null && nameClaimValues.Any()
+                    ? nameClaimValues.ElementAt(0).Name
+                    : "MyPrintCloud";
             }
         }
 

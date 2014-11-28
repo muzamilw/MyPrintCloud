@@ -1,100 +1,52 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
-// ReSharper disable once InconsistentNaming
-        Inventory = function (specifiedPaperSizeId, specifiedName, specifiedHeight, specifiedWidth, specifiedSizeMeasure, specifiedArea,
-                                specifiedIsFixed, specifiedRegion, specifiedIsArchived) {
-            var
-                self,
-                paperSizeId = ko.observable(specifiedPaperSizeId),
-                name = ko.observable(specifiedName).extend({ required: true }),
-                height = ko.observable(specifiedHeight).extend({ required: true, number: true }),
-                width = ko.observable(specifiedWidth).extend({ required: true, number: true }),
-                sizeMeasure = ko.observable(specifiedSizeMeasure),
-                area = ko.observable(specifiedArea),
-                isFixed = ko.observable(specifiedIsFixed),
-                region = ko.observable(specifiedRegion),
-                isArchived = ko.observable(specifiedIsArchived),
-             // Errors
-             errors = ko.validation.group({
-                 name: name,
-                 height: height,
-                 width: width
-             }),
-                // Is Valid 
-             isValid = ko.computed(function () {
-                 return errors().length === 0 ? true : false;
-             }),
-
-             // True if the booking has been changed
-             // ReSharper disable InconsistentNaming
-             dirtyFlag = new ko.dirtyFlag({
-                 paperSizeId: paperSizeId,
-                 name: name,
-                 height: height,
-                 width: width,
-                 sizeMeasure: sizeMeasure,
-                 area: area,
-                 isFixed: isFixed,
-                 region: region,
-                 isArchived: isArchived
-             }),
-             // Has Changes
-             hasChanges = ko.computed(function () {
-                 return dirtyFlag.isDirty();
-             }),
-             convertToServerData = function () {
-                 return {
-                     PaperSizeId: paperSizeId(),
-                     Name: name(),
-                     Height: height(),
-                     Width: width(),
-                     SizeMeasure: sizeMeasure(),
-                     Area: area(),
-                     IsFixed: isFixed(),
-                     Region: region(),
-                     IsArchived: isArchived()
-                 }
-             },
-            // Reset
-             reset = function () {
-                 dirtyFlag.reset();
-             };
-            self = {
-                paperSizeId: paperSizeId,
-                name: name,
-                height: height,
-                width: width,
-                sizeMeasure: sizeMeasure,
-                area: area,
-                isFixed: isFixed,
-                region: region,
-                isArchived: isArchived,
-                isValid: isValid,
-                errors: errors,
-                dirtyFlag: dirtyFlag,
-                hasChanges: hasChanges,
-                convertToServerData: convertToServerData,
-                reset: reset
+ // ReSharper disable once InconsistentNaming
+    InventoryListView = function (specifiedStockItemId, specifiedName, specifiedWeight, specifiedPerQtyQty, specifiedSizecolour, specifiedCategoryName,
+                            specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName) {
+        var
+            self,
+            //Unique ID
+            id = ko.observable(specifiedStockItemId),
+            //Name
+            name = ko.observable(specifiedName),
+            //Weight
+            weight = ko.observable(specifiedWeight),
+            //Per quantity
+            perQtyQty = ko.observable(specifiedPerQtyQty),
+            //Flag Color
+            colour = ko.observable(specifiedSizecolour),
+            //Stock Category Name
+            categoryName = ko.observable(specifiedCategoryName),
+            //Stock Sub category Name
+            subCategoryName = ko.observable(specifiedSubCategoryName),
+            //Selected Unit Name
+            weightUnitName = ko.observable(specifiedWeightUnitName),
+            fullCategoryName = ko.observable(specifiedFullCategoryName),
+            convertToServerData = function () {
+                return {
+                    StockItemId: id(),
+                }
             };
-            return self;
+        self = {
+            id: id,
+            name: name,
+            weight: weight,
+            perQtyQty: perQtyQty,
+            colour: colour,
+            categoryName: categoryName,
+            subCategoryName: subCategoryName,
+            weightUnitName: weightUnitName,
+            fullCategoryName: fullCategoryName,
+            convertToServerData: convertToServerData,
         };
-    //function to attain cancel button functionality 
-    Inventory.CreateFromClientModel = function (source) {
-        return new PaperSheet(source.paperSizeId, source.name, source.height, source.width, source.sizeMeasure, source.area,
-                              source.isFixed, source.region, source.isArchived);
+        return self;
     };
-    // server to client mapper
-    var paperSheetServertoClientMapper = function (source) {
-        return PaperSheet.Create(source);
-    };
-
-    // Area Factory
-    Inventory.Create = function (source) {
-        return new PaperSheet(source.PaperSizeId, source.Name, source.Height, source.Width, source.SizeMeasure, source.Area,
-                              source.IsFixed, source.Region, source.IsArchived);
+    //Create Factory 
+    InventoryListView.Create = function (source) {
+        return new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
+                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName);
     };
     return {
-        Inventory: Inventory,
-        paperSheetServertoClientMapper: paperSheetServertoClientMapper
+        InventoryListView: InventoryListView,
     };
 });

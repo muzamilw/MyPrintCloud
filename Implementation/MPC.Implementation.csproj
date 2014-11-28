@@ -133,7 +133,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="MISServices\ApplicationUserManager.cs" />
     <Compile Include="MISServices\AuthorizationChecker.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />

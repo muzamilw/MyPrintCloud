@@ -20,7 +20,7 @@ namespace MPC.MIS.ModelMappers
         {
             return new ApiResponse.MyOrganizationBaseResponse
             {
-               
+
                 ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 //TaxRates = source.Markups != null ? source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList() : null,
@@ -35,32 +35,37 @@ namespace MPC.MIS.ModelMappers
         /// </summary>
         public static ApiModels.Organisation CreateFrom(this DomainModels.Organisation source)
         {
-           return new ApiModels.Organisation
+            byte[] bytes = null;
+            if (source.MISLogo != null && File.Exists(source.MISLogo))
+            {
+                bytes = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null;
+            }
+            return new ApiModels.Organisation
            {
-             OrganisationId = source.OrganisationId,
-             OrganisationName = source.OrganisationName,
-             Address1 = source.Address1,
-             Address2 = source.Address2,
-             Address3 = source.Address3,
-             City = source.City,
-             State = source.State,
-             Country = source.Country,
-             ZipCode = source.ZipCode,
-             Tel = source.Tel,
-             Fax = source.Fax,
-             MarkupId = source.MarkupId,
-             LanguageId = source.LanguageId,
-             CurrencyId = source.CurrencyId,
-             SystemLengthUnit = source.SystemLengthUnit,
-             SystemWeightUnit = source.SystemWeightUnit,
+               OrganisationId = source.OrganisationId,
+               OrganisationName = source.OrganisationName,
+               Address1 = source.Address1,
+               Address2 = source.Address2,
+               Address3 = source.Address3,
+               City = source.City,
+               State = source.State,
+               Country = source.Country,
+               ZipCode = source.ZipCode,
+               Tel = source.Tel,
+               Fax = source.Fax,
+               MarkupId = source.MarkupId,
+               LanguageId = source.LanguageId,
+               CurrencyId = source.CurrencyId,
+               SystemLengthUnit = source.SystemLengthUnit,
+               SystemWeightUnit = source.SystemWeightUnit,
 
-             Email = source.Email,
-             Mobile = source.Mobile,
-             Url = source.URL,
-             MisLogo = source.MISLogo,
-             TaxRegistrationNo = source.TaxRegistrationNo,
-             Image = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null
-         };
+               Email = source.Email,
+               Mobile = source.Mobile,
+               Url = source.URL,
+               MisLogo = source.MISLogo,
+               TaxRegistrationNo = source.TaxRegistrationNo,
+               Image = bytes
+           };
         }
 
         /// <summary>

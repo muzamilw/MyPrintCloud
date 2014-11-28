@@ -41,7 +41,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<TaxRate> GetAll()
         {
-            return DbSet.Where(taxRate => taxRate.UserDomainKey == UserDomainKey).ToList();
+            return DbSet.Where(taxRate => taxRate.UserDomainKey == OrganisationId).ToList();
         }
         #endregion
     }

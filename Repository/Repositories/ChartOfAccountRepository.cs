@@ -42,7 +42,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<ChartOfAccount> GetAll()
         {
-            return DbSet.Where(chartOfAccount => chartOfAccount.UserDomainKey == UserDomainKey).ToList();
+            return DbSet.Where(chartOfAccount => chartOfAccount.UserDomainKey == OrganisationId).ToList();
         }
         #endregion
     }
