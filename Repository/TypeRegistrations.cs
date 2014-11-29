@@ -30,6 +30,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IProductCategoryRepository, ProductCategoryRepository>();
             unityContainer.RegisterType<IStockItemRepository, StockItemRepository>();
             unityContainer.RegisterType<IStockCostAndPriceRepository, StockCostAndPriceRepository>();
+            unityContainer.RegisterType<ICmsPageRepository, CmsPageRepository>();
+            unityContainer.RegisterType<IPageCategoryRepository, PageCategoryRepository>();
         }
     }
 }

@@ -9,5 +9,9 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICmsPageRepository : IBaseRepository<CmsPage, long>
     {
+
+        List<CmsPage> GetSecondaryPages(long companyId);
+
+      
     }
 }

@@ -1,0 +1,27 @@
+﻿
+
+
+
+ @foreach (var item in ViewData["PageCategory"] as List<MPC.Webstore.Models.PageCategory>)
+ {
+    <div class="footer_left_portion_division float_left_simple">
+        <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:black;">@item.CategoryName</label>
+       @* <asp:Label ID="lblQuickLinks1" runat="server" Text="Label" CssClass="heading_small_orange themeFontColor" Style="font-size: 14px;font-weight:bolder;">@item.CategoryName</asp:Label>*@
+    
+                @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPage>)
+                {
+                    if (page.CategoryId == item.CategoryId)
+                    {
+                           <ul>
+                               <li>
+                                   <a href="#" id="secPages" class="uSecPageList" style="color:black;">@page.PageTitle</a>
+                               </li>
+                           </ul>
+                    }
+               }
+        
+        @*<asp:BulletedList CssClass="uSecPageList themeFontColor" ID="lstQuickLinks1" runat="server" DisplayMode="HyperLink">
+        </asp:BulletedList>*@
+    </div>
+ }
+

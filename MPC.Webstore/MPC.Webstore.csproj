@@ -220,14 +220,18 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
+    <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelMappers\CmsPageMapper.cs" />
     <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
     <Compile Include="ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="ModelMappers\CompanyMapper.cs" />
     <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
+    <Compile Include="ModelMappers\PageCategoryMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CmsPage.cs" />
     <Compile Include="Models\CmsSkinPageWidget.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyBanner.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Organisation.cs" />
+    <Compile Include="Models\PageCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseResponse.cs" />
     <Compile Include="Startup.cs" />
@@ -317,6 +322,7 @@
     <Content Include="Views\Shared\PartialViews\Banner.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBar.cshtml" />
     <Content Include="Views\Shared\PartialViews\ParentCategories.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

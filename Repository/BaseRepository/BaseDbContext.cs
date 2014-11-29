@@ -109,6 +109,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<CategoryTerritory> CategoryTerritories { get; set; }
 
+        public DbSet<PageCategory> PageCategories { get; set; }
         #endregion
     }
 }

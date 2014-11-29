@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets037BED906E927F408972451786D12AF7F60AD0F590AD454670268E08C15A8C8A))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets037BED906E927F408972451786D12AF7F60AD0F590AD454670268E08C15A8C8A : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288()
+        public ViewsForBaseEntitySets037BED906E927F408972451786D12AF7F60AD0F590AD454670268E08C15A8C8A()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "f9a8118b9c4bd22171fdc892665ad49d4abe839dedd38e4d287bf4be6644cc33";
-            this.HashOverAllExtentViews = "4936c2b33264500e08543acb88bf136843ba75c9ab71a48bba73b3d167eab0bd";
-            this.ViewCount = 36;
+            this.HashOverMappingClosure = "ae4ffbe45204a4662f00ad85afe430c81a08a4a50ff963ba51d74a1e07b436ae";
+            this.HashOverAllExtentViews = "84e2ff57579ec83ad66c8b3feb858c893e9d4ae14579d46965ded1183d64d21f";
+            this.ViewCount = 38;
         }
         
         /// <Summary>
@@ -180,6 +180,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 35))
             {
                 return GetView35();
+            }
+            if ((index == 36))
+            {
+                return GetView36();
+            }
+            if ((index == 37))
+            {
+                return GetView37();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -1504,6 +1512,40 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.StockItem A");
             viewString.Append("S T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockItems", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.PageCategory
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView36()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PageCategory", @"
+    SELECT VALUE -- Constructing PageCategory
+        [DomainModels.Store.PageCategory](T1.PageCategory_CategoryId, T1.PageCategory_CategoryName)
+    FROM (
+        SELECT 
+            T.CategoryId AS PageCategory_CategoryId, 
+            T.CategoryName AS PageCategory_CategoryName, 
+            True AS _from0
+        FROM BaseDbContext.PageCategories AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.PageCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView37()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PageCategories", @"
+    SELECT VALUE -- Constructing PageCategories
+        [DomainModels.PageCategory](T1.PageCategory_CategoryId, T1.PageCategory_CategoryName)
+    FROM (
+        SELECT 
+            T.CategoryId AS PageCategory_CategoryId, 
+            T.CategoryName AS PageCategory_CategoryName, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.PageCategory AS T
+    ) AS T1");
         }
     }
 }

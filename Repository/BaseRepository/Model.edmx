@@ -272,6 +272,13 @@
           <Property Name="LanguageId" Type="bigint" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PageCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="PaperSize">
           <Key>
             <PropertyRef Name="PaperSizeId" />
@@ -521,7 +528,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_StockCategory_StockSubCategory">
-          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1" />
+          <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="StockSubCategory" Type="Self.StockSubCategory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="StockCategory">
@@ -640,6 +649,7 @@
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageCategory" EntityType="Self.PageCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCategory" EntityType="Self.StockCategory" Schema="dbo" store:Type="Tables" />
@@ -775,6 +785,7 @@
             <End Role="StockSubCategory" EntitySet="StockSubCategories" />
             <End Role="StockItem" EntitySet="StockItems" />
           </AssociationSet>
+          <EntitySet Name="PageCategories" EntityType="DomainModels.PageCategory" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -1426,6 +1437,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PageCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1916,6 +1934,14 @@
                 <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="StockItemId" ColumnName="StockItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageCategories">
+            <EntityTypeMapping TypeName="DomainModels.PageCategory">
+              <MappingFragment StoreEntitySet="PageCategory">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
