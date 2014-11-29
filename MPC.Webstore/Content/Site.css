@@ -2638,13 +2638,13 @@ span.radioBtnPaperTypeClass input
     background-image: url('Images/sprite.png');
     background-position: -124px 0px;
     width: 19px;
-    height: 20px;
+    height: 25px;
     border: none;
     float: left;
     margin-right: 5px;
 }
 
-.registering_item_register
+.registering_item_register.smallAveniorLogin
 {
     padding-top: 12px;
     font-size: 13px;
@@ -2652,7 +2652,7 @@ span.radioBtnPaperTypeClass input
 
 .registering_item
 {
-    padding-top: 15px;
+    padding-top: 5px;
     font-size: 13px;
 }
 
@@ -4304,7 +4304,7 @@ width: 520px*/
 
 .SignUpButton
 {
-    background: url('../../images/Sign_up_Email.PNG');
+    background: url('Images/Sign_up_Email.PNG');
     background-repeat: no-repeat;
     height: 36px;
     border: 0px;
@@ -6370,7 +6370,7 @@ width: 520px*/
     text-indent: -9999px;
     width: 37px;
     height: 38px;
-    background: url('../../images/sprite.png');
+    background: url('Images/sprite.png');
     position: absolute;
     top: 44%;
     z-index: 999;
@@ -13923,8 +13923,8 @@ ul.LogBar li a
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 10px;
-    margin-top: 7px;
-    width: 105px;
+    margin-top: 2px;
+    width: 285px;
 }
 
 .mainHeadingAveniorCheckout
@@ -15920,10 +15920,6 @@ ul.LogBar li a
         height: 195px;
         background-color: #f3f3f3;
         margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
     }
 
     .cntRegisterFN
@@ -17412,10 +17408,6 @@ ul.LogBar li a
         height: 195px;
         background-color: #f3f3f3;
         margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
     }
 
     .cntRegisterFN
@@ -19120,10 +19112,6 @@ ul.LogBar li a
         height: 260px;
         background-color: #f3f3f3;
         margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
         margin-bottom: 10px;
     }
 
@@ -20701,10 +20689,6 @@ ul.LogBar li a
         height: 195px;
         background-color: #f3f3f3;
         margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
     }
 
     .cntRegisterFN
@@ -22276,10 +22260,6 @@ ul.LogBar li a
         height: 195px;
         background-color: #f3f3f3;
         margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
     }
 
     .cntRegisterFN
@@ -24094,7 +24074,7 @@ ul.LogBar li a
     .cntSignInWithSocialinks
     {
         text-align: center;
-        width: 400px !important;
+        width: 347px !important;
         float: left;
     }
 
@@ -24177,7 +24157,7 @@ ul.LogBar li a
         text-align: left;
     }
 
-    #MainContent_lgnctrl_cntOrBottom
+    #cntOrBottom
     {
         /*width: 400px !important;*/
         text-align: center;
@@ -24188,7 +24168,7 @@ ul.LogBar li a
     {
         /*margin-left: 408px;*/
         float: right;
-        width: 14em !important;
+        width: 127px !important;
         margin-right: 0px !important;
     }
 
@@ -24201,27 +24181,24 @@ ul.LogBar li a
 
     .containerRegisternow
     {
-        float: right;
-        width: 270px !important;
-        height: 155px !important;
-        margin-top: 72px !important;
-        margin-right: 43px !important;
+        float: none;
+width: 100% !important;
+height: 80px !important;
+margin-top: 80px !important;
+margin-right: 0px !important;
+text-align: center;
     }
 
     .divDontHaveAccont
     {
-        float: right;
-        padding-top: 10px;
-        padding-bottom: 40px;
-        padding-left: 40px !important;
-        padding-right: 40px !important;
-        height: 270px;
-        background-color: #f3f3f3;
-        margin-right: 10px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        border-radius: 5px;
+       float: none;
+padding-top: 10px;
+padding-bottom: 40px;
+padding-left: 40px !important;
+padding-right: 40px !important;
+height: 295px;
+background-color: #f3f3f3;
+margin-right: 10px;
     }
 
     .cntRegisterFN
@@ -24365,7 +24342,7 @@ ul.LogBar li a
     position: absolute;
     width: 42px;
     height: 42px;
-    background: url('../../images/SocialSprite.png') -129px 0px no-repeat;
+    background: url('Images/SocialSprite.png') -129px 0px no-repeat;
     background-color: #5a78b9;
     background-color: rgba(255, 255, 255, 0.08);
 }
@@ -24376,14 +24353,14 @@ ul.LogBar li a
     margin-top: 10px;
     width: 41px;
     height: 41px;
-    background: url('../../images/SocialSprite.png') -43px -97px no-repeat;
+    background: url('Images/SocialSprite.png') -43px -97px no-repeat;
     background-color: #49b6e1;
     background-color: rgba(255, 255, 255, 0.08);
 }
 
 .connectWithgPlus
 {
-    background: url('../../images/gPlus.png');
+    background: url('Iimages/gPlus.png');
     background-repeat: no-repeat;
     width: 305px;
     height: 48px;
@@ -24410,7 +24387,7 @@ ul.LogBar li a
     padding-bottom: 15px;
 }
 
-#MainContent_lgnctrl_cntOrRight
+#cntOrRight
 {
     float: left;
     float: left;
@@ -24429,7 +24406,7 @@ ul.LogBar li a
     margin-top: -11px;
     width: 41px;
     height: 42px;
-    background: url('../../images/SocialSprite.png') -43px -97px no-repeat;
+    background: url('Images/SocialSprite.png') -43px -97px no-repeat;
     background-color: #49b6e1;
     background-color: rgba(255, 255, 255, 0.08);
     z-index: 999;
@@ -24451,7 +24428,7 @@ ul.LogBar li a
 
 .ShareFbBtn
 {
-    background-image: url('../../images/ShareFacebook.png');
+    background-image: url('Iimages/ShareFacebook.png');
     background-repeat: no-repeat;
     width: 44px;
     padding: 12px;
@@ -24473,7 +24450,7 @@ ul.LogBar li a
 
 .ShareLinkInBtn
 {
-    background-image: url('../../images/linkInShare.png');
+    background-image: url('Images/linkInShare.png');
     background-repeat: no-repeat;
     width: 42px;
     padding: 12px;
@@ -24486,7 +24463,7 @@ ul.LogBar li a
 
 .ShareGoogPluss
 {
-    background-image: url('../../images/GoogPluss.png');
+    background-image: url('mages/GoogPluss.png');
     background-repeat: no-repeat;
     width: 43px;
     padding: 12px;

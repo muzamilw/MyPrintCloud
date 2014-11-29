@@ -217,6 +217,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginBarController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="ModelMappers\CompanyMapper.cs" />
     <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
+    <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CmsSkinPageWidget.cs" />
     <Compile Include="Models\Company.cs" />
@@ -243,6 +245,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\Sign_up_Email.PNG" />
+    <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\js-image-slider.css" />
     <Content Include="favicon.ico" />
@@ -317,6 +321,7 @@
     <Content Include="Views\Shared\PartialViews\Banner.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBar.cshtml" />
     <Content Include="Views\Shared\PartialViews\ParentCategories.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -329,6 +334,7 @@
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
     <Folder Include="Views\LoginBar\" />
+    <Folder Include="Views\Login\" />
     <Folder Include="Views\News\" />
     <Folder Include="Views\ParentCategories\" />
   </ItemGroup>
