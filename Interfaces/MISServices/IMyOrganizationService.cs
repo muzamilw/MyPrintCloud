@@ -15,9 +15,9 @@ namespace MPC.Interfaces.MISServices
         MyOrganizationBaseResponse GetBaseData();
 
         /// <summary>
-        /// Find Organisation Detail By Organisation ID
+        /// Get Organisation Detail 
         /// </summary>
-        Organisation FindDetailById(long organisationId);
+        Organisation GetOrganisationDetail();
 
         /// <summary>
         /// Add/Update Organization

@@ -31,7 +31,7 @@ namespace MPC.Repository.Repositories
 
         public override IEnumerable<CmsSkinPageWidget> GetAll()
         {
-            return DbSet.Where(c => c.OrganisationId == UserDomainKey).ToList();
+            return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
 
       

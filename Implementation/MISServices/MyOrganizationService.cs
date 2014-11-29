@@ -55,9 +55,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Find Organisation Detail By Organisation ID
         /// </summary>
-        public Organisation FindDetailById(long organizationId)
+        public Organisation GetOrganisationDetail()
         {
-            Organisation organization = organisationRepository.Find(organizationId);
+            Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
             IEnumerable<Markup> markups = markupRepository.GetAll();
             if (markups != null)
             {
@@ -76,11 +76,8 @@ namespace MPC.Implementation.MISServices
             {
                 return Save(organisation);
             }
-            else
-            {
-                //Set updated fields
-                return Update(organisation, organisationDbVersion);
-            }
+            //Set updated fields
+            return Update(organisation, organisationDbVersion);
         }
 
         /// <summary>
@@ -89,11 +86,14 @@ namespace MPC.Implementation.MISServices
         /// <param name="filePath"></param>
         public void SaveFile(string filePath)
         {
-            Organisation organisation = organisationRepository.Find(2);
+            Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
             if (organisation.MISLogo != null)
             {
-                //If already organisation logo is save,it delete it 
-                File.Delete(organisation.MISLogo);
+                if (File.Exists(organisation.MISLogo))
+                {
+                    //If already organisation logo is save,it delete it 
+                    File.Delete(organisation.MISLogo);
+                }
             }
             organisation.MISLogo = filePath;
             organisationRepository.SaveChanges();
@@ -104,7 +104,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Save(Organisation organisation)
         {
-            organisation.UserDomainKey = organisationRepository.UserDomainKey;
+            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
             organisationRepository.Add(organisation);
             organisationRepository.SaveChanges();
 
@@ -114,7 +114,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in organisation.Markups)
                 {
-                    item.UserDomainKey = organisationRepository.UserDomainKey;
+                    item.UserDomainKey = (int)organisationRepository.OrganisationId;
                     markupRepository.Add(item);
                     markupRepository.SaveChanges();
                 }
@@ -128,7 +128,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in organisation.ChartOfAccounts)
                 {
-                    item.UserDomainKey = organisationRepository.UserDomainKey;
+                    item.UserDomainKey = (int)organisationRepository.OrganisationId;
                     chartOfAccountRepository.Add(item);
                     chartOfAccountRepository.SaveChanges();
                 }
@@ -149,7 +149,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
-            organisation.UserDomainKey = organisationRepository.UserDomainKey;
+            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
             organisation.MISLogo = organisationDbVersion.MISLogo;
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
@@ -180,7 +180,7 @@ namespace MPC.Implementation.MISServices
                                 x.MarkUpId != item.MarkUpId ||
                                 item.MarkUpId == 0))
                     {
-                        item.UserDomainKey = organisationRepository.UserDomainKey;
+                        item.UserDomainKey = (int)organisationRepository.OrganisationId;
                         markupRepository.Add(item);
                         markupRepository.SaveChanges();
                     }
@@ -240,7 +240,7 @@ namespace MPC.Implementation.MISServices
                                 x.Id != item.Id ||
                                 item.Id == 0))
                     {
-                        item.UserDomainKey = organisationRepository.UserDomainKey;
+                        item.UserDomainKey = (int)organisationRepository.OrganisationId;
                         chartOfAccountRepository.Add(item);
                         chartOfAccountRepository.SaveChanges();
                     }
@@ -298,9 +298,9 @@ namespace MPC.Implementation.MISServices
 
         #endregion
 
-        public System.Collections.Generic.IList<int> GetOrganizationIds(int request)
+        public IList<int> GetOrganizationIds(int request)
         {
-            throw new System.NotImplementedException();
+            return new List<int>();
         }
     }
 }

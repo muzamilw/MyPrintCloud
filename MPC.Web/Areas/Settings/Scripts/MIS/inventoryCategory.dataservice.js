@@ -17,6 +17,7 @@
                     amplify.request.define('deleteStockCategory', 'ajax', {
                         url: ist.siteUrl + '/Api/InventoryCategory',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
                     // Define request to save Stock Category

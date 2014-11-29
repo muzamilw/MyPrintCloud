@@ -28,7 +28,7 @@ namespace MPC.Repository.Repositories
 
         public override IEnumerable<Company> GetAll()
         {
-            return DbSet.Where(c => c.OrganisationId == UserDomainKey).ToList();
+            return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
 
         public long GetCompanyIdByDomain(string domain)
@@ -50,7 +50,7 @@ namespace MPC.Repository.Repositories
 
         public Company GetCompanyById(long companyId)
         {
-            return db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == UserDomainKey).Single();
+            return db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
         }
     }
 }

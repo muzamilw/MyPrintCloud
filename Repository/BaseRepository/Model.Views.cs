@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets09FEF2C6E3AC6F6C2A698643B3194B1F75E9DE786EB5F36FC0172D8184AD90D5))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets09FEF2C6E3AC6F6C2A698643B3194B1F75E9DE786EB5F36FC0172D8184AD90D5 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets07EB5898DB7379EB2832D096DC2C6D4FA4D0BE77D2C5AC33A1B93552EF6E0288()
+        public ViewsForBaseEntitySets09FEF2C6E3AC6F6C2A698643B3194B1F75E9DE786EB5F36FC0172D8184AD90D5()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "f9a8118b9c4bd22171fdc892665ad49d4abe839dedd38e4d287bf4be6644cc33";
-            this.HashOverAllExtentViews = "4936c2b33264500e08543acb88bf136843ba75c9ab71a48bba73b3d167eab0bd";
-            this.ViewCount = 36;
+            this.HashOverMappingClosure = "f156658375ca06038b19589b96771b8f1256def917a5fe0784c7a2b0aae633dc";
+            this.HashOverAllExtentViews = "df9f093664f88933aebaca70ddb92f1ac9a9226bdefd724425f7853e8b9fb6a5";
+            this.ViewCount = 42;
         }
         
         /// <Summary>
@@ -180,6 +180,30 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 35))
             {
                 return GetView35();
+            }
+            if ((index == 36))
+            {
+                return GetView36();
+            }
+            if ((index == 37))
+            {
+                return GetView37();
+            }
+            if ((index == 38))
+            {
+                return GetView38();
+            }
+            if ((index == 39))
+            {
+                return GetView39();
+            }
+            if ((index == 40))
+            {
+                return GetView40();
+            }
+            if ((index == 41))
+            {
+                return GetView41();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -1504,6 +1528,138 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.StockItem A");
             viewString.Append("S T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockItems", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Section
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView36()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Section", @"
+    SELECT VALUE -- Constructing Section
+        [DomainModels.Store.Section](T1.Section_SectionId, T1.Section_SectionName, T1.Section_SecOrder, T1.Section_ParentId, T1.Section_href, T1.Section_SectionImage, T1.Section_Independent, T1.Section_OrganisationId)
+    FROM (
+        SELECT 
+            T.SectionId AS Section_SectionId, 
+            T.SectionName AS Section_SectionName, 
+            T.SecOrder AS Section_SecOrder, 
+            T.ParentId AS Section_ParentId, 
+            T.href AS Section_href, 
+            T.SectionImage AS Section_SectionImage, 
+            T.Independent AS Section_Independent, 
+            T.OrganisationId AS Section_OrganisationId, 
+            True AS _from0
+        FROM BaseDbContext.Sections AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.SectionFlag
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView37()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SectionFlag", @"
+    SELECT VALUE -- Constructing SectionFlag
+        [DomainModels.Store.SectionFlag](T1.SectionFlag_SectionFlagId, T1.SectionFlag_SectionId, T1.SectionFlag_FlagName, T1.SectionFlag_FlagColor, T1.SectionFlag_flagDescription, T1.SectionFlag_CompanyId, T1.SectionFlag_FlagColumn, T1.SectionFlag_isDefault)
+    FROM (
+        SELECT 
+            T.SectionFlagId AS SectionFlag_SectionFlagId, 
+            T.SectionId AS SectionFlag_SectionId, 
+            T.FlagName AS SectionFlag_FlagName, 
+            T.FlagColor AS SectionFlag_FlagColor, 
+            T.flagDescription AS SectionFlag_flagDescription, 
+            T.CompanyId AS SectionFlag_CompanyId, 
+            T.FlagColumn AS SectionFlag_FlagColumn, 
+            T.isDefault AS SectionFlag_isDefault, 
+            True AS _from0
+        FROM BaseDbContext.SectionFlags AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Sections
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView38()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Sections", @"
+    SELECT VALUE -- Constructing Sections
+        [DomainModels.Section](T1.Section_SectionId, T1.Section_SectionName, T1.Section_SecOrder, T1.Section_ParentId, T1.Section_href, T1.Section_SectionImage, T1.Section_Independent, T1.Section_OrganisationId)
+    FROM (
+        SELECT 
+            T.SectionId AS Section_SectionId, 
+            T.SectionName AS Section_SectionName, 
+            T.SecOrder AS Section_SecOrder, 
+            T.ParentId AS Section_ParentId, 
+            T.href AS Section_href, 
+            T.SectionImage AS Section_SectionImage, 
+            T.Independent AS Section_Independent, 
+            T.OrganisationId AS Section_OrganisationId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.Section AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.SectionFlags
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView39()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionFlags", @"
+    SELECT VALUE -- Constructing SectionFlags
+        [DomainModels.SectionFlag](T1.SectionFlag_SectionFlagId, T1.SectionFlag_SectionId, T1.SectionFlag_FlagName, T1.SectionFlag_FlagColor, T1.SectionFlag_flagDescription, T1.SectionFlag_CompanyId, T1.SectionFlag_FlagColumn, T1.SectionFlag_isDefault)
+    FROM (
+        SELECT 
+            T.SectionFlagId AS SectionFlag_SectionFlagId, 
+            T.SectionId AS SectionFlag_SectionId, 
+            T.FlagName AS SectionFlag_FlagName, 
+            T.FlagColor AS SectionFlag_FlagColor, 
+            T.flagDescription AS SectionFlag_flagDescription, 
+            T.CompanyId AS SectionFlag_CompanyId, 
+            T.FlagColumn AS SectionFlag_FlagColumn, 
+            T.isDefault AS SectionFlag_isDefault, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.SectionFlag AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.WeightUnit
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView40()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.WeightUnit", @"
+    SELECT VALUE -- Constructing WeightUnit
+        [DomainModels.Store.WeightUnit](T1.WeightUnit_Id, T1.WeightUnit_UnitName, T1.WeightUnit_Pound, T1.WeightUnit_GSM, T1.WeightUnit_KG)
+    FROM (
+        SELECT 
+            T.Id AS WeightUnit_Id, 
+            T.UnitName AS WeightUnit_UnitName, 
+            T.Pound AS WeightUnit_Pound, 
+            T.GSM AS WeightUnit_GSM, 
+            T.KG AS WeightUnit_KG, 
+            True AS _from0
+        FROM BaseDbContext.WeightUnits AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.WeightUnits
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView41()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.WeightUnits", @"
+    SELECT VALUE -- Constructing WeightUnits
+        [DomainModels.WeightUnit](T1.WeightUnit_Id, T1.WeightUnit_UnitName, T1.WeightUnit_Pound, T1.WeightUnit_GSM, T1.WeightUnit_KG)
+    FROM (
+        SELECT 
+            T.Id AS WeightUnit_Id, 
+            T.UnitName AS WeightUnit_UnitName, 
+            T.Pound AS WeightUnit_Pound, 
+            T.GSM AS WeightUnit_GSM, 
+            T.KG AS WeightUnit_KG, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.WeightUnit AS T
+    ) AS T1");
         }
     }
 }

@@ -20,7 +20,18 @@ namespace MPC.MIS.ModelMappers
                        SubCategoryId = source.SubCategoryId
                    };
         }
-
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static ApiModels.StockSubCategoryDropDown CreateFromDropDown(this DomainModels.StockSubCategory source)
+        {
+            return new ApiModels.StockSubCategoryDropDown
+            {
+                CategoryId = source.CategoryId,
+                Name = source.Name,
+                SubCategoryId = source.SubCategoryId
+            };
+        }
         /// <summary>
         /// Crete From Web Model
         /// </summary>

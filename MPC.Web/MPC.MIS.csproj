@@ -244,7 +244,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
@@ -257,7 +256,6 @@
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Settings\Controllers\InventoryCategoryController.cs" />
     <Compile Include="Areas\Settings\Controllers\MISController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\BillingController.cs" />
@@ -1011,8 +1009,7 @@
     <Content Include="Areas\Settings\Views\MIS\PaperSheet.cshtml" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.view.js" />
     <Content Include="Areas\Settings\Views\Shared\_PaperSheetDialog.cshtml" />
-    <Content Include="Areas\Settings\Views\InventoryCategory\InventoryCategory.cshtml" />
-    <Content Include="Areas\Settings\Views\Shared\_InventoryCategoryDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\InventoryCategory.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\Inventory.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_InventoryEditor.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
@@ -2158,6 +2155,7 @@
     <Content Include="Views\Shared\Company\_RaveReviews.cshtml" />
     <Content Include="Views\Shared\Company\_ProductsFilter.cshtml" />
     <Content Include="Views\Shared\Company\_ChooseUsIcon.cshtml" />
+    <Content Include="Views\Shared\Product\_SelectProductOption.cshtml" />
     <Content Include="Views\CRM\SupplierDetail.cshtml" />
     <Content Include="Views\CRM\SuppliersList.cshtml" />
     <None Include="Web.Debug.config">

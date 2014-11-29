@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Models;
 
@@ -37,12 +38,24 @@ namespace MPC.MIS.ModelMappers
                 StockSubCategories = source.StockSubCategories.Select(x => x.CreateFrom()).ToList()
             };
         }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static ApiModels.StockCategoryDropDown CreateFromDropDown(this DomainModels.StockCategory source)
+        {
+            return new ApiModels.StockCategoryDropDown
+            {
+                CategoryId = source.CategoryId,
+                Name = source.Name,
+            };
+        }
         /// <summary>
         /// Crete From Web Model
         /// </summary>
         public static DomainModels.StockCategory CreateFrom(this ApiModels.StockCategory source)
         {
-            return new DomainModels.StockCategory
+            var stockCategory = new DomainModels.StockCategory
             {
                 CategoryId = source.CategoryId,
                 Code = source.Code,
@@ -63,8 +76,16 @@ namespace MPC.MIS.ModelMappers
                 Flag2 = source.Flag2,
                 Flag3 = source.Flag3,
                 Flag4 = source.Flag4,
-                CompanyId = source.CompanyId
+                CompanyId = source.CompanyId,
             };
+            if (source.StockSubCategories != null)
+            {
+                foreach (var stockSubCategory in source.StockSubCategories)
+                {
+                    stockCategory.StockSubCategories.Add(stockSubCategory.CreateFrom());
+                }
+            }
+            return stockCategory;
         }
     }
 }

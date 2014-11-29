@@ -52,6 +52,10 @@ define("inventory/inventory.viewModel",
                         });
                         confirmation.show();
                     },
+                    //Edit Inventory
+                    onEditInventory = function (inventory) {
+
+                    },
                     //Get Inventories
                     getInventories = function () {
                         isLoadingInventory(true);
@@ -67,7 +71,14 @@ define("inventory/inventory.viewModel",
                             success: function (data) {
                                 pager().totalCount(data.TotalCount);
                                 inventories.removeAll();
-                                //maptariffTypes(data);
+                                var inventoryList = [];
+                                _.each(data.StockItems, function (item) {
+                                    var inventory = new model.InventoryListView.Create(item);;
+                                    inventoryList.push(inventory);
+
+                                });
+                                ko.utils.arrayPushAll(inventories(), inventoryList);
+                                inventories.valueHasMutated();
                                 isLoadingInventory(false);
                             },
                             error: function () {
@@ -96,6 +107,7 @@ define("inventory/inventory.viewModel",
                     },
                    //Get Inventories
                    createInventory = function () {
+                       selectedInventory(model.StockItem.Create());
                        showInventoryEditor();
                    },
                    // close Inventory Editor
@@ -112,7 +124,7 @@ define("inventory/inventory.viewModel",
                        ko.applyBindings(view.viewModel, view.bindingRoot);
                        getBase();
                        pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
-                       //getInventories();
+                       getInventories();
                    };
                 // #endregion Arrays
 
@@ -135,6 +147,7 @@ define("inventory/inventory.viewModel",
                     closeInventoryEditor: closeInventoryEditor,
                     showInventoryEditor: showInventoryEditor,
                     createInventory: createInventory,
+                    onEditInventory: onEditInventory,
                 };
             })()
         };

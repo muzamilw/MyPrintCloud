@@ -2,11 +2,14 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Settings.Controllers
 {
-    //[SiteAuthorize(MisRoles = new []{ SecurityRoles.Admin }, AccessRights = new []{ SecurityAccessRight.CanViewSecurity })]
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
     public class HomeController : Controller
     {
 
@@ -31,39 +34,37 @@ namespace MPC.MIS.Areas.Settings.Controllers
         }
         #endregion
         // GET: Settings/Home
-        //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         public ActionResult Index(HttpPostedFileBase file, long organizationId)
         {
             if (file != null && file.InputStream != null)
             {
-
                 // Before attempting to save the file, verify
-                SaveFile(file);
+                SaveFile(file, organizationId);
 
             }
-            //return Json("Uploaded successfully", JsonRequestBehavior.AllowGet);
             return null;
         }
 
         //upload Files
-        private void SaveFile(HttpPostedFileBase file)
+        private void SaveFile(HttpPostedFileBase file, long organizationId)
         {
-            long organisationId = 2;
             // Specify the path to save organisations files.
-            string organisationDirectoryPath = Server.MapPath("~/Organisations/" + organisationId);
+            string organisationDirectoryPath = Server.MapPath("~/Organisations/" + organizationId);
 
             if (!Directory.Exists(organisationDirectoryPath))
             {
                 Directory.CreateDirectory(organisationDirectoryPath);
 
             }
-            string savePath = Server.MapPath("~/Organisations/" + organisationId + "/");
+            string savePath = Server.MapPath("~/Organisations/" + organizationId + "/");
             string fileName = file.FileName;
             // Append the name of the file to upload to the path.
             savePath += fileName;
