@@ -351,6 +351,32 @@
           <Property Name="IsShowProductDescription" Type="bit" />
           <Property Name="IsShowProductShortDescription" Type="bit" />
         </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="SectionId" />
+          </Key>
+          <Property Name="SectionId" Type="int" Nullable="false" />
+          <Property Name="SectionName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SecOrder" Type="int" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="href" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SectionImage" Type="varchar" MaxLength="50" />
+          <Property Name="Independent" Type="bit" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SectionFlag">
+          <Key>
+            <PropertyRef Name="SectionFlagId" />
+          </Key>
+          <Property Name="SectionFlagId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionId" Type="int" />
+          <Property Name="FlagName" Type="varchar" MaxLength="50" />
+          <Property Name="FlagColor" Type="varchar" MaxLength="50" />
+          <Property Name="flagDescription" Type="varchar" MaxLength="250" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="FlagColumn" Type="varchar" MaxLength="50" />
+          <Property Name="isDefault" Type="bit" />
+        </EntityType>
         <EntityType Name="StockCategory">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -469,6 +495,16 @@
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WeightUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Pound" Type="float" />
+          <Property Name="GSM" Type="float" />
+          <Property Name="KG" Type="float" />
         </EntityType>
         <EntityType Name="Widgets">
           <Key>
@@ -589,6 +625,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_section_flags_tbl_sections">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
+          <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="SectionFlag">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_stock_cost_and_price_tbl_stockitems">
           <End Role="StockItem" Type="Self.StockItem" Multiplicity="1" />
           <End Role="StockCostAndPrice" Type="Self.StockCostAndPrice" Multiplicity="*" />
@@ -652,10 +700,13 @@
           <EntitySet Name="PageCategory" EntityType="Self.PageCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectionFlag" EntityType="Self.SectionFlag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCategory" EntityType="Self.StockCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCostAndPrice" EntityType="Self.StockCostAndPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockItem" EntityType="Self.StockItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockSubCategory" EntityType="Self.StockSubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
             <End Role="Company" EntitySet="Company" />
@@ -692,6 +743,10 @@
           <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="ProductCategory" EntitySet="ProductCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_section_flags_tbl_sections" Association="Self.FK_tbl_section_flags_tbl_sections">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="SectionFlag" EntitySet="SectionFlag" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_stock_cost_and_price_tbl_stockitems" Association="Self.FK_tbl_stock_cost_and_price_tbl_stockitems">
             <End Role="StockItem" EntitySet="StockItem" />
@@ -786,6 +841,13 @@
             <End Role="StockItem" EntitySet="StockItems" />
           </AssociationSet>
           <EntitySet Name="PageCategories" EntityType="DomainModels.PageCategory" />
+          <EntitySet Name="Sections" EntityType="DomainModels.Section" />
+          <EntitySet Name="SectionFlags" EntityType="DomainModels.SectionFlag" />
+          <AssociationSet Name="FK_tbl_section_flags_tbl_sections" Association="DomainModels.FK_tbl_section_flags_tbl_sections">
+            <End Role="Section" EntitySet="Sections" />
+            <End Role="SectionFlag" EntitySet="SectionFlags" />
+          </AssociationSet>
+          <EntitySet Name="WeightUnits" EntityType="DomainModels.WeightUnit" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -1444,6 +1506,56 @@
           <Property Name="CategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="SectionId" />
+          </Key>
+          <Property Name="SectionId" Type="Int32" Nullable="false" />
+          <Property Name="SectionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SecOrder" Type="Int32" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="href" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SectionImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Independent" Type="Boolean" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="SectionFlags" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="Section" ToRole="SectionFlag" />
+        </EntityType>
+        <EntityType Name="SectionFlag">
+          <Key>
+            <PropertyRef Name="SectionFlagId" />
+          </Key>
+          <Property Name="SectionFlagId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionId" Type="Int32" />
+          <Property Name="FlagName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlagColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="flagDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="FlagColumn" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isDefault" Type="Boolean" />
+          <NavigationProperty Name="Section" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="SectionFlag" ToRole="Section" />
+        </EntityType>
+        <Association Name="FK_tbl_section_flags_tbl_sections">
+          <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
+          <End Type="DomainModels.SectionFlag" Role="SectionFlag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="SectionFlag">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WeightUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pound" Type="Double" />
+          <Property Name="GSM" Type="Double" />
+          <Property Name="KG" Type="Double" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1942,6 +2054,45 @@
               <MappingFragment StoreEntitySet="PageCategory">
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sections">
+            <EntityTypeMapping TypeName="DomainModels.Section">
+              <MappingFragment StoreEntitySet="Section">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="Independent" ColumnName="Independent" />
+                <ScalarProperty Name="SectionImage" ColumnName="SectionImage" />
+                <ScalarProperty Name="href" ColumnName="href" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="SecOrder" ColumnName="SecOrder" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectionFlags">
+            <EntityTypeMapping TypeName="DomainModels.SectionFlag">
+              <MappingFragment StoreEntitySet="SectionFlag">
+                <ScalarProperty Name="isDefault" ColumnName="isDefault" />
+                <ScalarProperty Name="FlagColumn" ColumnName="FlagColumn" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="flagDescription" ColumnName="flagDescription" />
+                <ScalarProperty Name="FlagColor" ColumnName="FlagColor" />
+                <ScalarProperty Name="FlagName" ColumnName="FlagName" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="SectionFlagId" ColumnName="SectionFlagId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WeightUnits">
+            <EntityTypeMapping TypeName="DomainModels.WeightUnit">
+              <MappingFragment StoreEntitySet="WeightUnit">
+                <ScalarProperty Name="KG" ColumnName="KG" />
+                <ScalarProperty Name="GSM" ColumnName="GSM" />
+                <ScalarProperty Name="Pound" ColumnName="Pound" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

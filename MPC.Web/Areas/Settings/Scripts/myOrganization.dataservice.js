@@ -43,13 +43,12 @@ define("myOrganization/myOrganization.dataservice", function () {
                 });
             },
             // Get My Organization by id 
-            getMyOrganizationDetail = function (params, callbacks) {
+            getMyOrganizationDetail = function (callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getMyOrganizationDetail',
                     success: callbacks.success,
                     error: callbacks.error,
-                    data: params
                 });
             },
             // Save My Organization

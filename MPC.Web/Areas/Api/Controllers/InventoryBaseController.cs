@@ -40,7 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         public InventoryBaseResponse Get()
         {
-            if (!ModelState.IsValid)
+           if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }

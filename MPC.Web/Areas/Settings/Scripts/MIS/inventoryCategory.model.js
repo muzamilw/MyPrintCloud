@@ -4,11 +4,15 @@
         InventoryCategory = function (specifiedCategoryId, specifiedCode, specifiedName, specifiedDescription, specifiedFixed, specifiedItemWeight,
                                       specifiedItemColour, specifiedItemSizeCustom, specifiedItemPaperSize, specifiedItemCoatedType, specifiedItemCoated,
                                       specifiedItemExposure, specifiedItemCharge, specifiedRecLock, specifiedTaxId, specifiedFlag1, specifiedFlag2,
-                                      specifiedFlag3, specifiedFlag4, specifiedCompanyId, specifiedStockSubCategories) {
+                                      specifiedFlag3, specifiedFlag4, specifiedCompanyId) {
             var
                 self,
                 categoryId = ko.observable(specifiedCategoryId),
-                code = ko.observable(specifiedCode).extend({ required: true }),
+                code = ko.observable(specifiedCode).extend({
+                    required: true,
+                    //minLength: { params: 0, message: "My Number is too short."},
+                    maxLength: { params: 5, message: "Code must be between 0-5 characters " }
+                }),
                 name = ko.observable(specifiedName).extend({ required: true }),
                 description = ko.observable(specifiedDescription),
                 fixed = ko.observable(specifiedFixed),
@@ -27,8 +31,7 @@
                 flag3 = ko.observable(specifiedFlag3),
                 flag4 = ko.observable(specifiedFlag4),
                 companyId = ko.observable(specifiedCompanyId),
-                //stockSubCategories = ko.observable(specifiedStockSubCategories),
-                stockSubCategories = ko.observableArray(specifiedStockSubCategories),
+                stockSubCategories = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
                     code: code,
@@ -39,9 +42,10 @@
                     return errors().length === 0 ? true : false;
                 }),
 
-                // True if the booking has been changed
+
                 // ReSharper disable InconsistentNaming
                 dirtyFlag = new ko.dirtyFlag({
+                    // ReSharper restore InconsistentNaming
                     categoryId: categoryId,
                     code: code,
                     name: name,
@@ -68,30 +72,35 @@
              hasChanges = ko.computed(function () {
                  return dirtyFlag.isDirty();
              }),
-             convertToServerData = function () {
-                 return {
-                     CategoryId: categoryId(),
-                     Code: code(),
-                     Name: name(),
-                     Description: description(),
-                     Fixed: fixed(),
-                     ItemWeight: itemWeight(),
-                     ItemColour: itemColour(),
-                     ItemSizeCustom: itemSizeCustom(),
-                     ItemPaperSize: itemPaperSize(),
-                     ItemCoatedType: itemCoatedType(),
-                     ItemCoated: itemCoated(),
-                     ItemExposure: itemExposure(),
-                     ItemCharge: itemCharge(),
-                     RecLock: recLock(),
-                     TaxId: taxId(),
-                     Flag1: flag1(),
-                     Flag2: flag2(),
-                     Flag3: flag3(),
-                     Flag4: flag4(),
-                     CompanyId: companyId(),
-                     StockSubCategories: stockSubCategories()
-                 }
+             //Convert To Server
+             convertToServerData = function (source) {
+                 var result = {};
+                 result.CategoryId = source.categoryId();
+                 result.Code = source.code();
+                 result.Name = source.name();
+                 result.Description = source.description();
+                 result.Fixed = source.fixed() == false ? 0 : 1;
+                 result.ItemWeight = source.itemWeight() == false ? 0 : 1;
+                 result.ItemColour = source.itemColour() == false ? 0 : 1;
+                 result.ItemSizeCustom = source.itemSizeCustom() == false ? 0 : 1;
+                 result.ItemPaperSize = source.itemPaperSize() == false ? 0 : 1;
+                 result.ItemCoatedType = source.itemCoatedType() == false ? 0 : 1;
+                 result.ItemCoated = source.itemCoated() == false ? 0 : 1;
+                 result.ItemExposure = source.itemExposure() == false ? 0 : 1;
+                 result.ItemCharge = source.itemCharge() == false ? 0 : 1;
+                 result.RecLock = source.recLock() == false ? 0 : 1;
+                 result.TaxId = source.taxId();
+                 result.Flag1 = source.flag1() == false ? 0 : 1;
+                 result.Flag2 = source.flag2() == false ? 0 : 1;
+                 result.Flag3 = source.flag3() == false ? 0 : 1;
+                 result.Flag4 = source.flag4() == false ? 0 : 1;
+                 result.CompanyId = source.companyId();
+                 //SubCategories
+                 result.StockSubCategories = [];
+                 _.each(source.stockSubCategories(), function (item) {
+                     result.StockSubCategories.push(item.convertToServerData());
+                 });
+                 return result;
              },
             // Reset
              reset = function () {
@@ -130,7 +139,7 @@
         };
     //function to attain cancel button functionality 
     InventoryCategory.CreateFromClientModel = function (source) {
-        return new InventoryCategory(
+        var newInventoryCategory = new InventoryCategory(
             source.categoryId,
             source.code,
             source.name,
@@ -150,14 +159,13 @@
             source.flag2,
             source.flag3,
             source.flag4,
-            source.companyId,
-            source.stockSubCategories);
+            source.companyId);
+        _.each(source.stockSubCategories, function (item) {
+            newInventoryCategory.stockSubCategories.push(InventorySubCategory.CreateFromClientModel(item));
+        });
+        return newInventoryCategory;
     };
-    // server to client mapper
-    // ReSharper disable once InconsistentNaming
-    var InventoryCategoryServertoClientMapper = function (source) {
-        return InventoryCategory.Create(source);
-    };
+
 
     // InventoryCategory Factory
     InventoryCategory.Create = function (source) {
@@ -184,10 +192,11 @@
             source.CompanyId
             );
         _.each(source.StockSubCategories, function (item) {
-            newInventoryCategory.stockSubCategories.push(inventorySubCategoryServertoClientMapper(item));
+            newInventoryCategory.stockSubCategories.push(InventorySubCategory.Create(item));
         });
         return newInventoryCategory;
     };
+
 
     // *** INVENTORY SUB CATEGORY***
 
@@ -196,14 +205,14 @@
         var
             self,
             subCategoryId = ko.observable(specifiedSubCategoryId),
-            code = ko.observable(specifiedCode).extend({ required: true }),
+            code = ko.observable(specifiedCode),//.extend({ required: true })
             name = ko.observable(specifiedName).extend({ required: true }),
             description = ko.observable(specifiedDescription),
             fixed = ko.observable(specifiedFixed),
             categoryId = ko.observable(specifiedCategoryId),
          // Errors
          errors = ko.validation.group({
-             code: code,
+             // code: code,
              name: name
          }),
             // Is Valid 
@@ -231,7 +240,7 @@
                  Code: code(),
                  Name: name(),
                  Description: description(),
-                 Fixed: fixed(),
+                 Fixed: fixed() == false ? 0 : 1,
                  CategoryId: categoryId()
              }
          },
@@ -257,22 +266,19 @@
         };
         return self;
     };
+
     //function to attain cancel button functionality 
     InventorySubCategory.CreateFromClientModel = function (source) {
         return new InventorySubCategory(source.subCategoryId, source.code, source.name, source.description, source.fixed, source.categoryId);
     };
-    // server to client mapper
-    var inventorySubCategoryServertoClientMapper = function (source) {
-        return InventorySubCategory.Create(source);
-    };
+
+
     InventorySubCategory.Create = function (source) {
         return new InventorySubCategory(source.SubCategoryId, source.Code, source.Name, source.Description, source.Fixed, source.CategoryId);
     };
 
     return {
         InventoryCategory: InventoryCategory,
-        InventoryCategoryServertoClientMapper: InventoryCategoryServertoClientMapper,
         InventorySubCategory: InventorySubCategory,
-        inventorySubCategoryServertoClientMapper: inventorySubCategoryServertoClientMapper
     };
 });

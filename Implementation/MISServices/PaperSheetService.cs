@@ -63,7 +63,6 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public bool Delete(int paperSheetId)
         {
-
             paperSheetRepository.Delete(GetPaperSheetById(paperSheetId));
             paperSheetRepository.SaveChanges();
             return true;

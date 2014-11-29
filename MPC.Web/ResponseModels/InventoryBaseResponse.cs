@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Models;
+﻿using System.Collections.Generic;
+using MPC.MIS.Models;
 
 namespace MPC.MIS.ResponseModels
 {
@@ -11,11 +12,11 @@ namespace MPC.MIS.ResponseModels
         /// <summary>
         /// Stock Categories
         /// </summary>
-        public StockCategoryDropDown StockCategories { get; set; }
+        public IEnumerable<StockCategoryDropDown> StockCategories { get; set; }
 
         /// <summary>
         /// Stock Sub Categories
         /// </summary>
-        public StockSubCategoryDropDown StockSubCategories { get; set; }
+        public IEnumerable<StockSubCategoryDropDown> StockSubCategories { get; set; }
     }
 }

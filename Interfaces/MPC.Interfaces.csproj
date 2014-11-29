@@ -62,7 +62,9 @@
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
     <Compile Include="Repository\IPageCategoryRepository.cs" />
+    <Compile Include="Repository\ISectionFlagRepository.cs" />
     <Compile Include="Repository\IProductCategoryRepository.cs" />
+    <Compile Include="Repository\ISectionRepository.cs" />
     <Compile Include="Repository\IStockCategoryRepository.cs" />
     <Compile Include="Repository\IStockCostAndPriceRepository.cs" />
     <Compile Include="Repository\IStockItemRepository.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Repository\ICmsSkinPageWidgetRepository.cs" />
     <Compile Include="Repository\ICompanyBannerRepository.cs" />
     <Compile Include="Repository\ICompanyBannerSetRepository.cs" />
+    <Compile Include="Repository\IWeightUnitRepository.cs" />
     <Compile Include="WebStoreServices\ICmsSkinPageWidgetService.cs" />
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />

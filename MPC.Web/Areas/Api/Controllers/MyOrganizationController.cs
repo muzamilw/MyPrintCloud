@@ -39,9 +39,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Organization By Id
         /// </summary>
-        public Organisation Get(long organisationId)
+        public Organisation Get()
         {
-            return myOrganizationService.FindDetailById(organisationId).CreateFrom();
+            return myOrganizationService.GetOrganisationDetail().CreateFrom();
         }
 
         /// <summary>

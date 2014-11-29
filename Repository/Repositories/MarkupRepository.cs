@@ -41,7 +41,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<Markup> GetAll()
         {
-            return DbSet.Where(markup => markup.UserDomainKey == UserDomainKey).ToList();
+            return DbSet.Where(markup => markup.UserDomainKey == OrganisationId).ToList();
         }
         #endregion
     }

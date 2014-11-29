@@ -19,5 +19,10 @@
         /// MIS Roles
         /// </summary>
         public const string MisRole = "http://schemas.2xb.com/2012/07/identity/claims/misRole";
+
+        /// <summary>
+        /// User
+        /// </summary>
+        public const string MisUser = "http://schemas.2xb.com/2012/07/identity/claims/misUser";
     }
 }

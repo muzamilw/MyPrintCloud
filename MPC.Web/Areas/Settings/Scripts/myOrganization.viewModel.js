@@ -55,12 +55,9 @@ define("myOrganization/myOrganization.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
-                        // Set Pager
-                        //pager(new pagination.Pagination({}, additionalTypeCharges, getAdditionalCharges));
-                        //getAdditionalCharges();
                         selectedMyOrganization(new model.CompanySites());
-                       selectedMyOrganization().id(2);
-                        getMyOrganizationById(selectedMyOrganization());
+                        //selectedMyOrganization().id(2);
+                        getMyOrganizationById();
                         view.initializeForm();
                     },
                     // Get Base
@@ -176,9 +173,9 @@ define("myOrganization/myOrganization.viewModel",
                         confirmation.show();
                     },
                     //Get Organization By Id
-                    getMyOrganizationById = function (org) {
+                    getMyOrganizationById = function () {
                         isLoadingMyOrganization(true);
-                        dataservice.getMyOrganizationDetail(model.OrganizationServerMapperForId(org), {
+                        dataservice.getMyOrganizationDetail({
                             success: function (data) {
                                 selectedMyOrganization(model.CompanySitesClientMapper(data));
                                 orgnizationImage(data.ImageSource);

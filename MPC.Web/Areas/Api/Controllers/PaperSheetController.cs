@@ -40,8 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         public PaperSheetResponseModel Get([FromUri] PaperSheetRequestModel request)
         {
-            IEnumerable<PaperSize> paperSizes = null;
-            paperSizes = paperSheetService.GetAll(request);
+            IEnumerable<PaperSize> paperSizes = paperSheetService.GetAll(request);
             var paperSheets = paperSizes as IList<PaperSize> ?? paperSizes.ToList();
             return new PaperSheetResponseModel
                    {
