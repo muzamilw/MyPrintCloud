@@ -125,6 +125,31 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CategoryTerritory> CategoryTerritories { get; set; }
 
         public DbSet<PageCategory> PageCategories { get; set; }
+
+        public DbSet<CompanyContact> CompanyContact { get; set; }
+        public DbSet<CompanyContactRole> CompanyContactRole { get; set; }
+        public DbSet<CompanyCostCentre> CompanyCostCentre { get; set; }
+        public DbSet<CompanyTerritory> CompanyTerritory { get; set; }
+        public DbSet<CostCentre> CostCentre { get; set; }
+        public DbSet<Item> Item { get; set; }
+        public DbSet<ItemAddonCostCentre> ItemAddonCostCentre { get; set; }
+
+        public DbSet<ItemAttachment> ItemAttachment { get; set; }
+        public DbSet<ItemImage> ItemImage { get; set; }
+        public DbSet<ItemPriceMatrix> ItemPriceMatrix { get; set; }
+        public DbSet<ItemProductDetail> ItemProductDetail { get; set; }
+        public DbSet<ItemRelatedItem> ItemRelatedItem { get; set; }
+        public DbSet<ItemSection> ItemSection { get; set; }
+        public DbSet<ItemStateTax> ItemStateTax { get; set; }
+        public DbSet<ItemStockControl> ItemStockControl { get; set; }
+        public DbSet<ItemStockOption> ItemStockOption { get; set; }
+        public DbSet<ItemVDPPrice> ItemVdpPrice { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<State> State { get; set; }
+        public DbSet<SectionCostcentre> SectionCostcentres { get; set; }
+        public DbSet<SectionCostCentreDetail> SectionCostCentre { get; set; }
+        public DbSet<SectionCostCentreResource> SectionCostCentreResources { get; set; }
+        public DbSet<SystemUser> SystemUser { get; set; }
         #endregion
     }
 }
