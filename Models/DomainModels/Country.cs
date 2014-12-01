@@ -8,7 +8,7 @@ namespace MPC.Models.DomainModels
 {
     public class Country
     {
-        public long CountryID { get; set; }
+        public long CountryId { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
 

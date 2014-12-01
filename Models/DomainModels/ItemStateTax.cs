@@ -9,13 +9,15 @@ namespace MPC.Models.DomainModels
     public class ItemStateTax
     {
         public long ItemStateTaxId { get; set; }
-        public Nullable<long> CountryId { get; set; }
-        public Nullable<long> StateId { get; set; }
-        public Nullable<double> TaxRate { get; set; }
-        public Nullable<long> ItemId { get; set; }
+        public long? CountryId { get; set; }
+        public long? StateId { get; set; }
+        public double? TaxRate { get; set; }
+        public long? ItemId { get; set; }
 
         public virtual Item Item { get; set; }
         public virtual ItemStateTax ItemStateTax1 { get; set; }
         public virtual ItemStateTax ItemStateTax2 { get; set; }
+        public virtual Country Country { get; set; }
+        public virtual State State { get; set; }
     }
 }

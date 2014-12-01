@@ -100,6 +100,7 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
         public DbSet<Company> Company { get; set; }
+        public DbSet<CompanyType> CompanyTypes { get; set; }
 
         public DbSet<CompanyDomain> CompanyDomains { get; set; }
 

@@ -23,9 +23,9 @@ namespace MPC.Models.DomainModels
         public string Email { get; set; }
         public string FAX { get; set; }
         public string JobTitle { get; set; }
-        public Nullable<System.DateTime> DOB { get; set; }
+        public DateTime? DOB { get; set; }
         public string Notes { get; set; }
-        public Nullable<int> IsDefaultContact { get; set; }
+        public int? IsDefaultContact { get; set; }
         public string HomeAddress1 { get; set; }
         public string HomeAddress2 { get; set; }
         public string HomeCity { get; set; }
@@ -36,8 +36,8 @@ namespace MPC.Models.DomainModels
         public string SecretAnswer { get; set; }
         public string Password { get; set; }
         public string URL { get; set; }
-        public Nullable<bool> IsEmailSubscription { get; set; }
-        public Nullable<bool> IsNewsLetterSubscription { get; set; }
+        public bool? IsEmailSubscription { get; set; }
+        public bool? IsNewsLetterSubscription { get; set; }
         public string image { get; set; }
         public string quickFullName { get; set; }
         public string quickTitle { get; set; }
@@ -50,26 +50,26 @@ namespace MPC.Models.DomainModels
         public string quickEmail { get; set; }
         public string quickWebsite { get; set; }
         public string quickCompMessage { get; set; }
-        public Nullable<int> QuestionId { get; set; }
-        public Nullable<bool> IsApprover { get; set; }
-        public Nullable<bool> isWebAccess { get; set; }
-        public Nullable<bool> isPlaceOrder { get; set; }
-        public Nullable<decimal> CreditLimit { get; set; }
-        public Nullable<bool> isArchived { get; set; }
-        public Nullable<int> ContactRoleId { get; set; }
-        public Nullable<long> TerritoryId { get; set; }
+        public int? QuestionId { get; set; }
+        public bool? IsApprover { get; set; }
+        public bool? isWebAccess { get; set; }
+        public bool? isPlaceOrder { get; set; }
+        public decimal? CreditLimit { get; set; }
+        public bool? isArchived { get; set; }
+        public int? ContactRoleId { get; set; }
+        public long? TerritoryId { get; set; }
         public string ClaimIdentifer { get; set; }
         public string AuthentifiedBy { get; set; }
-        public Nullable<bool> IsPayByPersonalCreditCard { get; set; }
-        public Nullable<bool> IsPricingshown { get; set; }
+        public bool? IsPayByPersonalCreditCard { get; set; }
+        public bool? IsPricingshown { get; set; }
         public string SkypeId { get; set; }
         public string LinkedinURL { get; set; }
         public string FacebookURL { get; set; }
         public string TwitterURL { get; set; }
         public string authenticationToken { get; set; }
         public string twitterScreenName { get; set; }
-        public Nullable<int> ShippingAddressId { get; set; }
-        public Nullable<bool> isUserLoginFirstTime { get; set; }
+        public int? ShippingAddressId { get; set; }
+        public bool? isUserLoginFirstTime { get; set; }
         public string quickMobileNumber { get; set; }
         public string quickTwitterId { get; set; }
         public string quickFacebookId { get; set; }
@@ -87,10 +87,10 @@ namespace MPC.Models.DomainModels
         public string AdditionalField3 { get; set; }
         public string AdditionalField4 { get; set; }
         public string AdditionalField5 { get; set; }
-        public Nullable<bool> canUserPlaceOrderWithoutApproval { get; set; }
-        public Nullable<bool> CanUserEditProfile { get; set; }
-        public Nullable<bool> canPlaceDirectOrder { get; set; }
-        public Nullable<long> OrganisationId { get; set; }
+        public bool? canUserPlaceOrderWithoutApproval { get; set; }
+        public bool? CanUserEditProfile { get; set; }
+        public bool? canPlaceDirectOrder { get; set; }
+        public long? OrganisationId { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual CompanyTerritory CompanyTerritory { get; set; }

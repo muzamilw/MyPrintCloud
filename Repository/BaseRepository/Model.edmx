@@ -2458,7 +2458,7 @@
           <NavigationProperty Name="CompanyType" Relationship="DomainModels.FK_tbl_contactcompanies_tbl_contactcompanytypes" FromRole="Company" ToRole="CompanyType" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanies" FromRole="Company" ToRole="CompanyContact" />
           <NavigationProperty Name="CompanyTerritories" Relationship="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" FromRole="Company" ToRole="CompanyTerritory" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
             <PropertyRef Name="Id" />
@@ -3494,7 +3494,7 @@
           <Property Name="Tax2" Type="Int32" />
           <Property Name="Tax3" Type="Int32" />
           <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="Status" Type="Int16" />
+          <Property Name="StatusId" Type="Int16" />
           <Property Name="ItemCreationDateTime" Type="DateTime" Precision="3" />
           <Property Name="ItemLastUpdateDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsMultipleQty" Type="Int16" />
@@ -3695,7 +3695,7 @@
           <NavigationProperty Name="ItemVDPPrices" Relationship="DomainModels.FK_ItemVDPPrice_Items" FromRole="Item" ToRole="ItemVDPPrice" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="Item" ToRole="ItemSection" />
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.itemmidfk" FromRole="Item" ToRole="ItemStockOption" />
-          <NavigationProperty Name="Status1" Relationship="DomainModels.FK_tbl_items_tbl_Statuses" FromRole="Item" ToRole="Status" />
+          <NavigationProperty Name="Status" Relationship="DomainModels.FK_tbl_items_tbl_Statuses" FromRole="Item" ToRole="Status" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -4092,9 +4092,9 @@
         </Association>
         <EntityType Name="Country">
           <Key>
-            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="CountryId" />
           </Key>
-          <Property Name="CountryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Country" FromRole="Country" ToRole="ItemStateTax" />
@@ -4287,7 +4287,7 @@
           <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Country">
-              <PropertyRef Name="CountryID" />
+              <PropertyRef Name="CountryId" />
             </Principal>
             <Dependent Role="ItemStateTax">
               <PropertyRef Name="CountryId" />
@@ -4302,7 +4302,7 @@
               <PropertyRef Name="StatusId" />
             </Principal>
             <Dependent Role="Item">
-              <PropertyRef Name="Status" />
+              <PropertyRef Name="StatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5462,7 +5462,7 @@
                 <ScalarProperty Name="IsMultipleQty" ColumnName="IsMultipleQty" />
                 <ScalarProperty Name="ItemLastUpdateDateTime" ColumnName="ItemLastUpdateDateTime" />
                 <ScalarProperty Name="ItemCreationDateTime" ColumnName="ItemCreationDateTime" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StatusId" ColumnName="Status" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Tax3" ColumnName="Tax3" />
                 <ScalarProperty Name="Tax2" ColumnName="Tax2" />
@@ -5741,7 +5741,7 @@
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -9,14 +9,14 @@ namespace MPC.Models.DomainModels
     public class SectionCostCentreDetail
     {
         public int SectionCostCentreDetailId { get; set; }
-        public Nullable<int> SectionCostCentreId { get; set; }
-        public Nullable<int> StockId { get; set; }
-        public Nullable<int> SupplierId { get; set; }
-        public Nullable<double> Qty1 { get; set; }
-        public Nullable<double> Qty2 { get; set; }
-        public Nullable<double> Qty3 { get; set; }
-        public Nullable<double> CostPrice { get; set; }
-        public Nullable<int> ActualQtyUsed { get; set; }
+        public int? SectionCostCentreId { get; set; }
+        public int? StockId { get; set; }
+        public int? SupplierId { get; set; }
+        public double? Qty1 { get; set; }
+        public double? Qty2 { get; set; }
+        public double? Qty3 { get; set; }
+        public double? CostPrice { get; set; }
+        public int? ActualQtyUsed { get; set; }
         public string StockName { get; set; }
         public string Supplier { get; set; }
 

@@ -103,6 +103,9 @@ namespace MPC.Models.DomainModels
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public double? TaxRate { get; set; }
+        public bool? IsDisplayDiscountVoucherCode { get; set; }
+        public bool? IsDisplayCorporateBinding { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
@@ -111,9 +114,9 @@ namespace MPC.Models.DomainModels
 
         //public virtual ICollection<Address> Addresses { get; set; }
 
-        //public virtual CompanyType CompanyType { get; set; }
-        //public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
-        //public virtual ICollection<CompanyTerritory> CompanyTerritories { get; set; }
+        public virtual CompanyType CompanyType { get; set; }
+        public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
+        public virtual ICollection<CompanyTerritory> CompanyTerritories { get; set; }
         //public virtual ICollection<Estimate> Estimates { get; set; }
         //public virtual ICollection<tbl_PC_PostCodesBrokers> tbl_PC_PostCodesBrokers { get; set; }
         //public virtual ICollection<ProductCategory> ProductCategories { get; set; }

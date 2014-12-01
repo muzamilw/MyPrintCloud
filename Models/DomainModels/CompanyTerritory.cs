@@ -10,9 +10,9 @@ namespace MPC.Models.DomainModels
     {
         public long TerritoryId { get; set; }
         public string TerritoryName { get; set; }
-        public Nullable<long> CompanyId { get; set; }
+        public long? CompanyId { get; set; }
         public string TerritoryCode { get; set; }
-        public Nullable<bool> isDefault { get; set; }
+        public bool? isDefault { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
