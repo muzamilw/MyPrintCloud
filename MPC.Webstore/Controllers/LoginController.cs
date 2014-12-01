@@ -19,6 +19,7 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Login(AccountModel model)
         {
+
             if (ModelState.IsValid)
             {
 
@@ -27,9 +28,12 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Message = "Invalid email or password.";
             }
-          //  return PartialView("PartialViews/Login", model);
-           return RedirectToAction("Index", "Home");
-            //return View("/Index", "/Home"); //return Redirect("/Login");
+            
+            return View("PartialViews/Login", model);
+            //return View("Login", model);
+           // return View("PartialViews/Login");
+            // return RedirectToAction("Index", "Home", model);
+            //return Redirect("/Login");
         }
     }
 }

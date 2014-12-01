@@ -6,8 +6,17 @@
             <div class="clearBoth">&nbsp;</div>
             <div id="cntSocialLink" class="cntSignInWithSocialinks">
                 <em id="emfacebook" class="emfb"></em>
-                <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" /><br />
-
+                <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow()" /><br />
+                <script>
+                    function OpenNewWindow() {
+                        var w = 620;
+                        var h = 360;
+                        var left = (screen.width / 2) - (w / 2);
+                        var top = (screen.height / 2) - (h / 2);
+                        window.open("/Home/About?", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                        return false;
+                    }
+                </script>
                 <em id="emtwtter" class="emTw"></em>
                 <input id="twitterBtn" type="button" value="Sign in with Twitter" class="connectWithtwitter " />
                 <br />
@@ -25,18 +34,21 @@
             <div class="mainHeadingAveniorCheckout">
                 Sign in to CompanyName
             </div>
-            @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+
+
+            @using (Html.BeginForm("Login", "Test", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
             {
 
                 @Html.AntiForgeryToken()
                 <div class="errorMesgLoginPage">
                     @ViewBag.Message
+                    @Html.ValidationMessageFor(u => u.Email)
                 </div>
 
                 @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage txtEmailBox", @Value = "Email" })
-             
+
                 @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage txtPassBox", @Value = "Password" }) <br />
-              
+
                 <br />
                 <div id="cntStaySignedin">
                     @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
@@ -56,86 +68,56 @@
 
                 </div>
             }
+
         </div>
-        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
-            <div class="containerRegisternow">
-                <input type="button" class="SignUpButton rounded_corners5" />
-            </div>
-            <div class="divDontHaveAccont rounded_corners5">
-                <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">By registering you are able to:</p>
-                <div class="registering_item">
-                    <div class="tickImge">
-                        &nbsp;
-                    </div>
-                    <p id="ltrlsaveurdesign" class="smallAveniorLogin">Save your designs</p>
-                </div>
-                <div class="registering_item">
-                    <div class="tickImge">
-                        &nbsp;
-                    </div>
-                    <p id="ltrlviewtoh" class="smallAveniorLogin">View and track order history</p>
-                </div>
-                <div class="registering_item">
-                    <div class="tickImge">
-                        &nbsp;
-                    </div>
-                    <p id="ltrlroq" class="smallAveniorLogin">Re-order quickly</p>
-                </div>
-                <div class="registering_item">
-                    <div class="tickImge">
-                        &nbsp;
-                    </div>
-                    <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">Subscribe to our Newsletters on new marketing products and services</p>
-                </div>
-                <div class="registering_item">
-                    <div class="tickImge">
-                        &nbsp;
-                    </div>
-                    <p id="lblTitleRequestQuote" class="smallAveniorLogin">Request a quote</p>
-                </div>
-                <div class="registering_item">
-                    <div class="tickImge">
-                        &nbsp;
-                    </div>
-                    <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">Get latest Voucher promotions</p>
-                </div>
-                <div class="clearBoth"></div>
-            </div>
+
+    </div>
+    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+        <div class="containerRegisternow">
+            <input type="button" class="SignUpButton rounded_corners5" />
         </div>
-        <div class="clearBoth">
-            &nbsp;
+        <div class="divDontHaveAccont rounded_corners5">
+            <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">By registering you are able to:</p>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlsaveurdesign" class="smallAveniorLogin">Save your designs</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlviewtoh" class="smallAveniorLogin">View and track order history</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlroq" class="smallAveniorLogin">Re-order quickly</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">Subscribe to our Newsletters on new marketing products and services</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="lblTitleRequestQuote" class="smallAveniorLogin">Request a quote</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">Get latest Voucher promotions</p>
+            </div>
+            <div class="clearBoth"></div>
         </div>
     </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
 </div>
-@section Scripts{
-    <script>
-        $("#txtEmail").focus(function () {
-            alert()
-            if ($("#txtEmail").val() === 'Email') {
-                $("#txtEmail").val('');
-            }
-        });
-        $("#txtEmail").blur(function () {
-            if ($("#txtEmail").val() === '') {
-
-                $("#txtEmail").val("Email");
-            }
-        });
-
-        $('#txtPassword').focus(function () {
-            if ($('#txtPassword').val() === 'Password') {
-                $('#txtPassword').attr("type", "password");
-                $('#txtPassword').val('');
-            }
-        });
-
-        $('#txtPassword').blur(function () {
-            if ($('#txtPassword').val() === '') {
-                $('#txtPassword').removeAttr("type");
-                $('#txtPassword').val('Password');
-            } else {
-                $('#txtPassword').attr("type", "password");
-            }
-        });
-    </script>
-}

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
+using DotNetOpenAuth.OAuth2;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System.Runtime.Caching;
 using MPC.Webstore.Models;
+using DotNetOpenAuth.ApplicationBlock;
 
 namespace MPC.Webstore.Controllers
 {
@@ -32,7 +36,7 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-        public ActionResult Index(AccountModel accountmodel)
+        public ActionResult Index()
         {
             List<CmsSkinPageWidget> model = null;
             string CacheKeyName = "CompanyBaseResponse";
@@ -46,7 +50,7 @@ namespace MPC.Webstore.Controllers
             {
                 long storeId = Convert.ToInt64(Session["storeId"]);
                 MyCompanyDomainBaseResponse response = _myCompanyService.GetBaseData(storeId).CreateFrom();
-
+                 
                 CacheItemPolicy policy = null;
                 CacheEntryRemovedCallback callback = null;
 
@@ -78,14 +82,12 @@ namespace MPC.Webstore.Controllers
                     model = responseObject.CmsSkinPageWidgets.Where(p => p.PageId == 1).ToList();
                 }
             }
-            ViewBag.AccountModel = accountmodel;
             return View(model);
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+           
             return View();
         }
 
@@ -95,6 +97,6 @@ namespace MPC.Webstore.Controllers
 
             return View();
         }
-        
+      
     }
 }

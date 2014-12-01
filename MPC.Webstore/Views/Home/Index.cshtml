@@ -3,6 +3,6 @@
 {
     <div>
         @{ string widgetname = widget.Widget.WidgetName; }
-        @{Html.RenderAction("Index", widgetname, new { m = ViewBag.AccountModel });}
+        @{Html.RenderAction("Index", widgetname);}
     </div>
 }
