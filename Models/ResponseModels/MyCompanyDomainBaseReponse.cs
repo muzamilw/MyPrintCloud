@@ -20,5 +20,8 @@ namespace MPC.Models.ResponseModels
         /// Markup List
         /// </summary>
         public List<CompanyBanner> Banners { get; set; }
+
+        public List<CmsPage> cmsPages { get; set; }
+        public List<PageCategory> PageCategories { get; set; }
     }
 }

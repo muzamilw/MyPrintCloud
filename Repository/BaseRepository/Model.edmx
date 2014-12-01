@@ -272,6 +272,13 @@
           <Property Name="LanguageId" Type="bigint" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PageCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="PaperSize">
           <Key>
             <PropertyRef Name="PaperSizeId" />
@@ -690,6 +697,7 @@
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageCategory" EntityType="Self.PageCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
@@ -832,6 +840,7 @@
             <End Role="StockSubCategory" EntitySet="StockSubCategories" />
             <End Role="StockItem" EntitySet="StockItems" />
           </AssociationSet>
+          <EntitySet Name="PageCategories" EntityType="DomainModels.PageCategory" />
           <EntitySet Name="Sections" EntityType="DomainModels.Section" />
           <EntitySet Name="SectionFlags" EntityType="DomainModels.SectionFlag" />
           <AssociationSet Name="FK_tbl_section_flags_tbl_sections" Association="DomainModels.FK_tbl_section_flags_tbl_sections">
@@ -1490,6 +1499,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PageCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Section">
           <Key>
             <PropertyRef Name="SectionId" />
@@ -2030,6 +2046,14 @@
                 <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="StockItemId" ColumnName="StockItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageCategories">
+            <EntityTypeMapping TypeName="DomainModels.PageCategory">
+              <MappingFragment StoreEntitySet="PageCategory">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -3012,6 +3012,7 @@ width: 520px*/
 .heading_small_orange /* h4*/
 {
     color: rgb(255, 252, 245);
+    color:black !important;
     cursor: pointer;
     display: inline;
     font-family: 'Avenir Next LT W01 Bold', Helvetica, Arial, sans-serif;
@@ -3044,7 +3045,7 @@ width: 520px*/
     /* font-weight: bold;*/
     font-size: 14px;
     line-height: 13px;
-    color: rgb(102,102,102);
+    color: black;
     /*color: #67b8db;*/
 }
 
@@ -6253,7 +6254,7 @@ width: 520px*/
 /*Note: It should be at the end. Theme Font Style it should be placed at the end of the all above headings*/
 .themeFontColor
 {
-    color: #ffffff !important;
+    
 }
 
 .exitBbtn

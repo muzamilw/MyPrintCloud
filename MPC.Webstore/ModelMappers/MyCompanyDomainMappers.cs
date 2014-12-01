@@ -21,9 +21,17 @@ namespace MPC.Webstore.ModelMappers
                 Company =  source.Company.CreateFrom(),
                 CmsSkinPageWidgets = source.CmsSkinPageWidgets.Select(cpw => cpw.CreateFrom()).ToList(),
                 Banners = source.Banners != null ? source.Banners.Select(banner => banner.CreateFrom()).ToList() : null,
+                cmsPages = source.cmsPages != null ? source.cmsPages.Select(page => page.CreateFrom()).ToList() : null,
+                PageCategories = source.PageCategories != null ? source.PageCategories.Select(page => page.CreateFrom()).ToList() : null
               // CompanyDomain = CompanyDomainMapper.CreateFrom(source.CmsSkinPageWidgets)
             };
         }
+
+
+       
+
+
+     
 
         #endregion
     }

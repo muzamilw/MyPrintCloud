@@ -10,7 +10,6 @@ namespace MPC.Webstore.ResponseModels
     public class MyCompanyDomainBaseResponse
     {
         public Company Company { get; set; }
-
         /// <summary>
         /// Tax Rate List
         /// </summary>
@@ -20,5 +19,11 @@ namespace MPC.Webstore.ResponseModels
         /// Markup List
         /// </summary>
         public List<CompanyBanner> Banners { get; set; }
+
+        
+        public List<CmsPage> cmsPages { get; set; }
+        public List<PageCategory> PageCategories { get; set; }
+
+
     }
 }

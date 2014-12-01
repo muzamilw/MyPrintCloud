@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets09FEF2C6E3AC6F6C2A698643B3194B1F75E9DE786EB5F36FC0172D8184AD90D5))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets3803EBA5E23530D36E3127DF9AF044DD4A40E8E7937BB5B632836757D410492A))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets09FEF2C6E3AC6F6C2A698643B3194B1F75E9DE786EB5F36FC0172D8184AD90D5 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets3803EBA5E23530D36E3127DF9AF044DD4A40E8E7937BB5B632836757D410492A : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets09FEF2C6E3AC6F6C2A698643B3194B1F75E9DE786EB5F36FC0172D8184AD90D5()
+        public ViewsForBaseEntitySets3803EBA5E23530D36E3127DF9AF044DD4A40E8E7937BB5B632836757D410492A()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "f156658375ca06038b19589b96771b8f1256def917a5fe0784c7a2b0aae633dc";
-            this.HashOverAllExtentViews = "df9f093664f88933aebaca70ddb92f1ac9a9226bdefd724425f7853e8b9fb6a5";
-            this.ViewCount = 42;
+            this.HashOverMappingClosure = "95b563e8475ba35f13dabff12c4053d8f9308ec2501f28217606e53f2e59995e";
+            this.HashOverAllExtentViews = "56a6e44a82193ec043ac47106e43c4ddaff084ae9896922b1bb6bd9c262a55ec";
+            this.ViewCount = 44;
         }
         
         /// <Summary>
@@ -204,6 +204,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 41))
             {
                 return GetView41();
+            }
+            if ((index == 42))
+            {
+                return GetView42();
+            }
+            if ((index == 43))
+            {
+                return GetView43();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -1531,9 +1539,43 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for DomainModelsStoreContainer.Section
+        /// return view for DomainModelsStoreContainer.PageCategory
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView36()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PageCategory", @"
+    SELECT VALUE -- Constructing PageCategory
+        [DomainModels.Store.PageCategory](T1.PageCategory_CategoryId, T1.PageCategory_CategoryName)
+    FROM (
+        SELECT 
+            T.CategoryId AS PageCategory_CategoryId, 
+            T.CategoryName AS PageCategory_CategoryName, 
+            True AS _from0
+        FROM BaseDbContext.PageCategories AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.PageCategories
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView37()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PageCategories", @"
+    SELECT VALUE -- Constructing PageCategories
+        [DomainModels.PageCategory](T1.PageCategory_CategoryId, T1.PageCategory_CategoryName)
+    FROM (
+        SELECT 
+            T.CategoryId AS PageCategory_CategoryId, 
+            T.CategoryName AS PageCategory_CategoryName, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.PageCategory AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Section
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView38()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Section", @"
     SELECT VALUE -- Constructing Section
@@ -1556,7 +1598,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SectionFlag
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView37()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView39()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SectionFlag", @"
     SELECT VALUE -- Constructing SectionFlag
@@ -1579,7 +1621,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Sections
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView38()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView40()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Sections", @"
     SELECT VALUE -- Constructing Sections
@@ -1602,7 +1644,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SectionFlags
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView39()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView41()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionFlags", @"
     SELECT VALUE -- Constructing SectionFlags
@@ -1625,7 +1667,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.WeightUnit
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView40()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView42()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.WeightUnit", @"
     SELECT VALUE -- Constructing WeightUnit
@@ -1645,7 +1687,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.WeightUnits
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView41()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView43()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.WeightUnits", @"
     SELECT VALUE -- Constructing WeightUnits

@@ -121,6 +121,7 @@
     <Compile Include="DomainModels\CmsSkinPageWidgetParam.cs" />
     <Compile Include="DomainModels\CompanyBanner.cs" />
     <Compile Include="DomainModels\CompanyBannerSet.cs" />
+    <Compile Include="DomainModels\PageCategory.cs" />
     <Compile Include="DomainModels\PaperSize.cs" />
     <Compile Include="DomainModels\Company.cs" />
     <Compile Include="DomainModels\CompanyContact.cs" />

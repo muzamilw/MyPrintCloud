@@ -176,6 +176,7 @@
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\MarkupRepository.cs" />
+    <Compile Include="Repositories\PageCategoryRepository.cs" />
     <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\SectionFlagRepository.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
