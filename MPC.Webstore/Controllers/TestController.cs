@@ -42,8 +42,8 @@ namespace MPC.Webstore.Controllers
             if (ModelState.IsValid)
             {
             }
-            //return PartialView("PartialViews/Login", model);
-            return PartialView(model);
+            return PartialView("PartialViews/Login", model);
+            //return PartialView(model);
         }
     }
 }

@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using DotNetOpenAuth.OAuth2;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System.Runtime.Caching;
 using MPC.Webstore.Models;
-using DotNetOpenAuth.ApplicationBlock;
 
 namespace MPC.Webstore.Controllers
 {

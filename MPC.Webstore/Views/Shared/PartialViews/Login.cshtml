@@ -1,5 +1,5 @@
 ﻿@model  MPC.Webstore.Models.AccountModel
-<div class="white-container-lightgrey-border  rounded_corners">
+<div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
     <div class="sign_up_page_box NoPadding">
         <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
             <div id="lblSignWithSM" class="mainHeadingAveniorCheckout">Sign in using</div>
@@ -34,8 +34,6 @@
             <div class="mainHeadingAveniorCheckout">
                 Sign in to CompanyName
             </div>
-
-
             @using (Html.BeginForm("Login", "Test", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
             {
 
@@ -59,18 +57,14 @@
                         <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">Forgot your Password?</a>
                     </div>
                     <div class="divwidthset">
-                        <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="Login" /><br />
-
+                        <input id="cmdLogin" type="button" class="start_creating_btn_Login rounded_corners5" value="Login" /><br />
                     </div>
                     <div class="clear">
                         &nbsp;
                     </div>
-
                 </div>
             }
-
         </div>
-
     </div>
     <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
         <div class="containerRegisternow">
@@ -121,3 +115,31 @@
         &nbsp;
     </div>
 </div>
+
+<script type="text/javascript">
+    var time = setInterval(function () {
+        if (window.jQuery != undefined) {
+            window.clearInterval(time);
+
+            //Begin
+            $(document).ready(function () {
+                $('#cmdLogin').on('click', function () {
+                    var dataToSend = { Email: $("#txtEmail").val(), Password: $("#txtPassword").val() };
+
+                    $.ajax({
+                        url: '/Test/Login',
+                        data: dataToSend,
+                        type: 'POST',
+                        success: function (data, textStatus, request) {
+                            $("#loginpage").html(data);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('error');
+                        }
+                    });
+                    return false;
+                });
+            });
+            //End
+        };
+    }, 10); </script>
