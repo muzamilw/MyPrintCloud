@@ -105,6 +105,7 @@
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\ItemByColumn.cs" />
+    <Compile Include="Common\CompanyByColumn.cs" />
     <Compile Include="Common\InventoryByColumn.cs" />
     <Compile Include="Common\MisRoleClaimValue.cs" />
     <Compile Include="Common\MisUser.cs" />
@@ -195,11 +196,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
+    <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
