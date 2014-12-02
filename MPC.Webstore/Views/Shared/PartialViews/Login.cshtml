@@ -1,0 +1,145 @@
+﻿@model  MPC.Webstore.Models.AccountModel
+<div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
+    <div class="sign_up_page_box NoPadding">
+        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+            <div id="lblSignWithSM" class="mainHeadingAveniorCheckout">Sign in using</div>
+            <div class="clearBoth">&nbsp;</div>
+            <div id="cntSocialLink" class="cntSignInWithSocialinks">
+                <em id="emfacebook" class="emfb"></em>
+                <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow()" /><br />
+                <script>
+                    function OpenNewWindow() {
+                        var w = 620;
+                        var h = 360;
+                        var left = (screen.width / 2) - (w / 2);
+                        var top = (screen.height / 2) - (h / 2);
+                        window.open("/Home/About?", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                        return false;
+                    }
+                </script>
+                <em id="emtwtter" class="emTw"></em>
+                <input id="twitterBtn" type="button" value="Sign in with Twitter" class="connectWithtwitter " />
+                <br />
+                <br />
+                <div id="cntOrBottom">
+                    -OR-
+                </div>
+            </div>
+            <div id="cntOrRight" class="visible-lg visible-md hidden-sm hidden-xs">
+                -OR-
+            </div>
+            <div class="clear">
+                &nbsp;
+            </div>
+            <div class="mainHeadingAveniorCheckout">
+                Sign in to CompanyName
+            </div>
+            @using (Html.BeginForm("Login", "Test", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+
+                @Html.AntiForgeryToken()
+                <div class="errorMesgLoginPage">
+                    @ViewBag.Message
+                    @Html.ValidationMessageFor(u => u.Email)
+                </div>
+
+                @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage txtEmailBox", @Value = "Email" })
+
+                @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage txtPassBox", @Value = "Password" }) <br />
+
+                <br />
+                <div id="cntStaySignedin">
+                    @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
+                    <label for="rememberMe">Keep me logged in</label>
+                </div>
+                <div id="divBtnContainer" style="margin-top: 20px;">
+                    <div class="divwidth">
+                        <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">Forgot your Password?</a>
+                    </div>
+                    <div class="divwidthset">
+                        <input id="cmdLogin" type="button" class="start_creating_btn_Login rounded_corners5" value="Login" /><br />
+                    </div>
+                    <div class="clear">
+                        &nbsp;
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+        <div class="containerRegisternow">
+            <input type="button" class="SignUpButton rounded_corners5" />
+        </div>
+        <div class="divDontHaveAccont rounded_corners5">
+            <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">By registering you are able to:</p>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlsaveurdesign" class="smallAveniorLogin">Save your designs</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlviewtoh" class="smallAveniorLogin">View and track order history</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlroq" class="smallAveniorLogin">Re-order quickly</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">Subscribe to our Newsletters on new marketing products and services</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="lblTitleRequestQuote" class="smallAveniorLogin">Request a quote</p>
+            </div>
+            <div class="registering_item">
+                <div class="tickImge">
+                    &nbsp;
+                </div>
+                <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">Get latest Voucher promotions</p>
+            </div>
+            <div class="clearBoth"></div>
+        </div>
+    </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+</div>
+
+<script type="text/javascript">
+    var time = setInterval(function () {
+        if (window.jQuery != undefined) {
+            window.clearInterval(time);
+
+            //Begin
+            $(document).ready(function () {
+                $('#cmdLogin').on('click', function () {
+                    var dataToSend = { Email: $("#txtEmail").val(), Password: $("#txtPassword").val() };
+
+                    $.ajax({
+                        url: '/Test/Login',
+                        data: dataToSend,
+                        type: 'POST',
+                        success: function (data, textStatus, request) {
+                            $("#loginpage").html(data);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('error');
+                        }
+                    });
+                    return false;
+                });
+            });
+            //End
+        };
+    }, 10); </script>

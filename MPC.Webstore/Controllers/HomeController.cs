@@ -36,16 +36,17 @@ namespace MPC.Webstore.Controllers
         {
             List<CmsSkinPageWidget> model = null;
             string CacheKeyName = "CompanyBaseResponse";
-
+            string val = ((System.Web.Routing.Route) (RouteData.Route)).Url; //RouteData.Values["controller"].ToString();
+            val = val.Split('/')[0];
             ObjectCache cache = MemoryCache.Default;
 
-            MyCompanyDomainBaseResponse obj = cache.Get(CacheKeyName) as MyCompanyDomainBaseResponse;
+            MyCompanyDomainBaseResponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseResponse;
 
-            if (obj == null)
+            if (responseObject == null)
             {
                 long storeId = Convert.ToInt64(Session["storeId"]);
                 MyCompanyDomainBaseResponse response = _myCompanyService.GetBaseData(storeId).CreateFrom();
-                
+                 
                 CacheItemPolicy policy = null;
                 CacheEntryRemovedCallback callback = null;
 
@@ -56,14 +57,33 @@ namespace MPC.Webstore.Controllers
                 policy.RemovedCallback = callback;
                 cache.Set(CacheKeyName, response, policy);
                 model = response.CmsSkinPageWidgets.ToList();
+                if (val == "Login")
+                {
+                    model = response.CmsSkinPageWidgets.Where(p => p.PageId == 59).ToList();
+                }
+                else
+                {
+                    model = response.CmsSkinPageWidgets.Where(p => p.PageId == 1).ToList();
+                }
+            }
+            else
+            {
+
+                if (val == "Login")
+                {
+                    model = responseObject.CmsSkinPageWidgets.Where(p => p.PageId == 59).ToList();
+                }
+                else
+                {
+                    model = responseObject.CmsSkinPageWidgets.Where(p => p.PageId == 1).ToList();
+                }
             }
             return View(model);
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+           
             return View();
         }
 
@@ -73,6 +93,6 @@ namespace MPC.Webstore.Controllers
 
             return View();
         }
-        
+      
     }
 }

@@ -62,6 +62,7 @@
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
     <Compile Include="Repository\IPaperSizeRepository.cs" />
+    <Compile Include="Repository\IPageCategoryRepository.cs" />
     <Compile Include="Repository\ISectionFlagRepository.cs" />
     <Compile Include="Repository\IProductCategoryRepository.cs" />
     <Compile Include="Repository\ISectionRepository.cs" />
