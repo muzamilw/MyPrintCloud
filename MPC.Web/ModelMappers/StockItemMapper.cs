@@ -24,12 +24,13 @@ namespace MPC.MIS.ModelMappers
                 PaperSizes = source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList(),
                 SectionFlags = source.SectionFlags.Select(su => su.CreateFromDropDown()).ToList(),
                 WeightUnits = source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList(),
+                StockCostAndPrice = source.StockCostAndPrice.CreateFrom(),
             };
         }
 
         #endregion
 
-        #region Base Reposne Mapper
+        #region Public
 
         /// <summary>
         /// Crete From Domain Model
@@ -59,6 +60,21 @@ namespace MPC.MIS.ModelMappers
                 PerQtyQty = source.PerQtyQty,
                 FlagColor = source.FlagColor,
                 SupplierCompanyName = source.SupplierCompanyName,
+            };
+        }
+
+        /// <summary>
+        /// Crete From Web Model
+        /// </summary>
+        public static DomainModels.StockItem CreateFrom(this ApiModels.StockItem source)
+        {
+            return new DomainModels.StockItem
+            {
+                StockItemId = source.StockItemId,
+                ItemName = source.ItemName,
+                ItemWeight = source.ItemWeight,
+                PerQtyQty = source.PerQtyQty,
+
             };
         }
         #endregion

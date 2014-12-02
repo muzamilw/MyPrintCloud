@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ResponseModels
@@ -32,5 +33,10 @@ namespace MPC.Models.ResponseModels
         /// Weight Units
         /// </summary>
         public IEnumerable<WeightUnit> WeightUnits { get; set; }
+
+        /// <summary>
+        /// Stock Cost And Price
+        /// </summary>
+        public StockCostAndPrice StockCostAndPrice { get; set; }
     }
 }

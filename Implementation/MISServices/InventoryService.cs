@@ -27,7 +27,8 @@ namespace MPC.Implementation.MISServices
         private readonly IWeightUnitRepository weightUnitRepository;
         private readonly ICompanyRepository companyRepository;
         private readonly IPaperSizeRepository paperSizeRepository;
-         #endregion
+        private readonly IStockCostAndPriceRepository stockCostAndPriceRepository;
+        #endregion
 
         #region Constructor
 
@@ -36,7 +37,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public InventoryService(IStockCategoryRepository stockCategoryRepository, IStockSubCategoryRepository stockSubCategoryRepository,
             IStockItemRepository stockItemRepository, ISectionFlagRepository sectionFlagRepository, IWeightUnitRepository weightUnitRepository,
-            ICompanyRepository companyRepository, IPaperSizeRepository paperSizeRepository)
+            ICompanyRepository companyRepository, IPaperSizeRepository paperSizeRepository,IStockCostAndPriceRepository stockCostAndPriceRepository)
         {
             this.stockCategoryRepository = stockCategoryRepository;
             this.stockSubCategoryRepository = stockSubCategoryRepository;
@@ -45,6 +46,7 @@ namespace MPC.Implementation.MISServices
             this.weightUnitRepository = weightUnitRepository;
             this.companyRepository = companyRepository;
             this.paperSizeRepository = paperSizeRepository;
+            this.stockCostAndPriceRepository = stockCostAndPriceRepository;
         }
 
         #endregion
@@ -62,6 +64,7 @@ namespace MPC.Implementation.MISServices
                 PaperSizes = paperSizeRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
                 WeightUnits = weightUnitRepository.GetAll(),
+                StockCostAndPrice = stockCostAndPriceRepository.GetDefaultStockCostAndPrice(),
             };
         }
 
@@ -105,6 +108,38 @@ namespace MPC.Implementation.MISServices
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
         }
 
+        /// <summary>
+        /// Add/Update Stock Item
+        /// </summary>
+        public StockItem SaveInevntory(StockItem stockItem)
+        {
+            StockItem stockItemDbVersion = stockItemRepository.Find(stockItem.StockItemId);
+            if (stockItemDbVersion == null)
+            {
+                saveStockItem(stockItem);
+            }
+            else
+            {
+                updateStockItem(stockItem);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Save Stock Item
+        /// </summary>
+        private StockItem saveStockItem(StockItem stockItem)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Update Stock Item
+        /// </summary>
+        private StockItem updateStockItem(StockItem stockItem)
+        {
+            return null;
+        }
         #endregion
     }
 }

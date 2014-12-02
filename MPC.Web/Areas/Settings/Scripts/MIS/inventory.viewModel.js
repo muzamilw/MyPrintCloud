@@ -41,6 +41,10 @@ define("inventory/inventory.viewModel",
                     sectionFlags = ko.observableArray([]),
                     //weigh tUnits
                     weightUnits = ko.observableArray([]),
+                    //Length Units
+                    lengthUnits = ko.observableArray([]),
+                    //Paper Basis Areas
+                    paperBasisAreas = ko.observableArray([]),
                     //units
                     units = ko.observableArray([{ Id: 1, Text: 'Sheets' },
                                                 { Id: 2, Text: '100 (lbs)' },
@@ -51,6 +55,8 @@ define("inventory/inventory.viewModel",
                     ]),
                     //Filtered Units
                     filteredUnits = ko.observableArray([]),
+                    //Default Cost price list items
+                    defaultCostPriceList = ko.observableArray([]),
                     //Cost List
                     costList = ko.observableArray([]),
                     //PriceList
@@ -62,15 +68,27 @@ define("inventory/inventory.viewModel",
                     // #region Utility Functions
                       // Delete a Inventory
                     onDeleteInventory = function (inventory) {
-                        //if (!inventory.id()) {
-                        //    inventories.remove(inventory);
-                        //    return;
-                        //}
+                        if (!inventory.itemId()) {
+                            inventories.remove(inventory);
+                            return;
+                        }
                         // Ask for confirmation
                         confirmation.afterProceed(function () {
-                            inventories.remove(inventory);
+                            deleteInventory(inventory);
                         });
                         confirmation.show();
+                    },
+                     // Delete Inventory
+                    deleteInventory = function (inventory) {
+                        dataservice.deleteInventory(inventory.convertToServerData(), {
+                            success: function () {
+                                inventories.remove(inventory);
+                                toastr.success("Stock Item Successfully remove.");
+                            },
+                            error: function () {
+                                toastr.error("Failed to remove stock item.");
+                            }
+                        });
                     },
                     //Edit Inventory
                     onEditInventory = function (inventory) {
@@ -131,6 +149,9 @@ define("inventory/inventory.viewModel",
                                 weightUnits.removeAll();
                                 ko.utils.arrayPushAll(weightUnits(), data.WeightUnits);
                                 weightUnits.valueHasMutated();
+                                var cost = model.StockCostAndPrice.CreateForClient(data.StockCostAndPrice);
+
+                                var price = model.StockCostAndPrice.CreateForClient(data.StockCostAndPrice);
 
                             },
                             error: function () {
@@ -138,75 +159,112 @@ define("inventory/inventory.viewModel",
                             }
                         });
                     },
-
-                      unitFirtration = ko.computed(function () {
-                          if (selectedInventory() !== undefined) {
-                              filteredUnits.removeAll();
-                              ko.utils.arrayPushAll(filteredUnits(), units());
-                              filteredUnits.valueHasMutated();
-
-                              //iF Selected Sheet
-                              if (selectedInventory().itemId() === 0 && selectedInventory().paperTypeId() === "1") {
-                                  _.each(filteredUnits(), function (item) {
-                                      if (item.Id === 4 || item.Id === 5 || item.Id === 6) {
-                                          filteredUnits.remove(item);
-                                      }
-                                  });
-                              }
-                              //If Selected Roll Paper
-                              if (selectedInventory().itemId() === 0 && selectedInventory().paperTypeId() === "2") {
-                                  _.each(filteredUnits(), function (item) {
-                                      if (item.Id === 1 || item.Id === 6) {
-                                          filteredUnits.remove(item);
-                                      }
-                                  });
-                              }
-                          }
-                      }, this),
-
-                        headerComputedValue = ko.computed(function () {
-                            if (selectedInventory() !== undefined) {
-                                if (selectedInventory().itemSizeSelectedUnitId() === 1) {
-                                    selectedInventory().headerComputedValue(selectedInventory().perQtyQty() + " Sheets");
+                    //
+                    unitFirtration = ko.computed(function () {
+                        if (selectedInventory() !== undefined) {
+                            filteredUnits.removeAll();
+                            ko.utils.arrayPushAll(filteredUnits(), units());
+                            filteredUnits.valueHasMutated();
+                            if (selectedInventory().itemId !== undefined) {
+                                //If Selected Sheet
+                                if (selectedInventory().itemId() === 0 && selectedInventory().paperTypeId() === "1") {
+                                    _.each(filteredUnits(), function (item) {
+                                        if (item.Id === 4 || item.Id === 5 || item.Id === 6) {
+                                            filteredUnits.remove(item);
+                                        }
+                                    });
                                 }
-                                if (selectedInventory().itemSizeSelectedUnitId() === 2) {
-                                    selectedInventory().headerComputedValue("100 (lbs)");
-                                }
-                                if (selectedInventory().itemSizeSelectedUnitId() === 3) {
-                                    selectedInventory().headerComputedValue("Ton");
-                                }
-                                if (selectedInventory().itemSizeSelectedUnitId() === 4) {
-                                    selectedInventory().headerComputedValue("Sq Meter)");
-                                }
-                                if (selectedInventory().itemSizeSelectedUnitId() === 5) {
-                                    selectedInventory().headerComputedValue("Sq Feet");
-                                }
-                                if (selectedInventory().itemSizeSelectedUnitId() === 6) {
-                                    selectedInventory().headerComputedValue("Items)");
+                                //If Selected Roll Paper
+                                if (selectedInventory().itemId() === 0 && selectedInventory().paperTypeId() === "2") {
+                                    _.each(filteredUnits(), function (item) {
+                                        if (item.Id === 1 || item.Id === 6) {
+                                            filteredUnits.remove(item);
+                                        }
+                                    });
                                 }
                             }
-                        }, this),
-                   //Get Inventories
-                   createInventory = function () {
-                       selectedInventory(model.StockItem.Create());
-                       showInventoryEditor();
-                   },
-                   // close Inventory Editor
-                    closeInventoryEditor = function () {
-                        isInventoryEditorVisible(false);
+                        }
+                    }, this),
+                    //Compute value for table header
+                    headerComputedValue = ko.computed(function () {
+                        if (selectedInventory() !== undefined && selectedInventory().perQtyType !== undefined) {
+                            if (selectedInventory().perQtyType() === 1) {
+                                selectedInventory().headerComputedValue(selectedInventory().perQtyQty() + " Sheets");
+                            }
+                            if (selectedInventory().perQtyType() === 2) {
+                                selectedInventory().headerComputedValue("100 (lbs)");
+                            }
+                            if (selectedInventory().perQtyType() === 3) {
+                                selectedInventory().headerComputedValue("Ton");
+                            }
+                            if (selectedInventory().perQtyType() === 4) {
+                                selectedInventory().headerComputedValue("Sq Meter)");
+                            }
+                            if (selectedInventory().perQtyType() === 5) {
+                                selectedInventory().headerComputedValue("Sq Feet");
+                            }
+                            if (selectedInventory().perQtyType() === 6) {
+                                selectedInventory().headerComputedValue("Items)");
+                            }
+                        }
+                    }, this),
+                    //Call function for Save Invetry
+                    onSaveInventory = function (inventory) {
+                        if (doBeforeSave()) {
+                            saveInventory(inventory);
+                        }
                     },
-                    // Show Inventory Editor
-                    showInventoryEditor = function () {
-                        isInventoryEditorVisible(true);
+                     // Do Before Logic
+                    doBeforeSave = function () {
+                        var flag = true;
+                        if (!selectedInventory().isValid()) {
+                            selectedInventory().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
                     },
-                  //Initialize
-                   initialize = function (specifiedView) {
-                       view = specifiedView;
-                       ko.applyBindings(view.viewModel, view.bindingRoot);
-                       getBase();
-                       pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
-                       getInventories();
-                   };
+                     // Save Inventory
+                    saveInventory = function (inventory) {
+                        dataservice.saveInventory(selectedInventory().convertToServerData(inventory), {
+                            success: function (data) {
+                                toastr.success("Successfully save.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+
+                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
+                                    toastr.error(exceptionMessage);
+
+                                } else {
+
+                                    toastr.error("Failed to save.");
+
+                                }
+
+                            }
+                        });
+                    },
+                //Get Inventories
+                createInventory = function () {
+                    selectedInventory(model.StockItem.Create());
+                    showInventoryEditor();
+                },
+                // close Inventory Editor
+                 closeInventoryEditor = function () {
+                     isInventoryEditorVisible(false);
+                 },
+                // Show Inventory Editor
+                showInventoryEditor = function () {
+                    isInventoryEditorVisible(true);
+                },
+                //Initialize
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    getBase();
+                    pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
+                    getInventories();
+                };
                 // #endregion Arrays
 
                 return {
@@ -229,6 +287,8 @@ define("inventory/inventory.viewModel",
                     priceList: priceList,
                     units: units,
                     filteredUnits: filteredUnits,
+                    paperBasisAreas: paperBasisAreas,
+                    lengthUnits: lengthUnits,
                     //Utility Functiions
                     initialize: initialize,
                     getInventories: getInventories,
@@ -237,6 +297,7 @@ define("inventory/inventory.viewModel",
                     showInventoryEditor: showInventoryEditor,
                     createInventory: createInventory,
                     onEditInventory: onEditInventory,
+                    onSaveInventory: onSaveInventory,
                 };
             })()
         };

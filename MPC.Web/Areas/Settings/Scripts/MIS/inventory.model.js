@@ -1,11 +1,12 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
     InventoryListView = function (specifiedStockItemId, specifiedName, specifiedWeight, specifiedPerQtyQty, specifiedSizecolour, specifiedCategoryName,
-                            specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName, specifiedSupplierCompanyName) {
+                            specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName, specifiedSupplierCompanyName
+                            ) {
         var
             self,
             //Unique ID
-            id = ko.observable(specifiedStockItemId),
+            itemId = ko.observable(specifiedStockItemId),
             //Name
             name = ko.observable(specifiedName),
             //Weight
@@ -26,11 +27,11 @@
             supplierCompanyName = ko.observable(specifiedSupplierCompanyName),
             convertToServerData = function () {
                 return {
-                    StockItemId: id(),
+                    StockItemId: itemId(),
                 }
             };
         self = {
-            id: id,
+            itemId: itemId,
             name: name,
             weight: weight,
             perQtyQty: perQtyQty,
@@ -44,9 +45,12 @@
         };
         return self;
     };
+    //Stock Item Entity
     var StockItem = function (specifiedItemId, specifiedItemName, specifiedItemCode, specifiedSupplierId, specifiedCategoryId, specifiedSubCategoryId,
         specifiedBarCode, specifiedInStock, specifiedDescription, specifiedCreatedDate, specifiedFlagId, specifiedStatusId, specifiedIsDisabled, specifiedPaperTypeId,
-        specifiedItemSizeSelectedUnitId, specifiedPerQtyQty, specifiedItemSizeCustom) {
+        specifiedItemSizeSelectedUnitId, specifiedPerQtyQty, specifiedItemSizeCustom, specifiedStockLocation, specifiedItemSizeId, specifiedItemSizeHeight,
+        specifiedItemSizeWidth, specifiedPerQtyType, specifiedItemSizeSelectedUnit, specifiedPackageQty
+        ) {
         var
             self,
             //item Id
@@ -56,15 +60,15 @@
             //Item Code
             itemCode = ko.observable(specifiedItemCode),
             //Supplier Id
-            supplierId = ko.observable(specifiedSupplierId).extend({ required: true }),
+            supplierId = ko.observable(specifiedSupplierId),
             //Category Id
-            categoryId = ko.observable(specifiedCategoryId).extend({ required: true }),
+            categoryId = ko.observable(specifiedCategoryId),
             //Sub Category Id
             subCategoryId = ko.observable(specifiedSubCategoryId),
             //Bar Code
             barCode = ko.observable(specifiedBarCode),
             //in Stock
-            inStock = ko.observable(specifiedInStock),
+            inStock = ko.observable(specifiedInStock).extend({ number: true }),
             //Item Description
             description = ko.observable(specifiedDescription),
             //Created Date
@@ -80,13 +84,34 @@
             //Item Size Selected Unit Id
             itemSizeSelectedUnitId = ko.observable(specifiedItemSizeSelectedUnitId),
             //perQtyQty
-            perQtyQty = ko.observable(specifiedPerQtyQty),
+            perQtyQty = ko.observable(specifiedPerQtyQty).extend({ number: true }),
             //Item Size Custom
             itemSizeCustom = ko.observable(specifiedItemSizeCustom),
+            //Stock Location
+            stockLocation = ko.observable(specifiedStockLocation),
+            //Item Size Id
+            itemSizeId = ko.observable(specifiedItemSizeId),
+            //Item Size Height
+            itemSizeHeight = ko.observable(specifiedItemSizeHeight).extend({ number: true }),
+            //Item Size Width
+            itemSizeWidth = ko.observable(specifiedItemSizeWidth).extend({ number: true }),
+            //Per Qty Type
+            perQtyType = ko.observable(specifiedPerQtyType),
+            //Item Size Selected Unit
+            itemSizeSelectedUnit = ko.observable(specifiedItemSizeSelectedUnit),
+            //Package Qty
+            packageQty = ko.observable(specifiedPackageQty).extend({ number: true }),
             //header computed Value based on selection unit size itm 
             headerComputedValue = ko.observable(),
              // Errors
             errors = ko.validation.group({
+                itemName: itemName,
+                inStock: inStock,
+                perQtyQty: perQtyQty,
+                itemSizeHeight: itemSizeHeight,
+                itemSizeWidth: itemSizeWidth,
+                packageQty: packageQty,
+
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -128,7 +153,77 @@
             itemSizeSelectedUnitId: itemSizeSelectedUnitId,
             perQtyQty: perQtyQty,
             itemSizeCustom: itemSizeCustom,
+            stockLocation: stockLocation,
+            itemSizeId: itemSizeId,
+            itemSizeHeight: itemSizeHeight,
+            itemSizeWidth: itemSizeWidth,
+            perQtyType: perQtyType,
+            itemSizeSelectedUnit: itemSizeSelectedUnit,
+            packageQty: packageQty,
             headerComputedValue: headerComputedValue,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //Stock Cost And Price
+    var StockCostAndPrice = function (specifiedCostPriceId, specifiedCostPrice, specifiedPackCostPrice, specifiedFromDate, specifiedToDate, specifiedCostOrPriceIdentifier) {
+        var
+            self,
+            //cost Price Id
+            costPriceId = ko.observable(specifiedCostPriceId),
+            //Cost Price
+            costPrice = ko.observable(specifiedCostPrice),
+            //Pack Cost Price
+            packCostPrice = ko.observable(specifiedPackCostPrice),
+            //From Date
+            fromDate = ko.observable(specifiedFromDate),
+            //To Date
+            toDate = ko.observable(specifiedToDate),
+            //Cost Or Price Identifier
+            costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
+
+             // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // True if the booking has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            convertToServerData = function () {
+                return {
+                    CostPriceId: costPriceId(),
+                    CostPrice: costPrice(),
+                    PackCostPrice: packCostPrice(),
+                    FromDate: fromDate(),
+                    ToDate: toDate(),
+                    CostOrPriceIdentifier: costOrPriceIdentifier(),
+                }
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            costPriceId: costPriceId,
+            costPrice: costPrice,
+            packCostPrice: packCostPrice,
+            fromDate: fromDate,
+            toDate: toDate,
+            costOrPriceIdentifier: costOrPriceIdentifier,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -144,10 +239,14 @@
          source.inStock, source.ItemDescription, source.StockCreated, source.FlagID, source.Status, source.isDisabled, source.PaperType, source.ItemSizeSelectedUnit,
             source.PerQtyType, source.ItemSizeCustom);
     };
+    //Stock Cost And Price Item For Client Factory
+    StockCostAndPrice.CreateForClient = function (source) {
+        return new StockItem(source.CostPriceId, source.CostPrice, source.PackCostPrice, source.FromDate, source.ToDate, source.CostOrPriceIdentifier);
+    };
     // Stock Item Factory
     StockItem.Create = function () {
-        return new StockItem(0, "", "", undefined, undefined, undefined, "",
-         0, "", undefined, undefined, undefined, false, "1", 2, 0, true);
+        return new StockItem(0, "", "", undefined, undefined, undefined, "111000011110",
+         0, "", undefined, undefined, undefined, false, "1", 2, 0, false);
     };
     //Create Factory 
     InventoryListView.Create = function (source) {
@@ -157,5 +256,6 @@
     return {
         InventoryListView: InventoryListView,
         StockItem: StockItem,
+        StockCostAndPrice: StockCostAndPrice,
     };
 });

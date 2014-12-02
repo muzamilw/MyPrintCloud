@@ -7,7 +7,7 @@
                     <div class="clearfix">
                         <h1 class="pull-left">Inventories</h1>
                         <div class="pull-right top-page-ui">
-                            <button class="btn  btn-info" id="saveBtn">Save</button>
+                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Cancel</button>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                     </div>
                                     <label for="location" class="control-label h5 col-sm-2" data-bind="visible:itemId()===0">Stock Located At</label>
                                     <div class="col-md-2" data-bind="visible:itemId()===0">
-                                        <input type="text" class="form-control" id="location" />
+                                        <input type="text" class="form-control" id="location" data-bind="value:stockLocation" />
                                     </div>
                                     <label for="status" class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Status</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
@@ -71,7 +71,6 @@
                                 <div class="form-group">
                                     <label class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Paper Type</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
-
                                     </div>
                                     <label class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Created Date</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
@@ -116,7 +115,7 @@
                                                             <div class="form-group" data-bind="visible:paperTypeId()==='1' ">
                                                                 <label for="size" class="control-label h5 col-sm-2">Size</label>
                                                                 <div class="col-md-2">
-                                                                    <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'Name', optionsValue: 'PaperSizeId',disable:itemSizeCustom "></select>
+                                                                    <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'Name', optionsValue: 'PaperSizeId',disable:itemSizeCustom,value:itemSizeId"></select>
                                                                 </div>
                                                                 <div class="col-md-1">
                                                                     <input type="checkbox" class="form-control" data-bind="checked:itemSizeCustom" />
@@ -126,28 +125,31 @@
                                                                 </div>
                                                                 <label for="height" class="control-label h5 col-sm-1">Height</label>
                                                                 <div class="col-md-1">
-                                                                    <input type="text" class="form-control" id="height" data-bind="enable:itemSizeCustom" />
+                                                                    <input type="text" class="form-control" id="height" data-bind="value:itemSizeHeight,enable:itemSizeCustom" />
                                                                 </div>
-                                                                <label class="control-label h5 col-sm-1">x</label>
                                                                 <label for="width" class="control-label h5 col-sm-1">Width</label>
                                                                 <div class="col-md-1">
-                                                                    <input type="text" class="form-control" id="width" data-bind="enable:itemSizeCustom" />
+                                                                    <input type="text" class="form-control" id="width" data-bind="value:itemSizeWidth,enable:itemSizeCustom" />
                                                                 </div>
+                                                                <div class="col-md-1">
+                                                                    <select class="form-control" data-bind="options: $root.lengthUnits,enable:itemSizeCustom,value:itemSizeSelectedUnit"></select>
+                                                                </div>
+
                                                             </div>
                                                             @*In case of Roll Paper*@
                                                             <div class="form-group" data-bind="visible:paperTypeId()==='2' ">
                                                                 <div class="col-md-6">
                                                                 </div>
-                                                                <label for="height" class="control-label col-sm-1">Width</label>
+                                                                <label for="width" class="control-label col-sm-1">Width</label>
                                                                 <div class="col-md-1">
-                                                                    <input type="text" class="form-control" id="height" />
+                                                                    <input type="text" class="form-control" id="width" data-bind="value:itemSizeWidth" />
                                                                 </div>
                                                                 <div class="col-md-1">
-                                                                    <select class="form-control" data-bind="options: $root.weightUnits, optionsText: 'UnitName'"></select>
+                                                                    <select class="form-control" data-bind="options: $root.lengthUnits,value:itemSizeSelectedUnit"></select>
                                                                 </div>
-                                                                <label for="width" class="control-label col-sm-1">Length</label>
+                                                                <label for="length" class="control-label col-sm-1">Length</label>
                                                                 <div class="col-md-1">
-                                                                    <input type="text" class="form-control" id="width" />
+                                                                    <input type="text" class="form-control" id="length" />
                                                                 </div>
                                                                 <label for="width" class="control-label">Meter</label>
                                                             </div>
@@ -159,15 +161,15 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="size" class="control-label h5 col-sm-2">Per</label>
-                                                                <div class="col-md-2" data-bind="visible:itemSizeSelectedUnitId()!==2 && itemSizeSelectedUnitId()!==3">
+                                                                <div class="col-md-2" data-bind="visible:perQtyType()!==2 && perQtyType()!==3">
                                                                     <input type="text" class="form-control" id="size" data-bind="value:perQtyQty" />
                                                                 </div>
                                                                 <div class="col-md-2">
-                                                                    <select class="form-control" data-bind="options: $root.filteredUnits, optionsText: 'Text', optionsValue: 'Id',value:itemSizeSelectedUnitId "></select>
+                                                                    <select class="form-control" data-bind="options: $root.filteredUnits, optionsText: 'Text', optionsValue: 'Id',value:perQtyType"></select>
                                                                 </div>
-                                                                <label for="packedin" class="control-label h5 col-sm-3" data-bind="visible:itemSizeSelectedUnitId()!==2 && itemSizeSelectedUnitId()!==3">Packed In</label>
-                                                                <div class="col-md-1" data-bind="visible:itemSizeSelectedUnitId()!==2 && itemSizeSelectedUnitId()!==3">
-                                                                    <input type="text" class="form-control" id="packedin" />
+                                                                <label for="packedin" class="control-label h5 col-sm-3" data-bind="visible:perQtyType()!==2 && perQtyType()!==3">Packed In</label>
+                                                                <div class="col-md-1" data-bind="visible:perQtyType()!==2 && perQtyType()!==3">
+                                                                    <input type="text" class="form-control" id="packedin" data-bind="value:packageQty" />
                                                                 </div>
                                                                 <!-- /ko -->
                                                             </div>
@@ -238,7 +240,7 @@
                                                                 <input type="text" class="form-control" id="weight" />
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <select class="form-control" data-bind="options: $root.weightUnits, optionsText: 'UnitName', optionsValue: 'Id' "></select>
+                                                                <select class="form-control" data-bind="options: $root.lengthUnits, optionsText: 'UnitName', optionsValue: 'Id' "></select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -256,7 +258,7 @@
                                                         <div class="form-group">
                                                             <label for="color" class="control-label h5 col-sm-2">Paper Basis Area</label>
                                                             <div class="col-md-3">
-                                                                <select class="form-control" data-bind="options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId' "></select>
+                                                                <select class="form-control" data-bind="options: $root.paperBasisAreas, optionsText: 'Name', optionsValue: 'CategoryId' "></select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">

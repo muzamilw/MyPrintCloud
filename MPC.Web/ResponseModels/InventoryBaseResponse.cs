@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using MPC.MIS.Models;
-using MPC.Models.DomainModels;
 
 namespace MPC.MIS.ResponseModels
 {
@@ -34,5 +33,10 @@ namespace MPC.MIS.ResponseModels
         /// Weight Unit DropDown
         /// </summary>
         public IEnumerable<WeightUnitDropDown> WeightUnits { get; set; }
+
+        /// <summary>
+        /// Stock Cost And Price
+        /// </summary>
+        public StockCostAndPrice StockCostAndPrice { get; set; }
     }
 }

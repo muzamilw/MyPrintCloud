@@ -277,6 +277,7 @@
     <Compile Include="ModelMappers\PaperSheetMapper.cs" />
     <Compile Include="ModelMappers\PaperSizeMapper.cs" />
     <Compile Include="ModelMappers\SectionFlagMapper.cs" />
+    <Compile Include="ModelMappers\StockCostAndPriceMapper.cs" />
     <Compile Include="ModelMappers\StockItemMapper.cs" />
     <Compile Include="ModelMappers\StockCategoryMapper.cs" />
     <Compile Include="ModelMappers\StockSubCategoryMapper.cs" />
@@ -290,6 +291,8 @@
     <Compile Include="Models\SectionFlagDropDown.cs" />
     <Compile Include="Models\StockCategory.cs" />
     <Compile Include="Models\StockCategoryDropDown.cs" />
+    <Compile Include="Models\StockCostAndPrice.cs" />
+    <Compile Include="Models\StockItem.cs" />
     <Compile Include="Models\StockItemForListView.cs" />
     <Compile Include="Models\StockSubCategory.cs" />
     <Compile Include="Models\StockSubCategoryDropDown.cs" />
