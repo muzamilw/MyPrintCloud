@@ -1,18 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
+    /// <summary>
+    /// Status
+    /// </summary>
     public class Status
     {
-        public short StatusId { get; set; }
-        public string StatusName { get; set; }
-        public string Description { get; set; }
-        public Nullable<int> StatusType { get; set; }
+        #region Persisted Properties
 
+        /// <summary>
+        /// Status Id
+        /// </summary>
+        public short StatusId { get; set; }
+
+        /// <summary>
+        /// Status Name
+        /// </summary>
+        public string StatusName { get; set; }
+
+        /// <summary>
+        /// Description
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Status Type
+        /// </summary>
+        public int? StatusType { get; set; }
+
+        #endregion
+
+        #region Reference Properties
+
+        /// <summary>
+        /// Items 
+        /// </summary>
         public virtual ICollection<Item> Items { get; set; }
+
+        /// <summary>
+        /// Estimates
+        /// </summary>
+        public virtual ICollection<Estimate> Estimates { get; set; }
+
+        #endregion
     }
 }

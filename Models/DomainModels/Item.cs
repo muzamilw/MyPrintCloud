@@ -217,6 +217,10 @@ namespace MPC.Models.DomainModels
 
         public virtual Status Status { get; set; }
 
+        public virtual Estimate Estimate { get; set; }
+
+        public virtual Invoice Invoice { get; set; }
+
         public virtual ICollection<ItemAttachment> ItemAttachments { get; set; }
         public virtual ICollection<ItemImage> ItemImages { get; set; }
         public virtual ICollection<ItemPriceMatrix> ItemPriceMatrices { get; set; }
@@ -226,6 +230,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ItemVDPPrice> ItemVDPPrices { get; set; }
         public virtual ICollection<ItemSection> ItemSections { get; set; }
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
+        public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+        public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
 
         #endregion
     }
