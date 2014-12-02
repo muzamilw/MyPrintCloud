@@ -45,7 +45,8 @@
         return self;
     };
     var StockItem = function (specifiedItemId, specifiedItemName, specifiedItemCode, specifiedSupplierId, specifiedCategoryId, specifiedSubCategoryId,
-        specifiedBarCode, specifiedInStock, specifiedDescription, specifiedCreatedDate, specifiedFlagId, specifiedStatusId, specifiedIsDisabled) {
+        specifiedBarCode, specifiedInStock, specifiedDescription, specifiedCreatedDate, specifiedFlagId, specifiedStatusId, specifiedIsDisabled, specifiedPaperTypeId,
+        specifiedItemSizeSelectedUnitId, specifiedPerQtyQty, specifiedItemSizeCustom) {
         var
             self,
             //item Id
@@ -74,7 +75,17 @@
             statusId = ko.observable(specifiedStatusId),
             //Is Disabled
             isDisabled = ko.observable(specifiedIsDisabled),
-            // Errors
+            //Paper Type ID
+            paperTypeId = ko.observable(specifiedPaperTypeId),
+            //Item Size Selected Unit Id
+            itemSizeSelectedUnitId = ko.observable(specifiedItemSizeSelectedUnitId),
+            //perQtyQty
+            perQtyQty = ko.observable(specifiedPerQtyQty),
+            //Item Size Custom
+            itemSizeCustom = ko.observable(specifiedItemSizeCustom),
+            //header computed Value based on selection unit size itm 
+            headerComputedValue = ko.observable(),
+             // Errors
             errors = ko.validation.group({
             }),
             // Is Valid 
@@ -113,6 +124,11 @@
             flagId: flagId,
             statusId: statusId,
             isDisabled: isDisabled,
+            paperTypeId: paperTypeId,
+            itemSizeSelectedUnitId: itemSizeSelectedUnitId,
+            perQtyQty: perQtyQty,
+            itemSizeCustom: itemSizeCustom,
+            headerComputedValue: headerComputedValue,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -125,12 +141,13 @@
     //Stock Item For Client Factory
     StockItem.CreateForClient = function (source) {
         return new StockItem(source.StockItemId, source.ItemName, source.ItemCode, source.SupplierId, source.CategoryId, source.SubCategoryId, source.BarCode,
-         source.inStock, source.ItemDescription, source.StockCreated, source.FlagID, source.Status, source.isDisabled);
+         source.inStock, source.ItemDescription, source.StockCreated, source.FlagID, source.Status, source.isDisabled, source.PaperType, source.ItemSizeSelectedUnit,
+            source.PerQtyType, source.ItemSizeCustom);
     };
     // Stock Item Factory
     StockItem.Create = function () {
-        return new StockItem(1, "", "", undefined, undefined, undefined, "",
-         0, "", undefined, undefined, undefined, false);
+        return new StockItem(0, "", "", undefined, undefined, undefined, "",
+         0, "", undefined, undefined, undefined, false, "1", 2, 0, true);
     };
     //Create Factory 
     InventoryListView.Create = function (source) {

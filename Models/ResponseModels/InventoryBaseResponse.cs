@@ -17,5 +17,20 @@ namespace MPC.Models.ResponseModels
         /// Stock Sub Category List
         /// </summary>
         public IEnumerable<StockSubCategory> StockSubCategories { get; set; }
+
+        /// <summary>
+        /// Paper Sizes List
+        /// </summary>
+        public IEnumerable<PaperSize> PaperSizes { get; set; }
+
+        /// <summary>
+        /// Section Flag
+        /// </summary>
+        public IEnumerable<SectionFlag> SectionFlags { get; set; }
+
+        /// <summary>
+        /// Weight Units
+        /// </summary>
+        public IEnumerable<WeightUnit> WeightUnits { get; set; }
     }
 }

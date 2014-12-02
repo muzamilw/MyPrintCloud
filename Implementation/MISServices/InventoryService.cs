@@ -26,7 +26,8 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IWeightUnitRepository weightUnitRepository;
         private readonly ICompanyRepository companyRepository;
-        #endregion
+        private readonly IPaperSizeRepository paperSizeRepository;
+         #endregion
 
         #region Constructor
 
@@ -35,7 +36,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public InventoryService(IStockCategoryRepository stockCategoryRepository, IStockSubCategoryRepository stockSubCategoryRepository,
             IStockItemRepository stockItemRepository, ISectionFlagRepository sectionFlagRepository, IWeightUnitRepository weightUnitRepository,
-            ICompanyRepository companyRepository)
+            ICompanyRepository companyRepository, IPaperSizeRepository paperSizeRepository)
         {
             this.stockCategoryRepository = stockCategoryRepository;
             this.stockSubCategoryRepository = stockSubCategoryRepository;
@@ -43,6 +44,7 @@ namespace MPC.Implementation.MISServices
             this.sectionFlagRepository = sectionFlagRepository;
             this.weightUnitRepository = weightUnitRepository;
             this.companyRepository = companyRepository;
+            this.paperSizeRepository = paperSizeRepository;
         }
 
         #endregion
@@ -57,6 +59,9 @@ namespace MPC.Implementation.MISServices
             {
                 StockCategories = stockCategoryRepository.GetAll(),
                 StockSubCategories = stockSubCategoryRepository.GetAll(),
+                PaperSizes = paperSizeRepository.GetAll(),
+                SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
+                WeightUnits = weightUnitRepository.GetAll(),
             };
         }
 

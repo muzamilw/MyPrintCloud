@@ -21,6 +21,9 @@ namespace MPC.MIS.ModelMappers
             {
                 StockCategories = source.StockCategories.Select(s => s.CreateFromDropDown()).ToList(),
                 StockSubCategories = source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList(),
+                PaperSizes = source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList(),
+                SectionFlags = source.SectionFlags.Select(su => su.CreateFromDropDown()).ToList(),
+                WeightUnits = source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList(),
             };
         }
 

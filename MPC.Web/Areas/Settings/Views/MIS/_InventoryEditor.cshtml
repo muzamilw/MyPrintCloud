@@ -21,39 +21,39 @@
                                 <div class="form-group">
                                     <label for="code" class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Stock Code</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
-                                        <input type="text" class="form-control" id="code" />
+                                        <input type="text" class="form-control" id="code" data-bind="value:itemCode, validationTooltip: itemCode" />
                                     </div>
                                     <label for="name" class="control-label h5 col-sm-2">Stock Name</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="name" />
+                                        <input type="text" class="form-control" id="name" data-bind="value:itemName, validationTooltip: itemName" />
                                     </div>
                                     <label for="supplier" class="control-label h5 col-sm-2">Supplier</label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" id="supplier" />
                                     </div>
                                     <label for="openingStock" class="control-label h5 col-sm-2" data-bind="visible:itemId()===0">Opening Stock</label>
-                                    <div class="col-md-2" data-bind="visible:itemId()==0">
-                                        <input type="text" class="form-control" id="openingStock" data-bind="visible:itemId()===0" />
+                                    <div class="col-md-2" data-bind="visible:itemId()===0">
+                                        <input type="text" class="form-control" id="openingStock" data-bind="value:inStock, validationTooltip: inStock" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="category" class="control-label h5 col-sm-2">Stock Category</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="category" />
+                                        <select id="category" class="form-control" data-bind="options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId "></select>
                                     </div>
                                     <label for="subCategory" class="control-label h5 col-sm-2">Sub Category</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="subCategory" />
+                                        <select id="subCategory" class="form-control" data-bind="options: $root.subCategories, optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryId, validationTooltip: subCategoryId"></select>
                                     </div>
                                     <label for="barCode" class="control-label h5 col-sm-2">Bar Code</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="barCode" />
+                                        <input type="text" class="form-control" id="barCode" data-bind="value:barCode, validationTooltip: barCode" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="flag" class="control-label h5 col-sm-2">Section Flag</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="flag" />
+                                        <select id="flag" class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"></select>
                                     </div>
                                     <label for="location" class="control-label h5 col-sm-2" data-bind="visible:itemId()===0">Stock Located At</label>
                                     <div class="col-md-2" data-bind="visible:itemId()===0">
@@ -96,89 +96,240 @@
                                                     <div class="col-md-12 form-horizontal">
                                                         <h3>Cost / Price</h3>
                                                         <div class="col-lg-12">
-                                                            <div class="main-box">
-                                                                <div class="form-group">
-                                                                    <label class="control-label h5 col-sm-2"><b>Dimensions</b></label>
+                                                            <div class="form-group">
+                                                                <div class="col-md-2" data-bind="visible:itemId()===0">
+                                                                    <label class="control-label h5">Paper Type</label>
                                                                 </div>
+                                                                <div class="col-md-2" data-bind="visible:itemId()===0">
+                                                                    <input type="radio" name="paperType" value=1 data-bind="checked: paperTypeId" /> Sheet
+                                                                </div>
+                                                                <div class="col-md-2" data-bind="visible:itemId()===0">
+                                                                    <input type="radio" name="paperType" value=2 data-bind="checked: paperTypeId" /> Roll Paper
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="table-bordered">
+                                                            <div class="form-group">
+                                                                <label class="control-label h5 col-sm-2"><b>Dimensions</b></label>
+                                                            </div>
+                                                            @*In case of Sheet*@
+                                                            <div class="form-group" data-bind="visible:paperTypeId()==='1' ">
+                                                                <label for="size" class="control-label h5 col-sm-2">Size</label>
+                                                                <div class="col-md-2">
+                                                                    <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'Name', optionsValue: 'PaperSizeId',disable:itemSizeCustom "></select>
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <input type="checkbox" class="form-control" data-bind="checked:itemSizeCustom" />
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <label class="control-label h5 col-sm-1">Custom</label>
+                                                                </div>
+                                                                <label for="height" class="control-label h5 col-sm-1">Height</label>
+                                                                <div class="col-md-1">
+                                                                    <input type="text" class="form-control" id="height" data-bind="enable:itemSizeCustom" />
+                                                                </div>
+                                                                <label class="control-label h5 col-sm-1">x</label>
+                                                                <label for="width" class="control-label h5 col-sm-1">Width</label>
+                                                                <div class="col-md-1">
+                                                                    <input type="text" class="form-control" id="width" data-bind="enable:itemSizeCustom" />
+                                                                </div>
+                                                            </div>
+                                                            @*In case of Roll Paper*@
+                                                            <div class="form-group" data-bind="visible:paperTypeId()==='2' ">
+                                                                <div class="col-md-6">
+                                                                </div>
+                                                                <label for="height" class="control-label col-sm-1">Width</label>
+                                                                <div class="col-md-1">
+                                                                    <input type="text" class="form-control" id="height" />
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <select class="form-control" data-bind="options: $root.weightUnits, optionsText: 'UnitName'"></select>
+                                                                </div>
+                                                                <label for="width" class="control-label col-sm-1">Length</label>
+                                                                <div class="col-md-1">
+                                                                    <input type="text" class="form-control" id="width" />
+                                                                </div>
+                                                                <label for="width" class="control-label">Meter</label>
+                                                            </div>
+                                                            <br />
+                                                        </div>
+                                                        <div class="table-bordered">
+                                                            <div class="form-group">
+                                                                <label class="control-label h5 col-sm-2"><b>Price/Cost</b></label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="size" class="control-label h5 col-sm-2">Per</label>
+                                                                <div class="col-md-2" data-bind="visible:itemSizeSelectedUnitId()!==2 && itemSizeSelectedUnitId()!==3">
+                                                                    <input type="text" class="form-control" id="size" data-bind="value:perQtyQty" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <select class="form-control" data-bind="options: $root.filteredUnits, optionsText: 'Text', optionsValue: 'Id',value:itemSizeSelectedUnitId "></select>
+                                                                </div>
+                                                                <label for="packedin" class="control-label h5 col-sm-3" data-bind="visible:itemSizeSelectedUnitId()!==2 && itemSizeSelectedUnitId()!==3">Packed In</label>
+                                                                <div class="col-md-1" data-bind="visible:itemSizeSelectedUnitId()!==2 && itemSizeSelectedUnitId()!==3">
+                                                                    <input type="text" class="form-control" id="packedin" />
+                                                                </div>
+                                                                <!-- /ko -->
+                                                            </div>
+                                                            <br />
+                                                            <div class="table-bordered col-md-6 form-horizontal">
                                                                 <div class="form-group">
-                                                                    <label for="size" class="control-label h5 col-sm-2">Size</label>
-                                                                    <div class="col-md-2">
-                                                                        <input type="text" class="form-control" id="size" />
-                                                                    </div>
-                                                                    <div class="col-md-1">
-                                                                        <input type="checkbox" class="form-control" />
-                                                                    </div>
-                                                                    <div class="col-md-1">
-                                                                        <label class="control-label h5 col-sm-1">Custom</label>
-                                                                    </div>
-                                                                    <label for="size" class="control-label h5 col-sm-1">Height</label>
-                                                                    <div class="col-md-1">
-                                                                        <input type="text" class="form-control" id="size" />
-                                                                    </div>
-                                                                    <label for="size" class="control-label h5 col-sm-1">Width</label>
-                                                                    <div class="col-md-1">
-                                                                        <input type="text" class="form-control" id="size" />
+                                                                    <label class="control-label h5 col-sm-6"><b>Cost</b></label>
+                                                                </div>
+                                                                <div class="clearfix">
+                                                                    <div class="table-responsive">
+                                                                        <table id="costTablle" class="table table-striped table-hover">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th> <span>Cost/ <span data-bind="text:headerComputedValue"></span></span></th>
+                                                                                    <th> <span>From<span></span></span></th>
+                                                                                    <th> <span>To<span></span></span></th>
+                                                                                    <th> <span>Pack Cost<span></span></span></th>
+                                                                                    <th>&nbsp;</th>
+                                                                                    <th>&nbsp;</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @*<!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.markups } -->
+                                                                                    <!-- /ko -->*@
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
                                                                 <br />
                                                             </div>
-                                                            <div class="main-box">
+                                                            <div class="table-bordered col-md-6 form-horizontal">
                                                                 <div class="form-group">
-                                                                    <label class="control-label h5 col-sm-2"><b>Price/Cost</b></label>
+                                                                    <label class="control-label h5 col-sm-6"><b>Selling Price</b></label>
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <label for="size" class="control-label h5 col-sm-2">Per</label>
-                                                                    <div class="col-md-2">
-                                                                        <input type="text" class="form-control" id="size" />
-                                                                    </div>
-                                                                    <div class="col-md-1">
-                                                                        <input type="text" class="form-control" id="sheets" />
-                                                                    </div>
-                                                                    <label for="packedin" class="control-label h5 col-sm-3">Packed In</label>
-                                                                    <div class="col-md-1">
-                                                                        <input type="text" class="form-control" id="packedin" />
+                                                                <div class="clearfix">
+                                                                    <div class="table-responsive">
+                                                                        <table id="costTablle" class="table table-striped table-hover">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th> <span>Price/ <span data-bind="text:headerComputedValue"></span></span></th>
+                                                                                    <th> <span>From<span></span></span></th>
+                                                                                    <th> <span>To<span></span></span></th>
+                                                                                    <th> <span>Pack Cost<span></span></span></th>
+                                                                                    <th>&nbsp;</th>
+                                                                                    <th>&nbsp;</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @*<!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.markups } -->
+                                                                                    <!-- /ko -->*@
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
                                                                 <br />
-                                                                <div class="main-box col-md-6 form-horizontal">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label h5 col-sm-2"><b>Cost</b></label>
-                                                                    </div>
-                                                                    <br />
-                                                                </div>
-                                                                <div class="main-box col-md-6 form-horizontal">
-                                                                    <div class="col-md-3">
-                                                                        <label class="control-label h5 col-sm-3"><b>Selling Price</b></label>
-                                                                    </div>
-                                                                    @*<div class="form-group">
-                                                                        <label class="control-label h5 col-sm-3"><b>Selling Price</b></label>
-                                                                    </div>*@
-                                                                    <br />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="tab-Properties">
-                                                        <div class="main-box-body clearfix">
-                                                            <div class="col-md-12 form-horizontal">
-                                                                <h3>Properties</h3>
-                                                                <div class="col-md-6">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="tab-StockControl">
-                                                        <div class="main-box-body clearfix">
-                                                            <div class="col-md-12 form-horizontal">
-                                                                <h3>Stock Control</h3>
-                                                                <div class="col-md-6">
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="tab-pane fade" id="tab-Properties">
+                                                <div class="main-box-body clearfix">
+                                                    <div class="col-md-12 form-horizontal">
+                                                        <h3>Properties</h3>
+                                                        <div class="form-group">
+                                                            <label for="weight" class="control-label h5 col-sm-2">Weight</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" id="weight" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" data-bind="options: $root.weightUnits, optionsText: 'UnitName', optionsValue: 'Id' "></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="color" class="control-label h5 col-sm-2">Color</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" id="color" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="color" class="control-label h5 col-sm-2">Ink Absorption</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" id="color" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="color" class="control-label h5 col-sm-2">Paper Basis Area</label>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" data-bind="options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId' "></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="coated" class="control-label h5 col-sm-2">Coated</label>
+                                                            <div class="col-md-1">
+                                                                <input type="checkbox" class="form-control" id="coated" />
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <input type="radio" name="coted" value="gloss" /> Gloss
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <input type="radio" name="coted" value="matt" /> Matt
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-StockControl">
+                                                <div class="main-box-body clearfix">
+                                                    <div class="col-md-12 form-horizontal">
+                                                        <h3>Stock Control</h3>
+                                                        <div class="form-group" data-bind="visible:itemId()!==0">
+                                                            <label for="inStock" class="control-label h5 col-sm-2">In Stock</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" id="inStock" />
+                                                            </div>
+                                                            <label for="freeStock" class="control-label h5 col-sm-2">Free Stock</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" id="freeStock" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" data-bind="visible:itemId()!==0">
+                                                            <label for="allocated" class="control-label h5 col-sm-2">Allocated</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" id="allocated" />
+                                                            </div>
+                                                            <label for="onOrder" class="control-label h5 col-sm-2">On Order</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" id="onOrder" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" data-bind="visible:itemId()!==0">
+                                                            <label class="control-label h5 col-sm-2">Last Qty Order</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Last Order Date</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Reorder Level</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Reorder Quantity</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" data-bind="visible:itemId()!==0">
+                                                            <label class="control-label h5 col-sm-2">Location</label>
+                                                            <div class="col-md-3">
+                                                                <input type="text" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </form>
