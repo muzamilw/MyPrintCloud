@@ -250,11 +250,19 @@
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryController.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSettingsBaseData.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
+    <Compile Include="Areas\Api\LanguageResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
+    <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Stores\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
@@ -280,12 +288,14 @@
     <Compile Include="ModelMappers\MarkupMapper.cs" />
     <Compile Include="ModelMappers\MyOrganizationMapper.cs" />
     <Compile Include="ModelMappers\PaperSheetMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemMapper.cs" />
     <Compile Include="ModelMappers\StockItemMapper.cs" />
     <Compile Include="ModelMappers\StockCategoryMapper.cs" />
     <Compile Include="ModelMappers\StockSubCategoryMapper.cs" />
     <Compile Include="ModelMappers\TaxRateMapper.cs" />
     <Compile Include="Models\ChartOfAccount.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Areas\Api\Models\Item.cs" />
     <Compile Include="Models\Organisation.cs" />
     <Compile Include="Models\Markup.cs" />
     <Compile Include="Models\PaperSheet.cs" />
@@ -298,6 +308,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
@@ -2183,7 +2194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\Company\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
@@ -2263,6 +2273,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\Api\LanguageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

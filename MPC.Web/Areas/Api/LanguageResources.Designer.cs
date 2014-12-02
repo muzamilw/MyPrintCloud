@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MPC.Implementation {
+namespace MPC.MIS.Areas.Api {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MPC.Implementation {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MPC.Implementation.LanguageResources", typeof(LanguageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MPC.MIS.Areas.Api.LanguageResources", typeof(LanguageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,11 @@ namespace MPC.Implementation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No identity provider claim specified. Cannot proceed..
+        ///   Looks up a localized string similar to Invalid Request.
         /// </summary>
-        internal static string ClaimsSecurityService_IdentityProviderClaim {
+        internal static string InvalidRequest {
             get {
-                return ResourceManager.GetString("ClaimsSecurityService_IdentityProviderClaim", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No name identifier claim specified. Cannot proceed..
-        /// </summary>
-        internal static string ClaimsSecurityService_MissingNameIdentifierClaim {
-            get {
-                return ResourceManager.GetString("ClaimsSecurityService_MissingNameIdentifierClaim", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Product with Id {0} not found..
-        /// </summary>
-        internal static string ItemService_ItemNotFound {
-            get {
-                return ResourceManager.GetString("ItemService_ItemNotFound", resourceCulture);
+                return ResourceManager.GetString("InvalidRequest", resourceCulture);
             }
         }
     }

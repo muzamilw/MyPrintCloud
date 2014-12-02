@@ -3,27 +3,29 @@
 namespace MPC.ExceptionHandling
 {
     /// <summary>
-    /// Cares Exception
+    /// MPC Exception
     /// </summary>
+// ReSharper disable InconsistentNaming
     public sealed class MPCException : ApplicationException
+// ReSharper restore InconsistentNaming
     {
         /// <summary>
         /// Initializes a new instance of MPC Exception
         /// </summary>
-        public MPCException(string message, int domainKey) : base(message)
+        public MPCException(string message, long organisationId) : base(message)
         {
-            DomainKey = domainKey;
+            OrganisationId = organisationId;
         }
 
         /// <summary>
         /// Initializes a new instance of Cares Exception
         /// </summary>
-        public MPCException(string message, int domainKey, Exception innerException)
+        public MPCException(string message, int organisationId, Exception innerException)
             : base(message, innerException)
         {
-            DomainKey = domainKey;
+            OrganisationId = organisationId;
         }
 
-        public int DomainKey { get; set; }
+        public long OrganisationId { get; set; }
     }
 }
