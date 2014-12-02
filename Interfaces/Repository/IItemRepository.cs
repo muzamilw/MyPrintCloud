@@ -10,9 +10,9 @@ namespace MPC.Interfaces.Repository
     public interface IItemRepository : IBaseRepository<Item, long>
     {
         /// <summary>
-        /// Get Stock Items
+        /// Get Items
         /// </summary>
-        ItemSearchResponse GetStockItems(InventorySearchRequestModel request);
+        ItemSearchResponse GetItems(ItemSearchRequestModel request);
 
     }
 }

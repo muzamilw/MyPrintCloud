@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ClaimsSecurityService_IdentityProviderClaim" xml:space="preserve">
-    <value>No identity provider claim specified. Cannot proceed.</value>
-  </data>
-  <data name="ClaimsSecurityService_MissingNameIdentifierClaim" xml:space="preserve">
-    <value>No name identifier claim specified. Cannot proceed.</value>
-  </data>
-  <data name="ItemService_ItemNotFound" xml:space="preserve">
-    <value>Product with Id {0} not found.</value>
+  <data name="InvalidRequest" xml:space="preserve">
+    <value>Invalid Request</value>
   </data>
 </root>

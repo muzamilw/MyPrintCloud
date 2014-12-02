@@ -9,11 +9,10 @@ namespace MPC.MIS.ResponseModels
     public class InventorySearchResponse
     {
         /// <summary>
-        ///  StockItems
+        /// Items
         /// </summary>
         public IEnumerable<StockItemForListView> StockItems { get; set; }
-
-
+        
         /// <summary>
         /// Total Count
         /// </summary>
