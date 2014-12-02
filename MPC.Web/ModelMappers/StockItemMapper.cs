@@ -55,6 +55,7 @@ namespace MPC.MIS.ModelMappers
                 WeightUnitName = source.WeightUnitName,
                 PerQtyQty = source.PerQtyQty,
                 FlagColor = source.FlagColor,
+                SupplierCompanyName = source.SupplierCompanyName,
             };
         }
         #endregion

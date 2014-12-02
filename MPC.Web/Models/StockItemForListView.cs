@@ -49,5 +49,10 @@
         /// Full Category Name(Category and Sub Category Name)
         /// </summary>
         public string FullCategoryName { get; set; }
+
+        /// <summary>
+        /// Supplier Company Name
+        /// </summary>
+        public string SupplierCompanyName { get; set; }
     }
 }

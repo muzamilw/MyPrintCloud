@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
@@ -24,6 +25,7 @@ namespace MPC.Implementation.MISServices
         private readonly IStockItemRepository stockItemRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IWeightUnitRepository weightUnitRepository;
+        private readonly ICompanyRepository companyRepository;
         #endregion
 
         #region Constructor
@@ -32,13 +34,15 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public InventoryService(IStockCategoryRepository stockCategoryRepository, IStockSubCategoryRepository stockSubCategoryRepository,
-            IStockItemRepository stockItemRepository, ISectionFlagRepository sectionFlagRepository, IWeightUnitRepository weightUnitRepository)
+            IStockItemRepository stockItemRepository, ISectionFlagRepository sectionFlagRepository, IWeightUnitRepository weightUnitRepository,
+            ICompanyRepository companyRepository)
         {
             this.stockCategoryRepository = stockCategoryRepository;
             this.stockSubCategoryRepository = stockSubCategoryRepository;
             this.stockItemRepository = stockItemRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.weightUnitRepository = weightUnitRepository;
+            this.companyRepository = companyRepository;
         }
 
         #endregion
@@ -80,6 +84,15 @@ namespace MPC.Implementation.MISServices
                     WeightUnit weightUnit = weightUnits.FirstOrDefault(x => x.Id == stockItem.ItemWeightSelectedUnit);
                     if (weightUnit != null)
                         stockItem.WeightUnitName = weightUnit.UnitName;
+                }
+                //Set Supplier Company Name
+                if (stockItem.SupplierId != null)
+                {
+                    long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
+                    if (supplierId != 0)
+                    {
+                        stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
+                    }
                 }
             }
 

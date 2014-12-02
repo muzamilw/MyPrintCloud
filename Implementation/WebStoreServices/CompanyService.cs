@@ -20,7 +20,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICmsSkinPageWidgetRepository _widgetRepository;
         private readonly ICompanyBannerRepository _companyBannerRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
-
+        private readonly ICmsPageRepository _cmsPageRepositary;
+        private readonly IPageCategoryRepository _pageCategoryRepositary;
         #endregion
 
         #region Constructor
@@ -29,12 +30,14 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
-         ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository)
+         ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,IPageCategoryRepository pageCategoryRepository)
         {
             this._companyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
             this._companyBannerRepository = companyBannerRepository;
             this._productCategoryRepository = productCategoryRepository;
+            this._cmsPageRepositary = cmspageRepository;
+            this._pageCategoryRepositary = pageCategoryRepository;
         }
 
         #endregion
@@ -53,13 +56,17 @@ namespace MPC.Implementation.WebStoreServices
             {
                 Company = _companyRepository.GetCompanyById(companyId),
                 CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(companyId),
-                Banners = _companyBannerRepository.GetCompanyBannersById(companyId)
+                Banners = _companyBannerRepository.GetCompanyBannersById(companyId),
+                cmsPages = _cmsPageRepositary.GetSecondaryPages(companyId),
+                PageCategories =  _pageCategoryRepositary.GetCmsSecondaryPageCategories(),
+
             };
         } 
         public long GetCompanyIdByDomain(string domain)
         {
             return _companyRepository.GetCompanyIdByDomain(domain);
         }
+       
         public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
         {
             return _productCategoryRepository.GetParentCategoriesByTerritory(companyId);
@@ -69,6 +76,20 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _companyRepository.SearchCompanies(request);
         }
+
+        public List<CmsPage> GetSecondaryPages(long companyId)
+        {
+            return _cmsPageRepositary.GetSecondaryPages(companyId);
+                
+        }
+
+
+        public List<PageCategory> GetSecondaryPageCategories()
+        {
+            return _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+
+        }
+
         #endregion
     }
 }

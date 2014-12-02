@@ -336,6 +336,21 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public long? OrganisationId { get; set; }
 
+        /// <summary>
+        /// Threshold Level
+        /// </summary>
+        public int? ThresholdLevel { get; set; }
+
+        /// <summary>
+        /// ThresholdProductionQuantity
+        /// </summary>
+        public int? ThresholdProductionQuantity { get; set; }
+
+        /// <summary>
+        /// isAllowBackOrder
+        /// </summary>
+        public bool? isAllowBackOrder { get; set; }
+
         #endregion
 
         #region Reference Properties
@@ -352,7 +367,12 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Stock Cost And Prices
         /// </summary>
-        public virtual IEnumerable<StockCostAndPrice> StockCostAndPrices { get; set; }
+        public virtual ICollection<StockCostAndPrice> StockCostAndPrices { get; set; }
+
+        /// <summary>
+        /// SectionCostCentreDetails
+        /// </summary>
+        public virtual ICollection<SectionCostCentreDetail> SectionCostCentreDetails { get; set; }
 
         #endregion
 
@@ -368,6 +388,12 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public string WeightUnitName { get; set; }
+
+        /// <summary>
+        /// Supplier Company Name
+        /// </summary>
+        [NotMapped]
+        public string SupplierCompanyName { get; set; }
         #endregion
     }
 }
