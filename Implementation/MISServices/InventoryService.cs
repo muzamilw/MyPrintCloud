@@ -28,6 +28,9 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyRepository companyRepository;
         private readonly IPaperSizeRepository paperSizeRepository;
         private readonly IStockCostAndPriceRepository stockCostAndPriceRepository;
+        private readonly IPaperBasisAreaRepository paperBasisAreaRepository;
+        private readonly ILengthUnitRepository lengthUnitRepository;
+        private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         #endregion
 
         #region Constructor
@@ -37,7 +40,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public InventoryService(IStockCategoryRepository stockCategoryRepository, IStockSubCategoryRepository stockSubCategoryRepository,
             IStockItemRepository stockItemRepository, ISectionFlagRepository sectionFlagRepository, IWeightUnitRepository weightUnitRepository,
-            ICompanyRepository companyRepository, IPaperSizeRepository paperSizeRepository,IStockCostAndPriceRepository stockCostAndPriceRepository)
+            ICompanyRepository companyRepository, IPaperSizeRepository paperSizeRepository, IStockCostAndPriceRepository stockCostAndPriceRepository,
+            IPaperBasisAreaRepository paperBasisAreaRepository, ILengthUnitRepository lengthUnitRepository, IRegistrationQuestionRepository registrationQuestionRepository)
         {
             this.stockCategoryRepository = stockCategoryRepository;
             this.stockSubCategoryRepository = stockSubCategoryRepository;
@@ -47,6 +51,9 @@ namespace MPC.Implementation.MISServices
             this.companyRepository = companyRepository;
             this.paperSizeRepository = paperSizeRepository;
             this.stockCostAndPriceRepository = stockCostAndPriceRepository;
+            this.paperBasisAreaRepository = paperBasisAreaRepository;
+            this.lengthUnitRepository = lengthUnitRepository;
+            this.registrationQuestionRepository = registrationQuestionRepository;
         }
 
         #endregion
@@ -65,6 +72,9 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
                 WeightUnits = weightUnitRepository.GetAll(),
                 StockCostAndPrice = stockCostAndPriceRepository.GetDefaultStockCostAndPrice(),
+                LengthUnits = lengthUnitRepository.GetAll(),
+                PaperBasisAreas = paperBasisAreaRepository.GetAll(),
+                RegistrationQuestions = registrationQuestionRepository.GetAll(),
             };
         }
 

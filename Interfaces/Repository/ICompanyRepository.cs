@@ -1,11 +1,6 @@
 ﻿using MPC.Models.DomainModels;
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -14,6 +9,7 @@ namespace MPC.Interfaces.Repository
         Company GetCompanyById(long companyId);
 
         long GetCompanyIdByDomain(string domain);
-        
+        CompanyResponse SearchCompanies(CompanyRequestModel request);
+
     }
 }

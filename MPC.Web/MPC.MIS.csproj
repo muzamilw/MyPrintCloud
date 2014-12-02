@@ -247,17 +247,35 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryController.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSettingsBaseData.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
+    <Compile Include="Areas\Api\LanguageResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
+    <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\LengthUnit.cs" />
+    <Compile Include="Areas\Api\Models\PaperBasisArea.cs" />
+    <Compile Include="Areas\Api\Models\RegistrationQuestion.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
+    <Compile Include="Areas\Stores\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\MISController.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
+    <Compile Include="Areas\Stores\Controllers\StoresController.cs" />
+    <Compile Include="Areas\Stores\StoresAreaRegistration.cs" />
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\CRMController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -271,38 +289,46 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CultureHelper.cs" />
-    <Compile Include="ModelMappers\ChartOfAccountMapper.cs" />
-    <Compile Include="ModelMappers\MarkupMapper.cs" />
-    <Compile Include="ModelMappers\MyOrganizationMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ChartOfAccountMapper.cs" />
+    <Compile Include="ModelMappers\CompanyMapper.cs" />
+    <Compile Include="ModelMappers\CompanyTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MarkupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MyOrganizationMapper.cs" />
     <Compile Include="ModelMappers\PaperSheetMapper.cs" />
     <Compile Include="ModelMappers\PaperSizeMapper.cs" />
-    <Compile Include="ModelMappers\SectionFlagMapper.cs" />
-    <Compile Include="ModelMappers\StockCostAndPriceMapper.cs" />
-    <Compile Include="ModelMappers\StockItemMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionFlagMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\StockCostAndPriceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\StockItemMapper.cs" />
     <Compile Include="ModelMappers\StockCategoryMapper.cs" />
     <Compile Include="ModelMappers\StockSubCategoryMapper.cs" />
-    <Compile Include="ModelMappers\TaxRateMapper.cs" />
-    <Compile Include="ModelMappers\WeightUnitMapper.cs" />
-    <Compile Include="Models\ChartOfAccount.cs" />
-    <Compile Include="Models\Organisation.cs" />
-    <Compile Include="Models\Markup.cs" />
+    <Compile Include="Areas\Api\ModelMappers\TaxRateMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\WeightUnitMapper.cs" />
+    <Compile Include="Areas\Api\Models\ChartOfAccount.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Areas\Api\Models\Item.cs" />
+    <Compile Include="Models\CompanyType.cs" />
+    <Compile Include="Areas\Api\Models\Organisation.cs" />
+    <Compile Include="Areas\Api\Models\Markup.cs" />
     <Compile Include="Models\PaperSheet.cs" />
     <Compile Include="Models\PaperSize.cs" />
-    <Compile Include="Models\SectionFlagDropDown.cs" />
+    <Compile Include="Areas\Api\Models\SectionFlagDropDown.cs" />
     <Compile Include="Models\StockCategory.cs" />
     <Compile Include="Models\StockCategoryDropDown.cs" />
-    <Compile Include="Models\StockCostAndPrice.cs" />
-    <Compile Include="Models\StockItem.cs" />
-    <Compile Include="Models\StockItemForListView.cs" />
+    <Compile Include="Areas\Api\Models\StockCostAndPrice.cs" />
+    <Compile Include="Areas\Api\Models\StockItem.cs" />
+    <Compile Include="Areas\Api\Models\StockItemForListView.cs" />
     <Compile Include="Models\StockSubCategory.cs" />
     <Compile Include="Models\StockSubCategoryDropDown.cs" />
-    <Compile Include="Models\TaxRate.cs" />
-    <Compile Include="Models\WeightUnitDropDown.cs" />
+    <Compile Include="Areas\Api\Models\TaxRate.cs" />
+    <Compile Include="Areas\Api\Models\WeightUnitDropDown.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
-    <Compile Include="ResponseModels\InventorySearchResponse.cs" />
-    <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
-    <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
+    <Compile Include="ResponseModels\CompanyResponse.cs" />
+    <Compile Include="Areas\Api\Models\InventoryBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\ItemSearchResponse.cs" />
+    <Compile Include="Areas\Api\Models\InventorySearchResponse.cs" />
+    <Compile Include="Areas\Api\Models\MyOrganizationBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistrations.cs" />
@@ -328,6 +354,10 @@
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.model.js" />
+    <Content Include="Areas\Stores\Scripts\Stores.dataservice.js" />
+    <Content Include="Areas\Stores\Scripts\Stores.model.js" />
+    <Content Include="Areas\Stores\Scripts\Stores.view.js" />
+    <Content Include="Areas\Stores\Scripts\Stores.viewModel.js" />
     <Content Include="Content\colorpicker.css" />
     <Content Include="Content\CSS\bootstrap\bootstrap-responsive.css" />
     <Content Include="Content\CSS\bootstrap\bootstrap-responsive.min.css" />
@@ -1021,6 +1051,11 @@
     <Content Include="Areas\Settings\Views\MIS\InventoryCategory.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\Inventory.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_InventoryEditor.cshtml" />
+    <Content Include="Areas\Stores\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Stores\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Stores\Views\web.config" />
+    <Content Include="Areas\Stores\Views\Stores\Index.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2176,10 +2211,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Api\Models\" />
+    <Folder Include="Areas\Api\Views\Company\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Settings\Models\" />
+    <Folder Include="Areas\Stores\Models\" />
     <Folder Include="Content\Images\gallery\" />
     <Folder Include="Content\Images\icons\" />
     <Folder Include="Content\Images\patterns\body\" />
@@ -2255,6 +2291,12 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\Api\LanguageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -2270,11 +2312,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>43063</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:43068/</IISUrl>
+          <IISUrl>http://localhost:43064/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

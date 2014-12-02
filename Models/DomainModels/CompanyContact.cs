@@ -95,5 +95,9 @@ namespace MPC.Models.DomainModels
         public virtual Company Company { get; set; }
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual CompanyContactRole CompanyContactRole { get; set; }
+        public virtual RegistrationQuestion RegistrationQuestion { get; set; }
+        public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<Inquiry> Inquiries { get; set; }
+        
     }
 }

@@ -35,6 +35,21 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<WeightUnit> WeightUnits { get; set; }
 
         /// <summary>
+        /// Length Units
+        /// </summary>
+        public IEnumerable<LengthUnit> LengthUnits { get; set; }
+
+        /// <summary>
+        /// Paper Basis Areas
+        /// </summary>
+        public IEnumerable<PaperBasisArea> PaperBasisAreas { get; set; }
+
+        /// <summary>
+        /// Registration Questions
+        /// </summary>
+        public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
+
+        /// <summary>
         /// Stock Cost And Price
         /// </summary>
         public StockCostAndPrice StockCostAndPrice { get; set; }

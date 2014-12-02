@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.Practices.Unity;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Interfaces.Repository;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
 
@@ -13,6 +17,15 @@ namespace MPC.Repository.Repositories
 {
     public class CompanyRepository : BaseRepository<Company>, ICompanyRepository
     {
+        #region Private
+        private readonly Dictionary<CompanyByColumn, Func<Company, object>> companyOrderByClause = new Dictionary<CompanyByColumn, Func<Company, object>>
+                    {
+                        {CompanyByColumn.Code, d => d.CompanyId},
+                        {CompanyByColumn.Name, c => c.Name},
+                        {CompanyByColumn.Type, d => d.TypeId},
+                        {CompanyByColumn.Status, d => d.Status}
+                    };
+        #endregion
         public CompanyRepository(IUnityContainer container)
             : base(container)
         {
@@ -51,6 +64,39 @@ namespace MPC.Repository.Repositories
         public Company GetCompanyById(long companyId)
         {
             return db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+        }
+        /// <summary>
+        /// Get Companies list for Companies List View
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public CompanyResponse SearchCompanies(CompanyRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<Company, bool>> query =
+                s =>
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
+                     !isStringSpecified);
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<Company> companies= request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderBy(companyOrderByClause[request.CompanyByColumn])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(companyOrderByClause[request.CompanyByColumn])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CompanyResponse
+            {
+                RowCount = rowCount,
+                Companies = companies
+            };
         }
     }
 }

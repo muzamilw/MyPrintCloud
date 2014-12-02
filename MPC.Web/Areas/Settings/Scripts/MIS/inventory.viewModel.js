@@ -45,7 +45,9 @@ define("inventory/inventory.viewModel",
                     lengthUnits = ko.observableArray([]),
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
-                    //units
+                    //Registration Questions
+                    registrationQuestions = ko.observableArray([]),
+                     //units
                     units = ko.observableArray([{ Id: 1, Text: 'Sheets' },
                                                 { Id: 2, Text: '100 (lbs)' },
                                                 { Id: 3, Text: 'Ton' },
@@ -149,6 +151,19 @@ define("inventory/inventory.viewModel",
                                 weightUnits.removeAll();
                                 ko.utils.arrayPushAll(weightUnits(), data.WeightUnits);
                                 weightUnits.valueHasMutated();
+                                //Length Units
+                                lengthUnits.removeAll();
+                                ko.utils.arrayPushAll(lengthUnits(), data.LengthUnits);
+                                lengthUnits.valueHasMutated();
+                                //Paper Basis Areas
+                                paperBasisAreas.removeAll();
+                                ko.utils.arrayPushAll(paperBasisAreas(), data.PaperBasisAreas);
+                                paperBasisAreas.valueHasMutated();
+                                //Registration Questions
+                                registrationQuestions.removeAll();
+                                ko.utils.arrayPushAll(registrationQuestions(), data.RegistrationQuestions);
+                                registrationQuestions.valueHasMutated();
+
                                 var cost = model.StockCostAndPrice.CreateForClient(data.StockCostAndPrice);
 
                                 var price = model.StockCostAndPrice.CreateForClient(data.StockCostAndPrice);
@@ -289,6 +304,7 @@ define("inventory/inventory.viewModel",
                     filteredUnits: filteredUnits,
                     paperBasisAreas: paperBasisAreas,
                     lengthUnits: lengthUnits,
+                    registrationQuestions: registrationQuestions,
                     //Utility Functiions
                     initialize: initialize,
                     getInventories: getInventories,

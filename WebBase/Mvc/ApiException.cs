@@ -18,11 +18,15 @@ namespace MPC.WebBase.Mvc
     public class ApiException : ActionFilterAttribute
     {
         #region Private
+// ReSharper disable InconsistentNaming
         private static IMPCLogger mpcLogger;
+// ReSharper restore InconsistentNaming
         /// <summary>
         /// Get Configured logger
         /// </summary>
+// ReSharper disable InconsistentNaming
         private static IMPCLogger MPCLogger
+// ReSharper restore InconsistentNaming
         {
             get
             {
@@ -62,9 +66,10 @@ namespace MPC.WebBase.Mvc
         /// <summary>
         /// Log Error
         /// </summary>
-        private void LogError(Exception exp, int domainKey, string requestContents)
+        private void LogError(Exception exp, long organisationId, string requestContents)
         {
-            MPCLogger.Write(exp, MPCLogCategory.Error, -1, -1, TraceEventType.Warning, "", new Dictionary<string, object> { { "DomainKey", domainKey }, { "RequestContents", requestContents } });
+            MPCLogger.Write(exp, MPCLogCategory.Error, -1, -1, TraceEventType.Warning, "", new Dictionary<string, object> { { "Organisation", organisationId }, 
+            { "RequestContents", requestContents } });
         }
         #endregion
 
@@ -81,7 +86,7 @@ namespace MPC.WebBase.Mvc
             {
                 SetApplicationResponse(filterContext);
                 MPCException exp = filterContext.Exception as MPCException;
-                LogError(exp, exp.DomainKey, filterContext.Request.Content.ToString());
+                LogError(exp, exp.OrganisationId, filterContext.Request.Content.ToString());
             }
             else
             {

@@ -104,6 +104,8 @@
   <ItemGroup>
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
+    <Compile Include="Common\ItemByColumn.cs" />
+    <Compile Include="Common\CompanyByColumn.cs" />
     <Compile Include="Common\InventoryByColumn.cs" />
     <Compile Include="Common\MisRoleClaimValue.cs" />
     <Compile Include="Common\MisUser.cs" />
@@ -116,16 +118,30 @@
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\Campaign.cs" />
+    <Compile Include="DomainModels\CampaignEmailVariable.cs" />
+    <Compile Include="DomainModels\CampaignImage.cs" />
     <Compile Include="DomainModels\CmsPage.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidget.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidgetParam.cs" />
     <Compile Include="DomainModels\CompanyBanner.cs" />
     <Compile Include="DomainModels\CompanyBannerSet.cs" />
+    <Compile Include="DomainModels\CompanyCMYKColor.cs" />
     <Compile Include="DomainModels\CompanyContactRole.cs" />
     <Compile Include="DomainModels\CompanyCostCentre.cs" />
     <Compile Include="DomainModels\CompanyTerritory.cs" />
     <Compile Include="DomainModels\CostCentre.cs" />
     <Compile Include="DomainModels\Country.cs" />
+    <Compile Include="DomainModels\DeliveryNote.cs" />
+    <Compile Include="DomainModels\DeliveryNoteDetail.cs" />
+    <Compile Include="DomainModels\DiscountVoucher.cs" />
+    <Compile Include="DomainModels\EmailEvent.cs" />
+    <Compile Include="DomainModels\Estimate.cs" />
+    <Compile Include="DomainModels\Inquiry.cs" />
+    <Compile Include="DomainModels\InquiryAttachment.cs" />
+    <Compile Include="DomainModels\InquiryItem.cs" />
+    <Compile Include="DomainModels\Invoice.cs" />
+    <Compile Include="DomainModels\InvoiceDetail.cs" />
     <Compile Include="DomainModels\Item.cs" />
     <Compile Include="DomainModels\ItemAddonCostCentre.cs" />
     <Compile Include="DomainModels\ItemAttachment.cs" />
@@ -138,14 +154,21 @@
     <Compile Include="DomainModels\ItemStockControl.cs" />
     <Compile Include="DomainModels\ItemStockOption.cs" />
     <Compile Include="DomainModels\ItemVDPPrice.cs" />
+    <Compile Include="DomainModels\LengthUnit.cs" />
     <Compile Include="DomainModels\PageCategory.cs" />
+    <Compile Include="DomainModels\PaperBasisArea.cs" />
     <Compile Include="DomainModels\PaperSize.cs" />
     <Compile Include="DomainModels\Company.cs" />
     <Compile Include="DomainModels\CompanyContact.cs" />
     <Compile Include="DomainModels\CompanyDomain.cs" />
     <Compile Include="DomainModels\CategoryTerritory.cs" />
     <Compile Include="DomainModels\CompanyType.cs" />
+    <Compile Include="DomainModels\PaymentGateway.cs" />
+    <Compile Include="DomainModels\PaymentMethod.cs" />
+    <Compile Include="DomainModels\PrePayment.cs" />
     <Compile Include="DomainModels\ProductCategory.cs" />
+    <Compile Include="DomainModels\RaveReview.cs" />
+    <Compile Include="DomainModels\RegistrationQuestion.cs" />
     <Compile Include="DomainModels\Section.cs" />
     <Compile Include="DomainModels\SectionCostcentre.cs" />
     <Compile Include="DomainModels\SectionCostCentreDetail.cs" />
@@ -173,11 +196,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
+    <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
+    <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
+    <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />

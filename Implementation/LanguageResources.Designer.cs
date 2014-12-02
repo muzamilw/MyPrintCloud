@@ -77,5 +77,14 @@ namespace MPC.Implementation {
                 return ResourceManager.GetString("ClaimsSecurityService_MissingNameIdentifierClaim", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product with Id {0} not found..
+        /// </summary>
+        internal static string ItemService_ItemNotFound {
+            get {
+                return ResourceManager.GetString("ItemService_ItemNotFound", resourceCulture);
+            }
+        }
     }
 }

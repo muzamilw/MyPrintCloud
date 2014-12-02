@@ -36,6 +36,10 @@ namespace MPC.Repository
             unityContainer.RegisterType<ISectionRepository, SectionRepository>();
             unityContainer.RegisterType<IWeightUnitRepository, WeightUnitRepository>();
             unityContainer.RegisterType<IPaperSizeRepository, PaperSizeRepository>();
+            unityContainer.RegisterType<IItemRepository, ItemRepository>();
+            unityContainer.RegisterType<ILengthUnitRepository, LengthUnitRepository>();
+            unityContainer.RegisterType<IPaperBasisAreaRepository, PaperBasisAreaRepository>();
+            unityContainer.RegisterType<IRegistrationQuestionRepository, RegistrationQuestionRepository>();
         }
     }
 }

@@ -228,6 +228,12 @@ namespace MPC.Models.DomainModels
         /// Cms Skin Page Widgets
         /// </summary>
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
+
+        /// <summary>
+        /// Estimates
+        /// </summary>
+        public virtual ICollection<Estimate> Estimates { get; set; }
+
         #endregion
         #region Additional Properties
 

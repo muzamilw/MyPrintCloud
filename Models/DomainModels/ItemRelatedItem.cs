@@ -8,11 +8,11 @@ namespace MPC.Models.DomainModels
 {
     public class ItemRelatedItem
     {
-        public Nullable<long> ItemId { get; set; }
+        public long? ItemId { get; set; }
         public int Id { get; set; }
-        public Nullable<long> RelatedItemId { get; set; }
+        public long? RelatedItemId { get; set; }
 
         public virtual Item Item { get; set; }
-        public virtual Item Item1 { get; set; }
+        public virtual Item RelatedItem { get; set; }
     }
 }

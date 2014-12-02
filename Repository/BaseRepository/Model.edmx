@@ -5,6 +5,134 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Campaign">
+          <Key>
+            <PropertyRef Name="CampaignId" />
+          </Key>
+          <Property Name="CampaignId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CampaignName" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="DataSourceType" Type="int" />
+          <Property Name="RunCampaignFor" Type="smallint" />
+          <Property Name="IncludeCustomers" Type="bit" />
+          <Property Name="IncludeSuppliers" Type="bit" />
+          <Property Name="IncludeProspects" Type="bit" />
+          <Property Name="IncludeKeyword" Type="bit" />
+          <Property Name="SearchKeyword" Type="varchar" MaxLength="200" />
+          <Property Name="IncludeType" Type="bit" />
+          <Property Name="IncludeFlag" Type="bit" />
+          <Property Name="IncludeName" Type="bit" />
+          <Property Name="IncludeAddress" Type="bit" />
+          <Property Name="IncludeContactName" Type="bit" />
+          <Property Name="SubjectA" Type="varchar" MaxLength="255" />
+          <Property Name="HTMLMessageA" Type="ntext" />
+          <Property Name="AttachmentFileNameFieldName" Type="varchar" MaxLength="255" />
+          <Property Name="AttachmentType" Type="varchar" MaxLength="20" />
+          <Property Name="EmailField" Type="varchar" MaxLength="255" />
+          <Property Name="CCEmailField" Type="varchar" MaxLength="255" />
+          <Property Name="SMTPServer" Type="varchar" MaxLength="255" />
+          <Property Name="FromAddress" Type="varchar" MaxLength="255" />
+          <Property Name="ReturnPathAddress" Type="varchar" MaxLength="255" />
+          <Property Name="ReplyToAddress" Type="varchar" MaxLength="255" />
+          <Property Name="ErrorsToAddress" Type="varchar" MaxLength="255" />
+          <Property Name="SMTPServerType" Type="varchar" MaxLength="255" />
+          <Property Name="EnableSchedule" Type="bit" />
+          <Property Name="StartDateTime" Type="datetime" />
+          <Property Name="RepeatEvery" Type="int" />
+          <Property Name="RepeatInterval" Type="varchar" MaxLength="20" />
+          <Property Name="LastRunOn" Type="datetime" />
+          <Property Name="MessageType" Type="smallint" />
+          <Property Name="ABMessaging" Type="bit" />
+          <Property Name="SubjectB" Type="varchar" MaxLength="255" />
+          <Property Name="HTMLMessageB" Type="ntext" />
+          <Property Name="IncludePlainText" Type="bit" />
+          <Property Name="SMTPDelaySeconds" Type="int" />
+          <Property Name="EmailAddressLogFiles" Type="bit" />
+          <Property Name="PlainTextMessageA" Type="ntext" />
+          <Property Name="PlainTextMessageB" Type="ntext" />
+          <Property Name="UId" Type="int" />
+          <Property Name="Private" Type="bit" />
+          <Property Name="SubscribeEmailUpdateField" Type="varchar" MaxLength="255" />
+          <Property Name="UnsubscribeEmailHyperlinkText" Type="varchar" MaxLength="255" />
+          <Property Name="SubscribeEmailAddress" Type="varchar" MaxLength="255" />
+          <Property Name="SubscribeEmailHyperlinkText" Type="varchar" MaxLength="255" />
+          <Property Name="UnSubscribeCount" Type="bigint" />
+          <Property Name="SubscribeCount" Type="bigint" />
+          <Property Name="BounceCount" Type="bigint" />
+          <Property Name="LastRunEndDateTime" Type="datetime" />
+          <Property Name="MessageCount" Type="bigint" />
+          <Property Name="SuccessCount" Type="bigint" />
+          <Property Name="FailedCount" Type="bigint" />
+          <Property Name="EnableLogFiles" Type="bit" />
+          <Property Name="ContinueIfWritebackError" Type="bit" />
+          <Property Name="EmailFieldPreviewColumn2" Type="varchar" MaxLength="200" />
+          <Property Name="EmailFieldPreviewColumn3" Type="varchar" MaxLength="200" />
+          <Property Name="AttachmentFileName" Type="varchar" MaxLength="255" />
+          <Property Name="ClearCounters" Type="bit" />
+          <Property Name="SMTPServer2" Type="varchar" MaxLength="255" />
+          <Property Name="LockedByUID" Type="int" />
+          <Property Name="UnSubscribeCountTotal" Type="int" />
+          <Property Name="SubscribeCountTotal" Type="int" />
+          <Property Name="BounceCountTotal" Type="int" />
+          <Property Name="EnableEmailAddressCache" Type="bit" />
+          <Property Name="OpenedCount" Type="int" />
+          <Property Name="OpenedCountTotal" Type="int" />
+          <Property Name="OpenedEmailUpdateField" Type="varchar" MaxLength="255" />
+          <Property Name="EnableOpenedEmail" Type="int" />
+          <Property Name="ABMessagingUpdateField" Type="varchar" MaxLength="255" />
+          <Property Name="EmailLogFileAddress2" Type="varchar" MaxLength="255" />
+          <Property Name="EmailLogFileAddress3" Type="varchar" MaxLength="255" />
+          <Property Name="CampaignCategory" Type="varchar" MaxLength="255" />
+          <Property Name="SoftBounceCountTotal" Type="int" />
+          <Property Name="SMTPUsername" Type="varchar" MaxLength="255" />
+          <Property Name="SMTPPassword" Type="varchar" MaxLength="255" />
+          <Property Name="EnableWriteBackTab" Type="bit" />
+          <Property Name="EnableClickThruTab" Type="bit" />
+          <Property Name="UnsubscribeMethod" Type="varchar" MaxLength="20" />
+          <Property Name="UseWYSWYG" Type="bit" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ValidateEmail" Type="bit" Nullable="false" />
+          <Property Name="CampaignType" Type="smallint" />
+          <Property Name="SystemSiteId" Type="int" />
+          <Property Name="IncludeCorporateCustomers" Type="bit" />
+          <Property Name="IsEnabled" Type="bit" />
+          <Property Name="SendEmailAfterDays" Type="int" />
+          <Property Name="EmailEvent" Type="int" />
+          <Property Name="isSystemEmail" Type="bit" />
+          <Property Name="FlagIDs" Type="varchar" MaxLength="500" />
+          <Property Name="CustomerTypeIDs" Type="varchar" MaxLength="500" />
+          <Property Name="GroupIDs" Type="varchar" MaxLength="500" />
+          <Property Name="FromName" Type="varchar" MaxLength="500" />
+          <Property Name="CampaignReportId" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="UnsubscribeEmailAddress" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="CampaignEmailVariable">
+          <Key>
+            <PropertyRef Name="VariableId" />
+          </Key>
+          <Property Name="VariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VariableName" Type="varchar" MaxLength="200" />
+          <Property Name="RefTableName" Type="varchar" MaxLength="200" />
+          <Property Name="RefFieldName" Type="varchar" MaxLength="50" />
+          <Property Name="CriteriaFieldName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="SectionId" Type="int" />
+          <Property Name="VariableTag" Type="varchar" MaxLength="50" />
+          <Property Name="Key" Type="varchar" MaxLength="20" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CampaignImage">
+          <Key>
+            <PropertyRef Name="CampaignImageId" />
+          </Key>
+          <Property Name="CampaignImageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CampaignId" Type="bigint" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="350" />
+          <Property Name="ImageName" Type="varchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="CategoryTerritory">
           <Key>
             <PropertyRef Name="CategoryTerritoryId" />
@@ -222,6 +350,18 @@
           <Property Name="SetName" Type="nvarchar" MaxLength="200" />
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CompanyCMYKColor">
+          <Key>
+            <PropertyRef Name="ColorId" />
+          </Key>
+          <Property Name="ColorId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="ColorName" Type="varchar" MaxLength="200" />
+          <Property Name="ColorC" Type="varchar" MaxLength="50" />
+          <Property Name="ColorM" Type="varchar" MaxLength="50" />
+          <Property Name="ColorY" Type="varchar" MaxLength="50" />
+          <Property Name="ColorK" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CompanyContact">
           <Key>
@@ -494,6 +634,278 @@
           <Property Name="CountryID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CountryName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryCode" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DeliveryNote">
+          <Key>
+            <PropertyRef Name="DeliveryNoteId" />
+          </Key>
+          <Property Name="DeliveryNoteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="20" />
+          <Property Name="DeliveryDate" Type="datetime" />
+          <Property Name="ContactCompanyId" Type="int" />
+          <Property Name="OrderReff" Type="varchar" MaxLength="50" />
+          <Property Name="footnote" Type="varchar" MaxLength="255" />
+          <Property Name="Comments" Type="varchar" MaxLength="255" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="IsStatus" Type="smallint" />
+          <Property Name="ContactId" Type="bigint" />
+          <Property Name="ContactCompany" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerOrderReff" Type="varchar" MaxLength="100" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreationDateTime" Type="datetime" />
+          <Property Name="SupplierId" Type="int" />
+          <Property Name="SupplierTelNo" Type="varchar" MaxLength="50" />
+          <Property Name="CsNo" Type="varchar" MaxLength="50" />
+          <Property Name="SupplierURL" Type="varchar" MaxLength="50" />
+          <Property Name="RaisedBy" Type="int" Nullable="false" />
+          <Property Name="FlagId" Type="int" />
+          <Property Name="EstimateId" Type="int" />
+          <Property Name="JobId" Type="int" />
+          <Property Name="InvoiceId" Type="int" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="UserNotes" Type="text" />
+          <Property Name="NotesUpdateDateTime" Type="datetime" />
+          <Property Name="NotesUpdatedByUserId" Type="int" />
+          <Property Name="SystemSiteId" Type="int" />
+          <Property Name="IsRead" Type="bit" />
+          <Property Name="IsPrinted" Type="bit" />
+        </EntityType>
+        <EntityType Name="DeliveryNoteDetail">
+          <Key>
+            <PropertyRef Name="DeliveryDetailid" />
+          </Key>
+          <Property Name="DeliveryDetailid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryNoteId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="ItemId" Type="bigint" />
+          <Property Name="ItemQty" Type="int" />
+          <Property Name="GrossItemTotal" Type="float" />
+        </EntityType>
+        <EntityType Name="DiscountVoucher">
+          <Key>
+            <PropertyRef Name="DiscountVoucherId" />
+          </Key>
+          <Property Name="DiscountVoucherId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VoucherCode" Type="varchar" MaxLength="400" Nullable="false" />
+          <Property Name="ValidFromDate" Type="datetime" />
+          <Property Name="ValidUptoDate" Type="datetime" />
+          <Property Name="OrderId" Type="bigint" />
+          <Property Name="DiscountRate" Type="float" Nullable="false" />
+          <Property Name="ConsumedDate" Type="datetime" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="EmailEvent">
+          <Key>
+            <PropertyRef Name="EmailEventId" />
+          </Key>
+          <Property Name="EmailEventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="EventType" Type="int" />
+        </EntityType>
+        <EntityType Name="Estimate">
+          <Key>
+            <PropertyRef Name="EstimateId" />
+          </Key>
+          <Property Name="EstimateId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estimate_Code" Type="varchar" MaxLength="100" />
+          <Property Name="Estimate_Name" Type="varchar" MaxLength="255" />
+          <Property Name="EnquiryId" Type="int" />
+          <Property Name="ContactCompanyId" Type="bigint" Nullable="false" />
+          <Property Name="ContactId" Type="bigint" />
+          <Property Name="StatusId" Type="smallint" />
+          <Property Name="Estimate_Total" Type="float" />
+          <Property Name="Estimate_ValidUpto" Type="int" />
+          <Property Name="UserNotes" Type="text" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="CreationTime" Type="datetime" Nullable="false" />
+          <Property Name="Created_by" Type="int" />
+          <Property Name="SalesPersonId" Type="int" />
+          <Property Name="HeadNotes" Type="nvarchar" MaxLength="2000" />
+          <Property Name="FootNotes" Type="nvarchar" MaxLength="2000" />
+          <Property Name="EstimateDate" Type="datetime" />
+          <Property Name="ProjectionDate" Type="datetime" />
+          <Property Name="Greeting" Type="varchar" MaxLength="50" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="50" />
+          <Property Name="SuccessChanceId" Type="int" />
+          <Property Name="LockedBy" Type="int" Nullable="false" />
+          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="SectionFlagId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="SourceId" Type="int" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="IsInPipeLine" Type="bit" />
+          <Property Name="Order_Code" Type="varchar" MaxLength="50" />
+          <Property Name="Order_Date" Type="datetime" />
+          <Property Name="Order_CreationDateTime" Type="datetime" />
+          <Property Name="Order_DeliveryDate" Type="datetime" />
+          <Property Name="Order_ConfirmationDate" Type="datetime" />
+          <Property Name="Order_Status" Type="smallint" Nullable="false" />
+          <Property Name="Order_CompletionDate" Type="datetime" />
+          <Property Name="CompanySiteId" Type="bigint" Nullable="false" />
+          <Property Name="OrderManagerId" Type="int" />
+          <Property Name="ArtworkByDate" Type="datetime" />
+          <Property Name="DataByDate" Type="datetime" />
+          <Property Name="TargetPrintDate" Type="datetime" />
+          <Property Name="StartDeliveryDate" Type="datetime" />
+          <Property Name="PaperByDate" Type="datetime" />
+          <Property Name="TargetBindDate" Type="datetime" />
+          <Property Name="FinishDeliveryDate" Type="datetime" />
+          <Property Name="Classification1Id" Type="int" />
+          <Property Name="Classification2ID" Type="int" />
+          <Property Name="IsOfficialOrder" Type="int" />
+          <Property Name="CustomerPO" Type="varchar" MaxLength="50" />
+          <Property Name="OfficialOrderSetBy" Type="int" />
+          <Property Name="OfficialOrderSetOnDateTime" Type="datetime" />
+          <Property Name="IsCreditApproved" Type="int" />
+          <Property Name="CreditLimitForJob" Type="float" />
+          <Property Name="CreditLimitSetBy" Type="int" />
+          <Property Name="CreditLimitSetOnDateTime" Type="datetime" />
+          <Property Name="IsJobAllowedWOCreditCheck" Type="int" />
+          <Property Name="AllowJobWOCreditCheckSetBy" Type="int" />
+          <Property Name="AllowJobWOCreditCheckSetOnDateTime" Type="datetime" />
+          <Property Name="NotesUpdateDateTime" Type="datetime" />
+          <Property Name="NotesUpdatedByUserId" Type="int" />
+          <Property Name="OrderSourceId" Type="smallint" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="EstimateSentTo" Type="smallint" />
+          <Property Name="EstimateValueChanged" Type="bit" />
+          <Property Name="NewItemAdded" Type="bit" />
+          <Property Name="isEstimate" Type="bit" />
+          <Property Name="isDirectSale" Type="bit" />
+          <Property Name="LastUpdateDate" Type="datetime" />
+          <Property Name="NominalCode" Type="int" />
+          <Property Name="BillingAddressId" Type="int" />
+          <Property Name="DeliveryCostCenterId" Type="int" />
+          <Property Name="DeliveryCost" Type="float" />
+          <Property Name="DeliveryCompletionTime" Type="int" />
+          <Property Name="VoucherDiscountRate" Type="float" />
+          <Property Name="ReportSignedBy" Type="int" />
+          <Property Name="InvoiceId" Type="int" />
+          <Property Name="OrderReportSignedBy" Type="int" />
+          <Property Name="OrderReportLastPrinted" Type="datetime" />
+          <Property Name="EstimateReportLastPrinted" Type="datetime" />
+          <Property Name="isEmailSent" Type="bit" />
+          <Property Name="DiscountVoucherID" Type="int" />
+          <Property Name="Estimate_TotalBroker" Type="float" />
+          <Property Name="BrokerPO" Type="varchar" MaxLength="50" />
+          <Property Name="BrokerId" Type="int" />
+          <Property Name="ClientStatus" Type="smallint" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Version" Type="int" />
+          <Property Name="RefEstimateId" Type="bigint" />
+          <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Inquiry">
+          <Key>
+            <PropertyRef Name="InquiryId" />
+          </Key>
+          <Property Name="InquiryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ContactId" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="SourceId" Type="int" />
+          <Property Name="ContactCompanyId" Type="int" />
+          <Property Name="RequireByDate" Type="datetime" />
+          <Property Name="SystemUserId" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="IsDirectInquiry" Type="bit" />
+          <Property Name="FlagId" Type="int" />
+          <Property Name="InquiryCode" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="BrokerContactCompanyId" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="InquiryAttachment">
+          <Key>
+            <PropertyRef Name="AttachmentId" />
+          </Key>
+          <Property Name="AttachmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrignalFileName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="AttachmentPath" Type="varchar(max)" Nullable="false" />
+          <Property Name="InquiryId" Type="int" Nullable="false" />
+          <Property Name="Extension" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InquiryItem">
+          <Key>
+            <PropertyRef Name="InquiryItemId" />
+          </Key>
+          <Property Name="InquiryItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Notes" Type="varchar" MaxLength="5000" />
+          <Property Name="DeliveryDate" Type="date" Nullable="false" />
+          <Property Name="InquiryId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceCode" Type="varchar" MaxLength="100" />
+          <Property Name="InvoiceType" Type="int" />
+          <Property Name="InvoiceName" Type="varchar" MaxLength="255" />
+          <Property Name="ContactCompanyID" Type="int" />
+          <Property Name="ContactId" Type="int" />
+          <Property Name="ContactCompany" Type="varchar" MaxLength="50" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="50" />
+          <Property Name="InvoiceStatus" Type="int" />
+          <Property Name="InvoiceTotal" Type="float" />
+          <Property Name="InvoiceDate" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Terms" Type="text" />
+          <Property Name="InvoicePostingDate" Type="datetime" />
+          <Property Name="InvoicePostedBy" Type="int" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="IsArchive" Type="bit" />
+          <Property Name="TaxValue" Type="float" />
+          <Property Name="GrandTotal" Type="float" />
+          <Property Name="FlagID" Type="int" />
+          <Property Name="UserNotes" Type="text" />
+          <Property Name="NotesUpdateDateTime" Type="datetime" />
+          <Property Name="NotesUpdatedByUserID" Type="int" />
+          <Property Name="SystemSiteId" Type="int" />
+          <Property Name="EstimateId" Type="int" />
+          <Property Name="IsRead" Type="bit" />
+          <Property Name="IsProformaInvoice" Type="bit" />
+          <Property Name="IsPrinted" Type="bit" />
+          <Property Name="LastUpdateDate" Type="datetime" />
+          <Property Name="ReportSignedBy" Type="int" />
+          <Property Name="ReportLastPrintedDate" Type="datetime" />
+          <Property Name="HeadNotes" Type="nvarchar" MaxLength="2000" />
+          <Property Name="FootNotes" Type="nvarchar" MaxLength="2000" />
+          <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="InvoiceDetail">
+          <Key>
+            <PropertyRef Name="InvoiceDetailId" />
+          </Key>
+          <Property Name="InvoiceDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceId" Type="bigint" Nullable="false" />
+          <Property Name="DetailType" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="bigint" />
+          <Property Name="InvoiceTitle" Type="varchar" MaxLength="150" />
+          <Property Name="NominalCode" Type="int" Nullable="false" />
+          <Property Name="ItemCharge" Type="float" Nullable="false" />
+          <Property Name="Quantity" Type="float" Nullable="false" />
+          <Property Name="ItemTaxValue" Type="float" Nullable="false" />
+          <Property Name="FlagId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="Description" Type="text" />
+          <Property Name="ItemType" Type="int" />
+          <Property Name="TaxId" Type="int" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -1044,6 +1456,16 @@
           <Property Name="SetupCharge" Type="float" />
           <Property Name="ItemId" Type="bigint" />
         </EntityType>
+        <EntityType Name="LengthUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitName" Type="varchar" MaxLength="100" />
+          <Property Name="MM" Type="float" />
+          <Property Name="CM" Type="float" />
+          <Property Name="Inch" Type="float" />
+        </EntityType>
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
@@ -1095,6 +1517,15 @@
           <Property Name="CategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="PaperBasisArea">
+          <Key>
+            <PropertyRef Name="PaperBasisAreaId" />
+          </Key>
+          <Property Name="PaperBasisAreaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Value" Type="float" Nullable="false" />
+          <Property Name="IsSystem" Type="smallint" Nullable="false" />
+        </EntityType>
         <EntityType Name="PaperSize">
           <Key>
             <PropertyRef Name="PaperSizeId" />
@@ -1108,6 +1539,40 @@
           <Property Name="IsFixed" Type="int" Nullable="false" />
           <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isArchived" Type="bit" />
+        </EntityType>
+        <EntityType Name="PaymentGateway">
+          <Key>
+            <PropertyRef Name="PaymentGatewayId" />
+          </Key>
+          <Property Name="PaymentGatewayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BusinessEmail" Type="varchar" MaxLength="500" />
+          <Property Name="IdentityToken" Type="varchar" MaxLength="500" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="PaymentMethodId" Type="int" />
+          <Property Name="SecureHash" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="PaymentMethodId" />
+          </Key>
+          <Property Name="PaymentMethodId" Type="int" Nullable="false" />
+          <Property Name="MethodName" Type="varchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="PrePayment">
+          <Key>
+            <PropertyRef Name="PrePaymentId" />
+          </Key>
+          <Property Name="PrePaymentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="OrderId" Type="bigint" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="PaymentDate" Type="datetime" Nullable="false" />
+          <Property Name="PayPalResponseId" Type="bigint" />
+          <Property Name="PaymentMethodId" Type="int" Nullable="false" />
+          <Property Name="ReferenceCode" Type="varchar(max)" />
+          <Property Name="PaymentDescription" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -1166,6 +1631,26 @@
           <Property Name="IsShowStockStatus" Type="bit" />
           <Property Name="IsShowProductDescription" Type="bit" />
           <Property Name="IsShowProductShortDescription" Type="bit" />
+        </EntityType>
+        <EntityType Name="RaveReview">
+          <Key>
+            <PropertyRef Name="ReviewId" />
+          </Key>
+          <Property Name="ReviewId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReviewBy" Type="varchar" MaxLength="100" />
+          <Property Name="Review" Type="ntext" />
+          <Property Name="ReviewDate" Type="datetime" />
+          <Property Name="isDisplay" Type="bit" />
+          <Property Name="SortOrder" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="RegistrationQuestion">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Section">
           <Key>
@@ -1604,6 +2089,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RaveReview_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="RaveReview" Type="Self.RaveReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="RaveReview">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StockCategory_StockSubCategory">
           <End Role="StockCategory" Type="Self.StockCategory" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1615,6 +2112,18 @@
             </Principal>
             <Dependent Role="StockSubCategory">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_CampaignImages_tbl_campaigns">
+          <End Role="Campaign" Type="Self.Campaign" Multiplicity="0..1" />
+          <End Role="CampaignImage" Type="Self.CampaignImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaign">
+              <PropertyRef Name="CampaignId" />
+            </Principal>
+            <Dependent Role="CampaignImage">
+              <PropertyRef Name="CampaignId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1702,6 +2211,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_contacts_tbl_Registration_Questions">
+          <End Role="RegistrationQuestion" Type="Self.RegistrationQuestion" Multiplicity="0..1" />
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_CustomerTerritory_tbl_contactcompanies">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CompanyTerritory" Type="Self.CompanyTerritory" Multiplicity="*" />
@@ -1711,6 +2232,140 @@
             </Principal>
             <Dependent Role="CompanyTerritory">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_deliverynote_details_tbl_deliverynotes">
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="1" />
+          <End Role="DeliveryNoteDetail" Type="Self.DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryNote">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_deliverynote_details_tbl_items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DeliveryNoteDetail" Type="Self.DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_company_sites">
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="CompanySiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_contactcompanies">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ContactCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_contacts">
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="0..1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_Statuses">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Inquiry_Attachments_tbl_Inquiry">
+          <End Role="Inquiry" Type="Self.Inquiry" Multiplicity="1" />
+          <End Role="InquiryAttachment" Type="Self.InquiryAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inquiry">
+              <PropertyRef Name="InquiryId" />
+            </Principal>
+            <Dependent Role="InquiryAttachment">
+              <PropertyRef Name="InquiryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Inquiry_Items_tbl_Inquiry">
+          <End Role="Inquiry" Type="Self.Inquiry" Multiplicity="1" />
+          <End Role="InquiryItem" Type="Self.InquiryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inquiry">
+              <PropertyRef Name="InquiryId" />
+            </Principal>
+            <Dependent Role="InquiryItem">
+              <PropertyRef Name="InquiryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Inquiry_tbl_contacts">
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="1" />
+          <End Role="Inquiry" Type="Self.Inquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Inquiry">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_invoicedetails_tbl_invoices">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceDetail" Type="Self.InvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceDetail">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_invoicedetails_tbl_items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="InvoiceDetail" Type="Self.InvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="InvoiceDetail">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1782,6 +2437,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_items_tbl_estimates">
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="EstimateId" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="EstimateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_items_tbl_invoices">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_items_tbl_Statuses">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="Items" Type="Self.Items" Multiplicity="*" />
@@ -1791,6 +2470,42 @@
             </Principal>
             <Dependent Role="Items">
               <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PaymentGateways_tbl_PaymentMethods">
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="0..1" />
+          <End Role="PaymentGateway" Type="Self.PaymentGateway" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="PaymentMethodId" />
+            </Principal>
+            <Dependent Role="PaymentGateway">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PrePayments_tbl_estimates">
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="0..1" />
+          <End Role="PrePayment" Type="Self.PrePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="EstimateId" />
+            </Principal>
+            <Dependent Role="PrePayment">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PrePayments_tbl_PaymentMethods">
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="1" />
+          <End Role="PrePayment" Type="Self.PrePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="PaymentMethodId" />
+            </Principal>
+            <Dependent Role="PrePayment">
+              <PropertyRef Name="PaymentMethodId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1953,6 +2668,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DomainModelsStoreContainer">
+          <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CampaignEmailVariable" EntityType="Self.CampaignEmailVariable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CampaignImage" EntityType="Self.CampaignImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryTerritory" EntityType="Self.CategoryTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsPage" EntityType="Self.CmsPage" Schema="dbo" store:Type="Tables" />
@@ -1961,6 +2679,7 @@
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBanner" EntityType="Self.CompanyBanner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBannerSet" EntityType="Self.CompanyBannerSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyCMYKColor" EntityType="Self.CompanyCMYKColor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyContact" EntityType="Self.CompanyContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyContactRole" EntityType="Self.CompanyContactRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyCostCentre" EntityType="Self.CompanyCostCentre" Schema="dbo" store:Type="Tables" />
@@ -1969,6 +2688,16 @@
           <EntitySet Name="CompanyType" EntityType="Self.CompanyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentre" EntityType="Self.CostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryNote" EntityType="Self.DeliveryNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryNoteDetail" EntityType="Self.DeliveryNoteDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiscountVoucher" EntityType="Self.DiscountVoucher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailEvent" EntityType="Self.EmailEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InquiryItem" EntityType="Self.InquiryItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceDetail" EntityType="Self.InvoiceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemAttachment" EntityType="Self.ItemAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemImage" EntityType="Self.ItemImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemPriceMatrix" EntityType="Self.ItemPriceMatrix" Schema="dbo" store:Type="Tables" />
@@ -1980,11 +2709,18 @@
           <EntitySet Name="ItemStockControl" EntityType="Self.ItemStockControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemStockOption" EntityType="Self.ItemStockOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVDPPrice" EntityType="Self.ItemVDPPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LengthUnit" EntityType="Self.LengthUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageCategory" EntityType="Self.PageCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperBasisArea" EntityType="Self.PaperBasisArea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentGateway" EntityType="Self.PaymentGateway" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RaveReview" EntityType="Self.RaveReview" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegistrationQuestion" EntityType="Self.RegistrationQuestion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostcentre" EntityType="Self.SectionCostcentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostCentreDetail" EntityType="Self.SectionCostCentreDetail" Schema="dbo" store:Type="Tables" />
@@ -2035,9 +2771,17 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVDPPrice" EntitySet="ItemVDPPrice" />
           </AssociationSet>
+          <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="RaveReview" EntitySet="RaveReview" />
+          </AssociationSet>
           <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
             <End Role="StockCategory" EntitySet="StockCategory" />
             <End Role="StockSubCategory" EntitySet="StockSubCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_CampaignImages_tbl_campaigns" Association="Self.FK_tbl_CampaignImages_tbl_campaigns">
+            <End Role="Campaign" EntitySet="Campaign" />
+            <End Role="CampaignImage" EntitySet="CampaignImage" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_cmsPageWidgets_tbl_cmsPages" Association="Self.FK_tbl_cmsPageWidgets_tbl_cmsPages">
             <End Role="Organisation" EntitySet="Organisation" />
@@ -2067,9 +2811,57 @@
             <End Role="CompanyContactRole" EntitySet="CompanyContactRole" />
             <End Role="CompanyContact" EntitySet="CompanyContact" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_contacts_tbl_Registration_Questions" Association="Self.FK_tbl_contacts_tbl_Registration_Questions">
+            <End Role="RegistrationQuestion" EntitySet="RegistrationQuestion" />
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_CustomerTerritory_tbl_contactcompanies" Association="Self.FK_tbl_CustomerTerritory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyTerritory" EntitySet="CompanyTerritory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_deliverynotes" Association="Self.FK_tbl_deliverynote_details_tbl_deliverynotes">
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_items" Association="Self.FK_tbl_deliverynote_details_tbl_items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_company_sites" Association="Self.FK_tbl_estimates_tbl_company_sites">
+            <End Role="Organisation" EntitySet="Organisation" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_contactcompanies" Association="Self.FK_tbl_estimates_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_contacts" Association="Self.FK_tbl_estimates_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_Statuses" Association="Self.FK_tbl_estimates_tbl_Statuses">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Inquiry_Attachments_tbl_Inquiry" Association="Self.FK_tbl_Inquiry_Attachments_tbl_Inquiry">
+            <End Role="Inquiry" EntitySet="Inquiry" />
+            <End Role="InquiryAttachment" EntitySet="InquiryAttachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Inquiry_Items_tbl_Inquiry" Association="Self.FK_tbl_Inquiry_Items_tbl_Inquiry">
+            <End Role="Inquiry" EntitySet="Inquiry" />
+            <End Role="InquiryItem" EntitySet="InquiryItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Inquiry_tbl_contacts" Association="Self.FK_tbl_Inquiry_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
+            <End Role="Inquiry" EntitySet="Inquiry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_invoicedetails_tbl_invoices" Association="Self.FK_tbl_invoicedetails_tbl_invoices">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceDetail" EntitySet="InvoiceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_invoicedetails_tbl_items" Association="Self.FK_tbl_invoicedetails_tbl_items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="InvoiceDetail" EntitySet="InvoiceDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_item_attachments_tbl_items" Association="Self.FK_tbl_item_attachments_tbl_items">
             <End Role="Items" EntitySet="Items" />
@@ -2091,9 +2883,29 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemRelatedItem" EntitySet="ItemRelatedItem" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_items_tbl_estimates" Association="Self.FK_tbl_items_tbl_estimates">
+            <End Role="Estimate" EntitySet="Estimate" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_items_tbl_invoices" Association="Self.FK_tbl_items_tbl_invoices">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_items_tbl_Statuses" Association="Self.FK_tbl_items_tbl_Statuses">
             <End Role="Status" EntitySet="Status" />
             <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PaymentGateways_tbl_PaymentMethods" Association="Self.FK_tbl_PaymentGateways_tbl_PaymentMethods">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="PaymentGateway" EntitySet="PaymentGateway" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PrePayments_tbl_estimates" Association="Self.FK_tbl_PrePayments_tbl_estimates">
+            <End Role="Estimate" EntitySet="Estimate" />
+            <End Role="PrePayment" EntitySet="PrePayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PrePayments_tbl_PaymentMethods" Association="Self.FK_tbl_PrePayments_tbl_PaymentMethods">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="PrePayment" EntitySet="PrePayment" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
@@ -2347,6 +3159,103 @@
             <End Role="StockItem" EntitySet="StockItems" />
             <End Role="SectionCostCentreDetail" EntitySet="SectionCostCentreDetails" />
           </AssociationSet>
+          <EntitySet Name="Estimates" EntityType="DomainModels.Estimate" />
+          <EntitySet Name="PaymentGateways" EntityType="DomainModels.PaymentGateway" />
+          <EntitySet Name="PaymentMethods" EntityType="DomainModels.PaymentMethod" />
+          <EntitySet Name="PrePayments" EntityType="DomainModels.PrePayment" />
+          <AssociationSet Name="FK_tbl_estimates_tbl_contactcompanies" Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_contacts" Association="DomainModels.FK_tbl_estimates_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_company_sites" Association="DomainModels.FK_tbl_estimates_tbl_company_sites">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_Statuses" Association="DomainModels.FK_tbl_estimates_tbl_Statuses">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_items_tbl_estimates" Association="DomainModels.FK_tbl_items_tbl_estimates">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PrePayments_tbl_estimates" Association="DomainModels.FK_tbl_PrePayments_tbl_estimates">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="PrePayment" EntitySet="PrePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PaymentGateways_tbl_PaymentMethods" Association="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods">
+            <End Role="PaymentMethod" EntitySet="PaymentMethods" />
+            <End Role="PaymentGateway" EntitySet="PaymentGateways" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PrePayments_tbl_PaymentMethods" Association="DomainModels.FK_tbl_PrePayments_tbl_PaymentMethods">
+            <End Role="PaymentMethod" EntitySet="PaymentMethods" />
+            <End Role="PrePayment" EntitySet="PrePayments" />
+          </AssociationSet>
+          <EntitySet Name="RaveReviews" EntityType="DomainModels.RaveReview" />
+          <AssociationSet Name="FK_RaveReview_Company" Association="DomainModels.FK_RaveReview_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="RaveReview" EntitySet="RaveReviews" />
+          </AssociationSet>
+          <EntitySet Name="EmailEvents" EntityType="DomainModels.EmailEvent" />
+          <EntitySet Name="Inquiries" EntityType="DomainModels.Inquiry" />
+          <EntitySet Name="InquiryAttachments" EntityType="DomainModels.InquiryAttachment" />
+          <EntitySet Name="InquiryItems" EntityType="DomainModels.InquiryItem" />
+          <EntitySet Name="Invoices" EntityType="DomainModels.Invoice" />
+          <EntitySet Name="InvoiceDetails" EntityType="DomainModels.InvoiceDetail" />
+          <EntitySet Name="LengthUnits" EntityType="DomainModels.LengthUnit" />
+          <EntitySet Name="PaperBasisAreas" EntityType="DomainModels.PaperBasisArea" />
+          <EntitySet Name="RegistrationQuestions" EntityType="DomainModels.RegistrationQuestion" />
+          <AssociationSet Name="FK_tbl_contacts_tbl_Registration_Questions" Association="DomainModels.FK_tbl_contacts_tbl_Registration_Questions">
+            <End Role="RegistrationQuestion" EntitySet="RegistrationQuestions" />
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Inquiry_tbl_contacts" Association="DomainModels.FK_tbl_Inquiry_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="Inquiry" EntitySet="Inquiries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Inquiry_Attachments_tbl_Inquiry" Association="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry">
+            <End Role="Inquiry" EntitySet="Inquiries" />
+            <End Role="InquiryAttachment" EntitySet="InquiryAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Inquiry_Items_tbl_Inquiry" Association="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry">
+            <End Role="Inquiry" EntitySet="Inquiries" />
+            <End Role="InquiryItem" EntitySet="InquiryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_invoicedetails_tbl_invoices" Association="DomainModels.FK_tbl_invoicedetails_tbl_invoices">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceDetail" EntitySet="InvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_items_tbl_invoices" Association="DomainModels.FK_tbl_items_tbl_invoices">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_invoicedetails_tbl_items" Association="DomainModels.FK_tbl_invoicedetails_tbl_items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="InvoiceDetail" EntitySet="InvoiceDetails" />
+          </AssociationSet>
+          <EntitySet Name="Campaigns" EntityType="DomainModels.Campaign" />
+          <EntitySet Name="CampaignEmailVariables" EntityType="DomainModels.CampaignEmailVariable" />
+          <EntitySet Name="CampaignImages" EntityType="DomainModels.CampaignImage" />
+          <EntitySet Name="DeliveryNotes" EntityType="DomainModels.DeliveryNote" />
+          <EntitySet Name="DeliveryNoteDetails" EntityType="DomainModels.DeliveryNoteDetail" />
+          <AssociationSet Name="FK_tbl_CampaignImages_tbl_campaigns" Association="DomainModels.FK_tbl_CampaignImages_tbl_campaigns">
+            <End Role="Campaign" EntitySet="Campaigns" />
+            <End Role="CampaignImage" EntitySet="CampaignImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_deliverynotes" Association="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes">
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_deliverynote_details_tbl_items" Association="DomainModels.FK_tbl_deliverynote_details_tbl_items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
+          </AssociationSet>
+          <EntitySet Name="CompanyCMYKColors" EntityType="DomainModels.CompanyCMYKColor" />
+          <EntitySet Name="DiscountVouchers" EntityType="DomainModels.DiscountVoucher" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -2458,6 +3367,8 @@
           <NavigationProperty Name="CompanyType" Relationship="DomainModels.FK_tbl_contactcompanies_tbl_contactcompanytypes" FromRole="Company" ToRole="CompanyType" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanies" FromRole="Company" ToRole="CompanyContact" />
           <NavigationProperty Name="CompanyTerritories" Relationship="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" FromRole="Company" ToRole="CompanyTerritory" />
+          <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contactcompanies" FromRole="Company" ToRole="Estimate" />
+          <NavigationProperty Name="RaveReviews" Relationship="DomainModels.FK_RaveReview_Company" FromRole="Company" ToRole="RaveReview" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -2590,6 +3501,7 @@
           <Property Name="LanguageId" Type="Int64" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="Organisation" ToRole="CmsSkinPageWidget" />
+          <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Organisation" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -3155,6 +4067,9 @@
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanies" FromRole="CompanyContact" ToRole="Company" />
           <NavigationProperty Name="CompanyTerritory" Relationship="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" FromRole="CompanyContact" ToRole="CompanyTerritory" />
           <NavigationProperty Name="CompanyContactRole" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles" FromRole="CompanyContact" ToRole="CompanyContactRole" />
+          <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="CompanyContact" ToRole="Estimate" />
+          <NavigationProperty Name="RegistrationQuestion" Relationship="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" FromRole="CompanyContact" ToRole="RegistrationQuestion" />
+          <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="CompanyContact" ToRole="Inquiry" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -3479,7 +4394,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RelatedItemId" Type="Int64" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items" FromRole="ItemRelatedItem" ToRole="Item" />
-          <NavigationProperty Name="Item1" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="ItemRelatedItem" ToRole="Item" />
+          <NavigationProperty Name="RelatedItem" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="ItemRelatedItem" ToRole="Item" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -3690,12 +4605,16 @@
           <NavigationProperty Name="ItemImages" Relationship="DomainModels.itemIDfk" FromRole="Item" ToRole="ItemImage" />
           <NavigationProperty Name="ItemPriceMatrices" Relationship="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" FromRole="Item" ToRole="ItemPriceMatrix" />
           <NavigationProperty Name="ItemRelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items" FromRole="Item" ToRole="ItemRelatedItem" />
-          <NavigationProperty Name="ItemRelatedItems1" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="Item" ToRole="ItemRelatedItem" />
+          <NavigationProperty Name="RelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="Item" ToRole="ItemRelatedItem" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
           <NavigationProperty Name="ItemVDPPrices" Relationship="DomainModels.FK_ItemVDPPrice_Items" FromRole="Item" ToRole="ItemVDPPrice" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="Item" ToRole="ItemSection" />
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.itemmidfk" FromRole="Item" ToRole="ItemStockOption" />
           <NavigationProperty Name="Status" Relationship="DomainModels.FK_tbl_items_tbl_Statuses" FromRole="Item" ToRole="Status" />
+          <NavigationProperty Name="Estimate" Relationship="DomainModels.FK_tbl_items_tbl_estimates" FromRole="Item" ToRole="Estimate" />
+          <NavigationProperty Name="Invoice" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Item" ToRole="Invoice" />
+          <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_items" FromRole="Item" ToRole="InvoiceDetail" />
+          <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="Item" ToRole="DeliveryNoteDetail" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -4255,6 +5174,7 @@
           <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="StatusType" Type="Int32" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_Statuses" FromRole="Status" ToRole="Item" />
+          <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_Statuses" FromRole="Status" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="SystemEmail">
           <Key>
@@ -4368,6 +5288,748 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Estimate">
+          <Key>
+            <PropertyRef Name="EstimateId" />
+          </Key>
+          <Property Name="EstimateId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estimate_Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estimate_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EnquiryId" Type="Int32" />
+          <Property Name="ContactCompanyId" Type="Int64" Nullable="false" />
+          <Property Name="ContactId" Type="Int64" />
+          <Property Name="StatusId" Type="Int16" />
+          <Property Name="Estimate_Total" Type="Double" />
+          <Property Name="Estimate_ValidUpto" Type="Int32" />
+          <Property Name="UserNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Created_by" Type="Int32" />
+          <Property Name="SalesPersonId" Type="Int32" />
+          <Property Name="HeadNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="FootNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="EstimateDate" Type="DateTime" Precision="3" />
+          <Property Name="ProjectionDate" Type="DateTime" Precision="3" />
+          <Property Name="Greeting" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SuccessChanceId" Type="Int32" />
+          <Property Name="LockedBy" Type="Int32" Nullable="false" />
+          <Property Name="AddressId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SectionFlagId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="SourceId" Type="Int32" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="IsInPipeLine" Type="Boolean" />
+          <Property Name="Order_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Order_Date" Type="DateTime" Precision="3" />
+          <Property Name="Order_CreationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="Order_DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="Order_ConfirmationDate" Type="DateTime" Precision="3" />
+          <Property Name="Order_Status" Type="Int16" Nullable="false" />
+          <Property Name="Order_CompletionDate" Type="DateTime" Precision="3" />
+          <Property Name="CompanySiteId" Type="Int64" Nullable="false" />
+          <Property Name="OrderManagerId" Type="Int32" />
+          <Property Name="ArtworkByDate" Type="DateTime" Precision="3" />
+          <Property Name="DataByDate" Type="DateTime" Precision="3" />
+          <Property Name="TargetPrintDate" Type="DateTime" Precision="3" />
+          <Property Name="StartDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="PaperByDate" Type="DateTime" Precision="3" />
+          <Property Name="TargetBindDate" Type="DateTime" Precision="3" />
+          <Property Name="FinishDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="Classification1Id" Type="Int32" />
+          <Property Name="Classification2ID" Type="Int32" />
+          <Property Name="IsOfficialOrder" Type="Int32" />
+          <Property Name="CustomerPO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OfficialOrderSetBy" Type="Int32" />
+          <Property Name="OfficialOrderSetOnDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsCreditApproved" Type="Int32" />
+          <Property Name="CreditLimitForJob" Type="Double" />
+          <Property Name="CreditLimitSetBy" Type="Int32" />
+          <Property Name="CreditLimitSetOnDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsJobAllowedWOCreditCheck" Type="Int32" />
+          <Property Name="AllowJobWOCreditCheckSetBy" Type="Int32" />
+          <Property Name="AllowJobWOCreditCheckSetOnDateTime" Type="DateTime" Precision="3" />
+          <Property Name="NotesUpdateDateTime" Type="DateTime" Precision="3" />
+          <Property Name="NotesUpdatedByUserId" Type="Int32" />
+          <Property Name="OrderSourceId" Type="Int16" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="EstimateSentTo" Type="Int16" />
+          <Property Name="EstimateValueChanged" Type="Boolean" />
+          <Property Name="NewItemAdded" Type="Boolean" />
+          <Property Name="isEstimate" Type="Boolean" />
+          <Property Name="isDirectSale" Type="Boolean" />
+          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="NominalCode" Type="Int32" />
+          <Property Name="BillingAddressId" Type="Int32" />
+          <Property Name="DeliveryCostCenterId" Type="Int32" />
+          <Property Name="DeliveryCost" Type="Double" />
+          <Property Name="DeliveryCompletionTime" Type="Int32" />
+          <Property Name="VoucherDiscountRate" Type="Double" />
+          <Property Name="ReportSignedBy" Type="Int32" />
+          <Property Name="InvoiceId" Type="Int32" />
+          <Property Name="OrderReportSignedBy" Type="Int32" />
+          <Property Name="OrderReportLastPrinted" Type="DateTime" Precision="3" />
+          <Property Name="EstimateReportLastPrinted" Type="DateTime" Precision="3" />
+          <Property Name="isEmailSent" Type="Boolean" />
+          <Property Name="DiscountVoucherID" Type="Int32" />
+          <Property Name="Estimate_TotalBroker" Type="Double" />
+          <Property Name="BrokerPO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BrokerId" Type="Int32" />
+          <Property Name="ClientStatus" Type="Int16" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="Version" Type="Int32" />
+          <Property Name="RefEstimateId" Type="Int64" />
+          <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_estimates_tbl_contactcompanies" FromRole="Estimate" ToRole="Company" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="Estimate" ToRole="CompanyContact" />
+          <NavigationProperty Name="Organisation" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Estimate" ToRole="Organisation" />
+          <NavigationProperty Name="Status" Relationship="DomainModels.FK_tbl_estimates_tbl_Statuses" FromRole="Estimate" ToRole="Status" />
+          <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_estimates" FromRole="Estimate" ToRole="Item" />
+          <NavigationProperty Name="PrePayments" Relationship="DomainModels.FK_tbl_PrePayments_tbl_estimates" FromRole="Estimate" ToRole="PrePayment" />
+        </EntityType>
+        <EntityType Name="PaymentGateway">
+          <Key>
+            <PropertyRef Name="PaymentGatewayId" />
+          </Key>
+          <Property Name="PaymentGatewayId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BusinessEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IdentityToken" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="PaymentMethodId" Type="Int32" />
+          <Property Name="SecureHash" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PaymentMethod" Relationship="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods" FromRole="PaymentGateway" ToRole="PaymentMethod" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="PaymentMethodId" />
+          </Key>
+          <Property Name="PaymentMethodId" Type="Int32" Nullable="false" />
+          <Property Name="MethodName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="PaymentGateways" Relationship="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods" FromRole="PaymentMethod" ToRole="PaymentGateway" />
+          <NavigationProperty Name="PrePayments" Relationship="DomainModels.FK_tbl_PrePayments_tbl_PaymentMethods" FromRole="PaymentMethod" ToRole="PrePayment" />
+        </EntityType>
+        <EntityType Name="PrePayment">
+          <Key>
+            <PropertyRef Name="PrePaymentId" />
+          </Key>
+          <Property Name="PrePaymentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="OrderId" Type="Int64" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PayPalResponseId" Type="Int64" />
+          <Property Name="PaymentMethodId" Type="Int32" Nullable="false" />
+          <Property Name="ReferenceCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Estimate" Relationship="DomainModels.FK_tbl_PrePayments_tbl_estimates" FromRole="PrePayment" ToRole="Estimate" />
+          <NavigationProperty Name="PaymentMethod" Relationship="DomainModels.FK_tbl_PrePayments_tbl_PaymentMethods" FromRole="PrePayment" ToRole="PaymentMethod" />
+        </EntityType>
+        <Association Name="FK_tbl_estimates_tbl_contactcompanies">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="1" />
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ContactCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_contacts">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="0..1" />
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_company_sites">
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="1" />
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="CompanySiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_Statuses">
+          <End Type="DomainModels.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_items_tbl_estimates">
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="0..1" />
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="EstimateId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="EstimateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PrePayments_tbl_estimates">
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="0..1" />
+          <End Type="DomainModels.PrePayment" Role="PrePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="EstimateId" />
+            </Principal>
+            <Dependent Role="PrePayment">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PaymentGateways_tbl_PaymentMethods">
+          <End Type="DomainModels.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
+          <End Type="DomainModels.PaymentGateway" Role="PaymentGateway" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="PaymentMethodId" />
+            </Principal>
+            <Dependent Role="PaymentGateway">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PrePayments_tbl_PaymentMethods">
+          <End Type="DomainModels.PaymentMethod" Role="PaymentMethod" Multiplicity="1" />
+          <End Type="DomainModels.PrePayment" Role="PrePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="PaymentMethodId" />
+            </Principal>
+            <Dependent Role="PrePayment">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RaveReview">
+          <Key>
+            <PropertyRef Name="ReviewId" />
+          </Key>
+          <Property Name="ReviewId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReviewBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Review" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewDate" Type="DateTime" Precision="3" />
+          <Property Name="isDisplay" Type="Boolean" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_RaveReview_Company" FromRole="RaveReview" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_RaveReview_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.RaveReview" Role="RaveReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="RaveReview">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EmailEvent">
+          <Key>
+            <PropertyRef Name="EmailEventId" />
+          </Key>
+          <Property Name="EmailEventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="EventType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Inquiry">
+          <Key>
+            <PropertyRef Name="InquiryId" />
+          </Key>
+          <Property Name="InquiryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ContactId" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SourceId" Type="Int32" />
+          <Property Name="ContactCompanyId" Type="Int32" />
+          <Property Name="RequireByDate" Type="DateTime" Precision="3" />
+          <Property Name="SystemUserId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="IsDirectInquiry" Type="Boolean" />
+          <Property Name="FlagId" Type="Int32" />
+          <Property Name="InquiryCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="BrokerContactCompanyId" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="Inquiry" ToRole="CompanyContact" />
+          <NavigationProperty Name="InquiryAttachments" Relationship="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry" FromRole="Inquiry" ToRole="InquiryAttachment" />
+          <NavigationProperty Name="InquiryItems" Relationship="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry" FromRole="Inquiry" ToRole="InquiryItem" />
+        </EntityType>
+        <EntityType Name="InquiryAttachment">
+          <Key>
+            <PropertyRef Name="AttachmentId" />
+          </Key>
+          <Property Name="AttachmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrignalFileName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AttachmentPath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="InquiryId" Type="Int32" Nullable="false" />
+          <Property Name="Extension" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Inquiry" Relationship="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry" FromRole="InquiryAttachment" ToRole="Inquiry" />
+        </EntityType>
+        <EntityType Name="InquiryItem">
+          <Key>
+            <PropertyRef Name="InquiryItemId" />
+          </Key>
+          <Property Name="InquiryItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="InquiryId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" />
+          <NavigationProperty Name="Inquiry" Relationship="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry" FromRole="InquiryItem" ToRole="Inquiry" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceType" Type="Int32" />
+          <Property Name="InvoiceName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContactCompanyID" Type="Int32" />
+          <Property Name="ContactId" Type="Int32" />
+          <Property Name="ContactCompany" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceStatus" Type="Int32" />
+          <Property Name="InvoiceTotal" Type="Double" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="InvoicePostingDate" Type="DateTime" Precision="3" />
+          <Property Name="InvoicePostedBy" Type="Int32" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="IsArchive" Type="Boolean" />
+          <Property Name="TaxValue" Type="Double" />
+          <Property Name="GrandTotal" Type="Double" />
+          <Property Name="FlagID" Type="Int32" />
+          <Property Name="UserNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NotesUpdateDateTime" Type="DateTime" Precision="3" />
+          <Property Name="NotesUpdatedByUserID" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="EstimateId" Type="Int32" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="IsProformaInvoice" Type="Boolean" />
+          <Property Name="IsPrinted" Type="Boolean" />
+          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="ReportSignedBy" Type="Int32" />
+          <Property Name="ReportLastPrintedDate" Type="DateTime" Precision="3" />
+          <Property Name="HeadNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="FootNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_invoices" FromRole="Invoice" ToRole="InvoiceDetail" />
+          <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Invoice" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="InvoiceDetail">
+          <Key>
+            <PropertyRef Name="InvoiceDetailId" />
+          </Key>
+          <Property Name="InvoiceDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" />
+          <Property Name="DetailType" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int64" />
+          <Property Name="InvoiceTitle" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="NominalCode" Type="Int32" Nullable="false" />
+          <Property Name="ItemCharge" Type="Double" Nullable="false" />
+          <Property Name="Quantity" Type="Double" Nullable="false" />
+          <Property Name="ItemTaxValue" Type="Double" Nullable="false" />
+          <Property Name="FlagId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ItemType" Type="Int32" />
+          <Property Name="TaxId" Type="Int32" />
+          <NavigationProperty Name="Invoice" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_invoices" FromRole="InvoiceDetail" ToRole="Invoice" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_items" FromRole="InvoiceDetail" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="LengthUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MM" Type="Double" />
+          <Property Name="CM" Type="Double" />
+          <Property Name="Inch" Type="Double" />
+        </EntityType>
+        <EntityType Name="PaperBasisArea">
+          <Key>
+            <PropertyRef Name="PaperBasisAreaId" />
+          </Key>
+          <Property Name="PaperBasisAreaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="Double" Nullable="false" />
+          <Property Name="IsSystem" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RegistrationQuestion">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" FromRole="RegistrationQuestion" ToRole="CompanyContact" />
+        </EntityType>
+        <Association Name="FK_tbl_contacts_tbl_Registration_Questions">
+          <End Type="DomainModels.RegistrationQuestion" Role="RegistrationQuestion" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Inquiry_tbl_contacts">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="1" />
+          <End Type="DomainModels.Inquiry" Role="Inquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Inquiry">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Inquiry_Attachments_tbl_Inquiry">
+          <End Type="DomainModels.Inquiry" Role="Inquiry" Multiplicity="1" />
+          <End Type="DomainModels.InquiryAttachment" Role="InquiryAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inquiry">
+              <PropertyRef Name="InquiryId" />
+            </Principal>
+            <Dependent Role="InquiryAttachment">
+              <PropertyRef Name="InquiryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Inquiry_Items_tbl_Inquiry">
+          <End Type="DomainModels.Inquiry" Role="Inquiry" Multiplicity="1" />
+          <End Type="DomainModels.InquiryItem" Role="InquiryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inquiry">
+              <PropertyRef Name="InquiryId" />
+            </Principal>
+            <Dependent Role="InquiryItem">
+              <PropertyRef Name="InquiryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_invoicedetails_tbl_invoices">
+          <End Type="DomainModels.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="DomainModels.InvoiceDetail" Role="InvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceDetail">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_items_tbl_invoices">
+          <End Type="DomainModels.Invoice" Role="Invoice" Multiplicity="0..1" />
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_invoicedetails_tbl_items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.InvoiceDetail" Role="InvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="InvoiceDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Campaign">
+          <Key>
+            <PropertyRef Name="CampaignId" />
+          </Key>
+          <Property Name="CampaignId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DataSourceType" Type="Int32" />
+          <Property Name="RunCampaignFor" Type="Int16" />
+          <Property Name="IncludeCustomers" Type="Boolean" />
+          <Property Name="IncludeSuppliers" Type="Boolean" />
+          <Property Name="IncludeProspects" Type="Boolean" />
+          <Property Name="IncludeKeyword" Type="Boolean" />
+          <Property Name="SearchKeyword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IncludeType" Type="Boolean" />
+          <Property Name="IncludeFlag" Type="Boolean" />
+          <Property Name="IncludeName" Type="Boolean" />
+          <Property Name="IncludeAddress" Type="Boolean" />
+          <Property Name="IncludeContactName" Type="Boolean" />
+          <Property Name="SubjectA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HTMLMessageA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AttachmentFileNameFieldName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AttachmentType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EmailField" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CCEmailField" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SMTPServer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FromAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnPathAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ReplyToAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorsToAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SMTPServerType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EnableSchedule" Type="Boolean" />
+          <Property Name="StartDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RepeatEvery" Type="Int32" />
+          <Property Name="RepeatInterval" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LastRunOn" Type="DateTime" Precision="3" />
+          <Property Name="MessageType" Type="Int16" />
+          <Property Name="ABMessaging" Type="Boolean" />
+          <Property Name="SubjectB" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HTMLMessageB" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IncludePlainText" Type="Boolean" />
+          <Property Name="SMTPDelaySeconds" Type="Int32" />
+          <Property Name="EmailAddressLogFiles" Type="Boolean" />
+          <Property Name="PlainTextMessageA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlainTextMessageB" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UId" Type="Int32" />
+          <Property Name="Private" Type="Boolean" />
+          <Property Name="SubscribeEmailUpdateField" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UnsubscribeEmailHyperlinkText" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SubscribeEmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SubscribeEmailHyperlinkText" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UnSubscribeCount" Type="Int64" />
+          <Property Name="SubscribeCount" Type="Int64" />
+          <Property Name="BounceCount" Type="Int64" />
+          <Property Name="LastRunEndDateTime" Type="DateTime" Precision="3" />
+          <Property Name="MessageCount" Type="Int64" />
+          <Property Name="SuccessCount" Type="Int64" />
+          <Property Name="FailedCount" Type="Int64" />
+          <Property Name="EnableLogFiles" Type="Boolean" />
+          <Property Name="ContinueIfWritebackError" Type="Boolean" />
+          <Property Name="EmailFieldPreviewColumn2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EmailFieldPreviewColumn3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AttachmentFileName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ClearCounters" Type="Boolean" />
+          <Property Name="SMTPServer2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LockedByUID" Type="Int32" />
+          <Property Name="UnSubscribeCountTotal" Type="Int32" />
+          <Property Name="SubscribeCountTotal" Type="Int32" />
+          <Property Name="BounceCountTotal" Type="Int32" />
+          <Property Name="EnableEmailAddressCache" Type="Boolean" />
+          <Property Name="OpenedCount" Type="Int32" />
+          <Property Name="OpenedCountTotal" Type="Int32" />
+          <Property Name="OpenedEmailUpdateField" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EnableOpenedEmail" Type="Int32" />
+          <Property Name="ABMessagingUpdateField" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EmailLogFileAddress2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EmailLogFileAddress3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CampaignCategory" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SoftBounceCountTotal" Type="Int32" />
+          <Property Name="SMTPUsername" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SMTPPassword" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EnableWriteBackTab" Type="Boolean" />
+          <Property Name="EnableClickThruTab" Type="Boolean" />
+          <Property Name="UnsubscribeMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UseWYSWYG" Type="Boolean" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ValidateEmail" Type="Boolean" Nullable="false" />
+          <Property Name="CampaignType" Type="Int16" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="IncludeCorporateCustomers" Type="Boolean" />
+          <Property Name="IsEnabled" Type="Boolean" />
+          <Property Name="SendEmailAfterDays" Type="Int32" />
+          <Property Name="EmailEvent" Type="Int32" />
+          <Property Name="isSystemEmail" Type="Boolean" />
+          <Property Name="FlagIDs" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerTypeIDs" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupIDs" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FromName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CampaignReportId" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="UnsubscribeEmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CampaignImages" Relationship="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" FromRole="Campaign" ToRole="CampaignImage" />
+        </EntityType>
+        <EntityType Name="CampaignEmailVariable">
+          <Key>
+            <PropertyRef Name="VariableId" />
+          </Key>
+          <Property Name="VariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VariableName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RefTableName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RefFieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CriteriaFieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SectionId" Type="Int32" />
+          <Property Name="VariableTag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Key" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="CampaignImage">
+          <Key>
+            <PropertyRef Name="CampaignImageId" />
+          </Key>
+          <Property Name="CampaignImageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignId" Type="Int64" />
+          <Property Name="ImagePath" Type="String" MaxLength="350" FixedLength="false" Unicode="false" />
+          <Property Name="ImageName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Campaign" Relationship="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" FromRole="CampaignImage" ToRole="Campaign" />
+        </EntityType>
+        <EntityType Name="DeliveryNote">
+          <Key>
+            <PropertyRef Name="DeliveryNoteId" />
+          </Key>
+          <Property Name="DeliveryNoteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="ContactCompanyId" Type="Int32" />
+          <Property Name="OrderReff" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="footnote" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="IsStatus" Type="Int16" />
+          <Property Name="ContactId" Type="Int64" />
+          <Property Name="ContactCompany" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerOrderReff" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="SupplierTelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CsNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierURL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RaisedBy" Type="Int32" Nullable="false" />
+          <Property Name="FlagId" Type="Int32" />
+          <Property Name="EstimateId" Type="Int32" />
+          <Property Name="JobId" Type="Int32" />
+          <Property Name="InvoiceId" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="UserNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NotesUpdateDateTime" Type="DateTime" Precision="3" />
+          <Property Name="NotesUpdatedByUserId" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="IsPrinted" Type="Boolean" />
+          <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNote" ToRole="DeliveryNoteDetail" />
+        </EntityType>
+        <EntityType Name="DeliveryNoteDetail">
+          <Key>
+            <PropertyRef Name="DeliveryDetailid" />
+          </Key>
+          <Property Name="DeliveryDetailid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryNoteId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ItemId" Type="Int64" />
+          <Property Name="ItemQty" Type="Int32" />
+          <Property Name="GrossItemTotal" Type="Double" />
+          <NavigationProperty Name="DeliveryNote" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" FromRole="DeliveryNoteDetail" ToRole="DeliveryNote" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="DeliveryNoteDetail" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK_tbl_CampaignImages_tbl_campaigns">
+          <End Type="DomainModels.Campaign" Role="Campaign" Multiplicity="0..1" />
+          <End Type="DomainModels.CampaignImage" Role="CampaignImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaign">
+              <PropertyRef Name="CampaignId" />
+            </Principal>
+            <Dependent Role="CampaignImage">
+              <PropertyRef Name="CampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_deliverynote_details_tbl_deliverynotes">
+          <End Type="DomainModels.DeliveryNote" Role="DeliveryNote" Multiplicity="1" />
+          <End Type="DomainModels.DeliveryNoteDetail" Role="DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryNote">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="DeliveryNoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_deliverynote_details_tbl_items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.DeliveryNoteDetail" Role="DeliveryNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="DeliveryNoteDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CompanyCMYKColor">
+          <Key>
+            <PropertyRef Name="ColorId" />
+          </Key>
+          <Property Name="ColorId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="ColorName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ColorC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ColorM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ColorY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ColorK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DiscountVoucher">
+          <Key>
+            <PropertyRef Name="DiscountVoucherId" />
+          </Key>
+          <Property Name="DiscountVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VoucherCode" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="ValidFromDate" Type="DateTime" Precision="3" />
+          <Property Name="ValidUptoDate" Type="DateTime" Precision="3" />
+          <Property Name="OrderId" Type="Int64" />
+          <Property Name="DiscountRate" Type="Double" Nullable="false" />
+          <Property Name="ConsumedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CompanyId" Type="Int64" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5910,6 +7572,512 @@
                 <ScalarProperty Name="FFrom" ColumnName="FFrom" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estimates">
+            <EntityTypeMapping TypeName="DomainModels.Estimate">
+              <MappingFragment StoreEntitySet="Estimate">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
+                <ScalarProperty Name="RefEstimateId" ColumnName="RefEstimateId" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ClientStatus" ColumnName="ClientStatus" />
+                <ScalarProperty Name="BrokerId" ColumnName="BrokerId" />
+                <ScalarProperty Name="BrokerPO" ColumnName="BrokerPO" />
+                <ScalarProperty Name="Estimate_TotalBroker" ColumnName="Estimate_TotalBroker" />
+                <ScalarProperty Name="DiscountVoucherID" ColumnName="DiscountVoucherID" />
+                <ScalarProperty Name="isEmailSent" ColumnName="isEmailSent" />
+                <ScalarProperty Name="EstimateReportLastPrinted" ColumnName="EstimateReportLastPrinted" />
+                <ScalarProperty Name="OrderReportLastPrinted" ColumnName="OrderReportLastPrinted" />
+                <ScalarProperty Name="OrderReportSignedBy" ColumnName="OrderReportSignedBy" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="ReportSignedBy" ColumnName="ReportSignedBy" />
+                <ScalarProperty Name="VoucherDiscountRate" ColumnName="VoucherDiscountRate" />
+                <ScalarProperty Name="DeliveryCompletionTime" ColumnName="DeliveryCompletionTime" />
+                <ScalarProperty Name="DeliveryCost" ColumnName="DeliveryCost" />
+                <ScalarProperty Name="DeliveryCostCenterId" ColumnName="DeliveryCostCenterId" />
+                <ScalarProperty Name="BillingAddressId" ColumnName="BillingAddressId" />
+                <ScalarProperty Name="NominalCode" ColumnName="NominalCode" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="isDirectSale" ColumnName="isDirectSale" />
+                <ScalarProperty Name="isEstimate" ColumnName="isEstimate" />
+                <ScalarProperty Name="NewItemAdded" ColumnName="NewItemAdded" />
+                <ScalarProperty Name="EstimateValueChanged" ColumnName="EstimateValueChanged" />
+                <ScalarProperty Name="EstimateSentTo" ColumnName="EstimateSentTo" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="OrderSourceId" ColumnName="OrderSourceId" />
+                <ScalarProperty Name="NotesUpdatedByUserId" ColumnName="NotesUpdatedByUserId" />
+                <ScalarProperty Name="NotesUpdateDateTime" ColumnName="NotesUpdateDateTime" />
+                <ScalarProperty Name="AllowJobWOCreditCheckSetOnDateTime" ColumnName="AllowJobWOCreditCheckSetOnDateTime" />
+                <ScalarProperty Name="AllowJobWOCreditCheckSetBy" ColumnName="AllowJobWOCreditCheckSetBy" />
+                <ScalarProperty Name="IsJobAllowedWOCreditCheck" ColumnName="IsJobAllowedWOCreditCheck" />
+                <ScalarProperty Name="CreditLimitSetOnDateTime" ColumnName="CreditLimitSetOnDateTime" />
+                <ScalarProperty Name="CreditLimitSetBy" ColumnName="CreditLimitSetBy" />
+                <ScalarProperty Name="CreditLimitForJob" ColumnName="CreditLimitForJob" />
+                <ScalarProperty Name="IsCreditApproved" ColumnName="IsCreditApproved" />
+                <ScalarProperty Name="OfficialOrderSetOnDateTime" ColumnName="OfficialOrderSetOnDateTime" />
+                <ScalarProperty Name="OfficialOrderSetBy" ColumnName="OfficialOrderSetBy" />
+                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
+                <ScalarProperty Name="IsOfficialOrder" ColumnName="IsOfficialOrder" />
+                <ScalarProperty Name="Classification2ID" ColumnName="Classification2ID" />
+                <ScalarProperty Name="Classification1Id" ColumnName="Classification1Id" />
+                <ScalarProperty Name="FinishDeliveryDate" ColumnName="FinishDeliveryDate" />
+                <ScalarProperty Name="TargetBindDate" ColumnName="TargetBindDate" />
+                <ScalarProperty Name="PaperByDate" ColumnName="PaperByDate" />
+                <ScalarProperty Name="StartDeliveryDate" ColumnName="StartDeliveryDate" />
+                <ScalarProperty Name="TargetPrintDate" ColumnName="TargetPrintDate" />
+                <ScalarProperty Name="DataByDate" ColumnName="DataByDate" />
+                <ScalarProperty Name="ArtworkByDate" ColumnName="ArtworkByDate" />
+                <ScalarProperty Name="OrderManagerId" ColumnName="OrderManagerId" />
+                <ScalarProperty Name="CompanySiteId" ColumnName="CompanySiteId" />
+                <ScalarProperty Name="Order_CompletionDate" ColumnName="Order_CompletionDate" />
+                <ScalarProperty Name="Order_Status" ColumnName="Order_Status" />
+                <ScalarProperty Name="Order_ConfirmationDate" ColumnName="Order_ConfirmationDate" />
+                <ScalarProperty Name="Order_DeliveryDate" ColumnName="Order_DeliveryDate" />
+                <ScalarProperty Name="Order_CreationDateTime" ColumnName="Order_CreationDateTime" />
+                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+                <ScalarProperty Name="Order_Code" ColumnName="Order_Code" />
+                <ScalarProperty Name="IsInPipeLine" ColumnName="IsInPipeLine" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="SectionFlagId" ColumnName="SectionFlagId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="SuccessChanceId" ColumnName="SuccessChanceId" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="Greeting" ColumnName="Greeting" />
+                <ScalarProperty Name="ProjectionDate" ColumnName="ProjectionDate" />
+                <ScalarProperty Name="EstimateDate" ColumnName="EstimateDate" />
+                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
+                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
+                <ScalarProperty Name="SalesPersonId" ColumnName="SalesPersonId" />
+                <ScalarProperty Name="Created_by" ColumnName="Created_by" />
+                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="UserNotes" ColumnName="UserNotes" />
+                <ScalarProperty Name="Estimate_ValidUpto" ColumnName="Estimate_ValidUpto" />
+                <ScalarProperty Name="Estimate_Total" ColumnName="Estimate_Total" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="EnquiryId" ColumnName="EnquiryId" />
+                <ScalarProperty Name="Estimate_Name" ColumnName="Estimate_Name" />
+                <ScalarProperty Name="Estimate_Code" ColumnName="Estimate_Code" />
+                <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentGateways">
+            <EntityTypeMapping TypeName="DomainModels.PaymentGateway">
+              <MappingFragment StoreEntitySet="PaymentGateway">
+                <ScalarProperty Name="SecureHash" ColumnName="SecureHash" />
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="IdentityToken" ColumnName="IdentityToken" />
+                <ScalarProperty Name="BusinessEmail" ColumnName="BusinessEmail" />
+                <ScalarProperty Name="PaymentGatewayId" ColumnName="PaymentGatewayId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethods">
+            <EntityTypeMapping TypeName="DomainModels.PaymentMethod">
+              <MappingFragment StoreEntitySet="PaymentMethod">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrePayments">
+            <EntityTypeMapping TypeName="DomainModels.PrePayment">
+              <MappingFragment StoreEntitySet="PrePayment">
+                <ScalarProperty Name="PaymentDescription" ColumnName="PaymentDescription" />
+                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+                <ScalarProperty Name="PayPalResponseId" ColumnName="PayPalResponseId" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="PrePaymentId" ColumnName="PrePaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RaveReviews">
+            <EntityTypeMapping TypeName="DomainModels.RaveReview">
+              <MappingFragment StoreEntitySet="RaveReview">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="isDisplay" ColumnName="isDisplay" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="Review" ColumnName="Review" />
+                <ScalarProperty Name="ReviewBy" ColumnName="ReviewBy" />
+                <ScalarProperty Name="ReviewId" ColumnName="ReviewId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailEvents">
+            <EntityTypeMapping TypeName="DomainModels.EmailEvent">
+              <MappingFragment StoreEntitySet="EmailEvent">
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EmailEventId" ColumnName="EmailEventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inquiries">
+            <EntityTypeMapping TypeName="DomainModels.Inquiry">
+              <MappingFragment StoreEntitySet="Inquiry">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="BrokerContactCompanyId" ColumnName="BrokerContactCompanyId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="InquiryCode" ColumnName="InquiryCode" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="IsDirectInquiry" ColumnName="IsDirectInquiry" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="RequireByDate" ColumnName="RequireByDate" />
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="InquiryId" ColumnName="InquiryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InquiryAttachments">
+            <EntityTypeMapping TypeName="DomainModels.InquiryAttachment">
+              <MappingFragment StoreEntitySet="InquiryAttachment">
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="InquiryId" ColumnName="InquiryId" />
+                <ScalarProperty Name="AttachmentPath" ColumnName="AttachmentPath" />
+                <ScalarProperty Name="OrignalFileName" ColumnName="OrignalFileName" />
+                <ScalarProperty Name="AttachmentId" ColumnName="AttachmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InquiryItems">
+            <EntityTypeMapping TypeName="DomainModels.InquiryItem">
+              <MappingFragment StoreEntitySet="InquiryItem">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="InquiryId" ColumnName="InquiryId" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="InquiryItemId" ColumnName="InquiryItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="DomainModels.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
+                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
+                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
+                <ScalarProperty Name="ReportLastPrintedDate" ColumnName="ReportLastPrintedDate" />
+                <ScalarProperty Name="ReportSignedBy" ColumnName="ReportSignedBy" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
+                <ScalarProperty Name="IsProformaInvoice" ColumnName="IsProformaInvoice" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="NotesUpdatedByUserID" ColumnName="NotesUpdatedByUserID" />
+                <ScalarProperty Name="NotesUpdateDateTime" ColumnName="NotesUpdateDateTime" />
+                <ScalarProperty Name="UserNotes" ColumnName="UserNotes" />
+                <ScalarProperty Name="FlagID" ColumnName="FlagID" />
+                <ScalarProperty Name="GrandTotal" ColumnName="GrandTotal" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
+                <ScalarProperty Name="IsArchive" ColumnName="IsArchive" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="InvoicePostedBy" ColumnName="InvoicePostedBy" />
+                <ScalarProperty Name="InvoicePostingDate" ColumnName="InvoicePostingDate" />
+                <ScalarProperty Name="Terms" ColumnName="Terms" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="InvoiceTotal" ColumnName="InvoiceTotal" />
+                <ScalarProperty Name="InvoiceStatus" ColumnName="InvoiceStatus" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="ContactCompany" ColumnName="ContactCompany" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="ContactCompanyID" ColumnName="ContactCompanyID" />
+                <ScalarProperty Name="InvoiceName" ColumnName="InvoiceName" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="InvoiceCode" ColumnName="InvoiceCode" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceDetails">
+            <EntityTypeMapping TypeName="DomainModels.InvoiceDetail">
+              <MappingFragment StoreEntitySet="InvoiceDetail">
+                <ScalarProperty Name="TaxId" ColumnName="TaxId" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="ItemTaxValue" ColumnName="ItemTaxValue" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemCharge" ColumnName="ItemCharge" />
+                <ScalarProperty Name="NominalCode" ColumnName="NominalCode" />
+                <ScalarProperty Name="InvoiceTitle" ColumnName="InvoiceTitle" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="DetailType" ColumnName="DetailType" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="InvoiceDetailId" ColumnName="InvoiceDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LengthUnits">
+            <EntityTypeMapping TypeName="DomainModels.LengthUnit">
+              <MappingFragment StoreEntitySet="LengthUnit">
+                <ScalarProperty Name="Inch" ColumnName="Inch" />
+                <ScalarProperty Name="CM" ColumnName="CM" />
+                <ScalarProperty Name="MM" ColumnName="MM" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperBasisAreas">
+            <EntityTypeMapping TypeName="DomainModels.PaperBasisArea">
+              <MappingFragment StoreEntitySet="PaperBasisArea">
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PaperBasisAreaId" ColumnName="PaperBasisAreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegistrationQuestions">
+            <EntityTypeMapping TypeName="DomainModels.RegistrationQuestion">
+              <MappingFragment StoreEntitySet="RegistrationQuestion">
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Campaigns">
+            <EntityTypeMapping TypeName="DomainModels.Campaign">
+              <MappingFragment StoreEntitySet="Campaign">
+                <ScalarProperty Name="UnsubscribeEmailAddress" ColumnName="UnsubscribeEmailAddress" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CampaignReportId" ColumnName="CampaignReportId" />
+                <ScalarProperty Name="FromName" ColumnName="FromName" />
+                <ScalarProperty Name="GroupIDs" ColumnName="GroupIDs" />
+                <ScalarProperty Name="CustomerTypeIDs" ColumnName="CustomerTypeIDs" />
+                <ScalarProperty Name="FlagIDs" ColumnName="FlagIDs" />
+                <ScalarProperty Name="isSystemEmail" ColumnName="isSystemEmail" />
+                <ScalarProperty Name="EmailEvent" ColumnName="EmailEvent" />
+                <ScalarProperty Name="SendEmailAfterDays" ColumnName="SendEmailAfterDays" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="IncludeCorporateCustomers" ColumnName="IncludeCorporateCustomers" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="CampaignType" ColumnName="CampaignType" />
+                <ScalarProperty Name="ValidateEmail" ColumnName="ValidateEmail" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="UseWYSWYG" ColumnName="UseWYSWYG" />
+                <ScalarProperty Name="UnsubscribeMethod" ColumnName="UnsubscribeMethod" />
+                <ScalarProperty Name="EnableClickThruTab" ColumnName="EnableClickThruTab" />
+                <ScalarProperty Name="EnableWriteBackTab" ColumnName="EnableWriteBackTab" />
+                <ScalarProperty Name="SMTPPassword" ColumnName="SMTPPassword" />
+                <ScalarProperty Name="SMTPUsername" ColumnName="SMTPUsername" />
+                <ScalarProperty Name="SoftBounceCountTotal" ColumnName="SoftBounceCountTotal" />
+                <ScalarProperty Name="CampaignCategory" ColumnName="CampaignCategory" />
+                <ScalarProperty Name="EmailLogFileAddress3" ColumnName="EmailLogFileAddress3" />
+                <ScalarProperty Name="EmailLogFileAddress2" ColumnName="EmailLogFileAddress2" />
+                <ScalarProperty Name="ABMessagingUpdateField" ColumnName="ABMessagingUpdateField" />
+                <ScalarProperty Name="EnableOpenedEmail" ColumnName="EnableOpenedEmail" />
+                <ScalarProperty Name="OpenedEmailUpdateField" ColumnName="OpenedEmailUpdateField" />
+                <ScalarProperty Name="OpenedCountTotal" ColumnName="OpenedCountTotal" />
+                <ScalarProperty Name="OpenedCount" ColumnName="OpenedCount" />
+                <ScalarProperty Name="EnableEmailAddressCache" ColumnName="EnableEmailAddressCache" />
+                <ScalarProperty Name="BounceCountTotal" ColumnName="BounceCountTotal" />
+                <ScalarProperty Name="SubscribeCountTotal" ColumnName="SubscribeCountTotal" />
+                <ScalarProperty Name="UnSubscribeCountTotal" ColumnName="UnSubscribeCountTotal" />
+                <ScalarProperty Name="LockedByUID" ColumnName="LockedByUID" />
+                <ScalarProperty Name="SMTPServer2" ColumnName="SMTPServer2" />
+                <ScalarProperty Name="ClearCounters" ColumnName="ClearCounters" />
+                <ScalarProperty Name="AttachmentFileName" ColumnName="AttachmentFileName" />
+                <ScalarProperty Name="EmailFieldPreviewColumn3" ColumnName="EmailFieldPreviewColumn3" />
+                <ScalarProperty Name="EmailFieldPreviewColumn2" ColumnName="EmailFieldPreviewColumn2" />
+                <ScalarProperty Name="ContinueIfWritebackError" ColumnName="ContinueIfWritebackError" />
+                <ScalarProperty Name="EnableLogFiles" ColumnName="EnableLogFiles" />
+                <ScalarProperty Name="FailedCount" ColumnName="FailedCount" />
+                <ScalarProperty Name="SuccessCount" ColumnName="SuccessCount" />
+                <ScalarProperty Name="MessageCount" ColumnName="MessageCount" />
+                <ScalarProperty Name="LastRunEndDateTime" ColumnName="LastRunEndDateTime" />
+                <ScalarProperty Name="BounceCount" ColumnName="BounceCount" />
+                <ScalarProperty Name="SubscribeCount" ColumnName="SubscribeCount" />
+                <ScalarProperty Name="UnSubscribeCount" ColumnName="UnSubscribeCount" />
+                <ScalarProperty Name="SubscribeEmailHyperlinkText" ColumnName="SubscribeEmailHyperlinkText" />
+                <ScalarProperty Name="SubscribeEmailAddress" ColumnName="SubscribeEmailAddress" />
+                <ScalarProperty Name="UnsubscribeEmailHyperlinkText" ColumnName="UnsubscribeEmailHyperlinkText" />
+                <ScalarProperty Name="SubscribeEmailUpdateField" ColumnName="SubscribeEmailUpdateField" />
+                <ScalarProperty Name="Private" ColumnName="Private" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="PlainTextMessageB" ColumnName="PlainTextMessageB" />
+                <ScalarProperty Name="PlainTextMessageA" ColumnName="PlainTextMessageA" />
+                <ScalarProperty Name="EmailAddressLogFiles" ColumnName="EmailAddressLogFiles" />
+                <ScalarProperty Name="SMTPDelaySeconds" ColumnName="SMTPDelaySeconds" />
+                <ScalarProperty Name="IncludePlainText" ColumnName="IncludePlainText" />
+                <ScalarProperty Name="HTMLMessageB" ColumnName="HTMLMessageB" />
+                <ScalarProperty Name="SubjectB" ColumnName="SubjectB" />
+                <ScalarProperty Name="ABMessaging" ColumnName="ABMessaging" />
+                <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+                <ScalarProperty Name="LastRunOn" ColumnName="LastRunOn" />
+                <ScalarProperty Name="RepeatInterval" ColumnName="RepeatInterval" />
+                <ScalarProperty Name="RepeatEvery" ColumnName="RepeatEvery" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EnableSchedule" ColumnName="EnableSchedule" />
+                <ScalarProperty Name="SMTPServerType" ColumnName="SMTPServerType" />
+                <ScalarProperty Name="ErrorsToAddress" ColumnName="ErrorsToAddress" />
+                <ScalarProperty Name="ReplyToAddress" ColumnName="ReplyToAddress" />
+                <ScalarProperty Name="ReturnPathAddress" ColumnName="ReturnPathAddress" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="SMTPServer" ColumnName="SMTPServer" />
+                <ScalarProperty Name="CCEmailField" ColumnName="CCEmailField" />
+                <ScalarProperty Name="EmailField" ColumnName="EmailField" />
+                <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
+                <ScalarProperty Name="AttachmentFileNameFieldName" ColumnName="AttachmentFileNameFieldName" />
+                <ScalarProperty Name="HTMLMessageA" ColumnName="HTMLMessageA" />
+                <ScalarProperty Name="SubjectA" ColumnName="SubjectA" />
+                <ScalarProperty Name="IncludeContactName" ColumnName="IncludeContactName" />
+                <ScalarProperty Name="IncludeAddress" ColumnName="IncludeAddress" />
+                <ScalarProperty Name="IncludeName" ColumnName="IncludeName" />
+                <ScalarProperty Name="IncludeFlag" ColumnName="IncludeFlag" />
+                <ScalarProperty Name="IncludeType" ColumnName="IncludeType" />
+                <ScalarProperty Name="SearchKeyword" ColumnName="SearchKeyword" />
+                <ScalarProperty Name="IncludeKeyword" ColumnName="IncludeKeyword" />
+                <ScalarProperty Name="IncludeProspects" ColumnName="IncludeProspects" />
+                <ScalarProperty Name="IncludeSuppliers" ColumnName="IncludeSuppliers" />
+                <ScalarProperty Name="IncludeCustomers" ColumnName="IncludeCustomers" />
+                <ScalarProperty Name="RunCampaignFor" ColumnName="RunCampaignFor" />
+                <ScalarProperty Name="DataSourceType" ColumnName="DataSourceType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CampaignName" ColumnName="CampaignName" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignEmailVariables">
+            <EntityTypeMapping TypeName="DomainModels.CampaignEmailVariable">
+              <MappingFragment StoreEntitySet="CampaignEmailVariable">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="VariableTag" ColumnName="VariableTag" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CriteriaFieldName" ColumnName="CriteriaFieldName" />
+                <ScalarProperty Name="RefFieldName" ColumnName="RefFieldName" />
+                <ScalarProperty Name="RefTableName" ColumnName="RefTableName" />
+                <ScalarProperty Name="VariableName" ColumnName="VariableName" />
+                <ScalarProperty Name="VariableId" ColumnName="VariableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignImages">
+            <EntityTypeMapping TypeName="DomainModels.CampaignImage">
+              <MappingFragment StoreEntitySet="CampaignImage">
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+                <ScalarProperty Name="CampaignImageId" ColumnName="CampaignImageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryNotes">
+            <EntityTypeMapping TypeName="DomainModels.DeliveryNote">
+              <MappingFragment StoreEntitySet="DeliveryNote">
+                <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="NotesUpdatedByUserId" ColumnName="NotesUpdatedByUserId" />
+                <ScalarProperty Name="NotesUpdateDateTime" ColumnName="NotesUpdateDateTime" />
+                <ScalarProperty Name="UserNotes" ColumnName="UserNotes" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
+                <ScalarProperty Name="SupplierURL" ColumnName="SupplierURL" />
+                <ScalarProperty Name="CsNo" ColumnName="CsNo" />
+                <ScalarProperty Name="SupplierTelNo" ColumnName="SupplierTelNo" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="CustomerOrderReff" ColumnName="CustomerOrderReff" />
+                <ScalarProperty Name="ContactCompany" ColumnName="ContactCompany" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="IsStatus" ColumnName="IsStatus" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="footnote" ColumnName="footnote" />
+                <ScalarProperty Name="OrderReff" ColumnName="OrderReff" />
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="DeliveryNoteId" ColumnName="DeliveryNoteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryNoteDetails">
+            <EntityTypeMapping TypeName="DomainModels.DeliveryNoteDetail">
+              <MappingFragment StoreEntitySet="DeliveryNoteDetail">
+                <ScalarProperty Name="GrossItemTotal" ColumnName="GrossItemTotal" />
+                <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DeliveryNoteId" ColumnName="DeliveryNoteId" />
+                <ScalarProperty Name="DeliveryDetailid" ColumnName="DeliveryDetailid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyCMYKColors">
+            <EntityTypeMapping TypeName="DomainModels.CompanyCMYKColor">
+              <MappingFragment StoreEntitySet="CompanyCMYKColor">
+                <ScalarProperty Name="ColorK" ColumnName="ColorK" />
+                <ScalarProperty Name="ColorY" ColumnName="ColorY" />
+                <ScalarProperty Name="ColorM" ColumnName="ColorM" />
+                <ScalarProperty Name="ColorC" ColumnName="ColorC" />
+                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DiscountVouchers">
+            <EntityTypeMapping TypeName="DomainModels.DiscountVoucher">
+              <MappingFragment StoreEntitySet="DiscountVoucher">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="ConsumedDate" ColumnName="ConsumedDate" />
+                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ValidUptoDate" ColumnName="ValidUptoDate" />
+                <ScalarProperty Name="ValidFromDate" ColumnName="ValidFromDate" />
+                <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
+                <ScalarProperty Name="DiscountVoucherId" ColumnName="DiscountVoucherId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

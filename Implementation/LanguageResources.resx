@@ -123,4 +123,7 @@
   <data name="ClaimsSecurityService_MissingNameIdentifierClaim" xml:space="preserve">
     <value>No name identifier claim specified. Cannot proceed.</value>
   </data>
+  <data name="ItemService_ItemNotFound" xml:space="preserve">
+    <value>Product with Id {0} not found.</value>
+  </data>
 </root>
