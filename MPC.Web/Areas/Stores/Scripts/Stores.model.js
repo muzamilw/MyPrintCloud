@@ -3,7 +3,7 @@
 define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
         // ReSharper disable once InconsistentNaming
-        Store = function (specifiedCompanyId, specifiedName, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+        Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey
         ) {
@@ -11,6 +11,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 self,
                 companyId = ko.observable(specifiedCompanyId),
                 name = ko.observable(specifiedName),
+                status = ko.observable(specifiedStatus),
                 url = ko.observable(specifiedUrl),
                 accountOpenDate = ko.observable(specifiedAccountOpenDate),
                 accountManagerId = ko.observable(specifiedAccountManagerId),
@@ -45,6 +46,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     // ReSharper restore InconsistentNaming
                     companyId: companyId,
                     name: name,
+                    status: status,
                     url: url,
                     accountOpenDate: accountOpenDate,
                     accountManagerId: accountManagerId,
@@ -72,6 +74,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     var result = {};
                     result.CompanyId = source.companyId();
                     result.Name = source.name();
+                    result.Status = source.status();
                     result.URL = source.url();
                     result.AccountOpenDate = source.accountOpenDate();
                     result.AccountManagerId = source.accountManagerId();
@@ -98,6 +101,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             self = {
                 companyId: companyId,
                 name: name,
+                status: status,
                 url: url,
                 accountOpenDate: accountOpenDate,
                 accountManagerId: accountManagerId,
@@ -128,6 +132,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         var result = new Store(
             source.companyId,
             source.name,
+            source.status,
             source.url,
             source.accountOpenDate,
             source.accountManagerId,
@@ -151,6 +156,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         var store = new Store(
             source.CompanyId,
             source.Name,
+            source.Status,
             source.URL,
             source.AccountOpenDate,
             source.AccountManagerId,
@@ -166,10 +172,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.FacebookAppId,
             source.FacebookAppKey,
             source.TwitterAppId,
-            source.TwitterAppKey,
-            source.CompanyId
+            source.TwitterAppKey
             );
-        store.companyType.Create(source.CompanyType);
+        store.companyType(CompanyType.Create(source.CompanyType));
         return store;
     };
 
@@ -227,19 +232,19 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return self;
     };
     CompanyType.CreateFromClientModel = function (source) {
-        return new Store(
+        return new CompanyType(
             source.typeId,
             source.isFixed,
             source.typeName
             );
     };
     CompanyType.Create = function (source) {
-        var store = new Store(
+        var companyType = new CompanyType(
             source.TypeId,
             source.IsFixed,
             source.TypeName
             );
-        return store;
+        return companyType;
     };
     return {
         Store: Store,
