@@ -78,7 +78,7 @@
         <EntityTypeShape EntityType="DomainModels.SectionCostCentreDetail" Width="1.5" PointX="23.125" PointY="26.5" />
         <EntityTypeShape EntityType="DomainModels.SectionCostCentreResource" Width="1.5" PointX="23.125" PointY="49.125" />
         <EntityTypeShape EntityType="DomainModels.State" Width="1.5" PointX="14.125" PointY="65.75" />
-        <EntityTypeShape EntityType="DomainModels.Status" Width="1.5" PointX="14.125" PointY="46.25" />
+        <EntityTypeShape EntityType="DomainModels.Status" Width="1.5" PointX="12.375" PointY="46.25" />
         <EntityTypeShape EntityType="DomainModels.SystemEmail" Width="1.5" PointX="18.375" PointY="9.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_Country" />
@@ -88,6 +88,46 @@
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_section_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" />
+        <EntityTypeShape EntityType="DomainModels.Estimate" Width="1.5" PointX="21.375" PointY="8.25" />
+        <EntityTypeShape EntityType="DomainModels.PaymentGateway" Width="1.5" PointX="23.625" PointY="4.625" />
+        <EntityTypeShape EntityType="DomainModels.PaymentMethod" Width="1.5" PointX="21.375" PointY="4.875" />
+        <EntityTypeShape EntityType="DomainModels.PrePayment" Width="1.5" PointX="23.625" PointY="15.375" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contacts" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_company_sites" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_Statuses" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_estimates" />
+        <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_estimates" />
+        <AssociationConnector Association="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods" />
+        <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_PaymentMethods" />
+        <EntityTypeShape EntityType="DomainModels.RaveReview" Width="1.5" PointX="3" PointY="28.125" />
+        <AssociationConnector Association="DomainModels.FK_RaveReview_Company" />
+        <EntityTypeShape EntityType="DomainModels.EmailEvent" Width="1.5" PointX="15.375" PointY="17.75" />
+        <EntityTypeShape EntityType="DomainModels.Inquiry" Width="1.5" PointX="15.5" PointY="75.375" />
+        <EntityTypeShape EntityType="DomainModels.InquiryAttachment" Width="1.5" PointX="17.75" PointY="74.875" />
+        <EntityTypeShape EntityType="DomainModels.InquiryItem" Width="1.5" PointX="17.75" PointY="77.625" />
+        <EntityTypeShape EntityType="DomainModels.Invoice" Width="1.5" PointX="14.125" PointY="37.875" />
+        <EntityTypeShape EntityType="DomainModels.InvoiceDetail" Width="1.5" PointX="23.625" PointY="44.875" />
+        <EntityTypeShape EntityType="DomainModels.LengthUnit" Width="1.5" PointX="17.375" PointY="18" />
+        <EntityTypeShape EntityType="DomainModels.PaperBasisArea" Width="1.5" PointX="20.375" PointY="1" />
+        <EntityTypeShape EntityType="DomainModels.RegistrationQuestion" Width="1.5" PointX="11" PointY="23.625" />
+        <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Inquiry_tbl_contacts" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry" />
+        <AssociationConnector Association="DomainModels.FK_tbl_invoicedetails_tbl_invoices" />
+        <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_invoices" />
+        <AssociationConnector Association="DomainModels.FK_tbl_invoicedetails_tbl_items" />
+        <EntityTypeShape EntityType="DomainModels.Campaign" Width="1.5" PointX="25.375" PointY="21" />
+        <EntityTypeShape EntityType="DomainModels.CampaignEmailVariable" Width="1.5" PointX="15.375" PointY="21" />
+        <EntityTypeShape EntityType="DomainModels.CampaignImage" Width="1.5" PointX="27.625" PointY="28.75" />
+        <EntityTypeShape EntityType="DomainModels.DeliveryNote" Width="1.5" PointX="21.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DomainModels.DeliveryNoteDetail" Width="1.5" PointX="23.625" PointY="41.625" />
+        <AssociationConnector Association="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" />
+        <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_deliverynotes" />
+        <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_items" />
+        <EntityTypeShape EntityType="DomainModels.CompanyCMYKColor" Width="1.5" PointX="22.375" PointY="1" />
+        <EntityTypeShape EntityType="DomainModels.DiscountVoucher" Width="1.5" PointX="23.375" PointY="8" />
       </Diagram>
       <Diagram DiagramId="ba00683825174285b13129da724620c4" Name="Diagram2" ZoomLevel="35" >
       </Diagram>
