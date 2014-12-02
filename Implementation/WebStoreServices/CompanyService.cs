@@ -1,8 +1,10 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.WebStoreServices
@@ -61,6 +63,11 @@ namespace MPC.Implementation.WebStoreServices
         public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
         {
             return _productCategoryRepository.GetParentCategoriesByTerritory(companyId);
+        }
+
+        public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
+        {
+            return _companyRepository.SearchCompanies(request);
         }
         #endregion
     }
