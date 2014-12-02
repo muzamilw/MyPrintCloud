@@ -67,6 +67,7 @@
     <Compile Include="Repository\ISectionRepository.cs" />
     <Compile Include="Repository\IStockCategoryRepository.cs" />
     <Compile Include="Repository\IStockCostAndPriceRepository.cs" />
+    <Compile Include="Repository\IItemRepository.cs" />
     <Compile Include="Repository\IStockItemRepository.cs" />
     <Compile Include="Repository\IStockSubCategoryRepository.cs" />
     <Compile Include="Repository\ICategoryTerritoryRepository.cs" />

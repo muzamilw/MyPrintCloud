@@ -4394,7 +4394,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RelatedItemId" Type="Int64" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items" FromRole="ItemRelatedItem" ToRole="Item" />
-          <NavigationProperty Name="Item1" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="ItemRelatedItem" ToRole="Item" />
+          <NavigationProperty Name="RelatedItem" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="ItemRelatedItem" ToRole="Item" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -4605,7 +4605,7 @@
           <NavigationProperty Name="ItemImages" Relationship="DomainModels.itemIDfk" FromRole="Item" ToRole="ItemImage" />
           <NavigationProperty Name="ItemPriceMatrices" Relationship="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" FromRole="Item" ToRole="ItemPriceMatrix" />
           <NavigationProperty Name="ItemRelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items" FromRole="Item" ToRole="ItemRelatedItem" />
-          <NavigationProperty Name="ItemRelatedItems1" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="Item" ToRole="ItemRelatedItem" />
+          <NavigationProperty Name="RelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="Item" ToRole="ItemRelatedItem" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
           <NavigationProperty Name="ItemVDPPrices" Relationship="DomainModels.FK_ItemVDPPrice_Items" FromRole="Item" ToRole="ItemVDPPrice" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="Item" ToRole="ItemSection" />

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
+    /// <summary>
+    /// Item Domain Model
+    /// </summary>
     public class Item
     {
+        #region Persisted Properties
         public long ItemId { get; set; }
         public string ItemCode { get; set; }
         public long? EstimateId { get; set; }
@@ -209,16 +210,29 @@ namespace MPC.Models.DomainModels
         public long? OrganisationId { get; set; }
         public double? PackagingWeight { get; set; }
         public bool? IsVDPProduct { get; set; }
+
+        #endregion
+
+        #region Reference Properties
+
         public virtual Status Status { get; set; }
+
+        public virtual Estimate Estimate { get; set; }
+
+        public virtual Invoice Invoice { get; set; }
 
         public virtual ICollection<ItemAttachment> ItemAttachments { get; set; }
         public virtual ICollection<ItemImage> ItemImages { get; set; }
         public virtual ICollection<ItemPriceMatrix> ItemPriceMatrices { get; set; }
         public virtual ICollection<ItemRelatedItem> ItemRelatedItems { get; set; }
-        public virtual ICollection<ItemRelatedItem> ItemRelatedItems1 { get; set; }
+        public virtual ICollection<ItemRelatedItem> RelatedItems { get; set; }
         public virtual ICollection<ItemStateTax> ItemStateTaxes { get; set; }
         public virtual ICollection<ItemVDPPrice> ItemVDPPrices { get; set; }
         public virtual ICollection<ItemSection> ItemSections { get; set; }
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
+        public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+        public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
+
+        #endregion
     }
 }
