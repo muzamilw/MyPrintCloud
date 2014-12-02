@@ -69,7 +69,8 @@
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId
+                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
+                CompanyType = source.CompanyType != null ?source.CompanyType.CreateFrom(): null
             };
         }
         #endregion

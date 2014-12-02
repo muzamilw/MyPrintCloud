@@ -1,10 +1,10 @@
 ﻿
 
-define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko) {
+define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
         // ReSharper disable once InconsistentNaming
         Store = function (specifiedCompanyId, specifiedName, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
-            specifiedAvatRegReference, flagId, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebAccessCode, specifiedTwitterUrl,
+            specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey
         ) {
             var
@@ -27,7 +27,8 @@ define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko
                 facebookAppKey = ko.observable(specifiedFacebookAppKey),
                 twitterAppId = ko.observable(specifiedTwitterAppId),
                 twitterAppKey = ko.observable(specifiedTwitterAppKey),
-                
+                companyType = ko.observable(),
+
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -59,7 +60,8 @@ define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko
                     facebookAppId: facebookAppId,
                     facebookAppKey: facebookAppKey,
                     twitterAppId: twitterAppId,
-                    twitterAppKey: twitterAppKey
+                    twitterAppKey: twitterAppKey,
+                    companyType: companyType
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -86,6 +88,7 @@ define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko
                     result.FacebookAppKey = source.facebookAppKey();
                     result.TwitterAppId = source.twitterAppId();
                     result.TwitterAppKey = source.twitterAppKey();
+                    result.CompanyType = source.companyType().convertToServerData();
                     return result;
                 },
                 // Reset
@@ -111,6 +114,7 @@ define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko
                 facebookAppKey: facebookAppKey,
                 twitterAppId: twitterAppId,
                 twitterAppKey: twitterAppKey,
+                companyType: companyType,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -121,7 +125,7 @@ define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko
             return self;
         };
     Store.CreateFromClientModel = function (source) {
-        return new Store(     
+        var result = new Store(
             source.companyId,
             source.name,
             source.url,
@@ -139,9 +143,9 @@ define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko
             source.facebookAppId,
             source.facebookAppKey,
             source.twitterAppId,
-            source.twitterAppKey,
-            source.companyId
+            source.twitterAppKey
             );
+        result.companyType = source.CompanyType.CreateFromClientModel();
     };
     Store.Create = function (source) {
         var store = new Store(
@@ -165,10 +169,81 @@ define("stores/stores.model",["ko", "underscore", "underscore-ko"], function (ko
             source.TwitterAppKey,
             source.CompanyId
             );
+        store.companyType.Create(source.CompanyType);
+        return store;
+    };
+
+    // ReSharper disable once InconsistentNaming
+    var CompanyType = function (specifiedCompanyTypeId, specifiedIsFixed, specifiedTypeName) {
+        var
+            self,
+            typeId = ko.observable(specifiedCompanyTypeId),
+            isFixed = ko.observable(specifiedIsFixed),
+            typeName = ko.observable(specifiedTypeName),
+            // Errors
+                errors = ko.validation.group({
+                    typeName: typeName
+                }),
+                // Is Valid 
+                isValid = ko.computed(function () {
+                    return errors().length === 0 ? true : false;
+                }),
+
+
+                // ReSharper disable InconsistentNaming
+                dirtyFlag = new ko.dirtyFlag({
+                    // ReSharper restore InconsistentNaming
+                    typeId: typeId,
+                    isFixed: isFixed,
+                    typeName: typeName
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty();
+                }),
+                //Convert To Server
+                convertToServerData = function (source) {
+                    var result = {};
+                    result.TypeId = source.typeId();
+                    result.IsFixed = source.isFixed();
+                    result.TypeName = source.typeName();
+                    return result;
+                },
+                // Reset
+                reset = function () {
+                    dirtyFlag.reset();
+                };
+        self = {
+            typeId: typeId,
+            isFixed: isFixed,
+            typeName: typeName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    CompanyType.CreateFromClientModel = function (source) {
+        return new Store(
+            source.typeId,
+            source.isFixed,
+            source.typeName
+            );
+    };
+    CompanyType.Create = function (source) {
+        var store = new Store(
+            source.TypeId,
+            source.IsFixed,
+            source.TypeName
+            );
         return store;
     };
     return {
         Store: Store,
+        CompanyType: CompanyType
     };
 });
 
