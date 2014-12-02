@@ -1,19 +1,17 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Ajax.Utilities;
-using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.MIS.Models;
+﻿using System.Linq;
+using MPC.MIS.ModelMappers;
+using StockCategory = MPC.MIS.Areas.Api.Models.StockCategory;
 
-namespace MPC.MIS.ModelMappers
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class StockCategoryMapper
     {
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.StockCategory CreateFrom(this DomainModels.StockCategory source)
+        public static StockCategory CreateFrom(this MPC.Models.DomainModels.StockCategory source)
         {
-            return new ApiModels.StockCategory
+            return new StockCategory
             {
                 CategoryId = source.CategoryId,
                 Code = source.Code,
@@ -42,9 +40,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.StockCategoryDropDown CreateFromDropDown(this DomainModels.StockCategory source)
+        public static MIS.Models.StockCategoryDropDown CreateFromDropDown(this MPC.Models.DomainModels.StockCategory source)
         {
-            return new ApiModels.StockCategoryDropDown
+            return new MIS.Models.StockCategoryDropDown
             {
                 CategoryId = source.CategoryId,
                 Name = source.Name,
@@ -53,9 +51,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.StockCategory CreateFrom(this ApiModels.StockCategory source)
+        public static MPC.Models.DomainModels.StockCategory CreateFrom(this StockCategory source)
         {
-            var stockCategory = new DomainModels.StockCategory
+            var stockCategory = new MPC.Models.DomainModels.StockCategory
             {
                 CategoryId = source.CategoryId,
                 Code = source.Code,

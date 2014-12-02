@@ -5,8 +5,6 @@ using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.MIS.ModelMappers;
-using MPC.MIS.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {

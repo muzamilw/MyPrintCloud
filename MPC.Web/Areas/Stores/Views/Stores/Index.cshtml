@@ -92,18 +92,21 @@
             <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedStore}">
                 <td>
                     <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
-                    @*<a href="~/CRM/ContactCompanyDetail" class="user-link">Unbound Prints</a>*@
                     <a href="#" class="user-link" data-bind="text: name"></a>
                     <a href="#" style="font-size: 0.875em; color: black;" data-bind="text: url"><i class="fa fa-external-link-square"></i></a>
                 </td>
-                <td>
-                    Prospect
-                </td>
 
+                <td data-bind="text: companyType().typeName"></td>
 
                 <td>
+                    <!-- ko if: status() == 1 -->
                     <span class="label label-success">Active</span>
+                    <!-- /ko -->
+                    <!-- ko if: status() != 1 -->
+                    <span class="label label-danger">DeActive</span>
+                    <!-- /ko -->
                 </td>
+
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->

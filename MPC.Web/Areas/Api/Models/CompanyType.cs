@@ -1,4 +1,4 @@
-﻿namespace MPC.MIS.Models
+﻿namespace MPC.MIS.Areas.Api.Models
 {
     public class CompanyType
     {

@@ -5,9 +5,6 @@ using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.MIS.ModelMappers;
-using MPC.MIS.Models;
-using MPC.MIS.ResponseModels;
 using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
 

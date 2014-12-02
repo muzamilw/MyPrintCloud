@@ -1,4 +1,5 @@
-﻿using DomainModels = MPC.Models.DomainModels;
+﻿using MPC.MIS.Areas.Api.Models;
+using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Models;
 
 namespace MPC.MIS.ModelMappers
@@ -8,9 +9,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.StockSubCategory CreateFrom(this DomainModels.StockSubCategory source)
+        public static StockSubCategory CreateFrom(this DomainModels.StockSubCategory source)
         {
-            return new ApiModels.StockSubCategory
+            return new StockSubCategory
                    {
                        CategoryId = source.CategoryId,
                        Code = source.Code,
@@ -35,7 +36,7 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.StockSubCategory CreateFrom(this ApiModels.StockSubCategory source)
+        public static DomainModels.StockSubCategory CreateFrom(this StockSubCategory source)
         {
             return new DomainModels.StockSubCategory
                    {
