@@ -1,4 +1,7 @@
-﻿namespace MPC.MIS.ModelMappers
+﻿using MPC.MIS.Areas.Api.Models;
+using MPC.MIS.ModelMappers;
+
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class CompanyMapper
     {
@@ -6,9 +9,9 @@
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static Models.Company CreateFrom(this MPC.Models.DomainModels.Company source)
+        public static Company CreateFrom(this MPC.Models.DomainModels.Company source)
         {
-            return new Models.Company
+            return new Company
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,

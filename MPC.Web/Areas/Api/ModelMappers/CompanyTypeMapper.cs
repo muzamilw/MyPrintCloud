@@ -1,11 +1,13 @@
-﻿namespace MPC.MIS.ModelMappers
+﻿using MPC.MIS.Areas.Api.Models;
+
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class CompanyTypeMapper
     {
         #region public
-        public static Models.CompanyType CreateFrom(this MPC.Models.DomainModels.CompanyType source)
+        public static CompanyType CreateFrom(this MPC.Models.DomainModels.CompanyType source)
         {
-            return new Models.CompanyType
+            return new CompanyType
             {
                TypeId = source.TypeId,
                IsFixed = source.IsFixed,

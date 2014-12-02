@@ -1,17 +1,16 @@
 ﻿using System.Globalization;
-using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.MIS.Models;
+using MPC.MIS.Areas.Api.Models;
 
-namespace MPC.MIS.ModelMappers
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class PaperSheetMapper
     {
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.PaperSheet CreateFrom(this DomainModels.PaperSize source)
+        public static PaperSheet CreateFrom(this MPC.Models.DomainModels.PaperSize source)
         {
-            return new ApiModels.PaperSheet
+            return new PaperSheet
                    {
                        Area = source.Area,
                        Height = source.Height,
@@ -27,9 +26,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.PaperSize CreateFrom(this ApiModels.PaperSheet source)
+        public static MPC.Models.DomainModels.PaperSize CreateFrom(this PaperSheet source)
         {
-            return new DomainModels.PaperSize
+            return new MPC.Models.DomainModels.PaperSize
                    {
                        Area = source.Height * source.Width,
                        Height = source.Height,
