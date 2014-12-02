@@ -79,6 +79,24 @@ namespace MPC.Implementation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid File Path..
+        /// </summary>
+        internal static string ItemService_InvalidFilePath {
+            get {
+                return ResourceManager.GetString("ItemService_InvalidFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Product..
+        /// </summary>
+        internal static string ItemService_InvalidItem {
+            get {
+                return ResourceManager.GetString("ItemService_InvalidItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product with Id {0} not found..
         /// </summary>
         internal static string ItemService_ItemNotFound {

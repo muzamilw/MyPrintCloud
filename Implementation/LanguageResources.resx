@@ -126,4 +126,10 @@
   <data name="ItemService_ItemNotFound" xml:space="preserve">
     <value>Product with Id {0} not found.</value>
   </data>
+  <data name="ItemService_InvalidItem" xml:space="preserve">
+    <value>Invalid Product.</value>
+  </data>
+  <data name="ItemService_InvalidFilePath" xml:space="preserve">
+    <value>Invalid File Path.</value>
+  </data>
 </root>

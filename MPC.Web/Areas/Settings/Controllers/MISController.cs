@@ -9,14 +9,14 @@ namespace MPC.MIS.Areas.Settings.Controllers
     public class MISController : Controller
     {
         // GET: Settings/MIS
-        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanVeiwPaperSheet })]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
         public ActionResult PaperSheet()
         {
             return View();
         }
 
         // GET: Settings/MIS
-        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanVeiwInventory })]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
         public ActionResult Inventory()
         {
             return View();

@@ -18,5 +18,10 @@ namespace MPC.Interfaces.MISServices
         /// Get by Id
         /// </summary>
         Item GetById(long id);
+
+        /// <summary>
+        /// Save Product Image
+        /// </summary>
+        Item SaveProductImage(string filePath, long itemId);
     }
 }

@@ -264,6 +264,8 @@
     <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
+    <Compile Include="Areas\Products\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Areas\Stores\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\MISController.cs" />
@@ -324,6 +326,10 @@
     <Content Include="Areas\Common\Scripts\confirmation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\Products\Scripts\product.dataservice.js" />
+    <Content Include="Areas\Products\Scripts\product.model.js" />
+    <Content Include="Areas\Products\Scripts\product.view.js" />
+    <Content Include="Areas\Products\Scripts\product.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
@@ -1041,6 +1047,11 @@
     <Content Include="Areas\Stores\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Stores\Views\web.config" />
     <Content Include="Areas\Stores\Views\Stores\Index.cshtml" />
+    <Content Include="Areas\Products\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Products\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Products\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Products\Views\Shared\_PaperSheetDialog.cshtml" />
+    <Content Include="Areas\Products\Views\web.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2199,6 +2210,7 @@
     <Folder Include="Areas\Api\Views\Company\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
+    <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />
     <Folder Include="Content\Images\gallery\" />
