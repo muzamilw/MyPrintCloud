@@ -277,6 +277,7 @@
     <Compile Include="Helper\CultureHelper.cs" />
     <Compile Include="ModelMappers\ChartOfAccountMapper.cs" />
     <Compile Include="ModelMappers\CompanyMapper.cs" />
+    <Compile Include="ModelMappers\CompanyTypeMapper.cs" />
     <Compile Include="ModelMappers\MarkupMapper.cs" />
     <Compile Include="ModelMappers\MyOrganizationMapper.cs" />
     <Compile Include="ModelMappers\PaperSheetMapper.cs" />
@@ -286,6 +287,7 @@
     <Compile Include="ModelMappers\TaxRateMapper.cs" />
     <Compile Include="Models\ChartOfAccount.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\CompanyType.cs" />
     <Compile Include="Models\Organisation.cs" />
     <Compile Include="Models\Markup.cs" />
     <Compile Include="Models\PaperSheet.cs" />
