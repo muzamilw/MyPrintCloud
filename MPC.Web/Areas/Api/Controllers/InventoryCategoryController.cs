@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Http;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 using MPC.MIS.ModelMappers;
 using MPC.MIS.Models;
 using MPC.Models.RequestModels;
@@ -38,10 +40,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All Stock Categories
         /// </summary>
         /// <returns></returns>
-        public ResponseModels.StockCategoryResponse Get([FromUri] StockCategoryRequestModel request)
+        public StockCategoryResponse Get([FromUri] StockCategoryRequestModel request)
         {
             var result = stockCategoryService.GetAll(request);
-            return new ResponseModels.StockCategoryResponse
+            return new StockCategoryResponse
             {
                 StockCategories = result.StockCategories.Select(x => x.CreateFrom()).ToList(),
                 RowCount = result.RowCount

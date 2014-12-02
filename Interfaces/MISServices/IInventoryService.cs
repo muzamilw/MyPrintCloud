@@ -1,4 +1,5 @@
-﻿using MPC.Models.RequestModels;
+﻿using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
@@ -17,5 +18,10 @@ namespace MPC.Interfaces.MISServices
         /// Load Stock Items, based on search filters
         /// </summary>
         InventorySearchResponse LoadStockItems(InventorySearchRequestModel request);
+
+        /// <summary>
+        /// Add/Update Stock Item
+        /// </summary>
+        StockItem SaveInevntory(StockItem request);
     }
 }

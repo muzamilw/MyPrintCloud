@@ -42,5 +42,13 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
+
+        /// <summary>
+        /// Get Deafault Stock Cost And Pricefor 
+        /// </summary>
+        public StockCostAndPrice GetDefaultStockCostAndPrice()
+        {
+            return DbSet.FirstOrDefault(scap => scap.CostOrPriceIdentifier == -1);
+        }
     }
 }
