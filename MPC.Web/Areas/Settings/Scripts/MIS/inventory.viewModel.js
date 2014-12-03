@@ -12,6 +12,10 @@ define("inventory/inventory.viewModel",
                     view,
                     //Active Inventory
                     selectedInventory = ko.observable(),
+                    //Active Cost Item
+                    selectedCostItem = ko.observable(),
+                    //Active price Item
+                    selectedPriceItem = ko.observable(),
                       //Is Loading Paper Sheet
                     isLoadingInventory = ko.observable(false),
                        //is Inventory Editor Visible
@@ -57,8 +61,8 @@ define("inventory/inventory.viewModel",
                     ]),
                     //Filtered Units
                     filteredUnits = ko.observableArray([]),
-                    //Default Cost price list items
-                    defaultCostPriceList = ko.observableArray([]),
+                    //Cost price list items
+                    costPriceList = ko.observableArray([]),
                     //Cost List
                     costList = ko.observableArray([]),
                     //PriceList
@@ -79,6 +83,14 @@ define("inventory/inventory.viewModel",
                             deleteInventory(inventory);
                         });
                         confirmation.show();
+                    },
+                    //Delete Cost Item
+                    onDeleteCostItem = function (costItem) {
+                        costPriceList.remove(costItem);
+                    },
+                    //Delete Price Item
+                    onDeletePriceItem = function (priceItem) {
+                        costPriceList.remove(priceItem);
                     },
                      // Delete Inventory
                     deleteInventory = function (inventory) {
@@ -163,18 +175,13 @@ define("inventory/inventory.viewModel",
                                 registrationQuestions.removeAll();
                                 ko.utils.arrayPushAll(registrationQuestions(), data.RegistrationQuestions);
                                 registrationQuestions.valueHasMutated();
-
-                                var cost = model.StockCostAndPrice.CreateForClient(data.StockCostAndPrice);
-
-                                var price = model.StockCostAndPrice.CreateForClient(data.StockCostAndPrice);
-
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
                             }
                         });
                     },
-                    //
+                    //Like Shhets,sq Meter dropdown filtration
                     unitFirtration = ko.computed(function () {
                         if (selectedInventory() !== undefined) {
                             filteredUnits.removeAll();
@@ -198,6 +205,15 @@ define("inventory/inventory.viewModel",
                                     });
                                 }
                             }
+                        }
+                    }, this),
+                    //
+                    packCost = ko.computed(function () {
+                        if (selectedInventory() !== undefined && costPriceList().length > 0) {
+                            _.each(costPriceList(), function (item) {
+                                item.packCostPrice((item.costPrice() / selectedInventory().perQtyQty()) * selectedInventory().packageQty());
+                            });
+
                         }
                     }, this),
                     //Compute value for table header
@@ -226,6 +242,9 @@ define("inventory/inventory.viewModel",
                     //Call function for Save Invetry
                     onSaveInventory = function (inventory) {
                         if (doBeforeSave()) {
+                            _.each(costPriceList(), function (item) {
+                                inventory.stockCostAndPriceListInInventory.push(item.convertToServerData());
+                            });
                             saveInventory(inventory);
                         }
                     },
@@ -259,33 +278,109 @@ define("inventory/inventory.viewModel",
                             }
                         });
                     },
-                //Get Inventories
-                createInventory = function () {
-                    selectedInventory(model.StockItem.Create());
-                    showInventoryEditor();
-                },
-                // close Inventory Editor
-                 closeInventoryEditor = function () {
-                     isInventoryEditorVisible(false);
-                 },
-                // Show Inventory Editor
-                showInventoryEditor = function () {
-                    isInventoryEditorVisible(true);
-                },
-                //Initialize
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    getBase();
-                    pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
-                    getInventories();
-                };
+                    //Get Inventories
+                    createInventory = function () {
+                        selectedInventory(model.StockItem.Create());
+
+                        var cost = model.StockCostAndPrice.Create();
+                        costPriceList.push(cost);
+                        var price = model.StockCostAndPrice.Create();
+                        price.costOrPriceIdentifier(-1);
+                        costPriceList.push(price);
+                        costPriceList.valueHasMutated();
+                        showInventoryEditor();
+                    },
+                    // close Inventory Editor
+                    closeInventoryEditor = function () {
+                        isInventoryEditorVisible(false);
+                    },
+                    // Show Inventory Editor
+                    showInventoryEditor = function () {
+                        isInventoryEditorVisible(true);
+                    },
+                      // Template Chooser
+                    templateToUse = function (costItem) {
+                        return (costItem === selectedCostItem() ? 'editCostTemplate' : 'itemCostTemplate');
+                    },
+                     // Select a Cost Item
+                    selectCostItem = function (costItem) {
+                        if (selectedCostItem() !== costItem) {
+                            selectedCostItem(costItem);
+                        }
+                    },
+                     // Template Chooser For Price
+                    templateToUseForPrice = function (priceItem) {
+                        return (priceItem === selectedPriceItem() ? 'editPriceTemplate' : 'itemPriceTemplate');
+                    },
+                     // Select a Price Item
+                    selectPriceItem = function (priceItem) {
+                        if (selectedPriceItem() !== priceItem) {
+                            selectedPriceItem(priceItem);
+                        }
+                    },
+                    //Create New Cost Item
+                    createCostItem = function () {
+                        var costItem;
+                        if (costPriceList().length > 0 && costPriceList()[0].costOrPriceIdentifier() === 0) {
+                            costItem = costPriceList()[0];
+                        }
+                        else {
+                            if (costPriceList().length > 1 && costPriceList()[1].costOrPriceIdentifier() !== 0);
+                            {
+                                costItem = costPriceList()[1];
+                            }
+                        }
+                        var flag = true;
+                        if (costItem !== undefined && costItem !== null && !costItem.isValid()) {
+                            costItem.errors.showAllMessages();
+                            selectedCostItem(costItem);
+                            flag = false;
+                        }
+                        if (flag) {
+                            var cost = model.StockCostAndPrice.Create();
+                            costPriceList.splice(0, 0, cost);
+                        }
+                    },
+                     //Create New Price Item
+                    createPriceItem = function () {
+                        var priceItem;
+                        if (costPriceList().length > 0 && costPriceList()[0].costOrPriceIdentifier() === -1) {
+                            priceItem = costPriceList()[0];
+                        }
+                        else {
+                            if (costPriceList().length > 1 && costPriceList()[1].costOrPriceIdentifier() !== -1);
+                            {
+                                priceItem = costPriceList()[1];
+                            }
+                        }
+                        var flag = true;
+                        if (priceItem !== undefined && priceItem !== null && !priceItem.isValid()) {
+                            priceItem.errors.showAllMessages();
+                            selectedPriceItem(priceItem);
+                            flag = false;
+                        }
+                        if (flag) {
+                            var price = model.StockCostAndPrice.Create();
+                            price.costOrPriceIdentifier(-1);
+                            costPriceList.splice(0, 0, price);
+                        }
+                    },
+                    //Initialize
+                    initialize = function (specifiedView) {
+                        view = specifiedView;
+                        ko.applyBindings(view.viewModel, view.bindingRoot);
+                        getBase();
+                        pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
+                        getInventories();
+                    };
                 // #endregion Arrays
 
                 return {
                     searchFilter: searchFilter,
                     isInventoryEditorVisible: isInventoryEditorVisible,
                     selectedInventory: selectedInventory,
+                    selectedCostItem: selectedCostItem,
+                    selectedPriceItem: selectedPriceItem,
                     isLoadingInventory: isLoadingInventory,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
@@ -305,6 +400,7 @@ define("inventory/inventory.viewModel",
                     paperBasisAreas: paperBasisAreas,
                     lengthUnits: lengthUnits,
                     registrationQuestions: registrationQuestions,
+                    costPriceList: costPriceList,
                     //Utility Functiions
                     initialize: initialize,
                     getInventories: getInventories,
@@ -314,6 +410,14 @@ define("inventory/inventory.viewModel",
                     createInventory: createInventory,
                     onEditInventory: onEditInventory,
                     onSaveInventory: onSaveInventory,
+                    templateToUse: templateToUse,
+                    selectCostItem: selectCostItem,
+                    onDeleteCostItem: onDeleteCostItem,
+                    templateToUseForPrice: templateToUseForPrice,
+                    selectPriceItem: selectPriceItem,
+                    onDeletePriceItem: onDeletePriceItem,
+                    createCostItem: createCostItem,
+                    createPriceItem: createPriceItem,
                 };
             })()
         };

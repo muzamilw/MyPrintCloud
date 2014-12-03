@@ -61,11 +61,11 @@
                                     </div>
                                     <label for="status" class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Status</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
-                                        <input type="text" class="form-control" id="status" />
+                                        <input type="text" class="form-control" id="status" data-bind="value:statusId" />
                                     </div>
                                     <label class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Disabled</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
-                                        <input type="checkbox" class="form-control" value="Disabled" />
+                                        <input type="checkbox" class="form-control"  data-bind="checked:isDisabled" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -132,7 +132,7 @@
                                                                     <input type="text" class="form-control" id="width" data-bind="value:itemSizeWidth,enable:itemSizeCustom" />
                                                                 </div>
                                                                 <div class="col-md-1">
-                                                                    <select class="form-control" data-bind="options: $root.lengthUnits,enable:itemSizeCustom,value:itemSizeSelectedUnit"></select>
+                                                                    <select class="form-control" data-bind="options: $root.lengthUnits, optionsText: 'UnitName', optionsValue: 'Id',enable:itemSizeCustom,value:itemSizeSelectedUnitId "></select>
                                                                 </div>
 
                                                             </div>
@@ -142,14 +142,14 @@
                                                                 </div>
                                                                 <label for="width" class="control-label col-sm-1">Width</label>
                                                                 <div class="col-md-1">
-                                                                    <input type="text" class="form-control" id="width" data-bind="value:itemSizeWidth" />
+                                                                    <input type="text" class="form-control" id="width" data-bind="value:rollWidth" />
                                                                 </div>
                                                                 <div class="col-md-1">
-                                                                    <select class="form-control" data-bind="options: $root.lengthUnits,value:itemSizeSelectedUnit"></select>
+                                                                    <select class="form-control" data-bind="options: $root.lengthUnits, optionsText: 'UnitName', optionsValue: 'Id',value:itemSizeSelectedUnitId "></select>
                                                                 </div>
                                                                 <label for="length" class="control-label col-sm-1">Length</label>
                                                                 <div class="col-md-1">
-                                                                    <input type="text" class="form-control" id="length" />
+                                                                    <input type="text" class="form-control" id="length" data-bind="value:rollLength" />
                                                                 </div>
                                                                 <label for="width" class="control-label">Meter</label>
                                                             </div>
@@ -178,6 +178,11 @@
                                                                 <div class="form-group">
                                                                     <label class="control-label h5 col-sm-6"><b>Cost</b></label>
                                                                 </div>
+                                                                <div class="filter-block pull-right">
+                                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createCostItem">
+                                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
+                                                                    </a>
+                                                                </div>
                                                                 <div class="clearfix">
                                                                     <div class="table-responsive">
                                                                         <table id="costTablle" class="table table-striped table-hover">
@@ -192,8 +197,8 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @*<!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.markups } -->
-                                                                                    <!-- /ko -->*@
+                                                                                <!-- ko template: { name: $root.templateToUse , foreach: $root.costPriceList } -->
+                                                                                <!-- /ko -->
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
@@ -203,6 +208,11 @@
                                                             <div class="table-bordered col-md-6 form-horizontal">
                                                                 <div class="form-group">
                                                                     <label class="control-label h5 col-sm-6"><b>Selling Price</b></label>
+                                                                </div>
+                                                                <div class="filter-block pull-right">
+                                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createPriceItem">
+                                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
+                                                                    </a>
                                                                 </div>
                                                                 <div class="clearfix">
                                                                     <div class="table-responsive">
@@ -218,8 +228,8 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @*<!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.markups } -->
-                                                                                    <!-- /ko -->*@
+                                                                                <!-- ko template: { name: $root.templateToUseForPrice , foreach: $root.costPriceList } -->
+                                                                                <!-- /ko -->
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
@@ -237,40 +247,40 @@
                                                         <div class="form-group">
                                                             <label for="weight" class="control-label h5 col-sm-2">Weight</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" id="weight" />
+                                                                <input type="text" class="form-control" id="weight" data-bind="value:itemWeight" />
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <select class="form-control" data-bind="options: $root.lengthUnits, optionsText: 'UnitName', optionsValue: 'Id' "></select>
+                                                                <select class="form-control" data-bind="options: $root.weightUnits, optionsText: 'UnitName', optionsValue: 'Id',value:itemWeightSelectedUnit "></select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="color" class="control-label h5 col-sm-2">Color</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" id="color" />
+                                                                <input type="text" class="form-control" id="color" data-bind="value:itemColour" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="color" class="control-label h5 col-sm-2">Ink Absorption</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" id="color" />
+                                                                <input type="text" class="form-control" id="color" data-bind="value:inkAbsorption" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="color" class="control-label h5 col-sm-2">Paper Basis Area</label>
                                                             <div class="col-md-3">
-                                                                <select class="form-control" data-bind="options: $root.paperBasisAreas, optionsText: 'Name', optionsValue: 'CategoryId' "></select>
+                                                                <select class="form-control" data-bind="options: $root.paperBasisAreas, optionsText: 'Name', optionsValue: 'PaperBasisAreaId',value:paperBasicAreaId "></select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="coated" class="control-label h5 col-sm-2">Coated</label>
                                                             <div class="col-md-1">
-                                                                <input type="checkbox" class="form-control" id="coated" />
+                                                                <input type="checkbox" class="form-control" id="coated" data-bind="checked:itemCoated" />
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <input type="radio" name="coted" value="gloss" /> Gloss
+                                                                <input type="radio" name="coted" value=1 data-bind="checked:itemCoatedType ,enable:itemCoated," /> Gloss
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <input type="radio" name="coted" value="matt" /> Matt
+                                                                <input type="radio" name="coted" value=2 data-bind="checked:itemCoatedType ,enable:itemCoated," /> Matt
                                                             </div>
                                                         </div>
                                                     </div>
@@ -313,11 +323,11 @@
                                                         <div class="form-group">
                                                             <label class="control-label h5 col-sm-2">Reorder Level</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" />
+                                                                <input type="text" class="form-control" data-bind="value:reOrderLevel" />
                                                             </div>
                                                             <label class="control-label h5 col-sm-2">Reorder Quantity</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" />
+                                                                <input type="text" class="form-control" data-bind="value:reorderQty" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group" data-bind="visible:itemId()!==0">
@@ -337,9 +347,90 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+@**For Cost Items*@
+<script id="deleteActionCostItemTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click: $root.onDeleteCostItem" title="Delete">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</script>
+<script id="editCostTemplate" type="text/html">
+    <tr data-bind="css: { selectedRow: $data === $root.selectedCostItem() }">
+        <td>
+            $<input style="width: 70px;" type="text" data-bind="value: costPrice, validationTooltip: costPrice" />
+        </td>
+        <td>
+            <input style="width: 70px;" type="text" data-bind="datepicker: fromDate, validationTooltip: fromDate" />
+        </td>
+        <td>
+            <input style="width: 70px;" type="text" data-bind="datepicker: toDate, validationTooltip: toDate" />
+        </td>
+        <td>
+            $<span data-bind="text: packCostPrice"></span>
+        </td>
+        <td>
+            <!-- ko template: { name: 'deleteActionCostItemTemplate' } -->
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
+<script id="itemCostTemplate" type="text/html">
+    <tr data-bind="if: (costOrPriceIdentifier() == 0), click: $root.selectCostItem, css: { selectedRow: $data === $root.selectedCostItem() }">
+        <td>$<span data-bind="text: costPrice"></span></td>
+        <td data-bind="text: formattedFromDate"></td>
+        <td data-bind="text: formattedToDate"></td>
+        <td>$<span data-bind="text: packCostPrice"></span></td>
+        <td>
+            <!-- ko template: { name: 'deleteActionCostItemTemplate' } -->
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
+@*For Price Items*@
+<script id="deleteActionPriceItemTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click: $root.onDeletePriceItem" title="Delete">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</script>
+<script id="editPriceTemplate" type="text/html">
+    <tr data-bind="css: { selectedRow: $data === $root.selectedPriceItem() }">
+        <td>
+            $<input style="width: 70px;" type="text" data-bind="value: costPrice, validationTooltip: costPrice" />
+        </td>
+        <td>
+            <input style="width: 70px;" type="text" data-bind="datepicker: fromDate, validationTooltip: fromDate" />
+        </td>
+        <td>
+            <input style="width: 70px;" type="text" data-bind="datepicker: toDate, validationTooltip: toDate" />
+        </td>
+        <td>
+            $<span data-bind="text: packCostPrice"></span>
+        </td>
+        <td>
+            <!-- ko template: { name: 'deleteActionPriceItemTemplate' } -->
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
+<script id="itemPriceTemplate" type="text/html">
+    <tr data-bind="if: (costOrPriceIdentifier() == -1), click: $root.selectPriceItem, css: { selectedRow: $data === $root.selectedPriceItem() }">
+        <td>$<span data-bind="text: costPrice"></span></td>
+        <td data-bind="dateString: formattedFromDate"></td>
+        <td data-bind="dateString: formattedToDate"></td>
+        <td>$<span data-bind="text: packCostPrice"></span></td>
+        <td>
+            <!-- ko template: { name: 'deleteActionPriceItemTemplate' } -->
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
