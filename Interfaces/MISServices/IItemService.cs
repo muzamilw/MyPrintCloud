@@ -12,7 +12,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Load Items, based on search filters
         /// </summary>
-        ItemSearchResponse GetItems(ItemSearchRequestModel request);
+        ItemListViewSearchResponse GetItems(ItemSearchRequestModel request);
 
         /// <summary>
         /// Get by Id

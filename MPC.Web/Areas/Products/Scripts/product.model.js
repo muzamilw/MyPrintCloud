@@ -5,7 +5,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
      // Item Entity
     // ReSharper disable InconsistentNaming
-    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode, specifiedThumbnail) {
+    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode, specifiedThumbnail, specifiedMiniPrice,
+        specifiedIsArchived, specifiedIsPublished, specifiedProductCategoryName) {
          // ReSharper restore InconsistentNaming
          var // Unique key
              id = ko.observable(specifiedId || 0),
@@ -19,6 +20,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              productCode = ko.observable(specifiedProductCode || undefined),
              // thumbnail
              thumbnail = ko.observable(specifiedThumbnail || undefined),
+             // mini Price
+             miniPrice = ko.observable(specifiedMiniPrice || undefined),
+             // is archived
+             isArchived = ko.observable(specifiedIsArchived || undefined),
+             // is published
+             isPublished = ko.observable(specifiedIsPublished || undefined),
+             // product Category Name
+             productCategoryName = ko.observable(specifiedProductCategoryName || undefined),
              // Errors
              errors = ko.validation.group({
                  name: name
@@ -49,6 +58,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              productName: productName,
              productCode: productCode,
              thumbnail: thumbnail,
+             miniPrice: miniPrice,
+             isArchived: isArchived,
+             isPublished: isPublished,
+             productCategoryName: productCategoryName,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -59,7 +72,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Factory
     Item.Create = function(source) {
-        return new Item(source.ItemId, source.ItemName, source.ProductName, source.ProductCode, source.ThumbnailPath);
+        return new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailPath, source.MinPrice,
+            source.IsArchived, source.IsPublished, source.ProductCategoryName);
     }
 
     return {

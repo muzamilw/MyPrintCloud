@@ -175,6 +175,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
         public DbSet<DiscountVoucher> DiscountVouchers { get; set; }
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
+        public DbSet<GetItemsListView> GetItemsListViews { get; set; }
 
         /// <summary>
         /// Get next id for a table

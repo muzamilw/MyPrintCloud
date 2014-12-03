@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
-namespace MPC.MIS.Areas.Api.Models
+namespace MPC.Models.ResponseModels
 {
     /// <summary>
-    /// Item Search Response Web Reponse
+    /// Item List View Response Model
     /// </summary>
-    public class ItemSearchResponse
+    public class ItemListViewSearchResponse
     {
         /// <summary>
         /// Items
         /// </summary>
-        public IEnumerable<ItemListView> Items { get; set; }
+        public IEnumerable<GetItemsListView> Items { get; set; }
         
         /// <summary>
         /// Total Count
