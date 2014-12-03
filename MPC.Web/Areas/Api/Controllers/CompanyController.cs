@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Http;
-using MPC.Interfaces.WebStoreServices;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
@@ -39,6 +39,14 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Companies = result.Companies.Select(x => x.CreateFrom()),
                 RowCount = result.RowCount
             };
+        }
+        /// <summary>
+        /// Get Company By Id
+        /// </summary>
+        /// <returns></returns>
+        public Company Get(int companyId)
+        {
+            return companyService.GetCompanyById(companyId).CreateFrom();
         }
     }
 }

@@ -150,7 +150,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.twitterAppId,
             source.twitterAppKey
             );
-        result.companyType = source.CompanyType.CreateFromClientModel();
+        result.companyType(CompanyType.CreateFromClientModel(source.companyType));
+        return result;
     };
     Store.Create = function (source) {
         var store = new Store(
@@ -246,9 +247,71 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             );
         return companyType;
     };
+// ReSharper disable once InconsistentNaming
+    var SystemUser = function(specifiedSystemUserId, specifiedUserName) {
+        var self,
+            systemUserId = ko.observable(specifiedSystemUserId),
+            userName = ko.observable(specifiedUserName),
+            // Errors
+            errors = ko.validation.group({
+        
+            }),
+            // Is Valid 
+            isValid = ko.computed(function() {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                // ReSharper restore InconsistentNaming
+                systemUserId: systemUserId,
+                userName: userName
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function() {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function(source) {
+                var result = {};
+                result.systemUserId = source.systemUserId();
+                result.userName = source.userName();
+                return result;
+            },
+            // Reset
+            reset = function() {
+                dirtyFlag.reset();
+            };
+        self = {
+            systemUserId: systemUserId,
+            userName: userName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    SystemUser.CreateFromClientModel = function (source) {
+        return new SystemUser(
+            source.systemUserId,
+            source.userName
+            );
+    };
+    SystemUser.Create = function (source) {
+        var systemUser = new SystemUser(
+            source.SystemUserId,
+            source.UserName
+            );
+        return systemUser;
+    };
     return {
         Store: Store,
-        CompanyType: CompanyType
+        CompanyType: CompanyType,
+        SystemUser: SystemUser
     };
 });
 

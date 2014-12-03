@@ -13,6 +13,18 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store By StoreId
+                    amplify.request.define('getStoreById', 'ajax', {
+                        url: ist.siteUrl + '/Api/Company',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Store
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to delete Store
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
@@ -45,6 +57,25 @@
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
+                });
+            },
+            // get Store by id
+            getStoreById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getStoreById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // get Store by id
+            getBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
                 });
             },
             // delete Stores
@@ -80,6 +111,8 @@
 
         return {
             getStores: getStores,
+            getStoreById: getStoreById,
+            getBaseData: getBaseData,
             deleteStore: deleteStore,
             saveNewStore: saveNewStore,
             saveStore: saveStore,

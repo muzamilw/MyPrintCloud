@@ -4,8 +4,8 @@
 @section leftmenue {
 
 }
-<div class="row" id="storesBinding">
-    <div class="col-lg-12">
+<div class="row" id="storesBinding" >
+    <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
@@ -113,19 +113,20 @@
                 </td>
             </tr>
         </script>
+
     </div>
+   @Html.Partial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml")
+</div>
+@section Scripts{
+    <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
+    <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
 
-    @section Scripts{
-        <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
-        <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-
-
-        <script>
-            require(["stores/stores.view", "common/confirmation.view"]);
-            $(function () {
-                $('#lisettings').addClass('active');
-                $('#ligeneralsettings').addClass('active');
-                $('#listore').addClass('active');
-            });
-        </script>
-    }
+    <script>
+        require(["stores/stores.view", "common/confirmation.view"]);
+        $(function () {
+            $('#lisettings').addClass('active');
+            $('#ligeneralsettings').addClass('active');
+            $('#listore').addClass('active');
+        });
+    </script>
+}

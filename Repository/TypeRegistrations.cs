@@ -36,6 +36,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ISectionRepository, SectionRepository>();
             unityContainer.RegisterType<IWeightUnitRepository, WeightUnitRepository>();
             unityContainer.RegisterType<IItemRepository, ItemRepository>();
+            unityContainer.RegisterType<ISystemUserRepository, SystemUserRepository>();
         }
     }
 }

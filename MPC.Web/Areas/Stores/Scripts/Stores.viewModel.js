@@ -12,8 +12,12 @@ define("stores/stores.viewModel",
                     view,
                     //stores List
                     stores = ko.observableArray([]),
+                    //system Users
+                    systemUsers = ko.observableArray([]),
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
+                    //Is Editorial View Visible
+                    isEditorVisible = ko.observable(false),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -26,7 +30,7 @@ define("stores/stores.viewModel",
                     editorViewModel = new ist.ViewModel(model.Store),
                     //Selected store
                     selectedStore = editorViewModel.itemForEditing,
-                    
+
                     //Template To Use
                     templateToUse = function (store) {
                         return (store === selectedStore() ? 'editStoreTemplate' : 'itemStoreTemplate');
@@ -67,7 +71,7 @@ define("stores/stores.viewModel",
                     getStores = function () {
                         isLoadingStores(true);
                         dataservice.getStores({
-                            SearchString : searchFilter(),
+                            SearchString: searchFilter(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
@@ -138,18 +142,19 @@ define("stores/stores.viewModel",
                     },
                     //Open Store Dialog
                     openEditDialog = function () {
-                        isStoreEditorVisible(true);
+                        isEditorVisible(true);
                         getStoreForEditting();
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
-                        dataservice.getStores({
-                            StoreId: selectedStore().storeId()
+                        dataservice.getStoreById({
+                            //dataservice.getStores({
+                            CompanyId: selectedStore().companyId()
                         }, {
                             success: function (data) {
                                 selectedStore(undefined);
                                 if (data != null) {
-                                    selectedStore(model.Store.Create(data.Stores[0]));
+                                    selectedStore(model.Store.Create(data));
                                 }
                                 isLoadingStores(false);
                             },
@@ -162,31 +167,52 @@ define("stores/stores.viewModel",
                     //Close Store Dialog
                     closeEditDialog = function () {
                         if (selectedStore() != undefined) {
-                            if (selectedStore().categoryId() > 0) {
-                                isStoreEditorVisible(false);
+                            if (selectedStore().companyId() > 0) {
+                                isEditorVisible(false);
                             } else {
-                                isStoreEditorVisible(false);
+                                isEditorVisible(false);
                                 stores.remove(selectedStore());
                             }
                             editorViewModel.revertItem();
                         }
                     },
-                    resetFilterSection= function() {
+                    resetFilterSection = function () {
                         searchFilter(undefined);
                         getStores();
                     },
-
+                    //Get Base Data
+                    getBaseData = function () {
+                        dataservice.getBaseData( {
+                            success: function (data) {
+                                if (data != null) {
+                                    _.each(data.SystemUsers, function (item) {
+                                        var systemUser = new model.SystemUsers.Create(item);
+                                        systemUsers.push(systemUser);
+                                    });
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Stores . Error: " + response);
+                            }
+                        });
+                    }
                 //Initialize
+                // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
                     getStores();
+                    getBaseData();
                 };
 
                 return {
                     stores: stores,
+                    systemUsers: systemUsers,
                     isLoadingStores: isLoadingStores,
+                    isEditorVisible: isEditorVisible,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     pager: pager,
@@ -207,7 +233,7 @@ define("stores/stores.viewModel",
                     openEditDialog: openEditDialog,
                     getStoreForEditting: getStoreForEditting,
                     closeEditDialog: closeEditDialog,
-                    resetFilterSection:resetFilterSection,
+                    resetFilterSection: resetFilterSection,
                     initialize: initialize
                 };
             })()
