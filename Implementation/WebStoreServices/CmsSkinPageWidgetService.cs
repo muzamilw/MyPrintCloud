@@ -16,9 +16,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         /// Private members
         /// </summary>
-// ReSharper disable InconsistentNaming
         public readonly ICmsSkinPageWidgetRepository widgetRepository;
-// ReSharper restore InconsistentNaming
      
 
         #endregion
@@ -46,7 +44,18 @@ namespace MPC.Implementation.WebStoreServices
         {
             return widgetRepository.GetDomainWidgetsById(companyId);
         }
+        //public List<CmsPage> GetSecondaryPages(long companyId)
+        //{
+        //    return _cmsPageRepositary.GetSecondaryPages(companyId);
 
+        //}
+
+
+        //public List<PageCategory> GetSecondaryPageCategories()
+        //{
+        //    return _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+
+        //}
        
         #endregion
     }

@@ -25,7 +25,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         }
 
         /// <summary>
-        /// Crete From Domain Model
+        /// Crete From Web Api Model
         /// </summary>
         public static DomainModels.Item CreateFrom(this Item source)
         {

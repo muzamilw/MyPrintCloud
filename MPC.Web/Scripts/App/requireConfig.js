@@ -16,6 +16,7 @@
             "inventoryCategory": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "inventorySubCategory": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "stores": ist.siteUrl + "/Areas/Stores/Scripts",
+            "product": ist.siteUrl + "/Areas/Products/Scripts",
         }
     });
 
