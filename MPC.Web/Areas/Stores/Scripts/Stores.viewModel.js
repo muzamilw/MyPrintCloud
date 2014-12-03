@@ -86,7 +86,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To load Stores" + response);
+                                toastr.error("Error: Failed To load Stores " + response);
                             }
                         });
                     },
@@ -119,7 +119,7 @@ define("stores/stores.viewModel",
                                 toastr.success("Successfully save.");
                             },
                             error: function (response) {
-                                toastr.error("Error: Failed to save." + response);
+                                toastr.error("Error: Failed to save. " + response);
                             }
                         });
                     },

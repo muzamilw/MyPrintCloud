@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ResponseModels
@@ -17,5 +18,40 @@ namespace MPC.Models.ResponseModels
         /// Stock Sub Category List
         /// </summary>
         public IEnumerable<StockSubCategory> StockSubCategories { get; set; }
+
+        /// <summary>
+        /// Paper Sizes List
+        /// </summary>
+        public IEnumerable<PaperSize> PaperSizes { get; set; }
+
+        /// <summary>
+        /// Section Flag
+        /// </summary>
+        public IEnumerable<SectionFlag> SectionFlags { get; set; }
+
+        /// <summary>
+        /// Weight Units
+        /// </summary>
+        public IEnumerable<WeightUnit> WeightUnits { get; set; }
+
+        /// <summary>
+        /// Length Units
+        /// </summary>
+        public IEnumerable<LengthUnit> LengthUnits { get; set; }
+
+        /// <summary>
+        /// Paper Basis Areas
+        /// </summary>
+        public IEnumerable<PaperBasisArea> PaperBasisAreas { get; set; }
+
+        /// <summary>
+        /// Registration Questions
+        /// </summary>
+        public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
+
+        /// <summary>
+        /// Stock Cost And Price
+        /// </summary>
+        public StockCostAndPrice StockCostAndPrice { get; set; }
     }
 }

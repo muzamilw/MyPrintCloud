@@ -17,7 +17,6 @@ namespace MPC.MIS
                 namespaces: new []{ "MPC.MIS.Controllers" }
             );
 
-
         }
     }
 }

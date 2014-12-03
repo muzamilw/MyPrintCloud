@@ -16,8 +16,7 @@ namespace MPC.MIS.Areas.Stores
         {
             context.MapRoute(
                 "Stores_default",
-                //"Stores/{controller}/{action}/{id}",
-                "{controller}/{action}/{id}",
+                "Stores/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "MPC.MIS.Areas.Stores.Controllers" }
             );

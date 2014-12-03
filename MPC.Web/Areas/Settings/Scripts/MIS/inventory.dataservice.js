@@ -24,25 +24,18 @@ define("inventory/inventory.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to delete paper sheet
-                    amplify.request.define('deletePaperSheet', 'ajax', {
-                        url: ist.siteUrl + '/Api/PaperSheet',
+                    // Define request to delete Inventory
+                    amplify.request.define('deleteInventory', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inventory',
                         dataType: 'json',
                         type: 'DELETE'
                     });
-                    // Define request to save paper Sheet
-                    amplify.request.define('savePaperSheet', 'ajax', {
-                        url: ist.siteUrl + '/Api/PaperSheet',
+                    // Define request to save Inventory
+                    amplify.request.define('saveInventory', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inventory',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
-                    });
-                    // Define request to save New paper Sheet
-                    amplify.request.define('saveNewPaperSheet', 'ajax', {
-                        url: ist.siteUrl + '/Api/PaperSheet',
-                        dataType: 'json',
-                        decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'Put'
                     });
                     isInitialized = true;
                 }
@@ -66,40 +59,32 @@ define("inventory/inventory.dataservice", function () {
                     error: callbacks.error,
                 });
             },
-            // delete Paper Sheet
-            deletePaperSheet = function (params, callbacks) {
+            // delete Inventory
+            deleteInventory = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'deletePaperSheet',
+                    resourceId: 'deleteInventory',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
                 });
             },
-            // Save New paper Sheet
-            saveNewPaperSheet = function (param, callbacks) {
+           // Save Inventory
+            saveInventory = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'saveNewPaperSheet',
+                    resourceId: 'saveInventory',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
                 });
-            },
-        // Save paper Sheet
-        savePaperSheet = function (param, callbacks) {
-            initialize();
-            return amplify.request({
-                resourceId: 'savePaperSheet',
-                success: callbacks.success,
-                error: callbacks.error,
-                data: param
-            });
-        };
+            };
 
         return {
             getInventories: getInventories,
             getInventoryBase: getInventoryBase,
+            deleteInventory: deleteInventory,
+            saveInventory: saveInventory,
         };
     })();
 

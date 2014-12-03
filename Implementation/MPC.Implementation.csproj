@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="MISServices\AuthorizationChecker.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
+    <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
@@ -176,6 +177,7 @@
     <EmbeddedResource Include="LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

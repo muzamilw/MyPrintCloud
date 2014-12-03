@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using MPC.Interfaces.WebStoreServices;
-using MPC.MIS.ModelMappers;
+using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -30,10 +31,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All Companies Of Organisation
         /// </summary>
         /// <returns></returns>
-        public ResponseModels.CompanyResponse Get([FromUri] CompanyRequestModel request)
+        public CompanyResponse Get([FromUri] CompanyRequestModel request)
         {
             var result = companyService.GetAllCompaniesOfOrganisation(request);
-            return new ResponseModels.CompanyResponse
+            return new CompanyResponse
             {
                 Companies = result.Companies.Select(x => x.CreateFrom()),
                 RowCount = result.RowCount

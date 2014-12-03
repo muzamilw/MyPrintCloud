@@ -9,35 +9,155 @@ namespace MPC.Models.DomainModels
     public class Item
     {
         #region Persisted Properties
+        
+        /// <summary>
+        /// Item Id
+        /// </summary>
         public long ItemId { get; set; }
+
+        /// <summary>
+        /// Item Code
+        /// </summary>
         public string ItemCode { get; set; }
+
+        /// <summary>
+        /// Estimate Id
+        /// </summary>
         public long? EstimateId { get; set; }
+
+        /// <summary>
+        /// Invoice Id
+        /// </summary>
         public long? InvoiceId { get; set; }
+
+        /// <summary>
+        /// Title
+        /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Tax1
+        /// </summary>
         public int? Tax1 { get; set; }
+
+        /// <summary>
+        /// Tax2
+        /// </summary>
         public int? Tax2 { get; set; }
+
+        /// <summary>
+        /// Tax3
+        /// </summary>
         public int? Tax3 { get; set; }
+        
+        /// <summary>
+        /// Created By
+        /// </summary>
         public int? CreatedBy { get; set; }
+        
+        /// <summary>
+        /// Status Id
+        /// </summary>
         public short? StatusId { get; set; }
+        
+        /// <summary>
+        /// Item Creation Date Time
+        /// </summary>
         public DateTime? ItemCreationDateTime { get; set; }
+        
+        /// <summary>
+        /// Item Last Update Date Time
+        /// </summary>
         public DateTime? ItemLastUpdateDateTime { get; set; }
+        
+        /// <summary>
+        /// Is Multiple Qty
+        /// </summary>
         public short? IsMultipleQty { get; set; }
+        
+        /// <summary>
+        /// Run On Qty
+        /// </summary>
         public int? RunOnQty { get; set; }
+
+        /// <summary>
+        /// Run on Cost Centre Profit
+        /// </summary>
         public double? RunonCostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Run on Base Charge
+        /// </summary>
         public double? RunonBaseCharge { get; set; }
+
+        /// <summary>
+        /// Run On Markup Id
+        /// </summary>
         public int? RunOnMarkUpID { get; set; }
+
+        /// <summary>
+        /// Run on Percentage Value
+        /// </summary>
         public int? RunonPercentageValue { get; set; }
+
+        /// <summary>
+        /// Run on Marup Value
+        /// </summary>
         public double? RunOnMarkUpValue { get; set; }
+
+        /// <summary>
+        /// Run on Net Total
+        /// </summary>
         public double? RunOnNetTotal { get; set; }
+
+        /// <summary>
+        /// Qty1
+        /// </summary>
         public int? Qty1 { get; set; }
+
+        /// <summary>
+        /// Qty2
+        /// </summary>
         public int? Qty2 { get; set; }
+
+        /// <summary>
+        /// Qty3
+        /// </summary>
         public int? Qty3 { get; set; }
+
+        /// <summary>
+        /// Qty1 Cost Center Profit
+        /// </summary>
         public double? Qty1CostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Qty2 Cost Centre Profit
+        /// </summary>
         public double? Qty2CostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Qty3 Cost Centre Profit
+        /// </summary>
         public double? Qty3CostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Qty1 Base Charge
+        /// </summary>
         public double? Qty1BaseCharge1 { get; set; }
+
+        /// <summary>
+        /// Qty2 Base Charge2
+        /// </summary>
         public double? Qty2BaseCharge2 { get; set; }
+
+        /// <summary>
+        /// Qty3 Base Charge3
+        /// </summary>
         public double? Qty3BaseCharge3 { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
         public int? Qty1MarkUpID1 { get; set; }
         public int? Qty2MarkUpID2 { get; set; }
         public int? Qty3MarkUpID3 { get; set; }
