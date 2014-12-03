@@ -70,7 +70,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public ItemSearchResponse GetItems(ItemSearchRequestModel request)
         {
-            int fromRow = (request.PageNo) * request.PageSize;
+            int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
 
             Expression<Func<Item, bool>> query =

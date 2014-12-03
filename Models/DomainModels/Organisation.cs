@@ -234,6 +234,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual ICollection<Estimate> Estimates { get; set; }
 
+        /// <summary>
+        /// System Users
+        /// </summary>
+        public virtual ICollection<SystemUser> SystemUsers { get; set; }
+
         #endregion
         #region Additional Properties
 

@@ -19,31 +19,12 @@
                     </div>
 
                     <div class="row">
-                        @Html.Partial("Product/_Products")
+                        @Html.Partial("_Products")
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    @**Error Template*@
-    <script id="itemErrorTemplate" type="text/html">
-        <tr>
-            <!-- ko if: tabId === 1 -->
-            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
-            <!-- /ko -->
-        </tr>
-        <tr>
-            <!-- ko if: tabId === 2 -->
-            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
-            <!-- /ko -->
-        </tr>
-        <tr>
-            <!-- ko if: tabId === 3 -->
-            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
-            <!-- /ko -->
-        </tr>
-    </script>
 </div>
 
 @section Scripts{
@@ -55,62 +36,6 @@
             $('#liProducts').addClass('active');
         });
 
-        function redirectToProductDetail() {
-            window.location.href = '/Products/ProductDetail';
-        }
-        function changeToListView() {
-            $("#listViewIcon").css("background-color", "#ff7e47");
-            $("#gridViewIcon").css("background-color", "#ffffff");
-            $("#gridViewIcon").css("color", "black");
-            $("#listViewIcon").css("color", "white");
-            $("#gridForm").css("display", "none");
-            $("#ListForm").css("display", "block");
-        }
-        function changeToGridView() {
-            $("#gridViewIcon").css("background-color", "#ff7e47");
-            $("#listViewIcon").css("background-color", "#ffffff");
-            $("#gridViewIcon").css("color", "white");
-            $("#listViewIcon").css("color", "black");
-            $("#gridForm").css("display", "block");
-            $("#ListForm").css("display", "none");
-        }
-
-        function enableProductBoxes() {
-            $("#ProductDisableEditICon").css("display", "block");
-            $("#ProductEditICon").css("display", "none");
-            $(".editableName").css("display", "block");
-            $(".NoneditableName").css("display", "none");
-        }
-        function DisableProductBoxes() {
-            $("#ProductDisableEditICon").css("display", "none");
-            $("#ProductEditICon").css("display", "block");
-            $(".editableName").css("display", "none");
-            $(".NoneditableName").css("display", "block");
-        }
-        function enablePriceBoxes() {
-            $("#PriceDisableEditICon").css("display", "block");
-            $("#PriceEditICon").css("display", "none");
-            $(".editablePrice").css("display", "block");
-            $(".NoneditablePrice").css("display", "none");
-        }
-        function DisablePriceBoxes() {
-            $("#PriceDisableEditICon").css("display", "none");
-            $("#PriceEditICon").css("display", "block");
-            $(".editablePrice").css("display", "none");
-            $(".NoneditablePrice").css("display", "block");
-        }
-        function enableCategoryBoxes() {
-            $("#CategoryDisableEditICon").css("display", "block");
-            $("#CategoryEditICon").css("display", "none");
-            $(".editableCat").css("display", "block");
-            $(".NoneditableCat").css("display", "none");
-        }
-        function DisableCategoryBoxes() {
-            $("#CategoryDisableEditICon").css("display", "none");
-            $("#CategoryEditICon").css("display", "block");
-            $(".editableCat").css("display", "none");
-            $(".NoneditableCat").css("display", "block");
-        }
         $(document).ready(function () {
             //min/max slider
             $('.slider-minmax').noUiSlider({
