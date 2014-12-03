@@ -1,5 +1,5 @@
 ﻿/*
-    View for the tariff Type. Used to keep the viewmodel clear of UI related logic
+    View for the My Organization. Used to keep the viewmodel clear of UI related logic
 */
 define("myOrganization/myOrganization.view",
     ["jquery", "myOrganization/myOrganization.viewModel"], function ($, myOrganizationViewModel) {

@@ -1,7 +1,7 @@
-﻿using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.MIS.Models;
+﻿using MPC.MIS.Areas.Api.Models;
+using DomainModels = MPC.Models.DomainModels;
 
-namespace MPC.MIS.ModelMappers
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     /// <summary>
     /// Tax Rate Mapper
@@ -12,9 +12,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.TaxRate CreateFrom(this DomainModels.TaxRate source)
+        public static TaxRate CreateFrom(this DomainModels.TaxRate source)
         {
-            return new ApiModels.TaxRate
+            return new TaxRate
             {
                 TaxId = source.TaxId,
                 TaxName = source.TaxName,
@@ -24,7 +24,7 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.TaxRate CreateFrom(this ApiModels.TaxRate source)
+        public static DomainModels.TaxRate CreateFrom(this TaxRate source)
         {
             return new DomainModels.TaxRate
             {

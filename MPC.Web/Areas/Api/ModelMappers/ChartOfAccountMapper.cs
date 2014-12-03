@@ -1,7 +1,7 @@
-﻿using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.MIS.Models;
+﻿using MPC.MIS.Areas.Api.Models;
+using DomainModels = MPC.Models.DomainModels;
 
-namespace MPC.MIS.ModelMappers
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     /// <summary>
     /// Chart Of Account Mapper
@@ -12,9 +12,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static Models.ChartOfAccount CreateFrom(this DomainModels.ChartOfAccount source)
+        public static ChartOfAccount CreateFrom(this DomainModels.ChartOfAccount source)
         {
-            return new Models.ChartOfAccount
+            return new ChartOfAccount
             {
                 Id = source.Id,
                 Name = source.Name,
@@ -25,7 +25,7 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.ChartOfAccount CreateFrom(this Models.ChartOfAccount source)
+        public static DomainModels.ChartOfAccount CreateFrom(this ChartOfAccount source)
         {
             return new DomainModels.ChartOfAccount
             {

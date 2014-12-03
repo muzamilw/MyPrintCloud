@@ -7,5 +7,10 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IStockCostAndPriceRepository : IBaseRepository<StockCostAndPrice, long>
     {
+        /// <summary>
+        /// Get Deafault Stock Cost And Pricefor 
+        /// </summary>
+        StockCostAndPrice GetDefaultStockCostAndPrice();
+
     }
 }

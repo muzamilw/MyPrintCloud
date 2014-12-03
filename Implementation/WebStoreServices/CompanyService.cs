@@ -77,18 +77,7 @@ namespace MPC.Implementation.WebStoreServices
             return _companyRepository.SearchCompanies(request);
         }
 
-        public List<CmsPage> GetSecondaryPages(long companyId)
-        {
-            return _cmsPageRepositary.GetSecondaryPages(companyId);
-                
-        }
-
-
-        public List<PageCategory> GetSecondaryPageCategories()
-        {
-            return _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-
-        }
+      
 
         #endregion
     }

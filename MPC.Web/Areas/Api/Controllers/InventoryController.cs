@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Net;
+using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
-using MPC.MIS.ModelMappers;
-using MPC.MIS.ResponseModels;
+using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -38,7 +41,31 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return inventoryService.LoadStockItems((request)).CreateFrom();
         }
+        /// <summary>
+        /// Add/Update a Inventory
+        /// </summary>
+        [ApiException]
+        public StockItemForListView Post(StockItem stockItem)
+        {
+            if (stockItem == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return inventoryService.SaveInevntory(stockItem.CreateFrom()).CreateFrom();
+        }
 
+        /// <summary>
+        /// Delete Stock Item
+        /// </summary>
+        [ApiException]
+        public void Delete(StockItem stockItem)
+        {
+            if (stockItem == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            //inventoryService.SaveInevntory(stockItem.CreateFrom()).CreateFrom();
+        }
         #endregion
     }
 }

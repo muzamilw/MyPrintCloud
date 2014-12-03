@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
 using MPC.MIS.Models;
 
-namespace MPC.MIS.ResponseModels
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// My Organization Base Web Response
+    /// My Organization Save Web Response
     /// </summary>
-    public class MyOrganizationBaseResponse
+    public class MyOrganizationSaveResponse
     {
+        /// <summary>
+        /// Organization Id
+        /// </summary>
+        public long OrganizationId { get; set; }
+
         /// <summary>
         /// Chart Of Account List
         /// </summary>

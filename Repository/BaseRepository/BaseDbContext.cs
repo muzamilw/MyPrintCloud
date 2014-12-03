@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq.Expressions;
 using Microsoft.Practices.Unity;
 using MPC.Models.DomainModels;
@@ -173,6 +175,23 @@ namespace MPC.Repository.BaseRepository
         public DbSet<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
         public DbSet<DiscountVoucher> DiscountVouchers { get; set; }
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
+
+        /// <summary>
+        /// Get next id for a table
+        /// </summary>
+        public double GetMinimumProductValue(long itemId)
+        {
+            if (itemId <= 0)
+            {
+                throw new ArgumentException(LanguageResources.InvalidItem, "itemId");
+            }
+
+            ObjectParameter itemIdParameter = new ObjectParameter("ItemID", itemId);
+            ObjectParameter result = new ObjectParameter("Result", typeof(int));
+            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction(
+                "BaseDbContext.funGetMiniumProductValue", itemIdParameter, result);
+            return (double)result.Value;
+        }
         #endregion
     }
 }

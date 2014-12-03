@@ -1962,6 +1962,44 @@
           <Property Name="LockedBy" Type="int" />
           <Property Name="SystemSiteId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="SystemUserId" />
+          </Key>
+          <Property Name="SystemUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="OrganizationId" Type="int" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="Password" Type="varchar(max)" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Mobile" Type="varchar" MaxLength="100" />
+          <Property Name="UserType" Type="varchar" MaxLength="100" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="IsAccountDisabled" Type="smallint" />
+          <Property Name="IsTillSupervisor" Type="smallint" />
+          <Property Name="CostPerHour" Type="real" />
+          <Property Name="CurrentMachineName" Type="varchar" MaxLength="50" />
+          <Property Name="CurrentMachineIP" Type="varchar" MaxLength="50" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="IsScheduleable" Type="smallint" />
+          <Property Name="CompanySiteId" Type="bigint" />
+          <Property Name="ReplyEmail" Type="varchar" MaxLength="100" />
+          <Property Name="CanSendEmail" Type="bit" />
+          <Property Name="IsSystemUser" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="EmailSignature" Type="varchar" MaxLength="500" />
+          <Property Name="SmtpServer" Type="varchar" MaxLength="200" />
+          <Property Name="SmtpUserName" Type="varchar" MaxLength="200" />
+          <Property Name="SmtpPassword" Type="varchar" MaxLength="200" />
+          <Property Name="UserAuthToken" Type="nvarchar" MaxLength="500" />
+          <Property Name="canDesignTemplate" Type="bit" />
+          <Property Name="canApproveTemplate" Type="bit" />
+        </EntityType>
         <EntityType Name="WeightUnit">
           <Key>
             <PropertyRef Name="Id" />
@@ -2631,6 +2669,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_systemusers_tbl_company_sites">
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="0..1" />
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationId" />
+            </Principal>
+            <Dependent Role="SystemUser">
+              <PropertyRef Name="CompanySiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -2667,6 +2717,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="funGetMiniumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="ItemID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignEmailVariable" EntityType="Self.CampaignEmailVariable" Schema="dbo" store:Type="Tables" />
@@ -2733,6 +2786,7 @@
           <EntitySet Name="StockItem" EntityType="Self.StockItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockSubCategory" EntityType="Self.StockSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemEmail" EntityType="Self.SystemEmail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
@@ -2946,6 +3000,10 @@
           <AssociationSet Name="FK_tbl_stockitems_tbl_stocksubcategories" Association="Self.FK_tbl_stockitems_tbl_stocksubcategories">
             <End Role="StockSubCategory" EntitySet="StockSubCategory" />
             <End Role="StockItem" EntitySet="StockItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_systemusers_tbl_company_sites" Association="Self.FK_tbl_systemusers_tbl_company_sites">
+            <End Role="Organisation" EntitySet="Organisation" />
+            <End Role="SystemUser" EntitySet="SystemUser" />
           </AssociationSet>
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="Self.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Company" />
@@ -3256,6 +3314,11 @@
           </AssociationSet>
           <EntitySet Name="CompanyCMYKColors" EntityType="DomainModels.CompanyCMYKColor" />
           <EntitySet Name="DiscountVouchers" EntityType="DomainModels.DiscountVoucher" />
+          <EntitySet Name="SystemUsers" EntityType="DomainModels.SystemUser" />
+          <AssociationSet Name="FK_tbl_systemusers_tbl_company_sites" Association="DomainModels.FK_tbl_systemusers_tbl_company_sites">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -3502,6 +3565,7 @@
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="Organisation" ToRole="CmsSkinPageWidget" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Organisation" ToRole="Estimate" />
+          <NavigationProperty Name="SystemUsers" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="Organisation" ToRole="SystemUser" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -6030,6 +6094,57 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CompanyId" Type="Int64" />
         </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="SystemUserId" />
+          </Key>
+          <Property Name="SystemUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="IsAccountDisabled" Type="Int16" />
+          <Property Name="IsTillSupervisor" Type="Int16" />
+          <Property Name="CostPerHour" Type="Single" />
+          <Property Name="CurrentMachineName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentMachineIp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="IsScheduleable" Type="Int16" />
+          <Property Name="CompanySiteId" Type="Int64" />
+          <Property Name="ReplyEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CanSendEmail" Type="Boolean" />
+          <Property Name="IsSystemUser" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="EmailSignature" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpServer" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpUserName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UserAuthToken" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CanDesignTemplate" Type="Boolean" />
+          <Property Name="CanApproveTemplate" Type="Boolean" />
+          <NavigationProperty Name="Organisation" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="SystemUser" ToRole="Organisation" />
+        </EntityType>
+        <Association Name="FK_tbl_systemusers_tbl_company_sites">
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="0..1" />
+          <End Type="DomainModels.SystemUser" Role="SystemUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationId" />
+            </Principal>
+            <Dependent Role="SystemUser">
+              <PropertyRef Name="CompanySiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8078,6 +8193,45 @@
                 <ScalarProperty Name="ValidFromDate" ColumnName="ValidFromDate" />
                 <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
                 <ScalarProperty Name="DiscountVoucherId" ColumnName="DiscountVoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemUsers">
+            <EntityTypeMapping TypeName="DomainModels.SystemUser">
+              <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="CanApproveTemplate" ColumnName="canApproveTemplate" />
+                <ScalarProperty Name="CanDesignTemplate" ColumnName="canDesignTemplate" />
+                <ScalarProperty Name="UserAuthToken" ColumnName="UserAuthToken" />
+                <ScalarProperty Name="SmtpPassword" ColumnName="SmtpPassword" />
+                <ScalarProperty Name="SmtpUserName" ColumnName="SmtpUserName" />
+                <ScalarProperty Name="SmtpServer" ColumnName="SmtpServer" />
+                <ScalarProperty Name="EmailSignature" ColumnName="EmailSignature" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsSystemUser" ColumnName="IsSystemUser" />
+                <ScalarProperty Name="CanSendEmail" ColumnName="CanSendEmail" />
+                <ScalarProperty Name="ReplyEmail" ColumnName="ReplyEmail" />
+                <ScalarProperty Name="CompanySiteId" ColumnName="CompanySiteId" />
+                <ScalarProperty Name="IsScheduleable" ColumnName="IsScheduleable" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="CurrentMachineIp" ColumnName="CurrentMachineIP" />
+                <ScalarProperty Name="CurrentMachineName" ColumnName="CurrentMachineName" />
+                <ScalarProperty Name="CostPerHour" ColumnName="CostPerHour" />
+                <ScalarProperty Name="IsTillSupervisor" ColumnName="IsTillSupervisor" />
+                <ScalarProperty Name="IsAccountDisabled" ColumnName="IsAccountDisabled" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

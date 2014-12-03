@@ -10,8 +10,8 @@ namespace MPC.Models.DomainModels
     {
         public long Id { get; set; }
         public string UnitName { get; set; }
-        public Nullable<double> MM { get; set; }
-        public Nullable<double> CM { get; set; }
-        public Nullable<double> Inch { get; set; }
+        public double? MM { get; set; }
+        public double? CM { get; set; }
+        public double? Inch { get; set; }
     }
 }

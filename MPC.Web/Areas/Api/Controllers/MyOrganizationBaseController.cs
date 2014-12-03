@@ -3,8 +3,8 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
-using MPC.MIS.ModelMappers;
-using MPC.MIS.ResponseModels;
+using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {

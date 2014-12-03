@@ -164,6 +164,11 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="BaseRepository\PropertyReference.cs" />
+    <Compile Include="LanguageResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryTerritoryRepository.cs" />
     <Compile Include="Repositories\ChartOfAccountRepository.cs" />
@@ -173,11 +178,15 @@
     <Compile Include="Repositories\CompanyBannerRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
+    <Compile Include="Repositories\LengthUnitRepository.cs" />
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\MarkupRepository.cs" />
     <Compile Include="Repositories\PageCategoryRepository.cs" />
+    <Compile Include="Repositories\PaperBasisAreaRepository.cs" />
     <Compile Include="Repositories\PaperSheetRepository.cs" />
+    <Compile Include="Repositories\PaperSizeRepository.cs" />
+    <Compile Include="Repositories\RegistrationQuestionRepository.cs" />
     <Compile Include="Repositories\SectionFlagRepository.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Repositories\SectionRepository.cs" />
@@ -229,7 +238,13 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="LanguageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

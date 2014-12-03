@@ -8,5 +8,6 @@ namespace MPC.Interfaces.Repository
     public interface IStockCategoryRepository : IBaseRepository<StockCategory, long>
     {
         StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request);
+
     }
 }

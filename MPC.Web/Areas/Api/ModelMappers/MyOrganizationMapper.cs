@@ -1,11 +1,9 @@
 ﻿using System.IO;
 using System.Linq;
-using DomainResponse = MPC.Models.ResponseModels;
-using ApiResponse = MPC.MIS.ResponseModels;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.MIS.Models;
 
-namespace MPC.MIS.ModelMappers
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     /// <summary>
     /// My Organization Mapper
@@ -16,14 +14,13 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiResponse.MyOrganizationBaseResponse CreateFrom(this DomainResponse.MyOrganizationBaseResponse source)
+        public static MyOrganizationBaseResponse CreateFrom(this MPC.Models.ResponseModels.MyOrganizationBaseResponse source)
         {
-            return new ApiResponse.MyOrganizationBaseResponse
+            return new MyOrganizationBaseResponse
             {
 
                 ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
-                //TaxRates = source.Markups != null ? source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList() : null,
             };
         }
 
@@ -33,14 +30,14 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.Organisation CreateFrom(this DomainModels.Organisation source)
+        public static Organisation CreateFrom(this DomainModels.Organisation source)
         {
             byte[] bytes = null;
             if (source.MISLogo != null && File.Exists(source.MISLogo))
             {
                 bytes = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null;
             }
-            return new ApiModels.Organisation
+            return new Organisation
            {
                OrganisationId = source.OrganisationId,
                OrganisationName = source.OrganisationName,
@@ -58,7 +55,6 @@ namespace MPC.MIS.ModelMappers
                CurrencyId = source.CurrencyId,
                SystemLengthUnit = source.SystemLengthUnit,
                SystemWeightUnit = source.SystemWeightUnit,
-
                Email = source.Email,
                Mobile = source.Mobile,
                Url = source.URL,
@@ -71,7 +67,7 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.Organisation CreateFrom(this ApiModels.Organisation source)
+        public static DomainModels.Organisation CreateFrom(this Organisation source)
         {
             return new DomainModels.Organisation
             {
@@ -104,14 +100,13 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiResponse.MyOrganizationSaveResponse CreateFrom(this DomainResponse.MyOrganizationSaveResponse source)
+        public static MyOrganizationSaveResponse CreateFrom(this MPC.Models.ResponseModels.MyOrganizationSaveResponse source)
         {
-            return new ApiResponse.MyOrganizationSaveResponse
+            return new MyOrganizationSaveResponse
             {
                 OrganizationId = source.OrganizationId,
                 ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
-                //TaxRates = source.Markups != null ? source.TaxRates.Select(taxRate => taxRate.CreateFrom()).ToList() : null,
             };
         }
         #endregion

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using MPC.MIS.Areas.Api.ModelMappers;
-using DomainResponse = MPC.Models.ResponseModels;
-using ApiResponse = MPC.MIS.ResponseModels;
+using MPC.MIS.ModelMappers;
+using InventoryBaseResponse = MPC.MIS.Areas.Api.Models.InventoryBaseResponse;
 using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.MIS.Models;
 
-namespace MPC.MIS.ModelMappers
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     /// <summary>
     /// 
@@ -16,25 +16,32 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiResponse.InventoryBaseResponse CreateFrom(this DomainResponse.InventoryBaseResponse source)
+        public static InventoryBaseResponse CreateFrom(this MPC.Models.ResponseModels.InventoryBaseResponse source)
         {
-            return new ApiResponse.InventoryBaseResponse
+            return new InventoryBaseResponse
             {
                 StockCategories = source.StockCategories.Select(s => s.CreateFromDropDown()).ToList(),
                 StockSubCategories = source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList(),
+                PaperSizes = source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList(),
+                SectionFlags = source.SectionFlags.Select(su => su.CreateFromDropDown()).ToList(),
+                WeightUnits = source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList(),
+                StockCostAndPrice = source.StockCostAndPrice.CreateFrom(),
+                LengthUnits = source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList(),
+                PaperBasisAreas = source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList(),
+                RegistrationQuestions = source.RegistrationQuestions.Select(q => q.CreateFromDropDown()),
             };
         }
 
         #endregion
 
-        #region Base Reposne Mapper
+        #region Public
 
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiResponse.InventorySearchResponse CreateFrom(this DomainResponse.InventorySearchResponse source)
+        public static InventorySearchResponse CreateFrom(this MPC.Models.ResponseModels.InventorySearchResponse source)
         {
-            return new ApiResponse.InventorySearchResponse
+            return new InventorySearchResponse
             {
                 StockItems = source.StockItems.Select(stockItem => stockItem.CreateFrom()).ToList(),
                 TotalCount = source.TotalCount
@@ -43,9 +50,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.StockItemForListView CreateFrom(this DomainModels.StockItem source)
+        public static StockItemForListView CreateFrom(this DomainModels.StockItem source)
         {
-            return new ApiModels.StockItemForListView
+            return new StockItemForListView
             {
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
@@ -57,6 +64,21 @@ namespace MPC.MIS.ModelMappers
                 PerQtyQty = source.PerQtyQty,
                 FlagColor = source.FlagColor,
                 SupplierCompanyName = source.SupplierCompanyName,
+            };
+        }
+
+        /// <summary>
+        /// Crete From Web Model
+        /// </summary>
+        public static DomainModels.StockItem CreateFrom(this StockItem source)
+        {
+            return new DomainModels.StockItem
+            {
+                StockItemId = source.StockItemId,
+                ItemName = source.ItemName,
+                ItemWeight = source.ItemWeight,
+                PerQtyQty = source.PerQtyQty,
+
             };
         }
         #endregion

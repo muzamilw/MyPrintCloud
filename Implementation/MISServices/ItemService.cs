@@ -65,6 +65,29 @@ namespace MPC.Implementation.MISServices
             return item;
         }
 
+        /// <summary>
+        /// Save Product Image
+        /// </summary>
+        public Item SaveProductImage(string filePath, long itemId)
+        {
+            if (itemId <= 0)
+            {
+                throw new ArgumentException(LanguageResources.ItemService_InvalidItem, "itemId");
+            }
+
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentException(LanguageResources.ItemService_InvalidFilePath, "filePath");
+            }
+
+            Item item = GetById(itemId);
+
+            item.ThumbnailPath = filePath;
+            itemRepository.SaveChanges();
+
+            return item;
+        }
+
         #endregion
     }
 }

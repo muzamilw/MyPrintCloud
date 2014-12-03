@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
+using MPC.MIS.Models;
 
-namespace MPC.MIS.Models
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Organisation Web Model

@@ -10,30 +10,39 @@ namespace MPC.Webstore.Controllers
     public class LoginController : Controller
     {
         // GET: Login
-        public ActionResult Index(AccountModel model)
+        public ActionResult Index()
         {
 
-            return PartialView("PartialViews/Login", model);
+            return PartialView("PartialViews/Login");
         }
 
         [HttpPost]
         public ActionResult Login(AccountModel model)
         {
-
             if (ModelState.IsValid)
             {
-
+                
             }
-            else
-            {
-                ViewBag.Message = "Invalid email or password.";
-            }
-            
-            return View("PartialViews/Login", model);
-            //return View("Login", model);
-           // return View("PartialViews/Login");
-            // return RedirectToAction("Index", "Home", model);
-            //return Redirect("/Login");
+            return Content("Invalid");
         }
+        //public ActionResult Login(string email, string password)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+
+        //    }
+        //    else
+        //    {
+               
+        //    }
+        //   //return  "Invalid email or password.";
+        //   //return Content("no");
+        //    return View("PartialViews/Login");
+        //    //return View("PartialViews/Login", "no");
+        //   // return View("PartialViews/Login");
+        //    // return RedirectToAction("Index", "Home", model);
+        //   // return Redirect("/Login");
+        //}
     }
 }

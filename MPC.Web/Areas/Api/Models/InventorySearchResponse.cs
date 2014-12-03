@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MPC.MIS.Models;
 
-namespace MPC.MIS.ResponseModels
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Inventory Search Response Web Reponse
