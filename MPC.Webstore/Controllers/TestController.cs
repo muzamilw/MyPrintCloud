@@ -43,7 +43,7 @@ namespace MPC.Webstore.Controllers
             {
             }
             return PartialView("PartialViews/Login", model);
-            //return PartialView(model);
+           // return PartialView(model);
         }
     }
 }
