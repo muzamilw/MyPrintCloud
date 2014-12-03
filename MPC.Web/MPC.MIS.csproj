@@ -266,9 +266,9 @@
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
-    <Compile Include="Areas\Api\Models\LengthUnit.cs" />
-    <Compile Include="Areas\Api\Models\PaperBasisArea.cs" />
-    <Compile Include="Areas\Api\Models\RegistrationQuestion.cs" />
+    <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
+    <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
+    <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Stores\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />

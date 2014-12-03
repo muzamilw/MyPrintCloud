@@ -42,16 +42,16 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Length Units
         /// </summary>
-        public IEnumerable<LengthUnit> LengthUnits { get; set; }
+        public IEnumerable<LengthUnitDropDown> LengthUnits { get; set; }
 
         /// <summary>
-        /// Paper Basis Areas
+        /// Paper Basis Areasc DropDown
         /// </summary>
-        public IEnumerable<PaperBasisArea> PaperBasisAreas { get; set; }
+        public IEnumerable<PaperBasisAreaDropDown> PaperBasisAreas { get; set; }
 
         /// <summary>
         /// Registration Questions
         /// </summary>
-        public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
+        public IEnumerable<RegistrationQuestionDropDown> RegistrationQuestions { get; set; }
     }
 }

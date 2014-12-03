@@ -3,7 +3,7 @@
     /// <summary>
     /// Registration Question
     /// </summary>
-    public class RegistrationQuestion
+    public class RegistrationQuestionDropDown
     {
         /// <summary>
         /// Question Id
