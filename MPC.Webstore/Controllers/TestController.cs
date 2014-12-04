@@ -12,7 +12,7 @@ namespace MPC.Webstore.Controllers
     public class TestController : Controller
     {
         // GET: Test
-        public ActionResult Index(AccountModel model)
+        public ActionResult Index(AccountViewModel model)
         {
             //AccountModel model = new AccountModel();
             return View(model);
@@ -32,12 +32,12 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Login()
         {
-            AccountModel model = new AccountModel();
+            AccountViewModel model = new AccountViewModel();
             return PartialView("PartialViews/Login",model);
         }
 
         [HttpPost]
-        public ActionResult Login(AccountModel model)
+        public ActionResult Login(AccountViewModel model)
         {
             if (ModelState.IsValid)
             {

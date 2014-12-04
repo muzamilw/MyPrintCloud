@@ -236,6 +236,7 @@
     <Compile Include="Areas\Categories\Controllers\AllCategoriesController.cs" />
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
+    <Compile Include="Common\SessionParameters.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginBarController.cs" />
@@ -254,7 +255,7 @@
     <Compile Include="ModelMappers\CompanyMapper.cs" />
     <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
     <Compile Include="ModelMappers\PageCategoryMapper.cs" />
-    <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CmsPage.cs" />
     <Compile Include="Models\CmsSkinPageWidget.cs" />

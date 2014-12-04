@@ -7,6 +7,7 @@ using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System.Runtime.Caching;
 using MPC.Webstore.Models;
+using DotNetOpenAuth.OAuth2;
 
 namespace MPC.Webstore.Controllers
 {
@@ -83,7 +84,12 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About()
         {
-           
+             OAuthWebSecurity.RegisterTwitterClient(
+      consumerKey: yourTwitterAppKey
+      consumerSecret: yourTwitterAppSecret);
+    OAuthWebSecurity.RegisterFacebookClient(
+      appId: yourFacebookAppKey,
+    appSecret: yourFacebookAppSecret);
             return View();
         }
 
