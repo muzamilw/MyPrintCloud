@@ -1,9 +1,9 @@
 ﻿namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// Length Unit Web Model
+    /// Length Unit Dropdown Web Model 
     /// </summary>
-    public class LengthUnit
+    public class LengthUnitDropDown
     {
         /// <summary>
         /// Id

@@ -41,6 +41,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IPaperBasisAreaRepository, PaperBasisAreaRepository>();
             unityContainer.RegisterType<IRegistrationQuestionRepository, RegistrationQuestionRepository>();
             unityContainer.RegisterType<ICompanyContactRepository, CompanyContactRepository>();
+            unityContainer.RegisterType<IGetItemsListViewRepository, GetItemsListViewRepository>();
         }
     }
 }

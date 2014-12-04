@@ -12,9 +12,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static LengthUnit CreateFromDropDown(this DomainModels.LengthUnit source)
+        public static LengthUnitDropDown CreateFromDropDown(this DomainModels.LengthUnit source)
         {
-            return new LengthUnit
+            return new LengthUnitDropDown
             {
                 Id = source.Id,
                 UnitName = source.UnitName,

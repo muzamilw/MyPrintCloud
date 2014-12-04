@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="100">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="8" PointY="4.375" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidgetParam" Width="1.5" PointX="3.5" PointY="5.625" />
-        <EntityTypeShape EntityType="DomainModels.CompanyBanner" Width="1.5" PointX="11.25" PointY="16.25" />
-        <EntityTypeShape EntityType="DomainModels.CompanyBannerSet" Width="1.5" PointX="8.875" PointY="15.875" />
+        <EntityTypeShape EntityType="DomainModels.CompanyBanner" Width="1.5" PointX="10.625" PointY="14" />
+        <EntityTypeShape EntityType="DomainModels.CompanyBannerSet" Width="1.5" PointX="6.625" PointY="12.875" />
         <EntityTypeShape EntityType="DomainModels.CompanyDomain" Width="1.5" PointX="6.25" PointY="9" />
         <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="4.375" PointY="9.375" />
@@ -36,13 +36,13 @@
         <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stockcategories" />
         <AssociationConnector Association="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" />
         <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" />
-        <EntityTypeShape EntityType="DomainModels.PageCategory" Width="1.5" PointX="8.375" PointY="10.75" />
+        <EntityTypeShape EntityType="DomainModels.PageCategory" Width="1.5" PointX="6.375" PointY="11.125" />
         <EntityTypeShape EntityType="DomainModels.Section" Width="1.5" PointX="12.75" PointY="9.75" />
-        <EntityTypeShape EntityType="DomainModels.SectionFlag" Width="1.5" PointX="10.625" PointY="11" />
+        <EntityTypeShape EntityType="DomainModels.SectionFlag" Width="1.5" PointX="9.375" PointY="10.125" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_flags_tbl_sections" />
         <EntityTypeShape EntityType="DomainModels.WeightUnit" Width="1.5" PointX="11.375" PointY="6.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyContact" Width="1.5" PointX="13.25" PointY="14.25" />
-        <EntityTypeShape EntityType="DomainModels.CompanyContactRole" Width="1.5" PointX="11.125" PointY="21" />
+        <EntityTypeShape EntityType="DomainModels.CompanyContactRole" Width="1.5" PointX="10.625" PointY="18.125" />
         <EntityTypeShape EntityType="DomainModels.CompanyCostCentre" Width="1.5" PointX="18" PointY="14.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyTerritory" Width="1.5" PointX="3" PointY="24.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyType" Width="1.5" PointX="2.5" PointY="21.625" />
@@ -51,16 +51,16 @@
         <AssociationConnector Association="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" />
         <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" />
         <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles" />
-        <EntityTypeShape EntityType="DomainModels.CostCentre" Width="1.5" PointX="6.375" PointY="19" />
+        <EntityTypeShape EntityType="DomainModels.CostCentre" Width="1.5" PointX="6.625" PointY="16.375" />
         <EntityTypeShape EntityType="DomainModels.ItemAttachment" Width="1.5" PointX="18.625" PointY="40.5" />
         <EntityTypeShape EntityType="DomainModels.ItemImage" Width="1.5" PointX="18.625" PointY="37.875" />
         <EntityTypeShape EntityType="DomainModels.ItemPriceMatrix" Width="1.5" PointX="18.625" PointY="20.75" />
         <EntityTypeShape EntityType="DomainModels.ItemProductDetail" Width="1.5" PointX="18.375" PointY="1" />
-        <EntityTypeShape EntityType="DomainModels.ItemRelatedItem" Width="1.5" PointX="20.5" PointY="26.25" />
+        <EntityTypeShape EntityType="DomainModels.ItemRelatedItem" Width="1.5" PointX="18.625" PointY="26.375" />
         <EntityTypeShape EntityType="DomainModels.Item" Width="1.5" PointX="16.375" PointY="29.375" />
         <EntityTypeShape EntityType="DomainModels.ItemSection" Width="1.5" PointX="18.625" PointY="45.5" />
         <EntityTypeShape EntityType="DomainModels.ItemStateTax" Width="1.5" PointX="18.625" PointY="34.5" />
-        <EntityTypeShape EntityType="DomainModels.ItemStockControl" Width="1.5" PointX="8.375" PointY="19" />
+        <EntityTypeShape EntityType="DomainModels.ItemStockControl" Width="1.5" PointX="8.75" PointY="16.375" />
         <EntityTypeShape EntityType="DomainModels.ItemStockOption" Width="1.5" PointX="18.625" PointY="28.75" />
         <EntityTypeShape EntityType="DomainModels.ItemVDPPrice" Width="1.5" PointX="18.625" PointY="31.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_item_attachments_tbl_items" />
@@ -73,12 +73,12 @@
         <AssociationConnector Association="DomainModels.FK_tbl_item_sections_tbl_items" />
         <AssociationConnector Association="DomainModels.itemmidfk" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_ItemStateTax" />
-        <EntityTypeShape EntityType="DomainModels.Country" Width="1.5" PointX="14.25" PointY="68.5" />
-        <EntityTypeShape EntityType="DomainModels.SectionCostcentre" Width="1.5" PointX="20.875" PointY="37.5" />
+        <EntityTypeShape EntityType="DomainModels.Country" Width="1.5" PointX="14" PointY="49.75" />
+        <EntityTypeShape EntityType="DomainModels.SectionCostcentre" Width="1.5" PointX="21.375" PointY="38.25" />
         <EntityTypeShape EntityType="DomainModels.SectionCostCentreDetail" Width="1.5" PointX="23.125" PointY="26.5" />
         <EntityTypeShape EntityType="DomainModels.SectionCostCentreResource" Width="1.5" PointX="23.125" PointY="49.125" />
-        <EntityTypeShape EntityType="DomainModels.State" Width="1.5" PointX="14.125" PointY="65.75" />
-        <EntityTypeShape EntityType="DomainModels.Status" Width="1.5" PointX="12.375" PointY="46.25" />
+        <EntityTypeShape EntityType="DomainModels.State" Width="1.5" PointX="14" PointY="47.25" />
+        <EntityTypeShape EntityType="DomainModels.Status" Width="1.5" PointX="13.25" PointY="33" />
         <EntityTypeShape EntityType="DomainModels.SystemEmail" Width="1.5" PointX="18.375" PointY="9.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_Country" />
@@ -103,10 +103,10 @@
         <EntityTypeShape EntityType="DomainModels.RaveReview" Width="1.5" PointX="3" PointY="28.125" />
         <AssociationConnector Association="DomainModels.FK_RaveReview_Company" />
         <EntityTypeShape EntityType="DomainModels.EmailEvent" Width="1.5" PointX="15.375" PointY="17.75" />
-        <EntityTypeShape EntityType="DomainModels.Inquiry" Width="1.5" PointX="15.5" PointY="75.375" />
-        <EntityTypeShape EntityType="DomainModels.InquiryAttachment" Width="1.5" PointX="17.75" PointY="74.875" />
-        <EntityTypeShape EntityType="DomainModels.InquiryItem" Width="1.5" PointX="17.75" PointY="77.625" />
-        <EntityTypeShape EntityType="DomainModels.Invoice" Width="1.5" PointX="14.125" PointY="37.875" />
+        <EntityTypeShape EntityType="DomainModels.Inquiry" Width="1.5" PointX="14" PointY="54.25" />
+        <EntityTypeShape EntityType="DomainModels.InquiryAttachment" Width="1.5" PointX="14" PointY="51.75" />
+        <EntityTypeShape EntityType="DomainModels.InquiryItem" Width="1.5" PointX="14" PointY="59" />
+        <EntityTypeShape EntityType="DomainModels.Invoice" Width="1.5" PointX="13.25" PointY="35.5" />
         <EntityTypeShape EntityType="DomainModels.InvoiceDetail" Width="1.5" PointX="23.625" PointY="44.875" />
         <EntityTypeShape EntityType="DomainModels.LengthUnit" Width="1.5" PointX="17.375" PointY="18" />
         <EntityTypeShape EntityType="DomainModels.PaperBasisArea" Width="1.5" PointX="20.375" PointY="1" />
@@ -128,6 +128,9 @@
         <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.CompanyCMYKColor" Width="1.5" PointX="22.375" PointY="1" />
         <EntityTypeShape EntityType="DomainModels.DiscountVoucher" Width="1.5" PointX="23.375" PointY="8" />
+        <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="6.625" PointY="43.125" />
+        <AssociationConnector Association="DomainModels.FK_tbl_systemusers_tbl_company_sites" />
+        <EntityTypeShape EntityType="DomainModels.GetItemsListView" Width="1.5" PointX="25.375" PointY="8.75" />
       </Diagram>
       <Diagram DiagramId="ba00683825174285b13129da724620c4" Name="Diagram2" ZoomLevel="35" >
       </Diagram>

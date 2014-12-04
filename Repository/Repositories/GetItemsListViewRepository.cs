@@ -14,17 +14,17 @@ using MPC.Repository.BaseRepository;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
-    /// Item Repository
+    /// Get Items List View Repository
     /// </summary>
-    public class ItemRepository : BaseRepository<Item>, IItemRepository
+    public class GetItemsListViewRepository : BaseRepository<GetItemsListView>, IGetItemsListViewRepository
     {
         #region privte
 
         /// <summary>
         /// Item Orderby clause
         /// </summary>
-        private readonly Dictionary<ItemByColumn, Func<Item, object>> stockItemOrderByClause = 
-            new Dictionary<ItemByColumn, Func<Item, object>>
+        private readonly Dictionary<ItemByColumn, Func<GetItemsListView, object>> stockItemOrderByClause = 
+            new Dictionary<ItemByColumn, Func<GetItemsListView, object>>
                     {
                          { ItemByColumn.Name, c => c.ProductName },
                          { ItemByColumn.Code, c => c.ProductCode }
@@ -36,7 +36,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Constructor
         /// </summary>
-        public ItemRepository(IUnityContainer container)
+        public GetItemsListViewRepository(IUnityContainer container)
             : base(container)
         {
 
@@ -45,11 +45,11 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Primary database set
         /// </summary>
-        protected override IDbSet<Item> DbSet
+        protected override IDbSet<GetItemsListView> DbSet
         {
             get
             {
-                return db.Items;
+                return db.GetItemsListViews;
             }
         }
 
@@ -60,7 +60,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Get All Items for Current Organisation
         /// </summary>
-        public override IEnumerable<Item> GetAll()
+        public override IEnumerable<GetItemsListView> GetAll()
         {
             return DbSet.Where(item => item.OrganisationId == OrganisationId).ToList();
         }
@@ -68,17 +68,17 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Get Items For Specified Search
         /// </summary>
-        public ItemSearchResponse GetItems(ItemSearchRequestModel request)
+        public ItemListViewSearchResponse GetItems(ItemSearchRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
 
-            Expression<Func<Item, bool>> query =
+            Expression<Func<GetItemsListView, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
                     item.OrganisationId == OrganisationId);
 
-            IEnumerable<Item> items = request.IsAsc
+            IEnumerable<GetItemsListView> items = request.IsAsc
                ? DbSet.Where(query)
                    .OrderBy(stockItemOrderByClause[request.ItemOrderBy])
                    .Skip(fromRow)
@@ -90,7 +90,7 @@ namespace MPC.Repository.Repositories
                    .Take(toRow)
                    .ToList();
 
-            return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
+            return new ItemListViewSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
         }
 
         #endregion

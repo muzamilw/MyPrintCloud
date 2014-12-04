@@ -13,6 +13,24 @@ define("product/product.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#productBinding")[0],
+                // Change View - List/Grid View
+                changeView = function(element) {
+                    var elementId = element.currentTarget.id;
+                    if (elementId === "listViewIcon") {
+                        if (viewModel.isListViewVisible()) {
+                            return;
+                        }
+
+                        viewModel.setListViewActive();
+                    }
+                    else if (elementId === "gridViewIcon") {
+                        if (viewModel.isGridViewVisible()) {
+                            return;
+                        }
+
+                        viewModel.setGridViewActive();
+                    }
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -22,7 +40,8 @@ define("product/product.view",
             initialize();
             return {
                 bindingRoot: bindingRoot,
-                viewModel: viewModel
+                viewModel: viewModel,
+                changeView: changeView
             };
         })(productViewModel);
 

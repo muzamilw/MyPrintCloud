@@ -12,12 +12,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static PaperBasisArea CreateFromDropDown(this DomainModels.PaperBasisArea source)
+        public static PaperBasisAreaDropDown CreateFromDropDown(this DomainModels.PaperBasisArea source)
         {
-            return new PaperBasisArea
+            return new PaperBasisAreaDropDown
             {
                 PaperBasisAreaId = source.PaperBasisAreaId,
-                Name = source.Name + " -" + source.Value,
+                Name = source.Name + " - " + source.Value,
             };
         }
 

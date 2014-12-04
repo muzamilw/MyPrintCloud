@@ -125,6 +125,10 @@
             reset = function() {
                 totalCount(0);
                 currentPage(1);
+            },
+            // Is Valid Page - Return true if valid
+            isPageValid = function(page) {
+                return page && page <= totalPages();
             };
 
             return {
@@ -140,6 +144,8 @@
                 filteredTotalContents: filteredTotalContents,
                 pagerLimit: pagerLimit,
                 totalCount: totalCount,
+                totalPages: totalPages,
+                isPageValid: isPageValid,
                 list: list,
                 reset: reset
             };

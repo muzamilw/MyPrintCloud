@@ -265,10 +265,11 @@
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
+    <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
-    <Compile Include="Areas\Api\Models\LengthUnit.cs" />
-    <Compile Include="Areas\Api\Models\PaperBasisArea.cs" />
-    <Compile Include="Areas\Api\Models\RegistrationQuestion.cs" />
+    <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
+    <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
+    <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
@@ -497,6 +498,12 @@
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
     <Content Include="Content\layout.css" />
+    <Content Include="Content\less\MainSite.css">
+      <DependentUpon>MainSite.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\Products.css">
+      <DependentUpon>Products.less</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
@@ -1063,8 +1070,11 @@
     <Content Include="Areas\Products\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Products\Views\Home\Index.cshtml" />
     <Content Include="Areas\Products\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Products\Views\Shared\_PaperSheetDialog.cshtml" />
     <Content Include="Areas\Products\Views\web.config" />
+    <Content Include="Areas\Products\Views\Home\_Products.cshtml" />
+    <Content Include="Content\less\MainSite.less" />
+    <Content Include="Content\less\Products.less" />
+    <Content Include="Areas\Products\Views\Home\_ProductDetail.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
