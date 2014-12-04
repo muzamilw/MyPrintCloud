@@ -8,7 +8,7 @@
         /// <summary>
         /// Category Id
         /// </summary>
-        public int CategoryId { get; set; }
+        public long CategoryId { get; set; }
 
         /// <summary>
         /// Name

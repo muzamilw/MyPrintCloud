@@ -1,4 +1,6 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using MPC.Models.Common;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Stock Item For Lit View
@@ -8,7 +10,7 @@
         /// <summary>
         /// Stock Item ID
         /// </summary>
-        public int StockItemId { get; set; }
+        public long StockItemId { get; set; }
 
         /// <summary>
         /// Item Name
@@ -54,5 +56,54 @@
         /// Supplier Company Name
         /// </summary>
         public string SupplierCompanyName { get; set; }
+
+        /// <summary>
+        /// Per Qty Type
+        /// </summary>
+        public int? PerQtyType { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PerQtyWithUnitName
+        {
+            get { return PerQtyQty + " / " + PerQtyUnitName; }
+        }
+        /// <summary>
+        /// Per Qty Unit Name
+        /// </summary>
+        public string PerQtyUnitName
+        {
+            get
+            {
+                if (PerQtyType == null)
+                {
+                    return string.Empty;
+                }
+                switch ((PerQtyTypeUnits)PerQtyType)
+                {
+                    case PerQtyTypeUnits.Sheet:
+                        return "Sheets";
+                        break;
+                    case PerQtyTypeUnits.Items:
+                        return "Items";
+                        break;
+                    case PerQtyTypeUnits.SqFeet:
+                        return "Sq Feet";
+                        break;
+                    case PerQtyTypeUnits.SqMeter:
+                        return "Sq Meter";
+                        break;
+                    case PerQtyTypeUnits.Ton:
+                        return "Ton";
+                        break;
+                    case PerQtyTypeUnits.lbs:
+                        return "lbs";
+                        break;
+
+                }
+                return string.Empty;
+            }
+        }
     }
 }
