@@ -84,12 +84,7 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About()
         {
-             OAuthWebSecurity.RegisterTwitterClient(
-      consumerKey: yourTwitterAppKey
-      consumerSecret: yourTwitterAppSecret);
-    OAuthWebSecurity.RegisterFacebookClient(
-      appId: yourFacebookAppKey,
-    appSecret: yourFacebookAppSecret);
+             
             return View();
         }
 
