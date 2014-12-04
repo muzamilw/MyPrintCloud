@@ -7,6 +7,7 @@ using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System.Runtime.Caching;
 using MPC.Webstore.Models;
+using DotNetOpenAuth.OAuth2;
 
 namespace MPC.Webstore.Controllers
 {
@@ -83,7 +84,7 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About()
         {
-           
+             
             return View();
         }
 

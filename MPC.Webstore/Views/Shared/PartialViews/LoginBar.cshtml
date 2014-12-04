@@ -5,81 +5,75 @@
     <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
         &nbsp;
     </div>
+    @if (MPC.Webstore.Common.SessionParameters.LoginContact == null)
+    {
+        <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
+            <ul id="menu-my-account" class="navM">
+                <li style="margin-right: 0px !important;" class="">
+                    <a href="/Login.aspx"><i class="fa fa-user usercolorSize"></i></a>
+                    <a href="/Signup.aspx"><i class="fa fa-unlock usercolorSize"></i></a>
+                </li>
+                <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
+                    <a id="lnkLogin" href="/Login?id=/Home/Index" class="lnkSignInCs">Sign in / Register</a>
+                </li>
+                <li class="ZeroRightMargin BlackBtnCS">
+                    <asp:hyperlink id="hyperlink3" navigateurl="~/PinkCardShopCart.aspx"
+                                   cssclass="top_sub_section_links hyperlinkCart ">
+                        <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
+                        <span class="carttxtcolorSize classicthemeLoginMenu">Shopping cart</span>
+                        <div class="lblCartCounter" id="lblCartCount">
+                        </div>
+                    </asp:hyperlink>
+                </li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div id="USerInfoContainer" class="float_right">
+            <ul class="LogBar">
 
-    <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
-        <ul id="menu-my-account" class="navM">
-            <li style="margin-right: 0px !important;" class="">
-                <a href="/Login.aspx"><i class="fa fa-user usercolorSize"></i></a>
-                <a href="/Signup.aspx"><i class="fa fa-unlock usercolorSize"></i></a>
-            </li>
-            <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
-                <a id="lnkLogin" href="/Login" class="lnkSignInCs">Sign in / Register</a>
-            </li>
-            <li class="ZeroRightMargin BlackBtnCS">
-                <asp:hyperlink id="hyperlink3" navigateurl="~/PinkCardShopCart.aspx"
-                               cssclass="top_sub_section_links hyperlinkCart ">
-                    <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                    <span class="carttxtcolorSize classicthemeLoginMenu">Shopping cart</span>
-                    <div class="lblCartCounter" id="lblCartCount">
+                <li class="liUserInfo">
+
+                    <asp:label id="lblUserInfo" text="Hi Omer" cssclass="LoginBarColor liUserInfo" />
+                </li>
+           
+                <li class="liMarginRight">
+
+                    <div class="ProfileSetingbtn">
+                        <asp:hyperlink id="hyperlink1" navigateurl="~/DashBoard.aspx" cssclass="top_sub_section_links hyperlinkCart">
+
+                        </asp:hyperlink>
                     </div>
-                </asp:hyperlink>
-            </li>
-        </ul>
-    </div>
+                </li>
+                <li class="liMarginRight">
+                    <div class="SavedDesignBtn">
+                        <asp:hyperlink id="hyperlink2" navigateurl="~/SavedDesignes.aspx"
+                                       cssclass="top_sub_section_links hyperlinkCart">
 
-    <div id="USerInfoContainer" class="float_right" style="display:none;">
-        <ul class="LogBar">
+                            <div class="lblSDCounter" id="lblSavedDesignCount">
+                            </div>
+                        </asp:hyperlink>
+                    </div>
+                </li>
+                <li class="liMarginRight">
+                   
+                    <div class="CartBtn">
+                        <asp:hyperlink id="hyperlinkCart" navigateurl="~/PinkCardShopCart.aspx"
+                                       cssclass="top_sub_section_links hyperlinkCart">
 
-            <li class="liUserInfo">
-
-                <asp:label id="lblUserInfo" text="Hi Omer" cssclass="LoginBarColor liUserInfo" />
-            </li>
-            <li class="classicthemeMenu olsonfaIcon MetroMania">
-                <a href="/DashBoard.aspx"><i class="fa fa-cog  loginusercolorSize"></i></a>
-            </li>
-            <li class="classicthemeMenu olsonfaIcon MetroMania">
-                <a href="/SavedDesignes.aspx"><i class="fa fa-pencil-square-o loginusercolorSize"></i></a>
-            </li>
-            <li class="classicthemeMenu olsonfaIcon MetroMania">
-                <a href="/PinkCardShopCart.aspx"><i class="fa fa-shopping-cart loginusercolorSize"></i></a>
-            </li>
-            <li class="liMarginRight responsiveMenu olsonspriteIcon">
-
-                <div class="ProfileSetingbtn">
-                    <asp:hyperlink id="hyperlink1" navigateurl="~/DashBoard.aspx" cssclass="top_sub_section_links hyperlinkCart">
-
-                    </asp:hyperlink>
-                </div>
-            </li>
-            <li class="liMarginRight responsiveMenu olsonspriteIcon">
-                <asp:label id="Label1" text="Saved Designs" style="float: left; width: 100px;"
-                           cssclass="LoginBarColor" visible="false" />
-                <div class="SavedDesignBtn">
-                    <asp:hyperlink id="hyperlink2" navigateurl="~/SavedDesignes.aspx"
-                                   cssclass="top_sub_section_links hyperlinkCart">
-
-                        <div class="lblSDCounter" id="lblSavedDesignCount">
-                        </div>
-                    </asp:hyperlink>
-                </div>
-            </li>
-            <li class="liMarginRight responsiveMenu olsonspriteIcon">
-                <asp:label id="Label2" text="Items in cart" style="float: left; width: 100px;"
-                           cssclass="LoginBarColor" visible="false" />
-                <div class="CartBtn">
-                    <asp:hyperlink id="hyperlinkCart" navigateurl="~/PinkCardShopCart.aspx"
-                                   cssclass="top_sub_section_links hyperlinkCart">
-
-                        <div class="lblItemsCartCounter" id="lblCartCounter">
-                        </div>
-                    </asp:hyperlink>
-                </div>
-            </li>
-            <li>
-                <input type="submit" value="Log Out" class="LoginBarColor" />
-            </li>
-        </ul>
-    </div>
+                            <div class="lblItemsCartCounter" id="lblCartCounter">
+                            </div>
+                        </asp:hyperlink>
+                    </div>
+                </li>
+                <li>
+                    @Html.ActionLink("Log Out","LogOut", "LoginBar")
+                </li>
+            </ul>
+        </div>
+    }
+ 
     <div class="clearBoth">
         &nbsp;
     </div>

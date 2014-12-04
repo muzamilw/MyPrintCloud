@@ -7,10 +7,8 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/js-image-slider.css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+   
+
 </head>
 <body>
     <div class="container body-content">
@@ -18,10 +16,12 @@
       
     </div>
 
-  
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("scripts", required: false)
 
     <script type="text/javascript">
     

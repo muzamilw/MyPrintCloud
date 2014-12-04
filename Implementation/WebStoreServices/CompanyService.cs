@@ -17,6 +17,7 @@ namespace MPC.Implementation.WebStoreServices
         /// Private members
         /// </summary>
         public readonly ICompanyRepository _companyRepository;
+        public readonly ICompanyContactRepository _companyContactRepository;
         private readonly ICmsSkinPageWidgetRepository _widgetRepository;
         private readonly ICompanyBannerRepository _companyBannerRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
@@ -30,7 +31,8 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
-         ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,IPageCategoryRepository pageCategoryRepository)
+         ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
+            IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository)
         {
             this._companyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -38,6 +40,7 @@ namespace MPC.Implementation.WebStoreServices
             this._productCategoryRepository = productCategoryRepository;
             this._cmsPageRepositary = cmspageRepository;
             this._pageCategoryRepositary = pageCategoryRepository;
+            this._companyContactRepository = companyContactRepository;
         }
 
         #endregion
@@ -77,7 +80,10 @@ namespace MPC.Implementation.WebStoreServices
             return _companyRepository.SearchCompanies(request);
         }
 
-      
+        public CompanyContact GetContactUser(string email, string password)
+        {
+            return _companyContactRepository.GetContactUser(email, password);
+        }
 
         #endregion
     }

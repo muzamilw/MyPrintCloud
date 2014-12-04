@@ -25,6 +25,28 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         }
 
         /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static ItemListView CreateFromForListView(this DomainModels.GetItemsListView source)
+        {
+            return new ItemListView
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                ProductSpecification = source.ProductSpecification,
+                ThumbnailPath = source.ThumbnailPath,
+                ProductCategoryId = source.ParentCategoryId,
+                ProductCategoryName = source.ProductCategoryName,
+                IsArchived = source.IsArchived,
+                IsEnabled = source.IsEnabled,
+                IsPopular = source.IsPublished,
+                MinPrice = source.MinPrice
+            };
+        }
+
+        /// <summary>
         /// Crete From Web Api Model
         /// </summary>
         public static DomainModels.Item CreateFrom(this Item source)

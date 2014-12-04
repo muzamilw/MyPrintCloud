@@ -256,16 +256,22 @@
     <Compile Include="Areas\Api\Controllers\GetSettingsBaseData.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
+    <Compile Include="Areas\Api\Controllers\StoreBaseController.cs" />
     <Compile Include="Areas\Api\LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
+    <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
+    <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\SystemUser.cs" />
+    <Compile Include="Areas\Api\Models\SystemUserDropDown.cs" />
     <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
@@ -2160,7 +2166,7 @@
     <Content Include="Views\CRM\CompaniesDetail.cshtml" />
     <Content Include="Views\CRM\CompaniesList.cshtml" />
     <Content Include="Views\CRM\ContactCompanies.cshtml" />
-    <Content Include="Views\CRM\ContactCompanyDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\ContactCompanyDetail.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Estimate\EstimateDetail.cshtml" />
     <Content Include="Views\Estimate\EstimatesList.cshtml" />
@@ -2230,6 +2236,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Company\" />
+    <Folder Include="Areas\Api\Views\StockBase\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Products\Models\" />

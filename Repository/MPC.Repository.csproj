@@ -176,8 +176,10 @@
     <Compile Include="Repositories\CmsSkinPageWidgetRepository.cs" />
     <Compile Include="Repositories\CmsSkinPageWidgetParamRepository.cs" />
     <Compile Include="Repositories\CompanyBannerRepository.cs" />
+    <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
+    <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\LengthUnitRepository.cs" />
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Repositories\ItemRepository.cs" />
     <Compile Include="Repositories\StockItemRepository.cs" />
     <Compile Include="Repositories\StockSubCategoryRepository.cs" />
+    <Compile Include="Repositories\SystemUserRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="TypeRegistrations.cs" />

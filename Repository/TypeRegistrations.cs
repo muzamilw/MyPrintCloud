@@ -37,9 +37,12 @@ namespace MPC.Repository
             unityContainer.RegisterType<IWeightUnitRepository, WeightUnitRepository>();
             unityContainer.RegisterType<IPaperSizeRepository, PaperSizeRepository>();
             unityContainer.RegisterType<IItemRepository, ItemRepository>();
+            unityContainer.RegisterType<ISystemUserRepository, SystemUserRepository>();
             unityContainer.RegisterType<ILengthUnitRepository, LengthUnitRepository>();
             unityContainer.RegisterType<IPaperBasisAreaRepository, PaperBasisAreaRepository>();
             unityContainer.RegisterType<IRegistrationQuestionRepository, RegistrationQuestionRepository>();
+            unityContainer.RegisterType<ICompanyContactRepository, CompanyContactRepository>();
+            unityContainer.RegisterType<IGetItemsListViewRepository, GetItemsListViewRepository>();
         }
     }
 }

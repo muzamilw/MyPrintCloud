@@ -1,9 +1,5 @@
-﻿@model  MPC.Webstore.Models.AccountModel
+﻿@model  MPC.Webstore.Models.AccountViewModel
 @{ Layout = null;}
-<script src="~/Scripts/jquery-1.4.4.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script> 
 
 <div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
     <div class="sign_up_page_box NoPadding">
@@ -40,37 +36,38 @@
             <div class="mainHeadingAveniorCheckout">
                 Sign in to CompanyName
             </div>
-           @using (Ajax.BeginForm("Login", "Login", new AjaxOptions { UpdateTargetId = "MessageBox" }))
-           {
-          
-            <div id="MessageBox"></div>
-            @Html.AntiForgeryToken()
-            <div class="errorMesgLoginPage">
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+            {
 
-                @Html.ValidationMessageFor(u => u.Email)
-            </div>
-
-            @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage txtEmailBox", @placeholder = "Email" })
-
-            @Html.PasswordFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage txtPassBox", @placeholder = "Password" }) <br />
-
-            <br />
-            <div id="cntStaySignedin">
-                @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
-                <label for="rememberMe">Keep me logged in</label>
-            </div>
-            <div id="divBtnContainer" style="margin-top: 20px;">
-                <div class="divwidth">
-                    <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">Forgot your Password?</a>
+                <div id="MessageBox"></div>
+                @Html.AntiForgeryToken()
+                <div class="errorMesgLoginPage">
+                    @ViewBag.Message<br/>
+                    @Html.ValidationMessageFor(u => u.Email)<br/>
+                    @Html.ValidationMessageFor(u => u.Password)
                 </div>
-                <div class="divwidthset">
-                    <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="Login" /><br />
+
+                @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage txtEmailBox", @placeholder = "Email" })
+
+                @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage txtPassBox", @placeholder = "Password" }) <br />
+
+                <br />
+                <div id="cntStaySignedin">
+                    @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
+                    <label for="rememberMe">Keep me logged in</label>
                 </div>
-                <div class="clear">
-                    &nbsp;
+                <div id="divBtnContainer" style="margin-top: 20px;">
+                    <div class="divwidth">
+                        <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">Forgot your Password?</a>
+                    </div>
+                    <div class="divwidthset">
+                        <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="Login" /><br />
+                    </div>
+                    <div class="clear">
+                        &nbsp;
+                    </div>
                 </div>
-            </div>
-           }
+            }
         </div>
     </div>
     <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
@@ -122,3 +119,14 @@
         &nbsp;
     </div>
 </div>
+
+<script>
+    function updateSuccess(data) {
+        if (data == "Success") {
+            window.location.href = "/Home/Index";
+        }
+    }
+    function showProgress(data) {
+        alert();
+    }
+</script>

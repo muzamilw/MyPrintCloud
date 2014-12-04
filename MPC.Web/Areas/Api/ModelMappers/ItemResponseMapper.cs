@@ -13,11 +13,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ItemSearchResponse CreateFrom(this ResponseModels.ItemSearchResponse source)
+        public static ItemSearchResponse CreateFrom(this ResponseModels.ItemListViewSearchResponse source)
         {
             return new ItemSearchResponse
             {
-                Items = source.Items.Select(stockItem => stockItem.CreateFrom()).ToList(),
+                Items = source.Items.Select(stockItem => stockItem.CreateFromForListView()).ToList(),
                 TotalCount = source.TotalCount
             };
         }

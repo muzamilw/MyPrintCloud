@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Webstore.Common;
 
 namespace MPC.Webstore.Controllers
 {
@@ -13,6 +14,15 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
             return PartialView("PartialViews/LoginBar");
+        }
+
+        public ActionResult LogOut()
+        {
+            SessionParameters.LoginContact = null;
+            SessionParameters.LoginCompany = null;
+
+            ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
+            return null;
         }
     }
 }

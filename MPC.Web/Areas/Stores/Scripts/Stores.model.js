@@ -3,15 +3,16 @@
 define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
         // ReSharper disable once InconsistentNaming
-        Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+        Store = function (specifiedCompanyId, specifiedName, specifiedStatus,specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey
         ) {
             var
                 self,
-                companyId = ko.observable(specifiedCompanyId),
+                companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
                 name = ko.observable(specifiedName),
                 status = ko.observable(specifiedStatus),
+                image = ko.observable(specifiedImage),
                 url = ko.observable(specifiedUrl),
                 accountOpenDate = ko.observable(specifiedAccountOpenDate),
                 accountManagerId = ko.observable(specifiedAccountManagerId),
@@ -29,9 +30,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 twitterAppId = ko.observable(specifiedTwitterAppId),
                 twitterAppKey = ko.observable(specifiedTwitterAppKey),
                 companyType = ko.observable(),
+                type = ko.observable(),
 
                 // Errors
                 errors = ko.validation.group({
+                    companyId: companyId,
                     name: name,
                     url: url,
                 }),
@@ -47,6 +50,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     companyId: companyId,
                     name: name,
                     status: status,
+                    image:image,
                     url: url,
                     accountOpenDate: accountOpenDate,
                     accountManagerId: accountManagerId,
@@ -63,7 +67,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     facebookAppKey: facebookAppKey,
                     twitterAppId: twitterAppId,
                     twitterAppKey: twitterAppKey,
-                    companyType: companyType
+                    companyType: companyType,
+                    type: type
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -75,6 +80,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.CompanyId = source.companyId();
                     result.Name = source.name();
                     result.Status = source.status();
+                    result.Image = source.image();
                     result.URL = source.url();
                     result.AccountOpenDate = source.accountOpenDate();
                     result.AccountManagerId = source.accountManagerId();
@@ -91,7 +97,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.FacebookAppKey = source.facebookAppKey();
                     result.TwitterAppId = source.twitterAppId();
                     result.TwitterAppKey = source.twitterAppKey();
-                    result.CompanyType = source.companyType().convertToServerData();
+                    result.CompanyType = CompanyType().convertToServerData(source.companyType());
                     return result;
                 },
                 // Reset
@@ -102,6 +108,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyId: companyId,
                 name: name,
                 status: status,
+                image:image,
                 url: url,
                 accountOpenDate: accountOpenDate,
                 accountManagerId: accountManagerId,
@@ -119,6 +126,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 twitterAppId: twitterAppId,
                 twitterAppKey: twitterAppKey,
                 companyType: companyType,
+                type: type,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -133,6 +141,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.companyId,
             source.name,
             source.status,
+            source.image,
             source.url,
             source.accountOpenDate,
             source.accountManagerId,
@@ -150,13 +159,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.twitterAppId,
             source.twitterAppKey
             );
-        result.companyType = source.CompanyType.CreateFromClientModel();
+        result.companyType(CompanyType.CreateFromClientModel(source.companyType));
+        return result;
     };
     Store.Create = function (source) {
         var store = new Store(
             source.CompanyId,
             source.Name,
             source.Status,
+            source.Image,
             source.URL,
             source.AccountOpenDate,
             source.AccountManagerId,
@@ -174,7 +185,20 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.TwitterAppId,
             source.TwitterAppKey
             );
+
         store.companyType(CompanyType.Create(source.CompanyType));
+        if (source.IsCustomer == 0) {
+            store.type("Supplier");
+        }
+        else if (source.IsCustomer == 1) {
+            store.type("Retail Customer");
+        }
+        else if (source.IsCustomer == 2) {
+            store.type("Prospect");
+        }
+        else if (source.IsCustomer == 3) {
+            store.type("Corporate");
+        }
         return store;
     };
 
@@ -246,9 +270,71 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             );
         return companyType;
     };
+// ReSharper disable once InconsistentNaming
+    var SystemUser = function(specifiedSystemUserId, specifiedUserName) {
+        var self,
+            systemUserId = ko.observable(specifiedSystemUserId),
+            userName = ko.observable(specifiedUserName),
+            // Errors
+            errors = ko.validation.group({
+        
+            }),
+            // Is Valid 
+            isValid = ko.computed(function() {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                // ReSharper restore InconsistentNaming
+                systemUserId: systemUserId,
+                userName: userName
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function() {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function(source) {
+                var result = {};
+                result.systemUserId = source.systemUserId();
+                result.userName = source.userName();
+                return result;
+            },
+            // Reset
+            reset = function() {
+                dirtyFlag.reset();
+            };
+        self = {
+            systemUserId: systemUserId,
+            userName: userName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    SystemUser.CreateFromClientModel = function (source) {
+        return new SystemUser(
+            source.systemUserId,
+            source.userName
+            );
+    };
+    SystemUser.Create = function (source) {
+        var systemUser = new SystemUser(
+            source.SystemUserId,
+            source.UserName
+            );
+        return systemUser;
+    };
     return {
         Store: Store,
-        CompanyType: CompanyType
+        CompanyType: CompanyType,
+        SystemUser: SystemUser
     };
 });
 

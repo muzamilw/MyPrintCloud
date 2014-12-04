@@ -12,8 +12,14 @@ define("stores/stores.viewModel",
                     view,
                     //stores List
                     stores = ko.observableArray([]),
+                    //Store Image
+                    storeImage = ko.observable(),
+                    //system Users
+                    systemUsers = ko.observableArray([]),
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
+                    //Is Editorial View Visible
+                    isEditorVisible = ko.observable(false),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -26,7 +32,7 @@ define("stores/stores.viewModel",
                     editorViewModel = new ist.ViewModel(model.Store),
                     //Selected store
                     selectedStore = editorViewModel.itemForEditing,
-                    
+
                     //Template To Use
                     templateToUse = function (store) {
                         return (store === selectedStore() ? 'editStoreTemplate' : 'itemStoreTemplate');
@@ -67,7 +73,7 @@ define("stores/stores.viewModel",
                     getStores = function () {
                         isLoadingStores(true);
                         dataservice.getStores({
-                            SearchString : searchFilter(),
+                            SearchString: searchFilter(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
@@ -101,32 +107,14 @@ define("stores/stores.viewModel",
                     },
                     //Save Store
                     saveStore = function (item) {
-                        if (selectedStore() != undefined && doBeforeSave()) {
-                            if (selectedStore().storeId() > 0) {
-                                saveEdittedStore();
-                            } else {
-                                saveNewStore(item);
-                            }
-                        }
-                    },
-                    //Save NEW Store
-                    saveNewStore = function () {
-                        dataservice.saveNewStore(model.Store().convertToServerData(selectedStore()), {
-                            success: function (data) {
-                                selectedStore().storeId(data.StoreId);
-                                stores.splice(0, 0, selectedStore());
-                                isStoreEditorVisible(false);
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (response) {
-                                toastr.error("Error: Failed to save. " + response);
-                            }
-                        });
-                    },
-                    //Save EDIT Store
-                    saveEdittedStore = function () {
+                        
                         dataservice.saveStore(model.Store().convertToServerData(selectedStore()), {
-                            success: function () {
+                            success: function (data) {
+                                //new store adding
+                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                    stores.splice(0, 0, selectedStore());
+                                }
+                                //selectedStore().storeId(data.StoreId);
                                 isStoreEditorVisible(false);
                                 toastr.success("Successfully save.");
                             },
@@ -136,20 +124,50 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    ////Save NEW Store
+                    //saveNewStore = function () {
+                    //    dataservice.saveNewStore(model.Store().convertToServerData(selectedStore()), {
+                    //        success: function (data) {
+                    //            selectedStore().storeId(data.StoreId);
+                    //            stores.splice(0, 0, selectedStore());
+                    //            isStoreEditorVisible(false);
+                    //            toastr.success("Successfully save.");
+                    //        },
+                    //        error: function (response) {
+                    //            toastr.error("Error: Failed to save. " + response);
+                    //        }
+                    //    });
+                    //},
+                    ////Save EDIT Store
+                    //saveEdittedStore = function () {
+                    //    dataservice.saveStore(model.Store().convertToServerData(selectedStore()), {
+                    //        success: function () {
+                    //            isStoreEditorVisible(false);
+                    //            toastr.success("Successfully save.");
+                    //        },
+                    //        error: function (response) {
+                    //            toastr.error("Failed to Update . Error: " + response);
+                    //            isStoreEditorVisible(false);
+                    //        }
+                    //    });
+                    //},
                     //Open Store Dialog
                     openEditDialog = function () {
-                        isStoreEditorVisible(true);
+                        isEditorVisible(true);
                         getStoreForEditting();
+                        view.initializeForm();
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
-                        dataservice.getStores({
-                            StoreId: selectedStore().storeId()
+                        dataservice.getStoreById({
+                            //dataservice.getStores({
+                            CompanyId: selectedStore().companyId()
                         }, {
                             success: function (data) {
                                 selectedStore(undefined);
                                 if (data != null) {
-                                    selectedStore(model.Store.Create(data.Stores[0]));
+                                    selectedStore(model.Store.Create(data));
+                                    storeImage(data.ImageSource);
                                 }
                                 isLoadingStores(false);
                             },
@@ -162,31 +180,54 @@ define("stores/stores.viewModel",
                     //Close Store Dialog
                     closeEditDialog = function () {
                         if (selectedStore() != undefined) {
-                            if (selectedStore().categoryId() > 0) {
-                                isStoreEditorVisible(false);
+                            if (selectedStore().companyId() > 0) {
+                                isEditorVisible(false);
                             } else {
-                                isStoreEditorVisible(false);
+                                isEditorVisible(false);
                                 stores.remove(selectedStore());
                             }
                             editorViewModel.revertItem();
                         }
                     },
-                    resetFilterSection= function() {
+                    resetFilterSection = function () {
                         searchFilter(undefined);
                         getStores();
                     },
-
+                    //Get Base Data
+                    getBaseData = function () {
+                        dataservice.getBaseData( {
+                            success: function (data) {
+                                if (data != null) {
+                                    _.each(data.SystemUsers, function (item) {
+                                        var systemUser = new model.SystemUsers.Create(item);
+                                        systemUsers.push(systemUser);
+                                    });
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Stores . Error: " + response);
+                            }
+                        });
+                    }
                 //Initialize
+                // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
                     getStores();
+                    getBaseData();
+                    view.initializeForm();
                 };
 
                 return {
                     stores: stores,
+                    storeImage: storeImage,
+                    systemUsers: systemUsers,
                     isLoadingStores: isLoadingStores,
+                    isEditorVisible: isEditorVisible,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     pager: pager,
@@ -202,12 +243,12 @@ define("stores/stores.viewModel",
                     getStores: getStores,
                     doBeforeSave: doBeforeSave,
                     saveStore: saveStore,
-                    saveNewStore: saveNewStore,
-                    saveEdittedStore: saveEdittedStore,
+                    //saveNewStore: saveNewStore,
+                    //saveEdittedStore: saveEdittedStore,
                     openEditDialog: openEditDialog,
                     getStoreForEditting: getStoreForEditting,
                     closeEditDialog: closeEditDialog,
-                    resetFilterSection:resetFilterSection,
+                    resetFilterSection: resetFilterSection,
                     initialize: initialize
                 };
             })()
