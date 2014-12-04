@@ -20,6 +20,7 @@ namespace MPC.Implementation.MISServices
         /// Private members
         /// </summary>
         private readonly IItemRepository itemRepository;
+        private readonly IGetItemsListViewRepository itemsListViewRepository;
 
         #endregion
 
@@ -28,14 +29,19 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public ItemService(IItemRepository itemRepository)
+        public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository)
         {
             if (itemRepository == null)
             {
                 throw new ArgumentNullException("itemRepository");
             }
+            if (itemsListViewRepository == null)
+            {
+                throw new ArgumentNullException("itemsListViewRepository");
+            }
 
             this.itemRepository = itemRepository;
+            this.itemsListViewRepository = itemsListViewRepository;
         }
 
         #endregion
@@ -45,9 +51,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Load Items based on search filters
         /// </summary>
-        public ItemSearchResponse GetItems(ItemSearchRequestModel request)
+        public ItemListViewSearchResponse GetItems(ItemSearchRequestModel request)
         {
-            return itemRepository.GetItems(request);
+            return itemsListViewRepository.GetItems(request);
         }
 
         /// <summary>

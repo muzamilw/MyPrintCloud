@@ -142,6 +142,7 @@
     <Compile Include="DomainModels\InquiryItem.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
     <Compile Include="DomainModels\InvoiceDetail.cs" />
+    <Compile Include="DomainModels\GetItemsListView.cs" />
     <Compile Include="DomainModels\Item.cs" />
     <Compile Include="DomainModels\ItemAddonCostCentre.cs" />
     <Compile Include="DomainModels\ItemAttachment.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
+    <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />

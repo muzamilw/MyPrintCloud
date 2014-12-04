@@ -268,9 +268,13 @@
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
+    <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\SystemUser.cs" />
     <Compile Include="Areas\Api\Models\SystemUserDropDown.cs" />
+    <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
+    <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
+    <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
     <Compile Include="Areas\Api\Models\LengthUnit.cs" />
     <Compile Include="Areas\Api\Models\PaperBasisArea.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestion.cs" />

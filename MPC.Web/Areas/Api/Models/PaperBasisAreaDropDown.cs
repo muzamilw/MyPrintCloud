@@ -1,9 +1,9 @@
 ﻿namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// Paper Basis Area
+    /// Paper Basis Area Drop Down
     /// </summary>
-    public class PaperBasisArea
+    public class PaperBasisAreaDropDown
     {
         /// <summary>
         /// Paper Basis Area Id

@@ -12,9 +12,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static RegistrationQuestion CreateFromDropDown(this DomainModels.RegistrationQuestion source)
+        public static RegistrationQuestionDropDown CreateFromDropDown(this DomainModels.RegistrationQuestion source)
         {
-            return new RegistrationQuestion
+            return new RegistrationQuestionDropDown
             {
                 QuestionId = source.QuestionId,
                 Question = source.Question,
