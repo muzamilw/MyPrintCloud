@@ -12,6 +12,8 @@ define("stores/stores.viewModel",
                     view,
                     //stores List
                     stores = ko.observableArray([]),
+                    //Store Image
+                    storeImage = ko.observable(),
                     //system Users
                     systemUsers = ko.observableArray([]),
                     //Is Loading stores
@@ -105,32 +107,14 @@ define("stores/stores.viewModel",
                     },
                     //Save Store
                     saveStore = function (item) {
-                        if (selectedStore() != undefined && doBeforeSave()) {
-                            if (selectedStore().storeId() > 0) {
-                                saveEdittedStore();
-                            } else {
-                                saveNewStore(item);
-                            }
-                        }
-                    },
-                    //Save NEW Store
-                    saveNewStore = function () {
-                        dataservice.saveNewStore(model.Store().convertToServerData(selectedStore()), {
-                            success: function (data) {
-                                selectedStore().storeId(data.StoreId);
-                                stores.splice(0, 0, selectedStore());
-                                isStoreEditorVisible(false);
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (response) {
-                                toastr.error("Error: Failed to save. " + response);
-                            }
-                        });
-                    },
-                    //Save EDIT Store
-                    saveEdittedStore = function () {
+                        
                         dataservice.saveStore(model.Store().convertToServerData(selectedStore()), {
-                            success: function () {
+                            success: function (data) {
+                                //new store adding
+                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                    stores.splice(0, 0, selectedStore());
+                                }
+                                //selectedStore().storeId(data.StoreId);
                                 isStoreEditorVisible(false);
                                 toastr.success("Successfully save.");
                             },
@@ -140,10 +124,38 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    ////Save NEW Store
+                    //saveNewStore = function () {
+                    //    dataservice.saveNewStore(model.Store().convertToServerData(selectedStore()), {
+                    //        success: function (data) {
+                    //            selectedStore().storeId(data.StoreId);
+                    //            stores.splice(0, 0, selectedStore());
+                    //            isStoreEditorVisible(false);
+                    //            toastr.success("Successfully save.");
+                    //        },
+                    //        error: function (response) {
+                    //            toastr.error("Error: Failed to save. " + response);
+                    //        }
+                    //    });
+                    //},
+                    ////Save EDIT Store
+                    //saveEdittedStore = function () {
+                    //    dataservice.saveStore(model.Store().convertToServerData(selectedStore()), {
+                    //        success: function () {
+                    //            isStoreEditorVisible(false);
+                    //            toastr.success("Successfully save.");
+                    //        },
+                    //        error: function (response) {
+                    //            toastr.error("Failed to Update . Error: " + response);
+                    //            isStoreEditorVisible(false);
+                    //        }
+                    //    });
+                    //},
                     //Open Store Dialog
                     openEditDialog = function () {
                         isEditorVisible(true);
                         getStoreForEditting();
+                        view.initializeForm();
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
@@ -155,6 +167,7 @@ define("stores/stores.viewModel",
                                 selectedStore(undefined);
                                 if (data != null) {
                                     selectedStore(model.Store.Create(data));
+                                    storeImage(data.ImageSource);
                                 }
                                 isLoadingStores(false);
                             },
@@ -206,10 +219,12 @@ define("stores/stores.viewModel",
                     pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
                     getStores();
                     getBaseData();
+                    view.initializeForm();
                 };
 
                 return {
                     stores: stores,
+                    storeImage: storeImage,
                     systemUsers: systemUsers,
                     isLoadingStores: isLoadingStores,
                     isEditorVisible: isEditorVisible,
@@ -228,8 +243,8 @@ define("stores/stores.viewModel",
                     getStores: getStores,
                     doBeforeSave: doBeforeSave,
                     saveStore: saveStore,
-                    saveNewStore: saveNewStore,
-                    saveEdittedStore: saveEdittedStore,
+                    //saveNewStore: saveNewStore,
+                    //saveEdittedStore: saveEdittedStore,
                     openEditDialog: openEditDialog,
                     getStoreForEditting: getStoreForEditting,
                     closeEditDialog: closeEditDialog,

@@ -39,13 +39,7 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    // Define request to save New Store
-                    amplify.request.define('saveNewStore', 'ajax', {
-                        url: ist.siteUrl + '/Api/Company',
-                        dataType: 'json',
-                        decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'Put'
-                    });
+                   
                     isInitialized = true;
                 }
             },
@@ -88,16 +82,7 @@
                     data: params
                 });
             },
-            // Save New Store
-            saveNewStore = function (param, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'saveNewStore',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: param
-                });
-            },
+           
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -114,7 +99,6 @@
             getStoreById: getStoreById,
             getBaseData: getBaseData,
             deleteStore: deleteStore,
-            saveNewStore: saveNewStore,
             saveStore: saveStore,
         };
     })();

@@ -33,7 +33,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string PhoneNo { get; set; }
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }
         public bool? PayByPersonalCredeitCard { get; set; }
@@ -101,6 +101,22 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
         public virtual CompanyType CompanyType { get; set; }
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ImageSource
+        {
+            get
+            {
+                if (Image == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(Image);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         //public virtual ICollection<ProductCategory> ProductCategories { get; set; }

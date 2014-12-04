@@ -96,7 +96,8 @@
                     <a href="#" style="font-size: 0.875em; color: black;" data-bind="text: url"><i class="fa fa-external-link-square"></i></a>
                 </td>
 
-                <td data-bind="text: companyType().typeName"></td>
+                <td data-bind="text: type"></td>
+                @*<td data-bind="text: companyType().typeName"></td>*@
 
                 <td>
                     <!-- ko if: status() == 1 -->
@@ -120,8 +121,9 @@
 @section Scripts{
     <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-
+<script src="~/Scripts/jquery.form.js"></script>
     <script>
+        
         require(["stores/stores.view", "common/confirmation.view"]);
         $(function () {
             $('#lisettings').addClass('active');
