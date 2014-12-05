@@ -28,5 +28,10 @@ namespace MPC.Interfaces.MISServices
         ///Find Stock Item By Id 
         /// </summary>
         StockItem GetById(long stockItemId);
+
+        /// <summary>
+        /// Get Suppliers For Inventory
+        /// </summary>
+        SupplierSearchResponseForInventory LoadSuppliers(SupplierRequestModelForInventory request);
     }
 }

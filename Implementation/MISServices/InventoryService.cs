@@ -117,6 +117,14 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Get Suppliers For Inventory
+        /// </summary>
+        public SupplierSearchResponseForInventory LoadSuppliers(SupplierRequestModelForInventory request)
+        {
+            return companyRepository.GetSuppliersForInventories(request);
+        }
+
+        /// <summary>
         /// Add/Update Stock Item
         /// </summary>
         public StockItem SaveInevntory(StockItem stockItem)

@@ -81,7 +81,7 @@ namespace MPC.Repository.Repositories
                      !isStringSpecified);
 
             int rowCount = DbSet.Count(query);
-            IEnumerable<Company> companies= request.IsAsc
+            IEnumerable<Company> companies = request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(companyOrderByClause[request.CompanyByColumn])
                     .Skip(fromRow)
@@ -96,6 +96,35 @@ namespace MPC.Repository.Repositories
             {
                 RowCount = rowCount,
                 Companies = companies
+            };
+        }
+
+        /// <summary>
+        /// Get Suppliers For Inventories
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public SupplierSearchResponseForInventory GetSuppliersForInventories(SupplierRequestModelForInventory request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<Company, bool>> query =
+                s =>
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
+                     !isStringSpecified) && s.IsCustomer == 0;
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<Company> companies =
+                DbSet.Where(query).OrderByDescending(x => x.Name)
+                     .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+
+            return new SupplierSearchResponseForInventory
+            {
+                TotalCount = rowCount,
+                Suppliers = companies
             };
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using MPC.MIS.Areas.Api.Models;
-using MPC.MIS.ModelMappers;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -79,7 +78,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
-                CompanyType = source.CompanyType != null ?source.CompanyType.CreateFrom(): null
+                CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null
             };
         }
         /// <summary>
@@ -152,6 +151,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null
                           };
             return company;
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static SupplierForInventory CreateFromForInventory(this MPC.Models.DomainModels.Company source)
+        {
+            return new SupplierForInventory
+            {
+                Name = source.Name,
+                SupplierId = source.CompanyId,
+                URL = source.URL
+            };
         }
         #endregion
     }

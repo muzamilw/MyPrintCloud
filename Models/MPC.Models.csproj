@@ -204,6 +204,7 @@
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
+    <Compile Include="ResponseModels\SupplierSearchResponseForInventory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
