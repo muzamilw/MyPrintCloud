@@ -65,6 +65,7 @@
     <Compile Include="MISServices\IStockCategoryService.cs" />
     <Compile Include="Repository\ICompanyContactRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
+    <Compile Include="Repository\IPrefixRepository.cs" />
     <Compile Include="Repository\IItemVdpPriceRepository.cs" />
     <Compile Include="Repository\ILengthUnitRepository.cs" />
     <Compile Include="Repository\IPaperBasisAreaRepository.cs" />

@@ -23,6 +23,7 @@ namespace MPC.Implementation.MISServices
         private readonly IItemRepository itemRepository;
         private readonly IGetItemsListViewRepository itemsListViewRepository;
         private readonly IItemVdpPriceRepository itemVdpPriceRepository;
+        private readonly IPrefixRepository prefixRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -49,7 +50,8 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository)
+        public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
+            IPrefixRepository prefixRepository)
         {
             if (itemRepository == null)
             {
@@ -63,10 +65,15 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemVdpPriceRepository");
             }
+            if (prefixRepository == null)
+            {
+                throw new ArgumentNullException("prefixRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
+            this.prefixRepository = prefixRepository;
         }
 
         #endregion
@@ -86,6 +93,11 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public Item GetById(long id)
         {
+            if (id <= 0)
+            {
+                return null;
+            }
+
             Item item = itemRepository.Find(id);
 
             if (item == null)
@@ -130,9 +142,12 @@ namespace MPC.Implementation.MISServices
             // If New then Add, Update If Existing
             if (itemTarget == null)
             {
+                // Gets Next Item Code and Increments it by 1
+                string itemCode = prefixRepository.GetNextItemCodePrefix();
                 itemTarget = itemRepository.Create();
                 itemRepository.Add(itemTarget);
                 itemTarget.ItemCreationDateTime = DateTime.Now;
+                itemTarget.ItemCode = itemCode;
             }
 
             // Update
