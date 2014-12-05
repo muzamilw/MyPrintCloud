@@ -32,8 +32,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             miniPrice = ko.observable(specifiedMinPrice || undefined),
             // is archived
             isArchived = ko.observable(specifiedIsArchived || undefined),
+            // Is Archived Ui
+            isArchivedUi = ko.computed(function () {
+                return isArchived() ? "Yes" : "No";
+            }),
             // is published
             isPublished = ko.observable(specifiedIsPublished || undefined),
+            // Is Published Ui
+            isPublishedUi = ko.computed(function () {
+                return isPublished() ? "Yes" : "No";
+            }),
             // product Category Name
             productCategoryName = ko.observable(specifiedProductCategoryName || undefined),
             // is featured
@@ -159,6 +167,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             miniPrice: miniPrice,
             isArchived: isArchived,
             isPublished: isPublished,
+            isArchivedUi: isArchivedUi,
+            isPublishedUi: isPublishedUi,
             productCategoryName: productCategoryName,
             isEnabled: isEnabled,
             isFeatured: isFeatured,

@@ -161,8 +161,6 @@ define("product/product.viewModel",
                         }
                         return flag;
                     },
-                    // Update Product 
-
                     // Save Product
                     saveProduct = function (callback) {
                         dataservice.saveItem(selectedProduct().convertToServerData(), {
@@ -175,6 +173,7 @@ define("product/product.viewModel",
                                     products.splice(0, 0, selectedProduct());
                                 }
                                 else {
+                                    selectedProduct().productCode(data.ProductCode);
                                     selectedProduct().productName(data.ProductName);
                                     selectedProduct().isEnabled(data.IsEnabled);
                                     selectedProduct().isPublished(data.IsPublished);

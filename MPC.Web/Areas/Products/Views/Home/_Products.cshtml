@@ -47,7 +47,6 @@
                     <div class="table-responsive">
                         <div class="productHeadingsCnt width12Perc">
                             Product Code
-
                         </div>
                         <div class="productHeadingsCnt width24Perc">
                             Main Image
@@ -57,9 +56,6 @@
                         </div>
                         <div class="productHeadingsCnt width13Per">
                             Product Price
-                        </div>
-                        <div class="productHeadingsCnt width12Perc">
-                            Categories
                         </div>
                         <div class="productHeadingsCnt width12Perc">
                             Is Published
@@ -151,7 +147,7 @@
                 <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a href="#" class="table-link danger" title="Archive" data-bind="click: $root.onArchiveProduct.bind($data)">
+        <a href="#" class="table-link danger" title="Archive" data-bind="click: $root.onArchiveProduct.bind($data), visible: !isArchived()">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -176,16 +172,13 @@
                 <span class="NoneditableName" data-bind="text: productName"></span>
             </td>
             <td class="text-center width13Per">
-                <span class="NoneditablePrice"></span>
+                <span class="NoneditablePrice" data-bind="text: '$' + miniPrice()"></span>
             </td>
             <td class="text-center width12Perc">
-                <span class="NoneditableCat">Stationary</span>
-            </td>
-            <td class="text-center width12Perc">
-                <span class="label label-success">Yes</span>
+                <span class="label label-success" data-bind="text: isPublishedUi"></span>
             </td>
             <td class="text-center width7Perc">
-                No
+                <span data-bind="text: isArchivedUi"></span>
             </td>
         </tr>
     </script>
