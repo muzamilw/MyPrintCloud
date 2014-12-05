@@ -11,6 +11,16 @@
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Cancel</button>
                         </div>
                     </div>
+                    <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
+                        <p> Please corresct these errors.</p>
+                        <table id="table">
+                            <tbody>
+                                <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
+                                <!-- /ko -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
                 </div>
             </div>
             <div class="row">
@@ -39,7 +49,7 @@
                                 <div class="form-group">
                                     <label for="category" class="control-label h5 col-sm-2">Stock Category</label>
                                     <div class="col-md-2">
-                                        <select id="category" class="form-control" data-bind="options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId "></select>
+                                        <select id="category" class="form-control" data-bind="disable:(itemId()!==0),options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId"></select>
                                     </div>
                                     <label for="subCategory" class="control-label h5 col-sm-2">Sub Category</label>
                                     <div class="col-md-2">
@@ -55,25 +65,26 @@
                                     <div class="col-md-2">
                                         <select id="flag" class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"></select>
                                     </div>
-                                    <label for="location" class="control-label h5 col-sm-2" data-bind="visible:itemId()===0">Stock Located At</label>
+                                    <label for="location" class="control-label h5 col-sm-2" data-bind="visible:itemId()=== 0">Stock Located At</label>
                                     <div class="col-md-2" data-bind="visible:itemId()===0">
                                         <input type="text" class="form-control" id="location" data-bind="value:stockLocation" />
                                     </div>
-                                    <label for="status" class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Status</label>
+                                    <label for="status" class="control-label h5 col-sm-2" data-bind="visible:itemId()!== 0">Status</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
-                                        <input type="text" class="form-control" id="status" data-bind="value:statusId" />
+                                        <select id="status" class="form-control" data-bind="options: $root.statusList, optionsText: 'Text', optionsValue: 'Id',value:statusId, validationTooltip: statusId"></select>
                                     </div>
                                     <label class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Disabled</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
-                                        <input type="checkbox" class="form-control"  data-bind="checked:isDisabled" />
+                                        <input type="checkbox" class="form-control" data-bind="checked:isDisabled" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Paper Type</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
                                     </div>
-                                    <label class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Created Date</label>
+                                    <label class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Creation Date</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
+                                        <label class="control-label h5 col-sm-2" data-bind="text:createdDate"></label>
                                     </div>
                                     <label for="description" class="control-label h5 col-sm-2" data-bind="visible:itemId()!==0">Description</label>
                                     <div class="col-md-2" data-bind="visible:itemId()!==0">
@@ -82,6 +93,7 @@
                                 </div>
                                 <br />
                                 <br />
+                                <hr />
                                 <div class="main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs" id="myTab">
@@ -293,31 +305,31 @@
                                                         <div class="form-group" data-bind="visible:itemId()!==0">
                                                             <label for="inStock" class="control-label h5 col-sm-2">In Stock</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" id="inStock" />
+                                                                <label id="inStock" class="control-label h5" data-bind="text:inStock"></label>
                                                             </div>
                                                             <label for="freeStock" class="control-label h5 col-sm-2">Free Stock</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" id="freeStock" />
+                                                                <label id="freeStock" class="control-label h5" data-bind="text:inStock"></label>
                                                             </div>
                                                         </div>
                                                         <div class="form-group" data-bind="visible:itemId()!==0">
                                                             <label for="allocated" class="control-label h5 col-sm-2">Allocated</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" id="allocated" />
+                                                                <label id="allocated" class="control-label h5" data-bind="text:allocated"></label>
                                                             </div>
                                                             <label for="onOrder" class="control-label h5 col-sm-2">On Order</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" id="onOrder" />
+                                                                <label id="onOrder" class="control-label h5" data-bind="text:onOrder"></label>
                                                             </div>
                                                         </div>
                                                         <div class="form-group" data-bind="visible:itemId()!==0">
                                                             <label class="control-label h5 col-sm-2">Last Qty Order</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" />
+                                                                <label id="allocated" class="control-label h5" data-bind="text:lastOrderQty"></label>
                                                             </div>
                                                             <label class="control-label h5 col-sm-2">Last Order Date</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" />
+                                                                <label id="allocated" class="control-label h5" data-bind="text:lastOrderDate"></label>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -333,15 +345,13 @@
                                                         <div class="form-group" data-bind="visible:itemId()!==0">
                                                             <label class="control-label h5 col-sm-2">Location</label>
                                                             <div class="col-md-3">
-                                                                <input type="text" class="form-control" />
+                                                                <input type="text" class="form-control" data-bind="value:stockLocation" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </form>
@@ -432,5 +442,24 @@
             <!-- ko template: { name: 'deleteActionPriceItemTemplate' } -->
             <!-- /ko -->
         </td>
+    </tr>
+</script>
+
+@**Error Template*@
+<script id="itemErrorTemplate" type="text/html">
+    <tr>
+        <!-- ko if: tabId === 1 -->
+        <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+        <!-- /ko -->
+    </tr>
+    <tr>
+        <!-- ko if: tabId === 2 -->
+        <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+        <!-- /ko -->
+    </tr>
+    <tr>
+        <!-- ko if: tabId === 3 -->
+        <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+        <!-- /ko -->
     </tr>
 </script>

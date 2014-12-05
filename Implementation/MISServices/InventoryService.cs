@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
@@ -71,7 +70,6 @@ namespace MPC.Implementation.MISServices
                 PaperSizes = paperSizeRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
                 WeightUnits = weightUnitRepository.GetAll(),
-                StockCostAndPrice = stockCostAndPriceRepository.GetDefaultStockCostAndPrice(),
                 LengthUnits = lengthUnitRepository.GetAll(),
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
@@ -123,32 +121,180 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public StockItem SaveInevntory(StockItem stockItem)
         {
-            StockItem stockItemDbVersion = stockItemRepository.Find(stockItem.StockItemId);
-            if (stockItemDbVersion == null)
+
+            if (stockItem != null && stockItem.StockItemId > 0)
             {
-                saveStockItem(stockItem);
+                return UpdateStockItem(stockItem);
             }
             else
             {
-                updateStockItem(stockItem);
+                return SaveStockItem(stockItem);
             }
-            return null;
         }
 
         /// <summary>
         /// Save Stock Item
         /// </summary>
-        private StockItem saveStockItem(StockItem stockItem)
+        private StockItem SaveStockItem(StockItem stockItem)
         {
-            return null;
+            stockItem.StockCreated = DateTime.Now;
+            stockItem.LastModifiedDateTime = DateTime.Now;
+            stockItem.OrganisationId = stockItemRepository.OrganisationId;
+            stockItemRepository.Add(stockItem);
+            stockItemRepository.SaveChanges();
+            //After save item content for list view
+            return StockItemDeatilForListView(stockItem.StockItemId);
         }
 
         /// <summary>
         /// Update Stock Item
         /// </summary>
-        private StockItem updateStockItem(StockItem stockItem)
+        private StockItem UpdateStockItem(StockItem stockItem)
         {
-            return null;
+            StockItem stockItemDbVersion = stockItemRepository.Find(stockItem.StockItemId);
+            stockItemDbVersion.ItemName = stockItem.ItemName;
+            stockItemDbVersion.ItemCode = stockItem.ItemCode;
+            stockItemDbVersion.SupplierId = stockItem.SupplierId;
+            stockItemDbVersion.SubCategoryId = stockItem.SubCategoryId;
+            stockItemDbVersion.BarCode = stockItem.BarCode;
+            stockItemDbVersion.inStock = stockItem.inStock;
+            stockItemDbVersion.ItemDescription = stockItem.ItemDescription;
+            stockItemDbVersion.FlagID = stockItem.FlagID;
+            stockItemDbVersion.Status = stockItem.Status;
+            stockItemDbVersion.isDisabled = stockItem.isDisabled;
+            stockItemDbVersion.ItemSizeSelectedUnit = stockItem.ItemSizeSelectedUnit;
+            stockItemDbVersion.PerQtyQty = stockItem.PerQtyQty;
+            stockItemDbVersion.ItemSizeCustom = stockItem.ItemSizeCustom;
+            stockItemDbVersion.StockLocation = stockItem.StockLocation;
+            stockItemDbVersion.ItemSizeId = stockItem.ItemSizeId;
+            stockItemDbVersion.ItemSizeHeight = stockItem.ItemSizeHeight;
+            stockItemDbVersion.ItemSizeWidth = stockItem.ItemSizeWidth;
+            stockItemDbVersion.PerQtyType = stockItem.PerQtyType;
+            stockItemDbVersion.PackageQty = stockItem.PackageQty;
+            stockItemDbVersion.RollWidth = stockItem.RollWidth;
+            stockItemDbVersion.RollLength = stockItem.RollLength;
+            stockItemDbVersion.ReOrderLevel = stockItem.ReOrderLevel;
+            stockItemDbVersion.ReorderQty = stockItem.ReorderQty;
+            stockItemDbVersion.ItemWeight = stockItem.ItemWeight;
+            stockItemDbVersion.ItemColour = stockItem.ItemColour;
+            stockItemDbVersion.InkAbsorption = stockItem.InkAbsorption;
+            stockItemDbVersion.ItemCoated = stockItem.ItemCoated;
+            stockItemDbVersion.PaperBasicAreaId = stockItem.PaperBasicAreaId;
+            stockItemDbVersion.ItemCoatedType = stockItem.ItemCoatedType;
+            stockItemDbVersion.ItemWeightSelectedUnit = stockItem.ItemWeightSelectedUnit;
+            stockItemDbVersion.LastModifiedDateTime = DateTime.Now;
+            UpdateStockCostAndPrice(stockItem, stockItemDbVersion);
+
+            return StockItemDeatilForListView(stockItem.StockItemId);
+        }
+
+        /// <summary>
+        /// Update Stock Cost And Price
+        /// </summary>
+        private void UpdateStockCostAndPrice(StockItem stockItem, StockItem stockItemDbVersion)
+        {
+
+            if (stockItem.StockCostAndPrices != null)
+            {
+                foreach (var item in stockItem.StockCostAndPrices)
+                {
+                    //In case of added new Stock cost and Price
+                    if (
+                        stockItemDbVersion.StockCostAndPrices.All(
+                            x =>
+                                x.CostPriceId != item.CostPriceId ||
+                                item.CostPriceId == 0))
+                    {
+                        item.ItemId = stockItem.StockItemId;
+                        stockCostAndPriceRepository.Add(item);
+                        stockCostAndPriceRepository.SaveChanges();
+                    }
+                    else
+                    {
+                        //In case of Stock Cost And Price Updated
+
+                        StockCostAndPrice dbStockCostAndPriceItem =
+                            stockItemDbVersion.StockCostAndPrices.First(x => x.CostPriceId == item.CostPriceId);
+
+                        if (dbStockCostAndPriceItem != null)
+                        {
+                            if (dbStockCostAndPriceItem.CostPrice != item.CostPrice || dbStockCostAndPriceItem.FromDate != item.FromDate
+                                || dbStockCostAndPriceItem.ToDate != item.ToDate)
+                            {
+                                dbStockCostAndPriceItem.CostPrice = item.CostPrice;
+                                dbStockCostAndPriceItem.FromDate = item.FromDate;
+                                dbStockCostAndPriceItem.ToDate = item.ToDate;
+                            }
+                        }
+                    }
+                }
+            }
+            stockItemRepository.SaveChanges();
+            //find missing items
+            List<StockCostAndPrice> missingStockCostAndPriceListItems = new List<StockCostAndPrice>();
+            foreach (StockCostAndPrice dbversionStockCostAndPriceItem in stockItemDbVersion.StockCostAndPrices)
+            {
+                if (stockItem.StockCostAndPrices != null && stockItem.StockCostAndPrices.All(x => x.CostPriceId != dbversionStockCostAndPriceItem.CostPriceId))
+                {
+                    missingStockCostAndPriceListItems.Add(dbversionStockCostAndPriceItem);
+                }
+                //In case user delete all Stock Cost And Price items from client side then it delete all items from db
+                if (stockItem.StockCostAndPrices == null)
+                {
+                    missingStockCostAndPriceListItems.Add(dbversionStockCostAndPriceItem);
+                }
+            }
+            //remove missing items
+            foreach (StockCostAndPrice missingStockCostAndPriceItem in missingStockCostAndPriceListItems)
+            {
+                StockCostAndPrice dbVersionMissingItem = stockItemDbVersion.StockCostAndPrices.First(x => x.CostPriceId == missingStockCostAndPriceItem.CostPriceId);
+                if (dbVersionMissingItem.CostPriceId > 0)
+                {
+                    stockCostAndPriceRepository.Delete(dbVersionMissingItem);
+                    stockCostAndPriceRepository.SaveChanges();
+                }
+            }
+        }
+        /// <summary>
+        /// After Add/Edit return stock item detail contents for list view
+        /// </summary>
+        private StockItem StockItemDeatilForListView(long stockItemId)
+        {
+            StockItem stockItem = stockItemRepository.Find(stockItemId);
+            //Set selected color code
+            if (stockItem.FlagID != null && stockItem.FlagID != 0)
+            {
+                long flagId = Convert.ToInt64(stockItem.FlagID ?? 0);
+                SectionFlag sectionFlag = sectionFlagRepository.Find(flagId);
+                if (sectionFlag != null)
+                    stockItem.FlagColor = sectionFlag.FlagColor;
+            }
+            //Set selected unit name
+            if (stockItem.ItemWeightSelectedUnit != null && stockItem.ItemWeightSelectedUnit != 0)
+            {
+                long selectedWeightUnit = Convert.ToInt64(stockItem.ItemWeightSelectedUnit ?? 0);
+                WeightUnit weightUnit = weightUnitRepository.Find(selectedWeightUnit);
+                if (weightUnit != null)
+                    stockItem.WeightUnitName = weightUnit.UnitName;
+            }
+            //Set Supplier Company Name
+            if (stockItem.SupplierId != null && stockItem.SupplierId != 0)
+            {
+                long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
+                if (supplierId != 0)
+                {
+                    stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
+                }
+            }
+            return stockItem;
+        }
+
+        /// <summary>
+        ///Find Stock Item By Id 
+        /// </summary>
+        public StockItem GetById(long stockItemId)
+        {
+            return stockItemRepository.Find(stockItemId);
         }
         #endregion
     }

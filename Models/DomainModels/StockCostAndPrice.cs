@@ -16,7 +16,7 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Stick Item Id
         /// </summary>
-        public int ItemId { get; set; }
+        public long ItemId { get; set; }
 
         /// <summary>
         /// Cost Price

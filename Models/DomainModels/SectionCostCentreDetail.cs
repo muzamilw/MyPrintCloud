@@ -10,7 +10,7 @@ namespace MPC.Models.DomainModels
     {
         public int SectionCostCentreDetailId { get; set; }
         public int? SectionCostCentreId { get; set; }
-        public int? StockId { get; set; }
+        public long? StockId { get; set; }
         public int? SupplierId { get; set; }
         public double? Qty1 { get; set; }
         public double? Qty2 { get; set; }

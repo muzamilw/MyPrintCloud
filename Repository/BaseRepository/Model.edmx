@@ -1774,7 +1774,7 @@
           </Key>
           <Property Name="SectionCostCentreDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SectionCostCentreId" Type="int" />
-          <Property Name="StockId" Type="int" />
+          <Property Name="StockId" Type="bigint" />
           <Property Name="SupplierId" Type="int" />
           <Property Name="Qty1" Type="float" />
           <Property Name="Qty2" Type="float" />
@@ -1830,7 +1830,7 @@
           <Key>
             <PropertyRef Name="CategoryId" />
           </Key>
-          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="5" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
@@ -1856,7 +1856,7 @@
             <PropertyRef Name="CostPriceId" />
           </Key>
           <Property Name="CostPriceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="bigint" Nullable="false" />
           <Property Name="CostPrice" Type="float" Nullable="false" />
           <Property Name="PackCostPrice" Type="float" Nullable="false" />
           <Property Name="FromDate" Type="datetime" />
@@ -1868,7 +1868,7 @@
           <Key>
             <PropertyRef Name="StockItemId" />
           </Key>
-          <Property Name="StockItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StockItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemCode" Type="varchar" MaxLength="50" />
           <Property Name="ItemName" Type="varchar" MaxLength="255" />
           <Property Name="AlternateName" Type="varchar" MaxLength="255" />
@@ -1882,8 +1882,8 @@
           <Property Name="ItemUnitSize" Type="int" />
           <Property Name="SupplierId" Type="int" />
           <Property Name="CostPrice" Type="float" />
-          <Property Name="CategoryId" Type="int" />
-          <Property Name="SubCategoryId" Type="int" />
+          <Property Name="CategoryId" Type="bigint" />
+          <Property Name="SubCategoryId" Type="bigint" />
           <Property Name="LastModifiedDateTime" Type="datetime" />
           <Property Name="LastModifiedBy" Type="int" />
           <Property Name="StockLevel" Type="int" />
@@ -1941,12 +1941,12 @@
           <Key>
             <PropertyRef Name="SubCategoryId" />
           </Key>
-          <Property Name="SubCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubCategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="5" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="SystemEmail">
           <Key>
@@ -3859,7 +3859,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Key>
             <PropertyRef Name="CategoryId" />
           </Key>
-          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -3886,12 +3886,12 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Key>
             <PropertyRef Name="SubCategoryId" />
           </Key>
-          <Property Name="SubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Fixed" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockSubCategory" ToRole="StockCategory" />
           <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" FromRole="StockSubCategory" ToRole="StockItem" />
         </EntityType>
@@ -3925,7 +3925,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <PropertyRef Name="CostPriceId" />
           </Key>
           <Property Name="CostPriceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int64" Nullable="false" />
           <Property Name="CostPrice" Type="Double" Nullable="false" />
           <Property Name="PackCostPrice" Type="Double" Nullable="false" />
           <Property Name="FromDate" Type="DateTime" Precision="3" />
@@ -3938,7 +3938,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Key>
             <PropertyRef Name="StockItemId" />
           </Key>
-          <Property Name="StockItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ItemName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="AlternateName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -3952,8 +3952,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="ItemUnitSize" Type="Int32" />
           <Property Name="SupplierId" Type="Int32" />
           <Property Name="CostPrice" Type="Double" />
-          <Property Name="CategoryId" Type="Int32" />
-          <Property Name="SubCategoryId" Type="Int32" />
+          <Property Name="CategoryId" Type="Int64" />
+          <Property Name="SubCategoryId" Type="Int64" />
           <Property Name="LastModifiedDateTime" Type="DateTime" Precision="3" />
           <Property Name="LastModifiedBy" Type="Int32" />
           <Property Name="StockLevel" Type="Int32" />
@@ -5258,7 +5258,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           </Key>
           <Property Name="SectionCostCentreDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SectionCostCentreId" Type="Int32" />
-          <Property Name="StockId" Type="Int32" />
+          <Property Name="StockId" Type="Int64" />
           <Property Name="SupplierId" Type="Int32" />
           <Property Name="Qty1" Type="Double" />
           <Property Name="Qty2" Type="Double" />

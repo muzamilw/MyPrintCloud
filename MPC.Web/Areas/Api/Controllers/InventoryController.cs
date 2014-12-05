@@ -41,6 +41,20 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return inventoryService.LoadStockItems((request)).CreateFrom();
         }
+
+
+        /// <summary>
+        /// Get Stock Item By Id
+        /// </summary>
+        public StockItem Get(int id)
+        {
+            if (id <= 0)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+
+            return inventoryService.GetById(id).CreateFromDetail();
+        }
         /// <summary>
         /// Add/Update a Inventory
         /// </summary>

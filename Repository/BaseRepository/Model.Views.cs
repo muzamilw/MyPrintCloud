@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets8DC07C3B6FB99F64E7ADF0B62CBBDBBDFACAB94155C223FC3A33CC4F0ECFCB92))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsC636EA8AC818690466F8D63DCFD8434A9E82CBD48AB6788723D1138877C4807B))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,17 +17,17 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets8DC07C3B6FB99F64E7ADF0B62CBBDBBDFACAB94155C223FC3A33CC4F0ECFCB92 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsC636EA8AC818690466F8D63DCFD8434A9E82CBD48AB6788723D1138877C4807B : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets8DC07C3B6FB99F64E7ADF0B62CBBDBBDFACAB94155C223FC3A33CC4F0ECFCB92()
+        public ViewsForBaseEntitySetsC636EA8AC818690466F8D63DCFD8434A9E82CBD48AB6788723D1138877C4807B()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "56be75c4e611bf0c08146f510fc2e8d084e0cefe08d578135308b68c911a4f29";
+            this.HashOverMappingClosure = "abfd7916f3f32863bf538620877f1298df91e589dd640bc1d6fd93e14b7753e2";
             this.HashOverAllExtentViews = "2ee9a1cf47511ea235d907ddc9671e09ddfce541fd651b500b0b2e62be03fccb";
             this.ViewCount = 138;
         }
@@ -6332,5 +6332,4 @@ namespace Edm_EntityMappingGeneratedViews
         }
     }
 }
-
 

@@ -35,11 +35,6 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<WeightUnitDropDown> WeightUnits { get; set; }
 
         /// <summary>
-        /// Stock Cost And Price
-        /// </summary>
-        public StockCostAndPrice StockCostAndPrice { get; set; }
-
-        /// <summary>
         /// Length Units
         /// </summary>
         public IEnumerable<LengthUnitDropDown> LengthUnits { get; set; }
