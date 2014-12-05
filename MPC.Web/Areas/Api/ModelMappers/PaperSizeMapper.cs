@@ -1,6 +1,6 @@
-﻿using DomainModels = MPC.Models.DomainModels;
+﻿using MPC.MIS.Areas.Api.Models;
 
-namespace MPC.MIS.ModelMappers
+namespace MPC.MIS.Areas.Api.ModelMappers
 {
     /// <summary>
     /// Paper Size Mapper
@@ -11,9 +11,9 @@ namespace MPC.MIS.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static Models.PaperSizeDropDown CreateFromDropDown(this DomainModels.PaperSize source)
+        public static PaperSizeDropDown CreateFromDropDown(this MPC.Models.DomainModels.PaperSize source)
         {
-            return new Models.PaperSizeDropDown
+            return new PaperSizeDropDown
             {
                 PaperSizeId = source.PaperSizeId,
                 Name = source.Name + " " + source.Width + " x " + source.Height,

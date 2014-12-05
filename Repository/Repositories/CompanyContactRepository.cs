@@ -34,6 +34,27 @@ namespace MPC.Repository.Repositories
                        select contacts;
 
             return qury.ToList().Where(contct => VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();
+        } 
+        public CompanyContact GetContactByFirstName(string FName)
+        {
+            var qry = from contacts in db.CompanyContacts
+                      join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                      where string.Compare(contacts.FirstName, FName, true) == 0
+                      select contacts;
+
+            return qry.ToList().FirstOrDefault();
+
+        }
+
+        public CompanyContact GetContactByEmail(string Email)
+        {
+            var qry = from contacts in db.CompanyContacts
+                      join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                      where string.Compare(contacts.Email, Email, true) == 0
+                      select contacts;
+
+            return qry.ToList().FirstOrDefault();
+
         }
         private static bool VerifyHashSha1(string plainText, string compareWithSalt)
         {

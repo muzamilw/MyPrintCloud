@@ -146,7 +146,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ItemStateTax> ItemStateTaxs { get; set; }
         public DbSet<ItemStockControl> ItemStockControls { get; set; }
         public DbSet<ItemStockOption> ItemStockOptions { get; set; }
-        public DbSet<ItemVDPPrice> ItemVdpPrices { get; set; }
+        public DbSet<ItemVdpPrice> ItemVdpPrices { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<SectionCostcentre> SectionCostcentres { get; set; }
@@ -176,6 +176,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<DiscountVoucher> DiscountVouchers { get; set; }
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public DbSet<GetItemsListView> GetItemsListViews { get; set; }
+
+        /// <summary>
+        /// Prefix DbSet
+        /// </summary>
+        public DbSet<Prefix> Prefixes { get; set; }
 
         /// <summary>
         /// Get next id for a table

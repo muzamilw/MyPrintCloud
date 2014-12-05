@@ -120,4 +120,7 @@
   <data name="InvalidItem" xml:space="preserve">
     <value>Invalid Item value</value>
   </data>
+  <data name="NoPrefixDefined" xml:space="preserve">
+    <value>Prefix not defined for OrganisationId {0}</value>
+  </data>
 </root>

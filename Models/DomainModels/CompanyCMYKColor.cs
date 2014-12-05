@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
@@ -15,5 +11,6 @@ namespace MPC.Models.DomainModels
         public string ColorM { get; set; }
         public string ColorY { get; set; }
         public string ColorK { get; set; }
+        public virtual Company Company{ get; set; }
     }
 }
