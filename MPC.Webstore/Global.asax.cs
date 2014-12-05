@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Security.Policy;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -17,12 +18,13 @@ using MPC.WebBase.UnityConfiguration;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
 using System.Web;
 using MPC.Interfaces.WebStoreServices;
+using System.Threading;
 
 namespace MPC.Webstore
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-     
+
 
         #region Private
         private static IUnityContainer container;
@@ -36,7 +38,7 @@ namespace MPC.Webstore
             DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
             IConfigurationSource configurationSource = ConfigurationSourceFactory.Create();
             LogWriterFactory logWriterFactory = new LogWriterFactory(configurationSource);
-           // Logger.SetLogWriter(logWriterFactory.Create());
+            // Logger.SetLogWriter(logWriterFactory.Create());
         }
         /// <summary>
         /// Create the unity container
@@ -83,8 +85,8 @@ namespace MPC.Webstore
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             // Set Web Api resolver
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
-            
-            
+
+
             //AreaRegistration.RegisterAllAreas();
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -94,20 +96,20 @@ namespace MPC.Webstore
 
 
             //Commented By Naveed
-          /*  RegisterIoC();
-            AreaRegistration.RegisterAllAreas();
-          //  ConfigureLogger();
+            /*  RegisterIoC();
+              AreaRegistration.RegisterAllAreas();
+            //  ConfigureLogger();
 
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+              FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
+              RouteConfig.RegisterRoutes(RouteTable.Routes);
+              BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Set MVC resolver
-            //DependencyResolver.SetResolver(new UnityDependencyResolver(container));
-            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
-            // Set Web Api resolver
-            //GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);*/
+              // Set MVC resolver
+              //DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+              DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+              // Set Web Api resolver
+              //GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+              GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);*/
         }
 
         //public override void Init()
@@ -121,7 +123,35 @@ namespace MPC.Webstore
         //    System.Web.HttpContext.Current.SetSessionStateBehavior(
         //        SessionStateBehavior.Required);
         //}
-      
+        protected void Application_AcquireRequestState(object sender, EventArgs e)
+        {
+            //It's important to check whether session object is ready
+            if (HttpContext.Current.Session != null)
+            {
+                CultureInfo ci = (CultureInfo)this.Session["Culture"];
+                //Checking first if there is no value in session 
+                //and set default language 
+                //this can happen for first user's request
+                if (ci == null)
+                {
+                    //Sets default culture to english invariant
+                    string langName = "fr-FR";
+                    //string langName = "en-US";
+                    //Try to get values from Accept lang HTTP header
+                    if (HttpContext.Current.Request.UserLanguages != null &&
+                       HttpContext.Current.Request.UserLanguages.Length != 0)
+                    {
+                        //Gets accepted list 
+                        //langName = HttpContext.Current.Request.UserLanguages[0].Substring(0, 2);
+                    }
+                    ci = new CultureInfo(langName);
+                    this.Session["Culture"] = ci;
+                }
+                //Finally setting culture for each request
+                Thread.CurrentThread.CurrentUICulture = ci;
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+            }
+        }
         protected void Session_Start()
         {
             companyService = container.Resolve<ICompanyService>();
@@ -136,7 +166,7 @@ namespace MPC.Webstore
             else
             {
                 Session["storeId"] = storeid;
-                
+
             }
         }
     }
