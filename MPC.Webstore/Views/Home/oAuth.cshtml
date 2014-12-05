@@ -6,19 +6,4 @@
   
 </div>
 
-<script>
-   
-    @*$(document).ready(function () {
-        alert();
-            if(@ViewBag.redirectUrl != ""){
-                window.close(); window.opener.location.href = @ViewBag.redirectUrl;
-             
-            }
-                 
-                  
-         });*@
-    function callMe(Url)
-    {
-        alert(Url);
-    }
-</script>
+        @Html.Raw(ViewBag.message)

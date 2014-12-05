@@ -142,12 +142,9 @@ namespace MPC.Webstore.Controllers
                             lastname = ResponseJon.last_name;
                         }
                     }
-                    
-                  //  return RedirectToAction("Index", "Login", new { Firstname = firstname, LastName = lastname, Email = email });
-                   // ViewBag.redirectUrl = "/Login/Index?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&auth=1";
-                    string ff = "/Login/Index?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email;
-                  //  this.JavaScript("callMe("+ ff + ")");
-                    return JavaScript("callMe(" + ff + ")");
+                    ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
+                    return View();
+              
                 }
             }
             else if (isFacebook == 0)
@@ -178,10 +175,9 @@ namespace MPC.Webstore.Controllers
 
                     if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     {
-                        return RedirectToAction("Index", "Login", new { Firstname = oauthhelper.screen_name });
-                        //redirectUrl.Value = "/Login.aspx?Fname=" + oauthhelper.screen_name + "&auth=2";
-                        //hfisPostback.Value = "1";
-
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "' </script>";
+                        return View();
+                       
                     }
                 }
             }
