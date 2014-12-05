@@ -635,6 +635,14 @@
           <Property Name="CountryName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryCode" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="CurrencyId" />
+          </Key>
+          <Property Name="CurrencyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrencyCode" Type="varchar" MaxLength="50" />
+          <Property Name="CurrencyName" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="DeliveryNote">
           <Key>
             <PropertyRef Name="DeliveryNoteId" />
@@ -1560,6 +1568,60 @@
           <Property Name="MethodName" Type="varchar" MaxLength="200" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
+        <EntityType Name="prefix">
+          <Key>
+            <PropertyRef Name="PrefixId" />
+          </Key>
+          <Property Name="EstimatePrefix" Type="varchar" MaxLength="5" />
+          <Property Name="EstimateStart" Type="bigint" />
+          <Property Name="EstimateNext" Type="bigint" />
+          <Property Name="InvoicePrefix" Type="varchar" MaxLength="5" />
+          <Property Name="InvoiceStart" Type="bigint" />
+          <Property Name="InvoiceNext" Type="bigint" />
+          <Property Name="JobPrefix" Type="varchar" MaxLength="5" />
+          <Property Name="JobStart" Type="bigint" />
+          <Property Name="JobNext" Type="bigint" />
+          <Property Name="POPrefix" Type="varchar" MaxLength="5" />
+          <Property Name="POStart" Type="bigint" />
+          <Property Name="PONext" Type="bigint" />
+          <Property Name="GOFPrefix" Type="varchar" MaxLength="5" />
+          <Property Name="GOFStart" Type="bigint" />
+          <Property Name="GOFNext" Type="bigint" />
+          <Property Name="ITEMPrefix" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="ITEMStart" Type="bigint" />
+          <Property Name="ITEMNext" Type="bigint" />
+          <Property Name="DeliveryNPrefix" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DeliveryNStart" Type="bigint" />
+          <Property Name="DeliveryNNext" Type="bigint" />
+          <Property Name="JobCardPrefix" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="JobCardStart" Type="bigint" />
+          <Property Name="JobCardNext" Type="bigint" />
+          <Property Name="GRNPrefix" Type="varchar" MaxLength="50" />
+          <Property Name="GRNStart" Type="bigint" />
+          <Property Name="GRNNext" Type="bigint" />
+          <Property Name="ProductPrefix" Type="varchar" MaxLength="50" />
+          <Property Name="ProductStart" Type="bigint" />
+          <Property Name="ProductNext" Type="bigint" />
+          <Property Name="FinishedGoodsPrefix" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FinishedGoodsStart" Type="bigint" Nullable="false" />
+          <Property Name="FinishedGoodsNext" Type="bigint" Nullable="false" />
+          <Property Name="OrderPrefix" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrderStart" Type="bigint" Nullable="false" />
+          <Property Name="OrderNext" Type="bigint" Nullable="false" />
+          <Property Name="EnquiryPrefix" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EnquiryStart" Type="bigint" Nullable="false" />
+          <Property Name="EnquiryNext" Type="bigint" Nullable="false" />
+          <Property Name="StockItemPrefix" Type="varchar" MaxLength="50" />
+          <Property Name="StockItemStart" Type="bigint" />
+          <Property Name="StockItemNext" Type="bigint" />
+          <Property Name="SystemSiteID" Type="int" Nullable="false" />
+          <Property Name="PrefixId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="MarkupId" Type="bigint" />
+          <Property Name="JobManagerId" Type="int" />
+          <Property Name="OrderManagerId" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
         <EntityType Name="PrePayment">
           <Key>
             <PropertyRef Name="PrePaymentId" />
@@ -1774,7 +1836,7 @@
           </Key>
           <Property Name="SectionCostCentreDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SectionCostCentreId" Type="int" />
-          <Property Name="StockId" Type="int" />
+          <Property Name="StockId" Type="bigint" />
           <Property Name="SupplierId" Type="int" />
           <Property Name="Qty1" Type="float" />
           <Property Name="Qty2" Type="float" />
@@ -1830,7 +1892,7 @@
           <Key>
             <PropertyRef Name="CategoryId" />
           </Key>
-          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="5" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
@@ -1856,7 +1918,7 @@
             <PropertyRef Name="CostPriceId" />
           </Key>
           <Property Name="CostPriceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="bigint" Nullable="false" />
           <Property Name="CostPrice" Type="float" Nullable="false" />
           <Property Name="PackCostPrice" Type="float" Nullable="false" />
           <Property Name="FromDate" Type="datetime" />
@@ -1868,7 +1930,7 @@
           <Key>
             <PropertyRef Name="StockItemId" />
           </Key>
-          <Property Name="StockItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StockItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemCode" Type="varchar" MaxLength="50" />
           <Property Name="ItemName" Type="varchar" MaxLength="255" />
           <Property Name="AlternateName" Type="varchar" MaxLength="255" />
@@ -1882,8 +1944,8 @@
           <Property Name="ItemUnitSize" Type="int" />
           <Property Name="SupplierId" Type="int" />
           <Property Name="CostPrice" Type="float" />
-          <Property Name="CategoryId" Type="int" />
-          <Property Name="SubCategoryId" Type="int" />
+          <Property Name="CategoryId" Type="bigint" />
+          <Property Name="SubCategoryId" Type="bigint" />
           <Property Name="LastModifiedDateTime" Type="datetime" />
           <Property Name="LastModifiedBy" Type="int" />
           <Property Name="StockLevel" Type="int" />
@@ -1941,12 +2003,12 @@
           <Key>
             <PropertyRef Name="SubCategoryId" />
           </Key>
-          <Property Name="SubCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubCategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="5" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="SystemEmail">
           <Key>
@@ -2073,6 +2135,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="CompanyBanner">
               <PropertyRef Name="CompanySetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyCMYKColor_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="CompanyCMYKColor" Type="Self.CompanyCMYKColor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyCMYKColor">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyCMYKColor_CompanyCMYKColor">
+          <End Role="CompanyCMYKColor" Type="Self.CompanyCMYKColor" Multiplicity="1" />
+          <End Role="CompanyCMYKColor1" Type="Self.CompanyCMYKColor" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyCMYKColor">
+              <PropertyRef Name="ColorId" />
+            </Principal>
+            <Dependent Role="CompanyCMYKColor1">
+              <PropertyRef Name="ColorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2556,6 +2642,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_prefixes_tbl_markup">
+          <End Role="Markup" Type="Self.Markup" Multiplicity="0..1" />
+          <End Role="prefix" Type="Self.prefix" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markup">
+              <PropertyRef Name="MarkUpId" />
+            </Principal>
+            <Dependent Role="prefix">
+              <PropertyRef Name="MarkupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_PrePayments_tbl_estimates">
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="0..1" />
           <End Role="PrePayment" Type="Self.PrePayment" Multiplicity="*" />
@@ -2774,6 +2872,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="CompanyType" EntityType="Self.CompanyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentre" EntityType="Self.CostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryNote" EntityType="Self.DeliveryNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryNoteDetail" EntityType="Self.DeliveryNoteDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiscountVoucher" EntityType="Self.DiscountVoucher" Schema="dbo" store:Type="Tables" />
@@ -2803,6 +2902,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentGateway" EntityType="Self.PaymentGateway" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="prefix" EntityType="Self.prefix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RaveReview" EntityType="Self.RaveReview" Schema="dbo" store:Type="Tables" />
@@ -2858,6 +2958,14 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_CompanyBanner_CompanySet" Association="Self.FK_CompanyBanner_CompanySet">
             <End Role="CompanyBannerSet" EntitySet="CompanyBannerSet" />
             <End Role="CompanyBanner" EntitySet="CompanyBanner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyCMYKColor_Company" Association="Self.FK_CompanyCMYKColor_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CompanyCMYKColor" EntitySet="CompanyCMYKColor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyCMYKColor_CompanyCMYKColor" Association="Self.FK_CompanyCMYKColor_CompanyCMYKColor">
+            <End Role="CompanyCMYKColor" EntitySet="CompanyCMYKColor" />
+            <End Role="CompanyCMYKColor1" EntitySet="CompanyCMYKColor" />
           </AssociationSet>
           <AssociationSet Name="FK_CompanyDomain_Company" Association="Self.FK_CompanyDomain_Company">
             <End Role="Company" EntitySet="Company" />
@@ -3014,6 +3122,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_PaymentGateways_tbl_PaymentMethods" Association="Self.FK_tbl_PaymentGateways_tbl_PaymentMethods">
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
             <End Role="PaymentGateway" EntitySet="PaymentGateway" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_prefixes_tbl_markup" Association="Self.FK_tbl_prefixes_tbl_markup">
+            <End Role="Markup" EntitySet="Markup" />
+            <End Role="prefix" EntitySet="prefix" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_PrePayments_tbl_estimates" Association="Self.FK_tbl_PrePayments_tbl_estimates">
             <End Role="Estimate" EntitySet="Estimate" />
@@ -3382,6 +3494,20 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="SystemUser" EntitySet="SystemUsers" />
           </AssociationSet>
           <EntitySet Name="GetItemsListViews" EntityType="DomainModels.GetItemsListView" />
+          <AssociationSet Name="FK_CompanyCMYKColor_Company" Association="DomainModels.FK_CompanyCMYKColor_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CompanyCMYKColor" EntitySet="CompanyCMYKColors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyCMYKColor_CompanyCMYKColor" Association="DomainModels.FK_CompanyCMYKColor_CompanyCMYKColor">
+            <End Role="CompanyCMYKColor" EntitySet="CompanyCMYKColors" />
+            <End Role="CompanyCMYKColor1" EntitySet="CompanyCMYKColors" />
+          </AssociationSet>
+          <EntitySet Name="Currencies" EntityType="DomainModels.Currency" />
+          <EntitySet Name="prefixes" EntityType="DomainModels.prefix" />
+          <AssociationSet Name="FK_tbl_prefixes_tbl_markup" Association="DomainModels.FK_tbl_prefixes_tbl_markup">
+            <End Role="Markup" EntitySet="Markups" />
+            <End Role="prefix" EntitySet="prefixes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -3495,6 +3621,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="CompanyTerritories" Relationship="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" FromRole="Company" ToRole="CompanyTerritory" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contactcompanies" FromRole="Company" ToRole="Estimate" />
           <NavigationProperty Name="RaveReviews" Relationship="DomainModels.FK_RaveReview_Company" FromRole="Company" ToRole="RaveReview" />
+          <NavigationProperty Name="CompanyCMYKColors" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="Company" ToRole="CompanyCMYKColor" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -3593,6 +3720,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsFixed" Type="Int32" />
           <Property Name="IsDefault" Type="Boolean" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="prefixes" Relationship="DomainModels.FK_tbl_prefixes_tbl_markup" FromRole="Markup" ToRole="prefix" />
         </EntityType>
         <EntityType Name="Organisation">
           <Key>
@@ -3859,7 +3987,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Key>
             <PropertyRef Name="CategoryId" />
           </Key>
-          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -3886,12 +4014,12 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Key>
             <PropertyRef Name="SubCategoryId" />
           </Key>
-          <Property Name="SubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Fixed" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockSubCategory" ToRole="StockCategory" />
           <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" FromRole="StockSubCategory" ToRole="StockItem" />
         </EntityType>
@@ -3925,7 +4053,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <PropertyRef Name="CostPriceId" />
           </Key>
           <Property Name="CostPriceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int64" Nullable="false" />
           <Property Name="CostPrice" Type="Double" Nullable="false" />
           <Property Name="PackCostPrice" Type="Double" Nullable="false" />
           <Property Name="FromDate" Type="DateTime" Precision="3" />
@@ -3938,7 +4066,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Key>
             <PropertyRef Name="StockItemId" />
           </Key>
-          <Property Name="StockItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ItemName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="AlternateName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -3952,8 +4080,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="ItemUnitSize" Type="Int32" />
           <Property Name="SupplierId" Type="Int32" />
           <Property Name="CostPrice" Type="Double" />
-          <Property Name="CategoryId" Type="Int32" />
-          <Property Name="SubCategoryId" Type="Int32" />
+          <Property Name="CategoryId" Type="Int64" />
+          <Property Name="SubCategoryId" Type="Int64" />
           <Property Name="LastModifiedDateTime" Type="DateTime" Precision="3" />
           <Property Name="LastModifiedBy" Type="Int32" />
           <Property Name="StockLevel" Type="Int32" />
@@ -5258,7 +5386,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           </Key>
           <Property Name="SectionCostCentreDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SectionCostCentreId" Type="Int32" />
-          <Property Name="StockId" Type="Int32" />
+          <Property Name="StockId" Type="Int64" />
           <Property Name="SupplierId" Type="Int32" />
           <Property Name="Qty1" Type="Double" />
           <Property Name="Qty2" Type="Double" />
@@ -6141,6 +6269,9 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="ColorM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ColorY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ColorK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="CompanyCMYKColor" ToRole="Company" />
+          <NavigationProperty Name="CompanyCMYKColor1" Relationship="DomainModels.FK_CompanyCMYKColor_CompanyCMYKColor" FromRole="CompanyCMYKColor" ToRole="CompanyCMYKColor1" />
+          <NavigationProperty Name="CompanyCMYKColor2" Relationship="DomainModels.FK_CompanyCMYKColor_CompanyCMYKColor" FromRole="CompanyCMYKColor1" ToRole="CompanyCMYKColor" />
         </EntityType>
         <EntityType Name="DiscountVoucher">
           <Key>
@@ -6239,6 +6370,105 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsQtyRanged" Type="Boolean" />
           <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
+        <Association Name="FK_CompanyCMYKColor_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyCMYKColor" Role="CompanyCMYKColor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyCMYKColor">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyCMYKColor_CompanyCMYKColor">
+          <End Type="DomainModels.CompanyCMYKColor" Role="CompanyCMYKColor" Multiplicity="1" />
+          <End Type="DomainModels.CompanyCMYKColor" Role="CompanyCMYKColor1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyCMYKColor">
+              <PropertyRef Name="ColorId" />
+            </Principal>
+            <Dependent Role="CompanyCMYKColor1">
+              <PropertyRef Name="ColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="CurrencyId" />
+          </Key>
+          <Property Name="CurrencyId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="prefix">
+          <Key>
+            <PropertyRef Name="PrefixId" />
+          </Key>
+          <Property Name="EstimatePrefix" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EstimateStart" Type="Int64" />
+          <Property Name="EstimateNext" Type="Int64" />
+          <Property Name="InvoicePrefix" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceStart" Type="Int64" />
+          <Property Name="InvoiceNext" Type="Int64" />
+          <Property Name="JobPrefix" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="JobStart" Type="Int64" />
+          <Property Name="JobNext" Type="Int64" />
+          <Property Name="POPrefix" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="POStart" Type="Int64" />
+          <Property Name="PONext" Type="Int64" />
+          <Property Name="GOFPrefix" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="GOFStart" Type="Int64" />
+          <Property Name="GOFNext" Type="Int64" />
+          <Property Name="ITEMPrefix" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ITEMStart" Type="Int64" />
+          <Property Name="ITEMNext" Type="Int64" />
+          <Property Name="DeliveryNPrefix" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryNStart" Type="Int64" />
+          <Property Name="DeliveryNNext" Type="Int64" />
+          <Property Name="JobCardPrefix" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="JobCardStart" Type="Int64" />
+          <Property Name="JobCardNext" Type="Int64" />
+          <Property Name="GRNPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GRNStart" Type="Int64" />
+          <Property Name="GRNNext" Type="Int64" />
+          <Property Name="ProductPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductStart" Type="Int64" />
+          <Property Name="ProductNext" Type="Int64" />
+          <Property Name="FinishedGoodsPrefix" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FinishedGoodsStart" Type="Int64" Nullable="false" />
+          <Property Name="FinishedGoodsNext" Type="Int64" Nullable="false" />
+          <Property Name="OrderPrefix" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrderStart" Type="Int64" Nullable="false" />
+          <Property Name="OrderNext" Type="Int64" Nullable="false" />
+          <Property Name="EnquiryPrefix" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EnquiryStart" Type="Int64" Nullable="false" />
+          <Property Name="EnquiryNext" Type="Int64" Nullable="false" />
+          <Property Name="StockItemPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StockItemStart" Type="Int64" />
+          <Property Name="StockItemNext" Type="Int64" />
+          <Property Name="SystemSiteID" Type="Int32" Nullable="false" />
+          <Property Name="PrefixId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="MarkupId" Type="Int64" />
+          <Property Name="JobManagerId" Type="Int32" />
+          <Property Name="OrderManagerId" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Markup" Relationship="DomainModels.FK_tbl_prefixes_tbl_markup" FromRole="prefix" ToRole="Markup" />
+        </EntityType>
+        <Association Name="FK_tbl_prefixes_tbl_markup">
+          <End Type="DomainModels.Markup" Role="Markup" Multiplicity="0..1" />
+          <End Type="DomainModels.prefix" Role="prefix" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markup">
+              <PropertyRef Name="MarkUpId" />
+            </Principal>
+            <Dependent Role="prefix">
+              <PropertyRef Name="MarkupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8357,6 +8587,70 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="DomainModels.Currency">
+              <MappingFragment StoreEntitySet="Currency">
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="prefixes">
+            <EntityTypeMapping TypeName="DomainModels.prefix">
+              <MappingFragment StoreEntitySet="prefix">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="OrderManagerId" ColumnName="OrderManagerId" />
+                <ScalarProperty Name="JobManagerId" ColumnName="JobManagerId" />
+                <ScalarProperty Name="MarkupId" ColumnName="MarkupId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="PrefixId" ColumnName="PrefixId" />
+                <ScalarProperty Name="SystemSiteID" ColumnName="SystemSiteID" />
+                <ScalarProperty Name="StockItemNext" ColumnName="StockItemNext" />
+                <ScalarProperty Name="StockItemStart" ColumnName="StockItemStart" />
+                <ScalarProperty Name="StockItemPrefix" ColumnName="StockItemPrefix" />
+                <ScalarProperty Name="EnquiryNext" ColumnName="EnquiryNext" />
+                <ScalarProperty Name="EnquiryStart" ColumnName="EnquiryStart" />
+                <ScalarProperty Name="EnquiryPrefix" ColumnName="EnquiryPrefix" />
+                <ScalarProperty Name="OrderNext" ColumnName="OrderNext" />
+                <ScalarProperty Name="OrderStart" ColumnName="OrderStart" />
+                <ScalarProperty Name="OrderPrefix" ColumnName="OrderPrefix" />
+                <ScalarProperty Name="FinishedGoodsNext" ColumnName="FinishedGoodsNext" />
+                <ScalarProperty Name="FinishedGoodsStart" ColumnName="FinishedGoodsStart" />
+                <ScalarProperty Name="FinishedGoodsPrefix" ColumnName="FinishedGoodsPrefix" />
+                <ScalarProperty Name="ProductNext" ColumnName="ProductNext" />
+                <ScalarProperty Name="ProductStart" ColumnName="ProductStart" />
+                <ScalarProperty Name="ProductPrefix" ColumnName="ProductPrefix" />
+                <ScalarProperty Name="GRNNext" ColumnName="GRNNext" />
+                <ScalarProperty Name="GRNStart" ColumnName="GRNStart" />
+                <ScalarProperty Name="GRNPrefix" ColumnName="GRNPrefix" />
+                <ScalarProperty Name="JobCardNext" ColumnName="JobCardNext" />
+                <ScalarProperty Name="JobCardStart" ColumnName="JobCardStart" />
+                <ScalarProperty Name="JobCardPrefix" ColumnName="JobCardPrefix" />
+                <ScalarProperty Name="DeliveryNNext" ColumnName="DeliveryNNext" />
+                <ScalarProperty Name="DeliveryNStart" ColumnName="DeliveryNStart" />
+                <ScalarProperty Name="DeliveryNPrefix" ColumnName="DeliveryNPrefix" />
+                <ScalarProperty Name="ITEMNext" ColumnName="ITEMNext" />
+                <ScalarProperty Name="ITEMStart" ColumnName="ITEMStart" />
+                <ScalarProperty Name="ITEMPrefix" ColumnName="ITEMPrefix" />
+                <ScalarProperty Name="GOFNext" ColumnName="GOFNext" />
+                <ScalarProperty Name="GOFStart" ColumnName="GOFStart" />
+                <ScalarProperty Name="GOFPrefix" ColumnName="GOFPrefix" />
+                <ScalarProperty Name="PONext" ColumnName="PONext" />
+                <ScalarProperty Name="POStart" ColumnName="POStart" />
+                <ScalarProperty Name="POPrefix" ColumnName="POPrefix" />
+                <ScalarProperty Name="JobNext" ColumnName="JobNext" />
+                <ScalarProperty Name="JobStart" ColumnName="JobStart" />
+                <ScalarProperty Name="JobPrefix" ColumnName="JobPrefix" />
+                <ScalarProperty Name="InvoiceNext" ColumnName="InvoiceNext" />
+                <ScalarProperty Name="InvoiceStart" ColumnName="InvoiceStart" />
+                <ScalarProperty Name="InvoicePrefix" ColumnName="InvoicePrefix" />
+                <ScalarProperty Name="EstimateNext" ColumnName="EstimateNext" />
+                <ScalarProperty Name="EstimateStart" ColumnName="EstimateStart" />
+                <ScalarProperty Name="EstimatePrefix" ColumnName="EstimatePrefix" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -51,12 +51,12 @@
         specifiedItemSizeSelectedUnitId, specifiedPerQtyQty, specifiedItemSizeCustom, specifiedStockLocation, specifiedItemSizeId, specifiedItemSizeHeight,
         specifiedItemSizeWidth, specifiedPerQtyType, specifiedPackageQty, specifiedRollWidth, specifiedRollLength, specifiedReOrderLevel, specifiedReorderQty,
         specifiedItemWeight, specifiedItemColour, specifiedInkAbsorption, specifiedPaperBasicAreaId, specifiedItemCoated, specifiedItemCoatedType,
-        specifiedItemWeightSelectedUnit
+        specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate
            ) {
         var
             self,
             //item Id
-            itemId = ko.observable(specifiedItemId),
+            itemId = ko.observable(specifiedItemId === undefined ? 0 : specifiedItemId),
             //Item Name
             itemName = ko.observable(specifiedItemName).extend({ required: true }),
             //Item Code
@@ -74,7 +74,7 @@
             //Item Description
             description = ko.observable(specifiedDescription),
             //Created Date
-            createdDate = ko.observable(specifiedCreatedDate),
+            createdDate = ko.observable(specifiedCreatedDate !== undefined ? moment(specifiedCreatedDate).format(ist.datePattern) : undefined),
             //Flag ID
             flagId = ko.observable(specifiedFlagId),
             //Status ID
@@ -100,7 +100,7 @@
             //Per Qty Type
             perQtyType = ko.observable(specifiedPerQtyType),
            //Package Qty
-            packageQty = ko.observable(specifiedPackageQty).extend({ number: true }),
+            packageQty = ko.observable(specifiedPackageQty === undefined ? undefined : specifiedPackageQty).extend({ number: true }),
             //Roll Width
             rollWidth = ko.observable(specifiedRollWidth).extend({ number: true }),
             //Roll Length
@@ -123,8 +123,15 @@
             itemCoatedType = ko.observable(specifiedItemCoatedType),
             //Item Weight Selected Unit
             itemWeightSelectedUnit = ko.observable(specifiedItemWeightSelectedUnit),
-
-        //header computed Value based on selection unit size itm 
+            //Allocated
+            allocated = ko.observable(specifiedAllocated),
+            //On Order
+            onOrder = ko.observable(specifiedOnOrder),
+            //Last Order Qty
+            lastOrderQty = ko.observable(specifiedLastOrderQty),
+            //Last Order Date
+            lastOrderDate = ko.observable(specifiedLastOrderDate),
+            //header computed Value based on selection unit size itm 
         headerComputedValue = ko.observable(),
         //Stock Cost And Price List
         stockCostAndPriceListInInventory = ko.observableArray([]),
@@ -158,7 +165,7 @@
         }),
         convertToServerData = function () {
             return {
-                ItemId: itemId(),
+                StockItemId: itemId(),
                 ItemName: itemName(),
                 ItemCode: itemCode(),
                 SupplierId: supplierId(),
@@ -233,6 +240,10 @@
             itemCoated: itemCoated,
             itemCoatedType: itemCoatedType,
             itemWeightSelectedUnit: itemWeightSelectedUnit,
+            allocated: allocated,
+            onOrder: onOrder,
+            lastOrderQty: lastOrderQty,
+            lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
             isValid: isValid,
@@ -329,7 +340,8 @@
          source.inStock, source.ItemDescription, source.StockCreated, source.FlagID, source.Status, source.isDisabled, source.PaperType, source.ItemSizeSelectedUnit,
             source.PerQtyQty, source.ItemSizeCustom, source.StockLocation, source.ItemSizeId, source.ItemSizeHeight, source.ItemSizeWidth, source.PerQtyType, source.PackageQty,
             source.RollWidth, source.RollLength, source.ReOrderLevel, source.ReorderQty, source.ItemWeight, source.ItemColour, source.InkAbsorption, source.PaperBasicAreaId,
-            source.ItemCoated, source.ItemCoatedType, source.ItemWeightSelectedUnit);
+            source.ItemCoated, source.ItemCoatedType, source.ItemWeightSelectedUnit, source.Allocated, source.onOrder, source.LastOrderQty, source.LastOrderDate
+            );
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.CreateForClient = function (source) {
@@ -341,9 +353,9 @@
     };
     // Stock Item Factory
     StockItem.Create = function () {
-        return new StockItem(1, "", "", undefined, undefined, undefined, "111000011110",
-         0, "", undefined, undefined, undefined, false, "1", 2, 100, false, "", undefined, undefined, undefined, undefined, 100, undefined, undefined, 0, 0, 100, "White", 100,
-         undefined, false, "1", undefined);
+        return new StockItem(undefined, "", "", undefined, undefined, undefined, "111000011110",
+         0, "", undefined, undefined, undefined, false, "1", undefined, 100, false, "", undefined, undefined, undefined, undefined, 100, undefined, undefined, 0, 0, 100, "White", 100,
+         undefined, false, "1", undefined, undefined, undefined, undefined, undefined);
     };
     //Create Factory 
     InventoryListView.Create = function (source) {

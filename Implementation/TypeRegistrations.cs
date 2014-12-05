@@ -5,7 +5,10 @@ using MPC.Implementation.WebStoreServices;
 using MPC.Interfaces.Logger;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.WebStoreServices;
-
+using webstoreInterfaces = MPC.Interfaces.WebStoreServices;
+using webstoreImplementation = MPC.Implementation.WebStoreServices;
+using MISInterfaces = MPC.Interfaces.MISServices;
+using MISImplementation = MPC.Implementation.MISServices;
 
 namespace MPC.Implementation
 {
@@ -22,7 +25,7 @@ namespace MPC.Implementation
             Repository.TypeRegistrations.RegisterType(unityContainer);
             unityContainer.RegisterType<IMyOrganizationService, MyOrganizationService>();
             unityContainer.RegisterType<IMyCompanyDomainService, MyCompanyDomainService>();
-            unityContainer.RegisterType<ICompanyService, CompanyService>();
+            unityContainer.RegisterType<webstoreInterfaces.ICompanyService, webstoreImplementation.CompanyService>();
             unityContainer.RegisterType<IMPCLogger, MPCLogger>();
             unityContainer.RegisterType<IPaperSheetService, PaperSheetService>();
             unityContainer.RegisterType<IAuthorizationChecker, AuthorizationChecker>();
@@ -32,6 +35,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IInventoryService, InventoryService>();
             unityContainer.RegisterType<IStockCategoryService, StockCategoryService>();
             unityContainer.RegisterType<IItemService, ItemService>();
+            unityContainer.RegisterType<MISInterfaces.ICompanyService, MISImplementation.CompanyService>();
         }
     }
 }

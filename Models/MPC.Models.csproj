@@ -112,6 +112,7 @@
     <Compile Include="Common\NameClaimValue.cs" />
     <Compile Include="Common\OrganisationClaimValue.cs" />
     <Compile Include="Common\PaperSheetByColumn.cs" />
+    <Compile Include="Common\PerQtyTypeUnits.cs" />
     <Compile Include="Common\RoleSection.cs" />
     <Compile Include="Common\Section.cs" />
     <Compile Include="Common\SecurityRoles.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
+    <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />

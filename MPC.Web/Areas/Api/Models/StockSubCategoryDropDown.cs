@@ -1,4 +1,4 @@
-﻿namespace MPC.MIS.Models
+﻿namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Stock Sub Category DropDown
@@ -8,7 +8,7 @@
         /// <summary>
         /// Sub Category Id
         /// </summary>
-        public int SubCategoryId { get; set; }
+        public long SubCategoryId { get; set; }
 
         /// <summary>
         /// Name
@@ -18,6 +18,6 @@
         /// <summary>
         /// Category Id
         /// </summary>
-        public int CategoryId { get; set; }
+        public long CategoryId { get; set; }
     }
 }

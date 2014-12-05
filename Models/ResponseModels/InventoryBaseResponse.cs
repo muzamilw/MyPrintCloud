@@ -49,9 +49,5 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
 
-        /// <summary>
-        /// Stock Cost And Price
-        /// </summary>
-        public StockCostAndPrice StockCostAndPrice { get; set; }
     }
 }

@@ -197,6 +197,7 @@
     <Compile Include="Repositories\ItemRepository.cs" />
     <Compile Include="Repositories\StockItemRepository.cs" />
     <Compile Include="Repositories\StockSubCategoryRepository.cs" />
+    <Compile Include="Repositories\SystemUserRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="TypeRegistrations.cs" />

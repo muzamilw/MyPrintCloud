@@ -13,7 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Stock Item ID
         /// </summary>
-        public int StockItemId { get; set; }
+        public long StockItemId { get; set; }
 
         /// <summary>
         /// Item Code
@@ -83,12 +83,12 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Category Id
         /// </summary>
-        public int? CategoryId { get; set; }
+        public long? CategoryId { get; set; }
 
         /// <summary>
         /// Sub Category Id
         /// </summary>
-        public int? SubCategoryId { get; set; }
+        public long? SubCategoryId { get; set; }
 
         /// <summary>
         /// Last Modified Date Time

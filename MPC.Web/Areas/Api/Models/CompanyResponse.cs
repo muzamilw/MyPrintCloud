@@ -12,6 +12,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// List of Companies
         /// </summary>
-        public IEnumerable<Company> Companies { get; set; } 
+        public IEnumerable<Company> Companies { get; set; }
+
+        /// <summary>
+        /// Company To be editted
+        /// </summary>
+        public Company Company { get; set; }
     }
 }

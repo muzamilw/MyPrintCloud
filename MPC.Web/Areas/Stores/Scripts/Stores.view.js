@@ -13,6 +13,18 @@ define("stores/stores.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#storesBinding")[0],
+                initializeForm = function () {
+                    // Initialize Forms - For File Upload
+                    $("#fileUploadForm").ajaxForm({
+                        success: function () {
+                            toastr.success("Uploading completed");
+                        },
+                        dataType: "json",
+                        error: function () {
+                            toastr.success("Uploading completed");
+                        }
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -22,6 +34,7 @@ define("stores/stores.view",
             initialize();
             return {
                 bindingRoot: bindingRoot,
+                initializeForm: initializeForm,
                 viewModel: viewModel,
             };
         })(storesViewModel);
@@ -32,3 +45,23 @@ define("stores/stores.view",
         }
         return ist.stores.view;
     });
+// Reads File - Print Out Section
+function readURL(input) {
+    $("input[id='my_file']").click();
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var img = new Image;
+            img.onload = function () {
+
+                $('#companyImage').attr('src', e.target.result);
+                if (ist.stores.viewModel.selectedStore().companyId() !== undefined) {
+                    $('#orgImageSubmitBtn').attr('disabled', false);
+                }
+            };
+            img.src = reader.result;
+
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
