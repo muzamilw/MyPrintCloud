@@ -51,7 +51,7 @@
                         <div class="productHeadingsCnt width24Perc">
                             Main Image
                         </div>
-                        <div class="productHeadingsCnt width13Per">
+                        <div class="productHeadingsCnt width25Perc">
                             Product Name
                         </div>
                         <div class="productHeadingsCnt width13Per">
@@ -128,7 +128,7 @@
                 <span data-bind="text: productNameForGrid"></span>
             </div>
             <div class="">
-                <span></span>
+                <span data-bind="text: '$' + miniPrice()"></span>
             </div>
         </div>
     </script>
@@ -159,7 +159,7 @@
     <script id="listViewTemplate" type="text/html">
         <tr>
             <td class="width12Perc text-center">
-                <a href="#"><span data-bind="text: code"></span></a>
+                <a data-bind="click: $root.editProduct"><span data-bind="text: productCode"></span></a>
             </td>
             <td class="width24Perc text-center">
                 <div class="LCLB Product-Body-List">
@@ -168,7 +168,7 @@
                     </div>
                 </div>
             </td>
-            <td class="text-center width13Per">
+            <td class="text-center width25Perc">
                 <span class="NoneditableName" data-bind="text: productName"></span>
             </td>
             <td class="text-center width13Per">

@@ -161,6 +161,12 @@ define("product/product.viewModel",
                         }
                         return flag;
                     },
+                    // Get Item From List
+                    getItemFromList = function(id) {
+                        return products.find(function(item) {
+                            return item.id() === id;
+                        });
+                    },
                     // Save Product
                     saveProduct = function (callback) {
                         dataservice.saveItem(selectedProduct().convertToServerData(), {
@@ -173,10 +179,14 @@ define("product/product.viewModel",
                                     products.splice(0, 0, selectedProduct());
                                 }
                                 else {
-                                    selectedProduct().productCode(data.ProductCode);
-                                    selectedProduct().productName(data.ProductName);
-                                    selectedProduct().isEnabled(data.IsEnabled);
-                                    selectedProduct().isPublished(data.IsPublished);
+                                    // Get Item
+                                    var item = getItemFromList(selectedProduct().id());
+                                    if (item) {
+                                        item.productCode(data.ProductCode);
+                                        item.productName(data.ProductName);
+                                        item.isEnabled(data.IsEnabled);
+                                        item.isPublished(data.IsPublished);
+                                    }
                                 }
                                 
                                 toastr.success("Saved Successfully.");
