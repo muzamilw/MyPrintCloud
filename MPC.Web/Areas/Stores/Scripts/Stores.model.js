@@ -3,15 +3,16 @@
 define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
         // ReSharper disable once InconsistentNaming
-        Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+        Store = function (specifiedCompanyId, specifiedName, specifiedStatus,specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey
         ) {
             var
                 self,
-                companyId = ko.observable(specifiedCompanyId),
+                companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
                 name = ko.observable(specifiedName),
                 status = ko.observable(specifiedStatus),
+                image = ko.observable(specifiedImage),
                 url = ko.observable(specifiedUrl),
                 accountOpenDate = ko.observable(specifiedAccountOpenDate),
                 accountManagerId = ko.observable(specifiedAccountManagerId),
@@ -29,9 +30,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 twitterAppId = ko.observable(specifiedTwitterAppId),
                 twitterAppKey = ko.observable(specifiedTwitterAppKey),
                 companyType = ko.observable(),
+                type = ko.observable(),
+                raveReviews = ko.observableArray([]),
+                // ReSharper disable InconsistentNaming
+                companyCMYKColors = ko.observableArray([]),
+                // ReSharper restore InconsistentNaming
 
                 // Errors
                 errors = ko.validation.group({
+                    companyId: companyId,
                     name: name,
                     url: url,
                 }),
@@ -47,6 +54,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     companyId: companyId,
                     name: name,
                     status: status,
+                    image:image,
                     url: url,
                     accountOpenDate: accountOpenDate,
                     accountManagerId: accountManagerId,
@@ -63,7 +71,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     facebookAppKey: facebookAppKey,
                     twitterAppId: twitterAppId,
                     twitterAppKey: twitterAppKey,
-                    companyType: companyType
+                    companyType: companyType,
+                    type: type,
+                    raveReviews: raveReviews,
+                    companyCMYKColors: companyCMYKColors
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -75,6 +86,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.CompanyId = source.companyId();
                     result.Name = source.name();
                     result.Status = source.status();
+                    result.Image = source.image();
                     result.URL = source.url();
                     result.AccountOpenDate = source.accountOpenDate();
                     result.AccountManagerId = source.accountManagerId();
@@ -91,7 +103,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.FacebookAppKey = source.facebookAppKey();
                     result.TwitterAppId = source.twitterAppId();
                     result.TwitterAppKey = source.twitterAppKey();
-                    result.CompanyType = source.companyType().convertToServerData();
+                    result.CompanyType = CompanyType().convertToServerData(source.companyType());
+                    result.StockSubCategories = [];
+                    _.each(source.RaveReviews(), function (item) {
+                        result.RaveReviews.push(item.convertToServerData());
+                    });
+                    //result.StockSubCategories = [];
+                    //_.each(source.stockSubCategories(), function (item) {
+                    //    result.StockSubCategories.push(item.convertToServerData());
+                    //});
                     return result;
                 },
                 // Reset
@@ -102,6 +122,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyId: companyId,
                 name: name,
                 status: status,
+                image:image,
                 url: url,
                 accountOpenDate: accountOpenDate,
                 accountManagerId: accountManagerId,
@@ -119,6 +140,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 twitterAppId: twitterAppId,
                 twitterAppKey: twitterAppKey,
                 companyType: companyType,
+                type: type,
+                raveReviews: raveReviews,
+                companyCMYKColors: companyCMYKColors,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -133,6 +157,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.companyId,
             source.name,
             source.status,
+            source.image,
             source.url,
             source.accountOpenDate,
             source.accountManagerId,
@@ -150,13 +175,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.twitterAppId,
             source.twitterAppKey
             );
-        result.companyType = source.CompanyType.CreateFromClientModel();
+        result.companyType(CompanyType.CreateFromClientModel(source.companyType));
+        _.each(source.raveReviews, function (item) {
+            result.raveReviews.push(RaveReview.CreateFromClientModel(item));
+        });
+        _.each(source.companyCMYKColors, function (item) {
+            result.companyCMYKColors.push(CompanyCMYKColor.CreateFromClientModel(item));
+        });
+        return result;
     };
     Store.Create = function (source) {
         var store = new Store(
             source.CompanyId,
             source.Name,
             source.Status,
+            source.Image,
             source.URL,
             source.AccountOpenDate,
             source.AccountManagerId,
@@ -174,10 +207,30 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.TwitterAppId,
             source.TwitterAppKey
             );
+
         store.companyType(CompanyType.Create(source.CompanyType));
+        if (source.IsCustomer == 0) {
+            store.type("Supplier");
+        }
+        else if (source.IsCustomer == 1) {
+            store.type("Retail Customer");
+        }
+        else if (source.IsCustomer == 2) {
+            store.type("Prospect");
+        }
+        else if (source.IsCustomer == 3) {
+            store.type("Corporate");
+        }
+        _.each(source.RaveReviews, function (item) {
+            store.raveReviews.push(RaveReview.Create(item));
+        });
+        _.each(source.CompanyCMYKColors, function (item) {
+            store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
+        });
         return store;
     };
 
+    // ______________  C O M P A N Y    T Y P E   _________________//
     // ReSharper disable once InconsistentNaming
     var CompanyType = function (specifiedCompanyTypeId, specifiedIsFixed, specifiedTypeName) {
         var
@@ -246,9 +299,267 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             );
         return companyType;
     };
+
+    // ______________  S Y S T E M     U S E R   _________________//
+    // ReSharper disable once InconsistentNaming
+    var SystemUser = function(specifiedSystemUserId, specifiedUserName) {
+        var self,
+            systemUserId = ko.observable(specifiedSystemUserId),
+            userName = ko.observable(specifiedUserName),
+            // Errors
+            errors = ko.validation.group({
+        
+            }),
+            // Is Valid 
+            isValid = ko.computed(function() {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                // ReSharper restore InconsistentNaming
+                systemUserId: systemUserId,
+                userName: userName
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function() {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function(source) {
+                var result = {};
+                result.SystemUserId = source.systemUserId();
+                result.UserName = source.userName();
+                return result;
+            },
+            // Reset
+            reset = function() {
+                dirtyFlag.reset();
+            };
+        self = {
+            systemUserId: systemUserId,
+            userName: userName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    SystemUser.CreateFromClientModel = function (source) {
+        return new SystemUser(
+            source.systemUserId,
+            source.userName
+            );
+    };
+    SystemUser.Create = function (source) {
+        var systemUser = new SystemUser(
+            source.SystemUserId,
+            source.UserName
+            );
+        return systemUser;
+    };
+
+    // ______________  R A V E    R E V I E W   _________________//
+    // ReSharper disable once InconsistentNaming
+    var RaveReview = function (specifiedReviewId,specifiedReviewBy,specifiedReview,specifiedReviewDate,specifiedisDisplay,specifiedSortOrder,specifiedOrganisationId,specifiedCompanyId) {
+        var self,
+            reviewId = ko.observable(specifiedReviewId),
+            reviewBy = ko.observable(specifiedReviewBy),
+            review = ko.observable(specifiedReview),
+            reviewDate = ko.observable(specifiedReviewDate),
+            isDisplay = ko.observable(specifiedisDisplay),
+            sortOrder = ko.observable(specifiedSortOrder),
+            organisationId = ko.observable(specifiedOrganisationId),
+            companyId = ko.observable(specifiedCompanyId),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                reviewId :reviewId ,
+                reviewBy : reviewBy ,
+                review : review ,
+                reviewDate :reviewDate ,
+                isDisplay :isDisplay ,
+                sortOrder : sortOrder ,
+                organisationId: organisationId,
+                companyId: companyId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.ReviewId = source.reviewId();
+                result.ReviewBy = source.reviewBy();
+                result.Review = source.review();
+                result.IsDisplay = source.isDisplay();
+                result.SortOrder = source.sortOrder();
+                result.OrganisationId = source.organisationId();
+                result.CompanyId = source.companyId();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            reviewId: reviewId,
+            reviewBy: reviewBy,
+            review: review,
+            reviewDate: reviewDate,
+            isDisplay: isDisplay,
+            sortOrder: sortOrder,
+            organisationId: organisationId,
+            companyId: companyId,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    RaveReview.CreateFromClientModel = function (source) {
+        return new RaveReview(
+            source.reviewId,
+            source.reviewBy,
+            source.review,
+            source.reviewDate,
+            source.isDisplay,
+            source.sortOrder,
+            source.organisationId,
+            source.companyId
+            );
+    };
+    RaveReview.Create = function (source) {
+        var raveReview = new RaveReview(
+            //       
+            source.ReviewId,
+            source.ReviewBy,
+            source.Review,
+            source.ReviewDate,
+            source.isDisplay,
+            source.SortOrder,
+            source.OrganisationId,
+            source.CompanyId
+            );
+        return raveReview;
+    };
+
+    // ______________  C O M P A N Y    C M Y K    C O L O R   _________________//
+    // ReSharper disable once InconsistentNaming    
+    var CompanyCMYKColor = function (specifiedColorId,specifiedCompanyId,specifiedColorName,specifiedColorC,specifiedColorM,specifiedColorY,specifiedColorK) {
+        var self,
+            colorId = ko.observable(specifiedColorId),
+            companyId = ko.observable(specifiedCompanyId),
+            colorName = ko.observable(specifiedColorName),
+            colorC = ko.observable(specifiedColorC),
+            colorM = ko.observable(specifiedColorM),
+            colorY = ko.observable(specifiedColorY),
+            colorK = ko.observable(specifiedColorK),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                // ReSharper restore InconsistentNaming
+                colorId :colorId ,
+                companyId :companyId ,
+                colorName : colorName ,
+                colorC : colorC ,
+                colorM : colorM ,
+                colorY : colorY ,
+                colorK: colorK
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};//ColorId CompanyId ColorName ColorC ColorM ColorY ColorK
+                result.ColorId = source.colorId();
+                result.CompanyId = source.companyId();
+                result.ColorName = source.colorName();
+                result.ColorC = source.colorC();
+                result.ColorM = source.colorM();
+                result.ColorY = source.colorY();
+                result.ColorK = source.colorK();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            colorId: colorId,
+            companyId: companyId,
+            colorName: colorName,
+            colorC: colorC,
+            colorM: colorM,
+            colorY: colorY,
+            colorK: colorK,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    CompanyCMYKColor.CreateFromClientModel = function (source) {
+        return new CompanyCMYKColor(
+            source.colorId,
+            source.companyId,
+            source.colorName,
+            source.colorC,
+            source.colorM,
+            source.colorY,
+            source.colorK
+            );
+    };
+    CompanyCMYKColor.Create = function (source) {
+        var companyCMYKColor = new CompanyCMYKColor(
+            source.ColorId,
+            source.CompanyId,
+            source.ColorName,
+            source.ColorC,
+            source.ColorM,
+            source.ColorY,
+            source.ColorK
+            );
+        return companyCMYKColor;
+    };
+
     return {
         Store: Store,
-        CompanyType: CompanyType
+        CompanyType: CompanyType,
+        SystemUser: SystemUser,
+        RaveReview: RaveReview,
+        CompanyCMYKColor: CompanyCMYKColor
     };
 });
 

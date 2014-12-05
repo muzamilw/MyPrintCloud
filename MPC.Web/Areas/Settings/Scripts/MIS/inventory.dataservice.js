@@ -30,6 +30,12 @@ define("inventory/inventory.dataservice", function () {
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    // Define request to Get Inventory By Id
+                    amplify.request.define('getInventoryById', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inventory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to save Inventory
                     amplify.request.define('saveInventory', 'ajax', {
                         url: ist.siteUrl + '/Api/Inventory',
@@ -69,6 +75,17 @@ define("inventory/inventory.dataservice", function () {
                     data: params
                 });
             },
+             // Get Inventory Detail By ID
+            getInventoryById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getInventoryById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
            // Save Inventory
             saveInventory = function (param, callbacks) {
                 initialize();
@@ -85,6 +102,7 @@ define("inventory/inventory.dataservice", function () {
             getInventoryBase: getInventoryBase,
             deleteInventory: deleteInventory,
             saveInventory: saveInventory,
+            getInventoryById: getInventoryById,
         };
     })();
 

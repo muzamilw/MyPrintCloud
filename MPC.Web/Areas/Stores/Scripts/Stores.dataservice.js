@@ -13,6 +13,18 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store By StoreId
+                    amplify.request.define('getStoreById', 'ajax', {
+                        url: ist.siteUrl + '/Api/Company',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Store
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to delete Store
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
@@ -27,13 +39,7 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    // Define request to save New Store
-                    amplify.request.define('saveNewStore', 'ajax', {
-                        url: ist.siteUrl + '/Api/Company',
-                        dataType: 'json',
-                        decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'Put'
-                    });
+                   
                     isInitialized = true;
                 }
             },
@@ -47,6 +53,25 @@
                     data: params
                 });
             },
+            // get Store by id
+            getStoreById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getStoreById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // get Store by id
+            getBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
             // delete Stores
             deleteStore = function (params, callbacks) {
                 initialize();
@@ -57,16 +82,7 @@
                     data: params
                 });
             },
-            // Save New Store
-            saveNewStore = function (param, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'saveNewStore',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: param
-                });
-            },
+           
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -80,8 +96,9 @@
 
         return {
             getStores: getStores,
+            getStoreById: getStoreById,
+            getBaseData: getBaseData,
             deleteStore: deleteStore,
-            saveNewStore: saveNewStore,
             saveStore: saveStore,
         };
     })();

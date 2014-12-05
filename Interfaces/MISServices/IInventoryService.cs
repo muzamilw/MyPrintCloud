@@ -23,5 +23,10 @@ namespace MPC.Interfaces.MISServices
         /// Add/Update Stock Item
         /// </summary>
         StockItem SaveInevntory(StockItem request);
+
+        /// <summary>
+        ///Find Stock Item By Id 
+        /// </summary>
+        StockItem GetById(long stockItemId);
     }
 }

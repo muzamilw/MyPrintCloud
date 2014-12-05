@@ -12,8 +12,14 @@ define("stores/stores.viewModel",
                     view,
                     //stores List
                     stores = ko.observableArray([]),
+                    //Store Image
+                    storeImage = ko.observable(),
+                    //system Users
+                    systemUsers = ko.observableArray([]),
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
+                    //Is Editorial View Visible
+                    isEditorVisible = ko.observable(false),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -26,7 +32,7 @@ define("stores/stores.viewModel",
                     editorViewModel = new ist.ViewModel(model.Store),
                     //Selected store
                     selectedStore = editorViewModel.itemForEditing,
-                    
+
                     //Template To Use
                     templateToUse = function (store) {
                         return (store === selectedStore() ? 'editStoreTemplate' : 'itemStoreTemplate');
@@ -67,7 +73,7 @@ define("stores/stores.viewModel",
                     getStores = function () {
                         isLoadingStores(true);
                         dataservice.getStores({
-                            SearchString : searchFilter(),
+                            SearchString: searchFilter(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
@@ -101,32 +107,14 @@ define("stores/stores.viewModel",
                     },
                     //Save Store
                     saveStore = function (item) {
-                        if (selectedStore() != undefined && doBeforeSave()) {
-                            if (selectedStore().storeId() > 0) {
-                                saveEdittedStore();
-                            } else {
-                                saveNewStore(item);
-                            }
-                        }
-                    },
-                    //Save NEW Store
-                    saveNewStore = function () {
-                        dataservice.saveNewStore(model.Store().convertToServerData(selectedStore()), {
-                            success: function (data) {
-                                selectedStore().storeId(data.StoreId);
-                                stores.splice(0, 0, selectedStore());
-                                isStoreEditorVisible(false);
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (response) {
-                                toastr.error("Error: Failed to save. " + response);
-                            }
-                        });
-                    },
-                    //Save EDIT Store
-                    saveEdittedStore = function () {
+
                         dataservice.saveStore(model.Store().convertToServerData(selectedStore()), {
-                            success: function () {
+                            success: function (data) {
+                                //new store adding
+                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                    stores.splice(0, 0, selectedStore());
+                                }
+                                //selectedStore().storeId(data.StoreId);
                                 isStoreEditorVisible(false);
                                 toastr.success("Successfully save.");
                             },
@@ -138,18 +126,21 @@ define("stores/stores.viewModel",
                     },
                     //Open Store Dialog
                     openEditDialog = function () {
-                        isStoreEditorVisible(true);
+                        isEditorVisible(true);
                         getStoreForEditting();
+                        view.initializeForm();
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
-                        dataservice.getStores({
-                            StoreId: selectedStore().storeId()
+                        dataservice.getStoreById({
+                            //dataservice.getStores({
+                            CompanyId: selectedStore().companyId()
                         }, {
                             success: function (data) {
                                 selectedStore(undefined);
                                 if (data != null) {
-                                    selectedStore(model.Store.Create(data.Stores[0]));
+                                    selectedStore(model.Store.Create(data));
+                                    storeImage(data.ImageSource);
                                 }
                                 isLoadingStores(false);
                             },
@@ -162,31 +153,128 @@ define("stores/stores.viewModel",
                     //Close Store Dialog
                     closeEditDialog = function () {
                         if (selectedStore() != undefined) {
-                            if (selectedStore().categoryId() > 0) {
-                                isStoreEditorVisible(false);
+                            if (selectedStore().companyId() > 0) {
+                                isEditorVisible(false);
                             } else {
-                                isStoreEditorVisible(false);
+                                isEditorVisible(false);
                                 stores.remove(selectedStore());
                             }
                             editorViewModel.revertItem();
                         }
                     },
-                    resetFilterSection= function() {
+                    resetFilterSection = function () {
                         searchFilter(undefined);
                         getStores();
                     },
+                    //Get Base Data
+                    getBaseData = function () {
+                        dataservice.getBaseData({
+                            success: function (data) {
+                                if (data != null) {
+                                    _.each(data.SystemUsers, function (item) {
+                                        var systemUser = new model.SystemUsers.Create(item);
+                                        systemUsers.push(systemUser);
+                                    });
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Stores . Error: " + response);
+                            }
+                        });
+                    },
+
+                    // ***** RAVE REVIEW BEGIN*****//
+
+                    //Selected Rave Review
+                    selectedRaveReview = ko.observable(),
+                      // Template Chooser For Rave Review
+                    templateToUseRaveReviews = function (raveReview) {
+                        return (raveReview === selectedRaveReview() ? 'editRaveReviewTemplate' : 'itemRaveReviewTemplate');
+                    },
+                    //Create Stock Sub Category
+                     onCreateNewRaveReview = function () {
+                         var raveReview = selectedRaveReview().raveReviews()[0];
+                         //Create Rave Reviews for the very First Time
+                         if (raveReview == undefined) {
+                             selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
+                             selectedRaveReview(selectedStore().raveReviews()[0]);
+                         }
+                             //If There are already rave reviews in list
+                         else {
+                             if (!raveReview.isValid()) {
+                                 raveReview.errors.showAllMessages();
+                             }
+                             else {
+                                 selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
+                                 selectedRaveReview(selectedStore().raveReviews()[0]);
+                             }
+                         }
+                     },
+                     // Delete a Rave review
+                    onDeleteRaveReview = function (raveReview) {
+                        //if (raveReview.reviewId() > 0) {
+                        selectedStore().raveReviews.remove(raveReview);
+                        return;
+                        //}
+                    },
+                    // ***** RAVE REVIEW END*****//
+
+                    // ***** COMPANY CMYK COLOR BEGIN*****// 
+
+                    //Selected Company CMYK Color
+                    // ReSharper disable InconsistentNaming
+                    selectedCompanyCMYKColor = ko.observable(),
+                     // Template Chooser For Company CMYK Color
+                    templateToUseCompanyCMYKColors = function (companyCMYKColor) {
+                        return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
+                    },
+                    //Create Stock Sub Category
+                     onCreateNewCompanyCMYKColor = function () {
+                         var companyCMYKColor = selectedStore().companyCMYKColors()[0];
+                         //Create Company CMYK Color for the very First Time
+                         if (companyCMYKColor == undefined) {
+                             selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
+                             selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
+                         }
+                             //If There are already company CMYK Color in list
+                         else {
+                             if (!companyCMYKColor.isValid()) {
+                                 companyCMYKColor.errors.showAllMessages();
+                             }
+                             else {
+                                 selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
+                                 selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
+                             }
+                         }
+                     },
+                     // Delete a company CMYK Color
+                    onDeleteCompanyCMYKColors = function (companyCMYKColor) {
+                        if (companyCMYKColor.colorId() > 0) {
+                            selectedStore().companyCMYKColors.remove(companyCMYKColor);
+                            return;
+                        }
+                    },
+                    // ***** COMPANY CMYK COLOR END*****//
 
                 //Initialize
+                // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
                     getStores();
+                    getBaseData();
+                    view.initializeForm();
                 };
 
                 return {
                     stores: stores,
+                    storeImage: storeImage,
+                    systemUsers: systemUsers,
                     isLoadingStores: isLoadingStores,
+                    isEditorVisible: isEditorVisible,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     pager: pager,
@@ -202,12 +290,18 @@ define("stores/stores.viewModel",
                     getStores: getStores,
                     doBeforeSave: doBeforeSave,
                     saveStore: saveStore,
-                    saveNewStore: saveNewStore,
-                    saveEdittedStore: saveEdittedStore,
+                    //saveNewStore: saveNewStore,
+                    //saveEdittedStore: saveEdittedStore,
                     openEditDialog: openEditDialog,
                     getStoreForEditting: getStoreForEditting,
                     closeEditDialog: closeEditDialog,
-                    resetFilterSection:resetFilterSection,
+                    resetFilterSection: resetFilterSection,
+                    templateToUseRaveReviews: templateToUseRaveReviews,
+                    onCreateNewRaveReview: onCreateNewRaveReview,
+                    onDeleteRaveReview: onDeleteRaveReview,
+                    templateToUseCompanyCMYKColors: templateToUseCompanyCMYKColors,
+                    onCreateNewCompanyCMYKColor: onCreateNewCompanyCMYKColor,
+                    onDeleteCompanyCMYKColors: onDeleteCompanyCMYKColors,
                     initialize: initialize
                 };
             })()
