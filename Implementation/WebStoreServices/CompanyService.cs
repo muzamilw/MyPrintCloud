@@ -84,7 +84,15 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _companyContactRepository.GetContactUser(email, password);
         }
+        public CompanyContact GetContactByFirstName(string FName)
+        {
+            return _companyContactRepository.GetContactByFirstName(FName);
+        }
 
+        public CompanyContact GetContactByEmail(string Email)
+        {
+            return _companyContactRepository.GetContactByEmail(Email);
+        }
         #endregion
     }
 }
