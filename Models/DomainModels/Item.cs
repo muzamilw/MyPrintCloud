@@ -93,7 +93,7 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Run On Markup Id
         /// </summary>
-        public int? RunOnMarkUpID { get; set; }
+        public int? RunOnMarkUpId { get; set; }
 
         /// <summary>
         /// Run on Percentage Value
@@ -158,17 +158,61 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Qty1 Marup Id 1
         /// </summary>
-        public int? Qty1MarkUpID1 { get; set; }
-        public int? Qty2MarkUpID2 { get; set; }
-        public int? Qty3MarkUpID3 { get; set; }
+        public int? Qty1MarkUpId1 { get; set; }
+
+        /// <summary>
+        /// Qty2 Marup Id 2
+        /// </summary>
+        public int? Qty2MarkUpId2 { get; set; }
+
+        /// <summary>
+        /// Qty3Marup Id 3
+        /// </summary>
+        public int? Qty3MarkUpId3 { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Percentage Value
+        /// </summary>
         public double? Qty1MarkUpPercentageValue { get; set; }
+
+        /// <summary>
+        /// Qty2 Marup Percentage Value
+        /// </summary>
         public double? Qty2MarkUpPercentageValue { get; set; }
+
+        /// <summary>
+        /// Qty3 Percentage Value
+        /// </summary>
         public double? Qty3MarkUpPercentageValue { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup1 Value
+        /// </summary>
         public double? Qty1MarkUp1Value { get; set; }
+
+        /// <summary>
+        /// Qty2 Marup2 Value
+        /// </summary>
         public double? Qty2MarkUp2Value { get; set; }
+
+        /// <summary>
+        /// Qty3 Marup3 Value
+        /// </summary>
         public double? Qty3MarkUp3Value { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
         public double? Qty1NetTotal { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
         public double? Qty2NetTotal { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
         public double? Qty3NetTotal { get; set; }
         public double? Qty1Tax1Value { get; set; }
         public double? Qty1Tax2Value { get; set; }
@@ -177,19 +221,19 @@ namespace MPC.Models.DomainModels
         public double? Qty2Tax1Value { get; set; }
         public double? Qty2Tax2Value { get; set; }
         public double? Qty2Tax3Value { get; set; }
-        public double? Qty2grossTotal { get; set; }
+        public double? Qty2GrossTotal { get; set; }
         public double? Qty3Tax1Value { get; set; }
         public double? Qty3Tax2Value { get; set; }
         public double? Qty3Tax3Value { get; set; }
         public double? Qty3GrossTotal { get; set; }
         public short? IsDescriptionLocked { get; set; }
-        public string qty1title { get; set; }
-        public string qty2title { get; set; }
-        public string qty3Title { get; set; }
+        public string Qty1Title { get; set; }
+        public string Qty2Title { get; set; }
+        public string Qty3Title { get; set; }
         public string RunonTitle { get; set; }
         public string AdditionalInformation { get; set; }
-        public string qty2Description { get; set; }
-        public string qty3Description { get; set; }
+        public string Qty2Description { get; set; }
+        public string Qty3Description { get; set; }
         public string RunonDescription { get; set; }
         public string EstimateDescriptionTitle1 { get; set; }
         public string EstimateDescriptionTitle2 { get; set; }
@@ -241,7 +285,7 @@ namespace MPC.Models.DomainModels
         public DateTime? JobEstimatedCompletionDateTime { get; set; }
         public DateTime? JobCreationDateTime { get; set; }
         public int? JobProgressedBy { get; set; }
-        public int? jobSelectedQty { get; set; }
+        public int? JobSelectedQty { get; set; }
         public int? JobStatusId { get; set; }
         public bool? IsJobCardPrinted { get; set; }
         public short? IsItemLibraray { get; set; }
@@ -300,36 +344,36 @@ namespace MPC.Models.DomainModels
         public int? IsFinishedGoods { get; set; }
         public string LayoutGridContent { get; set; }
         public string HowToVideoContent { get; set; }
-        public string file1 { get; set; }
-        public string file2 { get; set; }
-        public string file3 { get; set; }
-        public string file4 { get; set; }
-        public string file5 { get; set; }
+        public string File1 { get; set; }
+        public string File2 { get; set; }
+        public string File3 { get; set; }
+        public string File4 { get; set; }
+        public string File5 { get; set; }
         public string GridImage { get; set; }
-        public bool? isQtyRanged { get; set; }
+        public bool? IsQtyRanged { get; set; }
         public double? CostCentreProfitBroker { get; set; }
         public double? BaseChargeBroker { get; set; }
         public double? MarkUpValueBroker { get; set; }
         public double? NetTotalBroker { get; set; }
         public double? TaxValueBroker { get; set; }
         public double? GrossTotalBroker { get; set; }
-        public bool? isCMYK { get; set; }
+        public bool? IsCmyk { get; set; }
         public int? SupplierId { get; set; }
-        public bool? isStockControl { get; set; }
-        public bool? isUploadImage { get; set; }
-        public bool? isMarketingBrief { get; set; }
-        public int? SupplierID2 { get; set; }
+        public bool? IsStockControl { get; set; }
+        public bool? IsUploadImage { get; set; }
+        public bool? IsMarketingBrief { get; set; }
+        public int? SupplierId2 { get; set; }
         public int? FinishedGoodId { get; set; }
         public short? IsFinishedGoodPrivate { get; set; }
         public string MetaKeywords { get; set; }
         public string MetaDescription { get; set; }
         public string MetaTitle { get; set; }
-        public bool? isTemplateDesignMode { get; set; }
+        public bool? IsTemplateDesignMode { get; set; }
         public string XeroAccessCode { get; set; }
         public double? DefaultItemTax { get; set; }
         public long? OrganisationId { get; set; }
         public double? PackagingWeight { get; set; }
-        public bool? IsVDPProduct { get; set; }
+        public bool? IsVdpProduct { get; set; }
 
         #endregion
 
@@ -347,7 +391,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ItemRelatedItem> ItemRelatedItems { get; set; }
         public virtual ICollection<ItemRelatedItem> RelatedItems { get; set; }
         public virtual ICollection<ItemStateTax> ItemStateTaxes { get; set; }
-        public virtual ICollection<ItemVDPPrice> ItemVDPPrices { get; set; }
+        public virtual ICollection<ItemVdpPrice> ItemVdpPrices { get; set; }
         public virtual ICollection<ItemSection> ItemSections { get; set; }
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }

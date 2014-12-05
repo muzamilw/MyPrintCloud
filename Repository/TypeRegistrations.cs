@@ -42,6 +42,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IRegistrationQuestionRepository, RegistrationQuestionRepository>();
             unityContainer.RegisterType<ICompanyContactRepository, CompanyContactRepository>();
             unityContainer.RegisterType<IGetItemsListViewRepository, GetItemsListViewRepository>();
+            unityContainer.RegisterType<IItemVdpPriceRepository, ItemVdpPriceRepository>();
         }
     }
 }

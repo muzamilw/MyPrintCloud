@@ -62,7 +62,7 @@
         <EntityTypeShape EntityType="DomainModels.ItemStateTax" Width="1.5" PointX="18.625" PointY="34.5" />
         <EntityTypeShape EntityType="DomainModels.ItemStockControl" Width="1.5" PointX="8.75" PointY="16.375" />
         <EntityTypeShape EntityType="DomainModels.ItemStockOption" Width="1.5" PointX="18.625" PointY="28.75" />
-        <EntityTypeShape EntityType="DomainModels.ItemVDPPrice" Width="1.5" PointX="18.625" PointY="31.75" />
+        <EntityTypeShape EntityType="DomainModels.ItemVdpPrice" Width="1.5" PointX="18.625" PointY="31.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_item_attachments_tbl_items" />
         <AssociationConnector Association="DomainModels.itemIDfk" />
         <AssociationConnector Association="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" />

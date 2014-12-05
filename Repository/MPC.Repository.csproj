@@ -180,6 +180,7 @@
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
+    <Compile Include="Repositories\ItemVdpPriceRepository.cs" />
     <Compile Include="Repositories\LengthUnitRepository.cs" />
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />

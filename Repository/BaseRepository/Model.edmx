@@ -3199,7 +3199,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="ItemStateTaxes" EntityType="DomainModels.ItemStateTax" />
           <EntitySet Name="ItemStockControls" EntityType="DomainModels.ItemStockControl" />
           <EntitySet Name="ItemStockOptions" EntityType="DomainModels.ItemStockOption" />
-          <EntitySet Name="ItemVDPPrices" EntityType="DomainModels.ItemVDPPrice" />
+          <EntitySet Name="ItemVdpPrices1" EntityType="DomainModels.ItemVdpPrice" />
           <AssociationSet Name="FK_tbl_item_attachments_tbl_items" Association="DomainModels.FK_tbl_item_attachments_tbl_items">
             <End Role="Item" EntitySet="Items" />
             <End Role="ItemAttachment" EntitySet="ItemAttachments" />
@@ -3226,7 +3226,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           </AssociationSet>
           <AssociationSet Name="FK_ItemVDPPrice_Items" Association="DomainModels.FK_ItemVDPPrice_Items">
             <End Role="Item" EntitySet="Items" />
-            <End Role="ItemVDPPrice" EntitySet="ItemVDPPrices" />
+            <End Role="ItemVDPPrice" EntitySet="ItemVdpPrices1" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_item_sections_tbl_items" Association="DomainModels.FK_tbl_item_sections_tbl_items">
             <End Role="Item" EntitySet="Items" />
@@ -4543,7 +4543,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="RunOnQty" Type="Int32" />
           <Property Name="RunonCostCentreProfit" Type="Double" />
           <Property Name="RunonBaseCharge" Type="Double" />
-          <Property Name="RunOnMarkUpID" Type="Int32" />
+          <Property Name="RunOnMarkUpId" Type="Int32" />
           <Property Name="RunonPercentageValue" Type="Int32" />
           <Property Name="RunOnMarkUpValue" Type="Double" />
           <Property Name="RunOnNetTotal" Type="Double" />
@@ -4556,9 +4556,9 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="Qty1BaseCharge1" Type="Double" />
           <Property Name="Qty2BaseCharge2" Type="Double" />
           <Property Name="Qty3BaseCharge3" Type="Double" />
-          <Property Name="Qty1MarkUpID1" Type="Int32" />
-          <Property Name="Qty2MarkUpID2" Type="Int32" />
-          <Property Name="Qty3MarkUpID3" Type="Int32" />
+          <Property Name="Qty1MarkUpId1" Type="Int32" />
+          <Property Name="Qty2MarkUpId2" Type="Int32" />
+          <Property Name="Qty3MarkUpId3" Type="Int32" />
           <Property Name="Qty1MarkUpPercentageValue" Type="Double" />
           <Property Name="Qty2MarkUpPercentageValue" Type="Double" />
           <Property Name="Qty3MarkUpPercentageValue" Type="Double" />
@@ -4575,19 +4575,19 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="Qty2Tax1Value" Type="Double" />
           <Property Name="Qty2Tax2Value" Type="Double" />
           <Property Name="Qty2Tax3Value" Type="Double" />
-          <Property Name="Qty2grossTotal" Type="Double" />
+          <Property Name="Qty2GrossTotal" Type="Double" />
           <Property Name="Qty3Tax1Value" Type="Double" />
           <Property Name="Qty3Tax2Value" Type="Double" />
           <Property Name="Qty3Tax3Value" Type="Double" />
           <Property Name="Qty3GrossTotal" Type="Double" />
           <Property Name="IsDescriptionLocked" Type="Int16" />
-          <Property Name="qty1title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qty2title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="qty3Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Qty1Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Qty2Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Qty3Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RunonTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AdditionalInformation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="qty2Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="qty3Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Qty2Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Qty3Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="RunonDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="EstimateDescriptionTitle1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="EstimateDescriptionTitle2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -4639,7 +4639,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="JobEstimatedCompletionDateTime" Type="DateTime" Precision="3" />
           <Property Name="JobCreationDateTime" Type="DateTime" Precision="3" />
           <Property Name="JobProgressedBy" Type="Int32" />
-          <Property Name="jobSelectedQty" Type="Int32" />
+          <Property Name="JobSelectedQty" Type="Int32" />
           <Property Name="JobStatusId" Type="Int32" />
           <Property Name="IsJobCardPrinted" Type="Boolean" />
           <Property Name="IsItemLibraray" Type="Int16" />
@@ -4698,43 +4698,43 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsFinishedGoods" Type="Int32" />
           <Property Name="LayoutGridContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HowToVideoContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="file1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="file2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="file3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="file4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="file5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="File1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="File2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="File3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="File4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="File5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="GridImage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="isQtyRanged" Type="Boolean" />
+          <Property Name="IsQtyRanged" Type="Boolean" />
           <Property Name="CostCentreProfitBroker" Type="Double" />
           <Property Name="BaseChargeBroker" Type="Double" />
           <Property Name="MarkUpValueBroker" Type="Double" />
           <Property Name="NetTotalBroker" Type="Double" />
           <Property Name="TaxValueBroker" Type="Double" />
           <Property Name="GrossTotalBroker" Type="Double" />
-          <Property Name="isCMYK" Type="Boolean" />
+          <Property Name="IsCmyk" Type="Boolean" />
           <Property Name="SupplierId" Type="Int32" />
-          <Property Name="isStockControl" Type="Boolean" />
-          <Property Name="isUploadImage" Type="Boolean" />
-          <Property Name="isMarketingBrief" Type="Boolean" />
-          <Property Name="SupplierID2" Type="Int32" />
+          <Property Name="IsStockControl" Type="Boolean" />
+          <Property Name="IsUploadImage" Type="Boolean" />
+          <Property Name="IsMarketingBrief" Type="Boolean" />
+          <Property Name="SupplierId2" Type="Int32" />
           <Property Name="FinishedGoodId" Type="Int32" />
           <Property Name="IsFinishedGoodPrivate" Type="Int16" />
           <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="isTemplateDesignMode" Type="Boolean" />
+          <Property Name="IsTemplateDesignMode" Type="Boolean" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="PackagingWeight" Type="Double" />
-          <Property Name="IsVDPProduct" Type="Boolean" />
+          <Property Name="IsVdpProduct" Type="Boolean" />
           <NavigationProperty Name="ItemAttachments" Relationship="DomainModels.FK_tbl_item_attachments_tbl_items" FromRole="Item" ToRole="ItemAttachment" />
           <NavigationProperty Name="ItemImages" Relationship="DomainModels.itemIDfk" FromRole="Item" ToRole="ItemImage" />
           <NavigationProperty Name="ItemPriceMatrices" Relationship="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" FromRole="Item" ToRole="ItemPriceMatrix" />
           <NavigationProperty Name="ItemRelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items" FromRole="Item" ToRole="ItemRelatedItem" />
           <NavigationProperty Name="RelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="Item" ToRole="ItemRelatedItem" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
-          <NavigationProperty Name="ItemVDPPrices" Relationship="DomainModels.FK_ItemVDPPrice_Items" FromRole="Item" ToRole="ItemVDPPrice" />
+          <NavigationProperty Name="ItemVdpPrices" Relationship="DomainModels.FK_ItemVDPPrice_Items" FromRole="Item" ToRole="ItemVDPPrice" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="Item" ToRole="ItemSection" />
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.itemmidfk" FromRole="Item" ToRole="ItemStockOption" />
           <NavigationProperty Name="Status" Relationship="DomainModels.FK_tbl_items_tbl_Statuses" FromRole="Item" ToRole="Status" />
@@ -4996,11 +4996,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="ImageURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Item" Relationship="DomainModels.itemmidfk" FromRole="ItemStockOption" ToRole="Item" />
         </EntityType>
-        <EntityType Name="ItemVDPPrice">
+        <EntityType Name="ItemVdpPrice">
           <Key>
-            <PropertyRef Name="ItemVDPPriceId" />
+            <PropertyRef Name="ItemVdpPriceId" />
           </Key>
-          <Property Name="ItemVDPPriceId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemVdpPriceId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClickRangeTo" Type="Int32" />
           <Property Name="ClickRangeFrom" Type="Int32" />
           <Property Name="PricePerClick" Type="Double" />
@@ -5088,7 +5088,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
         </Association>
         <Association Name="FK_ItemVDPPrice_Items">
           <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
-          <End Type="DomainModels.ItemVDPPrice" Role="ItemVDPPrice" Multiplicity="*" />
+          <End Type="DomainModels.ItemVdpPrice" Role="ItemVDPPrice" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Item">
               <PropertyRef Name="ItemId" />
@@ -7142,36 +7142,36 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
-                <ScalarProperty Name="IsVDPProduct" ColumnName="IsVDPProduct" />
+                <ScalarProperty Name="IsVdpProduct" ColumnName="IsVDPProduct" />
                 <ScalarProperty Name="PackagingWeight" ColumnName="PackagingWeight" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
-                <ScalarProperty Name="isTemplateDesignMode" ColumnName="isTemplateDesignMode" />
+                <ScalarProperty Name="IsTemplateDesignMode" ColumnName="isTemplateDesignMode" />
                 <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
                 <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
                 <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
                 <ScalarProperty Name="IsFinishedGoodPrivate" ColumnName="IsFinishedGoodPrivate" />
                 <ScalarProperty Name="FinishedGoodId" ColumnName="FinishedGoodId" />
-                <ScalarProperty Name="SupplierID2" ColumnName="SupplierID2" />
-                <ScalarProperty Name="isMarketingBrief" ColumnName="isMarketingBrief" />
-                <ScalarProperty Name="isUploadImage" ColumnName="isUploadImage" />
-                <ScalarProperty Name="isStockControl" ColumnName="isStockControl" />
+                <ScalarProperty Name="SupplierId2" ColumnName="SupplierID2" />
+                <ScalarProperty Name="IsMarketingBrief" ColumnName="isMarketingBrief" />
+                <ScalarProperty Name="IsUploadImage" ColumnName="isUploadImage" />
+                <ScalarProperty Name="IsStockControl" ColumnName="isStockControl" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-                <ScalarProperty Name="isCMYK" ColumnName="isCMYK" />
+                <ScalarProperty Name="IsCmyk" ColumnName="isCMYK" />
                 <ScalarProperty Name="GrossTotalBroker" ColumnName="GrossTotalBroker" />
                 <ScalarProperty Name="TaxValueBroker" ColumnName="TaxValueBroker" />
                 <ScalarProperty Name="NetTotalBroker" ColumnName="NetTotalBroker" />
                 <ScalarProperty Name="MarkUpValueBroker" ColumnName="MarkUpValueBroker" />
                 <ScalarProperty Name="BaseChargeBroker" ColumnName="BaseChargeBroker" />
                 <ScalarProperty Name="CostCentreProfitBroker" ColumnName="CostCentreProfitBroker" />
-                <ScalarProperty Name="isQtyRanged" ColumnName="isQtyRanged" />
+                <ScalarProperty Name="IsQtyRanged" ColumnName="isQtyRanged" />
                 <ScalarProperty Name="GridImage" ColumnName="GridImage" />
-                <ScalarProperty Name="file5" ColumnName="file5" />
-                <ScalarProperty Name="file4" ColumnName="file4" />
-                <ScalarProperty Name="file3" ColumnName="file3" />
-                <ScalarProperty Name="file2" ColumnName="file2" />
-                <ScalarProperty Name="file1" ColumnName="file1" />
+                <ScalarProperty Name="File5" ColumnName="file5" />
+                <ScalarProperty Name="File4" ColumnName="file4" />
+                <ScalarProperty Name="File3" ColumnName="file3" />
+                <ScalarProperty Name="File2" ColumnName="file2" />
+                <ScalarProperty Name="File1" ColumnName="file1" />
                 <ScalarProperty Name="HowToVideoContent" ColumnName="HowToVideoContent" />
                 <ScalarProperty Name="LayoutGridContent" ColumnName="LayoutGridContent" />
                 <ScalarProperty Name="IsFinishedGoods" ColumnName="IsFinishedGoods" />
@@ -7230,7 +7230,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="IsItemLibraray" ColumnName="IsItemLibraray" />
                 <ScalarProperty Name="IsJobCardPrinted" ColumnName="IsJobCardPrinted" />
                 <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
-                <ScalarProperty Name="jobSelectedQty" ColumnName="jobSelectedQty" />
+                <ScalarProperty Name="JobSelectedQty" ColumnName="jobSelectedQty" />
                 <ScalarProperty Name="JobProgressedBy" ColumnName="JobProgressedBy" />
                 <ScalarProperty Name="JobCreationDateTime" ColumnName="JobCreationDateTime" />
                 <ScalarProperty Name="JobEstimatedCompletionDateTime" ColumnName="JobEstimatedCompletionDateTime" />
@@ -7282,19 +7282,19 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="EstimateDescriptionTitle2" ColumnName="EstimateDescriptionTitle2" />
                 <ScalarProperty Name="EstimateDescriptionTitle1" ColumnName="EstimateDescriptionTitle1" />
                 <ScalarProperty Name="RunonDescription" ColumnName="RunonDescription" />
-                <ScalarProperty Name="qty3Description" ColumnName="qty3Description" />
-                <ScalarProperty Name="qty2Description" ColumnName="qty2Description" />
+                <ScalarProperty Name="Qty3Description" ColumnName="qty3Description" />
+                <ScalarProperty Name="Qty2Description" ColumnName="qty2Description" />
                 <ScalarProperty Name="AdditionalInformation" ColumnName="AdditionalInformation" />
                 <ScalarProperty Name="RunonTitle" ColumnName="RunonTitle" />
-                <ScalarProperty Name="qty3Title" ColumnName="qty3Title" />
-                <ScalarProperty Name="qty2title" ColumnName="qty2title" />
-                <ScalarProperty Name="qty1title" ColumnName="qty1title" />
+                <ScalarProperty Name="Qty3Title" ColumnName="qty3Title" />
+                <ScalarProperty Name="Qty2Title" ColumnName="qty2title" />
+                <ScalarProperty Name="Qty1Title" ColumnName="qty1title" />
                 <ScalarProperty Name="IsDescriptionLocked" ColumnName="IsDescriptionLocked" />
                 <ScalarProperty Name="Qty3GrossTotal" ColumnName="Qty3GrossTotal" />
                 <ScalarProperty Name="Qty3Tax3Value" ColumnName="Qty3Tax3Value" />
                 <ScalarProperty Name="Qty3Tax2Value" ColumnName="Qty3Tax2Value" />
                 <ScalarProperty Name="Qty3Tax1Value" ColumnName="Qty3Tax1Value" />
-                <ScalarProperty Name="Qty2grossTotal" ColumnName="Qty2grossTotal" />
+                <ScalarProperty Name="Qty2GrossTotal" ColumnName="Qty2grossTotal" />
                 <ScalarProperty Name="Qty2Tax3Value" ColumnName="Qty2Tax3Value" />
                 <ScalarProperty Name="Qty2Tax2Value" ColumnName="Qty2Tax2Value" />
                 <ScalarProperty Name="Qty2Tax1Value" ColumnName="Qty2Tax1Value" />
@@ -7311,9 +7311,9 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="Qty3MarkUpPercentageValue" ColumnName="Qty3MarkUpPercentageValue" />
                 <ScalarProperty Name="Qty2MarkUpPercentageValue" ColumnName="Qty2MarkUpPercentageValue" />
                 <ScalarProperty Name="Qty1MarkUpPercentageValue" ColumnName="Qty1MarkUpPercentageValue" />
-                <ScalarProperty Name="Qty3MarkUpID3" ColumnName="Qty3MarkUpID3" />
-                <ScalarProperty Name="Qty2MarkUpID2" ColumnName="Qty2MarkUpID2" />
-                <ScalarProperty Name="Qty1MarkUpID1" ColumnName="Qty1MarkUpID1" />
+                <ScalarProperty Name="Qty3MarkUpId3" ColumnName="Qty3MarkUpID3" />
+                <ScalarProperty Name="Qty2MarkUpId2" ColumnName="Qty2MarkUpID2" />
+                <ScalarProperty Name="Qty1MarkUpId1" ColumnName="Qty1MarkUpID1" />
                 <ScalarProperty Name="Qty3BaseCharge3" ColumnName="Qty3BaseCharge3" />
                 <ScalarProperty Name="Qty2BaseCharge2" ColumnName="Qty2BaseCharge2" />
                 <ScalarProperty Name="Qty1BaseCharge1" ColumnName="Qty1BaseCharge1" />
@@ -7326,7 +7326,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="RunOnNetTotal" ColumnName="RunOnNetTotal" />
                 <ScalarProperty Name="RunOnMarkUpValue" ColumnName="RunOnMarkUpValue" />
                 <ScalarProperty Name="RunonPercentageValue" ColumnName="RunonPercentageValue" />
-                <ScalarProperty Name="RunOnMarkUpID" ColumnName="RunOnMarkUpID" />
+                <ScalarProperty Name="RunOnMarkUpId" ColumnName="RunOnMarkUpID" />
                 <ScalarProperty Name="RunonBaseCharge" ColumnName="RunonBaseCharge" />
                 <ScalarProperty Name="RunonCostCentreProfit" ColumnName="RunonCostCentreProfit" />
                 <ScalarProperty Name="RunOnQty" ColumnName="RunOnQty" />
@@ -7595,15 +7595,15 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ItemVDPPrices">
-            <EntityTypeMapping TypeName="DomainModels.ItemVDPPrice">
+          <EntitySetMapping Name="ItemVdpPrices1">
+            <EntityTypeMapping TypeName="DomainModels.ItemVdpPrice">
               <MappingFragment StoreEntitySet="ItemVDPPrice">
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="SetupCharge" ColumnName="SetupCharge" />
                 <ScalarProperty Name="PricePerClick" ColumnName="PricePerClick" />
                 <ScalarProperty Name="ClickRangeFrom" ColumnName="ClickRangeFrom" />
                 <ScalarProperty Name="ClickRangeTo" ColumnName="ClickRangeTo" />
-                <ScalarProperty Name="ItemVDPPriceId" ColumnName="ItemVDPPriceId" />
+                <ScalarProperty Name="ItemVdpPriceId" ColumnName="ItemVDPPriceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

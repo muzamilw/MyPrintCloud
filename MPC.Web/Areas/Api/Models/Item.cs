@@ -1,54 +1,218 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Item Webapi Model
     /// </summary>
-    public class Item
+    public sealed class Item
     {
         #region Public
 
+        /// <summary>
+        /// Item Id
+        /// </summary>
         public long ItemId { get; set; }
+
+        /// <summary>
+        /// Item Code
+        /// </summary>
         public string ItemCode { get; set; }
+
+        /// <summary>
+        /// Estimate Id
+        /// </summary>
         public long? EstimateId { get; set; }
+
+        /// <summary>
+        /// Invoice Id
+        /// </summary>
         public long? InvoiceId { get; set; }
+
+        /// <summary>
+        /// Title
+        /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Tax1
+        /// </summary>
         public int? Tax1 { get; set; }
+
+        /// <summary>
+        /// Tax2
+        /// </summary>
         public int? Tax2 { get; set; }
+
+        /// <summary>
+        /// Tax3
+        /// </summary>
         public int? Tax3 { get; set; }
+
+        /// <summary>
+        /// Created By
+        /// </summary>
         public int? CreatedBy { get; set; }
+
+        /// <summary>
+        /// Status Id
+        /// </summary>
         public short? StatusId { get; set; }
+
+        /// <summary>
+        /// Item Creation Date Time
+        /// </summary>
         public DateTime? ItemCreationDateTime { get; set; }
+
+        /// <summary>
+        /// Item Last Update Date Time
+        /// </summary>
         public DateTime? ItemLastUpdateDateTime { get; set; }
+
+        /// <summary>
+        /// Is Multiple Qty
+        /// </summary>
         public short? IsMultipleQty { get; set; }
+
+        /// <summary>
+        /// Run On Qty
+        /// </summary>
         public int? RunOnQty { get; set; }
+
+        /// <summary>
+        /// Run on Cost Centre Profit
+        /// </summary>
         public double? RunonCostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Run on Base Charge
+        /// </summary>
         public double? RunonBaseCharge { get; set; }
-        public int? RunOnMarkUpID { get; set; }
+
+        /// <summary>
+        /// Run On Markup Id
+        /// </summary>
+        public int? RunOnMarkUpId { get; set; }
+
+        /// <summary>
+        /// Run on Percentage Value
+        /// </summary>
         public int? RunonPercentageValue { get; set; }
+
+        /// <summary>
+        /// Run on Marup Value
+        /// </summary>
         public double? RunOnMarkUpValue { get; set; }
+
+        /// <summary>
+        /// Run on Net Total
+        /// </summary>
         public double? RunOnNetTotal { get; set; }
+
+        /// <summary>
+        /// Qty1
+        /// </summary>
         public int? Qty1 { get; set; }
+
+        /// <summary>
+        /// Qty2
+        /// </summary>
         public int? Qty2 { get; set; }
+
+        /// <summary>
+        /// Qty3
+        /// </summary>
         public int? Qty3 { get; set; }
+
+        /// <summary>
+        /// Qty1 Cost Center Profit
+        /// </summary>
         public double? Qty1CostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Qty2 Cost Centre Profit
+        /// </summary>
         public double? Qty2CostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Qty3 Cost Centre Profit
+        /// </summary>
         public double? Qty3CostCentreProfit { get; set; }
+
+        /// <summary>
+        /// Qty1 Base Charge
+        /// </summary>
         public double? Qty1BaseCharge1 { get; set; }
+
+        /// <summary>
+        /// Qty2 Base Charge2
+        /// </summary>
         public double? Qty2BaseCharge2 { get; set; }
+
+        /// <summary>
+        /// Qty3 Base Charge3
+        /// </summary>
         public double? Qty3BaseCharge3 { get; set; }
-        public int? Qty1MarkUpID1 { get; set; }
-        public int? Qty2MarkUpID2 { get; set; }
-        public int? Qty3MarkUpID3 { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
+        public int? Qty1MarkUpId1 { get; set; }
+
+        /// <summary>
+        /// Qty2 Marup Id 2
+        /// </summary>
+        public int? Qty2MarkUpId2 { get; set; }
+
+        /// <summary>
+        /// Qty3Marup Id 3
+        /// </summary>
+        public int? Qty3MarkUpId3 { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Percentage Value
+        /// </summary>
         public double? Qty1MarkUpPercentageValue { get; set; }
+
+        /// <summary>
+        /// Qty2 Marup Percentage Value
+        /// </summary>
         public double? Qty2MarkUpPercentageValue { get; set; }
+
+        /// <summary>
+        /// Qty3 Percentage Value
+        /// </summary>
         public double? Qty3MarkUpPercentageValue { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup1 Value
+        /// </summary>
         public double? Qty1MarkUp1Value { get; set; }
+
+        /// <summary>
+        /// Qty2 Marup2 Value
+        /// </summary>
         public double? Qty2MarkUp2Value { get; set; }
+
+        /// <summary>
+        /// Qty3 Marup3 Value
+        /// </summary>
         public double? Qty3MarkUp3Value { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
         public double? Qty1NetTotal { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
         public double? Qty2NetTotal { get; set; }
+
+        /// <summary>
+        /// Qty1 Marup Id 1
+        /// </summary>
         public double? Qty3NetTotal { get; set; }
         public double? Qty1Tax1Value { get; set; }
         public double? Qty1Tax2Value { get; set; }
@@ -57,19 +221,19 @@ namespace MPC.MIS.Areas.Api.Models
         public double? Qty2Tax1Value { get; set; }
         public double? Qty2Tax2Value { get; set; }
         public double? Qty2Tax3Value { get; set; }
-        public double? Qty2grossTotal { get; set; }
+        public double? Qty2GrossTotal { get; set; }
         public double? Qty3Tax1Value { get; set; }
         public double? Qty3Tax2Value { get; set; }
         public double? Qty3Tax3Value { get; set; }
         public double? Qty3GrossTotal { get; set; }
         public short? IsDescriptionLocked { get; set; }
-        public string qty1title { get; set; }
-        public string qty2title { get; set; }
-        public string qty3Title { get; set; }
+        public string Qty1Title { get; set; }
+        public string Qty2Title { get; set; }
+        public string Qty3Title { get; set; }
         public string RunonTitle { get; set; }
         public string AdditionalInformation { get; set; }
-        public string qty2Description { get; set; }
-        public string qty3Description { get; set; }
+        public string Qty2Description { get; set; }
+        public string Qty3Description { get; set; }
         public string RunonDescription { get; set; }
         public string EstimateDescriptionTitle1 { get; set; }
         public string EstimateDescriptionTitle2 { get; set; }
@@ -121,7 +285,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? JobEstimatedCompletionDateTime { get; set; }
         public DateTime? JobCreationDateTime { get; set; }
         public int? JobProgressedBy { get; set; }
-        public int? jobSelectedQty { get; set; }
+        public int? JobSelectedQty { get; set; }
         public int? JobStatusId { get; set; }
         public bool? IsJobCardPrinted { get; set; }
         public short? IsItemLibraray { get; set; }
@@ -180,37 +344,37 @@ namespace MPC.MIS.Areas.Api.Models
         public int? IsFinishedGoods { get; set; }
         public string LayoutGridContent { get; set; }
         public string HowToVideoContent { get; set; }
-        public string file1 { get; set; }
-        public string file2 { get; set; }
-        public string file3 { get; set; }
-        public string file4 { get; set; }
-        public string file5 { get; set; }
+        public string File1 { get; set; }
+        public string File2 { get; set; }
+        public string File3 { get; set; }
+        public string File4 { get; set; }
+        public string File5 { get; set; }
         public string GridImage { get; set; }
-        public bool? isQtyRanged { get; set; }
+        public bool? IsQtyRanged { get; set; }
         public double? CostCentreProfitBroker { get; set; }
         public double? BaseChargeBroker { get; set; }
         public double? MarkUpValueBroker { get; set; }
         public double? NetTotalBroker { get; set; }
         public double? TaxValueBroker { get; set; }
         public double? GrossTotalBroker { get; set; }
-        public bool? isCMYK { get; set; }
+        public bool? IsCmyk { get; set; }
         public int? SupplierId { get; set; }
-        public bool? isStockControl { get; set; }
-        public bool? isUploadImage { get; set; }
-        public bool? isMarketingBrief { get; set; }
-        public int? SupplierID2 { get; set; }
+        public bool? IsStockControl { get; set; }
+        public bool? IsUploadImage { get; set; }
+        public bool? IsMarketingBrief { get; set; }
+        public int? SupplierId2 { get; set; }
         public int? FinishedGoodId { get; set; }
         public short? IsFinishedGoodPrivate { get; set; }
         public string MetaKeywords { get; set; }
         public string MetaDescription { get; set; }
         public string MetaTitle { get; set; }
-        public bool? isTemplateDesignMode { get; set; }
+        public bool? IsTemplateDesignMode { get; set; }
         public string XeroAccessCode { get; set; }
         public double? DefaultItemTax { get; set; }
         public long? OrganisationId { get; set; }
         public double? PackagingWeight { get; set; }
-        public bool? IsVDPProduct { get; set; }
-
+        public bool? IsVdpProduct { get; set; }
+        public IEnumerable<ItemVdpPrice> ItemVdpPrices { get; set; }
         #endregion
     }
 }

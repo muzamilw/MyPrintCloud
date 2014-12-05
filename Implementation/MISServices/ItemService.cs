@@ -4,6 +4,7 @@ using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -21,6 +22,25 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private readonly IItemRepository itemRepository;
         private readonly IGetItemsListViewRepository itemsListViewRepository;
+        private readonly IItemVdpPriceRepository itemVdpPriceRepository;
+
+        /// <summary>
+        /// Create Item Vdp Price
+        /// </summary>
+        private ItemVdpPrice CreateItemVdpPrice()
+        {
+            ItemVdpPrice line = itemVdpPriceRepository.Create();
+            itemVdpPriceRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Vdp Price
+        /// </summary>
+        private void DeleteItemVdpPrice(ItemVdpPrice line)
+        {
+            itemVdpPriceRepository.Delete(line);
+        }
 
         #endregion
 
@@ -29,7 +49,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository)
+        public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository)
         {
             if (itemRepository == null)
             {
@@ -39,9 +59,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemsListViewRepository");
             }
+            if (itemVdpPriceRepository == null)
+            {
+                throw new ArgumentNullException("itemVdpPriceRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
+            this.itemVdpPriceRepository = itemVdpPriceRepository;
         }
 
         #endregion
@@ -92,6 +117,54 @@ namespace MPC.Implementation.MISServices
             itemRepository.SaveChanges();
 
             return item;
+        }
+
+        /// <summary>
+        /// Save Product/Item
+        /// </summary>
+        public Item SaveProduct(Item item)
+        {
+            // Get Db Version
+            Item itemTarget = GetById(item.ItemId);
+
+            // If New then Add, Update If Existing
+            if (itemTarget == null)
+            {
+                itemTarget = itemRepository.Create();
+                itemRepository.Add(itemTarget);
+                itemTarget.ItemCreationDateTime = DateTime.Now;
+            }
+
+            // Update
+            item.UpdateTo(itemTarget, new ItemMapperActions
+            {
+                CreateItemVdpPrice = CreateItemVdpPrice,
+                DeleteItemVdpPrice = DeleteItemVdpPrice
+            });
+
+            // Save Changes
+            itemRepository.SaveChanges();
+
+            // Load Properties if Any
+            itemTarget = itemRepository.Find(itemTarget.ItemId);
+
+            // Return Item
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Archive Product
+        /// </summary>
+        public void ArchiveProduct(long itemId)
+        {
+            // Get Item
+            Item item = GetById(itemId);
+
+            // Archive
+            item.IsArchived = true;
+
+            // Save Changes
+            itemRepository.SaveChanges();
         }
 
         #endregion

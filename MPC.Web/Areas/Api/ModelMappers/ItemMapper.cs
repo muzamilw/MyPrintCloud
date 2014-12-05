@@ -1,4 +1,6 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     using DomainModels = MPC.Models.DomainModels;
@@ -20,7 +22,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                GridImage = source.GridImage
+                GridImage = source.GridImage,
+                ThumbnailPath = source.ThumbnailPath,
+                ProductCategoryId = source.ProductCategoryId,
+                IsArchived = source.IsArchived,
+                IsEnabled = source.IsEnabled,
+                IsPublished = source.IsPublished,
+                OrganisationId = source.OrganisationId,
+                IsFinishedGoods = source.IsFinishedGoods,
+                SortOrder = source.SortOrder,
+                IsFeatured = source.IsFeatured,
+                IsVdpProduct = source.IsVdpProduct,
+                IsStockControl = source.IsStockControl,
+                ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()) : new List<ItemVdpPrice>()
             };
         }
 
@@ -41,13 +55,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategoryName = source.ProductCategoryName,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
-                IsPopular = source.IsPublished,
+                IsPublished = source.IsPublished,
                 MinPrice = source.MinPrice
             };
         }
 
         /// <summary>
-        /// Crete From Web Api Model
+        /// Crete From WebApi Model
         /// </summary>
         public static DomainModels.Item CreateFrom(this Item source)
         {
@@ -57,7 +71,20 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
-                ProductSpecification = source.ProductSpecification
+                ProductSpecification = source.ProductSpecification,
+                GridImage = source.GridImage,
+                ThumbnailPath = source.ThumbnailPath,
+                ProductCategoryId = source.ProductCategoryId,
+                IsArchived = source.IsArchived,
+                IsEnabled = source.IsEnabled,
+                IsPublished = source.IsPublished,
+                OrganisationId = source.OrganisationId,
+                IsFinishedGoods = source.IsFinishedGoods,
+                SortOrder = source.SortOrder,
+                IsFeatured = source.IsFeatured,
+                IsVdpProduct = source.IsVdpProduct,
+                IsStockControl = source.IsStockControl,
+                ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>()
             };
         }
     }

@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets8DC07C3B6FB99F64E7ADF0B62CBBDBBDFACAB94155C223FC3A33CC4F0ECFCB92))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets859BA825B938D9747FF3F1B2E709D7E3E52A2A5FE75FEAC0B52C8562B38A435C))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,18 +38,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets8DC07C3B6FB99F64E7ADF0B62CBBDBBDFACAB94155C223FC3A33CC4F0ECFCB92 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets859BA825B938D9747FF3F1B2E709D7E3E52A2A5FE75FEAC0B52C8562B38A435C : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets8DC07C3B6FB99F64E7ADF0B62CBBDBBDFACAB94155C223FC3A33CC4F0ECFCB92()
+        public ViewsForBaseEntitySets859BA825B938D9747FF3F1B2E709D7E3E52A2A5FE75FEAC0B52C8562B38A435C()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "56be75c4e611bf0c08146f510fc2e8d084e0cefe08d578135308b68c911a4f29";
-            this.HashOverAllExtentViews = "2ee9a1cf47511ea235d907ddc9671e09ddfce541fd651b500b0b2e62be03fccb";
+            this.HashOverMappingClosure = "1874cfd218f459495a22aa8337d5c9a6e7b6465867914c011c8aa72b7e525051";
+            this.HashOverAllExtentViews = "a0397bf7d00b0213263b573189d48cf2d8ae09b51d8d6315978fdac50a95dc4d";
             this.ViewCount = 138;
         }
         
@@ -1707,7 +1707,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("Time AS Items_ItemLastUpdateDateTime, \r\n            T.IsMultipleQty AS Items_IsM");
             viewString.Append("ultipleQty, \r\n            T.RunOnQty AS Items_RunOnQty, \r\n            T.RunonCos");
             viewString.Append("tCentreProfit AS Items_RunonCostCentreProfit, \r\n            T.RunonBaseCharge AS");
-            viewString.Append(" Items_RunonBaseCharge, \r\n            T.RunOnMarkUpID AS Items_RunOnMarkUpID, \r\n");
+            viewString.Append(" Items_RunonBaseCharge, \r\n            T.RunOnMarkUpId AS Items_RunOnMarkUpID, \r\n");
             viewString.Append("            T.RunonPercentageValue AS Items_RunonPercentageValue, \r\n            ");
             viewString.Append("T.RunOnMarkUpValue AS Items_RunOnMarkUpValue, \r\n            T.RunOnNetTotal AS I");
             viewString.Append("tems_RunOnNetTotal, \r\n            T.Qty1 AS Items_Qty1, \r\n            T.Qty2 AS ");
@@ -1716,9 +1716,9 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("s_Qty2CostCentreProfit, \r\n            T.Qty3CostCentreProfit AS Items_Qty3CostCe");
             viewString.Append("ntreProfit, \r\n            T.Qty1BaseCharge1 AS Items_Qty1BaseCharge1, \r\n        ");
             viewString.Append("    T.Qty2BaseCharge2 AS Items_Qty2BaseCharge2, \r\n            T.Qty3BaseCharge3 ");
-            viewString.Append("AS Items_Qty3BaseCharge3, \r\n            T.Qty1MarkUpID1 AS Items_Qty1MarkUpID1, ");
-            viewString.Append("\r\n            T.Qty2MarkUpID2 AS Items_Qty2MarkUpID2, \r\n            T.Qty3MarkUp");
-            viewString.Append("ID3 AS Items_Qty3MarkUpID3, \r\n            T.Qty1MarkUpPercentageValue AS Items_Q");
+            viewString.Append("AS Items_Qty3BaseCharge3, \r\n            T.Qty1MarkUpId1 AS Items_Qty1MarkUpID1, ");
+            viewString.Append("\r\n            T.Qty2MarkUpId2 AS Items_Qty2MarkUpID2, \r\n            T.Qty3MarkUp");
+            viewString.Append("Id3 AS Items_Qty3MarkUpID3, \r\n            T.Qty1MarkUpPercentageValue AS Items_Q");
             viewString.Append("ty1MarkUpPercentageValue, \r\n            T.Qty2MarkUpPercentageValue AS Items_Qty");
             viewString.Append("2MarkUpPercentageValue, \r\n            T.Qty3MarkUpPercentageValue AS Items_Qty3M");
             viewString.Append("arkUpPercentageValue, \r\n            T.Qty1MarkUp1Value AS Items_Qty1MarkUp1Value");
@@ -1730,15 +1730,15 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("T.Qty1Tax3Value AS Items_Qty1Tax3Value, \r\n            T.Qty1GrossTotal AS Items_");
             viewString.Append("Qty1GrossTotal, \r\n            T.Qty2Tax1Value AS Items_Qty2Tax1Value, \r\n        ");
             viewString.Append("    T.Qty2Tax2Value AS Items_Qty2Tax2Value, \r\n            T.Qty2Tax3Value AS Ite");
-            viewString.Append("ms_Qty2Tax3Value, \r\n            T.Qty2grossTotal AS Items_Qty2grossTotal, \r\n    ");
+            viewString.Append("ms_Qty2Tax3Value, \r\n            T.Qty2GrossTotal AS Items_Qty2grossTotal, \r\n    ");
             viewString.Append("        T.Qty3Tax1Value AS Items_Qty3Tax1Value, \r\n            T.Qty3Tax2Value AS");
             viewString.Append(" Items_Qty3Tax2Value, \r\n            T.Qty3Tax3Value AS Items_Qty3Tax3Value, \r\n  ");
             viewString.Append("          T.Qty3GrossTotal AS Items_Qty3GrossTotal, \r\n            T.IsDescriptio");
-            viewString.Append("nLocked AS Items_IsDescriptionLocked, \r\n            T.qty1title AS Items_qty1tit");
-            viewString.Append("le, \r\n            T.qty2title AS Items_qty2title, \r\n            T.qty3Title AS I");
+            viewString.Append("nLocked AS Items_IsDescriptionLocked, \r\n            T.Qty1Title AS Items_qty1tit");
+            viewString.Append("le, \r\n            T.Qty2Title AS Items_qty2title, \r\n            T.Qty3Title AS I");
             viewString.Append("tems_qty3Title, \r\n            T.RunonTitle AS Items_RunonTitle, \r\n            T.");
-            viewString.Append("AdditionalInformation AS Items_AdditionalInformation, \r\n            T.qty2Descri");
-            viewString.Append("ption AS Items_qty2Description, \r\n            T.qty3Description AS Items_qty3Des");
+            viewString.Append("AdditionalInformation AS Items_AdditionalInformation, \r\n            T.Qty2Descri");
+            viewString.Append("ption AS Items_qty2Description, \r\n            T.Qty3Description AS Items_qty3Des");
             viewString.Append("cription, \r\n            T.RunonDescription AS Items_RunonDescription, \r\n        ");
             viewString.Append("    T.EstimateDescriptionTitle1 AS Items_EstimateDescriptionTitle1, \r\n          ");
             viewString.Append("  T.EstimateDescriptionTitle2 AS Items_EstimateDescriptionTitle2, \r\n            ");
@@ -1782,7 +1782,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("_JobEstimatedStartDateTime, \r\n            T.JobEstimatedCompletionDateTime AS It");
             viewString.Append("ems_JobEstimatedCompletionDateTime, \r\n            T.JobCreationDateTime AS Items");
             viewString.Append("_JobCreationDateTime, \r\n            T.JobProgressedBy AS Items_JobProgressedBy, ");
-            viewString.Append("\r\n            T.jobSelectedQty AS Items_jobSelectedQty, \r\n            T.JobStatu");
+            viewString.Append("\r\n            T.JobSelectedQty AS Items_jobSelectedQty, \r\n            T.JobStatu");
             viewString.Append("sId AS Items_JobStatusId, \r\n            T.IsJobCardPrinted AS Items_IsJobCardPri");
             viewString.Append("nted, \r\n            T.IsItemLibraray AS Items_IsItemLibraray, \r\n            T.It");
             viewString.Append("emLibrarayGroupId AS Items_ItemLibrarayGroupId, \r\n            T.PayInFullInvoice");
@@ -1823,26 +1823,26 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("onTime AS Items_EstimateProductionTime, \r\n            T.SortOrder AS Items_SortO");
             viewString.Append("rder, \r\n            T.IsFinishedGoods AS Items_IsFinishedGoods, \r\n            T.");
             viewString.Append("LayoutGridContent AS Items_LayoutGridContent, \r\n            T.HowToVideoContent ");
-            viewString.Append("AS Items_HowToVideoContent, \r\n            T.file1 AS Items_file1, \r\n            ");
-            viewString.Append("T.file2 AS Items_file2, \r\n            T.file3 AS Items_file3, \r\n            T.fi");
-            viewString.Append("le4 AS Items_file4, \r\n            T.file5 AS Items_file5, \r\n            T.GridIm");
-            viewString.Append("age AS Items_GridImage, \r\n            T.isQtyRanged AS Items_isQtyRanged, \r\n    ");
+            viewString.Append("AS Items_HowToVideoContent, \r\n            T.File1 AS Items_file1, \r\n            ");
+            viewString.Append("T.File2 AS Items_file2, \r\n            T.File3 AS Items_file3, \r\n            T.Fi");
+            viewString.Append("le4 AS Items_file4, \r\n            T.File5 AS Items_file5, \r\n            T.GridIm");
+            viewString.Append("age AS Items_GridImage, \r\n            T.IsQtyRanged AS Items_isQtyRanged, \r\n    ");
             viewString.Append("        T.CostCentreProfitBroker AS Items_CostCentreProfitBroker, \r\n            ");
             viewString.Append("T.BaseChargeBroker AS Items_BaseChargeBroker, \r\n            T.MarkUpValueBroker ");
             viewString.Append("AS Items_MarkUpValueBroker, \r\n            T.NetTotalBroker AS Items_NetTotalBrok");
             viewString.Append("er, \r\n            T.TaxValueBroker AS Items_TaxValueBroker, \r\n            T.Gros");
-            viewString.Append("sTotalBroker AS Items_GrossTotalBroker, \r\n            T.isCMYK AS Items_isCMYK, ");
-            viewString.Append("\r\n            T.SupplierId AS Items_SupplierId, \r\n            T.isStockControl A");
-            viewString.Append("S Items_isStockControl, \r\n            T.isUploadImage AS Items_isUploadImage, \r\n");
-            viewString.Append("            T.isMarketingBrief AS Items_isMarketingBrief, \r\n            T.Suppli");
-            viewString.Append("erID2 AS Items_SupplierID2, \r\n            T.FinishedGoodId AS Items_FinishedGood");
+            viewString.Append("sTotalBroker AS Items_GrossTotalBroker, \r\n            T.IsCmyk AS Items_isCMYK, ");
+            viewString.Append("\r\n            T.SupplierId AS Items_SupplierId, \r\n            T.IsStockControl A");
+            viewString.Append("S Items_isStockControl, \r\n            T.IsUploadImage AS Items_isUploadImage, \r\n");
+            viewString.Append("            T.IsMarketingBrief AS Items_isMarketingBrief, \r\n            T.Suppli");
+            viewString.Append("erId2 AS Items_SupplierID2, \r\n            T.FinishedGoodId AS Items_FinishedGood");
             viewString.Append("Id, \r\n            T.IsFinishedGoodPrivate AS Items_IsFinishedGoodPrivate, \r\n    ");
             viewString.Append("        T.MetaKeywords AS Items_MetaKeywords, \r\n            T.MetaDescription AS");
             viewString.Append(" Items_MetaDescription, \r\n            T.MetaTitle AS Items_MetaTitle, \r\n        ");
-            viewString.Append("    T.isTemplateDesignMode AS Items_isTemplateDesignMode, \r\n            T.XeroAc");
+            viewString.Append("    T.IsTemplateDesignMode AS Items_isTemplateDesignMode, \r\n            T.XeroAc");
             viewString.Append("cessCode AS Items_XeroAccessCode, \r\n            T.DefaultItemTax AS Items_Defaul");
             viewString.Append("tItemTax, \r\n            T.OrganisationId AS Items_OrganisationId, \r\n            ");
-            viewString.Append("T.PackagingWeight AS Items_PackagingWeight, \r\n            T.IsVDPProduct AS Item");
+            viewString.Append("T.PackagingWeight AS Items_PackagingWeight, \r\n            T.IsVdpProduct AS Item");
             viewString.Append("s_IsVDPProduct, \r\n            True AS _from0\r\n        FROM BaseDbContext.Items A");
             viewString.Append("S T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Items", viewString.ToString());
@@ -2106,14 +2106,14 @@ namespace Edm_EntityMappingGeneratedViews
         [DomainModels.Store.ItemVDPPrice](T1.ItemVDPPrice_ItemVDPPriceId, T1.ItemVDPPrice_ClickRangeTo, T1.ItemVDPPrice_ClickRangeFrom, T1.ItemVDPPrice_PricePerClick, T1.ItemVDPPrice_SetupCharge, T1.ItemVDPPrice_ItemId)
     FROM (
         SELECT 
-            T.ItemVDPPriceId AS ItemVDPPrice_ItemVDPPriceId, 
+            T.ItemVdpPriceId AS ItemVDPPrice_ItemVDPPriceId, 
             T.ClickRangeTo AS ItemVDPPrice_ClickRangeTo, 
             T.ClickRangeFrom AS ItemVDPPrice_ClickRangeFrom, 
             T.PricePerClick AS ItemVDPPrice_PricePerClick, 
             T.SetupCharge AS ItemVDPPrice_SetupCharge, 
             T.ItemId AS ItemVDPPrice_ItemId, 
             True AS _from0
-        FROM BaseDbContext.ItemVDPPrices AS T
+        FROM BaseDbContext.ItemVdpPrices1 AS T
     ) AS T1");
         }
         
@@ -3872,20 +3872,20 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(".Item_Tax1, T1.Item_Tax2, T1.Item_Tax3, T1.Item_CreatedBy, T1.Item_StatusId, T1.");
             viewString.Append("Item_ItemCreationDateTime, T1.Item_ItemLastUpdateDateTime, T1.Item_IsMultipleQty");
             viewString.Append(", T1.Item_RunOnQty, T1.Item_RunonCostCentreProfit, T1.Item_RunonBaseCharge, T1.I");
-            viewString.Append("tem_RunOnMarkUpID, T1.Item_RunonPercentageValue, T1.Item_RunOnMarkUpValue, T1.It");
+            viewString.Append("tem_RunOnMarkUpId, T1.Item_RunonPercentageValue, T1.Item_RunOnMarkUpValue, T1.It");
             viewString.Append("em_RunOnNetTotal, T1.Item_Qty1, T1.Item_Qty2, T1.Item_Qty3, T1.Item_Qty1CostCent");
             viewString.Append("reProfit, T1.Item_Qty2CostCentreProfit, T1.Item_Qty3CostCentreProfit, T1.Item_Qt");
             viewString.Append("y1BaseCharge1, T1.Item_Qty2BaseCharge2, T1.Item_Qty3BaseCharge3, T1.Item_Qty1Mar");
-            viewString.Append("kUpID1, T1.Item_Qty2MarkUpID2, T1.Item_Qty3MarkUpID3, T1.Item_Qty1MarkUpPercenta");
+            viewString.Append("kUpId1, T1.Item_Qty2MarkUpId2, T1.Item_Qty3MarkUpId3, T1.Item_Qty1MarkUpPercenta");
             viewString.Append("geValue, T1.Item_Qty2MarkUpPercentageValue, T1.Item_Qty3MarkUpPercentageValue, T");
             viewString.Append("1.Item_Qty1MarkUp1Value, T1.Item_Qty2MarkUp2Value, T1.Item_Qty3MarkUp3Value, T1.");
             viewString.Append("Item_Qty1NetTotal, T1.Item_Qty2NetTotal, T1.Item_Qty3NetTotal, T1.Item_Qty1Tax1V");
             viewString.Append("alue, T1.Item_Qty1Tax2Value, T1.Item_Qty1Tax3Value, T1.Item_Qty1GrossTotal, T1.I");
-            viewString.Append("tem_Qty2Tax1Value, T1.Item_Qty2Tax2Value, T1.Item_Qty2Tax3Value, T1.Item_Qty2gro");
+            viewString.Append("tem_Qty2Tax1Value, T1.Item_Qty2Tax2Value, T1.Item_Qty2Tax3Value, T1.Item_Qty2Gro");
             viewString.Append("ssTotal, T1.Item_Qty3Tax1Value, T1.Item_Qty3Tax2Value, T1.Item_Qty3Tax3Value, T1");
-            viewString.Append(".Item_Qty3GrossTotal, T1.Item_IsDescriptionLocked, T1.Item_qty1title, T1.Item_qt");
-            viewString.Append("y2title, T1.Item_qty3Title, T1.Item_RunonTitle, T1.Item_AdditionalInformation, T");
-            viewString.Append("1.Item_qty2Description, T1.Item_qty3Description, T1.Item_RunonDescription, T1.It");
+            viewString.Append(".Item_Qty3GrossTotal, T1.Item_IsDescriptionLocked, T1.Item_Qty1Title, T1.Item_Qt");
+            viewString.Append("y2Title, T1.Item_Qty3Title, T1.Item_RunonTitle, T1.Item_AdditionalInformation, T");
+            viewString.Append("1.Item_Qty2Description, T1.Item_Qty3Description, T1.Item_RunonDescription, T1.It");
             viewString.Append("em_EstimateDescriptionTitle1, T1.Item_EstimateDescriptionTitle2, T1.Item_Estimat");
             viewString.Append("eDescriptionTitle3, T1.Item_EstimateDescriptionTitle4, T1.Item_EstimateDescripti");
             viewString.Append("onTitle5, T1.Item_EstimateDescriptionTitle6, T1.Item_EstimateDescriptionTitle7, ");
@@ -3904,7 +3904,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("1.Item_IsParagraphDescription, T1.Item_EstimateDescription, T1.Item_JobDescripti");
             viewString.Append("on, T1.Item_InvoiceDescription, T1.Item_JobCode, T1.Item_JobManagerId, T1.Item_J");
             viewString.Append("obEstimatedStartDateTime, T1.Item_JobEstimatedCompletionDateTime, T1.Item_JobCre");
-            viewString.Append("ationDateTime, T1.Item_JobProgressedBy, T1.Item_jobSelectedQty, T1.Item_JobStatu");
+            viewString.Append("ationDateTime, T1.Item_JobProgressedBy, T1.Item_JobSelectedQty, T1.Item_JobStatu");
             viewString.Append("sId, T1.Item_IsJobCardPrinted, T1.Item_IsItemLibraray, T1.Item_ItemLibrarayGroup");
             viewString.Append("Id, T1.Item_PayInFullInvoiceId, T1.Item_IsGroupItem, T1.Item_ItemType, T1.Item_I");
             viewString.Append("sIncludedInPipeLine, T1.Item_IsRunOnQty, T1.Item_CanCopyToEstimate, T1.Item_Flag");
@@ -3922,15 +3922,15 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("d, T1.Item_WebDescription, T1.Item_ItemTypeId, T1.Item_IsOrderedItem, T1.Item_Jo");
             viewString.Append("bCardPrintedBy, T1.Item_JobCardLastPrintedDate, T1.Item_EstimateProductionTime, ");
             viewString.Append("T1.Item_SortOrder, T1.Item_IsFinishedGoods, T1.Item_LayoutGridContent, T1.Item_H");
-            viewString.Append("owToVideoContent, T1.Item_file1, T1.Item_file2, T1.Item_file3, T1.Item_file4, T1");
-            viewString.Append(".Item_file5, T1.Item_GridImage, T1.Item_isQtyRanged, T1.Item_CostCentreProfitBro");
+            viewString.Append("owToVideoContent, T1.Item_File1, T1.Item_File2, T1.Item_File3, T1.Item_File4, T1");
+            viewString.Append(".Item_File5, T1.Item_GridImage, T1.Item_IsQtyRanged, T1.Item_CostCentreProfitBro");
             viewString.Append("ker, T1.Item_BaseChargeBroker, T1.Item_MarkUpValueBroker, T1.Item_NetTotalBroker");
-            viewString.Append(", T1.Item_TaxValueBroker, T1.Item_GrossTotalBroker, T1.Item_isCMYK, T1.Item_Supp");
-            viewString.Append("lierId, T1.Item_isStockControl, T1.Item_isUploadImage, T1.Item_isMarketingBrief,");
-            viewString.Append(" T1.Item_SupplierID2, T1.Item_FinishedGoodId, T1.Item_IsFinishedGoodPrivate, T1.");
-            viewString.Append("Item_MetaKeywords, T1.Item_MetaDescription, T1.Item_MetaTitle, T1.Item_isTemplat");
+            viewString.Append(", T1.Item_TaxValueBroker, T1.Item_GrossTotalBroker, T1.Item_IsCmyk, T1.Item_Supp");
+            viewString.Append("lierId, T1.Item_IsStockControl, T1.Item_IsUploadImage, T1.Item_IsMarketingBrief,");
+            viewString.Append(" T1.Item_SupplierId2, T1.Item_FinishedGoodId, T1.Item_IsFinishedGoodPrivate, T1.");
+            viewString.Append("Item_MetaKeywords, T1.Item_MetaDescription, T1.Item_MetaTitle, T1.Item_IsTemplat");
             viewString.Append("eDesignMode, T1.Item_XeroAccessCode, T1.Item_DefaultItemTax, T1.Item_Organisatio");
-            viewString.Append("nId, T1.Item_PackagingWeight, T1.Item_IsVDPProduct)\r\n    FROM (\r\n        SELECT ");
+            viewString.Append("nId, T1.Item_PackagingWeight, T1.Item_IsVdpProduct)\r\n    FROM (\r\n        SELECT ");
             viewString.Append("\r\n            T.ItemId AS Item_ItemId, \r\n            T.ItemCode AS Item_ItemCode");
             viewString.Append(", \r\n            T.EstimateId AS Item_EstimateId, \r\n            T.InvoiceId AS It");
             viewString.Append("em_InvoiceId, \r\n            T.Title AS Item_Title, \r\n            T.Tax1 AS Item_");
@@ -3941,7 +3941,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ltipleQty AS Item_IsMultipleQty, \r\n            T.RunOnQty AS Item_RunOnQty, \r\n  ");
             viewString.Append("          T.RunonCostCentreProfit AS Item_RunonCostCentreProfit, \r\n            T");
             viewString.Append(".RunonBaseCharge AS Item_RunonBaseCharge, \r\n            T.RunOnMarkUpID AS Item_");
-            viewString.Append("RunOnMarkUpID, \r\n            T.RunonPercentageValue AS Item_RunonPercentageValue");
+            viewString.Append("RunOnMarkUpId, \r\n            T.RunonPercentageValue AS Item_RunonPercentageValue");
             viewString.Append(", \r\n            T.RunOnMarkUpValue AS Item_RunOnMarkUpValue, \r\n            T.Run");
             viewString.Append("OnNetTotal AS Item_RunOnNetTotal, \r\n            T.Qty1 AS Item_Qty1, \r\n         ");
             viewString.Append("   T.Qty2 AS Item_Qty2, \r\n            T.Qty3 AS Item_Qty3, \r\n            T.Qty1C");
@@ -3950,8 +3950,8 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("y3CostCentreProfit, \r\n            T.Qty1BaseCharge1 AS Item_Qty1BaseCharge1, \r\n ");
             viewString.Append("           T.Qty2BaseCharge2 AS Item_Qty2BaseCharge2, \r\n            T.Qty3BaseCh");
             viewString.Append("arge3 AS Item_Qty3BaseCharge3, \r\n            T.Qty1MarkUpID1 AS Item_Qty1MarkUpI");
-            viewString.Append("D1, \r\n            T.Qty2MarkUpID2 AS Item_Qty2MarkUpID2, \r\n            T.Qty3Mar");
-            viewString.Append("kUpID3 AS Item_Qty3MarkUpID3, \r\n            T.Qty1MarkUpPercentageValue AS Item_");
+            viewString.Append("d1, \r\n            T.Qty2MarkUpID2 AS Item_Qty2MarkUpId2, \r\n            T.Qty3Mar");
+            viewString.Append("kUpID3 AS Item_Qty3MarkUpId3, \r\n            T.Qty1MarkUpPercentageValue AS Item_");
             viewString.Append("Qty1MarkUpPercentageValue, \r\n            T.Qty2MarkUpPercentageValue AS Item_Qty");
             viewString.Append("2MarkUpPercentageValue, \r\n            T.Qty3MarkUpPercentageValue AS Item_Qty3Ma");
             viewString.Append("rkUpPercentageValue, \r\n            T.Qty1MarkUp1Value AS Item_Qty1MarkUp1Value, ");
@@ -3963,15 +3963,15 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("3Value AS Item_Qty1Tax3Value, \r\n            T.Qty1GrossTotal AS Item_Qty1GrossTo");
             viewString.Append("tal, \r\n            T.Qty2Tax1Value AS Item_Qty2Tax1Value, \r\n            T.Qty2Ta");
             viewString.Append("x2Value AS Item_Qty2Tax2Value, \r\n            T.Qty2Tax3Value AS Item_Qty2Tax3Val");
-            viewString.Append("ue, \r\n            T.Qty2grossTotal AS Item_Qty2grossTotal, \r\n            T.Qty3T");
+            viewString.Append("ue, \r\n            T.Qty2grossTotal AS Item_Qty2GrossTotal, \r\n            T.Qty3T");
             viewString.Append("ax1Value AS Item_Qty3Tax1Value, \r\n            T.Qty3Tax2Value AS Item_Qty3Tax2Va");
             viewString.Append("lue, \r\n            T.Qty3Tax3Value AS Item_Qty3Tax3Value, \r\n            T.Qty3Gr");
             viewString.Append("ossTotal AS Item_Qty3GrossTotal, \r\n            T.IsDescriptionLocked AS Item_IsD");
-            viewString.Append("escriptionLocked, \r\n            T.qty1title AS Item_qty1title, \r\n            T.q");
-            viewString.Append("ty2title AS Item_qty2title, \r\n            T.qty3Title AS Item_qty3Title, \r\n     ");
+            viewString.Append("escriptionLocked, \r\n            T.qty1title AS Item_Qty1Title, \r\n            T.q");
+            viewString.Append("ty2title AS Item_Qty2Title, \r\n            T.qty3Title AS Item_Qty3Title, \r\n     ");
             viewString.Append("       T.RunonTitle AS Item_RunonTitle, \r\n            T.AdditionalInformation AS");
-            viewString.Append(" Item_AdditionalInformation, \r\n            T.qty2Description AS Item_qty2Descrip");
-            viewString.Append("tion, \r\n            T.qty3Description AS Item_qty3Description, \r\n            T.R");
+            viewString.Append(" Item_AdditionalInformation, \r\n            T.qty2Description AS Item_Qty2Descrip");
+            viewString.Append("tion, \r\n            T.qty3Description AS Item_Qty3Description, \r\n            T.R");
             viewString.Append("unonDescription AS Item_RunonDescription, \r\n            T.EstimateDescriptionTit");
             viewString.Append("le1 AS Item_EstimateDescriptionTitle1, \r\n            T.EstimateDescriptionTitle2");
             viewString.Append(" AS Item_EstimateDescriptionTitle2, \r\n            T.EstimateDescriptionTitle3 AS");
@@ -4014,7 +4014,7 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" Item_JobEstimatedStartDateTime, \r\n            T.JobEstimatedCompletionDateTime ");
             viewString.Append("AS Item_JobEstimatedCompletionDateTime, \r\n            T.JobCreationDateTime AS I");
             viewString.Append("tem_JobCreationDateTime, \r\n            T.JobProgressedBy AS Item_JobProgressedBy");
-            viewString.Append(", \r\n            T.jobSelectedQty AS Item_jobSelectedQty, \r\n            T.JobStat");
+            viewString.Append(", \r\n            T.jobSelectedQty AS Item_JobSelectedQty, \r\n            T.JobStat");
             viewString.Append("usId AS Item_JobStatusId, \r\n            T.IsJobCardPrinted AS Item_IsJobCardPrin");
             viewString.Append("ted, \r\n            T.IsItemLibraray AS Item_IsItemLibraray, \r\n            T.Item");
             viewString.Append("LibrarayGroupId AS Item_ItemLibrarayGroupId, \r\n            T.PayInFullInvoiceId ");
@@ -4055,25 +4055,25 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append(" T.SortOrder AS Item_SortOrder, \r\n            T.IsFinishedGoods AS Item_IsFinish");
             viewString.Append("edGoods, \r\n            T.LayoutGridContent AS Item_LayoutGridContent, \r\n        ");
             viewString.Append("    T.HowToVideoContent AS Item_HowToVideoContent, \r\n            T.file1 AS Item");
-            viewString.Append("_file1, \r\n            T.file2 AS Item_file2, \r\n            T.file3 AS Item_file3");
-            viewString.Append(", \r\n            T.file4 AS Item_file4, \r\n            T.file5 AS Item_file5, \r\n  ");
-            viewString.Append("          T.GridImage AS Item_GridImage, \r\n            T.isQtyRanged AS Item_isQ");
+            viewString.Append("_File1, \r\n            T.file2 AS Item_File2, \r\n            T.file3 AS Item_File3");
+            viewString.Append(", \r\n            T.file4 AS Item_File4, \r\n            T.file5 AS Item_File5, \r\n  ");
+            viewString.Append("          T.GridImage AS Item_GridImage, \r\n            T.isQtyRanged AS Item_IsQ");
             viewString.Append("tyRanged, \r\n            T.CostCentreProfitBroker AS Item_CostCentreProfitBroker,");
             viewString.Append(" \r\n            T.BaseChargeBroker AS Item_BaseChargeBroker, \r\n            T.Mark");
             viewString.Append("UpValueBroker AS Item_MarkUpValueBroker, \r\n            T.NetTotalBroker AS Item_");
             viewString.Append("NetTotalBroker, \r\n            T.TaxValueBroker AS Item_TaxValueBroker, \r\n       ");
             viewString.Append("     T.GrossTotalBroker AS Item_GrossTotalBroker, \r\n            T.isCMYK AS Item");
-            viewString.Append("_isCMYK, \r\n            T.SupplierId AS Item_SupplierId, \r\n            T.isStockC");
-            viewString.Append("ontrol AS Item_isStockControl, \r\n            T.isUploadImage AS Item_isUploadIma");
-            viewString.Append("ge, \r\n            T.isMarketingBrief AS Item_isMarketingBrief, \r\n            T.S");
-            viewString.Append("upplierID2 AS Item_SupplierID2, \r\n            T.FinishedGoodId AS Item_FinishedG");
+            viewString.Append("_IsCmyk, \r\n            T.SupplierId AS Item_SupplierId, \r\n            T.isStockC");
+            viewString.Append("ontrol AS Item_IsStockControl, \r\n            T.isUploadImage AS Item_IsUploadIma");
+            viewString.Append("ge, \r\n            T.isMarketingBrief AS Item_IsMarketingBrief, \r\n            T.S");
+            viewString.Append("upplierID2 AS Item_SupplierId2, \r\n            T.FinishedGoodId AS Item_FinishedG");
             viewString.Append("oodId, \r\n            T.IsFinishedGoodPrivate AS Item_IsFinishedGoodPrivate, \r\n  ");
             viewString.Append("          T.MetaKeywords AS Item_MetaKeywords, \r\n            T.MetaDescription A");
             viewString.Append("S Item_MetaDescription, \r\n            T.MetaTitle AS Item_MetaTitle, \r\n         ");
-            viewString.Append("   T.isTemplateDesignMode AS Item_isTemplateDesignMode, \r\n            T.XeroAcce");
+            viewString.Append("   T.isTemplateDesignMode AS Item_IsTemplateDesignMode, \r\n            T.XeroAcce");
             viewString.Append("ssCode AS Item_XeroAccessCode, \r\n            T.DefaultItemTax AS Item_DefaultIte");
             viewString.Append("mTax, \r\n            T.OrganisationId AS Item_OrganisationId, \r\n            T.Pac");
-            viewString.Append("kagingWeight AS Item_PackagingWeight, \r\n            T.IsVDPProduct AS Item_IsVDP");
+            viewString.Append("kagingWeight AS Item_PackagingWeight, \r\n            T.IsVDPProduct AS Item_IsVdp");
             viewString.Append("Product, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.I");
             viewString.Append("tems AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Items", viewString.ToString());
@@ -4328,21 +4328,21 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.ItemVDPPrices
+        /// return view for BaseDbContext.ItemVdpPrices1
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView75()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemVDPPrices", @"
-    SELECT VALUE -- Constructing ItemVDPPrices
-        [DomainModels.ItemVDPPrice](T1.ItemVDPPrice_ItemVDPPriceId, T1.ItemVDPPrice_ClickRangeTo, T1.ItemVDPPrice_ClickRangeFrom, T1.ItemVDPPrice_PricePerClick, T1.ItemVDPPrice_SetupCharge, T1.ItemVDPPrice_ItemId)
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemVdpPrices1", @"
+    SELECT VALUE -- Constructing ItemVdpPrices1
+        [DomainModels.ItemVdpPrice](T1.ItemVdpPrice_ItemVdpPriceId, T1.ItemVdpPrice_ClickRangeTo, T1.ItemVdpPrice_ClickRangeFrom, T1.ItemVdpPrice_PricePerClick, T1.ItemVdpPrice_SetupCharge, T1.ItemVdpPrice_ItemId)
     FROM (
         SELECT 
-            T.ItemVDPPriceId AS ItemVDPPrice_ItemVDPPriceId, 
-            T.ClickRangeTo AS ItemVDPPrice_ClickRangeTo, 
-            T.ClickRangeFrom AS ItemVDPPrice_ClickRangeFrom, 
-            T.PricePerClick AS ItemVDPPrice_PricePerClick, 
-            T.SetupCharge AS ItemVDPPrice_SetupCharge, 
-            T.ItemId AS ItemVDPPrice_ItemId, 
+            T.ItemVDPPriceId AS ItemVdpPrice_ItemVdpPriceId, 
+            T.ClickRangeTo AS ItemVdpPrice_ClickRangeTo, 
+            T.ClickRangeFrom AS ItemVdpPrice_ClickRangeFrom, 
+            T.PricePerClick AS ItemVdpPrice_PricePerClick, 
+            T.SetupCharge AS ItemVdpPrice_SetupCharge, 
+            T.ItemId AS ItemVdpPrice_ItemId, 
             True AS _from0
         FROM DomainModelsStoreContainer.ItemVDPPrice AS T
     ) AS T1");
