@@ -1,6 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
-using MPC.MIS.ModelMappers;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -79,7 +79,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
-                CompanyType = source.CompanyType != null ?source.CompanyType.CreateFrom(): null
+                CompanyType = source.CompanyType != null ?source.CompanyType.CreateFrom(): null,
+                RaveReviews = source.RaveReviews.Select(x => x.CreateFrom()).ToList(),
+                //CompanyCmykColors = source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList()
             };
         }
         /// <summary>
@@ -151,6 +153,20 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                               CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null
                           };
+            if (source.RaveReviews != null)
+            {
+                foreach (var raveReview in source.RaveReviews)
+                {
+                    company.RaveReviews.Add(raveReview.CreateFrom());
+                }
+            }
+            //if (source.CompanyCmykColors != null)
+            //{
+            //    foreach (var companyCmykColor in source.CompanyCmykColors)
+            //    {
+            //        company.CompanyCmykColors.Add(companyCmykColor.CreateFrom());
+            //    }
+            //}
             return company;
         }
         #endregion

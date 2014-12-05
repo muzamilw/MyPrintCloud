@@ -262,22 +262,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\CompanyCMYKColorMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\RaveReviewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
+    <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\RaveReview.cs" />
     <Compile Include="Areas\Api\Models\SystemUser.cs" />
     <Compile Include="Areas\Api\Models\SystemUserDropDown.cs" />
     <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
-    <Compile Include="Areas\Api\Models\LengthUnit.cs" />
-    <Compile Include="Areas\Api\Models\PaperBasisArea.cs" />
-    <Compile Include="Areas\Api\Models\RegistrationQuestion.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
@@ -305,13 +306,13 @@
     <Compile Include="Areas\Api\ModelMappers\MarkupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MyOrganizationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperSheetMapper.cs" />
-    <Compile Include="ModelMappers\PaperSizeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PaperSizeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionFlagMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StockCostAndPriceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StockCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StockItemMapper.cs" />
-    <Compile Include="ModelMappers\StockSubCategoryMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\StockSubCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TaxRateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\WeightUnitMapper.cs" />
     <Compile Include="Areas\Api\Models\ChartOfAccount.cs" />
@@ -321,15 +322,15 @@
     <Compile Include="Areas\Api\Models\Organisation.cs" />
     <Compile Include="Areas\Api\Models\Markup.cs" />
     <Compile Include="Areas\Api\Models\PaperSheet.cs" />
-    <Compile Include="Models\PaperSize.cs" />
+    <Compile Include="Areas\Api\Models\PaperSize.cs" />
     <Compile Include="Areas\Api\Models\StockCategory.cs" />
     <Compile Include="Areas\Api\Models\SectionFlagDropDown.cs" />
-    <Compile Include="Models\StockCategoryDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockCostAndPrice.cs" />
     <Compile Include="Areas\Api\Models\StockItem.cs" />
     <Compile Include="Areas\Api\Models\StockSubCategory.cs" />
     <Compile Include="Areas\Api\Models\StockItemForListView.cs" />
-    <Compile Include="Models\StockSubCategoryDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockSubCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\TaxRate.cs" />
     <Compile Include="Areas\Api\Models\WeightUnitDropDown.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2252,6 +2253,8 @@
     <Folder Include="Content\Images\patterns\sidebar\" />
     <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
+    <Folder Include="ModelMappers\" />
+    <Folder Include="Models\" />
     <Folder Include="Reports\" />
     <Folder Include="Resources\Organisations\" />
     <Folder Include="RichTextEditor\plugins\a11yhelp\dialogs\lang\" />
