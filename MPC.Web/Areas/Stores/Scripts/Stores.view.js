@@ -13,6 +13,14 @@ define("stores/stores.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#storesBinding")[0],
+                // Show Activity the dialog
+                showRaveReviewDialog = function () {
+                    $("#rave").modal("show");
+                },
+                // Hide Activity the dialog
+                hideRaveReviewDialog = function () {
+                    $("#rave").modal("hide");
+                },
                 initializeForm = function () {
                     // Initialize Forms - For File Upload
                     $("#fileUploadForm").ajaxForm({
@@ -34,6 +42,8 @@ define("stores/stores.view",
             initialize();
             return {
                 bindingRoot: bindingRoot,
+                showRaveReviewDialog: showRaveReviewDialog,
+                hideRaveReviewDialog: hideRaveReviewDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

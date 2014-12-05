@@ -195,22 +195,25 @@ define("stores/stores.viewModel",
                     },
                     //Create Stock Sub Category
                      onCreateNewRaveReview = function () {
-                         var raveReview = selectedRaveReview().raveReviews()[0];
-                         //Create Rave Reviews for the very First Time
-                         if (raveReview == undefined) {
-                             selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
-                             selectedRaveReview(selectedStore().raveReviews()[0]);
-                         }
-                             //If There are already rave reviews in list
-                         else {
-                             if (!raveReview.isValid()) {
-                                 raveReview.errors.showAllMessages();
-                             }
-                             else {
-                                 selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
-                                 selectedRaveReview(selectedStore().raveReviews()[0]);
-                             }
-                         }
+                         var raveReview = new model.RaveReview();
+                         selectedRaveReview(raveReview);
+                         view.showRaveReviewDialog();
+                         //var raveReview = selectedRaveReview().raveReviews()[0];
+                         ////Create Rave Reviews for the very First Time
+                         //if (raveReview == undefined) {
+                         //    selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
+                         //    selectedRaveReview(selectedStore().raveReviews()[0]);
+                         //}
+                         //    //If There are already rave reviews in list
+                         //else {
+                         //    if (!raveReview.isValid()) {
+                         //        raveReview.errors.showAllMessages();
+                         //    }
+                         //    else {
+                         //        selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
+                         //        selectedRaveReview(selectedStore().raveReviews()[0]);
+                         //    }
+                         //}
                      },
                      // Delete a Rave review
                     onDeleteRaveReview = function (raveReview) {
@@ -218,6 +221,14 @@ define("stores/stores.viewModel",
                         selectedStore().raveReviews.remove(raveReview);
                         return;
                         //}
+                    },
+
+                    onEditRaveReview = function (raveReview) {
+                        selectedRaveReview(raveReview);
+                        view.showRaveReviewDialog();
+                    },
+                    onCloseRaveReview = function() {
+                        view.hideRaveReviewDialog();
                     },
                     // ***** RAVE REVIEW END*****//
 
@@ -297,8 +308,11 @@ define("stores/stores.viewModel",
                     closeEditDialog: closeEditDialog,
                     resetFilterSection: resetFilterSection,
                     templateToUseRaveReviews: templateToUseRaveReviews,
+                    selectedRaveReview:selectedRaveReview,
                     onCreateNewRaveReview: onCreateNewRaveReview,
                     onDeleteRaveReview: onDeleteRaveReview,
+                    onEditRaveReview: onEditRaveReview,
+                    onCloseRaveReview: onCloseRaveReview,
                     templateToUseCompanyCMYKColors: templateToUseCompanyCMYKColors,
                     onCreateNewCompanyCMYKColor: onCreateNewCompanyCMYKColor,
                     onDeleteCompanyCMYKColors: onDeleteCompanyCMYKColors,

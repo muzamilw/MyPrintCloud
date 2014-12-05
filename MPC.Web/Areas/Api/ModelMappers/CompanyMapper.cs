@@ -81,7 +81,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 CompanyType = source.CompanyType != null ?source.CompanyType.CreateFrom(): null,
                 RaveReviews = source.RaveReviews.Select(x => x.CreateFrom()).ToList(),
-                //CompanyCmykColors = source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList()
+                CompanyCmykColors = source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
             };
         }
         /// <summary>
@@ -160,13 +160,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     company.RaveReviews.Add(raveReview.CreateFrom());
                 }
             }
-            //if (source.CompanyCmykColors != null)
-            //{
-            //    foreach (var companyCmykColor in source.CompanyCmykColors)
-            //    {
-            //        company.CompanyCmykColors.Add(companyCmykColor.CreateFrom());
-            //    }
-            //}
+            if (source.CompanyCmykColors != null)
+            {
+                foreach (var companyCmykColor in source.CompanyCmykColors)
+                {
+                    company.CompanyCMYKColors.Add(companyCmykColor.CreateFrom());
+                }
+            }
             return company;
         }
         #endregion
