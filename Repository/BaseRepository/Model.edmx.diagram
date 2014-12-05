@@ -131,6 +131,10 @@
         <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="6.625" PointY="43.125" />
         <AssociationConnector Association="DomainModels.FK_tbl_systemusers_tbl_company_sites" />
         <EntityTypeShape EntityType="DomainModels.GetItemsListView" Width="1.5" PointX="25.375" PointY="8.75" />
+        <AssociationConnector Association="DomainModels.FK_CompanyCMYKColor_Company" />
+        <EntityTypeShape EntityType="DomainModels.Currency" Width="1.5" PointX="24.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.prefix" Width="1.5" PointX="7.625" PointY="52.375" />
+        <AssociationConnector Association="DomainModels.FK_tbl_prefixes_tbl_markup" />
       </Diagram>
       <Diagram DiagramId="ba00683825174285b13129da724620c4" Name="Diagram2" ZoomLevel="35" >
       </Diagram>

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using MPC.MIS.ModelMappers;
 using StockCategory = MPC.MIS.Areas.Api.Models.StockCategory;
 
 namespace MPC.MIS.Areas.Api.ModelMappers

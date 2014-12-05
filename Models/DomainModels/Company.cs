@@ -118,6 +118,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
         public virtual ICollection<CompanyTerritory> CompanyTerritories { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<CompanyCMYKColor> CompanyCMYKColors{ get; set; }
         //public virtual ICollection<tbl_PC_PostCodesBrokers> tbl_PC_PostCodesBrokers { get; set; }
         //public virtual ICollection<ProductCategory> ProductCategories { get; set; }
     }

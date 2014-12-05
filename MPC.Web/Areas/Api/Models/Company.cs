@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MPC.MIS.Models;
 
 namespace MPC.MIS.Areas.Api.Models
@@ -100,6 +101,8 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public List<RaveReview> RaveReviews{ get; set; }
+        public List<CompanyCMYKColor> CompanyCmykColors{ get; set; }
         public virtual CompanyType CompanyType { get; set; }
         /// <summary>
         /// Image Source
