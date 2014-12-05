@@ -16,6 +16,10 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetContactUser(string email, string password);
+
+        CompanyContact GetContactByFirstName(string FName);
+
+        CompanyContact GetContactByEmail(string Email);
         //List<CmsPage> GetSecondaryPages(long companyId);
 
         //List<PageCategory> GetSecondaryPageCategories();

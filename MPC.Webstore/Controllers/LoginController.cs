@@ -33,9 +33,59 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: Login
-        public ActionResult Index()
+        public ActionResult Index(string FirstName,string LastName,string Email)
         {
-            return View("PartialViews/Login");
+           
+            if (!string.IsNullOrEmpty(FirstName))
+            {
+                string returnUrl = string.Empty;
+                if (System.Web.HttpContext.Current.Request.UrlReferrer == null)
+                {
+                    returnUrl = "/Home/Index";
+                }
+                else
+                {
+                    returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
+                }
+                CompanyContact user = new CompanyContact();
+                if (!string.IsNullOrEmpty(Email))
+                {
+                    user = _myCompanyService.GetContactByEmail(Email);
+                }
+                else
+                {
+                    user = _myCompanyService.GetContactByFirstName(FirstName);
+                }
+                if (user != null)
+                {
+                        if (user.isArchived.HasValue && user.isArchived.Value == true)
+                        {
+                            ModelState.AddModelError("", "Account is archived.");
+                            return View("PartialViews/Login");
+                        }
+                        if (user.Company.IsDisabled == 1)
+                        {
+                            ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
+                            return View("PartialViews/Login");
+                        }
+                        else
+                        {
+                            SessionParameters.LoginCompany = user.Company;
+                            SessionParameters.LoginContact = user;
+                            RedirectToLocal(returnUrl);
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View("PartialViews/Login");
+                    }
+            }
+            else
+            {
+                 return View("PartialViews/Login");
+             }
         }
 
         [HttpPost]
@@ -87,6 +137,7 @@ namespace MPC.Webstore.Controllers
             ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }
+      
         //public ActionResult Login(string email, string password)
         //{
 
