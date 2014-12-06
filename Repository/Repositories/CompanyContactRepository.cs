@@ -8,7 +8,7 @@ using MPC.Models.DomainModels;
 using MPC.Interfaces.Repository;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
-
+using MPC.Common;
 
 namespace MPC.Repository.Repositories
 {
@@ -217,6 +217,7 @@ namespace MPC.Repository.Repositories
             // Return the result.
             return hashValue;
         }
+
         private static HashAlgorithm CreateHashAlgoFactory(string hashAlgorithm)
         {
             HashAlgorithm hash = null; ;
@@ -246,32 +247,49 @@ namespace MPC.Repository.Repositories
             return hash;
         }
 
-        public int CreateContact(CompanyContact Contact)
+        private static string ComputeHashSHA1(string plainText)
         {
-            //Address add = null;
-            //CompanyContact tblContacts = null;
+            string salt = string.Empty;
 
-            //int customerID = 0;
+            try
+            {
+                salt = ComputeHash(plainText, "SHA1", null);
 
-            ////CompanySiteManager companySiteManager = new CompanySiteManager();
-            //Company contactCompany = new Company();
-            //Organisation tblCompSite = CompanySiteManager.GetCompanySite();
+            }
+            catch (CryptographicException ex)
+            {
+                throw ex;
+            }
 
-            //contactCompany.isArchived = false;
-            //contactCompany.AccountNumber = "123";
-            //contactCompany.AccountOpenDate = DateTime.Now;
-            //contactCompany.Name = name;
-            //contactCompany.TypeID = (int)customerType; //contactCompanyType.TypeID;
-            //contactCompany.Status = 0;
 
-            //if (regContact != null && !string.IsNullOrEmpty(regContact.Mobile ))
-            //    contactCompany.HomeContact = regContact.Mobile;
+            return salt;
+        }
+        public Int64 CreateContact(CompanyContact Contact, string Name,int OrganizationID,int CustomerType,string TwitterScreanName)
+        {
+            Address address = null;
+            CompanyContact tblContacts = null;
+
+            Int64 customerID = 0;
+
+            //CompanySiteManager companySiteManager = new CompanySiteManager();
+            Company Company = new Company();
+            Organisation organization =  null;// CompanySiteManager.GetCompanySite();
+
+            Company.isArchived = false;
+            Company.AccountNumber = "123";
+            Company.AccountOpenDate = DateTime.Now;
+            Company.Name = Name;
+            Company.TypeId = CustomerType; //contactCompanyType.TypeID;
+            Company.Status = 0;
+
+            if (Contact != null && !string.IsNullOrEmpty(Contact.Mobile ))
+                Company.PhoneNo = Contact.Mobile;
             
-            //contactCompany.IsEmailSubscription = Convert.ToInt16(isEmailSubScription);
-            //contactCompany.IsMailSubscription = Convert.ToInt16(isNewsLetterSubscription);
-            //contactCompany.CreationDate = DateTime.Now;
-            //contactCompany.AccountManagerID = tblCompSite.SalesManagerID.HasValue ? tblCompSite.SalesManagerID.Value : contactCompany.AccountManagerID;
-            //contactCompany.CreditLimit = 0;
+          
+            Company.CreationDate = DateTime.Now;
+            Company.AccountManagerId = Company.AccountManagerId;
+            Company.CreditLimit = 0;
+            Company.IsCustomer = Convert.ToInt16(CustomerType);
             //if (BrokerContactCompanyID != null)
             //{
             //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;
@@ -282,78 +300,105 @@ namespace MPC.Repository.Repositories
             //    contactCompany.IsCustomer = 0; //prospect
             //}
 
-            //using (MPCEntities dbContext = new MPCEntities())
-            //{
-            //    try
-            //    {
-            //        tbl_markup zeroMarkup = ProductManager.GetZeroMarkup(dbContext);
-            //        if (zeroMarkup != null)
-            //        {
-            //            contactCompany.DefaultMarkUpID = zeroMarkup.MarkUpID;
-            //        }
-            //        else
-            //        {
-            //            contactCompany.DefaultMarkUpID = 1;
-            //        }
+           
+              Markup zeroMarkup = GetZeroMarkup();
+              if (zeroMarkup != null)
+              {
+                        Company.DefaultMarkUpId = Convert.ToInt16(zeroMarkup.MarkUpId);
+              }
+              else
+              {
+                        Company.DefaultMarkUpId = 1;
+              }
 
-            //        //Create Customer
-            //        dbContext.tbl_contactcompanies.AddObject(contactCompany);
+                    //Create Customer
+                    db.Company.Add(Company);
 
-            //        //Create Billing Address and Delivery Address and mark them default billing and shipping
-            //        tblAddress = AddressManager.PopulateAddressObject(0, contactCompany.ContactCompanyID, true, true);
-            //        dbContext.tbl_addresses.AddObject(tblAddress);
+                    //Create Billing Address and Delivery Address and mark them default billing and shipping
+                    address = PopulateAddressObject(0, (Int16)Company.CompanyId, true, true);
+                    db.Addesses.Add(address);
 
-            //        //Create Contact
-            //        tblContacts = ContactManager.PopulateContactsObject(contactCompany.ContactCompanyID, tblAddress.AddressID, true);
-            //        tblContacts.isArchived = false;
+                    //Create Contact
+                    tblContacts = PopulateContactsObject((Int16)Company.CompanyId, (Int16)address.AddressId, true);
+                    tblContacts.isArchived = false;
 
-            //        if (regContact != null)
-            //        {
-            //            tblContacts.FirstName = regContact.FirstName;
-            //            tblContacts.LastName = regContact.LastName;
-            //            tblContacts.Email = regContact.Email;
-            //            tblContacts.Mobile = regContact.Mobile;
-            //            tblContacts.Password = MPC.Helpers.Cryptography.HashingManager.ComputeHashSHA1(regContact.Password);
-            //            tblContacts.QuestionID = 1;
-            //            tblContacts.SecretAnswer = "";
-            //            tblContacts.ClaimIdentifer = regContact.ClaimIentifier;
-            //            tblContacts.AuthentifiedBy = regContact.AuthentifiedBy;
-            //            //Quick Text Fields
-            //            tblContacts.quickAddress1 = regContact.quickAddress1;
-            //            tblContacts.quickAddress2 = regContact.quickAddress2;
-            //            tblContacts.quickAddress3 = regContact.quickAddress3;
-            //            tblContacts.quickCompanyName = regContact.quickCompanyName;
-            //            tblContacts.quickCompMessage = regContact.quickCompMessage;
-            //            tblContacts.quickEmail = regContact.quickEmail;
-            //            tblContacts.quickFax = regContact.quickFax;
-            //            tblContacts.quickFullName = regContact.quickFullName;
-            //            tblContacts.quickPhone = regContact.quickPhone;
-            //            tblContacts.quickTitle = regContact.quickTitle;
-            //            tblContacts.quickWebsite = regContact.quickWebsite;
-            //            if (!string.IsNullOrEmpty(RegWithTwitter))
-            //            {
-            //                tblContacts.twitterScreenName = RegWithTwitter;
-            //            }
+                    if (Contact != null)
+                    {
+                        tblContacts.FirstName = Contact.FirstName;
+                        tblContacts.LastName = Contact.LastName;
+                        tblContacts.Email = Contact.Email;
+                        tblContacts.Mobile = Contact.Mobile;
+                        tblContacts.Password = ComputeHashSHA1(Contact.Password);
+                        tblContacts.QuestionId = 1;
+                        tblContacts.SecretAnswer = "";
+                        tblContacts.ClaimIdentifer = Contact.ClaimIdentifer;
+                        tblContacts.AuthentifiedBy = Contact.AuthentifiedBy;
+                        //Quick Text Fields
+                        tblContacts.quickAddress1 = Contact.quickAddress1;
+                        tblContacts.quickAddress2 = Contact.quickAddress2;
+                        tblContacts.quickAddress3 = Contact.quickAddress3;
+                        tblContacts.quickCompanyName = Contact.quickCompanyName;
+                        tblContacts.quickCompMessage = Contact.quickCompMessage;
+                        tblContacts.quickEmail = Contact.quickEmail;
+                        tblContacts.quickFax = Contact.quickFax;
+                        tblContacts.quickFullName = Contact.quickFullName;
+                        tblContacts.quickPhone = Contact.quickPhone;
+                        tblContacts.quickTitle = Contact.quickTitle;
+                        tblContacts.quickWebsite = Contact.quickWebsite;
+                        if (!string.IsNullOrEmpty(TwitterScreanName))
+                        {
+                            tblContacts.twitterScreenName = TwitterScreanName;
+                        }
 
 
-            //        }
+                    }
+                    db.CompanyContacts.Add(Contact);
+                   
 
-            //        dbContext.tbl_contacts.AddObject(tblContacts);
+                    if (db.SaveChanges() > 0)
+                    {
+                        customerID =  Company.CompanyId; // customer id
+                        if (Contact != null)
+                        {
+                            Contact.ContactId = tblContacts.ContactId;
+                            Contact.CompanyId = customerID;
+                        }
+                    }
 
-            //        if (dbContext.SaveChanges() > 0)
-            //        {
-            //            customerID = contactCompany.ContactCompanyID; // customer id
-            //            if (regContact != null)
-            //            {
-            //                regContact.ContactID = tblContacts.ContactID;
-            //                regContact.ContactCompanyID = customerID;
-            //            }
-            //        }
+                    return customerID;
+                }
 
-            //        return customerID;
-            //    }
-
-            return 1;
+        public Markup GetZeroMarkup()
+        {
+            return db.Markups.Where(c => c.MarkUpRate.Value == 0).FirstOrDefault();
         }
+
+        private Address PopulateAddressObject(int dummyAddreID, int customerID, bool isDefaulAddress, bool isDefaultShippingAddress)
+        {
+            Address tblAddres = new Address();
+
+            tblAddres.AddressId = dummyAddreID;
+            tblAddres.CompanyId = customerID;
+            tblAddres.AddressName = "Address Name";
+            tblAddres.IsDefaultAddress = isDefaulAddress;
+            tblAddres.IsDefaultShippingAddress = isDefaultShippingAddress;
+            tblAddres.Address1 = "Address 1";
+            tblAddres.City = "City";
+            tblAddres.isArchived = false;
+
+            return tblAddres;
+        }
+
+        private CompanyContact PopulateContactsObject(int customerID, int addressID, bool isDefaultContact)
+        {
+            CompanyContact tblContacts = new CompanyContact();
+            tblContacts.CompanyId = customerID;
+            tblContacts.AddressId = addressID;
+            tblContacts.FirstName = string.Empty;
+            tblContacts.IsDefaultContact = isDefaultContact == true ? 1 : 0;
+
+            return tblContacts;
+        }
+
     }
 }

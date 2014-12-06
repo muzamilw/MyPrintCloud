@@ -86,7 +86,7 @@ namespace MPC.Webstore.Controllers
 
             if (SessionParameters.LoginCompany.IsCustomer == (int)StoreMode.Retail)
             {
-
+                _myCompanyService.CreateContact(contact, "", 0, 0, "");
 
             }
 
