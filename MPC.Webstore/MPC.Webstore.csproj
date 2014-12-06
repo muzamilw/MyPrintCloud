@@ -250,6 +250,7 @@
     <Compile Include="Areas\Categories\Controllers\AllCategoriesController.cs" />
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
+    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\SessionParameters.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -258,6 +259,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
+    <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -371,6 +373,7 @@
     <Content Include="Views\Shared\PartialViews\Login.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Home\oAuth.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -386,6 +389,7 @@
     <Folder Include="Views\Login\" />
     <Folder Include="Views\News\" />
     <Folder Include="Views\ParentCategories\" />
+    <Folder Include="Views\SignUp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,0 +1,187 @@
+﻿@model  MPC.Webstore.Models.RegisterViewModel
+
+<div class="container content_area">
+
+    <div class="row left_right_padding">
+
+        <div class="signin_heading_div  col-md-12 col-lg-12 col-xs-12">
+            <asp:Label ID="lblNewCustomer" runat="server" CssClass="sign_in_heading" Text="New User Registration"></asp:Label>
+        </div>
+        <div class="page_border_div rounded_corners col-md-12 col-lg-12 col-xs-12">
+            <div class="sign_up_page_box">
+                <div class="SignUpLeftPanel col-md-6 col-lg-6 col-xs-12">
+
+
+                    <div id="lblAlreadyHveAcc" class="mainHeadingAveniorCheckout">Register using</div>
+                    <div class="clearBoth">&nbsp;</div>
+                    @*<div id="cntSocialBtns"  class="cntSignInWithSocialinks">
+                        <em id="emfaceb" class="emfb"></em>
+                      
+                        <input id="facebookbtn" type="button" value="Sign up with Facebook" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
+                        <em id="emtwitte"  class="emTw"></em>
+                      
+                        <input id="facebookbtn" type="button" value="Sign up with Twitter" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
+                          <br />
+                        <br />
+                        <div id="cntOrBottom">
+                            -OR-
+                        </div>
+                    </div>*@
+                    <div id="cntSocialLink" class="cntSignInWithSocialinks">
+                        <em id="emfacebook" class="emfb"></em>
+
+
+                        <input id="facebookbtn" type="button" value="Sign up with Facebook" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
+
+
+                        <script>
+                            function OpenNewWindow(isFacebook) {
+                                var w = 820;
+                                var h = 560;
+                                var left = (screen.width / 2) - (w / 2);
+                                var top = (screen.height / 2) - (h / 2);
+                                if (isFacebook == 1)
+                                    window.open("/Home/oAuth?id=1", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                                else
+                                    window.open("/Home/oAuth?id=0", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                                return false;
+                            }
+                        </script>
+                        <em id="emtwtter" class="emTw"></em>
+                        <input id="facebookbtn" type="button" value="Sign up with Twitter" class="connectWithtwitter" onclick="OpenNewWindow(1)" /><br />
+                        <br />
+                        <br />
+                        <div id="cntOrBottom">
+                            -OR-
+                        </div>
+                    </div>
+                    <div class="clearBoth">&nbsp;</div>
+                    <div id="cntCompanyHeading" class="mainHeadingAveniorCheckout">Sign Up</div>
+                    <div id="cntAlertMesg" class="errorMessage mainHeadingAveniorCheckout">Complete your registration below</div>
+                    <p id="lblSignupMessage" class="errorMessage">@ViewBag.Message</p>
+                    <br />
+                    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                    {
+                            
+                        
+                                <div id="MessageBox"></div>
+                                @Html.AntiForgeryToken()
+                                <div class="errorMesgLoginPage">
+                                    @ViewBag.Message<br />
+                                    @Html.ValidationMessageFor(u => u.FirstName)<br />
+                                    @Html.ValidationMessageFor(u => u.LastName)<br/>
+                                    @Html.ValidationMessageFor(u => u.Phone)<br />
+                                    @Html.ValidationMessageFor(u => u.Email)<br />
+                                    @Html.ValidationMessageFor(u => u.Password)<br />
+                                  
+                                </div>
+                                @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox", @placeholder = ViewData.ModelMetadata.DisplayName  })
+                                @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", @placeholder = "Last Name" })
+                                @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
+                                @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", @placeholder = "Email" })
+                                @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage", @placeholder = "Password" }) <br />
+
+                    <br />
+                             <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" onclick="return ValidateUSer();" value="CREATE ACCOUNT" /><br />
+                  
+                            <div class="clear">
+                                &nbsp;
+                            </div>
+                    }
+                </div>
+                <div class="signup_width col-md-6 col-lg-6 col-xs-12">
+                    <div class="BackgroundColor">
+                        <div class="custom_color_heading" id="divwhyregister" >
+                            Why Register?
+                        </div>
+                        <div class="space5">
+                            &nbsp;
+                        </div>
+                        
+                        <p id="lblRegistering" class="registering_label">By registering you are able to:</p>
+                         <div class="registering_item_register" id="divsaveurdeisgn">
+                            <div class="tickImge">&nbsp;</div>
+                           
+                            <p id="ltrlsaveurdesign" class="smallAveniorLogin">Save your designs</p>
+                        </div>
+                        <div class="registering_item_separator">
+                            &nbsp;
+                        </div>
+                        <div class="registering_item_register">
+                            <div class="tickImge">&nbsp;</div>
+                            
+                            <p id="ltrlviewtoh" class="smallAveniorLogin">View and track order history</p>
+                        </div>
+                        <div class="registering_item_separator">
+                            &nbsp;
+                        </div>
+                        <div class="registering_item_register">
+                            <div class="tickImge">&nbsp;</div>
+                          
+                            <p id="ltrlroq" class="smallAveniorLogin">Re-order quickly</p>
+                        </div>
+                        <div class="registering_item_separator">
+                            &nbsp;
+                        </div>
+                        <div class="registering_item_register" >
+                            <div class="tickImge">&nbsp;</div>
+                           
+                            <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">Subscribe to our Newsletters on new marketing products and services</p>
+                        </div>
+                        <div class="registering_item_separator">
+                            &nbsp;
+                        </div>
+                        <div class="registering_item_register">
+                            <div class="tickImge">&nbsp;</div>
+                           
+                            <p id="lblTitleRequestQuote" class="smallAveniorLogin">Request a quote</p>
+                        </div>
+                        <div class="registering_item_separator">
+                            &nbsp;
+                        </div>
+                        <div class="registering_item">
+                            <div class="tickImge">
+                                &nbsp;
+                            </div>
+                            <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">Get latest Voucher promotions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth">
+                </div>
+            </div>
+            <br />
+        </div>
+        <br />
+        <br />
+        <br />
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+
+    function ValidateUSer() {
+        var isValid = true;
+        var isDataFilles = 0;
+
+        isDataFilles = validateRegistrationProcess();
+        if (isDataFilles == 1) {
+            $("#<%= hfisRegisterUserValid.ClientID %>").val(0);
+            isValid = false;
+        } else {
+            var IsEmailValid = ValidateEmail($('#<%= txtEmail.ClientID %>').val());
+            if (IsEmailValid == true) {
+                $("#<%= hfisRegisterUserValid.ClientID %>").val(1);
+                isValid = true;
+            } else {
+                $("#<%= hfisRegisterUserValid.ClientID %>").val(2);
+                isValid = false;
+                $('.UEmail').css("display", "block");
+                $('.UEmail').text("Please enter valid email.");
+                $("#<%= txtEmail.ClientID %>").parent().addClass("field-with-errors");
+            }
+
+        }
+
+        return isValid;
+    }
+ </script>

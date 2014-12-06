@@ -39,14 +39,15 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
-                if (System.Web.HttpContext.Current.Request.UrlReferrer == null)
-                {
-                    returnUrl = "/Home/Index";
-                }
-                else
-                {
-                    returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
-                }
+                //if (System.Web.HttpContext.Current.Request.UrlReferrer == null)
+                //{
+                //    returnUrl = "/Home/Index";
+                //}
+                //else
+                //{
+                //   // returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
+                //    returnUrl = "/Home/Index";
+                //}
                 CompanyContact user = new CompanyContact();
                 if (!string.IsNullOrEmpty(Email))
                 {
@@ -58,23 +59,24 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user != null)
                 {
-                        if (user.isArchived.HasValue && user.isArchived.Value == true)
-                        {
-                            ModelState.AddModelError("", "Account is archived.");
-                            return View("PartialViews/Login");
-                        }
-                        if (user.Company.IsDisabled == 1)
-                        {
-                            ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
-                            return View("PartialViews/Login");
-                        }
-                        else
-                        {
-                            SessionParameters.LoginCompany = user.Company;
-                            SessionParameters.LoginContact = user;
-                            RedirectToLocal(returnUrl);
-                            return null;
-                        }
+                         return  VerifyUser(user);
+                        //if (user.isArchived.HasValue && user.isArchived.Value == true)
+                        //{
+                        //    ModelState.AddModelError("", "Account is archived.");
+                        //    return View("PartialViews/Login");
+                        //}
+                        //if (user.Company.IsDisabled == 1)
+                        //{
+                        //    ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
+                        //    return View("PartialViews/Login");
+                        //}
+                        //else
+                        //{
+                        //    SessionParameters.LoginCompany = user.Company;
+                        //    SessionParameters.LoginContact = user;
+                        //    RedirectToLocal(returnUrl);
+                        //    return null;
+                       // }
                     }
                     else
                     {
@@ -127,6 +129,28 @@ namespace MPC.Webstore.Controllers
                 return View("PartialViews/Login");
             }
             
+        }
+
+        private ActionResult VerifyUser(CompanyContact user)
+        {
+            if (user.isArchived.HasValue && user.isArchived.Value == true)
+            {
+                ModelState.AddModelError("", "Account is archived.");
+                return View("PartialViews/Login");
+            }
+            if (user.Company.IsDisabled == 1)
+            {
+                ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
+                return View("PartialViews/Login");
+            }
+            else
+            {
+                SessionParameters.LoginCompany = user.Company;
+                SessionParameters.LoginContact = user;
+                RedirectToLocal("");
+                return null;
+            }
+
         }
         private ActionResult RedirectToLocal(string returnUrl)
         {

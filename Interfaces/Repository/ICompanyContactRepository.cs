@@ -12,5 +12,6 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
         CompanyContact GetContactByEmail(string Email);
+        int CreateContact(CompanyContact contact);
     }
 }

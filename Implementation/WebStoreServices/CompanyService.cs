@@ -93,6 +93,12 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _companyContactRepository.GetContactByEmail(Email);
         }
+
+        public int CreateContact(CompanyContact Contact)
+        {
+            return _companyContactRepository.CreateContact(Contact);
+        }
+
         #endregion
     }
 }

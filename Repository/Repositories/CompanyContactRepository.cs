@@ -39,7 +39,7 @@ namespace MPC.Repository.Repositories
         {
             var qry = from contacts in db.CompanyContacts
                       join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
-                      where string.Compare(contacts.FirstName, FName, true) == 0
+                      where string.Compare(contacts.twitterScreenName, FName, true) == 0
                       select contacts;
 
             return qry.ToList().FirstOrDefault();
@@ -244,6 +244,116 @@ namespace MPC.Repository.Repositories
                     break;
             }
             return hash;
+        }
+
+        public int CreateContact(CompanyContact Contact)
+        {
+            //Address add = null;
+            //CompanyContact tblContacts = null;
+
+            //int customerID = 0;
+
+            ////CompanySiteManager companySiteManager = new CompanySiteManager();
+            //Company contactCompany = new Company();
+            //Organisation tblCompSite = CompanySiteManager.GetCompanySite();
+
+            //contactCompany.isArchived = false;
+            //contactCompany.AccountNumber = "123";
+            //contactCompany.AccountOpenDate = DateTime.Now;
+            //contactCompany.Name = name;
+            //contactCompany.TypeID = (int)customerType; //contactCompanyType.TypeID;
+            //contactCompany.Status = 0;
+
+            //if (regContact != null && !string.IsNullOrEmpty(regContact.Mobile ))
+            //    contactCompany.HomeContact = regContact.Mobile;
+            
+            //contactCompany.IsEmailSubscription = Convert.ToInt16(isEmailSubScription);
+            //contactCompany.IsMailSubscription = Convert.ToInt16(isNewsLetterSubscription);
+            //contactCompany.CreationDate = DateTime.Now;
+            //contactCompany.AccountManagerID = tblCompSite.SalesManagerID.HasValue ? tblCompSite.SalesManagerID.Value : contactCompany.AccountManagerID;
+            //contactCompany.CreditLimit = 0;
+            //if (BrokerContactCompanyID != null)
+            //{
+            //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;
+            //    contactCompany.IsCustomer = (int)CustomerTypes.Customers;
+            //}
+            //else 
+            //{
+            //    contactCompany.IsCustomer = 0; //prospect
+            //}
+
+            //using (MPCEntities dbContext = new MPCEntities())
+            //{
+            //    try
+            //    {
+            //        tbl_markup zeroMarkup = ProductManager.GetZeroMarkup(dbContext);
+            //        if (zeroMarkup != null)
+            //        {
+            //            contactCompany.DefaultMarkUpID = zeroMarkup.MarkUpID;
+            //        }
+            //        else
+            //        {
+            //            contactCompany.DefaultMarkUpID = 1;
+            //        }
+
+            //        //Create Customer
+            //        dbContext.tbl_contactcompanies.AddObject(contactCompany);
+
+            //        //Create Billing Address and Delivery Address and mark them default billing and shipping
+            //        tblAddress = AddressManager.PopulateAddressObject(0, contactCompany.ContactCompanyID, true, true);
+            //        dbContext.tbl_addresses.AddObject(tblAddress);
+
+            //        //Create Contact
+            //        tblContacts = ContactManager.PopulateContactsObject(contactCompany.ContactCompanyID, tblAddress.AddressID, true);
+            //        tblContacts.isArchived = false;
+
+            //        if (regContact != null)
+            //        {
+            //            tblContacts.FirstName = regContact.FirstName;
+            //            tblContacts.LastName = regContact.LastName;
+            //            tblContacts.Email = regContact.Email;
+            //            tblContacts.Mobile = regContact.Mobile;
+            //            tblContacts.Password = MPC.Helpers.Cryptography.HashingManager.ComputeHashSHA1(regContact.Password);
+            //            tblContacts.QuestionID = 1;
+            //            tblContacts.SecretAnswer = "";
+            //            tblContacts.ClaimIdentifer = regContact.ClaimIentifier;
+            //            tblContacts.AuthentifiedBy = regContact.AuthentifiedBy;
+            //            //Quick Text Fields
+            //            tblContacts.quickAddress1 = regContact.quickAddress1;
+            //            tblContacts.quickAddress2 = regContact.quickAddress2;
+            //            tblContacts.quickAddress3 = regContact.quickAddress3;
+            //            tblContacts.quickCompanyName = regContact.quickCompanyName;
+            //            tblContacts.quickCompMessage = regContact.quickCompMessage;
+            //            tblContacts.quickEmail = regContact.quickEmail;
+            //            tblContacts.quickFax = regContact.quickFax;
+            //            tblContacts.quickFullName = regContact.quickFullName;
+            //            tblContacts.quickPhone = regContact.quickPhone;
+            //            tblContacts.quickTitle = regContact.quickTitle;
+            //            tblContacts.quickWebsite = regContact.quickWebsite;
+            //            if (!string.IsNullOrEmpty(RegWithTwitter))
+            //            {
+            //                tblContacts.twitterScreenName = RegWithTwitter;
+            //            }
+
+
+            //        }
+
+            //        dbContext.tbl_contacts.AddObject(tblContacts);
+
+            //        if (dbContext.SaveChanges() > 0)
+            //        {
+            //            customerID = contactCompany.ContactCompanyID; // customer id
+            //            if (regContact != null)
+            //            {
+            //                regContact.ContactID = tblContacts.ContactID;
+            //                regContact.ContactCompanyID = customerID;
+            //            }
+            //        }
+
+            //        return customerID;
+            //    }
+
+            return 1;
         }
     }
 }
