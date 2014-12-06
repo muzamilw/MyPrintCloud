@@ -178,6 +178,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<GetItemsListView> GetItemsListViews { get; set; }
 
         /// <summary>
+        /// Prefix DbSet
+        /// </summary>
+        public DbSet<Prefix> Prefixes { get; set; }
+
+        /// <summary>
         /// Get next id for a table
         /// </summary>
         public double GetMinimumProductValue(long itemId)

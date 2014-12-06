@@ -4,11 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-<<<<<<< HEAD
       <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="24">
-=======
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="75">
->>>>>>> ae5e2d2fa0c9175dcfe8122da01ab4e9803578e4
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="8" PointY="4.375" />
