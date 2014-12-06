@@ -21,7 +21,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByEmail(string Email);
 
-       
+        int CreateContact(CompanyContact contact);
         //List<CmsPage> GetSecondaryPages(long companyId);
 
         //List<PageCategory> GetSecondaryPageCategories();

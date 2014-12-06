@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MPC.Models.DomainModels
+﻿namespace MPC.Models.DomainModels
 {
-    public class ItemVDPPrice
+    /// <summary>
+    /// Item Vdp Price
+    /// </summary>
+    public class ItemVdpPrice
     {
-        public long ItemVDPPriceId { get; set; }
-        public Nullable<int> ClickRangeTo { get; set; }
-        public Nullable<int> ClickRangeFrom { get; set; }
-        public Nullable<double> PricePerClick { get; set; }
-        public Nullable<double> SetupCharge { get; set; }
-        public Nullable<long> ItemId { get; set; }
+        #region Persisted Properties
+        public long ItemVdpPriceId { get; set; }
+        public int? ClickRangeTo { get; set; }
+        public int? ClickRangeFrom { get; set; }
+        public double? PricePerClick { get; set; }
+        public double? SetupCharge { get; set; }
+        public long? ItemId { get; set; }
 
+        #endregion
+
+
+        #region Reference Properties
         public virtual Item Item { get; set; }
+
+        #endregion
     }
 }

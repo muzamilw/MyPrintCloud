@@ -30,7 +30,7 @@ var ist = {
         return (regex.test(field)) ? true : false;
     },
     // Resource Text
-    resourceText: { showing: "Showing ", of: "of" },
+    resourceText: { showing: "Showing ", of: "of", defaultHeaderText: "Confirmation" },
     // SiteUrl
     siteUrl: ""
 };

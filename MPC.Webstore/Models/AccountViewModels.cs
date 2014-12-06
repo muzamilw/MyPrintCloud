@@ -65,6 +65,21 @@ namespace MPC.Webstore.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "First Name")]
+        [MaxLength(50, ErrorMessage = "First Name cannot be longer than 50 characters.")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        [MaxLength(50, ErrorMessage = "Last Name cannot be longer than 50 characters.")]
+        public string LastName { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone")]
+        public string Phone { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -75,10 +90,7 @@ namespace MPC.Webstore.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+      
     }
 
     public class ResetPasswordViewModel

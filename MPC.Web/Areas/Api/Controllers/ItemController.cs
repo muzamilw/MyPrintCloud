@@ -6,6 +6,7 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -16,7 +17,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     {
         #region Private
 
-        private readonly IItemService inventoryService;
+        private readonly IItemService itemService;
 
         #endregion
 
@@ -25,13 +26,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public ItemController(IItemService inventoryService)
+        public ItemController(IItemService itemService)
         {
-            if (inventoryService == null)
+            if (itemService == null)
             {
-                throw new ArgumentNullException("inventoryService");
+                throw new ArgumentNullException("itemService");
             }
-            this.inventoryService = inventoryService;
+            this.itemService = itemService;
         }
 
         #endregion
@@ -41,6 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Item By Id
         /// </summary>
+        [ApiException]
         public Item Get(int id)
         {
             if (id <= 0)
@@ -48,7 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return inventoryService.GetById(id).CreateFrom();
+            return itemService.GetById(id).CreateFrom();
         }
         
         /// <summary>
@@ -61,12 +63,13 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return inventoryService.GetItems(request).CreateFrom();
+            return itemService.GetItems(request).CreateFrom();
         }
 
         /// <summary>
         /// Post
         /// </summary>
+        [ApiException]
         public Item Post(Item request)
         {
             if (request == null || !ModelState.IsValid)
@@ -74,13 +77,13 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return request;
-            //return inventoryService.SaveItem(request).CreateFrom();
+            return itemService.SaveProduct(request.CreateFrom()).CreateFrom();
         }
 
         /// <summary>
         /// Delete
         /// </summary>
+        [ApiException]
         public void Delete(ItemDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.ItemId <= 0)
@@ -88,7 +91,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            //return inventoryService.DeleteItem(request.ItemId);
+            itemService.ArchiveProduct(request.ItemId);
         }
 
         #endregion

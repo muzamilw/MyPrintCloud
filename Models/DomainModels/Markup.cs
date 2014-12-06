@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Markup
@@ -36,6 +38,15 @@
         /// User Domain Key
         /// </summary>
         public int UserDomainKey { get; set; }
+
+        #endregion
+
+        #region Reference Properties
+
+        /// <summary>
+        /// Prefixes
+        /// </summary>
+        public virtual ICollection<Prefix> Prefixes { get; set; }
 
         #endregion
     }

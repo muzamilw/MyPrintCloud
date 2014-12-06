@@ -35,6 +35,14 @@ define("product/product.dataservice", function () {
                         type: 'POST'
                     });
 
+                    // Define request to archive Item
+                    amplify.request.define('archiveItem', 'ajax', {
+                        url: ist.siteUrl + '/Api/Item',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -58,6 +66,16 @@ define("product/product.dataservice", function () {
                     error: callbacks.error,
                 });
             },
+            // Archive Item
+            archiveItem = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'archiveItem',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // Save Item
             saveItem = function (param, callbacks) {
                 initialize();
@@ -72,7 +90,8 @@ define("product/product.dataservice", function () {
         return {
             getItem: getItem,
             getItems: getItems,
-            saveItem: saveItem
+            saveItem: saveItem,
+            archiveItem: archiveItem
         };
     })();
 
