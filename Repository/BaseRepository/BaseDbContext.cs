@@ -146,7 +146,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ItemStateTax> ItemStateTaxs { get; set; }
         public DbSet<ItemStockControl> ItemStockControls { get; set; }
         public DbSet<ItemStockOption> ItemStockOptions { get; set; }
-        public DbSet<ItemVDPPrice> ItemVdpPrices { get; set; }
+        public DbSet<ItemVdpPrice> ItemVdpPrices { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<SectionCostcentre> SectionCostcentres { get; set; }

@@ -23,5 +23,15 @@ namespace MPC.Interfaces.MISServices
         /// Save Product Image
         /// </summary>
         Item SaveProductImage(string filePath, long itemId);
+
+        /// <summary>
+        /// Save Product
+        /// </summary>
+        Item SaveProduct(Item item);
+
+        /// <summary>
+        /// Archive Product
+        /// </summary>
+        void ArchiveProduct(long itemId);
     }
 }

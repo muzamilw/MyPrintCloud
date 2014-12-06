@@ -43,9 +43,11 @@ define("inventory/inventory.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+
                     isInitialized = true;
                 }
             },
+
             // get Stock items
             getInventories = function (params, callbacks) {
                 initialize();

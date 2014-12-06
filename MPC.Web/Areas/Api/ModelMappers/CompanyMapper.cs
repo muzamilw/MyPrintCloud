@@ -79,7 +79,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
-                CompanyType = source.CompanyType != null ?source.CompanyType.CreateFrom(): null,
+                CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 RaveReviews = source.RaveReviews.Select(x => x.CreateFrom()).ToList(),
                 CompanyCmykColors = source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
             };
@@ -168,6 +168,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 }
             }
             return company;
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static SupplierForInventory CreateFromForInventory(this MPC.Models.DomainModels.Company source)
+        {
+            return new SupplierForInventory
+            {
+                Name = source.Name,
+                SupplierId = source.CompanyId,
+                URL = source.URL
+            };
         }
         #endregion
     }

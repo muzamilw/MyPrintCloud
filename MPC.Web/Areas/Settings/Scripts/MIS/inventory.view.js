@@ -18,9 +18,6 @@ define("inventory/inventory.view",
                     if (!bindingRoot) {
                         return;
                     }
-
-                    // Handle Sorting
-                    // handleSorting("tariffTypeTable", viewModel.sortOn, viewModel.sortIsAsc, viewModel.getTariffType);
                 };
             initialize();
             return {
