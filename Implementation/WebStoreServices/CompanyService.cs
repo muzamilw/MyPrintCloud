@@ -71,7 +71,7 @@ namespace MPC.Implementation.WebStoreServices
                 responseObject.Company = _companyRepository.GetCompanyById(companyId);
                 responseObject.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(companyId);
                 responseObject.Banners = _companyBannerRepository.GetCompanyBannersById(companyId);
-                responseObject.SystemPages = AllPages.Where(s => s.CompanyId != null).ToList();
+                responseObject.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 responseObject.SecondaryPages = AllPages.Where(s => s.CompanyId == companyId).ToList();
                 responseObject.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
 
