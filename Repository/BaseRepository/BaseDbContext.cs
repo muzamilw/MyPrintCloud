@@ -177,6 +177,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public DbSet<GetItemsListView> GetItemsListViews { get; set; }
 
+        public DbSet<Address> Addesses { get; set; }
         /// <summary>
         /// Prefix DbSet
         /// </summary>

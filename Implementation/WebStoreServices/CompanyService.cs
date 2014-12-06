@@ -6,6 +6,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -94,9 +95,9 @@ namespace MPC.Implementation.WebStoreServices
             return _companyContactRepository.GetContactByEmail(Email);
         }
 
-        public int CreateContact(CompanyContact Contact)
+        public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
         {
-            return _companyContactRepository.CreateContact(Contact);
+            return _companyContactRepository.CreateContact(Contact,Name,OrganizationID,CustomerType,TwitterScreanName);
         }
 
         #endregion

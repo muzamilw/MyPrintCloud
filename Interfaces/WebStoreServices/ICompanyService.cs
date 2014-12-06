@@ -2,6 +2,7 @@
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -21,7 +22,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByEmail(string Email);
 
-        int CreateContact(CompanyContact contact);
+        Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
         //List<CmsPage> GetSecondaryPages(long companyId);
 
         //List<PageCategory> GetSecondaryPageCategories();
