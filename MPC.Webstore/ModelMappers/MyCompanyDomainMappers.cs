@@ -21,18 +21,42 @@ namespace MPC.Webstore.ModelMappers
                 Company =  source.Company.CreateFrom(),
                 CmsSkinPageWidgets = source.CmsSkinPageWidgets.Select(cpw => cpw.CreateFrom()).ToList(),
                 Banners = source.Banners != null ? source.Banners.Select(banner => banner.CreateFrom()).ToList() : null,
-                cmsPages = source.cmsPages != null ? source.cmsPages.Select(page => page.CreateFrom()).ToList() : null,
+                SystemPages = source.SystemPages != null ? source.SystemPages.Select(page => page.CreateFrom()).ToList() : null,
+                SecondaryPages = source.SecondaryPages != null ? source.SecondaryPages.Select(page => page.CreateFrom()).ToList() : null,
                 PageCategories = source.PageCategories != null ? source.PageCategories.Select(page => page.CreateFrom()).ToList() : null
-              // CompanyDomain = CompanyDomainMapper.CreateFrom(source.CmsSkinPageWidgets)
+              
             };
         }
 
+        public static ApiResponse.MyCompanyDomainBaseResponse CreateFromWiget(this DomainResponse.MyCompanyDomainBaseReponse source)
+        {
+            return new ApiResponse.MyCompanyDomainBaseResponse
+            {
+                
+                CmsSkinPageWidgets = source.CmsSkinPageWidgets.Select(cpw => cpw.CreateFrom()).ToList(),
+                
+                SystemPages = source.SystemPages.Select(page => page.CreateFrom()).ToList(),
+               
+            };
+        }
 
-       
+        public static ApiResponse.MyCompanyDomainBaseResponse CreateFromBanner(this DomainResponse.MyCompanyDomainBaseReponse source)
+        {
+            return new ApiResponse.MyCompanyDomainBaseResponse
+            {
+                Banners = source.Banners != null ? source.Banners.Select(banner => banner.CreateFrom()).ToList() : null
+            };
+        }
 
-
-     
-
+        public static ApiResponse.MyCompanyDomainBaseResponse CreateFromSecondaryPages(this DomainResponse.MyCompanyDomainBaseReponse source)
+        {
+            return new ApiResponse.MyCompanyDomainBaseResponse
+            {
+                SecondaryPages = source.SecondaryPages != null ? source.SecondaryPages.Select(page => page.CreateFrom()).ToList() : null,
+                PageCategories = source.PageCategories != null ? source.PageCategories.Select(page => page.CreateFrom()).ToList() : null
+              
+            };
+        }
         #endregion
     }
     

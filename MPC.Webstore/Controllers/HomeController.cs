@@ -22,7 +22,7 @@ namespace MPC.Webstore.Controllers
 {
     public class HomeController : Controller
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
 
@@ -45,55 +45,34 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
             List<CmsSkinPageWidget> model = null;
-            string CacheKeyName = "CompanyBaseResponse";
-            string val = ((System.Web.Routing.Route) (RouteData.Route)).Url; //RouteData.Values["controller"].ToString();
-            val = val.Split('/')[0];
-            ObjectCache cache = MemoryCache.Default;
 
-            MyCompanyDomainBaseResponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseResponse;
+            string pageRouteValue = (((System.Web.Routing.Route) (RouteData.Route))).Url.Split('{')[0];
 
-            if (responseObject == null)
+            long storeId = Convert.ToInt64(Session["storeId"]);
+
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetBaseData(storeId).CreateFromWiget();
+
+            model = GetWidgetsByPageName(baseResponse.SystemPages, pageRouteValue.Split('/')[0], baseResponse.CmsSkinPageWidgets); 
+
+            return View(model);
+        }
+
+        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPage> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
+        {
+            if (!string.IsNullOrEmpty(pageName))
             {
-                long storeId = Convert.ToInt64(Session["storeId"]);
-                MyCompanyDomainBaseResponse response = _myCompanyService.GetBaseData(storeId).CreateFrom();
-                 
-                CacheItemPolicy policy = null;
-                CacheEntryRemovedCallback callback = null;
-
-                policy = new CacheItemPolicy();
-                policy.Priority = CacheItemPriority.NotRemovable;
-                policy.SlidingExpiration =
-                    TimeSpan.FromMinutes(5);
-                policy.RemovedCallback = callback;
-                cache.Set(CacheKeyName, response, policy);
-                model = response.CmsSkinPageWidgets.ToList();
-                if (val == "Login")
-                {
-                    model = response.CmsSkinPageWidgets.Where(p => p.PageId == 59).ToList();
-                }
-                else
-                {
-                    model = response.CmsSkinPageWidgets.Where(p => p.PageId == 1).ToList();
-                }
+                long pageId = pageList.Where(p => p.PageName == pageName).Select(id => id.PageId).FirstOrDefault();
+                return allPageWidgets.Where(widget => widget.PageId == pageId).ToList();
             }
             else
             {
-
-                if (val == "Login")
-                {
-                    model = responseObject.CmsSkinPageWidgets.Where(p => p.PageId == 59).ToList();
-                }
-                else
-                {
-                    model = responseObject.CmsSkinPageWidgets.Where(p => p.PageId == 1).ToList();
-                }
+                return allPageWidgets.Where(widget => widget.PageId == 1).ToList();
             }
-            return View(model);
         }
 
         public ActionResult About()
         {
-           
+
             return View();
         }
 
@@ -144,16 +123,16 @@ namespace MPC.Webstore.Controllers
                     }
                     ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
                     return View();
-              
+
                 }
             }
             else if (isFacebook == 0)
             {
-                 string requestToken = "";
+                string requestToken = "";
                 OAuthHelper oauthhelper = new OAuthHelper();
 
                 requestToken = oauthhelper.GetRequestToken("GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
-              
+
                 if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     Response.Redirect(oauthhelper.GetAuthorizeUrl(requestToken));
 
@@ -177,7 +156,7 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "' </script>";
                         return View();
-                       
+
                     }
                 }
             }
@@ -192,44 +171,5 @@ namespace MPC.Webstore.Controllers
             ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }
-        //private const string XsrfKey = "XsrfId";
-
-        //private IAuthenticationManager AuthenticationManager
-        //{
-        //    get
-        //    {
-
-        //        return HttpContext.GetOwinContext().Authentication;
-        //    }
-        //}
-        //private class ChallengeResult : HttpUnauthorizedResult
-        //{
-        //    public ChallengeResult(string provider, string redirectUri)
-        //        : this(provider, redirectUri, null)
-        //    {
-        //    }
-
-        //    public ChallengeResult(string provider, string redirectUri, string userId)
-        //    {
-        //        LoginProvider = provider;
-        //        RedirectUri = redirectUri;
-        //        UserId = userId;
-        //    }
-
-        //    public string LoginProvider { get; set; }
-        //    public string RedirectUri { get; set; }
-        //    public string UserId { get; set; }
-
-        //    public override void ExecuteResult(ControllerContext context)
-        //    {
-        //        var properties = new AuthenticationProperties() { RedirectUri = RedirectUri };
-        //        if (UserId != null)
-        //        {
-        //            properties.Dictionary[XsrfKey] = UserId;
-        //        }
-        //        // context.HttpContext.GetOwinContext()
-        //        context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-        //    }
-        //}
     }
 }
