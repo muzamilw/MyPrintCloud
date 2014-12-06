@@ -21,8 +21,6 @@ namespace MPC.Webstore.ModelMappers
             {
                 CategoryId = source.CategoryId,
                 CategoryName = source.CategoryName
-
-
             };
         }
 
@@ -38,8 +36,6 @@ namespace MPC.Webstore.ModelMappers
             {
                 CategoryId = source.CategoryId,
                 CategoryName = source.CategoryName
-
-
             };
         }
 

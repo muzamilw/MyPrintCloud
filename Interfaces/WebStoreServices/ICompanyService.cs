@@ -20,6 +20,8 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetContactByFirstName(string FName);
 
         CompanyContact GetContactByEmail(string Email);
+
+       
         //List<CmsPage> GetSecondaryPages(long companyId);
 
         //List<PageCategory> GetSecondaryPageCategories();

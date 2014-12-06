@@ -1,6 +1,8 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
@@ -55,15 +57,39 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetBaseData(long companyId)
         {
-            return new MyCompanyDomainBaseReponse
-            {
-                Company = _companyRepository.GetCompanyById(companyId),
-                CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(companyId),
-                Banners = _companyBannerRepository.GetCompanyBannersById(companyId),
-                cmsPages = _cmsPageRepositary.GetSecondaryPages(companyId),
-                PageCategories =  _pageCategoryRepositary.GetCmsSecondaryPageCategories(),
+            string CacheKeyName = "CompanyBaseResponse";
+             ObjectCache cache = MemoryCache.Default;
 
-            };
+             MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
+
+            if (responseObject == null)
+            {
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId); 
+
+
+                responseObject = new MyCompanyDomainBaseReponse();
+                responseObject.Company = _companyRepository.GetCompanyById(companyId);
+                responseObject.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(companyId);
+                responseObject.Banners = _companyBannerRepository.GetCompanyBannersById(companyId);
+                responseObject.SystemPages = AllPages.Where(s => s.CompanyId != null).ToList();
+                responseObject.SecondaryPages = AllPages.Where(s => s.CompanyId == companyId).ToList();
+                responseObject.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+
+                CacheItemPolicy policy = null;
+                CacheEntryRemovedCallback callback = null;
+
+                policy = new CacheItemPolicy();
+                policy.Priority = CacheItemPriority.NotRemovable;
+                policy.SlidingExpiration =
+                    TimeSpan.FromMinutes(5);
+                policy.RemovedCallback = callback;
+                cache.Set(CacheKeyName, responseObject, policy);
+                return responseObject;
+            }
+            else
+            {
+                return responseObject;
+            }
         } 
         public long GetCompanyIdByDomain(string domain)
         {
@@ -93,6 +119,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _companyContactRepository.GetContactByEmail(Email);
         }
+       
         #endregion
     }
 }
