@@ -45,6 +45,7 @@
         };
         return self;
     };
+
     //Stock Item Entity
     var StockItem = function (specifiedItemId, specifiedItemName, specifiedItemCode, specifiedSupplierId, specifiedCategoryId, specifiedSubCategoryId,
         specifiedBarCode, specifiedInStock, specifiedDescription, specifiedCreatedDate, specifiedFlagId, specifiedStatusId, specifiedIsDisabled, specifiedPaperTypeId,
@@ -362,6 +363,7 @@
         return new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
                               source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName);
     };
+
     return {
         InventoryListView: InventoryListView,
         StockItem: StockItem,

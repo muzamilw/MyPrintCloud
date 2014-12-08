@@ -2,6 +2,7 @@
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -16,6 +17,12 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetContactUser(string email, string password);
+
+        CompanyContact GetContactByFirstName(string FName);
+
+        CompanyContact GetContactByEmail(string Email);
+
+        Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
         //List<CmsPage> GetSecondaryPages(long companyId);
 
         //List<PageCategory> GetSecondaryPageCategories();

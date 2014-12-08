@@ -39,8 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth.ApplicationBlock">
-      <HintPath>C:\Users\IQRA\Desktop\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.ApplicationBlock, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.Core">
       <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
@@ -86,6 +87,9 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Context">
+      <HintPath>..\packages\Owin.Context.0.1.0.3\lib\net45\Owin.Context.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -224,6 +228,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIControllers\SignUpController.cs" />
+    <Compile Include="App_GlobalResources\MyResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\MyResource.fr-FR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyResource.fr-FR.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -236,6 +250,7 @@
     <Compile Include="Areas\Categories\Controllers\AllCategoriesController.cs" />
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
+    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\SessionParameters.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -244,6 +259,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
+    <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -356,6 +372,8 @@
     <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
     <Content Include="Views\Shared\PartialViews\Login.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Home\oAuth.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -371,6 +389,7 @@
     <Folder Include="Views\Login\" />
     <Folder Include="Views\News\" />
     <Folder Include="Views\ParentCategories\" />
+    <Folder Include="Views\SignUp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -396,10 +415,26 @@
       <Project>{81067904-2176-4648-87ab-014b0d76b85e}</Project>
       <Name>MPC.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPC.Common\MPC.Common.csproj">
+      <Project>{4ba9e712-f447-4a6b-bae6-18eeb43087c6}</Project>
+      <Name>MPC.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebBase\MPC.WebBase.csproj">
       <Project>{bcb8bcfd-0163-430c-8088-224074d6e384}</Project>
       <Name>MPC.WebBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\MyResource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>MyResource.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\MyResource.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>MyResource.fr-FR.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -18,15 +18,7 @@ namespace MPC.Webstore.ModelMappers
             return new ApiModels.CmsPage
             {
                 CategoryId = source.CategoryId,
-                CompanyId = source.CompanyId,
                 description = source.description,
-                isDisplay = source.isDisplay,
-                isEnabled = source.isEnabled,
-                isMPCAdd = source.isMPCAdd,
-                isPromotionalOffer = source.isPromotionalOffer,
-                isSepecialOffer = source.isSepecialOffer,
-                isUserDefined = source.isUserDefined,
-                LastModifiedDate = source.LastModifiedDate,
                 MenuTitle = source.MenuTitle,
                 Meta_AuthorContent = source.Meta_AuthorContent,
                 Meta_CategoryContent = source.Meta_CategoryContent,
@@ -44,10 +36,8 @@ namespace MPC.Webstore.ModelMappers
                 PageId = source.PageId,
                 PageKeywords = source.PageKeywords,
                 PageName = source.PageName,
-                PageRelativePath = source.PageRelativePath,
                 PageTitle = source.PageTitle,
                 SortOrder = source.SortOrder
-
             };
         }
 
@@ -57,15 +47,7 @@ namespace MPC.Webstore.ModelMappers
             return new MPC.Models.DomainModels.CmsPage
             {
                 CategoryId = source.CategoryId,
-                CompanyId = source.CompanyId,
                 description = source.description,
-                isDisplay = source.isDisplay,
-                isEnabled = source.isEnabled,
-                isMPCAdd = source.isMPCAdd,
-                isPromotionalOffer = source.isPromotionalOffer,
-                isSepecialOffer = source.isSepecialOffer,
-                isUserDefined = source.isUserDefined,
-                LastModifiedDate = source.LastModifiedDate,
                 MenuTitle = source.MenuTitle,
                 Meta_AuthorContent = source.Meta_AuthorContent,
                 Meta_CategoryContent = source.Meta_CategoryContent,
@@ -83,10 +65,8 @@ namespace MPC.Webstore.ModelMappers
                 PageId = source.PageId,
                 PageKeywords = source.PageKeywords,
                 PageName = source.PageName,
-                PageRelativePath = source.PageRelativePath,
                 PageTitle = source.PageTitle,
                 SortOrder = source.SortOrder
-
             };
         }
         #endregion

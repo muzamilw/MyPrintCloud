@@ -2,8 +2,9 @@
     Module with the view model for the Inventory.
 */
 define("inventory/inventory.viewModel",
-    ["jquery", "amplify", "ko", "inventory/inventory.dataservice", "inventory/inventory.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "inventory/inventory.dataservice", "inventory/inventory.model", "common/confirmation.viewModel", "common/pagination"
+        , "common/supplier.model", "common/supplier.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, supplierModel, supplierVm) {
         var ist = window.ist || {};
         ist.inventory = {
             viewModel: (function () {
@@ -30,6 +31,8 @@ define("inventory/inventory.viewModel",
                     pager = ko.observable(),
                     //Search Filter
                     searchFilter = ko.observable(),
+                    //Supplier Filter
+                    supplierFilter = ko.observable(),
                     //Category Filter
                     categoryFilter = ko.observable(),
                     //Sub category filter
@@ -53,7 +56,7 @@ define("inventory/inventory.viewModel",
                     paperBasisAreas = ko.observableArray([]),
                     //Registration Questions
                     registrationQuestions = ko.observableArray([]),
-                     //units
+                      //units
                     units = ko.observableArray([{ Id: 1, Text: 'Sheets' },
                                                 { Id: 2, Text: '100 (lbs)' },
                                                 { Id: 3, Text: 'Ton' },
@@ -165,6 +168,7 @@ define("inventory/inventory.viewModel",
                             }
                         });
                     },
+
                     // Get Base
                     getBase = function () {
                         dataservice.getInventoryBase({
@@ -207,7 +211,7 @@ define("inventory/inventory.viewModel",
                             }
                         });
                     },
-                    //Like Shhets,sq Meter dropdown filtration
+                    //Like Sheets,sq Meter dropdown filtration
                     unitFirtration = ko.computed(function () {
                         if (selectedInventory() !== undefined) {
                             filteredUnits.removeAll();
@@ -231,6 +235,18 @@ define("inventory/inventory.viewModel",
                                     });
                                 }
                             }
+                        }
+                    }, this),
+
+                     //Sub category filteration based on Category
+                    subCategoryFilteration = ko.computed(function () {
+                        filteredSubCategories.removeAll();
+                        if (categoryFilter() !== undefined) {
+                            _.each(subCategories(), function (item) {
+                                if (item.CategoryId === categoryFilter()) {
+                                    filteredSubCategories.push(item);
+                                }
+                            });
                         }
                     }, this),
                     //
@@ -486,6 +502,25 @@ define("inventory/inventory.viewModel",
                         }
 
                     },
+                     // Filter Inventories
+                    filterInventories = function () {
+                        // Get Inventories
+                        getInventories();
+                    },
+                    // Reset Filter
+                    resetFilter = function () {
+                        // Reset Text 
+                        searchFilter(undefined);
+                        categoryFilter(undefined);
+                        subCategoryFilter(undefined);
+                        // Filter Record
+                        getInventories();
+                    },
+
+                    onAddSupplier = function () {
+                        supplierVm.getSuppliers();
+                        supplierVm.show();
+                    },
                     //Initialize
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -498,6 +533,9 @@ define("inventory/inventory.viewModel",
 
                 return {
                     searchFilter: searchFilter,
+                    categoryFilter: categoryFilter,
+                    subCategoryFilter: subCategoryFilter,
+                    supplierFilter: supplierFilter,
                     isInventoryEditorVisible: isInventoryEditorVisible,
                     selectedInventory: selectedInventory,
                     selectedInventoryCopy: selectedInventoryCopy,
@@ -543,6 +581,9 @@ define("inventory/inventory.viewModel",
                     createCostItem: createCostItem,
                     createPriceItem: createPriceItem,
                     selectTab: selectTab,
+                    filterInventories: filterInventories,
+                    resetFilter: resetFilter,
+                    onAddSupplier: onAddSupplier,
                 };
             })()
         };

@@ -1,4 +1,5 @@
 ﻿@model  MPC.Webstore.Models.AccountViewModel
+
 @{ Layout = null;}
 
 <div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
@@ -8,19 +9,26 @@
             <div class="clearBoth">&nbsp;</div>
             <div id="cntSocialLink" class="cntSignInWithSocialinks">
                 <em id="emfacebook" class="emfb"></em>
-                <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow()" /><br />
+
+ 
+        <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
+    
+                
                 <script>
-                    function OpenNewWindow() {
-                        var w = 620;
-                        var h = 360;
+                    function OpenNewWindow(isFacebook) {
+                        var w = 820;
+                        var h = 560;
                         var left = (screen.width / 2) - (w / 2);
                         var top = (screen.height / 2) - (h / 2);
-                        window.open("/Home/About?", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                        if (isFacebook == 1)
+                            window.open("/Home/oAuth?id=1", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                        else
+                            window.open("/Home/oAuth?id=0", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                         return false;
                     }
                 </script>
                 <em id="emtwtter" class="emTw"></em>
-                <input id="twitterBtn" type="button" value="Sign in with Twitter" class="connectWithtwitter " />
+                <input id="twitterBtn" type="button" value="Sign in with Twitter" onclick="OpenNewWindow(0)" class="connectWithtwitter " />
                 <br />
                 <br />
                 <div id="cntOrBottom">
@@ -72,7 +80,7 @@
     </div>
     <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
         <div class="containerRegisternow">
-            <input type="button" class="SignUpButton rounded_corners5" />
+            <input type="button" class="SignUpButton rounded_corners5" onclick="location.href='@Url.Action("Index", "SignUp")'" />
         </div>
         <div class="divDontHaveAccont rounded_corners5">
             <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">By registering you are able to:</p>

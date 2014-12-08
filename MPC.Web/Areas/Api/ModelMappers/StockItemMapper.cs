@@ -2,7 +2,7 @@
 using InventoryBaseResponse = MPC.MIS.Areas.Api.Models.InventoryBaseResponse;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
-using MPC.Models.Common;
+using DomainResponseModel = MPC.Models.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -45,6 +45,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TotalCount = source.TotalCount
             };
         }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static ApiModels.SupplierSearchResponseForInventory CreateFrom(this DomainResponseModel.SupplierSearchResponseForInventory source)
+        {
+            return new ApiModels.SupplierSearchResponseForInventory
+            {
+                Suppliers = source.Suppliers.Select(s => s.CreateFromForInventory()).ToList(),
+                TotalCount = source.TotalCount
+            };
+        }
+
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
@@ -64,7 +77,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FlagColor = source.FlagColor,
                 SupplierCompanyName = source.SupplierCompanyName,
             };
-            
+
         }
 
         /// <summary>

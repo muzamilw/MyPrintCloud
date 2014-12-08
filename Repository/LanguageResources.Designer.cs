@@ -68,5 +68,14 @@ namespace MPC.Repository {
                 return ResourceManager.GetString("InvalidItem", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefix not defined for OrganisationId {0}.
+        /// </summary>
+        internal static string NoPrefixDefined {
+            get {
+                return ResourceManager.GetString("NoPrefixDefined", resourceCulture);
+            }
+        }
     }
 }

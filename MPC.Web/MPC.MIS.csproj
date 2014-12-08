@@ -257,11 +257,13 @@
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
     <Compile Include="Areas\Api\Controllers\StoreBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\SupplierForInventoryController.cs" />
     <Compile Include="Areas\Api\LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\ItemVDPPriceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCMYKColorMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RaveReviewMapper.cs" />
@@ -273,6 +275,9 @@
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
+    <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
+    <Compile Include="Areas\Api\Models\ItemVDPPrice.cs" />
     <Compile Include="Areas\Api\Models\RaveReview.cs" />
     <Compile Include="Areas\Api\Models\SystemUser.cs" />
     <Compile Include="Areas\Api\Models\SystemUserDropDown.cs" />
@@ -346,9 +351,13 @@
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Common\Scripts\supplier.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\supplier.view.js" />
     <Content Include="Areas\Common\Scripts\confirmation.view.js" />
+    <Content Include="Areas\Common\Scripts\supplier.viewModel.js" />
     <Content Include="Areas\Common\Scripts\confirmation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
+    <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
     <Content Include="Areas\Products\Scripts\product.dataservice.js" />
     <Content Include="Areas\Products\Scripts\product.model.js" />
@@ -1084,6 +1093,7 @@
     <Content Include="Content\less\MainSite.less" />
     <Content Include="Content\less\Products.less" />
     <Content Include="Areas\Products\Views\Home\_ProductDetail.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_SupplierDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -1103,6 +1113,7 @@
     <Content Include="Scripts\button.js" />
     <Content Include="Scripts\carousel-rtl.js" />
     <Content Include="Scripts\collapse.js" />
+    <Content Include="Scripts\dropzone-amd-module.js" />
     <Content Include="Scripts\jquery-ui-1.11.0.min.js" />
     <Content Include="Scripts\dropdown.js" />
     <Content Include="Scripts\GPL-LICENSE.txt" />

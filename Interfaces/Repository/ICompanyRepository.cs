@@ -11,5 +11,12 @@ namespace MPC.Interfaces.Repository
         long GetCompanyIdByDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
 
+        /// <summary>
+        /// Get Suppliers For Inventories
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        SupplierSearchResponseForInventory GetSuppliersForInventories(SupplierRequestModelForInventory request);
+
     }
 }
