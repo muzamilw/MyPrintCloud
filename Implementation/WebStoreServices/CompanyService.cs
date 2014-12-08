@@ -21,6 +21,7 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public readonly ICompanyRepository _CompanyRepository;
         public readonly ICompanyContactRepository _CompanyContactRepository;
+    
         private readonly ICmsSkinPageWidgetRepository _widgetRepository;
         private readonly ICompanyBannerRepository _companyBannerRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
@@ -123,11 +124,20 @@ namespace MPC.Implementation.WebStoreServices
 
         public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
         {
-            return _CompanyContactRepository.CreateContact(Contact);
+            return _CompanyContactRepository.CreateContact(Contact,Name,OrganizationID,CustomerType,TwitterScreanName);
         }
 
        
 
+        public Company GetCompanyByCompanyID(Int64 CompanyID)
+        {
+            return _CompanyRepository.GetCompanyById(CompanyID);
+        }
+
+        public CompanyContact GetContactByID(Int64 ContactID)
+        {
+            return _CompanyContactRepository.GetContactByID(ContactID);
+        }
         #endregion
     }
 }

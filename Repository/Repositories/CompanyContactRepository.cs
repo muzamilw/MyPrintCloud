@@ -400,5 +400,11 @@ namespace MPC.Repository.Repositories
             return tblContacts;
         }
 
+        public CompanyContact GetContactByID(Int64 ContactID)
+        {
+            return db.CompanyContacts.FirstOrDefault();
+        }
+
+
     }
 }
