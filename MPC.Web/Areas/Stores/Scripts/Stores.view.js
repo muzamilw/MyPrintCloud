@@ -21,6 +21,16 @@ define("stores/stores.view",
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
                 },
+                // Show Activity the dialog
+                // ReSharper disable once InconsistentNaming
+                showCompanyCMYKColorDialog = function () {
+                    $("#myCMYKColorModal").modal("show");
+                },
+                // Hide Activity the dialog
+                // ReSharper disable once InconsistentNaming
+                hideCompanyCMYKColorDialog = function () {
+                    $("#myCMYKColorModal").modal("hide");
+                },
                 initializeForm = function () {
                     // Initialize Forms - For File Upload
                     $("#fileUploadForm").ajaxForm({
@@ -44,6 +54,8 @@ define("stores/stores.view",
                 bindingRoot: bindingRoot,
                 showRaveReviewDialog: showRaveReviewDialog,
                 hideRaveReviewDialog: hideRaveReviewDialog,
+                showCompanyCMYKColorDialog: showCompanyCMYKColorDialog,
+                hideCompanyCMYKColorDialog: hideCompanyCMYKColorDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

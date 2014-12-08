@@ -151,22 +151,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                               IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                               DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
-                              CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null
+                              CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                              RaveReviews =source.RaveReviews != null? source.RaveReviews.Select(x => x.CreateFrom()).ToList(): null,
+                              CompanyCMYKColors = source.CompanyCmykColors != null? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList():null
                           };
-            if (source.RaveReviews != null)
-            {
-                foreach (var raveReview in source.RaveReviews)
-                {
-                    company.RaveReviews.Add(raveReview.CreateFrom());
-                }
-            }
-            if (source.CompanyCmykColors != null)
-            {
-                foreach (var companyCmykColor in source.CompanyCmykColors)
-                {
-                    company.CompanyCMYKColors.Add(companyCmykColor.CreateFrom());
-                }
-            }
+            
             return company;
         }
         #endregion

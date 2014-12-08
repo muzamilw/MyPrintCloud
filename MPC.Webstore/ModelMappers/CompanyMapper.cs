@@ -73,7 +73,9 @@ namespace MPC.Webstore.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId
+                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
+                WebMasterTag = source.WebMasterTag,
+                WebAnalyticCode = source.WebAnalyticCode
             };
         }
 
@@ -143,7 +145,9 @@ namespace MPC.Webstore.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId
+                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
+                WebMasterTag = source.WebMasterTag,
+                WebAnalyticCode = source.WebAnalyticCode
             };
         }
 

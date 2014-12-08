@@ -2211,25 +2211,21 @@
 
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <textarea class="form-control" id="txtGoogelWebMasterCode" rows="8"></textarea>
+                                                    <textarea class="form-control" id="txtGoogelWebMasterCode" rows="8" data-bind="value: $root.selectedStore().webMasterTag"></textarea>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtGoogelAnaylyticCode" class="control-label text-right tooltip-float">Google Analytics & Other Scripts</label>
-
-
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <textarea class="form-control" id="txtGoogelAnaylyticCode" rows="8"></textarea>
+                                                    <textarea class="form-control" id="txtGoogelAnaylyticCode" rows="8" data-bind="value: $root.selectedStore().webAnalyticCode"></textarea>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -2245,7 +2241,7 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
 
-                                                    <a data-toggle="modal" href="#rave" class="btn btn-primary pull-right">
+                                                    <a class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewRaveReview">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
                                                     </a>
                                                 </div>
@@ -3405,7 +3401,7 @@
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5">
 
-                                                    <a data-toggle="modal" href="#myCMYKColorModal" class="btn btn-primary pull-right">
+                                                    <a class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyCMYKColor">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add CMYK
                                                     </a>
                                                 </div>
@@ -3424,384 +3420,13 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                White
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Black
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                100
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Blue
-                                                            </td>
-                                                            <td>
-                                                                100
-                                                            </td>
-                                                            <td>
-                                                                85
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                4
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Cool Grey 1
-                                                            </td>
-                                                            <td>
-                                                                3
-                                                            </td>
-                                                            <td>
-                                                                2
-                                                            </td>
-                                                            <td>
-                                                                4
-                                                            </td>
-                                                            <td>
-                                                                5
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Cool Grey 8
-                                                            </td>
-                                                            <td>
-                                                                16
-                                                            </td>
-                                                            <td>
-                                                                23
-                                                            </td>
-                                                            <td>
-                                                                23
-                                                            </td>
-                                                            <td>
-                                                                44
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                Green 361
-                                                            </td>
-                                                            <td>
-                                                                75
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                100
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Orange 021
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                88
-                                                            </td>
-                                                            <td>
-                                                                100
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Process Blue
-                                                            </td>
-                                                            <td>
-                                                                100
-                                                            </td>
-                                                            <td>
-                                                                13
-                                                            </td>
-                                                            <td>
-                                                                1
-                                                            </td>
-                                                            <td>
-                                                                3
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Purple
-                                                            </td>
-                                                            <td>
-                                                                43
-                                                            </td>
-                                                            <td>
-                                                                90
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Red 032
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                90
-                                                            </td>
-                                                            <td>
-                                                                60
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Rhodamine Red
-                                                            </td>
-                                                            <td>
-                                                                9
-                                                            </td>
-                                                            <td>
-                                                                87
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Cyan
-                                                            </td>
-                                                            <td>
-                                                                100
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td>
-                                                                0
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <a data-toggle="modal" href="#myCMYKColorModal" class="table-link">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                        <!-- ko template: { name: 'itemCompanyCMYKColorTemplate' , foreach: $root.selectedStore().companyCMYKColors } -->
+                                                        <!-- /ko -->
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        <footer class="main-box-header pull-right">
+                                        @*<footer class="main-box-header pull-right">
                                             <div id="pagerCMYKDiv">
                                                 <ul class="pagination pull-right">
                                                     <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
@@ -3813,7 +3438,7 @@
                                                     <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
                                                 </ul>
                                             </div>
-                                        </footer>
+                                        </footer>*@
                                     </div>
 
                                 </div>
@@ -3831,7 +3456,7 @@
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-            <a href="#" class="table-link danger" data-bind="click : $root.deleteRaveReview">
+            <a href="#" class="table-link danger" data-bind="click : $root.onDeleteRaveReview">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -3844,6 +3469,33 @@
                 <td data-bind="text: review"></td>
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>
+            </tr>
+        </script>
+        <script id="actionsCompanyCMYKColorTemplate" type="text/html">
+            <a class="table-link" data-bind="click : $root.onEditCompanyCMYKColor">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCompanyCMYKColors">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </script>
+        <script id="itemCompanyCMYKColorTemplate" type="text/html">
+            <tr data-bind="click: $root.selectCompanyCMYKColorCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}">
+                <td data-bind="text: colorName"></td>
+                <td data-bind="text: colorC"></td>
+                <td data-bind="text: colorM"></td>
+                <td data-bind="text: colorY"></td>
+                <td data-bind="text: colorK"></td>
+                <td id="actionColumn">
+                    <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
                 </td>
             </tr>
