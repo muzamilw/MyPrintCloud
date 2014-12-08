@@ -33,5 +33,10 @@ namespace MPC.Interfaces.MISServices
         /// Get Suppliers For Inventory
         /// </summary>
         SupplierSearchResponseForInventory LoadSuppliers(SupplierRequestModelForInventory request);
+
+        /// <summary>
+        /// Load Supplier Base data
+        /// </summary>
+        SupplierBaseResponse GetSupplierBaseData();
     }
 }

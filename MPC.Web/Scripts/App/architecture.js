@@ -370,7 +370,16 @@ require(["ko", "knockout-validation"], function (ko) {
             });
         }
     }
-
+    //Validation Rules
+    ko.validation.rules['compareWith'] = {
+        getValue: function (o) {
+            return (typeof o === 'function' ? o() : o);
+        },
+        validator: function (val, otherField) {
+            return val === this.getValue(otherField);
+        },
+        message: 'The fields must have the same value'
+    };
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
         var popovers = $('.popover').not('.in');

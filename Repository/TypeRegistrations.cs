@@ -45,6 +45,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IGetItemsListViewRepository, GetItemsListViewRepository>();
             unityContainer.RegisterType<IItemVdpPriceRepository, ItemVdpPriceRepository>();
             unityContainer.RegisterType<IPrefixRepository, PrefixRepository>();
+            unityContainer.RegisterType<ICompanyTypeRepository, CompanyTypeRepository>();
         }
     }
 }
