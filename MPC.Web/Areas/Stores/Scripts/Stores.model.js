@@ -4,10 +4,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var
         //WebMasterTag WebAnalyticCode
         // ReSharper disable once InconsistentNaming
-        Store = function (specifiedCompanyId, specifiedName, specifiedStatus,specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+        Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
-            specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey
-        ) {
+            specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
+            specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2, specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2
+        ) {//SalesAndOrderManagerId1 SalesAndOrderManagerId2 ProductionManagerId1 ProductionManagerId2 StockNotificationManagerId1 StockNotificationManagerId2
             var
                 self,
                 companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
@@ -31,7 +32,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 facebookAppId = ko.observable(specifiedFacebookAppId),
                 facebookAppKey = ko.observable(specifiedFacebookAppKey),
                 twitterAppId = ko.observable(specifiedTwitterAppId),
-                twitterAppKey = ko.observable(specifiedTwitterAppKey),
+                salesAndOrderManagerId1 = ko.observable(specifiedSalesAndOrderManagerId1),
+                salesAndOrderManagerId2 = ko.observable(specifiedSalesAndOrderManagerId2),
+                productionManagerId1 = ko.observable(specifiedProductionManagerId1),
+                productionManagerId2 = ko.observable(specifiedProductionManagerId2),
+                stockNotificationManagerId1 = ko.observable(specifiedStockNotificationManagerId1),
+                stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),
                 companyType = ko.observable(),
                 type = ko.observable(),
                 raveReviews = ko.observableArray([]),
@@ -57,7 +63,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     companyId: companyId,
                     name: name,
                     status: status,
-                    image:image,
+                    image: image,
                     url: url,
                     accountOpenDate: accountOpenDate,
                     accountManagerId: accountManagerId,
@@ -79,7 +85,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     raveReviews: raveReviews,
                     companyCMYKColors: companyCMYKColors,
                     webMasterTag: webMasterTag,
-                    webAnalyticCode: webAnalyticCode
+                    webAnalyticCode: webAnalyticCode,
+                    salesAndOrderManagerId1: salesAndOrderManagerId1,
+                    salesAndOrderManagerId2: salesAndOrderManagerId2,
+                    productionManagerId1: productionManagerId1,
+                    productionManagerId2: productionManagerId2,
+                    stockNotificationManagerId1: stockNotificationManagerId1,
+                    stockNotificationManagerId2: stockNotificationManagerId2
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -110,6 +122,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.FacebookAppKey = source.facebookAppKey();
                     result.TwitterAppId = source.twitterAppId();
                     result.TwitterAppKey = source.twitterAppKey();
+                    result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
+                    result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
+                    result.ProductionManagerId1 = source.productionManagerId1();
+                    result.ProductionManagerId2 = source.productionManagerId2();
+                    result.StockNotificationManagerId1 = source.stockNotificationManagerId1();
+                    result.StockNotificationManagerId2 = source.stockNotificationManagerId2();
                     result.CompanyType = CompanyType().convertToServerData(source.companyType());
                     result.RaveReviews = [];
                     _.each(source.raveReviews(), function (item) {
@@ -129,7 +147,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyId: companyId,
                 name: name,
                 status: status,
-                image:image,
+                image: image,
                 url: url,
                 accountOpenDate: accountOpenDate,
                 accountManagerId: accountManagerId,
@@ -147,6 +165,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 facebookAppId: facebookAppId,
                 facebookAppKey: facebookAppKey,
                 twitterAppId: twitterAppId,
+                salesAndOrderManagerId1: salesAndOrderManagerId1,
+                salesAndOrderManagerId2: salesAndOrderManagerId2,
+                productionManagerId1: productionManagerId1,
+                productionManagerId2: productionManagerId2,
+                stockNotificationManagerId1: stockNotificationManagerId1,
+                stockNotificationManagerId2: stockNotificationManagerId2,
                 twitterAppKey: twitterAppKey,
                 companyType: companyType,
                 type: type,
@@ -184,7 +208,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.facebookAppId,
             source.facebookAppKey,
             source.twitterAppId,
-            source.twitterAppKey
+            source.twitterAppKey,
+            source.salesAndOrderManagerId1,
+            source.salesAndOrderManagerId2,
+            source.productionManagerId1,
+            source.productionManagerId2,
+            source.stockNotificationManagerId1,
+            source.stockNotificationManagerId2
             );
         result.companyType(CompanyType.CreateFromClientModel(source.companyType));
         _.each(source.raveReviews, function (item) {
@@ -218,7 +248,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.FacebookAppId,
             source.FacebookAppKey,
             source.TwitterAppId,
-            source.TwitterAppKey
+            source.TwitterAppKey,
+            source.SalesAndOrderManagerId1,
+            source.SalesAndOrderManagerId2,
+            source.ProductionManagerId1,
+            source.ProductionManagerId2,
+            source.StockNotificationManagerId1,
+            source.StockNotificationManagerId2 
             );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -315,16 +351,16 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ______________  S Y S T E M     U S E R   _________________//
     // ReSharper disable once InconsistentNaming
-    var SystemUser = function(specifiedSystemUserId, specifiedUserName) {
+    var SystemUser = function (specifiedSystemUserId, specifiedUserName) {
         var self,
             systemUserId = ko.observable(specifiedSystemUserId),
             userName = ko.observable(specifiedUserName),
             // Errors
             errors = ko.validation.group({
-        
+
             }),
             // Is Valid 
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
 
@@ -336,18 +372,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 userName: userName
             }),
             // Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function(source) {
+            convertToServerData = function (source) {
                 var result = {};
                 result.SystemUserId = source.systemUserId();
                 result.UserName = source.userName();
                 return result;
             },
             // Reset
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             };
         self = {
@@ -378,7 +414,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ______________  R A V E    R E V I E W   _________________//
     // ReSharper disable once InconsistentNaming
-    var RaveReview = function (specifiedReviewId,specifiedReviewBy,specifiedReview,specifiedReviewDate,specifiedisDisplay,specifiedSortOrder,specifiedOrganisationId,specifiedCompanyId) {
+    var RaveReview = function (specifiedReviewId, specifiedReviewBy, specifiedReview, specifiedReviewDate, specifiedisDisplay, specifiedSortOrder, specifiedOrganisationId, specifiedCompanyId) {
         var self,
             reviewId = ko.observable(specifiedReviewId),
             reviewBy = ko.observable(specifiedReviewBy).extend({ required: true }),
@@ -401,12 +437,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                reviewId :reviewId ,
-                reviewBy : reviewBy ,
-                review : review ,
-                reviewDate :reviewDate ,
-                isDisplay :isDisplay ,
-                sortOrder : sortOrder ,
+                reviewId: reviewId,
+                reviewBy: reviewBy,
+                review: review,
+                reviewDate: reviewDate,
+                isDisplay: isDisplay,
+                sortOrder: sortOrder,
                 organisationId: organisationId,
                 companyId: companyId
             }),
@@ -487,7 +523,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ______________  C O M P A N Y    C M Y K    C O L O R   _________________//
     // ReSharper disable once InconsistentNaming    
-    var CompanyCMYKColor = function (specifiedColorId,specifiedCompanyId,specifiedColorName,specifiedColorC,specifiedColorM,specifiedColorY,specifiedColorK) {
+    var CompanyCMYKColor = function (specifiedColorId, specifiedCompanyId, specifiedColorName, specifiedColorC, specifiedColorM, specifiedColorY, specifiedColorK) {
         var self,
             colorId = ko.observable(specifiedColorId),
             companyId = ko.observable(specifiedCompanyId),
@@ -513,12 +549,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
-                colorId :colorId ,
-                companyId :companyId ,
-                colorName : colorName ,
-                colorC : colorC ,
-                colorM : colorM ,
-                colorY : colorY ,
+                colorId: colorId,
+                companyId: companyId,
+                colorName: colorName,
+                colorC: colorC,
+                colorM: colorM,
+                colorY: colorY,
                 colorK: colorK
             }),
             // Has Changes
