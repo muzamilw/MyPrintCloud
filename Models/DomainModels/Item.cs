@@ -397,6 +397,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
 
+        public virtual ICollection<ItemVideo> ItemVideos { get; set; }
+
         #endregion
     }
 }

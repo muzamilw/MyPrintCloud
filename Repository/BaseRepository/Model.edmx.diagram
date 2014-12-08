@@ -135,6 +135,10 @@
         <EntityTypeShape EntityType="DomainModels.Currency" Width="1.5" PointX="24.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.Prefix" Width="1.5" PointX="7.625" PointY="52.375" />
         <AssociationConnector Association="DomainModels.FK_tbl_prefixes_tbl_markup" />
+        <EntityTypeShape EntityType="DomainModels.ItemAddonCostCentre" Width="1.5" PointX="8.875" PointY="27.875" />
+        <EntityTypeShape EntityType="DomainModels.ItemVideo" Width="1.5" PointX="18.625" PointY="79.625" />
+        <AssociationConnector Association="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" />
+        <AssociationConnector Association="DomainModels.FK_ItemVideo_Items" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
