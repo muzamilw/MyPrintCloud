@@ -189,46 +189,60 @@ define("stores/stores.viewModel",
 
                     //Selected Rave Review
                     selectedRaveReview = ko.observable(),
-                      // Template Chooser For Rave Review
+                    // Template Chooser For Rave Review
                     templateToUseRaveReviews = function (raveReview) {
                         return (raveReview === selectedRaveReview() ? 'editRaveReviewTemplate' : 'itemRaveReviewTemplate');
                     },
                     //Create Stock Sub Category
-                     onCreateNewRaveReview = function () {
-                         var raveReview = new model.RaveReview();
-                         selectedRaveReview(raveReview);
-                         view.showRaveReviewDialog();
-                         //var raveReview = selectedRaveReview().raveReviews()[0];
-                         ////Create Rave Reviews for the very First Time
-                         //if (raveReview == undefined) {
-                         //    selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
-                         //    selectedRaveReview(selectedStore().raveReviews()[0]);
-                         //}
-                         //    //If There are already rave reviews in list
-                         //else {
-                         //    if (!raveReview.isValid()) {
-                         //        raveReview.errors.showAllMessages();
-                         //    }
-                         //    else {
-                         //        selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
-                         //        selectedRaveReview(selectedStore().raveReviews()[0]);
-                         //    }
-                         //}
-                     },
-                     // Delete a Rave review
+                    onCreateNewRaveReview = function () {
+                        var raveReview = new model.RaveReview();
+                        selectedRaveReview(raveReview);
+                        view.showRaveReviewDialog();
+
+                        //var raveReview = selectedRaveReview().raveReviews()[0];
+                        ////Create Rave Reviews for the very First Time
+                        //if (raveReview == undefined) {
+                        //    selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
+                        //    selectedRaveReview(selectedStore().raveReviews()[0]);
+                        //}
+                        //    //If There are already rave reviews in list
+                        //else {
+                        //    if (!raveReview.isValid()) {
+                        //        raveReview.errors.showAllMessages();
+                        //    }
+                        //    else {
+                        //        selectedRaveReview().raveReviews.splice(0, 0, new model.RaveReview());
+                        //        selectedRaveReview(selectedStore().raveReviews()[0]);
+                        //    }
+                        //}
+                    },
+                    // Delete a Rave review
                     onDeleteRaveReview = function (raveReview) {
-                        //if (raveReview.reviewId() > 0) {
                         selectedStore().raveReviews.remove(raveReview);
                         return;
-                        //}
                     },
 
                     onEditRaveReview = function (raveReview) {
                         selectedRaveReview(raveReview);
                         view.showRaveReviewDialog();
                     },
-                    onCloseRaveReview = function() {
+                    onCloseRaveReview = function () {
                         view.hideRaveReviewDialog();
+                    },
+                    //Do Before Save Rave Review
+                    doBeforeSaveRaveReview = function () {
+                        var flag = true;
+                        if (!selectedRaveReview().isValid()) {
+                            selectedRaveReview().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveRaveReview = function () {
+                        if (doBeforeSaveRaveReview()) {
+                            selectedStore().raveReviews.splice(0, 0, selectedRaveReview());
+                            view.hideRaveReviewDialog();
+                        }
                     },
                     // ***** RAVE REVIEW END*****//
 
@@ -237,48 +251,72 @@ define("stores/stores.viewModel",
                     //Selected Company CMYK Color
                     // ReSharper disable InconsistentNaming
                     selectedCompanyCMYKColor = ko.observable(),
-                     // Template Chooser For Company CMYK Color
+                    // Template Chooser For Company CMYK Color
                     templateToUseCompanyCMYKColors = function (companyCMYKColor) {
                         return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
                     },
                     //Create Stock Sub Category
-                     onCreateNewCompanyCMYKColor = function () {
-                         var companyCMYKColor = selectedStore().companyCMYKColors()[0];
-                         //Create Company CMYK Color for the very First Time
-                         if (companyCMYKColor == undefined) {
-                             selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
-                             selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
-                         }
-                             //If There are already company CMYK Color in list
-                         else {
-                             if (!companyCMYKColor.isValid()) {
-                                 companyCMYKColor.errors.showAllMessages();
-                             }
-                             else {
-                                 selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
-                                 selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
-                             }
-                         }
-                     },
-                     // Delete a company CMYK Color
-                    onDeleteCompanyCMYKColors = function (companyCMYKColor) {
-                        if (companyCMYKColor.colorId() > 0) {
-                            selectedStore().companyCMYKColors.remove(companyCMYKColor);
-                            return;
-                        }
+                    onCreateNewCompanyCMYKColor = function () {
+                        var companyCMYKColor = new model.CompanyCMYKColor();
+                        selectedCompanyCMYKColor(companyCMYKColor);
+                        view.showCompanyCMYKColorDialog();
+                        //var companyCMYKColor = selectedStore().companyCMYKColors()[0];
+                        ////Create Company CMYK Color for the very First Time
+                        //if (companyCMYKColor == undefined) {
+                        //    selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
+                        //    selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
+                        //}
+                        //    //If There are already company CMYK Color in list
+                        //else {
+                        //    if (!companyCMYKColor.isValid()) {
+                        //        companyCMYKColor.errors.showAllMessages();
+                        //    }
+                        //    else {
+                        //        selectedStore().companyCMYKColors.splice(0, 0, new model.CompanyCMYKColor());
+                        //        selectedCompanyCMYKColor(selectedStore().companyCMYKColors()[0]);
+                        //    }
+                        //}
                     },
-                    // ***** COMPANY CMYK COLOR END*****//
+                    // Delete a company CMYK Color
+                    onDeleteCompanyCMYKColors = function (companyCMYKColor) {
+                        selectedStore().companyCMYKColors.remove(companyCMYKColor);
+                        return;
+                    },
+            onEditCompanyCMYKColor = function (companyCMYKColor) {
+                selectedCompanyCMYKColor(companyCMYKColor);
+                view.showCompanyCMYKColorDialog();
+            },
+            onCloseCompanyCMYKColor = function () {
+                view.hideCompanyCMYKColorDialog();
+            },
+            //Do Before Save Rave Review
+            doBeforeSaveCompanyCMYKColor = function () {
+                var flag = true;
+                if (!selectedCompanyCMYKColor().isValid()) {
+                    selectedCompanyCMYKColor().errors.showAllMessages();
+                    flag = false;
+                }
+                return flag;
+            },
+            onSaveCompanyCMYKColor = function () {
+                if (doBeforeSaveCompanyCMYKColor()) {
+                    selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                    view.hideCompanyCMYKColorDialog();
+                }
+            },
 
-                //Initialize
-                // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                    getStores();
-                    getBaseData();
-                    view.initializeForm();
-                };
+                // ***** COMPANY CMYK COLOR END*****//
+
+            //Initialize
+            // ReSharper disable once AssignToImplicitGlobalInFunctionScope
+            initialize = function (specifiedView) {
+                view = specifiedView;
+                ko.applyBindings(view.viewModel, view.bindingRoot);
+                pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                getStores();
+                getBaseData();
+                view.initializeForm();
+            };
 
                 return {
                     stores: stores,
@@ -308,14 +346,21 @@ define("stores/stores.viewModel",
                     closeEditDialog: closeEditDialog,
                     resetFilterSection: resetFilterSection,
                     templateToUseRaveReviews: templateToUseRaveReviews,
-                    selectedRaveReview:selectedRaveReview,
+                    selectedRaveReview: selectedRaveReview,
                     onCreateNewRaveReview: onCreateNewRaveReview,
                     onDeleteRaveReview: onDeleteRaveReview,
                     onEditRaveReview: onEditRaveReview,
                     onCloseRaveReview: onCloseRaveReview,
+                    doBeforeSaveRaveReview: doBeforeSaveRaveReview,
+                    onSaveRaveReview: onSaveRaveReview,
                     templateToUseCompanyCMYKColors: templateToUseCompanyCMYKColors,
+                    selectedCompanyCMYKColor:selectedCompanyCMYKColor,
                     onCreateNewCompanyCMYKColor: onCreateNewCompanyCMYKColor,
                     onDeleteCompanyCMYKColors: onDeleteCompanyCMYKColors,
+                    onEditCompanyCMYKColor: onEditCompanyCMYKColor,
+                    onCloseCompanyCMYKColor: onCloseCompanyCMYKColor,
+                    doBeforeSaveCompanyCMYKColor: doBeforeSaveCompanyCMYKColor,
+                    onSaveCompanyCMYKColor: onSaveCompanyCMYKColor,
                     initialize: initialize
                 };
             })()

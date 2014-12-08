@@ -2,9 +2,10 @@
 
 define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
+        //WebMasterTag WebAnalyticCode
         // ReSharper disable once InconsistentNaming
         Store = function (specifiedCompanyId, specifiedName, specifiedStatus,specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
-            specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebAccessCode, specifiedTwitterUrl,
+            specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey
         ) {
             var
@@ -21,6 +22,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 phoneNo = ko.observable(specifiedPhoneNo),
                 isCustomer = ko.observable(specifiedIsCustomer),
                 notes = ko.observable(specifiedNotes),
+                webMasterTag = ko.observable(specifiedWebMasterTag),
+                webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
                 webAccessCode = ko.observable(specifiedWebAccessCode),
                 twitterUrl = ko.observable(specifiedTwitterUrl),
                 facebookUrl = ko.observable(specifiedFacebookUrl),
@@ -74,7 +77,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     companyType: companyType,
                     type: type,
                     raveReviews: raveReviews,
-                    companyCMYKColors: companyCMYKColors
+                    companyCMYKColors: companyCMYKColors,
+                    webMasterTag: webMasterTag,
+                    webAnalyticCode: webAnalyticCode
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -95,6 +100,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.PhoneNo = source.phoneNo();
                     result.IsCustomer = source.isCustomer();
                     result.Notes = source.notes();
+                    result.WebMasterTag = source.webMasterTag();
+                    result.WebAnalyticCode = source.webAnalyticCode();
                     result.WebAccessCode = source.webAccessCode();
                     result.TwitterUrl = source.twitterUrl();
                     result.FacebookUrl = source.facebookUrl();
@@ -104,14 +111,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.TwitterAppId = source.twitterAppId();
                     result.TwitterAppKey = source.twitterAppKey();
                     result.CompanyType = CompanyType().convertToServerData(source.companyType());
-                    result.StockSubCategories = [];
-                    _.each(source.RaveReviews(), function (item) {
+                    result.RaveReviews = [];
+                    _.each(source.raveReviews(), function (item) {
                         result.RaveReviews.push(item.convertToServerData());
                     });
-                    //result.StockSubCategories = [];
-                    //_.each(source.stockSubCategories(), function (item) {
-                    //    result.StockSubCategories.push(item.convertToServerData());
-                    //});
+                    result.CompanyCmykColors = [];
+                    _.each(source.companyCMYKColors(), function (item) {
+                        result.CompanyCmykColors.push(item.convertToServerData());
+                    });
                     return result;
                 },
                 // Reset
@@ -131,6 +138,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 phoneNo: phoneNo,
                 isCustomer: isCustomer,
                 notes: notes,
+                webMasterTag: webMasterTag,
+                webAnalyticCode: webAnalyticCode,
                 webAccessCode: webAccessCode,
                 twitterUrl: twitterUrl,
                 facebookUrl: facebookUrl,
@@ -166,6 +175,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.phoneNo,
             source.isCustomer,
             source.notes,
+            source.webMasterTag,
+            source.webAnalyticCode,
             source.webAccessCode,
             source.twitterUrl,
             source.facebookUrl,
@@ -198,6 +209,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.PhoneNo,
             source.IsCustomer,
             source.Notes,
+            source.WebMasterTag,
+            source.WebAnalyticCode,
             source.WebAccessCode,
             source.TwitterUrl,
             source.FacebookUrl,
@@ -224,7 +237,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         _.each(source.RaveReviews, function (item) {
             store.raveReviews.push(RaveReview.Create(item));
         });
-        _.each(source.CompanyCMYKColors, function (item) {
+        _.each(source.CompanyCmykColors, function (item) {
             store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
         });
         return store;
@@ -368,8 +381,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var RaveReview = function (specifiedReviewId,specifiedReviewBy,specifiedReview,specifiedReviewDate,specifiedisDisplay,specifiedSortOrder,specifiedOrganisationId,specifiedCompanyId) {
         var self,
             reviewId = ko.observable(specifiedReviewId),
-            reviewBy = ko.observable(specifiedReviewBy),
-            review = ko.observable(specifiedReview),
+            reviewBy = ko.observable(specifiedReviewBy).extend({ required: true }),
+            review = ko.observable(specifiedReview).extend({ required: true }),
             reviewDate = ko.observable(specifiedReviewDate),
             isDisplay = ko.observable(specifiedisDisplay),
             sortOrder = ko.observable(specifiedSortOrder),
@@ -377,7 +390,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             companyId = ko.observable(specifiedCompanyId),
             // Errors
             errors = ko.validation.group({
-
+                reviewBy: reviewBy,
+                review: review
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -401,16 +415,26 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};
-                result.ReviewId = source.reviewId();
-                result.ReviewBy = source.reviewBy();
-                result.Review = source.review();
-                result.IsDisplay = source.isDisplay();
-                result.SortOrder = source.sortOrder();
-                result.OrganisationId = source.organisationId();
-                result.CompanyId = source.companyId();
-                return result;
+            convertToServerData = function () {
+                return {
+                    ReviewId: reviewId(),
+                    ReviewBy: reviewBy(),
+                    Review: review(),
+                    ReviewDate: reviewDate(),
+                    IsDisplay: isDisplay(),
+                    SortOrder: sortOrder(),
+                    OrganisationId: organisationId(),
+                    CompanyId: companyId()
+                }
+                //var result = {};
+                //result.ReviewId = source.reviewId();
+                //result.ReviewBy = source.reviewBy();
+                //result.Review = source.review();
+                //result.IsDisplay = source.isDisplay();
+                //result.SortOrder = source.sortOrder();
+                //result.OrganisationId = source.organisationId();
+                //result.CompanyId = source.companyId();
+                //return result;
             },
             // Reset
             reset = function () {
@@ -467,14 +491,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         var self,
             colorId = ko.observable(specifiedColorId),
             companyId = ko.observable(specifiedCompanyId),
-            colorName = ko.observable(specifiedColorName),
-            colorC = ko.observable(specifiedColorC),
-            colorM = ko.observable(specifiedColorM),
-            colorY = ko.observable(specifiedColorY),
-            colorK = ko.observable(specifiedColorK),
+            colorName = ko.observable(specifiedColorName).extend({ required: true }),
+            colorC = ko.observable(specifiedColorC).extend({ required: true }),
+            colorM = ko.observable(specifiedColorM).extend({ required: true }),
+            colorY = ko.observable(specifiedColorY).extend({ required: true }),
+            colorK = ko.observable(specifiedColorK).extend({ required: true }),
             // Errors
             errors = ko.validation.group({
-
+                colorName: colorName,
+                colorC: colorC,
+                colorM: colorM,
+                colorY: colorY,
+                colorK: colorK
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -498,16 +526,25 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};//ColorId CompanyId ColorName ColorC ColorM ColorY ColorK
-                result.ColorId = source.colorId();
-                result.CompanyId = source.companyId();
-                result.ColorName = source.colorName();
-                result.ColorC = source.colorC();
-                result.ColorM = source.colorM();
-                result.ColorY = source.colorY();
-                result.ColorK = source.colorK();
-                return result;
+            convertToServerData = function () {
+                return {
+                    ColorId: colorId(),
+                    CompanyId: companyId(),
+                    ColorName: colorName(),
+                    ColorC: colorC(),
+                    ColorM: colorM(),
+                    ColorY: colorY(),
+                    ColorK: colorK()
+                }
+                //var result = {};//ColorId CompanyId ColorName ColorC ColorM ColorY ColorK
+                //result.ColorId = source.colorId();
+                //result.CompanyId = source.companyId();
+                //result.ColorName = source.colorName();
+                //result.ColorC = source.colorC();
+                //result.ColorM = source.colorM();
+                //result.ColorY = source.colorY();
+                //result.ColorK = source.colorK();
+                //return result;
             },
             // Reset
             reset = function () {

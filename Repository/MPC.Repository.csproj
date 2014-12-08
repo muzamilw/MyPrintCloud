@@ -177,6 +177,7 @@
     <Compile Include="Repositories\CmsSkinPageWidgetRepository.cs" />
     <Compile Include="Repositories\CmsSkinPageWidgetParamRepository.cs" />
     <Compile Include="Repositories\CompanyBannerRepository.cs" />
+    <Compile Include="Repositories\CompanyCMYKColorRepository.cs" />
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Repositories\PaperBasisAreaRepository.cs" />
     <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\PaperSizeRepository.cs" />
+    <Compile Include="Repositories\RaveReviewRepository.cs" />
     <Compile Include="Repositories\RegistrationQuestionRepository.cs" />
     <Compile Include="Repositories\SectionFlagRepository.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
