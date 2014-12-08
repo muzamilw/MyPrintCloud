@@ -44,7 +44,10 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(cs => cs.OrganisationId == OrganisationId).ToList();
         }
-
+        public Organisation GetOrganizatiobByID(int OID)
+        {
+            return DbSet.Where(cs => cs.OrganisationId == OID).FirstOrDefault();
+        }
 
         #endregion
     }

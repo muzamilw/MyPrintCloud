@@ -148,6 +148,7 @@
     <Compile Include="DomainModels\Item.cs" />
     <Compile Include="DomainModels\ItemAddonCostCentre.cs" />
     <Compile Include="DomainModels\ItemAttachment.cs" />
+    <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\ItemImage.cs" />
     <Compile Include="DomainModels\ItemPriceMatrix.cs" />
     <Compile Include="DomainModels\ItemProductDetail.cs" />

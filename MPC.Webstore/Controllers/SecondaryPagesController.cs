@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -11,17 +12,36 @@ namespace MPC.Webstore.Controllers
 {
     public class SecondaryPagesController : Controller
     {
+         #region Private
+
+        private readonly ICompanyService _myCompanyService;
+
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public SecondaryPagesController(ICompanyService myCompanyService)
+        {
+            if (myCompanyService == null)
+            {
+                throw new ArgumentNullException("myCompanyService");
+            }
+            this._myCompanyService = myCompanyService;
+        }
+
+        #endregion
         // GET: SecondaryPages
         public ActionResult Index()
         {
-            ObjectCache cache = MemoryCache.Default;
+            long storeId = Convert.ToInt64(Session["storeId"]);
 
-            MyCompanyDomainBaseResponse obj = cache.Get("CompanyBaseResponse") as MyCompanyDomainBaseResponse;
-            if (obj != null)
-            {
-                ViewData["PageCategory"] = obj.PageCategories;
-                ViewData["CmsPage"] = obj.cmsPages;
-            }
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetBaseData(storeId).CreateFromSecondaryPages();
+
+            ViewData["PageCategory"] = baseResponse.PageCategories;
+            ViewData["CmsPage"] = baseResponse.SystemPages;
+          
             return PartialView("PartialViews/SecondaryPages");
         }
     }

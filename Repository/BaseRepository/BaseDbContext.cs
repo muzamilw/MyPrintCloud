@@ -177,10 +177,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public DbSet<GetItemsListView> GetItemsListViews { get; set; }
 
+        public DbSet<Address> Addesses { get; set; }
         /// <summary>
         /// Prefix DbSet
         /// </summary>
         public DbSet<Prefix> Prefixes { get; set; }
+
+        /// <summary>
+        /// Item Video DbSet
+        /// </summary>
+        public DbSet<ItemVideo> ItemVideos { get; set; }
 
         /// <summary>
         /// Get next id for a table

@@ -13,13 +13,11 @@ namespace MPC.Webstore.ModelMappers
         {
             return new ApiModels.CompanyBanner
             {
-                CompanyBannerId = source.CompanyBannerId,
                 Heading = source.Heading,
                 ButtonURL = source.ButtonURL,
                 ItemURL = source.ItemURL,
                 ImageURL = source.ImageURL,
-                Description = source.Description,
-                CompanySetId = source.CompanySetId
+                Description = source.Description
             };
         }
 
@@ -30,13 +28,11 @@ namespace MPC.Webstore.ModelMappers
         {
             return new DomainModels.CompanyBanner
             {
-                CompanyBannerId = source.CompanyBannerId,
                 Heading = source.Heading,
                 ButtonURL = source.ButtonURL,
                 ItemURL = source.ItemURL,
                 ImageURL = source.ImageURL,
-                Description = source.Description,
-                CompanySetId = source.CompanySetId
+                Description = source.Description
             };
         }
      

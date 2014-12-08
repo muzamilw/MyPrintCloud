@@ -368,7 +368,7 @@
             <PropertyRef Name="ContactId" />
           </Key>
           <Property Name="ContactId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="AddressId" Type="bigint" Nullable="false" />
           <Property Name="CompanyId" Type="bigint" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" />
           <Property Name="MiddleName" Type="varchar" MaxLength="50" />
@@ -914,6 +914,18 @@
           <Property Name="Description" Type="text" />
           <Property Name="ItemType" Type="int" />
           <Property Name="TaxId" Type="int" />
+        </EntityType>
+        <EntityType Name="ItemAddonCostCentre">
+          <Key>
+            <PropertyRef Name="ProductAddOnId" />
+          </Key>
+          <Property Name="ProductAddOnId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemStockOptionId" Type="bigint" />
+          <Property Name="CostCentreId" Type="bigint" />
+          <Property Name="DiscountPercentage" Type="float" />
+          <Property Name="IsDiscounted" Type="bit" />
+          <Property Name="Sequence" Type="int" />
+          <Property Name="IsMandatory" Type="bit" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -1462,6 +1474,15 @@
           <Property Name="ClickRangeFrom" Type="int" />
           <Property Name="PricePerClick" Type="float" />
           <Property Name="SetupCharge" Type="float" />
+          <Property Name="ItemId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ItemVideo">
+          <Key>
+            <PropertyRef Name="VideoId" />
+          </Key>
+          <Property Name="VideoId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VideoLink" Type="varchar" MaxLength="255" />
+          <Property Name="Caption" Type="varchar" MaxLength="255" />
           <Property Name="ItemId" Type="bigint" />
         </EntityType>
         <EntityType Name="LengthUnit">
@@ -2234,6 +2255,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ItemVideo_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="ItemVideo" Type="Self.ItemVideo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ItemVideo">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RaveReview_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="RaveReview" Type="Self.RaveReview" Multiplicity="*" />
@@ -2539,6 +2572,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="ItemSection">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+          <End Role="CostCentre" Type="Self.CostCentre" Multiplicity="0..1" />
+          <End Role="ItemAddonCostCentre" Type="Self.ItemAddonCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="CostCentreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2871,6 +2916,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="InquiryItem" EntityType="Self.InquiryItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceDetail" EntityType="Self.InvoiceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemAddonCostCentre" EntityType="Self.ItemAddonCostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemAttachment" EntityType="Self.ItemAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemImage" EntityType="Self.ItemImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemPriceMatrix" EntityType="Self.ItemPriceMatrix" Schema="dbo" store:Type="Tables" />
@@ -2882,6 +2928,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="ItemStockControl" EntityType="Self.ItemStockControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemStockOption" EntityType="Self.ItemStockOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVDPPrice" EntityType="Self.ItemVDPPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemVideo" EntityType="Self.ItemVideo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LengthUnit" EntityType="Self.LengthUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
@@ -2978,6 +3025,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_ItemVDPPrice_Items" Association="Self.FK_ItemVDPPrice_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVDPPrice" EntitySet="ItemVDPPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemVideo_Items" Association="Self.FK_ItemVideo_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ItemVideo" EntitySet="ItemVideo" />
           </AssociationSet>
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
@@ -3078,6 +3129,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_item_sections_tbl_items" Association="Self.FK_tbl_item_sections_tbl_items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemSection" EntitySet="ItemSection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres" Association="Self.FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+            <End Role="CostCentre" EntitySet="CostCentre" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentre" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_items_PriceMatrix_tbl_items" Association="Self.FK_tbl_items_PriceMatrix_tbl_items">
             <End Role="Items" EntitySet="Items" />
@@ -3487,6 +3542,16 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_prefixes_tbl_markup" Association="DomainModels.FK_tbl_prefixes_tbl_markup">
             <End Role="Markup" EntitySet="Markups" />
             <End Role="prefix" EntitySet="Prefixes1" />
+          </AssociationSet>
+          <EntitySet Name="ItemAddonCostCentres" EntityType="DomainModels.ItemAddonCostCentre" />
+          <EntitySet Name="ItemVideos" EntityType="DomainModels.ItemVideo" />
+          <AssociationSet Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres" Association="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+            <End Role="CostCentre" EntitySet="CostCentres" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemVideo_Items" Association="DomainModels.FK_ItemVideo_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemVideo" EntitySet="ItemVideos" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -4538,6 +4603,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" FromRole="CostCentre" ToRole="SectionCostcentre" />
+          <NavigationProperty Name="ItemAddonCostCentres" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="CostCentre" ToRole="ItemAddonCostCentre" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -4850,6 +4916,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="Invoice" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Item" ToRole="Invoice" />
           <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_items" FromRole="Item" ToRole="InvoiceDetail" />
           <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="Item" ToRole="DeliveryNoteDetail" />
+          <NavigationProperty Name="ItemVideos" Relationship="DomainModels.FK_ItemVideo_Items" FromRole="Item" ToRole="ItemVideo" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -6432,6 +6499,53 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="prefix">
               <PropertyRef Name="MarkupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ItemAddonCostCentre">
+          <Key>
+            <PropertyRef Name="ProductAddOnId" />
+          </Key>
+          <Property Name="ProductAddOnId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemStockOptionId" Type="Int64" />
+          <Property Name="CostCentreId" Type="Int64" />
+          <Property Name="DiscountPercentage" Type="Double" />
+          <Property Name="IsDiscounted" Type="Boolean" />
+          <Property Name="Sequence" Type="Int32" />
+          <Property Name="IsMandatory" Type="Boolean" />
+          <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="ItemAddonCostCentre" ToRole="CostCentre" />
+        </EntityType>
+        <EntityType Name="ItemVideo">
+          <Key>
+            <PropertyRef Name="VideoId" />
+          </Key>
+          <Property Name="VideoId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VideoLink" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Caption" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ItemId" Type="Int64" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ItemVideo_Items" FromRole="ItemVideo" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+          <End Type="DomainModels.CostCentre" Role="CostCentre" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemAddonCostCentre" Role="ItemAddonCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemVideo_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemVideo" Role="ItemVideo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ItemVideo">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8617,6 +8731,29 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="EstimateNext" ColumnName="EstimateNext" />
                 <ScalarProperty Name="EstimateStart" ColumnName="EstimateStart" />
                 <ScalarProperty Name="EstimatePrefix" ColumnName="EstimatePrefix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemAddonCostCentres">
+            <EntityTypeMapping TypeName="DomainModels.ItemAddonCostCentre">
+              <MappingFragment StoreEntitySet="ItemAddonCostCentre">
+                <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="IsDiscounted" ColumnName="IsDiscounted" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+                <ScalarProperty Name="CostCentreId" ColumnName="CostCentreId" />
+                <ScalarProperty Name="ItemStockOptionId" ColumnName="ItemStockOptionId" />
+                <ScalarProperty Name="ProductAddOnId" ColumnName="ProductAddOnId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemVideos">
+            <EntityTypeMapping TypeName="DomainModels.ItemVideo">
+              <MappingFragment StoreEntitySet="ItemVideo">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
+                <ScalarProperty Name="VideoId" ColumnName="VideoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
