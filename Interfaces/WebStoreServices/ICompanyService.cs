@@ -23,6 +23,10 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetContactByEmail(string Email);
 
         Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
+
+        Company GetCompanyByCompanyID(Int64 companyID);
+
+        CompanyContact GetContactByID(Int64 contactID);
         //List<CmsPage> GetSecondaryPages(long companyId);
 
         //List<PageCategory> GetSecondaryPageCategories();

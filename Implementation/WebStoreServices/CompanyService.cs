@@ -126,6 +126,15 @@ namespace MPC.Implementation.WebStoreServices
             return _companyContactRepository.CreateContact(Contact,Name,OrganizationID,CustomerType,TwitterScreanName);
         }
 
+        public Company GetCompanyByCompanyID(Int64 CompanyID)
+        {
+            return _companyRepository.GetCompanyById(CompanyID);
+        }
+
+        public CompanyContact GetContactByID(Int64 ContactID)
+        {
+            return _companyContactRepository.GetContactByID(ContactID);
+        }
         #endregion
     }
 }

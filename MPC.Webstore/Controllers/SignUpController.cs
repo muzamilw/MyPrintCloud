@@ -13,6 +13,7 @@ namespace MPC.Webstore.Controllers
     public class SignUpController : Controller
     {
         private readonly ICompanyService _myCompanyService;
+  
 
        #region Constructor
         /// <summary>
@@ -77,7 +78,8 @@ namespace MPC.Webstore.Controllers
         {
 
             CompanyContact contact = new CompanyContact();
-
+            Int64 CompanyID = 0;
+            bool isContactCreate = false;
             contact.FirstName = model.FirstName;
             contact.LastName = model.LastName;
             contact.Email = model.Email;
@@ -86,7 +88,28 @@ namespace MPC.Webstore.Controllers
 
             if (SessionParameters.LoginCompany.IsCustomer == (int)StoreMode.Retail)
             {
-                _myCompanyService.CreateContact(contact, "", 0, 0, "");
+               CompanyID =  _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName, 0,(int)StoreMode.Retail,"");
+
+                if (CompanyID > 0)
+                {
+                    SessionParameters.LoginCompany.CompanyId = contact.CompanyId;
+                    SessionParameters.LoginContact.ContactId = contact.ContactId;
+                    SessionParameters.LoginCompany = _myCompanyService.GetCompanyByCompanyID(contact.CompanyId);
+                    SessionParameters.LoginContact = _myCompanyService.GetContactByID(contact.ContactId);
+
+                   // Campaign RegistrationCampaign = emailmgr.GetCampaignRecordByEmailEvent((int)EmailEvents.Registration);
+                    // work for email to sale manager
+                    isContactCreate = true;
+
+                }
+                else
+                {
+                    isContactCreate = false;
+                }
+
+            }
+            else
+            {
 
             }
 

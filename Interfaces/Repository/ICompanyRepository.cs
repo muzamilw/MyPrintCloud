@@ -18,5 +18,7 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         SupplierSearchResponseForInventory GetSuppliersForInventories(SupplierRequestModelForInventory request);
 
+
+
     }
 }
