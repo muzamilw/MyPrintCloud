@@ -365,6 +365,20 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
             return company;
         }
+
+        /// <summary>
+        /// Save image path for company logo in supplier
+        /// </summary>
+        public void SaveCompanyImage(string path, long supplierId)
+        {
+            Company company = companyRepository.Find(supplierId);
+            if (company != null)
+            {
+                company.Image = path;
+                companyRepository.SaveChanges();
+            }
+        }
+
         #endregion
     }
 }

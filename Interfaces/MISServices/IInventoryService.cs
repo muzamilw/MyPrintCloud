@@ -43,5 +43,10 @@ namespace MPC.Interfaces.MISServices
         /// Add New Supplier
         /// </summary>
         Company SaveSupplier(Company company);
+
+        /// <summary>
+        /// Save image path for company logo in supplier
+        /// </summary>
+        void SaveCompanyImage(string path, long supplierId);
     }
 }
