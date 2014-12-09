@@ -257,6 +257,8 @@
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
     <Compile Include="Areas\Api\Controllers\StoreBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\SupplierBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\SupplierForInventoryController.cs" />
     <Compile Include="Areas\Api\LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -265,19 +267,24 @@
     </Compile>
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemVideoMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemVDPPriceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCMYKColorMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RaveReviewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
+    <Compile Include="Areas\Api\Models\Address.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContact.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
+    <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
@@ -1099,6 +1106,7 @@
     <Content Include="Areas\Products\Views\Home\_ProductDetail.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_SupplierDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_AddVideo.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
     <Content Include="Areas\Products\Views\Home\_RelatedProductDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />

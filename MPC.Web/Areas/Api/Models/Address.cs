@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MPC.Models.DomainModels
+﻿namespace MPC.MIS.Areas.Api.Models
 {
+    /// <summary>
+    /// Address Web Model
+    /// </summary>
     public class Address
     {
+
         public long AddressId { get; set; }
         public long? CompanyId { get; set; }
         public string AddressName { get; set; }
@@ -38,9 +36,5 @@ namespace MPC.Models.DomainModels
         public bool? isDefaultTerrorityBilling { get; set; }
         public bool? isDefaultTerrorityShipping { get; set; }
         public long? OrganisationId { get; set; }
-
-        public virtual CompanyTerritory CompanyTerritory { get; set; }
-        public virtual Company Company { get; set; }
-        public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
     }
 }

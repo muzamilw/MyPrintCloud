@@ -9,7 +9,7 @@ namespace MPC.Models.DomainModels
     public class CompanyContact
     {
         public long ContactId { get; set; }
-        public int AddressId { get; set; }
+        public long AddressId { get; set; }
         public long CompanyId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -93,11 +93,12 @@ namespace MPC.Models.DomainModels
         public long? OrganisationId { get; set; }
 
         public virtual Company Company { get; set; }
+        public virtual Address Address { get; set; }
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual CompanyContactRole CompanyContactRole { get; set; }
         public virtual RegistrationQuestion RegistrationQuestion { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<Inquiry> Inquiries { get; set; }
-        
+
     }
 }

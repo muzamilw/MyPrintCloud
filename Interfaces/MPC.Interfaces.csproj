@@ -66,6 +66,7 @@
     <Compile Include="Repository\ICompanyCMYKColorRepository.cs" />
     <Compile Include="Repository\IAddressRepository.cs" />
     <Compile Include="Repository\ICompanyContactRepository.cs" />
+    <Compile Include="Repository\ICompanyTypeRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />

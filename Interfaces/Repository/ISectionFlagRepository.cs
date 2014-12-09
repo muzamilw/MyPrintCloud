@@ -13,5 +13,10 @@ namespace MPC.Interfaces.Repository
         /// Get Section Flag For Inventory
         /// </summary>
         IEnumerable<SectionFlag> GetSectionFlagForInventory();
+
+        /// <summary>
+        /// Get Section Flag By Section Id
+        /// </summary>
+        IEnumerable<SectionFlag> GetSectionFlagBySectionId(long SectionId);
     }
 }
