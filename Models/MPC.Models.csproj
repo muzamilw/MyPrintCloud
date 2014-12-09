@@ -199,6 +199,8 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
+    <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\ItemVdpPriceMapper.cs" />
     <Compile Include="ModelMappers\ItemMapper.cs" />
     <Compile Include="ModelMappers\ItemMapperActions.cs" />

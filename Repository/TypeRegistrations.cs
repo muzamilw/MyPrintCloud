@@ -47,6 +47,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICompanyCMYKColorRepository, CompanyCMYKColorRepository>();
             unityContainer.RegisterType<IItemVdpPriceRepository, ItemVdpPriceRepository>();
             unityContainer.RegisterType<IPrefixRepository, PrefixRepository>();
+            unityContainer.RegisterType<IItemVideoRepository, ItemVideoRepository>();
+            unityContainer.RegisterType<IItemRelatedItemRepository, ItemRelatedItemRepository>();
         }
     }
 }
