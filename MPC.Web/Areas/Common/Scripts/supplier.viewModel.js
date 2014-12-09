@@ -154,6 +154,14 @@ define("common/supplier.viewModel",
                  onSaveSupplier = function (supplier) {
                      errorList.removeAll();
                      if (doBeforeSave()) {
+                         if (addSupplier().addresses().length !== 0) {
+                             addSupplier().addresses([]);
+                         }
+                         if (addSupplier().companyContacts().length !== 0) {
+                             addSupplier().companyContacts([]);
+                         }
+                         addSupplier().addresses().push(addSupplier().addressInSupplier().convertToServerData());
+                         addSupplier().companyContacts().push(addSupplier().companyContact().convertToServerData());
                          saveSupplier(supplier);
                      }
                  },
@@ -161,9 +169,9 @@ define("common/supplier.viewModel",
                     saveSupplier = function (supplier) {
                         dataservice.saveSupplier(addSupplier().convertToServerData(supplier), {
                             success: function (data) {
-                                //var inventoryResponse = new model.InventoryListView.Create(data);
-                                //inventories.splice(0, 0, inventoryResponse);
-                                //closeInventoryEditor();
+                                var supplierResult = new model.SupplierListView.Create(data);
+                                suppliers.splice(0, 0, supplierResult);
+                                closeSupplierEditor();
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {

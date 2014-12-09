@@ -1,5 +1,8 @@
-﻿using System.Web.Http;
+﻿using System.Net;
+using System.Web;
+using System.Web.Http;
 using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
 
@@ -12,7 +15,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     {
         #region Private
 
-        private readonly ICompanyService companyService;
+        private readonly IInventoryService inventoryService;
 
         #endregion
 
@@ -21,9 +24,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public SupplierController(ICompanyService companyService)
+        public SupplierController(IInventoryService inventoryService)
         {
-            this.companyService = companyService;
+            this.inventoryService = inventoryService;
         }
 
         #endregion
@@ -31,14 +34,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Add/Update Company
         /// </summary>
         [ApiException]
-        public Company Post(Company company)
+        public SupplierForInventory Post(Company company)
         {
-            //if (company == null || !ModelState.IsValid)
-            //{
-            //    throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
-            //}
-            //return companyService.SaveCompany(company.CreateFrom()).CreateFrom();
-            return null;
+            if (company == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return inventoryService.SaveSupplier(company.CreateFromSupplier()).CreateFromForInventory();
         }
     }
 }

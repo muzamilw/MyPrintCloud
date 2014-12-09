@@ -335,6 +335,36 @@ namespace MPC.Implementation.MISServices
         {
             return stockItemRepository.Find(stockItemId);
         }
+
+        /// <summary>
+        /// Add New Supplier
+        /// </summary>
+        public Company SaveSupplier(Company company)
+        {
+            company.CreationDate = DateTime.Now;
+            company.OrganisationId = companyRepository.OrganisationId;
+
+            if (company.Addresses != null)
+            {
+                foreach (var item in company.Addresses)
+                {
+                    item.OrganisationId = companyRepository.OrganisationId;
+                }
+
+            }
+
+            if (company.CompanyContacts != null)
+            {
+                foreach (var item in company.CompanyContacts)
+                {
+                    item.OrganisationId = companyRepository.OrganisationId;
+                }
+
+            }
+            companyRepository.Add(company);
+            companyRepository.SaveChanges();
+            return company;
+        }
         #endregion
     }
 }

@@ -448,18 +448,7 @@
 @**Error Template*@
 <script id="itemErrorTemplate" type="text/html">
     <tr>
-        <!-- ko if: tabId === 1 -->
         <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
-        <!-- /ko -->
     </tr>
-    <tr>
-        <!-- ko if: tabId === 2 -->
-        <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
-        <!-- /ko -->
-    </tr>
-    <tr>
-        <!-- ko if: tabId === 3 -->
-        <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
-        <!-- /ko -->
-    </tr>
+
 </script>

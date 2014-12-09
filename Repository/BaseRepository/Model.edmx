@@ -5,6 +5,41 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="AddressName" Type="varchar" MaxLength="100" />
+          <Property Name="Address1" Type="varchar" MaxLength="255" />
+          <Property Name="Address2" Type="varchar" MaxLength="255" />
+          <Property Name="Address3" Type="varchar" MaxLength="255" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="PostCode" Type="varchar" MaxLength="30" />
+          <Property Name="Fax" Type="varchar" MaxLength="30" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="URL" Type="varchar" MaxLength="100" />
+          <Property Name="Tel1" Type="varchar" MaxLength="60" />
+          <Property Name="Tel2" Type="varchar" MaxLength="30" />
+          <Property Name="Extension1" Type="varchar" MaxLength="7" />
+          <Property Name="Extension2" Type="varchar" MaxLength="7" />
+          <Property Name="Reference" Type="varchar" MaxLength="50" />
+          <Property Name="FAO" Type="varchar" MaxLength="50" />
+          <Property Name="IsDefaultAddress" Type="bit" />
+          <Property Name="IsDefaultShippingAddress" Type="bit" />
+          <Property Name="isArchived" Type="bit" />
+          <Property Name="TerritoryId" Type="bigint" />
+          <Property Name="GeoLatitude" Type="varchar" MaxLength="100" />
+          <Property Name="GeoLongitude" Type="varchar" MaxLength="100" />
+          <Property Name="isPrivate" Type="bit" />
+          <Property Name="ContactId" Type="bigint" />
+          <Property Name="isDefaultTerrorityBilling" Type="bit" />
+          <Property Name="isDefaultTerrorityShipping" Type="bit" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
         <EntityType Name="Campaign">
           <Key>
             <PropertyRef Name="CampaignId" />
@@ -2293,6 +2328,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_addresses_tbl_contactcompanies">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_addresses_tbl_CustomerTerritory">
+          <End Role="CompanyTerritory" Type="Self.CompanyTerritory" Multiplicity="0..1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyTerritory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_CampaignImages_tbl_campaigns">
           <End Role="Campaign" Type="Self.Campaign" Multiplicity="0..1" />
           <End Role="CampaignImage" Type="Self.CampaignImage" Multiplicity="*" />
@@ -2350,6 +2409,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="Company">
               <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_contacts_tbl_addresses">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="AddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2885,6 +2956,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Parameter Name="ItemID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignEmailVariable" EntityType="Self.CampaignEmailVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignImage" EntityType="Self.CampaignImage" Schema="dbo" store:Type="Tables" />
@@ -3038,6 +3110,14 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="StockCategory" EntitySet="StockCategory" />
             <End Role="StockSubCategory" EntitySet="StockSubCategory" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_addresses_tbl_contactcompanies" Association="Self.FK_tbl_addresses_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_addresses_tbl_CustomerTerritory" Association="Self.FK_tbl_addresses_tbl_CustomerTerritory">
+            <End Role="CompanyTerritory" EntitySet="CompanyTerritory" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_CampaignImages_tbl_campaigns" Association="Self.FK_tbl_CampaignImages_tbl_campaigns">
             <End Role="Campaign" EntitySet="Campaign" />
             <End Role="CampaignImage" EntitySet="CampaignImage" />
@@ -3057,6 +3137,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_contactcompanies_tbl_contactcompanytypes" Association="Self.FK_tbl_contactcompanies_tbl_contactcompanytypes">
             <End Role="CompanyType" EntitySet="CompanyType" />
             <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_contacts_tbl_addresses" Association="Self.FK_tbl_contacts_tbl_addresses">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_contacts_tbl_contactcompanies" Association="Self.FK_tbl_contacts_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
@@ -3553,6 +3637,19 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="Item" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideos" />
           </AssociationSet>
+          <EntitySet Name="Addresses" EntityType="DomainModels.Address" />
+          <AssociationSet Name="FK_tbl_addresses_tbl_contactcompanies" Association="DomainModels.FK_tbl_addresses_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_addresses_tbl_CustomerTerritory" Association="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory">
+            <End Role="CompanyTerritory" EntitySet="CompanyTerritories" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_contacts_tbl_addresses" Association="DomainModels.FK_tbl_contacts_tbl_addresses">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -3667,6 +3764,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contactcompanies" FromRole="Company" ToRole="Estimate" />
           <NavigationProperty Name="RaveReviews" Relationship="DomainModels.FK_RaveReview_Company" FromRole="Company" ToRole="RaveReview" />
           <NavigationProperty Name="CompanyCMYKColors" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="Company" ToRole="CompanyCMYKColor" />
+          <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_contactcompanies" FromRole="Company" ToRole="Address" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -4282,7 +4380,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <PropertyRef Name="ContactId" />
           </Key>
           <Property Name="ContactId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AddressId" Type="Int32" Nullable="false" />
+          <Property Name="AddressId" Type="Int64" Nullable="false" />
           <Property Name="CompanyId" Type="Int64" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -4370,6 +4468,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="CompanyContact" ToRole="Estimate" />
           <NavigationProperty Name="RegistrationQuestion" Relationship="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" FromRole="CompanyContact" ToRole="RegistrationQuestion" />
           <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="CompanyContact" ToRole="Inquiry" />
+          <NavigationProperty Name="Address" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="CompanyContact" ToRole="Address" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -4402,6 +4501,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="isDefault" Type="Boolean" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" FromRole="CompanyTerritory" ToRole="Company" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" FromRole="CompanyTerritory" ToRole="CompanyContact" />
+          <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" FromRole="CompanyTerritory" ToRole="Address" />
         </EntityType>
         <EntityType Name="CompanyType">
           <Key>
@@ -6546,6 +6646,80 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="ItemVideo">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="AddressName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PostCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tel1" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Tel2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Extension1" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="Extension2" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FAO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsDefaultAddress" Type="Boolean" />
+          <Property Name="IsDefaultShippingAddress" Type="Boolean" />
+          <Property Name="isArchived" Type="Boolean" />
+          <Property Name="TerritoryId" Type="Int64" />
+          <Property Name="GeoLatitude" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GeoLongitude" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="isPrivate" Type="Boolean" />
+          <Property Name="ContactId" Type="Int64" />
+          <Property Name="isDefaultTerrorityBilling" Type="Boolean" />
+          <Property Name="isDefaultTerrorityShipping" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_addresses_tbl_contactcompanies" FromRole="Address" ToRole="Company" />
+          <NavigationProperty Name="CompanyTerritory" Relationship="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" FromRole="Address" ToRole="CompanyTerritory" />
+          <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="Address" ToRole="CompanyContact" />
+        </EntityType>
+        <Association Name="FK_tbl_addresses_tbl_contactcompanies">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_addresses_tbl_CustomerTerritory">
+          <End Type="DomainModels.CompanyTerritory" Role="CompanyTerritory" Multiplicity="0..1" />
+          <End Type="DomainModels.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyTerritory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_contacts_tbl_addresses">
+          <End Type="DomainModels.Address" Role="Address" Multiplicity="1" />
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="AddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8754,6 +8928,42 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="Caption" ColumnName="Caption" />
                 <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
                 <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="DomainModels.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="isDefaultTerrorityShipping" ColumnName="isDefaultTerrorityShipping" />
+                <ScalarProperty Name="isDefaultTerrorityBilling" ColumnName="isDefaultTerrorityBilling" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="isPrivate" ColumnName="isPrivate" />
+                <ScalarProperty Name="GeoLongitude" ColumnName="GeoLongitude" />
+                <ScalarProperty Name="GeoLatitude" ColumnName="GeoLatitude" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="IsDefaultShippingAddress" ColumnName="IsDefaultShippingAddress" />
+                <ScalarProperty Name="IsDefaultAddress" ColumnName="IsDefaultAddress" />
+                <ScalarProperty Name="FAO" ColumnName="FAO" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Extension2" ColumnName="Extension2" />
+                <ScalarProperty Name="Extension1" ColumnName="Extension1" />
+                <ScalarProperty Name="Tel2" ColumnName="Tel2" />
+                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

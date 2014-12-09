@@ -38,5 +38,10 @@ namespace MPC.Interfaces.MISServices
         /// Load Supplier Base data
         /// </summary>
         SupplierBaseResponse GetSupplierBaseData();
+
+        /// <summary>
+        /// Add New Supplier
+        /// </summary>
+        Company SaveSupplier(Company company);
     }
 }

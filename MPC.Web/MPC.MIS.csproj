@@ -265,16 +265,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemVDPPriceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCMYKColorMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RaveReviewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
+    <Compile Include="Areas\Api\Models\Address.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContact.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
