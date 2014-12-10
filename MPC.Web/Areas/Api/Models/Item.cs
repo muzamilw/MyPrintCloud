@@ -375,6 +375,9 @@ namespace MPC.MIS.Areas.Api.Models
         public double? PackagingWeight { get; set; }
         public bool? IsVdpProduct { get; set; }
         public IEnumerable<ItemVdpPrice> ItemVdpPrices { get; set; }
+        public IEnumerable<ItemVideo> ItemVideos { get; set; }
+
+        public IEnumerable<ItemRelatedItem> ItemRelatedItems { get; set; }
         #endregion
     }
 }

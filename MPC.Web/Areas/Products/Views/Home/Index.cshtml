@@ -245,42 +245,7 @@
             }
 
         }
-
-        function AddNewVideo() {
-
-
-            var currentRec = parseInt($('#hfNoOfVideo').val());
-            var numOfRec = currentRec + 1;
-            $('#hfNoOfVideo').val(numOfRec);
-            ShowVideo();
-
-        }
-        function RemoveVideo() {
-
-            var numofRec = parseInt($('#hfNoOfVideo').val());
-
-            $("#OuterVidDiv #Vid" + numofRec + "").css('display', 'none');
-
-            //  $('#' + recNo).css('display', 'none');
-            // $('#AddSection').css('display', 'block');
-            $('#hfNoOfVideo').val((numofRec - 1));
-
-
-        }
-        function ShowVideo() {
-            var numofRec = $('#hfNoOfVideo').val();
-
-            if (numofRec >= 1) {
-
-                $('#Vid1').css('display', 'block');
-            }
-            if (numofRec >= 2) {
-                $('#Vid2').css('display', 'block');
-            }
-
-
-        }
-
+        
         function AddNewSection() {
 
 
@@ -352,73 +317,6 @@
 
 
         }
-        function VisiblePhraseLibrary(DescID) {
-
-            if (DescID == "1") {
-                $('#P1').css('display', 'block');
-                $('#P2').css('display', 'none');
-                $('#P3').css('display', 'none');
-                $('#P4').css('display', 'none');
-                $('#P5').css('display', 'none');
-                $('#P6').css('display', 'none');
-                $('#P7').css('display', 'none');
-            }
-            else if (DescID == "2") {
-                $('#P1').css('display', 'none');
-                $('#P2').css('display', 'block');
-                $('#P3').css('display', 'none');
-                $('#P4').css('display', 'none');
-                $('#P5').css('display', 'none');
-                $('#P6').css('display', 'none');
-                $('#P7').css('display', 'none');
-            }
-            else if (DescID == "3") {
-                $('#P1').css('display', 'none');
-                $('#P2').css('display', 'none');
-                $('#P3').css('display', 'block');
-                $('#P4').css('display', 'none');
-                $('#P5').css('display', 'none');
-                $('#P6').css('display', 'none');
-                $('#P7').css('display', 'none');
-            }
-            else if (DescID == "4") {
-                $('#P1').css('display', 'none');
-                $('#P2').css('display', 'none');
-                $('#P3').css('display', 'none');
-                $('#P4').css('display', 'block');
-                $('#P5').css('display', 'none');
-                $('#P6').css('display', 'none');
-                $('#P7').css('display', 'none');
-            }
-            else if (DescID == "5") {
-                $('#P1').css('display', 'none');
-                $('#P2').css('display', 'none');
-                $('#P3').css('display', 'none');
-                $('#P4').css('display', 'none');
-                $('#P5').css('display', 'block');
-                $('#P6').css('display', 'none');
-                $('#P7').css('display', 'none');
-            }
-            else if (DescID == "6") {
-                $('#P1').css('display', 'none');
-                $('#P2').css('display', 'none');
-                $('#P3').css('display', 'none');
-                $('#P4').css('display', 'none');
-                $('#P5').css('display', 'none');
-                $('#P6').css('display', 'block');
-                $('#P7').css('display', 'none');
-            }
-            else if (DescID == "7") {
-                $('#P1').css('display', 'none');
-                $('#P2').css('display', 'none');
-                $('#P3').css('display', 'none');
-                $('#P4').css('display', 'none');
-                $('#P5').css('display', 'none');
-                $('#P6').css('display', 'none');
-                $('#P7').css('display', 'block');
-            }
-
-        }
         function setServerName(card) {
             var host = $("#new-server-fqdn").val();
             var name = $("#new-server-name").val();
@@ -479,93 +377,6 @@
             }
             return ret;
         }
-
-        function visibleVDP() {
-
-            if ($('input:checkbox[id=switchVDPs]').is(':checked')) {
-
-                $("#VDPTable").css("display", "block");
-            }
-            else {
-                $("#VDPTable").css("display", "none");
-            }
-        }
-        function TickRadio(RadioClassName) {
-            $('input:radio[data-id=' + RadioClassName + ']').attr('checked', true);
-            if ($('input:radio[data-id=' + RadioClassName + ']').is(':checked')) {
-
-
-                $("#gg").css("display", "none");
-
-                // alert();
-            }
-        }
-
-        $(function () {
-
-            
-
-            //$.fn.wizard.logging = false;
-
-            //var wizard = $("#wizard-demo").wizard({
-            //    showCancel: true
-            //});
-
-            ////$(".chzn-select").chosen();
-
-            //wizard.el.find(".wizard-ns-select").change(function () {
-            //    wizard.el.find(".wizard-ns-detail").show();
-            //});
-
-            //wizard.el.find(".create-server-service-list").change(function () {
-            //    var noOption = $(this).find("option:selected").length == 0;
-            //    wizard.getCard(this).toggleAlert(null, noOption);
-            //});
-
-            //wizard.cards["name"].on("validated", function (card) {
-            //    var hostname = card.el.find("#new-server-fqdn").val();
-            //});
-
-            //wizard.on("submit", function (wizard) {
-            //    var submit = {
-            //        "hostname": $("#new-server-fqdn").val()
-            //    };
-
-            //    setTimeout(function () {
-            //        wizard.trigger("success");
-            //        wizard.hideButtons();
-            //        wizard._submitting = false;
-            //        wizard.showSubmitCard("success");
-            //        wizard.updateProgressBar(0);
-            //    }, 2000);
-            //});
-
-            //wizard.on("reset", function (wizard) {
-            //    wizard.setSubtitle("");
-            //    wizard.el.find("#new-server-fqdn").val("");
-            //    wizard.el.find("#new-server-name").val("");
-            //});
-
-            //wizard.el.find(".wizard-success .im-done").click(function () {
-            //    wizard.reset().close();
-            //});
-
-            //wizard.el.find(".wizard-success .create-another-server").click(function () {
-            //    wizard.reset();
-            //});
-
-            //$(".wizard-group-list").click(function () {
-            //    alert("Disabled for demo.");
-            //});
-
-            //$("#open-wizard").click(function () {
-            //    wizard.show();
-            //});
-
-
-
-            //wizard.show();
-        });
-
+        
     </script>
 }

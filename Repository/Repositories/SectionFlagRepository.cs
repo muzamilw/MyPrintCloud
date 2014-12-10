@@ -52,6 +52,14 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(sf => sf.SectionId == sf.Section.SectionId && sf.Section.SectionName == "Inventory").ToList();
         }
+
+        /// <summary>
+        /// Get Section Flag By Section Id
+        /// </summary>
+        public IEnumerable<SectionFlag> GetSectionFlagBySectionId(long SectionId)
+        {
+            return DbSet.Where(sf => sf.SectionId == SectionId).ToList();
+        }
         #endregion
     }
 }

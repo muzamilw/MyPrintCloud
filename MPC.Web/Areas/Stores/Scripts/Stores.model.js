@@ -46,6 +46,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
                 // ReSharper disable InconsistentNaming
                 companyCMYKColors = ko.observableArray([]),
+                //Color Palette
+                colorPalette = ko.observable(new ColorPalette()),
                 // ReSharper restore InconsistentNaming
 
                 // Errors
@@ -188,6 +190,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 raveReviews: raveReviews,
                 companyTerritories: companyTerritories,
                 companyCMYKColors: companyCMYKColors,
+                colorPalette: colorPalette,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -381,7 +384,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
-
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
@@ -726,6 +728,88 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             );
         return companyTerritory;
     };
+        // ______________  Color Palettes   _________________//
+    // ReSharper disable once InconsistentNaming
+    var ColorPalette = function (specifiedPalleteId, specifiedPalleteName, specifiedColor1, specifiedColor2, specifiedColor3, specifiedColor4, specifiedColor5,
+        specifiedColor6, specifiedColor7, specifiedSkinId, specifiedIsDefault, specifiedCompanyId) {
+        var self,
+          id = ko.observable(specifiedPalleteId),
+          palleteName = ko.observable(specifiedPalleteName),
+          color1 = ko.observable(specifiedColor1),
+          color2 = ko.observable(specifiedColor2),
+          color3 = ko.observable(specifiedColor3),
+          color4 = ko.observable(specifiedColor4),
+          color5 = ko.observable(specifiedColor5),
+          color6 = ko.observable(specifiedColor6),
+          color7 = ko.observable(specifiedColor7),
+          skinId = ko.observable(specifiedSkinId),
+          isDefault = ko.observable(specifiedIsDefault),
+          companyId = ko.observable(specifiedCompanyId),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                // ReSharper restore InconsistentNaming
+                color1: color1,
+                color2: color2,
+                color3: color3,
+                color4: color4,
+                color5: color5,
+                color6: color6,
+                color7: color7,
+                skinId: skinId,
+                isDefault: isDefault,
+                companyId: companyId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.PalleteId = source.id();
+                result.Color1 = source.color1();
+                result.Color2 = source.color2();
+                result.Color3 = source.color3();
+                result.Color4 = source.color4();
+                result.Color5 = source.color5();
+                result.Color6 = source.color6();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            palleteName: palleteName,
+            color1: color1,
+            color2: color2,
+            color3: color3,
+            color4: color4,
+            color5: color5,
+            color6: color6,
+            color7: color7,
+            skinId: skinId,
+            isDefault: isDefault,
+            companyId: companyId,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
     return {
         Store: Store,
         CompanyType: CompanyType,
@@ -733,6 +817,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         RaveReview: RaveReview,
         CompanyCMYKColor: CompanyCMYKColor,
         CompanyTerritory: CompanyTerritory//territoryId territoryName  companyId  territoryCode  isDefault
+        ColorPalette: ColorPalette
     };
 });
 

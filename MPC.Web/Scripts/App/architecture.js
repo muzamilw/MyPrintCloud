@@ -15,6 +15,7 @@ var ist = {
         CaresGeneralException: 'CaresGeneralException',
         UnspecifiedException: 'UnspecifiedException'
     },
+
     //verify if the string is a valid json
     verifyValidJSON: function (str) {
         try {
@@ -235,7 +236,17 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-
+    ko.bindingHandlers.colorPicker = {
+        init: function (element, valueAccessor) {
+            var value = valueAccessor();
+            $(element).val(ko.utils.unwrapObservable(value));
+            $(element).colorPicker();
+            $(element).change(function () { value(this.value); });
+        },
+        update: function (element, valueAccessor) {
+            $(element).val(ko.utils.unwrapObservable(valueAccessor()));
+        }
+    }
     // date formatting. Example <div class="date" data-bind="dateString: today, datePattern: 'dddd, MMMM dd, yyyy'">Thursday, April 05, 2012</div>
     ko.bindingHandlers.dateString = {
         update: function (element, valueAccessor, allBindingsAccessor) {
@@ -370,7 +381,16 @@ require(["ko", "knockout-validation"], function (ko) {
             });
         }
     }
-
+    //Validation Rules
+    ko.validation.rules['compareWith'] = {
+        getValue: function (o) {
+            return (typeof o === 'function' ? o() : o);
+        },
+        validator: function (val, otherField) {
+            return val === this.getValue(otherField);
+        },
+        message: 'The fields must have the same value'
+    };
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
         var popovers = $('.popover').not('.in');
@@ -463,3 +483,7 @@ $(function () {
         }
     });
 });
+
+//function format(item) {
+//    return $+item.FlagName;
+//}

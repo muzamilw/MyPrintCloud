@@ -115,6 +115,7 @@
     <Compile Include="Common\PerQtyTypeUnits.cs" />
     <Compile Include="Common\RoleSection.cs" />
     <Compile Include="Common\Section.cs" />
+    <Compile Include="Common\SectionIds.cs" />
     <Compile Include="Common\SecurityRoles.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="DomainModels\CmsPage.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidget.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidgetParam.cs" />
+    <Compile Include="DomainModels\ColorPallete.cs" />
     <Compile Include="DomainModels\CompanyBanner.cs" />
     <Compile Include="DomainModels\CompanyBannerSet.cs" />
     <Compile Include="DomainModels\CompanyCMYKColor.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="DomainModels\Item.cs" />
     <Compile Include="DomainModels\ItemAddonCostCentre.cs" />
     <Compile Include="DomainModels\ItemAttachment.cs" />
+    <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\ItemImage.cs" />
     <Compile Include="DomainModels\ItemPriceMatrix.cs" />
     <Compile Include="DomainModels\ItemProductDetail.cs" />
@@ -188,6 +191,8 @@
     <Compile Include="DomainModels\Markup.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\ChartOfAccount.cs" />
+    <Compile Include="DomainModels\Template.cs" />
+    <Compile Include="DomainModels\TemplatePage.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
     <Compile Include="LanguageResources.Designer.cs">
@@ -198,6 +203,8 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
+    <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\ItemVdpPriceMapper.cs" />
     <Compile Include="ModelMappers\ItemMapper.cs" />
     <Compile Include="ModelMappers\ItemMapperActions.cs" />
@@ -228,6 +235,7 @@
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
+    <Compile Include="ResponseModels\SupplierBaseResponse.cs" />
     <Compile Include="ResponseModels\SupplierSearchResponseForInventory.cs" />
   </ItemGroup>
   <ItemGroup>

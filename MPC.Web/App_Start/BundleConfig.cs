@@ -46,7 +46,8 @@ namespace MPC.MIS
                 .Include("~/Scripts/require.js")
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/App/architecture.js")
-                .Include("~/Scripts/App/requireConfig.js"));
+                .Include("~/Scripts/App/requireConfig.js")
+                .Include("~/Scripts/select2.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                  "~/Scripts/bootstrap.js"));
