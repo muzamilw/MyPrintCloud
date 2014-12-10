@@ -24,6 +24,8 @@ namespace MPC.Implementation.MISServices
         private readonly IGetItemsListViewRepository itemsListViewRepository;
         private readonly IItemVdpPriceRepository itemVdpPriceRepository;
         private readonly IPrefixRepository prefixRepository;
+        private readonly IItemVideoRepository itemVideoRepository;
+        private readonly IItemRelatedItemRepository itemRelatedItemRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -43,6 +45,42 @@ namespace MPC.Implementation.MISServices
             itemVdpPriceRepository.Delete(line);
         }
 
+        /// <summary>
+        /// Create Item Video
+        /// </summary>
+        private ItemVideo CreateItemVideo()
+        {
+            ItemVideo video = itemVideoRepository.Create();
+            itemVideoRepository.Add(video);
+            return video;
+        }
+
+        /// <summary>
+        /// Delete Item Video
+        /// </summary>
+        private void DeleteItemVideo(ItemVideo video)
+        {
+            itemVideoRepository.Delete(video);
+        }
+
+        /// <summary>
+        /// Create Item RelatedItem
+        /// </summary>
+        private ItemRelatedItem CreateItemRelatedItem()
+        {
+            ItemRelatedItem relatedItem = itemRelatedItemRepository.Create();
+            itemRelatedItemRepository.Add(relatedItem);
+            return relatedItem;
+        }
+
+        /// <summary>
+        /// Delete Item RelatedItem
+        /// </summary>
+        private void DeleteItemRelatedItem(ItemRelatedItem relatedItem)
+        {
+            itemRelatedItemRepository.Delete(relatedItem);
+        }
+
         #endregion
 
         #region Constructor
@@ -51,7 +89,7 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
-            IPrefixRepository prefixRepository)
+            IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository)
         {
             if (itemRepository == null)
             {
@@ -69,11 +107,21 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("prefixRepository");
             }
+            if (itemVideoRepository == null)
+            {
+                throw new ArgumentNullException("itemVideoRepository");
+            }
+            if (itemRelatedItemRepository == null)
+            {
+                throw new ArgumentNullException("itemRelatedItemRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
             this.prefixRepository = prefixRepository;
+            this.itemVideoRepository = itemVideoRepository;
+            this.itemRelatedItemRepository = itemRelatedItemRepository;
         }
 
         #endregion
@@ -154,7 +202,11 @@ namespace MPC.Implementation.MISServices
             item.UpdateTo(itemTarget, new ItemMapperActions
             {
                 CreateItemVdpPrice = CreateItemVdpPrice,
-                DeleteItemVdpPrice = DeleteItemVdpPrice
+                DeleteItemVdpPrice = DeleteItemVdpPrice,
+                CreateItemVideo = CreateItemVideo,
+                DeleteItemVideo = DeleteItemVideo,
+                CreateItemRelatedItem = CreateItemRelatedItem,
+                DeleteItemRelatedItem = DeleteItemRelatedItem
             });
 
             // Save Changes

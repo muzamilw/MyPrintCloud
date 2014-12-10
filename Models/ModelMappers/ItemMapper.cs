@@ -52,7 +52,8 @@ namespace MPC.Models.ModelMappers
             List<ItemVdpPrice> linesToBeRemoved = target.ItemVdpPrices.Where(
                 vdp => !IsNewItemVdpPrice(vdp) && source.ItemVdpPrices.All(sourceVdp => sourceVdp.ItemVdpPriceId != vdp.ItemVdpPriceId))
                   .ToList();
-            linesToBeRemoved.ForEach(line => { 
+            linesToBeRemoved.ForEach(line =>
+            {
                 target.ItemVdpPrices.Remove(line);
                 actions.DeleteItemVdpPrice(line);
             });
@@ -88,6 +89,156 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// True if the ItemVideo is new
+        /// </summary>
+        private static bool IsNewItemVideo(ItemVideo sourceItemVideo)
+        {
+            return sourceItemVideo.VideoId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemVideos
+        /// </summary>
+        private static void InitializeItemVideos(Item item)
+        {
+            if (item.ItemVideos == null)
+            {
+                item.ItemVideos = new List<ItemVideo>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddItemVideos(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemVideo sourceLine in source.ItemVideos.ToList())
+            {
+                UpdateOrAddItemVideo(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target videos 
+        /// </summary>
+        private static void UpdateOrAddItemVideo(ItemVideo sourceItemVideo, Item target, ItemMapperActions actions)
+        {
+            ItemVideo targetLine;
+            if (IsNewItemVideo(sourceItemVideo))
+            {
+                targetLine = actions.CreateItemVideo();
+                target.ItemVideos.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemVideos.FirstOrDefault(vdp => vdp.VideoId == sourceItemVideo.VideoId);
+            }
+            sourceItemVideo.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete videos no longer needed
+        /// </summary>
+        private static void DeleteItemVideos(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemVideo> linesToBeRemoved = target.ItemVideos.Where(
+                vdp => !IsNewItemVideo(vdp) && source.ItemVideos.All(sourceVdp => sourceVdp.VideoId != vdp.VideoId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemVideos.Remove(line);
+                actions.DeleteItemVideo(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Videos
+        /// </summary>
+        private static void UpdateItemVideos(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemVideos(source);
+            InitializeItemVideos(target);
+
+            UpdateOrAddItemVideos(source, target, actions);
+            DeleteItemVideos(source, target, actions);
+        }
+
+        /// <summary>
+        /// True if the ItemRelatedItem is new
+        /// </summary>
+        private static bool IsNewItemRelatedItem(ItemRelatedItem sourceItemRelatedItem)
+        {
+            return sourceItemRelatedItem.Id == 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemRelatedItems
+        /// </summary>
+        private static void InitializeItemRelatedItems(Item item)
+        {
+            if (item.ItemRelatedItems == null)
+            {
+                item.ItemRelatedItems = new List<ItemRelatedItem>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddItemRelatedItems(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemRelatedItem sourceLine in source.ItemRelatedItems.ToList())
+            {
+                UpdateOrAddItemRelatedItem(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target RelatedItems 
+        /// </summary>
+        private static void UpdateOrAddItemRelatedItem(ItemRelatedItem sourceItemRelatedItem, Item target, ItemMapperActions actions)
+        {
+            ItemRelatedItem targetLine;
+            if (IsNewItemRelatedItem(sourceItemRelatedItem))
+            {
+                targetLine = actions.CreateItemRelatedItem();
+                target.ItemRelatedItems.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemRelatedItems.FirstOrDefault(vdp => vdp.Id == sourceItemRelatedItem.Id);
+            }
+            sourceItemRelatedItem.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete RelatedItems no longer needed
+        /// </summary>
+        private static void DeleteItemRelatedItems(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemRelatedItem> linesToBeRemoved = target.ItemRelatedItems.Where(
+                vdp => !IsNewItemRelatedItem(vdp) && source.ItemRelatedItems.All(sourceVdp => sourceVdp.Id != vdp.Id))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemRelatedItems.Remove(line);
+                actions.DeleteItemRelatedItem(line);
+            });
+        }
+
+        /// <summary>
+        /// Update RelatedItems
+        /// </summary>
+        private static void UpdateItemRelatedItems(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemRelatedItems(source);
+            InitializeItemRelatedItems(target);
+
+            UpdateOrAddItemRelatedItems(source, target, actions);
+            DeleteItemRelatedItems(source, target, actions);
+        }
+
+        /// <summary>
         /// Update the header
         /// </summary>
         private static void UpdateHeader(Item source, Item target)
@@ -103,6 +254,53 @@ namespace MPC.Models.ModelMappers
             target.IsStockControl = source.IsStockControl;
             target.SortOrder = source.SortOrder;
             target.ItemLastUpdateDateTime = DateTime.Now;
+
+            // Update Internal Description
+            UpdateInternalDescription(source, target);
+        }
+
+        /// <summary>
+        /// Update Internal Description
+        /// </summary>
+        private static void UpdateInternalDescription(Item source, Item target)
+        {
+            target.XeroAccessCode = source.XeroAccessCode;
+            target.WebDescription = source.WebDescription;
+            target.ProductSpecification = source.ProductSpecification;
+            target.TipsAndHints = source.TipsAndHints;
+            target.MetaTitle = source.MetaTitle;
+            target.MetaDescription = source.MetaDescription;
+            target.MetaKeywords = source.MetaKeywords;
+
+            // Update Job Description
+            UpdateJobDescription(source, target);
+        }
+
+        /// <summary>
+        /// Update Job Description
+        /// </summary>
+        private static void UpdateJobDescription(Item source, Item target)
+        {
+            target.JobDescriptionTitle1 = source.JobDescriptionTitle1;
+            target.JobDescription1 = source.JobDescription1;
+            target.JobDescriptionTitle2 = source.JobDescriptionTitle2;
+            target.JobDescription2 = source.JobDescription2;
+            target.JobDescriptionTitle3 = source.JobDescriptionTitle3;
+            target.JobDescription3 = source.JobDescription3;
+            target.JobDescriptionTitle4 = source.JobDescriptionTitle4;
+            target.JobDescription4 = source.JobDescription4;
+            target.JobDescriptionTitle5 = source.JobDescriptionTitle5;
+            target.JobDescription5 = source.JobDescription5;
+            target.JobDescriptionTitle6 = source.JobDescriptionTitle6;
+            target.JobDescription6 = source.JobDescription6;
+            target.JobDescriptionTitle7 = source.JobDescriptionTitle7;
+            target.JobDescription7 = source.JobDescription7;
+            target.JobDescriptionTitle8 = source.JobDescriptionTitle8;
+            target.JobDescription8 = source.JobDescription8;
+            target.JobDescriptionTitle9 = source.JobDescriptionTitle9;
+            target.JobDescription9 = source.JobDescription9;
+            target.JobDescriptionTitle10 = source.JobDescriptionTitle10;
+            target.JobDescription10 = source.JobDescription10;
         }
 
         #endregion
@@ -111,7 +309,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         ///  Copy from source entity to the target
         /// </summary>
-        public static void UpdateTo(this Item source, Item target, 
+        public static void UpdateTo(this Item source, Item target,
             ItemMapperActions actions)
         {
             if (source == null)
@@ -136,6 +334,8 @@ namespace MPC.Models.ModelMappers
             }
             UpdateHeader(source, target);
             UpdateItemVdpPrices(source, target, actions);
+            UpdateItemVideos(source, target, actions);
+            UpdateItemRelatedItems(source, target, actions);
         }
 
         #endregion
