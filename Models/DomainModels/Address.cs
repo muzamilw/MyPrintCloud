@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
+    /// <summary>
+    /// Address Domain Model
+    /// </summary>
     public class Address
     {
         public long AddressId { get; set; }
