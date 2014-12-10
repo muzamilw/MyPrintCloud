@@ -4,16 +4,18 @@
 
 
 
-<div class="modal fade" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+<div class="modal fade" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Banner</h4>
+                <div class="pull-left"><h4 class="modal-title">Edit Banner</h4></div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Save</button>
+                </div>
             </div>
 
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
-
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -43,7 +45,6 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
-
                         <div class="bs-example-tooltips tooltip-float-width">
 
                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Type" data-original-title="" title="">
@@ -51,25 +52,21 @@
                             </a>
 
                         </div>
-
                         <label class="control-label text-right tooltip-float">Banner set</label>
-
                     </div>
-
                     <div class="col-lg-5">
-                        @*<select class="form-control">
+                        <select class="form-control">
                             <option>Summer Set</option>
                             <option>Winter Set</option>
                             <option>Spring Set</option>
-                        </select>*@
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
                         <div class="btn btn-primary pull-left" data-bind="click:$root.onAddSetBanner">
-                            <i class="fa fa-plus-circle fa-lg"></i>...
+                            @*<i class="fa fa-plus-circle fa-lg"></i>*@...
                         </div>
-
-
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
 
@@ -91,7 +88,6 @@
                     </div>
 
                 </div>
-
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
 
@@ -113,7 +109,6 @@
                     </div>
 
                 </div>
-
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
 
@@ -156,12 +151,8 @@
                     </div>
 
                 </div>
-
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>
