@@ -1380,7 +1380,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-widgets">
-                                    <div class="col-md-12 form-horizontal">
+                                    <div class="col-md-12 form-horizontal" data-bind="with:colorPalette">
 
                                         <h3 class="group-header">Color Palettes</h3>
                                         <div class="col-md-9">
@@ -1390,7 +1390,7 @@
                                                 </div>
                                                 <label class="col-md-6">Color 1: Webstore background</label>
                                                 <div class="col-md-3">
-                                                    <span id="colorPick1" class="label" style="background-color: #320B0B; cursor: pointer;" onclick="">#320B0B    </span>
+                                                    <span id="colorPick1" class="label" data-bind="colorpicker:color1" style="background-color: #320B0B; cursor: pointer;" onclick="">#320B0B    </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -2186,9 +2186,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-
                                     <div class="clearfix">
                                         &nbsp;
                                     </div>
@@ -3427,18 +3424,18 @@
                                             </div>
                                         </div>
                                         @*<footer class="main-box-header pull-right">
-                                            <div id="pagerCMYKDiv">
-                                                <ul class="pagination pull-right">
-                                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                                    <li><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li><a href="#">4</a></li>
-                                                    <li><a href="#">5</a></li>
-                                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </footer>*@
+                                                <div id="pagerCMYKDiv">
+                                                    <ul class="pagination pull-right">
+                                                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                                                        <li><a href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </footer>*@
                                     </div>
 
                                 </div>
@@ -3754,15 +3751,13 @@
     <script>
 
 
-        function ShowHidePopupControls(ID)
-        {
+        function ShowHidePopupControls(ID) {
 
             if ($('input:checkbox[id=switchSiteFeaturedProduct]').is(':checked')) {
 
                 $("#A1").css("display", "block");
             }
-            else
-            {
+            else {
                 $("#A1").css("display", "none");
             }
 
@@ -3827,13 +3822,11 @@
 
         function headingPFchange(id) {
 
-            if (id == "A1")
-            {
+            if (id == "A1") {
 
                 $('#headingPF').text('Featured Products Filter');
             }
-            else if (id == "A2")
-            {
+            else if (id == "A2") {
                 $('#headingPF').text('Popular Products Filter');
             }
             else if (id == "A3") {

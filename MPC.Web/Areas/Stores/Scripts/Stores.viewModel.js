@@ -172,7 +172,7 @@ define("stores/stores.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     _.each(data.SystemUsers, function (item) {
-                                        var systemUser = new model.SystemUsers.Create(item);
+                                        var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
                                 }
@@ -354,7 +354,7 @@ define("stores/stores.viewModel",
                     doBeforeSaveRaveReview: doBeforeSaveRaveReview,
                     onSaveRaveReview: onSaveRaveReview,
                     templateToUseCompanyCMYKColors: templateToUseCompanyCMYKColors,
-                    selectedCompanyCMYKColor:selectedCompanyCMYKColor,
+                    selectedCompanyCMYKColor: selectedCompanyCMYKColor,
                     onCreateNewCompanyCMYKColor: onCreateNewCompanyCMYKColor,
                     onDeleteCompanyCMYKColors: onDeleteCompanyCMYKColors,
                     onEditCompanyCMYKColor: onEditCompanyCMYKColor,

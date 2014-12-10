@@ -143,6 +143,11 @@
         <AssociationConnector Association="DomainModels.FK_tbl_addresses_tbl_contactcompanies" />
         <AssociationConnector Association="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" />
         <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_addresses" />
+        <EntityTypeShape EntityType="DomainModels.ColorPallete" Width="1.5" PointX="15.375" PointY="24.75" />
+        <EntityTypeShape EntityType="DomainModels.Template" Width="1.5" PointX="4.75" PointY="64.5" />
+        <EntityTypeShape EntityType="DomainModels.TemplatePage" Width="1.5" PointX="7" PointY="68.75" />
+        <AssociationConnector Association="DomainModels.FK_Products_tbl_ProductCategory" />
+        <AssociationConnector Association="DomainModels.FK_Templates_TemplatePages" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

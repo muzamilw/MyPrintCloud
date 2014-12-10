@@ -37,6 +37,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 raveReviews = ko.observableArray([]),
                 // ReSharper disable InconsistentNaming
                 companyCMYKColors = ko.observableArray([]),
+                //Color Palette
+                colorPalette = ko.observable(new ColorPalette()),
                 // ReSharper restore InconsistentNaming
 
                 // Errors
@@ -152,6 +154,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 type: type,
                 raveReviews: raveReviews,
                 companyCMYKColors: companyCMYKColors,
+                colorPalette: colorPalette,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -592,10 +595,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ______________  Color Palettes   _________________//
     // ReSharper disable once InconsistentNaming
-    var ColorPalettes = function (specifiedPalleteId, specifiedPalleteName, specifiedColor1, specifiedColor2, specifiedColor3, specifiedColor4, specifiedColor5,
+    var ColorPalette = function (specifiedPalleteId, specifiedPalleteName, specifiedColor1, specifiedColor2, specifiedColor3, specifiedColor4, specifiedColor5,
         specifiedColor6, specifiedColor7, specifiedSkinId, specifiedIsDefault, specifiedCompanyId) {
         var self,
           id = ko.observable(specifiedPalleteId),
+          palleteName = ko.observable(specifiedPalleteName),
           color1 = ko.observable(specifiedColor1),
           color2 = ko.observable(specifiedColor2),
           color3 = ko.observable(specifiedColor3),
@@ -636,8 +640,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
-                result.SystemUserId = source.systemUserId();
-                result.UserName = source.userName();
+                result.PalleteId = source.id();
+                result.Color1 = source.color1();
+                result.Color2 = source.color2();
+                result.Color3 = source.color3();
+                result.Color4 = source.color4();
+                result.Color5 = source.color5();
+                result.Color6 = source.color6();
                 return result;
             },
             // Reset
@@ -671,7 +680,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CompanyType: CompanyType,
         SystemUser: SystemUser,
         RaveReview: RaveReview,
-        CompanyCMYKColor: CompanyCMYKColor
+        CompanyCMYKColor: CompanyCMYKColor,
+        ColorPalette: ColorPalette
     };
 });
 

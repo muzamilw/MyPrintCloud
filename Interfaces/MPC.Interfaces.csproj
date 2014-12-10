@@ -63,6 +63,7 @@
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
+    <Compile Include="Repository\IColorPalleteRepository.cs" />
     <Compile Include="Repository\ICompanyCMYKColorRepository.cs" />
     <Compile Include="Repository\IAddressRepository.cs" />
     <Compile Include="Repository\ICompanyContactRepository.cs" />

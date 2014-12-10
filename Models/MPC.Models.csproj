@@ -126,6 +126,7 @@
     <Compile Include="DomainModels\CmsPage.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidget.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidgetParam.cs" />
+    <Compile Include="DomainModels\ColorPallete.cs" />
     <Compile Include="DomainModels\CompanyBanner.cs" />
     <Compile Include="DomainModels\CompanyBannerSet.cs" />
     <Compile Include="DomainModels\CompanyCMYKColor.cs" />

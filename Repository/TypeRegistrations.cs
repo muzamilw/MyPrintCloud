@@ -50,6 +50,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemVideoRepository, ItemVideoRepository>();
             unityContainer.RegisterType<ICompanyTypeRepository, CompanyTypeRepository>();
             unityContainer.RegisterType<IItemRelatedItemRepository, ItemRelatedItemRepository>();
+            unityContainer.RegisterType<IColorPalleteRepository, ColorPalleteRepository>();
         }
     }
 }

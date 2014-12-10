@@ -236,7 +236,17 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-
+    ko.bindingHandlers.colorPicker = {
+        init: function (element, valueAccessor) {
+            var value = valueAccessor();
+            $(element).val(ko.utils.unwrapObservable(value));
+            $(element).colorPicker();
+            $(element).change(function () { value(this.value); });
+        },
+        update: function (element, valueAccessor) {
+            $(element).val(ko.utils.unwrapObservable(valueAccessor()));
+        }
+    }
     // date formatting. Example <div class="date" data-bind="dateString: today, datePattern: 'dddd, MMMM dd, yyyy'">Thursday, April 05, 2012</div>
     ko.bindingHandlers.dateString = {
         update: function (element, valueAccessor, allBindingsAccessor) {
