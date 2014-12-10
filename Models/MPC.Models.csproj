@@ -104,6 +104,8 @@
   <ItemGroup>
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
+    <Compile Include="Common\CampaignEmailParams.cs" />
+    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\ItemByColumn.cs" />
     <Compile Include="Common\CompanyByColumn.cs" />
     <Compile Include="Common\InventoryByColumn.cs" />

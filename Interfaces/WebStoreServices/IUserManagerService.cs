@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MPC.Interfaces.WebStoreServices
 {
-    public interface ICampaignService
+    public interface IUserManagerService
     {
-        Campaign GetCampaignRecordByEmailEvent(int iEmailEvent);
+        SystemUser GetSalesManagerDataByID(int ManagerId);
     }
 }

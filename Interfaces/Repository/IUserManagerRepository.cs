@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace MPC.Interfaces.Repository
 {
-    public interface IAddressRepository : IBaseRepository<Address, long>
+    public interface IUserManagerRepository : IBaseRepository<SystemUser, long>
     {
-        List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
+        SystemUser GetSalesManagerDataByID(int ManagerId);
+
     }
 }

@@ -9,6 +9,8 @@ using MPC.Interfaces.Repository;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
 using MPC.Common;
+using MPC.Models.Common;
+using System.Collections.Generic;
 
 namespace MPC.Repository.Repositories
 {
@@ -290,6 +292,7 @@ namespace MPC.Repository.Repositories
             Company.AccountManagerId = Company.AccountManagerId;
             Company.CreditLimit = 0;
             Company.IsCustomer = Convert.ToInt16(CustomerType);
+            
             //if (BrokerContactCompanyID != null)
             //{
             //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;
@@ -352,7 +355,7 @@ namespace MPC.Repository.Repositories
 
 
                     }
-                    db.CompanyContacts.Add(Contact);
+                    db.CompanyContacts.Add(tblContacts);
                    
 
                     if (db.SaveChanges() > 0)
@@ -404,7 +407,107 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContacts.FirstOrDefault();
         }
+        public  CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact,string TwitterScreenName)
+        {
+            if (regContact != null)
+            {
+               
+                
+                    // int defaultAddressID = addmgr.GetCompanyDefaultAddressID(CustomerId);
+                    CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
+                    CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
 
+                    Contact.CompanyId = CustomerId;
+                    //  Contact.AddressID = defaultAddressID;
+                    Contact.FirstName = string.Empty;
+                    Contact.IsDefaultContact = 0;
+                    Contact.FirstName = regContact.FirstName;
+                    Contact.LastName = regContact.LastName;
+                    Contact.Email = regContact.Email;
+                    Contact.Mobile = regContact.Mobile;
+                    Contact.Password = ComputeHashSHA1(regContact.Password);
+                    Contact.QuestionId = 1;
+                    Contact.SecretAnswer = "";
+                    Contact.ClaimIdentifer = regContact.ClaimIdentifer;
+                    Contact.AuthentifiedBy = regContact.AuthentifiedBy;
+                    Contact.isArchived = false;
+                    Contact.twitterScreenName = TwitterScreenName;
+                    Contact.isWebAccess = false;
+                    Contact.ContactRoleId = Convert.ToInt32(Roles.User);
+                   
+                    Contact.isPlaceOrder = true;
+
+                    //Quick Text Fields
+                    Contact.quickAddress1 = regContact.quickAddress1;
+                    Contact.quickAddress2 = regContact.quickAddress2;
+                    Contact.quickAddress3 = regContact.quickAddress3;
+                    Contact.quickCompanyName = regContact.quickCompanyName;
+                    Contact.quickCompMessage = regContact.quickCompMessage;
+                    Contact.quickEmail = regContact.quickEmail;
+                    Contact.quickFax = regContact.quickFax;
+                    Contact.quickFullName = regContact.quickFullName;
+                    Contact.quickPhone = regContact.quickPhone;
+                    Contact.quickTitle = regContact.quickTitle;
+                    Contact.quickWebsite = regContact.quickWebsite;
+                    Contact.IsPricingshown = true;
+                    if (companyTerritory != null)
+                    {
+                        List<Address> addresses = GetAddressesByTerritoryID(companyTerritory.TerritoryId);
+                        if (addresses != null && addresses.Count > 0)
+                        {
+                            foreach (var address in addresses)
+                            {
+
+                                if (address.isDefaultTerrorityBilling == true && address.isDefaultTerrorityShipping == true)
+                                {
+                                    Contact.AddressId = (int)address.AddressId;
+                                    Contact.ShippingAddressId = (int)address.AddressId;
+                                }
+                                else
+                                {
+
+                                    if (address.isDefaultTerrorityBilling == true)
+                                        Contact.AddressId = (int)address.AddressId;
+                                    if (address.isDefaultTerrorityShipping == true)
+                                        Contact.ShippingAddressId = (int)address.AddressId;
+                                }
+                            }
+                        }
+                        Contact.TerritoryId = companyTerritory.TerritoryId;
+                        //Contact.ShippingAddressID = companyTerritory.ShippingAddressID;
+                        //if (companyTerritory.BillingAddressID != null)
+                        //     Contact.AddressID = (int)companyTerritory.BillingAddressI
+                    }
+                    else
+                    {
+                        Contact.TerritoryId = 0;
+                        Contact.ShippingAddressId = 0;
+                    }
+
+
+                    db.CompanyContacts.Add(Contact);
+
+                    if (db.SaveChanges() > 0)
+                    {
+                        return Contact;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
+        {
+            return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
+        }
 
     }
 }

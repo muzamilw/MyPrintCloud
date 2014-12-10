@@ -13,7 +13,7 @@ public class OAuthHelper
    
     //static string oauth_consumer_key = "JVx0cTa0jAX96cnM7UUGq9q7b";
     //static string oauth_consumer_secret = "kZyjwPalQOkvJ4YWJh6YUaiPK404tKaWH0gZFyWBb8yUyc4P6t";
-    static string callbackUrl = "http://localhost:30630/Home/oAuth?id=2";
+    static string callbackUrl = "http://localhost:30630/Home/oAuth?id=2&isRegWithSM=1";
 
     #region (Changable) Do Not Change It
     static string REQUEST_TOKEN = "https://api.twitter.com/oauth/request_token";

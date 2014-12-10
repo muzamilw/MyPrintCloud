@@ -16,5 +16,7 @@ namespace MPC.Models.DomainModels
 
         public virtual Company Company { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
+
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }
