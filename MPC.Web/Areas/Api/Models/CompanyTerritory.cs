@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MPC.Models.DomainModels
+﻿namespace MPC.MIS.Areas.Api.Models
 {
     public class CompanyTerritory
     {
@@ -10,8 +8,6 @@ namespace MPC.Models.DomainModels
         public string TerritoryCode { get; set; }
         public bool? isDefault { get; set; }
 
-        public virtual Company Company { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
-        public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
+        //public ICollection<CompanyContact> CompanyContacts { get; set; }
     }
 }

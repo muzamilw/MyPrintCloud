@@ -21,6 +21,13 @@ define("stores/stores.view",
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
                 },
+                showCompanyTerritoryDialog = function () {//
+                    $("#myTerritorySetModal").modal("show");
+                },
+                // Hide Activity the dialog
+                hideCompanyTerritoryDialog = function () {
+                    $("#myTerritorySetModal").modal("hide");
+                },
                 // Show Activity the dialog
                 // ReSharper disable once InconsistentNaming
                 showCompanyCMYKColorDialog = function () {
@@ -74,6 +81,8 @@ define("stores/stores.view",
                 hideCompanyCMYKColorDialog: hideCompanyCMYKColorDialog,
                 showEditBannerDialog: showEditBannerDialog,
                 hideEditBannerDialog: hideEditBannerDialog,
+                showCompanyTerritoryDialog: showCompanyTerritoryDialog,
+                hideCompanyTerritoryDialog: hideCompanyTerritoryDialog,
                 hideSetBannerDialog: hideSetBannerDialog,
                 showSetBannerDialog: showSetBannerDialog,
                 initializeForm: initializeForm,

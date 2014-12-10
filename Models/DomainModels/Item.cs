@@ -385,6 +385,8 @@ namespace MPC.Models.DomainModels
 
         public virtual Invoice Invoice { get; set; }
 
+        public virtual Template Template { get; set; }
+
         public virtual ICollection<ItemAttachment> ItemAttachments { get; set; }
         public virtual ICollection<ItemImage> ItemImages { get; set; }
         public virtual ICollection<ItemPriceMatrix> ItemPriceMatrices { get; set; }

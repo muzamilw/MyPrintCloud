@@ -248,6 +248,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemController.cs" />
@@ -265,6 +266,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
@@ -280,7 +282,9 @@
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
+    <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyContact.cs" />
+    <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />

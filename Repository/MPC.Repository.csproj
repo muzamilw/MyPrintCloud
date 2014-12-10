@@ -182,6 +182,7 @@
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
+    <Compile Include="Repositories\CompanyTerritoryRepository.cs" />
     <Compile Include="Repositories\CompanyTypeRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />
