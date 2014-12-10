@@ -63,5 +63,7 @@ namespace MPC.Models.DomainModels
         public bool? IsShowProductShortDescription { get; set; }
 
         public virtual Company Company { get; set; }
+
+        public virtual ICollection<Template> Templates { get; set; }
     }
 }
