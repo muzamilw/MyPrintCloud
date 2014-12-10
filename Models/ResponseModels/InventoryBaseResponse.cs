@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ResponseModels
@@ -42,5 +43,11 @@ namespace MPC.Models.ResponseModels
         /// Paper Basis Areas
         /// </summary>
         public IEnumerable<PaperBasisArea> PaperBasisAreas { get; set; }
+
+        /// <summary>
+        /// Registration Questions
+        /// </summary>
+        public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
+
     }
 }

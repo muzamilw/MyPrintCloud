@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -15,7 +11,8 @@ namespace MPC.Models.DomainModels
         public bool? isDefault { get; set; }
 
         public virtual Company Company { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
+
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

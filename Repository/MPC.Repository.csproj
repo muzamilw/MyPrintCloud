@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AddressRepository.cs" />
+    <Compile Include="Repositories\CampaignRepository.cs" />
     <Compile Include="Repositories\CategoryTerritoryRepository.cs" />
     <Compile Include="Repositories\ChartOfAccountRepository.cs" />
     <Compile Include="Repositories\CmsPageRepository.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
+    <Compile Include="Repositories\CompanyTerritoryRepository.cs" />
     <Compile Include="Repositories\CompanyTypeRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />

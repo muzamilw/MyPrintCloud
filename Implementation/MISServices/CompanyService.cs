@@ -21,6 +21,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly  ICompanyCMYKColorRepository companyCmykColorRepository;
+        private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -133,27 +134,49 @@ namespace MPC.Implementation.MISServices
             return company;
         }
 
+        private void UpdateCompanyTerritoryOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            //Add New Company Territories
+            foreach (var companyTerritory in companySavingModel.NewAddedCompanyTerritories)
+            {
+                companyTerritory.CompanyId = companySavingModel.Company.CompanyId;
+                companyTerritoryRepository.Add(companyTerritory);
+            }
+            //Update Company Territories
+            foreach (var companyTerritory in companySavingModel.EdittedCompanyTerritories)
+            {
+                companyTerritoryRepository.Update(companyTerritory);
+            }
+            //Delete Company Territories
+            foreach (var companyTerritory in companySavingModel.DeletedCompanyTerritories)
+            {
+                companyTerritoryRepository.Delete(companyTerritory);
+            }
+        }
+
         /// <summary>
         /// Update Company
         /// </summary>
-        private Company UpdateCompany(Company company)
+        private Company UpdateCompany(CompanySavingModel companySavingModel)
         {
-            var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(company);
+            var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
+            UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
-            return company;
+            return companySavingModel.Company;
         }
         #endregion
 
         #region Constructor
 
-        public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository, ICompanyCMYKColorRepository companyCmykColorRepository)
+        public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository, ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
+            this.companyTerritoryRepository = companyTerritoryRepository;
         }
         #endregion
 
@@ -162,6 +185,10 @@ namespace MPC.Implementation.MISServices
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
         {
             return companyRepository.SearchCompanies(request);
+        }
+        public CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request)
+        {
+            return companyTerritoryRepository.GetCompanyTerritory(request);
         }
         public Company GetCompanyById(int companyId)
         {
@@ -190,16 +217,16 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
         }
 
-        public Company SaveCompany(Company company)
+        public Company SaveCompany(CompanySavingModel companyModel)
         {
-            Company companyDbVersion = companyRepository.Find(company.CompanyId);
+            Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
             if (companyDbVersion == null)
             {
-                SaveNewCompany(company);
+                SaveNewCompany(companyModel.Company);
             }
             else
             {
-                UpdateCompany(company);
+                UpdateCompany(companyModel);
             }
             return null;
         }

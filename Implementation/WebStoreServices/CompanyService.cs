@@ -27,6 +27,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly ICmsPageRepository _cmsPageRepositary;
         private readonly IPageCategoryRepository _pageCategoryRepositary;
+        private readonly IAddressRepository _addressRepository;
+             
         #endregion
 
         #region Constructor
@@ -36,7 +38,7 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
-            IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository)
+            IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, IAddressRepository addressRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -45,6 +47,7 @@ namespace MPC.Implementation.WebStoreServices
             this._cmsPageRepositary = cmspageRepository;
             this._pageCategoryRepositary = pageCategoryRepository;
             this._CompanyContactRepository = companyContactRepository;
+            this._addressRepository = addressRepository;
         }
 
         #endregion
@@ -137,6 +140,15 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyContact GetContactByID(Int64 ContactID)
         {
             return _CompanyContactRepository.GetContactByID(ContactID);
+        }
+
+        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
+        {
+            return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
+        }
+        public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
+        {
+            return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact,TwitterScreenName);
         }
         #endregion
     }

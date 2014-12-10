@@ -75,8 +75,7 @@ namespace MPC.Repository.Repositories
 
             Expression<Func<Item, bool>> query =
                 item =>
-                    ((string.IsNullOrEmpty(request.SearchString) || 
-                    (item.ProductName.Contains(request.SearchString) || item.ProductCode.Contains(request.SearchString))) &&
+                    ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<Item> items = request.IsAsc

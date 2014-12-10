@@ -45,7 +45,7 @@ namespace MPC.Webstore.Controllers
                 //}
                 //else
                 //{
-                //   // returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
+                //    // returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
                 //    returnUrl = "/Home/Index";
                 //}
                 CompanyContact user = new CompanyContact();
@@ -59,30 +59,14 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user != null)
                 {
-                         return  VerifyUser(user);
-                        //if (user.isArchived.HasValue && user.isArchived.Value == true)
-                        //{
-                        //    ModelState.AddModelError("", "Account is archived.");
-                        //    return View("PartialViews/Login");
-                        //}
-                        //if (user.Company.IsDisabled == 1)
-                        //{
-                        //    ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
-                        //    return View("PartialViews/Login");
-                        //}
-                        //else
-                        //{
-                        //    SessionParameters.LoginCompany = user.Company;
-                        //    SessionParameters.LoginContact = user;
-                        //    RedirectToLocal(returnUrl);
-                        //    return null;
-                       // }
-                    }
-                    else
-                    {
+                         return  VerifyUser(user,returnUrl);
+                      
+                }
+                else
+                {
                         ModelState.AddModelError("", "Invalid login attempt.");
                         return View("PartialViews/Login");
-                    }
+                }
             }
             else
             {
@@ -93,30 +77,19 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(AccountViewModel model)
         {
-            string returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
+            string returnUrl = string.Empty;
+            if (System.Web.HttpContext.Current.Request.UrlReferrer != null)
+                returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
+            else
+                returnUrl = string.Empty;
             
             if (ModelState.IsValid)
             {
                 CompanyContact user = _myCompanyService.GetContactUser(model.Email, model.Password);
                 if (user != null)
                 {
-                    if (user.isArchived.HasValue && user.isArchived.Value == true)
-                    {
-                        ModelState.AddModelError("", "Account is archived.");
-                        return View("PartialViews/Login");
-                    }
-                    if (user.Company.IsDisabled == 1)
-                    {
-                        ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
-                        return View("PartialViews/Login");
-                    }
-                    else
-                    {
-                        SessionParameters.LoginCompany = user.Company;
-                        SessionParameters.LoginContact = user;
-                        RedirectToLocal(returnUrl);
-                        return null;
-                    }
+                    return VerifyUser(user, returnUrl);
+                    
                 }
                 else
                 {
@@ -131,7 +104,7 @@ namespace MPC.Webstore.Controllers
             
         }
 
-        private ActionResult VerifyUser(CompanyContact user)
+        private ActionResult VerifyUser(CompanyContact user,string ReturnUrl)
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
@@ -147,7 +120,7 @@ namespace MPC.Webstore.Controllers
             {
                 SessionParameters.LoginCompany = user.Company;
                 SessionParameters.LoginContact = user;
-                RedirectToLocal("");
+                RedirectToLocal(ReturnUrl);
                 return null;
             }
 

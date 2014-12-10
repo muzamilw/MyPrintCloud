@@ -31,22 +31,6 @@ define("product/product.view",
                         viewModel.setGridViewActive();
                     }
                 },
-                // Show Video the dialog
-                showVideoDialog = function () {
-                    $("#productVideoDialog").modal("show");
-                },
-                // Hide Video the dialog
-                hideVideoDialog = function () {
-                    $("#productVideoDialog").modal("hide");
-                },
-                // Show RelatedItem the dialog
-                showRelatedItemDialog = function () {
-                    $("#relatedProductDialog").modal("show");
-                },
-                // Hide RelatedItem the dialog
-                hideRelatedItemDialog = function () {
-                    $("#relatedProductDialog").modal("hide");
-                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -57,11 +41,7 @@ define("product/product.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
-                changeView: changeView,
-                showVideoDialog: showVideoDialog,
-                hideVideoDialog: hideVideoDialog,
-                showRelatedItemDialog: showRelatedItemDialog,
-                hideRelatedItemDialog: hideRelatedItemDialog
+                changeView: changeView
             };
         })(productViewModel);
 

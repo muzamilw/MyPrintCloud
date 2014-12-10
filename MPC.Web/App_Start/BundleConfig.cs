@@ -46,14 +46,15 @@ namespace MPC.MIS
                 .Include("~/Scripts/require.js")
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/App/architecture.js")
-                .Include("~/Scripts/App/requireConfig.js")
-                .Include("~/Scripts/select2.js"));
+                .Include("~/Scripts/App/requireConfig.js"));
+                );
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                  "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Bundles/BaseCss").Include(
-                      "~/Content/CSS/toastr.css"));
+                      "~/Content/CSS/toastr.css")
+                      );
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                                         "~/Content/themes/base/jquery.ui.core.css",

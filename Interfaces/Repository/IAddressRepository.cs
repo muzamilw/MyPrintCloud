@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface IAddressRepository : IBaseRepository<Address, long>
     {
-
+        List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
     }
 }

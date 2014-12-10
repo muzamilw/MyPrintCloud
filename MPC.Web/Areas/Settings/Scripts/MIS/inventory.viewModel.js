@@ -54,7 +54,9 @@ define("inventory/inventory.viewModel",
                     lengthUnits = ko.observableArray([]),
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
-                         //units
+                    //Registration Questions
+                    registrationQuestions = ko.observableArray([]),
+                      //units
                     units = ko.observableArray([{ Id: 1, Text: 'Sheets' },
                                                 { Id: 2, Text: '100 (lbs)' },
                                                 { Id: 3, Text: 'Ton' },
@@ -199,6 +201,10 @@ define("inventory/inventory.viewModel",
                                 paperBasisAreas.removeAll();
                                 ko.utils.arrayPushAll(paperBasisAreas(), data.PaperBasisAreas);
                                 paperBasisAreas.valueHasMutated();
+                                //Registration Questions
+                                registrationQuestions.removeAll();
+                                ko.utils.arrayPushAll(registrationQuestions(), data.RegistrationQuestions);
+                                registrationQuestions.valueHasMutated();
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
@@ -243,15 +249,7 @@ define("inventory/inventory.viewModel",
                             });
                         }
                     }, this),
-
-                     //On select Supplier
-                    selectedSupplier = ko.computed(function () {
-                        if (supplierVm.selectedSupplier() !== undefined) {
-                            selectedInventory().supplierId(supplierVm.selectedSupplier().supplierId());
-                            selectedInventory().supplierName(supplierVm.selectedSupplier().name());
-                        }
-                    }, this),
-                    //Calculate pack cost
+                    //
                     packCost = ko.computed(function () {
                         if (selectedInventory() !== undefined && costPriceList().length > 0) {
                             _.each(costPriceList(), function (item) {
@@ -389,7 +387,7 @@ define("inventory/inventory.viewModel",
                             }
                         });
                     },
-                    //Create New Inventory Item
+                    //Get Inventories
                     createInventory = function () {
                         costPriceList.removeAll();
                         errorList.removeAll();
@@ -561,6 +559,7 @@ define("inventory/inventory.viewModel",
                     filteredUnits: filteredUnits,
                     paperBasisAreas: paperBasisAreas,
                     lengthUnits: lengthUnits,
+                    registrationQuestions: registrationQuestions,
                     costPriceList: costPriceList,
                     statusList: statusList,
                     errorList: errorList,

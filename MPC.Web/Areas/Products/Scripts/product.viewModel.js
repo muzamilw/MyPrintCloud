@@ -12,8 +12,6 @@ define("product/product.viewModel",
                     // #region Arrays
                     // Items
                     products = ko.observableArray([]),
-                    // Items to Relate
-                    productsToRelate = ko.observableArray([]),
                     // Error List
                     errorList = ko.observableArray([]),
                     // #endregion Arrays
@@ -29,8 +27,6 @@ define("product/product.viewModel",
                     // #region Observables
                     // filter
                     filterText = ko.observable(),
-                    // filter for Related Items
-                    filterTextForRelatedItems = ko.observable(),
                     // Active Product
                     selectedProduct = ko.observable(),
                     // Page Header 
@@ -43,8 +39,6 @@ define("product/product.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
-                    // Pagination For Item Relater Dialog
-                    itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
                     // Current Page - Editable
                     currentPageCustom = ko.computed({
                         read: function () {
@@ -62,17 +56,6 @@ define("product/product.viewModel",
                             getItems();
                         }
                     }),
-                    // Item Actions
-                    itemActions = {
-                        onSaveVideo: function() {
-                            closeVideoDialog();
-                        },
-                        onSelectRelatedItem: function() {
-                            closeRelatedItemDialog();
-                        }
-                    },
-                    // Selected Job Description
-                    selectedJobDescription = ko.observable(),
                     // #region Utility Functions
                     toggleView = function (data, e) {
                         view.changeView(e);
@@ -89,7 +72,7 @@ define("product/product.viewModel",
                     },
                     // Create New Product
                     createProduct = function () {
-                        selectedProduct(model.Item.Create({}, itemActions));
+                        selectedProduct(model.Item.Create({}));
                         openProductEditor();
                     },
                     // Edit Product
@@ -116,8 +99,7 @@ define("product/product.viewModel",
                     },
                     // Close Editor
                     closeProductEditor = function () {
-                        selectedProduct(model.Item.Create({}, itemActions));
-                        resetVideoCounter();
+                        selectedProduct(model.Item.Create({}));
                         isProductDetailsVisible(false);
                     },
                     // On Archive
@@ -127,74 +109,12 @@ define("product/product.viewModel",
                         });
                         confirmation.show();
                     },
-                    // Active Video Item
-                    activeVideo = ko.observable(),
-                    // Added Video Counter
-                    videoCounter = -1,
-                    // Reset Video Counter
-                    resetVideoCounter = function() {
-                        videoCounter = -1;
-                    },
-                    // On Add Video
-                    onAddVideo = function() {
-                        // Open Video Dialog  
-                        openVideoDialog();
-                        activeVideo(model.ItemVideo.Create({ VideoId: 0, ItemId: selectedProduct().id() }));
-                    },
-                    onEditVideo = function(itemVideo) {
-                        // Open Video Dialog  
-                        openVideoDialog();
-                        activeVideo(itemVideo);
-                    },
-                    // Save Video
-                    saveVideo = function() {
-                        if (activeVideo().id() === 0) { // Add
-                            activeVideo().id(videoCounter);
-                            selectedProduct().addVideo(activeVideo());
-                            videoCounter -= 1;
-                            return;
-                        }
-                        closeVideoDialog();
-                    },
-                    // Open Video Dialog
-                    openVideoDialog = function() {
-                        // Reset Current Video Item
-                        activeVideo(model.ItemVideo.Create({ }));
-                        view.showVideoDialog();
-                    },
-                    // Close Video Dialog
-                    closeVideoDialog = function() {
-                        view.hideVideoDialog();
-                    },
-                    // On Add Related Item
-                    onAddRelatedItem = function () {
-                        // Reset Filter & Pager
-                        filterTextForRelatedItems(undefined);
-                        // Reset Pager
-                        itemRelaterPager().reset();
-                        // Get Items 
-                        getItemsToRelate(openRelatedItemDialog);
-                    },
-                    // Open Related Item Dialog
-                    openRelatedItemDialog = function () {
-                        view.showRelatedItemDialog();
-                    },
-                    // Close Related Item Dialog
-                    closeRelatedItemDialog = function () {
-                        view.hideRelatedItemDialog();
-                    },
-                    // Select Job Description
-                    selectJobDescription = function (jobDescription, e) {
-                        selectedJobDescription(e.currentTarget.id);
-                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
                         pager(new pagination.Pagination({ PageSize: 5 }, products, getItems));
-
-                        itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate)),
 
                         // Get Items
                         getItems();
@@ -209,37 +129,6 @@ define("product/product.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(products(), itemsList);
                         products.valueHasMutated();
-                    },
-                    // Map Products To Relate
-                    mapProductsToRelate = function (data) {
-                        var itemsList = [];
-                        _.each(data, function (item) {
-                            if (item.ItemId !== selectedProduct().id()) { // Can't Relate Product with itself
-                                itemsList.push(model.ItemRelatedItem.Create({
-                                    RelatedItemId: item.ItemId,
-                                    RelatedItemName: item.ProductName,
-                                    RelatedItemCode: item.ProductCode
-                                }));
-                            }
-                        });
-
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(productsToRelate(), itemsList);
-                        productsToRelate.valueHasMutated();
-                    },
-                    // Filter Products to Relate
-                    filterProductsToRelate = function () {
-                        // Reset Pager
-                        itemRelaterPager().reset();
-                        // Get Items to Relate
-                        getItemsToRelate();
-                    },
-                    // Reset Filtered Products
-                    resetFilteredProducts = function () {
-                        // Reset Text 
-                        filterTextForRelatedItems(undefined);
-                        // Filter Record
-                        filterProductsToRelate();
                     },
                     // Filter Products
                     filterProducts = function () {
@@ -347,28 +236,6 @@ define("product/product.viewModel",
                             }
                         });
                     },
-                    // Get Items To Relate
-                    getItemsToRelate = function (callback) {
-                        dataservice.getItems({
-                            SearchString: filterTextForRelatedItems(),
-                            PageSize: itemRelaterPager().pageSize(),
-                            PageNo: itemRelaterPager().currentPage()
-                        }, {
-                            success: function (data) {
-                                productsToRelate.removeAll();
-                                if (data && data.TotalCount > 0) {
-                                    itemRelaterPager().totalCount(data.TotalCount);
-                                    mapProductsToRelate(data.Items);
-                                }
-                                if (callback && typeof callback === "function") {
-                                    callback();
-                                }
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to load items" + response);
-                            }
-                        });
-                    },
                     // Get Item By Id
                     getItemById = function (id, callback) {
                         isLoadingProducts(true);
@@ -377,7 +244,7 @@ define("product/product.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    selectedProduct(model.Item.Create(data, itemActions));
+                                    selectedProduct(model.Item.Create(data));
 
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -406,19 +273,12 @@ define("product/product.viewModel",
                     pager: pager,
                     errorList: errorList,
                     currentPageCustom: currentPageCustom,
-                    filterText: filterText,
-                    pageHeader: pageHeader,
-                    filterTextForRelatedItems: filterTextForRelatedItems,
-                    itemRelaterPager: itemRelaterPager,
-                    activeVideo: activeVideo,
-                    productsToRelate: productsToRelate,
-                    selectedJobDescription: selectedJobDescription,
-                    // Utility Methods
-                    initialize: initialize,
                     resetFilter: resetFilter,
                     filterProducts: filterProducts,
-                    resetFilteredProducts: resetFilteredProducts,
-                    filterProductsToRelate: filterProductsToRelate,
+                    filterText: filterText,
+                    pageHeader: pageHeader,
+                    // Utility Methods
+                    initialize: initialize,
                     toggleView: toggleView,
                     setListViewActive: setListViewActive,
                     setGridViewActive: setGridViewActive,
@@ -426,13 +286,7 @@ define("product/product.viewModel",
                     createProduct: createProduct,
                     onSaveProduct: onSaveProduct,
                     onCloseProductEditor: onCloseProductEditor,
-                    onArchiveProduct: onArchiveProduct,
-                    closeVideoDialog: closeVideoDialog,
-                    onAddVideo: onAddVideo,
-                    onEditVideo: onEditVideo,
-                    onAddRelatedItem: onAddRelatedItem,
-                    saveVideo: saveVideo,
-                    selectJobDescription: selectJobDescription
+                    onArchiveProduct: onArchiveProduct
                     // Utility Methods
 
                 };

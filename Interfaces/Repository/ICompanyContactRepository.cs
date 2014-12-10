@@ -14,6 +14,7 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetContactByEmail(string Email);
         Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
 
+        CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
         CompanyContact GetContactByID(Int64 ContactID);
 
     }

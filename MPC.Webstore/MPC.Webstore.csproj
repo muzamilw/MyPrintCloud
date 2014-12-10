@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetOpenAuth.ApplicationBlock">
-      <HintPath>C:\Users\Nouman\AppData\Roaming\Skype\My Skype Received Files\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
+      <HintPath>DLLs\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.Core">
       <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
@@ -249,7 +249,6 @@
     <Compile Include="Areas\Categories\Controllers\AllCategoriesController.cs" />
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
-    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\SessionParameters.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -384,6 +383,7 @@
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
+    <Folder Include="DLLs\" />
     <Folder Include="Views\LoginBar\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\News\" />
@@ -434,9 +434,6 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>MyResource.fr-FR.designer.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

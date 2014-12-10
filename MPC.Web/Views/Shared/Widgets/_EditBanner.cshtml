@@ -4,7 +4,7 @@
 
 
 
-<div class="modal fade" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,140 +14,148 @@
 
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
 
-          <div class="form-group">
-                            <div class="col-lg-5 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
 
-                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                </div>
-
-
-                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Banner main Image (PNG 400 X 250 pixels)</label>
-
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div id="dropzone1" class="dropzonepl">
-                                    <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                        <div class="dz-default dz-message">
-                                            <span>Drop file here to upload</span>
-                                        </div>
-                                    </form>
-                                </div>
-                                <span class="help-block text-right"></span>
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-5 text-right">
-
-                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Type" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                </div>
-
-                                <label class="control-label text-right tooltip-float">Banner set</label>
-
-                            </div>
-
-                            <div class="col-lg-5">
-                                <select class="form-control">
-                                    <option>Summer Set</option>
-                                    <option>Winter Set</option>
-                                    <option>Spring Set</option>
-                                </select>
-                                <span class="help-block text-right"></span>
-
-
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-lg-5 text-right">
-
-                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                </div>
-
-
-                                <label for="txtBannerHead" class="control-label text-right tooltip-float">Banner Heading</label>
-
-                            </div>
-
-                            <div class="col-lg-5">
-                                <input type="text" class="form-control" id="txtBannerHead"  >
-                            </div>
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
 
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-lg-5 text-right">
 
-                                <div class="bs-example-tooltips tooltip-float-width">
+                        <label for="txtCompanyName" class="control-label text-right tooltip-float">Banner main Image (PNG 400 X 250 pixels)</label>
 
-                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                    </div>
 
+                    <div class="col-lg-6">
+                        <div id="dropzone1" class="dropzonepl">
+                            <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                <div class="dz-default dz-message">
+                                    <span>Drop file here to upload</span>
                                 </div>
+                            </form>
+                        </div>
+                        <span class="help-block text-right"></span>
+                    </div>
 
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
 
-                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Description</label>
+                        <div class="bs-example-tooltips tooltip-float-width">
 
-                            </div>
-
-                            <div class="col-lg-5">
-                                <input type="text" class="form-control" id="txtdesc" >
-                            </div>
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Type" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
 
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-lg-5 text-right">
+                        <label class="control-label text-right tooltip-float">Banner set</label>
 
-                                <div class="bs-example-tooltips tooltip-float-width">
+                    </div>
 
-                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                    <div class="col-lg-5">
+                        @*<select class="form-control">
+                            <option>Summer Set</option>
+                            <option>Winter Set</option>
+                            <option>Spring Set</option>
+                        </select>*@
+                        <div class="btn btn-primary pull-left" data-bind="click:$root.onAddSetBanner">
+                            <i class="fa fa-plus-circle fa-lg"></i>...
+                        </div>
 
-                                </div>
 
+                    </div>
+                </div>
 
-                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Item URL</label>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
 
-                            </div>
+                        <div class="bs-example-tooltips tooltip-float-width">
 
-                            <div class="col-lg-5">
-                                <input type="text" class="form-control" id="txtItemUrl" >
-                            </div>
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
 
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-5 text-right">
-
-                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                </div>
 
 
-                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Button URL</label>
+                        <label for="txtBannerHead" class="control-label text-right tooltip-float">Banner Heading</label>
 
-                            </div>
+                    </div>
 
-                            <div class="col-lg-5">
-                                <input type="text" class="form-control" id="txtBtnUrl" >
-                            </div>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="txtBannerHead">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
 
                         </div>
+
+
+                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Description</label>
+
+                    </div>
+
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="txtdesc">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+
+
+                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Item URL</label>
+
+                    </div>
+
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="txtItemUrl">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+
+
+                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Button URL</label>
+
+                    </div>
+
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="txtBtnUrl">
+                    </div>
+
+                </div>
 
             </div>
 

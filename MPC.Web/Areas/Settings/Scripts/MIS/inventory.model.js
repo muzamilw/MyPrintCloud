@@ -64,8 +64,6 @@
             itemCode = ko.observable(specifiedItemCode),
             //Supplier Id
             supplierId = ko.observable(specifiedSupplierId),
-            //SupplierName
-            supplierName = ko.observable(),
             //Category Id
             categoryId = ko.observable(specifiedCategoryId),
             //Sub Category Id
@@ -248,7 +246,6 @@
             lastOrderQty: lastOrderQty,
             lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
-            supplierName: supplierName,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
             isValid: isValid,
             errors: errors,

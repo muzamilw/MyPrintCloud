@@ -17,10 +17,21 @@ define("myOrganization/myOrganization.view",
                      // Initialize Forms - For File Upload
                      $("#fileUploadForm").ajaxForm({
                          success: function () {
+                             //status("Uploading completed");
+                             //progressPercentage(uploadCompletedPercentage + "%");
+                             //processingId = data.DocumentFileKey;
+                             //requestProcessingStatus();
                              toastr.success("Uploading completed");
+                             // viewModel.addVehicleItem().logo(undefined);
                          },
                          dataType: "json",
                          error: function () {
+                             //status("Uploading failed. Try again. (Error: " + xhr.statusText + " [" + xhr.status + "])");
+                             //showInputArea(true);
+                             //showProgressArea(false);
+                             //progressPercentage("0%");
+                             //alert(status());
+                             // toastr.error("Uploading failed. Try again.");
                              toastr.success("Uploading completed");
                          }
                      });
@@ -30,6 +41,9 @@ define("myOrganization/myOrganization.view",
                     if (!bindingRoot) {
                         return;
                     }
+
+                    // Handle Sorting
+                    // handleSorting("tariffTypeTable", viewModel.sortOn, viewModel.sortIsAsc, viewModel.getTariffType);
                 };
             initialize();
             return {

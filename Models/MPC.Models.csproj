@@ -104,6 +104,8 @@
   <ItemGroup>
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
+    <Compile Include="Common\CampaignEmailParams.cs" />
+    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\ItemByColumn.cs" />
     <Compile Include="Common\CompanyByColumn.cs" />
     <Compile Include="Common\InventoryByColumn.cs" />
@@ -149,7 +151,6 @@
     <Compile Include="DomainModels\Item.cs" />
     <Compile Include="DomainModels\ItemAddonCostCentre.cs" />
     <Compile Include="DomainModels\ItemAttachment.cs" />
-    <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\ItemImage.cs" />
     <Compile Include="DomainModels\ItemPriceMatrix.cs" />
     <Compile Include="DomainModels\ItemProductDetail.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="DomainModels\ItemStockControl.cs" />
     <Compile Include="DomainModels\ItemStockOption.cs" />
     <Compile Include="DomainModels\ItemVDPPrice.cs" />
+    <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\LengthUnit.cs" />
     <Compile Include="DomainModels\Prefix.cs" />
     <Compile Include="DomainModels\PageCategory.cs" />
@@ -216,6 +218,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
+    <Compile Include="RequestModels\CompanySavingModel.cs" />
+    <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -224,6 +228,7 @@
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
+    <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
