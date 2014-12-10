@@ -107,8 +107,20 @@ define("stores/stores.viewModel",
                     },
                     //Save Store
                     saveStore = function (item) {
-
-                        dataservice.saveStore(model.Store().convertToServerData(selectedStore()), {
+                        var storeToSave = model.Store().convertToServerData(selectedStore());
+                        
+                        _.each(newCompanyTerritories(), function (territory) {
+                            storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
+                        });
+                        _.each(edittedCompanyTerritories(), function (territory) {
+                            storeToSave.EdittedCompanyTerritories.push(territory.convertToServerData());
+                        });
+                        _.each(deletedCompanyTerritories(), function (territory) {
+                            storeToSave.DeletedCompanyTerritories.push(territory.convertToServerData());
+                        });
+                        dataservice.saveStore(
+                            storeToSave
+                            ,{
                             success: function (data) {
                                 //new store adding
                                 if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
@@ -172,7 +184,7 @@ define("stores/stores.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     _.each(data.SystemUsers, function (item) {
-                                        var systemUser = new model.SystemUsers.Create(item);
+                                        var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
                                 }
@@ -221,7 +233,6 @@ define("stores/stores.viewModel",
                         selectedStore().raveReviews.remove(raveReview);
                         return;
                     },
-
                     onEditRaveReview = function (raveReview) {
                         selectedRaveReview(raveReview);
                         view.showRaveReviewDialog();
@@ -246,6 +257,121 @@ define("stores/stores.viewModel",
                     },
                     // ***** RAVE REVIEW END*****//
 
+                    // ***** C O M P A N Y   T E R R I T O R Y ****//
+
+                    //Selected CompanyTerritory
+                    selectedCompanyTerritory = ko.observable(),
+                    //Deleted Company Territory 
+                    deletedCompanyTerritories = ko.observableArray([]),
+                    edittedCompanyTerritories = ko.observableArray([]),
+                    newCompanyTerritories = ko.observableArray([]),
+                    //Company Territory Pager
+                    companyTerritoryPager = ko.observable(),
+                    //CompanyTerritory Search Filter
+                    searchCompanyTerritoryFilter = ko.observable(),
+                    //Search Company Territory
+                    searchCompanyTerritory  = function() {
+                        dataservice.searchCompanyTerritory({
+                            SearchFilter: searchCompanyTerritoryFilter(),
+                            CompanyId: selectedStore().companyId(),
+                            PageSize: companyTerritoryPager().pageSize(),
+                            PageNo: companyTerritoryPager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                selectedStore().companyTerritories.removeAll();
+                                _.each(data.CompanyTerritories, function (companyTerritoryItem) {
+                                    var companyTerritory = new model.CompanyTerritory.Create(companyTerritoryItem);
+                                    selectedStore().companyTerritories.push(companyTerritory);
+                                });
+                                _.each(edittedCompanyTerritories(), function (item) {
+                                    _.each(selectedStore().companyTerritories(), function (territoryItem) {
+                                        if (item.territoryId() == territoryItem.territoryId()) {
+                                            selectedStore().companyTerritories.remove(territoryItem);
+                                        }
+                                    });
+                                });
+                                _.each(deletedCompanyTerritories(), function (item) {
+                                    _.each(selectedStore().companyTerritories(), function (territoryItem) {
+                                        if (item.territoryId() == territoryItem.territoryId()) {
+                                            selectedStore().companyTerritories.remove(territoryItem);
+                                        }
+                                    });
+                                });
+                            },
+                            error: function(response) {
+                                toastr.error("Failed To Load Company territories" + response);
+                            }
+                        });
+                    },
+                    //isSavingNewCompanyTerritory
+                    isSavingNewCompanyTerritory = ko.observable(false),
+                    // Template Chooser For Rave Review
+                    templateToUseCompanyTerritories = function (companyTerritory) {
+                        return (companyTerritory === selectedCompanyTerritory() ? 'editCompanyTerritoryTemplate' : 'itemCompanyTerritoryTemplate');
+                    },
+                    //Create Company Territory
+                    onCreateNewCompanyTerritory = function () {
+                        var companyTerritory = new model.CompanyTerritory();
+                        selectedCompanyTerritory(companyTerritory);
+                        isSavingNewCompanyTerritory(true);
+                        view.showCompanyTerritoryDialog();
+                    },
+                    // Delete Company Territory
+                    onDeleteCompanyTerritory = function (companyTerritory) {
+                        if (companyTerritory.companyId() !== undefined) {
+                            _.each(edittedCompanyTerritories(), function (item) {
+                                if (item.territoryId() == companyTerritory.territoryId()) {
+                                    edittedCompanyTerritories.remove(companyTerritory);
+                                }
+                            });
+                            deletedCompanyTerritories.push(companyTerritory);
+                        }
+                        selectedStore().companyTerritories.remove(companyTerritory);
+                        return;
+                    },
+                    onEditCompanyTerritory = function (companyTerritory) {
+                        selectedCompanyTerritory(companyTerritory);
+                        isSavingNewCompanyTerritory(false);
+                        view.showCompanyTerritoryDialog();
+                    },
+                    onCloseCompanyTerritory = function () {
+                        view.hideCompanyTerritoryDialog();
+                        isSavingNewCompanyTerritory(false);
+                    },
+                    //Do Before Save Company Territory
+                    doBeforeSaveCompanyTerritory = function () {
+                        var flag = true;
+                        if (!selectedCompanyTerritory().isValid()) {
+                            selectedCompanyTerritory().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveCompanyTerritory = function () {
+                        if (doBeforeSaveCompanyTerritory()) {
+                            if (selectedCompanyTerritory().companyId() === undefined && isSavingNewCompanyTerritory() === true) {
+                                selectedStore().companyTerritories.splice(0, 0, selectedCompanyTerritory());
+                                newCompanyTerritories.push(selectedCompanyTerritory());
+                            } else {
+                                //pushing item in editted Company Territories List
+                                if (selectedCompanyTerritory().companyId() != undefined) {
+                                    var match = ko.utils.arrayFirst(edittedCompanyTerritories(), function (item) {
+                                        return (selectedCompanyTerritory().territoryName() === item.territoryName() && selectedCompanyTerritory().territoryCode() === item.territoryCode());
+                                    });
+
+                                    if (!match) {
+                                        edittedCompanyTerritories.push(selectedCompanyTerritory());
+                                    }
+                                    
+                                }
+                            }
+                            view.hideCompanyTerritoryDialog();
+                        }
+                    },
+                    // ***** Company Territory END *****
+                    
                     // ***** COMPANY CMYK COLOR BEGIN*****// 
 
                     //Selected Company CMYK Color
@@ -313,6 +439,7 @@ define("stores/stores.viewModel",
                 view = specifiedView;
                 ko.applyBindings(view.viewModel, view.bindingRoot);
                 pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
                 getStores();
                 getBaseData();
                 view.initializeForm();
@@ -361,6 +488,21 @@ define("stores/stores.viewModel",
                     onCloseCompanyCMYKColor: onCloseCompanyCMYKColor,
                     doBeforeSaveCompanyCMYKColor: doBeforeSaveCompanyCMYKColor,
                     onSaveCompanyCMYKColor: onSaveCompanyCMYKColor,
+                    selectedCompanyTerritory: selectedCompanyTerritory,
+                    templateToUseCompanyTerritories: templateToUseCompanyTerritories,
+                    searchCompanyTerritoryFilter: searchCompanyTerritoryFilter,
+                    onCreateNewCompanyTerritory: onCreateNewCompanyTerritory ,
+                    onDeleteCompanyTerritory: onDeleteCompanyTerritory,
+                    onEditCompanyTerritory: onEditCompanyTerritory,
+                    onCloseCompanyTerritory: onCloseCompanyTerritory,
+                    doBeforeSaveCompanyTerritory: doBeforeSaveCompanyTerritory,
+                    onSaveCompanyTerritory: onSaveCompanyTerritory,
+                    companyTerritoryPager: companyTerritoryPager,
+                    searchCompanyTerritory: searchCompanyTerritory,
+                    deletedCompanyTerritories: deletedCompanyTerritories,
+                    edittedCompanyTerritories:edittedCompanyTerritories ,
+                    newCompanyTerritories: newCompanyTerritories,
+                    isSavingNewCompanyTerritory: isSavingNewCompanyTerritory,
                     initialize: initialize
                 };
             })()

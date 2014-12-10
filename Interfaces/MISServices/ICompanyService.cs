@@ -8,6 +8,7 @@ namespace MPC.Interfaces.MISServices
     public interface ICompanyService
     {
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
+        CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
         Company GetCompanyById(int companyId);
         CompanyBaseResponse GetBaseData();
         /// <summary>
@@ -15,7 +16,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         void SaveFile(string filePath, long companyId);
 
-        Company SaveCompany(Company company);
+        Company SaveCompany(CompanySavingModel company);
         long GetOrganisationId();
 
     }

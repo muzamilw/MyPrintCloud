@@ -13,6 +13,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store
+                    amplify.request.define('searchCompanyTerritory', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyTerritory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Store By StoreId
                     amplify.request.define('getStoreById', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
@@ -48,6 +54,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getStores',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // searchCompanyTerritory
+            searchCompanyTerritory = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'searchCompanyTerritory',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -100,6 +116,7 @@
             getBaseData: getBaseData,
             deleteStore: deleteStore,
             saveStore: saveStore,
+            searchCompanyTerritory: searchCompanyTerritory
         };
     })();
 
