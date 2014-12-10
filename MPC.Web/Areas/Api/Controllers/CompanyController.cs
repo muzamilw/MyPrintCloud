@@ -43,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = result.RowCount
             };
         }
+
         /// <summary>
         /// Get Company By Id
         /// </summary>
@@ -61,7 +62,12 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return companyService.SaveCompany(company.CreateFrom()).CreateFrom();
+            CompanySavingModel companySavingModel = new CompanySavingModel();
+            companySavingModel.Company = company.CreateFrom();
+            companySavingModel.NewAddedCompanyTerritories = company.NewAddedCompanyTerritories.Select(x => x.CreateFrom());
+            companySavingModel.EdittedCompanyTerritories = company.EdittedCompanyTerritories.Select(x => x.CreateFrom());
+            companySavingModel.DeletedCompanyTerritories = company.DeletedCompanyTerritories.Select(x => x.CreateFrom());
+            return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
     }
 }

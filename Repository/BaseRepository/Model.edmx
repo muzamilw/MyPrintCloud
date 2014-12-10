@@ -256,6 +256,23 @@
           <Property Name="ParamName" Type="nvarchar" MaxLength="100" />
           <Property Name="ParamValue" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="ColorPallete">
+          <Key>
+            <PropertyRef Name="PalleteId" />
+          </Key>
+          <Property Name="PalleteId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PalleteName" Type="varchar" MaxLength="200" />
+          <Property Name="Color1" Type="varchar" MaxLength="15" />
+          <Property Name="Color2" Type="varchar" MaxLength="15" />
+          <Property Name="Color3" Type="varchar" MaxLength="15" />
+          <Property Name="Color4" Type="varchar" MaxLength="15" />
+          <Property Name="Color5" Type="varchar" MaxLength="15" />
+          <Property Name="Color6" Type="varchar" MaxLength="15" />
+          <Property Name="Color7" Type="varchar" MaxLength="15" />
+          <Property Name="SkinId" Type="bigint" />
+          <Property Name="isDefault" Type="bit" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="CompanyId" />
@@ -950,6 +967,18 @@
           <Property Name="ItemType" Type="int" />
           <Property Name="TaxId" Type="int" />
         </EntityType>
+        <EntityType Name="ItemAddonCostCentre">
+          <Key>
+            <PropertyRef Name="ProductAddOnId" />
+          </Key>
+          <Property Name="ProductAddOnId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemStockOptionId" Type="bigint" />
+          <Property Name="CostCentreId" Type="bigint" />
+          <Property Name="DiscountPercentage" Type="float" />
+          <Property Name="IsDiscounted" Type="bit" />
+          <Property Name="Sequence" Type="int" />
+          <Property Name="IsMandatory" Type="bit" />
+        </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
             <PropertyRef Name="ItemAttachmentId" />
@@ -1497,6 +1526,15 @@
           <Property Name="ClickRangeFrom" Type="int" />
           <Property Name="PricePerClick" Type="float" />
           <Property Name="SetupCharge" Type="float" />
+          <Property Name="ItemId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ItemVideo">
+          <Key>
+            <PropertyRef Name="VideoId" />
+          </Key>
+          <Property Name="VideoId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VideoLink" Type="varchar" MaxLength="255" />
+          <Property Name="Caption" Type="varchar" MaxLength="255" />
           <Property Name="ItemId" Type="bigint" />
         </EntityType>
         <EntityType Name="LengthUnit">
@@ -2097,6 +2135,87 @@
           <Property Name="canDesignTemplate" Type="bit" />
           <Property Name="canApproveTemplate" Type="bit" />
         </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="text" />
+          <Property Name="ProductCategoryId" Type="bigint" />
+          <Property Name="LowResPDFTemplates" Type="text" />
+          <Property Name="BackgroundArtwork" Type="text" />
+          <Property Name="Side2LowResPDFTemplates" Type="text" />
+          <Property Name="Side2BackgroundArtwork" Type="text" />
+          <Property Name="Thumbnail" Type="text" />
+          <Property Name="Image" Type="text" />
+          <Property Name="IsDisabled" Type="bit" />
+          <Property Name="PTempId" Type="int" />
+          <Property Name="IsDoubleSide" Type="bit" Nullable="false" />
+          <Property Name="IsUsePDFFile" Type="bit" Nullable="false" />
+          <Property Name="PDFTemplateWidth" Type="float" />
+          <Property Name="PDFTemplateHeight" Type="float" />
+          <Property Name="IsUseBackGroundColor" Type="bit" />
+          <Property Name="BgR" Type="int" />
+          <Property Name="BgG" Type="int" />
+          <Property Name="BgB" Type="int" />
+          <Property Name="IsUseSide2BackGroundColor" Type="bit" />
+          <Property Name="Side2BgR" Type="int" />
+          <Property Name="Side2BgG" Type="int" />
+          <Property Name="Side2BgB" Type="int" />
+          <Property Name="CuttingMargin" Type="float" />
+          <Property Name="MultiPageCount" Type="int" />
+          <Property Name="Orientation" Type="int" />
+          <Property Name="MatchingSetTheme" Type="nvarchar" MaxLength="150" />
+          <Property Name="BaseColorID" Type="int" />
+          <Property Name="SubmittedBy" Type="int" />
+          <Property Name="SubmittedByName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SubmitDate" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ApprovedBy" Type="int" />
+          <Property Name="ApprovedByName" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserRating" Type="int" />
+          <Property Name="UsedCount" Type="int" />
+          <Property Name="MPCRating" Type="int" />
+          <Property Name="RejectionReason" Type="nvarchar" MaxLength="500" />
+          <Property Name="ApprovalDate" Type="datetime" />
+          <Property Name="TempString" Type="nvarchar" MaxLength="500" />
+          <Property Name="MatchingSetID" Type="int" />
+          <Property Name="FullView" Type="nvarchar" MaxLength="300" />
+          <Property Name="SLThumbnail" Type="nvarchar" MaxLength="300" />
+          <Property Name="SuperView" Type="nvarchar" MaxLength="300" />
+          <Property Name="ColorHex" Type="nvarchar" MaxLength="9" />
+          <Property Name="TemplateOwner" Type="int" />
+          <Property Name="TemplateOwnerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsPrivate" Type="bit" />
+          <Property Name="ApprovedDate" Type="datetime" />
+          <Property Name="IsCorporateEditable" Type="bit" />
+          <Property Name="TemplateType" Type="int" />
+          <Property Name="isWatermarkText" Type="bit" />
+          <Property Name="isSpotTemplate" Type="bit" />
+          <Property Name="isCreatedManual" Type="bit" />
+          <Property Name="isEditorChoice" Type="bit" />
+        </EntityType>
+        <EntityType Name="TemplatePage">
+          <Key>
+            <PropertyRef Name="ProductPageId" />
+          </Key>
+          <Property Name="ProductPageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="PageNo" Type="int" />
+          <Property Name="PageType" Type="int" />
+          <Property Name="Orientation" Type="int" />
+          <Property Name="BackGroundType" Type="int" />
+          <Property Name="BackgroundFileName" Type="nvarchar(max)" />
+          <Property Name="ColorC" Type="int" />
+          <Property Name="ColorM" Type="int" />
+          <Property Name="ColorY" Type="int" />
+          <Property Name="PageName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ColorK" Type="int" />
+          <Property Name="IsPrintable" Type="bit" />
+          <Property Name="hasOverlayObjects" Type="bit" />
+        </EntityType>
         <EntityType Name="WeightUnit">
           <Key>
             <PropertyRef Name="Id" />
@@ -2266,6 +2385,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="ItemVDPPrice">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemVideo_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="ItemVideo" Type="Self.ItemVideo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ItemVideo">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_tbl_ProductCategory">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
+          <End Role="Template" Type="Self.Template" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="Template">
+              <PropertyRef Name="ProductCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2613,6 +2756,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+          <End Role="CostCentre" Type="Self.CostCentre" Multiplicity="0..1" />
+          <End Role="ItemAddonCostCentre" Type="Self.ItemAddonCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_items_PriceMatrix_tbl_items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -2871,6 +3026,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Template_Items">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Templates_TemplatePages">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplatePage" Type="Self.TemplatePage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplatePage">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -2920,6 +3099,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="CmsPage" EntityType="Self.CmsPage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsSkinPageWidget" EntityType="Self.CmsSkinPageWidget" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsSkinPageWidgetParam" EntityType="Self.CmsSkinPageWidgetParam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ColorPallete" EntityType="Self.ColorPallete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBanner" EntityType="Self.CompanyBanner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBannerSet" EntityType="Self.CompanyBannerSet" Schema="dbo" store:Type="Tables" />
@@ -2943,6 +3123,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="InquiryItem" EntityType="Self.InquiryItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceDetail" EntityType="Self.InvoiceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemAddonCostCentre" EntityType="Self.ItemAddonCostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemAttachment" EntityType="Self.ItemAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemImage" EntityType="Self.ItemImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemPriceMatrix" EntityType="Self.ItemPriceMatrix" Schema="dbo" store:Type="Tables" />
@@ -2954,6 +3135,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="ItemStockControl" EntityType="Self.ItemStockControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemStockOption" EntityType="Self.ItemStockOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVDPPrice" EntityType="Self.ItemVDPPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemVideo" EntityType="Self.ItemVideo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LengthUnit" EntityType="Self.LengthUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
@@ -2980,6 +3162,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="StockSubCategory" EntityType="Self.StockSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemEmail" EntityType="Self.SystemEmail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplatePage" EntityType="Self.TemplatePage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
@@ -3050,6 +3234,14 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_ItemVDPPrice_Items" Association="Self.FK_ItemVDPPrice_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVDPPrice" EntitySet="ItemVDPPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemVideo_Items" Association="Self.FK_ItemVideo_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ItemVideo" EntitySet="ItemVideo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_tbl_ProductCategory" Association="Self.FK_Products_tbl_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="Template" EntitySet="Template" />
           </AssociationSet>
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
@@ -3163,6 +3355,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemSection" EntitySet="ItemSection" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres" Association="Self.FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+            <End Role="CostCentre" EntitySet="CostCentre" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentre" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_items_PriceMatrix_tbl_items" Association="Self.FK_tbl_items_PriceMatrix_tbl_items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemPriceMatrix" EntitySet="ItemPriceMatrix" />
@@ -3246,6 +3442,14 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_systemusers_tbl_company_sites" Association="Self.FK_tbl_systemusers_tbl_company_sites">
             <End Role="Organisation" EntitySet="Organisation" />
             <End Role="SystemUser" EntitySet="SystemUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Template_Items" Association="Self.FK_Template_Items">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Templates_TemplatePages" Association="Self.FK_Templates_TemplatePages">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="Self.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Company" />
@@ -3343,6 +3547,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="SectionFlag" EntitySet="SectionFlags" />
           </AssociationSet>
           <EntitySet Name="WeightUnits" EntityType="DomainModels.WeightUnit" />
+          <EntitySet Name="CompanyContacts" EntityType="DomainModels.CompanyContact" />
           <EntitySet Name="CompanyContactRoles" EntityType="DomainModels.CompanyContactRole" />
           <EntitySet Name="CompanyCostCentres" EntityType="DomainModels.CompanyCostCentre" />
           <EntitySet Name="CompanyTerritories" EntityType="DomainModels.CompanyTerritory" />
@@ -3351,9 +3556,21 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="CompanyType" EntitySet="CompanyTypes" />
             <End Role="Company" EntitySet="Companies" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_contacts_tbl_contactcompanies" Association="DomainModels.FK_tbl_contacts_tbl_contactcompanies">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_CustomerTerritory_tbl_contactcompanies" Association="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Companies" />
             <End Role="CompanyTerritory" EntitySet="CompanyTerritories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_contacts_tbl_ContactCompanyTerritories" Association="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories">
+            <End Role="CompanyTerritory" EntitySet="CompanyTerritories" />
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_contacts_tbl_contactcompanyuserroles" Association="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles">
+            <End Role="CompanyContactRole" EntitySet="CompanyContactRoles" />
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
           </AssociationSet>
           <EntitySet Name="CostCentres" EntityType="DomainModels.CostCentre" />
           <EntitySet Name="ItemAttachments" EntityType="DomainModels.ItemAttachment" />
@@ -3454,6 +3671,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="Company" EntitySet="Companies" />
             <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_estimates_tbl_contacts" Association="DomainModels.FK_tbl_estimates_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_estimates_tbl_company_sites" Association="DomainModels.FK_tbl_estimates_tbl_company_sites">
             <End Role="Organisation" EntitySet="Organisations" />
             <End Role="Estimate" EntitySet="Estimates" />
@@ -3492,6 +3713,14 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="LengthUnits" EntityType="DomainModels.LengthUnit" />
           <EntitySet Name="PaperBasisAreas" EntityType="DomainModels.PaperBasisArea" />
           <EntitySet Name="RegistrationQuestions" EntityType="DomainModels.RegistrationQuestion" />
+          <AssociationSet Name="FK_tbl_contacts_tbl_Registration_Questions" Association="DomainModels.FK_tbl_contacts_tbl_Registration_Questions">
+            <End Role="RegistrationQuestion" EntitySet="RegistrationQuestions" />
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Inquiry_tbl_contacts" Association="DomainModels.FK_tbl_Inquiry_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="Inquiry" EntitySet="Inquiries" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_Inquiry_Attachments_tbl_Inquiry" Association="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry">
             <End Role="Inquiry" EntitySet="Inquiries" />
             <End Role="InquiryAttachment" EntitySet="InquiryAttachments" />
@@ -3547,30 +3776,15 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="Markup" EntitySet="Markups" />
             <End Role="prefix" EntitySet="Prefixes1" />
           </AssociationSet>
-          <EntitySet Name="CompanyContacts" EntityType="DomainModels.CompanyContact" />
-          <AssociationSet Name="FK_tbl_contacts_tbl_contactcompanies" Association="DomainModels.FK_tbl_contacts_tbl_contactcompanies">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+          <EntitySet Name="ItemAddonCostCentres" EntityType="DomainModels.ItemAddonCostCentre" />
+          <EntitySet Name="ItemVideos" EntityType="DomainModels.ItemVideo" />
+          <AssociationSet Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres" Association="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+            <End Role="CostCentre" EntitySet="CostCentres" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentres" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_contacts_tbl_ContactCompanyTerritories" Association="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories">
-            <End Role="CompanyTerritory" EntitySet="CompanyTerritories" />
-            <End Role="CompanyContact" EntitySet="CompanyContacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_contacts_tbl_contactcompanyuserroles" Association="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles">
-            <End Role="CompanyContactRole" EntitySet="CompanyContactRoles" />
-            <End Role="CompanyContact" EntitySet="CompanyContacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_contacts_tbl_Registration_Questions" Association="DomainModels.FK_tbl_contacts_tbl_Registration_Questions">
-            <End Role="RegistrationQuestion" EntitySet="RegistrationQuestions" />
-            <End Role="CompanyContact" EntitySet="CompanyContacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_estimates_tbl_contacts" Association="DomainModels.FK_tbl_estimates_tbl_contacts">
-            <End Role="CompanyContact" EntitySet="CompanyContacts" />
-            <End Role="Estimate" EntitySet="Estimates" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_Inquiry_tbl_contacts" Association="DomainModels.FK_tbl_Inquiry_tbl_contacts">
-            <End Role="CompanyContact" EntitySet="CompanyContacts" />
-            <End Role="Inquiry" EntitySet="Inquiries" />
+          <AssociationSet Name="FK_ItemVideo_Items" Association="DomainModels.FK_ItemVideo_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemVideo" EntitySet="ItemVideos" />
           </AssociationSet>
           <EntitySet Name="Addresses" EntityType="DomainModels.Address" />
           <AssociationSet Name="FK_tbl_addresses_tbl_contactcompanies" Association="DomainModels.FK_tbl_addresses_tbl_contactcompanies">
@@ -3584,6 +3798,21 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_contacts_tbl_addresses" Association="DomainModels.FK_tbl_contacts_tbl_addresses">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="CompanyContact" EntitySet="CompanyContacts" />
+          </AssociationSet>
+          <EntitySet Name="ColorPalletes" EntityType="DomainModels.ColorPallete" />
+          <EntitySet Name="Templates" EntityType="DomainModels.Template" />
+          <EntitySet Name="TemplatePages" EntityType="DomainModels.TemplatePage" />
+          <AssociationSet Name="FK_Products_tbl_ProductCategory" Association="DomainModels.FK_Products_tbl_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="Template" EntitySet="Templates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Templates_TemplatePages" Association="DomainModels.FK_Templates_TemplatePages">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="TemplatePage" EntitySet="TemplatePages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Template_Items" Association="DomainModels.FK_Template_Items">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="Item" EntitySet="Items" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -3694,11 +3923,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsDisplayDiscountVoucherCode" Type="Boolean" />
           <Property Name="IsDisplayCorporateBinding" Type="Boolean" />
           <NavigationProperty Name="CompanyType" Relationship="DomainModels.FK_tbl_contactcompanies_tbl_contactcompanytypes" FromRole="Company" ToRole="CompanyType" />
+          <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanies" FromRole="Company" ToRole="CompanyContact" />
           <NavigationProperty Name="CompanyTerritories" Relationship="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" FromRole="Company" ToRole="CompanyTerritory" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contactcompanies" FromRole="Company" ToRole="Estimate" />
           <NavigationProperty Name="RaveReviews" Relationship="DomainModels.FK_RaveReview_Company" FromRole="Company" ToRole="RaveReview" />
           <NavigationProperty Name="CompanyCMYKColors" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="Company" ToRole="CompanyCMYKColor" />
-          <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanies" FromRole="Company" ToRole="CompanyContact" />
           <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_contactcompanies" FromRole="Company" ToRole="Address" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
@@ -3908,6 +4137,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsShowProductDescription" Type="Boolean" />
           <Property Name="IsShowProductShortDescription" Type="Boolean" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
+          <NavigationProperty Name="Templates" Relationship="DomainModels.FK_Products_tbl_ProductCategory" FromRole="ProductCategory" ToRole="Template" />
           </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -4310,6 +4540,101 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="GSM" Type="Double" />
           <Property Name="KG" Type="Double" />
         </EntityType>
+        <EntityType Name="CompanyContact">
+          <Key>
+            <PropertyRef Name="ContactId" />
+          </Key>
+          <Property Name="ContactId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressId" Type="Int64" Nullable="false" />
+          <Property Name="CompanyId" Type="Int64" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HomeTel1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HomeTel2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HomeExtension1" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="HomeExtension2" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FAX" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="Notes" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="IsDefaultContact" Type="Int32" />
+          <Property Name="HomeAddress1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HomeAddress2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HomeCity" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HomeState" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HomePostCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HomeCountry" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SecretQuestion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SecretAnswer" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsEmailSubscription" Type="Boolean" />
+          <Property Name="IsNewsLetterSubscription" Type="Boolean" />
+          <Property Name="image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="quickFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="quickTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="quickCompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="quickAddress1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="quickAddress2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="quickAddress3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="quickPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="quickFax" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="quickEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="quickWebsite" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="quickCompMessage" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="QuestionId" Type="Int32" />
+          <Property Name="IsApprover" Type="Boolean" />
+          <Property Name="isWebAccess" Type="Boolean" />
+          <Property Name="isPlaceOrder" Type="Boolean" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="16" Scale="0" />
+          <Property Name="isArchived" Type="Boolean" />
+          <Property Name="ContactRoleId" Type="Int32" />
+          <Property Name="TerritoryId" Type="Int64" />
+          <Property Name="ClaimIdentifer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AuthentifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsPayByPersonalCreditCard" Type="Boolean" />
+          <Property Name="IsPricingshown" Type="Boolean" />
+          <Property Name="SkypeId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LinkedinURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FacebookURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TwitterURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="authenticationToken" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="twitterScreenName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ShippingAddressId" Type="Int32" />
+          <Property Name="isUserLoginFirstTime" Type="Boolean" />
+          <Property Name="quickMobileNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="quickTwitterId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="quickFacebookId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="quickLinkedInId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="quickOtherId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="POBoxAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CorporateUnit" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeTradingName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ContractorName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BPayCRN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ABN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ACN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdditionalField1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdditionalField2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdditionalField3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdditionalField4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdditionalField5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="canUserPlaceOrderWithoutApproval" Type="Boolean" />
+          <Property Name="CanUserEditProfile" Type="Boolean" />
+          <Property Name="canPlaceDirectOrder" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanies" FromRole="CompanyContact" ToRole="Company" />
+          <NavigationProperty Name="CompanyTerritory" Relationship="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" FromRole="CompanyContact" ToRole="CompanyTerritory" />
+          <NavigationProperty Name="CompanyContactRole" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles" FromRole="CompanyContact" ToRole="CompanyContactRole" />
+          <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="CompanyContact" ToRole="Estimate" />
+          <NavigationProperty Name="RegistrationQuestion" Relationship="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" FromRole="CompanyContact" ToRole="RegistrationQuestion" />
+          <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="CompanyContact" ToRole="Inquiry" />
+          <NavigationProperty Name="Address" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="CompanyContact" ToRole="Address" />
+        </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
             <PropertyRef Name="ContactRoleId" />
@@ -4364,6 +4689,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_contacts_tbl_contactcompanies">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="1" />
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_CustomerTerritory_tbl_contactcompanies">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
           <End Type="DomainModels.CompanyTerritory" Role="CompanyTerritory" Multiplicity="*" />
@@ -4373,6 +4710,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="CompanyTerritory">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_contacts_tbl_ContactCompanyTerritories">
+          <End Type="DomainModels.CompanyTerritory" Role="CompanyTerritory" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyTerritory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_contacts_tbl_contactcompanyuserroles">
+          <End Type="DomainModels.CompanyContactRole" Role="CompanyContactRole" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContactRole">
+              <PropertyRef Name="ContactRoleId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="ContactRoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4507,6 +4868,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" FromRole="CostCentre" ToRole="SectionCostcentre" />
+          <NavigationProperty Name="ItemAddonCostCentres" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="CostCentre" ToRole="ItemAddonCostCentre" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -4819,6 +5181,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="Invoice" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Item" ToRole="Invoice" />
           <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_items" FromRole="Item" ToRole="InvoiceDetail" />
           <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="Item" ToRole="DeliveryNoteDetail" />
+          <NavigationProperty Name="ItemVideos" Relationship="DomainModels.FK_ItemVideo_Items" FromRole="Item" ToRole="ItemVideo" />
+          <NavigationProperty Name="Template" Relationship="DomainModels.FK_Template_Items" FromRole="Item" ToRole="Template" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -5589,11 +5953,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_estimates_tbl_contactcompanies" FromRole="Estimate" ToRole="Company" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="Estimate" ToRole="CompanyContact" />
           <NavigationProperty Name="Organisation" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Estimate" ToRole="Organisation" />
           <NavigationProperty Name="Status" Relationship="DomainModels.FK_tbl_estimates_tbl_Statuses" FromRole="Estimate" ToRole="Status" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_estimates" FromRole="Estimate" ToRole="Item" />
           <NavigationProperty Name="PrePayments" Relationship="DomainModels.FK_tbl_PrePayments_tbl_estimates" FromRole="Estimate" ToRole="PrePayment" />
-          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="Estimate" ToRole="CompanyContact" />
         </EntityType>
         <EntityType Name="PaymentGateway">
           <Key>
@@ -5643,6 +6007,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="Estimate">
               <PropertyRef Name="ContactCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_estimates_tbl_contacts">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="0..1" />
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ContactId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5772,9 +6148,9 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="BrokerContactCompanyId" Type="Int32" />
           <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="Inquiry" ToRole="CompanyContact" />
           <NavigationProperty Name="InquiryAttachments" Relationship="DomainModels.FK_tbl_Inquiry_Attachments_tbl_Inquiry" FromRole="Inquiry" ToRole="InquiryAttachment" />
           <NavigationProperty Name="InquiryItems" Relationship="DomainModels.FK_tbl_Inquiry_Items_tbl_Inquiry" FromRole="Inquiry" ToRole="InquiryItem" />
-          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="Inquiry" ToRole="CompanyContact" />
         </EntityType>
         <EntityType Name="InquiryAttachment">
           <Key>
@@ -5893,6 +6269,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="Question" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" FromRole="RegistrationQuestion" ToRole="CompanyContact" />
         </EntityType>
+        <Association Name="FK_tbl_contacts_tbl_Registration_Questions">
+          <End Type="DomainModels.RegistrationQuestion" Role="RegistrationQuestion" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="CompanyContact">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Inquiry_tbl_contacts">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="1" />
+          <End Type="DomainModels.Inquiry" Role="Inquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Inquiry">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_Inquiry_Attachments_tbl_Inquiry">
           <End Type="DomainModels.Inquiry" Role="Inquiry" Multiplicity="1" />
           <End Type="DomainModels.InquiryAttachment" Role="InquiryAttachment" Multiplicity="*" />
@@ -6368,170 +6768,50 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CompanyContact">
+        <EntityType Name="ItemAddonCostCentre">
           <Key>
-            <PropertyRef Name="ContactId" />
+            <PropertyRef Name="ProductAddOnId" />
           </Key>
-          <Property Name="ContactId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AddressId" Type="Int64" Nullable="false" />
-          <Property Name="CompanyId" Type="Int64" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="HomeTel1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="HomeTel2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="HomeExtension1" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
-          <Property Name="HomeExtension2" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
-          <Property Name="Mobile" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FAX" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DOB" Type="DateTime" Precision="3" />
-          <Property Name="Notes" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
-          <Property Name="IsDefaultContact" Type="Int32" />
-          <Property Name="HomeAddress1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="HomeAddress2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="HomeCity" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="HomeState" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="HomePostCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="HomeCountry" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SecretQuestion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SecretAnswer" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="IsEmailSubscription" Type="Boolean" />
-          <Property Name="IsNewsLetterSubscription" Type="Boolean" />
-          <Property Name="image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="quickFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="quickTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="quickCompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="quickAddress1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="quickAddress2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="quickAddress3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="quickPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="quickFax" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="quickEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="quickWebsite" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="quickCompMessage" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="QuestionId" Type="Int32" />
-          <Property Name="IsApprover" Type="Boolean" />
-          <Property Name="isWebAccess" Type="Boolean" />
-          <Property Name="isPlaceOrder" Type="Boolean" />
-          <Property Name="CreditLimit" Type="Decimal" Precision="16" Scale="0" />
-          <Property Name="isArchived" Type="Boolean" />
-          <Property Name="ContactRoleId" Type="Int32" />
-          <Property Name="TerritoryId" Type="Int64" />
-          <Property Name="ClaimIdentifer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="AuthentifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IsPayByPersonalCreditCard" Type="Boolean" />
-          <Property Name="IsPricingshown" Type="Boolean" />
-          <Property Name="SkypeId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LinkedinURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="FacebookURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TwitterURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="authenticationToken" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="twitterScreenName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="ShippingAddressId" Type="Int32" />
-          <Property Name="isUserLoginFirstTime" Type="Boolean" />
-          <Property Name="quickMobileNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="quickTwitterId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="quickFacebookId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="quickLinkedInId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="quickOtherId" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="POBoxAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CorporateUnit" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OfficeTradingName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ContractorName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="BPayCRN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ABN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ACN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="AdditionalField1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="AdditionalField2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="AdditionalField3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="AdditionalField4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="AdditionalField5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="canUserPlaceOrderWithoutApproval" Type="Boolean" />
-          <Property Name="CanUserEditProfile" Type="Boolean" />
-          <Property Name="canPlaceDirectOrder" Type="Boolean" />
-          <Property Name="OrganisationId" Type="Int64" />
-          <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanies" FromRole="CompanyContact" ToRole="Company" />
-          <NavigationProperty Name="CompanyTerritory" Relationship="DomainModels.FK_tbl_contacts_tbl_ContactCompanyTerritories" FromRole="CompanyContact" ToRole="CompanyTerritory" />
-          <NavigationProperty Name="CompanyContactRole" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles" FromRole="CompanyContact" ToRole="CompanyContactRole" />
-          <NavigationProperty Name="RegistrationQuestion" Relationship="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" FromRole="CompanyContact" ToRole="RegistrationQuestion" />
-          <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="CompanyContact" ToRole="Estimate" />
-          <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="CompanyContact" ToRole="Inquiry" />
-          <NavigationProperty Name="Address" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="CompanyContact" ToRole="Address" />
+          <Property Name="ProductAddOnId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemStockOptionId" Type="Int64" />
+          <Property Name="CostCentreId" Type="Int64" />
+          <Property Name="DiscountPercentage" Type="Double" />
+          <Property Name="IsDiscounted" Type="Boolean" />
+          <Property Name="Sequence" Type="Int32" />
+          <Property Name="IsMandatory" Type="Boolean" />
+          <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="ItemAddonCostCentre" ToRole="CostCentre" />
         </EntityType>
-        <Association Name="FK_tbl_contacts_tbl_contactcompanies">
-          <End Type="DomainModels.Company" Role="Company" Multiplicity="1" />
-          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+        <EntityType Name="ItemVideo">
+          <Key>
+            <PropertyRef Name="VideoId" />
+          </Key>
+          <Property Name="VideoId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VideoLink" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Caption" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ItemId" Type="Int64" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ItemVideo_Items" FromRole="ItemVideo" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK_tbl_Items_AddonCostCentres_tbl_costcentres">
+          <End Type="DomainModels.CostCentre" Role="CostCentre" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemAddonCostCentre" Role="ItemAddonCostCentre" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
             </Principal>
-            <Dependent Role="CompanyContact">
-              <PropertyRef Name="CompanyId" />
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="CostCentreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbl_contacts_tbl_ContactCompanyTerritories">
-          <End Type="DomainModels.CompanyTerritory" Role="CompanyTerritory" Multiplicity="0..1" />
-          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
+        <Association Name="FK_ItemVideo_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemVideo" Role="ItemVideo" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CompanyTerritory">
-              <PropertyRef Name="TerritoryId" />
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
             </Principal>
-            <Dependent Role="CompanyContact">
-              <PropertyRef Name="TerritoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_contacts_tbl_contactcompanyuserroles">
-          <End Type="DomainModels.CompanyContactRole" Role="CompanyContactRole" Multiplicity="0..1" />
-          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CompanyContactRole">
-              <PropertyRef Name="ContactRoleId" />
-            </Principal>
-            <Dependent Role="CompanyContact">
-              <PropertyRef Name="ContactRoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_contacts_tbl_Registration_Questions">
-          <End Type="DomainModels.RegistrationQuestion" Role="RegistrationQuestion" Multiplicity="0..1" />
-          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RegistrationQuestion">
-              <PropertyRef Name="QuestionId" />
-            </Principal>
-            <Dependent Role="CompanyContact">
-              <PropertyRef Name="QuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_estimates_tbl_contacts">
-          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="0..1" />
-          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CompanyContact">
-              <PropertyRef Name="ContactId" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="ContactId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_Inquiry_tbl_contacts">
-          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="1" />
-          <End Type="DomainModels.Inquiry" Role="Inquiry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CompanyContact">
-              <PropertyRef Name="ContactId" />
-            </Principal>
-            <Dependent Role="Inquiry">
-              <PropertyRef Name="ContactId" />
+            <Dependent Role="ItemVideo">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6606,6 +6886,144 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="CompanyContact">
               <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ColorPallete">
+          <Key>
+            <PropertyRef Name="PalleteId" />
+          </Key>
+          <Property Name="PalleteId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PalleteName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Color1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Color2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Color3" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Color4" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Color5" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Color6" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Color7" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SkinId" Type="Int64" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <Property Name="CompanyId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ProductCategoryId" Type="Int64" />
+          <Property Name="LowResPDFTemplates" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BackgroundArtwork" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Side2LowResPDFTemplates" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Side2BackgroundArtwork" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Thumbnail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDisabled" Type="Boolean" />
+          <Property Name="PTempId" Type="Int32" />
+          <Property Name="IsDoubleSide" Type="Boolean" Nullable="false" />
+          <Property Name="IsUsePDFFile" Type="Boolean" Nullable="false" />
+          <Property Name="PDFTemplateWidth" Type="Double" />
+          <Property Name="PDFTemplateHeight" Type="Double" />
+          <Property Name="IsUseBackGroundColor" Type="Boolean" />
+          <Property Name="BgR" Type="Int32" />
+          <Property Name="BgG" Type="Int32" />
+          <Property Name="BgB" Type="Int32" />
+          <Property Name="IsUseSide2BackGroundColor" Type="Boolean" />
+          <Property Name="Side2BgR" Type="Int32" />
+          <Property Name="Side2BgG" Type="Int32" />
+          <Property Name="Side2BgB" Type="Int32" />
+          <Property Name="CuttingMargin" Type="Double" />
+          <Property Name="MultiPageCount" Type="Int32" />
+          <Property Name="Orientation" Type="Int32" />
+          <Property Name="MatchingSetTheme" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="BaseColorID" Type="Int32" />
+          <Property Name="SubmittedBy" Type="Int32" />
+          <Property Name="SubmittedByName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ApprovedBy" Type="Int32" />
+          <Property Name="ApprovedByName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserRating" Type="Int32" />
+          <Property Name="UsedCount" Type="Int32" />
+          <Property Name="MPCRating" Type="Int32" />
+          <Property Name="RejectionReason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalDate" Type="DateTime" Precision="3" />
+          <Property Name="TempString" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MatchingSetID" Type="Int32" />
+          <Property Name="FullView" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="SLThumbnail" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="SuperView" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ColorHex" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateOwner" Type="Int32" />
+          <Property Name="TemplateOwnerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsPrivate" Type="Boolean" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsCorporateEditable" Type="Boolean" />
+          <Property Name="TemplateType" Type="Int32" />
+          <Property Name="isWatermarkText" Type="Boolean" />
+          <Property Name="isSpotTemplate" Type="Boolean" />
+          <Property Name="isCreatedManual" Type="Boolean" />
+          <Property Name="isEditorChoice" Type="Boolean" />
+          <NavigationProperty Name="ProductCategory" Relationship="DomainModels.FK_Products_tbl_ProductCategory" FromRole="Template" ToRole="ProductCategory" />
+          <NavigationProperty Name="TemplatePages" Relationship="DomainModels.FK_Templates_TemplatePages" FromRole="Template" ToRole="TemplatePage" />
+          <NavigationProperty Name="Items" Relationship="DomainModels.FK_Template_Items" FromRole="Template" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="TemplatePage">
+          <Key>
+            <PropertyRef Name="ProductPageId" />
+          </Key>
+          <Property Name="ProductPageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="PageNo" Type="Int32" />
+          <Property Name="PageType" Type="Int32" />
+          <Property Name="Orientation" Type="Int32" />
+          <Property Name="BackGroundType" Type="Int32" />
+          <Property Name="BackgroundFileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ColorC" Type="Int32" />
+          <Property Name="ColorM" Type="Int32" />
+          <Property Name="ColorY" Type="Int32" />
+          <Property Name="PageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ColorK" Type="Int32" />
+          <Property Name="IsPrintable" Type="Boolean" />
+          <Property Name="hasOverlayObjects" Type="Boolean" />
+          <NavigationProperty Name="Template" Relationship="DomainModels.FK_Templates_TemplatePages" FromRole="TemplatePage" ToRole="Template" />
+        </EntityType>
+        <Association Name="FK_Products_tbl_ProductCategory">
+          <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="Template">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Templates_TemplatePages">
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="DomainModels.TemplatePage" Role="TemplatePage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplatePage">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Template_Items">
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="TemplateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7152,6 +7570,95 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="Pound" ColumnName="Pound" />
                 <ScalarProperty Name="UnitName" ColumnName="UnitName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyContacts">
+            <EntityTypeMapping TypeName="DomainModels.CompanyContact">
+              <MappingFragment StoreEntitySet="CompanyContact">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="canPlaceDirectOrder" ColumnName="canPlaceDirectOrder" />
+                <ScalarProperty Name="CanUserEditProfile" ColumnName="CanUserEditProfile" />
+                <ScalarProperty Name="canUserPlaceOrderWithoutApproval" ColumnName="canUserPlaceOrderWithoutApproval" />
+                <ScalarProperty Name="AdditionalField5" ColumnName="AdditionalField5" />
+                <ScalarProperty Name="AdditionalField4" ColumnName="AdditionalField4" />
+                <ScalarProperty Name="AdditionalField3" ColumnName="AdditionalField3" />
+                <ScalarProperty Name="AdditionalField2" ColumnName="AdditionalField2" />
+                <ScalarProperty Name="AdditionalField1" ColumnName="AdditionalField1" />
+                <ScalarProperty Name="ACN" ColumnName="ACN" />
+                <ScalarProperty Name="ABN" ColumnName="ABN" />
+                <ScalarProperty Name="BPayCRN" ColumnName="BPayCRN" />
+                <ScalarProperty Name="ContractorName" ColumnName="ContractorName" />
+                <ScalarProperty Name="OfficeTradingName" ColumnName="OfficeTradingName" />
+                <ScalarProperty Name="CorporateUnit" ColumnName="CorporateUnit" />
+                <ScalarProperty Name="POBoxAddress" ColumnName="POBoxAddress" />
+                <ScalarProperty Name="quickOtherId" ColumnName="quickOtherId" />
+                <ScalarProperty Name="quickLinkedInId" ColumnName="quickLinkedInId" />
+                <ScalarProperty Name="quickFacebookId" ColumnName="quickFacebookId" />
+                <ScalarProperty Name="quickTwitterId" ColumnName="quickTwitterId" />
+                <ScalarProperty Name="quickMobileNumber" ColumnName="quickMobileNumber" />
+                <ScalarProperty Name="isUserLoginFirstTime" ColumnName="isUserLoginFirstTime" />
+                <ScalarProperty Name="ShippingAddressId" ColumnName="ShippingAddressId" />
+                <ScalarProperty Name="twitterScreenName" ColumnName="twitterScreenName" />
+                <ScalarProperty Name="authenticationToken" ColumnName="authenticationToken" />
+                <ScalarProperty Name="TwitterURL" ColumnName="TwitterURL" />
+                <ScalarProperty Name="FacebookURL" ColumnName="FacebookURL" />
+                <ScalarProperty Name="LinkedinURL" ColumnName="LinkedinURL" />
+                <ScalarProperty Name="SkypeId" ColumnName="SkypeId" />
+                <ScalarProperty Name="IsPricingshown" ColumnName="IsPricingshown" />
+                <ScalarProperty Name="IsPayByPersonalCreditCard" ColumnName="IsPayByPersonalCreditCard" />
+                <ScalarProperty Name="AuthentifiedBy" ColumnName="AuthentifiedBy" />
+                <ScalarProperty Name="ClaimIdentifer" ColumnName="ClaimIdentifer" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="ContactRoleId" ColumnName="ContactRoleId" />
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="isPlaceOrder" ColumnName="isPlaceOrder" />
+                <ScalarProperty Name="isWebAccess" ColumnName="isWebAccess" />
+                <ScalarProperty Name="IsApprover" ColumnName="IsApprover" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="quickCompMessage" ColumnName="quickCompMessage" />
+                <ScalarProperty Name="quickWebsite" ColumnName="quickWebsite" />
+                <ScalarProperty Name="quickEmail" ColumnName="quickEmail" />
+                <ScalarProperty Name="quickFax" ColumnName="quickFax" />
+                <ScalarProperty Name="quickPhone" ColumnName="quickPhone" />
+                <ScalarProperty Name="quickAddress3" ColumnName="quickAddress3" />
+                <ScalarProperty Name="quickAddress2" ColumnName="quickAddress2" />
+                <ScalarProperty Name="quickAddress1" ColumnName="quickAddress1" />
+                <ScalarProperty Name="quickCompanyName" ColumnName="quickCompanyName" />
+                <ScalarProperty Name="quickTitle" ColumnName="quickTitle" />
+                <ScalarProperty Name="quickFullName" ColumnName="quickFullName" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="IsNewsLetterSubscription" ColumnName="IsNewsLetterSubscription" />
+                <ScalarProperty Name="IsEmailSubscription" ColumnName="IsEmailSubscription" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="SecretAnswer" ColumnName="SecretAnswer" />
+                <ScalarProperty Name="SecretQuestion" ColumnName="SecretQuestion" />
+                <ScalarProperty Name="HomeCountry" ColumnName="HomeCountry" />
+                <ScalarProperty Name="HomePostCode" ColumnName="HomePostCode" />
+                <ScalarProperty Name="HomeState" ColumnName="HomeState" />
+                <ScalarProperty Name="HomeCity" ColumnName="HomeCity" />
+                <ScalarProperty Name="HomeAddress2" ColumnName="HomeAddress2" />
+                <ScalarProperty Name="HomeAddress1" ColumnName="HomeAddress1" />
+                <ScalarProperty Name="IsDefaultContact" ColumnName="IsDefaultContact" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="HomeExtension2" ColumnName="HomeExtension2" />
+                <ScalarProperty Name="HomeExtension1" ColumnName="HomeExtension1" />
+                <ScalarProperty Name="HomeTel2" ColumnName="HomeTel2" />
+                <ScalarProperty Name="HomeTel1" ColumnName="HomeTel1" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8705,92 +9212,26 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CompanyContacts">
-            <EntityTypeMapping TypeName="DomainModels.CompanyContact">
-              <MappingFragment StoreEntitySet="CompanyContact">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="canPlaceDirectOrder" ColumnName="canPlaceDirectOrder" />
-                <ScalarProperty Name="CanUserEditProfile" ColumnName="CanUserEditProfile" />
-                <ScalarProperty Name="canUserPlaceOrderWithoutApproval" ColumnName="canUserPlaceOrderWithoutApproval" />
-                <ScalarProperty Name="AdditionalField5" ColumnName="AdditionalField5" />
-                <ScalarProperty Name="AdditionalField4" ColumnName="AdditionalField4" />
-                <ScalarProperty Name="AdditionalField3" ColumnName="AdditionalField3" />
-                <ScalarProperty Name="AdditionalField2" ColumnName="AdditionalField2" />
-                <ScalarProperty Name="AdditionalField1" ColumnName="AdditionalField1" />
-                <ScalarProperty Name="ACN" ColumnName="ACN" />
-                <ScalarProperty Name="ABN" ColumnName="ABN" />
-                <ScalarProperty Name="BPayCRN" ColumnName="BPayCRN" />
-                <ScalarProperty Name="ContractorName" ColumnName="ContractorName" />
-                <ScalarProperty Name="OfficeTradingName" ColumnName="OfficeTradingName" />
-                <ScalarProperty Name="CorporateUnit" ColumnName="CorporateUnit" />
-                <ScalarProperty Name="POBoxAddress" ColumnName="POBoxAddress" />
-                <ScalarProperty Name="quickOtherId" ColumnName="quickOtherId" />
-                <ScalarProperty Name="quickLinkedInId" ColumnName="quickLinkedInId" />
-                <ScalarProperty Name="quickFacebookId" ColumnName="quickFacebookId" />
-                <ScalarProperty Name="quickTwitterId" ColumnName="quickTwitterId" />
-                <ScalarProperty Name="quickMobileNumber" ColumnName="quickMobileNumber" />
-                <ScalarProperty Name="isUserLoginFirstTime" ColumnName="isUserLoginFirstTime" />
-                <ScalarProperty Name="ShippingAddressId" ColumnName="ShippingAddressId" />
-                <ScalarProperty Name="twitterScreenName" ColumnName="twitterScreenName" />
-                <ScalarProperty Name="authenticationToken" ColumnName="authenticationToken" />
-                <ScalarProperty Name="TwitterURL" ColumnName="TwitterURL" />
-                <ScalarProperty Name="FacebookURL" ColumnName="FacebookURL" />
-                <ScalarProperty Name="LinkedinURL" ColumnName="LinkedinURL" />
-                <ScalarProperty Name="SkypeId" ColumnName="SkypeId" />
-                <ScalarProperty Name="IsPricingshown" ColumnName="IsPricingshown" />
-                <ScalarProperty Name="IsPayByPersonalCreditCard" ColumnName="IsPayByPersonalCreditCard" />
-                <ScalarProperty Name="AuthentifiedBy" ColumnName="AuthentifiedBy" />
-                <ScalarProperty Name="ClaimIdentifer" ColumnName="ClaimIdentifer" />
-                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
-                <ScalarProperty Name="ContactRoleId" ColumnName="ContactRoleId" />
-                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
-                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
-                <ScalarProperty Name="isPlaceOrder" ColumnName="isPlaceOrder" />
-                <ScalarProperty Name="isWebAccess" ColumnName="isWebAccess" />
-                <ScalarProperty Name="IsApprover" ColumnName="IsApprover" />
-                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
-                <ScalarProperty Name="quickCompMessage" ColumnName="quickCompMessage" />
-                <ScalarProperty Name="quickWebsite" ColumnName="quickWebsite" />
-                <ScalarProperty Name="quickEmail" ColumnName="quickEmail" />
-                <ScalarProperty Name="quickFax" ColumnName="quickFax" />
-                <ScalarProperty Name="quickPhone" ColumnName="quickPhone" />
-                <ScalarProperty Name="quickAddress3" ColumnName="quickAddress3" />
-                <ScalarProperty Name="quickAddress2" ColumnName="quickAddress2" />
-                <ScalarProperty Name="quickAddress1" ColumnName="quickAddress1" />
-                <ScalarProperty Name="quickCompanyName" ColumnName="quickCompanyName" />
-                <ScalarProperty Name="quickTitle" ColumnName="quickTitle" />
-                <ScalarProperty Name="quickFullName" ColumnName="quickFullName" />
-                <ScalarProperty Name="image" ColumnName="image" />
-                <ScalarProperty Name="IsNewsLetterSubscription" ColumnName="IsNewsLetterSubscription" />
-                <ScalarProperty Name="IsEmailSubscription" ColumnName="IsEmailSubscription" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="SecretAnswer" ColumnName="SecretAnswer" />
-                <ScalarProperty Name="SecretQuestion" ColumnName="SecretQuestion" />
-                <ScalarProperty Name="HomeCountry" ColumnName="HomeCountry" />
-                <ScalarProperty Name="HomePostCode" ColumnName="HomePostCode" />
-                <ScalarProperty Name="HomeState" ColumnName="HomeState" />
-                <ScalarProperty Name="HomeCity" ColumnName="HomeCity" />
-                <ScalarProperty Name="HomeAddress2" ColumnName="HomeAddress2" />
-                <ScalarProperty Name="HomeAddress1" ColumnName="HomeAddress1" />
-                <ScalarProperty Name="IsDefaultContact" ColumnName="IsDefaultContact" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="FAX" ColumnName="FAX" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="HomeExtension2" ColumnName="HomeExtension2" />
-                <ScalarProperty Name="HomeExtension1" ColumnName="HomeExtension1" />
-                <ScalarProperty Name="HomeTel2" ColumnName="HomeTel2" />
-                <ScalarProperty Name="HomeTel1" ColumnName="HomeTel1" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+          <EntitySetMapping Name="ItemAddonCostCentres">
+            <EntityTypeMapping TypeName="DomainModels.ItemAddonCostCentre">
+              <MappingFragment StoreEntitySet="ItemAddonCostCentre">
+                <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="IsDiscounted" ColumnName="IsDiscounted" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+                <ScalarProperty Name="CostCentreId" ColumnName="CostCentreId" />
+                <ScalarProperty Name="ItemStockOptionId" ColumnName="ItemStockOptionId" />
+                <ScalarProperty Name="ProductAddOnId" ColumnName="ProductAddOnId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemVideos">
+            <EntityTypeMapping TypeName="DomainModels.ItemVideo">
+              <MappingFragment StoreEntitySet="ItemVideo">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
+                <ScalarProperty Name="VideoId" ColumnName="VideoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8827,6 +9268,107 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="AddressName" ColumnName="AddressName" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ColorPalletes">
+            <EntityTypeMapping TypeName="DomainModels.ColorPallete">
+              <MappingFragment StoreEntitySet="ColorPallete">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsDefault" ColumnName="isDefault" />
+                <ScalarProperty Name="SkinId" ColumnName="SkinId" />
+                <ScalarProperty Name="Color7" ColumnName="Color7" />
+                <ScalarProperty Name="Color6" ColumnName="Color6" />
+                <ScalarProperty Name="Color5" ColumnName="Color5" />
+                <ScalarProperty Name="Color4" ColumnName="Color4" />
+                <ScalarProperty Name="Color3" ColumnName="Color3" />
+                <ScalarProperty Name="Color2" ColumnName="Color2" />
+                <ScalarProperty Name="Color1" ColumnName="Color1" />
+                <ScalarProperty Name="PalleteName" ColumnName="PalleteName" />
+                <ScalarProperty Name="PalleteId" ColumnName="PalleteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="DomainModels.Template">
+              <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="isEditorChoice" ColumnName="isEditorChoice" />
+                <ScalarProperty Name="isCreatedManual" ColumnName="isCreatedManual" />
+                <ScalarProperty Name="isSpotTemplate" ColumnName="isSpotTemplate" />
+                <ScalarProperty Name="isWatermarkText" ColumnName="isWatermarkText" />
+                <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
+                <ScalarProperty Name="IsCorporateEditable" ColumnName="IsCorporateEditable" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+                <ScalarProperty Name="TemplateOwnerName" ColumnName="TemplateOwnerName" />
+                <ScalarProperty Name="TemplateOwner" ColumnName="TemplateOwner" />
+                <ScalarProperty Name="ColorHex" ColumnName="ColorHex" />
+                <ScalarProperty Name="SuperView" ColumnName="SuperView" />
+                <ScalarProperty Name="SLThumbnail" ColumnName="SLThumbnail" />
+                <ScalarProperty Name="FullView" ColumnName="FullView" />
+                <ScalarProperty Name="MatchingSetID" ColumnName="MatchingSetID" />
+                <ScalarProperty Name="TempString" ColumnName="TempString" />
+                <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
+                <ScalarProperty Name="RejectionReason" ColumnName="RejectionReason" />
+                <ScalarProperty Name="MPCRating" ColumnName="MPCRating" />
+                <ScalarProperty Name="UsedCount" ColumnName="UsedCount" />
+                <ScalarProperty Name="UserRating" ColumnName="UserRating" />
+                <ScalarProperty Name="ApprovedByName" ColumnName="ApprovedByName" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+                <ScalarProperty Name="SubmittedByName" ColumnName="SubmittedByName" />
+                <ScalarProperty Name="SubmittedBy" ColumnName="SubmittedBy" />
+                <ScalarProperty Name="BaseColorID" ColumnName="BaseColorID" />
+                <ScalarProperty Name="MatchingSetTheme" ColumnName="MatchingSetTheme" />
+                <ScalarProperty Name="Orientation" ColumnName="Orientation" />
+                <ScalarProperty Name="MultiPageCount" ColumnName="MultiPageCount" />
+                <ScalarProperty Name="CuttingMargin" ColumnName="CuttingMargin" />
+                <ScalarProperty Name="Side2BgB" ColumnName="Side2BgB" />
+                <ScalarProperty Name="Side2BgG" ColumnName="Side2BgG" />
+                <ScalarProperty Name="Side2BgR" ColumnName="Side2BgR" />
+                <ScalarProperty Name="IsUseSide2BackGroundColor" ColumnName="IsUseSide2BackGroundColor" />
+                <ScalarProperty Name="BgB" ColumnName="BgB" />
+                <ScalarProperty Name="BgG" ColumnName="BgG" />
+                <ScalarProperty Name="BgR" ColumnName="BgR" />
+                <ScalarProperty Name="IsUseBackGroundColor" ColumnName="IsUseBackGroundColor" />
+                <ScalarProperty Name="PDFTemplateHeight" ColumnName="PDFTemplateHeight" />
+                <ScalarProperty Name="PDFTemplateWidth" ColumnName="PDFTemplateWidth" />
+                <ScalarProperty Name="IsUsePDFFile" ColumnName="IsUsePDFFile" />
+                <ScalarProperty Name="IsDoubleSide" ColumnName="IsDoubleSide" />
+                <ScalarProperty Name="PTempId" ColumnName="PTempId" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+                <ScalarProperty Name="Side2BackgroundArtwork" ColumnName="Side2BackgroundArtwork" />
+                <ScalarProperty Name="Side2LowResPDFTemplates" ColumnName="Side2LowResPDFTemplates" />
+                <ScalarProperty Name="BackgroundArtwork" ColumnName="BackgroundArtwork" />
+                <ScalarProperty Name="LowResPDFTemplates" ColumnName="LowResPDFTemplates" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplatePages">
+            <EntityTypeMapping TypeName="DomainModels.TemplatePage">
+              <MappingFragment StoreEntitySet="TemplatePage">
+                <ScalarProperty Name="hasOverlayObjects" ColumnName="hasOverlayObjects" />
+                <ScalarProperty Name="IsPrintable" ColumnName="IsPrintable" />
+                <ScalarProperty Name="ColorK" ColumnName="ColorK" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="ColorY" ColumnName="ColorY" />
+                <ScalarProperty Name="ColorM" ColumnName="ColorM" />
+                <ScalarProperty Name="ColorC" ColumnName="ColorC" />
+                <ScalarProperty Name="BackgroundFileName" ColumnName="BackgroundFileName" />
+                <ScalarProperty Name="BackGroundType" ColumnName="BackGroundType" />
+                <ScalarProperty Name="Orientation" ColumnName="Orientation" />
+                <ScalarProperty Name="PageType" ColumnName="PageType" />
+                <ScalarProperty Name="PageNo" ColumnName="PageNo" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductPageId" ColumnName="ProductPageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -248,6 +248,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemController.cs" />
@@ -257,12 +258,15 @@
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
     <Compile Include="Areas\Api\Controllers\StoreBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\SupplierBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\SupplierForInventoryController.cs" />
     <Compile Include="Areas\Api\LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemVDPPriceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCMYKColorMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemResponseMapper.cs" />
@@ -273,6 +277,8 @@
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
+    <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
+    <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
