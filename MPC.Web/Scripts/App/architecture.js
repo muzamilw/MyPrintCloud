@@ -246,7 +246,38 @@ require(["ko", "knockout-validation"], function (ko) {
         update: function (element, valueAccessor) {
             $(element).val(ko.utils.unwrapObservable(valueAccessor()));
         }
-    }
+    };
+
+
+    ko.bindingHandlers.jqColorPicker = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+
+            // set default value
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            $(element).val(value);
+
+            //initialize datepicker with some optional options
+            var options1 = allBindingsAccessor().colorPickerOptions || {};
+            $(element).colorPicker(options1);
+
+            //handle the field changing
+            ko.utils.registerEventHandler(element, "change", function () {
+                var observable = valueAccessor();
+                observable($(element).val());
+            });
+
+            //handle disposal (if KO removes by the template binding)
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).colorPicker("destroy");
+            });
+
+        },
+        update: function (element, valueAccessor, allBindingsAccessor) {
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            $(element).val(value);
+            $(element).change();
+        }
+    };
     // date formatting. Example <div class="date" data-bind="dateString: today, datePattern: 'dddd, MMMM dd, yyyy'">Thursday, April 05, 2012</div>
     ko.bindingHandlers.dateString = {
         update: function (element, valueAccessor, allBindingsAccessor) {

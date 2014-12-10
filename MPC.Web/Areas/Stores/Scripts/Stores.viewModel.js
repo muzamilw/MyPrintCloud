@@ -27,7 +27,7 @@ define("stores/stores.viewModel",
                     //Pager
                     pager = ko.observable(),
                     //Search Filter
-                    searchFilter = ko.observable(),
+                    searchFilter = ko.observable("#ffcc00"),
                     // Editor View Model
                     editorViewModel = new ist.ViewModel(model.Store),
                     //Selected store
