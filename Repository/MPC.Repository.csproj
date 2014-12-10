@@ -185,6 +185,7 @@
     <Compile Include="Repositories\CompanyTypeRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />
+    <Compile Include="Repositories\TemplateRepository.cs" />
     <Compile Include="Repositories\ItemVideoRepository.cs" />
     <Compile Include="Repositories\PrefixRepository.cs" />
     <Compile Include="Repositories\ItemVdpPriceRepository.cs" />

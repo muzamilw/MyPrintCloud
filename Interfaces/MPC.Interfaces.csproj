@@ -70,6 +70,7 @@
     <Compile Include="Repository\ICompanyTypeRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
+    <Compile Include="Repository\ITemplateRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />
     <Compile Include="Repository\IPrefixRepository.cs" />
     <Compile Include="Repository\IItemVdpPriceRepository.cs" />
