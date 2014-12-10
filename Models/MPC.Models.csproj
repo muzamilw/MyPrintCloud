@@ -191,6 +191,8 @@
     <Compile Include="DomainModels\Markup.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\ChartOfAccount.cs" />
+    <Compile Include="DomainModels\Template.cs" />
+    <Compile Include="DomainModels\TemplatePage.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
     <Compile Include="LanguageResources.Designer.cs">

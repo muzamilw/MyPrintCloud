@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="25">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="75">
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="8" PointY="4.375" />
+        <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="9.125" PointY="3.125" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidgetParam" Width="1.5" PointX="3.5" PointY="5.625" />
         <EntityTypeShape EntityType="DomainModels.CompanyBanner" Width="1.5" PointX="10.625" PointY="14" />
         <EntityTypeShape EntityType="DomainModels.CompanyBannerSet" Width="1.5" PointX="6.625" PointY="12.875" />
         <EntityTypeShape EntityType="DomainModels.CompanyDomain" Width="1.5" PointX="6.25" PointY="9" />
-        <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.Markup" Width="1.5" PointX="7.125" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.Organisation" Width="1.5" PointX="4.375" PointY="9.375" />
-        <EntityTypeShape EntityType="DomainModels.PaperSize" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DomainModels.PaperSize" Width="1.5" PointX="7.125" PointY="3.625" />
         <EntityTypeShape EntityType="DomainModels.ProductCategory" Width="1.5" PointX="2.5" PointY="9.75" />
         <EntityTypeShape EntityType="DomainModels.Widget" Width="1.5" PointX="9.375" PointY="7.75" />
         <AssociationConnector Association="DomainModels.FK_Company_CmsSkinPageWidget" />
@@ -25,8 +25,8 @@
         <AssociationConnector Association="DomainModels.FK_CompanySet_Company" />
         <AssociationConnector Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" />
         <AssociationConnector Association="DomainModels.FK_CompanyBanner_CompanySet" />
-        <EntityTypeShape EntityType="DomainModels.CategoryTerritory" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="DomainModels.CmsPage" Width="1.5" PointX="4.25" PointY="16.375" />
+        <EntityTypeShape EntityType="DomainModels.CategoryTerritory" Width="1.5" PointX="9.25" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.CmsPage" Width="1.5" PointX="4.375" PointY="16.625" />
         <EntityTypeShape EntityType="DomainModels.StockCategory" Width="1.5" PointX="11.125" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.StockSubCategory" Width="1.5" PointX="13.375" PointY="0.75" />
         <AssociationConnector Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" />

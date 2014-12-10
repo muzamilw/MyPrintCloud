@@ -190,6 +190,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ItemVideo> ItemVideos { get; set; }
 
         /// <summary>
+        /// Template DbSet
+        /// </summary>
+        public DbSet<Template> Templates { get; set; }
+
+        /// <summary>
+        /// Template Page DbSet
+        /// </summary>
+        public DbSet<TemplatePage> TemplatePages { get; set; }
+
+        /// <summary>
         /// Get next id for a table
         /// </summary>
         public double GetMinimumProductValue(long itemId)
