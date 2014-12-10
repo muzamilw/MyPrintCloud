@@ -6,6 +6,8 @@ using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Models.Common;
+
 
 namespace MPC.Implementation.MISServices
 {
@@ -30,6 +32,11 @@ namespace MPC.Implementation.MISServices
         private readonly IPaperBasisAreaRepository paperBasisAreaRepository;
         private readonly ILengthUnitRepository lengthUnitRepository;
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
+        private readonly IPrefixRepository prefixRepository;
+        private readonly ICompanyTypeRepository companyTypeRepository;
+        private readonly IMarkupRepository markupRepository;
+        private readonly IChartOfAccountRepository chartOfAccountRepository;
+        private readonly ISystemUserRepository systemUserRepository;
         #endregion
 
         #region Constructor
@@ -40,7 +47,10 @@ namespace MPC.Implementation.MISServices
         public InventoryService(IStockCategoryRepository stockCategoryRepository, IStockSubCategoryRepository stockSubCategoryRepository,
             IStockItemRepository stockItemRepository, ISectionFlagRepository sectionFlagRepository, IWeightUnitRepository weightUnitRepository,
             ICompanyRepository companyRepository, IPaperSizeRepository paperSizeRepository, IStockCostAndPriceRepository stockCostAndPriceRepository,
-            IPaperBasisAreaRepository paperBasisAreaRepository, ILengthUnitRepository lengthUnitRepository, IRegistrationQuestionRepository registrationQuestionRepository)
+            IPaperBasisAreaRepository paperBasisAreaRepository, ILengthUnitRepository lengthUnitRepository, IRegistrationQuestionRepository registrationQuestionRepository,
+            IPrefixRepository prefixRepository, ICompanyTypeRepository companyTypeRepository, IMarkupRepository markupRepository, IChartOfAccountRepository chartOfAccountRepository,
+            ISystemUserRepository systemUserRepository
+            )
         {
             this.stockCategoryRepository = stockCategoryRepository;
             this.stockSubCategoryRepository = stockSubCategoryRepository;
@@ -53,6 +63,11 @@ namespace MPC.Implementation.MISServices
             this.paperBasisAreaRepository = paperBasisAreaRepository;
             this.lengthUnitRepository = lengthUnitRepository;
             this.registrationQuestionRepository = registrationQuestionRepository;
+            this.prefixRepository = prefixRepository;
+            this.markupRepository = markupRepository;
+            this.chartOfAccountRepository = chartOfAccountRepository;
+            this.systemUserRepository = systemUserRepository;
+            this.companyTypeRepository = companyTypeRepository;
         }
 
         #endregion
@@ -72,10 +87,26 @@ namespace MPC.Implementation.MISServices
                 WeightUnits = weightUnitRepository.GetAll(),
                 LengthUnits = lengthUnitRepository.GetAll(),
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
-                RegistrationQuestions = registrationQuestionRepository.GetAll(),
             };
         }
 
+        /// <summary>
+        /// Load Supplier Base data
+        /// </summary>
+        public SupplierBaseResponse GetSupplierBaseData()
+        {
+
+            return new SupplierBaseResponse
+            {
+                CompanyTypes = companyTypeRepository.GetAll(),
+                Markups = markupRepository.GetAll(),
+                NominalCodes = chartOfAccountRepository.GetAll(),
+                SystemUsers = systemUserRepository.GetAll(),
+                Flags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.Suppliers)),
+                PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.CustomerPriceMatrix)),
+                RegistrationQuestions = registrationQuestionRepository.GetAll(),
+            };
+        }
         /// <summary>
         /// Load Stock Items, based on search filters
         /// </summary>
@@ -116,6 +147,21 @@ namespace MPC.Implementation.MISServices
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
         }
 
+
+        /// <summary>
+        /// Delete stock Item
+        /// </summary>
+        /// <param name="stockItemId"></param>
+        public void DeleteInvenotry(long stockItemId)
+        {
+            StockItem stockItem = stockItemRepository.Find(stockItemId);
+            if (stockItem != null)
+            {
+                stockItemRepository.Delete(stockItem);
+                stockItemRepository.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// Get Suppliers For Inventory
         /// </summary>
@@ -146,6 +192,7 @@ namespace MPC.Implementation.MISServices
         private StockItem SaveStockItem(StockItem stockItem)
         {
             stockItem.StockCreated = DateTime.Now;
+            stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
             stockItem.OrganisationId = stockItemRepository.OrganisationId;
             stockItemRepository.Add(stockItem);
@@ -304,6 +351,51 @@ namespace MPC.Implementation.MISServices
         {
             return stockItemRepository.Find(stockItemId);
         }
+
+        /// <summary>
+        /// Add New Supplier
+        /// </summary>
+        public Company SaveSupplier(Company company)
+        {
+            company.CreationDate = DateTime.Now;
+            company.OrganisationId = companyRepository.OrganisationId;
+
+            if (company.Addresses != null)
+            {
+                foreach (var item in company.Addresses)
+                {
+                    item.OrganisationId = companyRepository.OrganisationId;
+                }
+
+            }
+
+            if (company.CompanyContacts != null)
+            {
+                foreach (var item in company.CompanyContacts)
+                {
+                    item.OrganisationId = companyRepository.OrganisationId;
+                }
+
+            }
+            companyRepository.Add(company);
+            companyRepository.SaveChanges();
+            return company;
+        }
+
+        /// <summary>
+        /// Save image path for company logo in supplier
+        /// </summary>
+        public void SaveCompanyImage(string path, long supplierId)
+        {
+            Company company = companyRepository.Find(supplierId);
+            if (company != null)
+            {
+                company.Image = path;
+                companyRepository.SaveChanges();
+            }
+        }
+
         #endregion
     }
+
 }

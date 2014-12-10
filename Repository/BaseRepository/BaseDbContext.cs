@@ -184,6 +184,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Prefix> Prefixes { get; set; }
 
         /// <summary>
+        /// Item Video DbSet
+        /// </summary>
+        public DbSet<ItemVideo> ItemVideos { get; set; }
+
+        /// <summary>
+        /// Color Pallete DbSet
+        /// </summary>
+        public DbSet<ColorPallete> ColorPalletes { get; set; }
+
+        /// <summary>
         /// Get next id for a table
         /// </summary>
         public double GetMinimumProductValue(long itemId)
