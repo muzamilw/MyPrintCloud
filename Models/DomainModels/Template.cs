@@ -68,6 +68,7 @@ namespace MPC.Models.DomainModels
 
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ICollection<TemplatePage> TemplatePages { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
     }
 
 }

@@ -3026,6 +3026,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Template_Items">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Templates_TemplatePages">
           <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
           <End Role="TemplatePage" Type="Self.TemplatePage" Multiplicity="*" />
@@ -3431,6 +3443,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="Organisation" EntitySet="Organisation" />
             <End Role="SystemUser" EntitySet="SystemUser" />
           </AssociationSet>
+          <AssociationSet Name="FK_Template_Items" Association="Self.FK_Template_Items">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
           <AssociationSet Name="FK_Templates_TemplatePages" Association="Self.FK_Templates_TemplatePages">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
@@ -3793,6 +3809,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_Templates_TemplatePages" Association="DomainModels.FK_Templates_TemplatePages">
             <End Role="Template" EntitySet="Templates" />
             <End Role="TemplatePage" EntitySet="TemplatePages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Template_Items" Association="DomainModels.FK_Template_Items">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="Item" EntitySet="Items" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -5162,6 +5182,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_items" FromRole="Item" ToRole="InvoiceDetail" />
           <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="Item" ToRole="DeliveryNoteDetail" />
           <NavigationProperty Name="ItemVideos" Relationship="DomainModels.FK_ItemVideo_Items" FromRole="Item" ToRole="ItemVideo" />
+          <NavigationProperty Name="Template" Relationship="DomainModels.FK_Template_Items" FromRole="Item" ToRole="Template" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -6948,6 +6969,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="isEditorChoice" Type="Boolean" />
           <NavigationProperty Name="ProductCategory" Relationship="DomainModels.FK_Products_tbl_ProductCategory" FromRole="Template" ToRole="ProductCategory" />
           <NavigationProperty Name="TemplatePages" Relationship="DomainModels.FK_Templates_TemplatePages" FromRole="Template" ToRole="TemplatePage" />
+          <NavigationProperty Name="Items" Relationship="DomainModels.FK_Template_Items" FromRole="Template" ToRole="Item" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -6990,6 +7012,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="TemplatePage">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Template_Items">
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="TemplateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

@@ -148,6 +148,7 @@
         <EntityTypeShape EntityType="DomainModels.TemplatePage" Width="1.5" PointX="7" PointY="68.75" />
         <AssociationConnector Association="DomainModels.FK_Products_tbl_ProductCategory" />
         <AssociationConnector Association="DomainModels.FK_Templates_TemplatePages" />
+        <AssociationConnector Association="DomainModels.FK_Template_Items" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
