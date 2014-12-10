@@ -31,24 +31,40 @@ define("stores/stores.view",
                 hideCompanyCMYKColorDialog = function () {
                     $("#myCMYKColorModal").modal("hide");
                 },
-                initializeForm = function () {
-                    // Initialize Forms - For File Upload
-                    $("#fileUploadForm").ajaxForm({
-                        success: function () {
-                            toastr.success("Uploading completed");
-                        },
-                        dataType: "json",
-                        error: function () {
-                            toastr.success("Uploading completed");
-                        }
-                    });
+                // Show Edit Banner the dialog
+                showEditBannerDialog = function () {
+                    $("#myEditBannerModal").modal("show");
                 },
-                // Initialize
-                initialize = function () {
-                    if (!bindingRoot) {
-                        return;
+                // Hide Edit Banner the dialog
+                hideEditBannerDialog = function () {
+                    $("#myEditBannerModal").modal("hide");
+                },
+                // Show Add Banner Set the dialog
+                showSetBannerDialog = function () {
+                    $("#mybannerSetModal").modal("show");
+                },
+              // Hide  Add Banner Set the dialog
+              hideSetBannerDialog = function () {
+                  $("#mybannerSetModal").modal("hide");
+              };
+            initializeForm = function () {
+                // Initialize Forms - For File Upload
+                $("#fileUploadForm").ajaxForm({
+                    success: function () {
+                        toastr.success("Uploading completed");
+                    },
+                    dataType: "json",
+                    error: function () {
+                        toastr.success("Uploading completed");
                     }
-                };
+                });
+            },
+            // Initialize
+            initialize = function () {
+                if (!bindingRoot) {
+                    return;
+                }
+            };
             initialize();
             return {
                 bindingRoot: bindingRoot,
@@ -56,6 +72,10 @@ define("stores/stores.view",
                 hideRaveReviewDialog: hideRaveReviewDialog,
                 showCompanyCMYKColorDialog: showCompanyCMYKColorDialog,
                 hideCompanyCMYKColorDialog: hideCompanyCMYKColorDialog,
+                showEditBannerDialog: showEditBannerDialog,
+                hideEditBannerDialog: hideEditBannerDialog,
+                hideSetBannerDialog: hideSetBannerDialog,
+                showSetBannerDialog: showSetBannerDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

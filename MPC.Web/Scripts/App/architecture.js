@@ -236,20 +236,20 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-    ko.bindingHandlers.colorPicker = {
-        init: function (element, valueAccessor) {
-            var value = valueAccessor();
-            $(element).val(ko.utils.unwrapObservable(value));
-            $(element).colorPicker();
-            $(element).change(function () { value(this.value); });
-        },
-        update: function (element, valueAccessor) {
-            $(element).val(ko.utils.unwrapObservable(valueAccessor()));
-        }
-    };
+    //ko.bindingHandlers.colorpicker = {
+    //    init: function (element, valueAccessor) {
+    //        var value = valueAccessor();
+    //        $(element).val(ko.utils.unwrapObservable(value));
+    //        $(element).colorpicker();
+    //        $(element).change(function () { value(this.value); });
+    //    },
+    //    update: function (element, valueAccessor) {
+    //        $(element).val(ko.utils.unwrapObservable(valueAccessor()));
+    //    }
+    //};
 
 
-    ko.bindingHandlers.jqColorPicker = {
+    ko.bindingHandlers.colorpicker = {
         init: function (element, valueAccessor, allBindingsAccessor) {
 
             // set default value
@@ -258,7 +258,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
             //initialize datepicker with some optional options
             var options1 = allBindingsAccessor().colorPickerOptions || {};
-            $(element).colorPicker(options1);
+            $(element).colorpicker(options1);
 
             //handle the field changing
             ko.utils.registerEventHandler(element, "change", function () {
@@ -268,7 +268,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
             //handle disposal (if KO removes by the template binding)
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).colorPicker("destroy");
+                $(element).colorpicker("destroy");
             });
 
         },

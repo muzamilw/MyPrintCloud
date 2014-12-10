@@ -27,7 +27,7 @@ define("stores/stores.viewModel",
                     //Pager
                     pager = ko.observable(),
                     //Search Filter
-                    searchFilter = ko.observable("#ffcc00"),
+                    searchFilter = ko.observable(),
                     // Editor View Model
                     editorViewModel = new ist.ViewModel(model.Store),
                     //Selected store
@@ -216,6 +216,13 @@ define("stores/stores.viewModel",
                         //    }
                         //}
                     },
+
+                    onCreateBanner = function () {
+                        view.showEditBannerDialog();
+                    },
+                     onAddSetBanner = function () {
+                         view.showSetBannerDialog();
+                     },
                     // Delete a Rave review
                     onDeleteRaveReview = function (raveReview) {
                         selectedStore().raveReviews.remove(raveReview);
@@ -361,6 +368,8 @@ define("stores/stores.viewModel",
                     onCloseCompanyCMYKColor: onCloseCompanyCMYKColor,
                     doBeforeSaveCompanyCMYKColor: doBeforeSaveCompanyCMYKColor,
                     onSaveCompanyCMYKColor: onSaveCompanyCMYKColor,
+                    onCreateBanner: onCreateBanner,
+                    onAddSetBanner: onAddSetBanner,
                     initialize: initialize
                 };
             })()

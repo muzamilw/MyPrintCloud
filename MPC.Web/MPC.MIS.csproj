@@ -1108,6 +1108,8 @@
     <Content Include="Areas\Products\Views\Home\_AddVideo.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
     <Content Include="Areas\Products\Views\Home\_RelatedProductDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_EditBanner.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddSet.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />

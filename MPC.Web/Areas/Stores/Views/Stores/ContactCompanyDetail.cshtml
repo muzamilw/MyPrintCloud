@@ -1390,8 +1390,9 @@
                                                 </div>
                                                 <label class="col-md-6">Color 1: Webstore background</label>
                                                 <div class="col-md-3">
-                                                    <input type="text" data-bind="colorPicker:color1" />
-                                                    @*<span id="colorPick1" class="label" data-bind="colorpicker:color1" style="background-color: #320B0B; cursor: pointer;" onclick="">#320B0B    </span>*@
+                                                    @*<input type="text" data-bind="colorpicker:color1" />*@
+                                                    @*<input type="text" data-bind="jqColorPicker:color1" />*@
+                                                    <span id="colorPick1" class="label" style="background-color: #320B0B; cursor: pointer;">#320B0B    </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1751,9 +1752,10 @@
                                                         <option>Spring Set</option>
                                                     </select>
                                                 </div>
-                                                <a href="~/CRM/AddBanner" class="btn btn-primary pull-right">
+
+                                                <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Banner
-                                                </a>
+                                                </div>
                                                 @*Banners Grid Starts here*@
                                                 <div class="clearfix">
                                                     <div class="table-responsive">
@@ -3513,7 +3515,8 @@
 @Html.Partial("Widgets/_AddEditAddress")
 @Html.Partial("Widgets/_UserProfileDetails")
 @Html.Partial("Widgets/_AddEditTerritory")
-@Html.Partial("Widgets/_EditBanner")
+@Html.Partial("~/Areas/Stores/Views/Stores/_EditBanner.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("Widgets/_AddEditPaymentGateway")
