@@ -33,22 +33,37 @@
             id = ko.observable(specifiedId),
             //Company Name
             name = ko.observable(specifiedName).extend({ required: true }),
+            //Account Number
             accountNumber = ko.observable(specifiedAccountNumber),
+            //Url
             url = ko.observable(specifiedURL),
+            //Credit Reference
             creditReference = ko.observable(specifiedCreditReference),
+            //Credit Limit 
             creditLimit = ko.observable(specifiedCreditLimit).extend({ number: true }),
+            //Terms 
              terms = ko.observable(specifiedTerms),
+             //Type Id
              typeId = ko.observable(specifiedTypeId),
-             defaultNominalCode = ko.observable(specifiedDefaultNominalCode),
+             //Default Nominal Code 
+            defaultNominalCode = ko.observable(specifiedDefaultNominalCode),
              defaultMarkUpId = ko.observable(specifiedDefaultMarkUpId),
+             //Account Open Date 
              accountOpenDate = ko.observable(specifiedAccountOpenDate),
+             //Account Manager Id
              accountManagerId = ko.observable(specifiedAccountManagerId),
-            status = ko.observable(specifiedStatus),
+             //status 
+             status = ko.observable(specifiedStatus),
+             //Notes
              notes = ko.observable(specifiedNotes),
+             //Account Status Id 
              accountStatusId = ko.observable(specifiedAccountStatusId),
+             //Tax Registration NImber
              vATRegNumber = ko.observable(specifiedVATRegNumber),
              vATRegReference = ko.observable(specifiedVATRegReference),
+             //Flag Id 
              flagId = ko.observable(specifiedFlagId),
+             //Price Flag Id 
              priceFlagId = ko.observable(specifiedPriceFlagId),
              //Address In Supplier
              addressInSupplier = ko.observable(Address.Create()),
@@ -144,22 +159,32 @@
         , specifiedFAO) {
         var
             self,
+            //Address Name
             addressName = ko.observable(specifiedAddressName).extend({ required: true }),
             address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
             city = ko.observable(specifiedCity).extend({ required: true }),
+            //Satate
             state = ko.observable(specifiedState),
+            //Country
             country = ko.observable(specifiedCountry),
+            //Posy Code
             postCode = ko.observable(specifiedPostCode),
+           //fax
             fax = ko.observable(specifiedFax),
+            //Email
             email = ko.observable(specifiedEmail).extend({ email: true }),
+            //URL
             url = ko.observable(specifiedURL),
+            //Telephone 1
             tel1 = ko.observable(specifiedTel1),
             tel2 = ko.observable(specifiedTel2),
             extension1 = ko.observable(specifiedExtension1),
             extension2 = ko.observable(specifiedExtension2),
+            //Reference
             reference = ko.observable(specifiedReference),
+            //FAO
             fao = ko.observable(specifiedFAO),
             // Errors
             errors = ko.validation.group({
@@ -239,23 +264,38 @@
         , specifiedPassword, specifiedIsEmailSubscription, specifiedIsNewsLetterSubscription) {
         var
             self,
+            //First NAme
              firstName = ko.observable(specifiedFirstName).extend({ required: true }),
+             //Last NAme
              lastName = ko.observable(specifiedLastName),
+             //Telephone 1
              homeTel1 = ko.observable(specifiedHomeTel1),
              homeTel2 = ko.observable(specifiedHomeTel2),
+             //Home Extension 1 
              homeExtension1 = ko.observable(specifiedHomeExtension1),
              homeExtension2 = ko.observable(specifiedHomeExtension2),
+             //Mobile
              mobile = ko.observable(specifiedMobile),
+             //Email
              email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
+             //Notes
              contactNotes = ko.observable(specifiedNotes),
+             //Home Address1
              homeAddress1 = ko.observable(specifiedHomeAddress1),
+             //City
              homeCity = ko.observable(specifiedHomeCity),
+             //State
              homeState = ko.observable(specifiedHomeState),
              secretQuestion = ko.observable(specifiedSecretQuestion),
+             //Secret Answer 
              secretAnswer = ko.observable(specifiedSecretAnswer),
+             //Password
              password = ko.observable(specifiedPassword).extend({ required: true }),
+             //Confirmed Password
              password1 = ko.observable(undefined).extend({ compareWith: password }),
+             //Is Email Subscription 
              isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
+             //Is News Letter Subscription
              isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
              // Errors
             errors = ko.validation.group({

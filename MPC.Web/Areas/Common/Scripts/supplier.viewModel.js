@@ -246,14 +246,18 @@ define("common/supplier.viewModel",
 
 
                     },
+
+                format = function (item) {
+                    return $ + item.FlagName;
+                }
                 // Initialize the view model
-                    initialize = function (specifiedView) {
-                        view = specifiedView;
-                        ko.applyBindings(view.viewModel, view.bindingRoot);
-                        getBase();
-                        supplierPager(pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
-                        view.initializeForm();
-                    };
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    getBase();
+                    supplierPager(pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
+                    view.initializeForm();
+                };
 
                 return {
                     selectedSupplier: selectedSupplier,
@@ -286,6 +290,7 @@ define("common/supplier.viewModel",
                     onCreateSupplier: onCreateSupplier,
                     onSaveSupplier: onSaveSupplier,
                     selectTab: selectTab,
+                    format: format,
                 };
             })()
         };

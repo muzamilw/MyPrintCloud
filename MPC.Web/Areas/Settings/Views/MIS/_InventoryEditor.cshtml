@@ -59,7 +59,9 @@
                                 <div class="form-group">
                                     <label for="flag" class="control-label h5 col-sm-2">Section Flag</label>
                                     <div class="col-md-2">
+                                        @*<select id="flag" class="form-control" data-bind="options: $root.sectionFlags, optionsValue: 'SectionFlagId', optionsText: 'FlagName', value: flagId, select2: { formatSelection:  $root.format, formatResult:  $root.format  }"></select>*@
                                         <select id="flag" class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"></select>
+
                                     </div>
                                     <label for="location" class="control-label h5 col-sm-2" data-bind="visible:itemId()=== 0">Stock Located At</label>
                                     <div class="col-md-2" data-bind="visible:itemId()===0">

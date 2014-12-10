@@ -15,6 +15,7 @@ var ist = {
         CaresGeneralException: 'CaresGeneralException',
         UnspecifiedException: 'UnspecifiedException'
     },
+
     //verify if the string is a valid json
     verifyValidJSON: function (str) {
         try {
@@ -472,3 +473,7 @@ $(function () {
         }
     });
 });
+
+//function format(item) {
+//    return $+item.FlagName;
+//}

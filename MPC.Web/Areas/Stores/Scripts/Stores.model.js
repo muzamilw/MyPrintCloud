@@ -4,7 +4,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var
         //WebMasterTag WebAnalyticCode
         // ReSharper disable once InconsistentNaming
-        Store = function (specifiedCompanyId, specifiedName, specifiedStatus,specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+        Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey
         ) {
@@ -57,7 +57,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     companyId: companyId,
                     name: name,
                     status: status,
-                    image:image,
+                    image: image,
                     url: url,
                     accountOpenDate: accountOpenDate,
                     accountManagerId: accountManagerId,
@@ -129,7 +129,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyId: companyId,
                 name: name,
                 status: status,
-                image:image,
+                image: image,
                 url: url,
                 accountOpenDate: accountOpenDate,
                 accountManagerId: accountManagerId,
@@ -315,19 +315,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ______________  S Y S T E M     U S E R   _________________//
     // ReSharper disable once InconsistentNaming
-    var SystemUser = function(specifiedSystemUserId, specifiedUserName) {
+    var SystemUser = function (specifiedSystemUserId, specifiedUserName) {
         var self,
             systemUserId = ko.observable(specifiedSystemUserId),
             userName = ko.observable(specifiedUserName),
             // Errors
             errors = ko.validation.group({
-        
+
             }),
             // Is Valid 
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
-
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
@@ -336,18 +335,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 userName: userName
             }),
             // Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function(source) {
+            convertToServerData = function (source) {
                 var result = {};
                 result.SystemUserId = source.systemUserId();
                 result.UserName = source.userName();
                 return result;
             },
             // Reset
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             };
         self = {
@@ -378,7 +377,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ______________  R A V E    R E V I E W   _________________//
     // ReSharper disable once InconsistentNaming
-    var RaveReview = function (specifiedReviewId,specifiedReviewBy,specifiedReview,specifiedReviewDate,specifiedisDisplay,specifiedSortOrder,specifiedOrganisationId,specifiedCompanyId) {
+    var RaveReview = function (specifiedReviewId, specifiedReviewBy, specifiedReview, specifiedReviewDate, specifiedisDisplay, specifiedSortOrder, specifiedOrganisationId, specifiedCompanyId) {
         var self,
             reviewId = ko.observable(specifiedReviewId),
             reviewBy = ko.observable(specifiedReviewBy).extend({ required: true }),
@@ -401,12 +400,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                reviewId :reviewId ,
-                reviewBy : reviewBy ,
-                review : review ,
-                reviewDate :reviewDate ,
-                isDisplay :isDisplay ,
-                sortOrder : sortOrder ,
+                reviewId: reviewId,
+                reviewBy: reviewBy,
+                review: review,
+                reviewDate: reviewDate,
+                isDisplay: isDisplay,
+                sortOrder: sortOrder,
                 organisationId: organisationId,
                 companyId: companyId
             }),
@@ -487,7 +486,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // ______________  C O M P A N Y    C M Y K    C O L O R   _________________//
     // ReSharper disable once InconsistentNaming    
-    var CompanyCMYKColor = function (specifiedColorId,specifiedCompanyId,specifiedColorName,specifiedColorC,specifiedColorM,specifiedColorY,specifiedColorK) {
+    var CompanyCMYKColor = function (specifiedColorId, specifiedCompanyId, specifiedColorName, specifiedColorC, specifiedColorM, specifiedColorY, specifiedColorK) {
         var self,
             colorId = ko.observable(specifiedColorId),
             companyId = ko.observable(specifiedCompanyId),
@@ -513,12 +512,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
-                colorId :colorId ,
-                companyId :companyId ,
-                colorName : colorName ,
-                colorC : colorC ,
-                colorM : colorM ,
-                colorY : colorY ,
+                colorId: colorId,
+                companyId: companyId,
+                colorName: colorName,
+                colorC: colorC,
+                colorM: colorM,
+                colorY: colorY,
                 colorK: colorK
             }),
             // Has Changes
@@ -591,6 +590,82 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return companyCMYKColor;
     };
 
+    // ______________  Color Palettes   _________________//
+    // ReSharper disable once InconsistentNaming
+    var ColorPalettes = function (specifiedPalleteId, specifiedPalleteName, specifiedColor1, specifiedColor2, specifiedColor3, specifiedColor4, specifiedColor5,
+        specifiedColor6, specifiedColor7, specifiedSkinId, specifiedIsDefault, specifiedCompanyId) {
+        var self,
+          id = ko.observable(specifiedPalleteId),
+          color1 = ko.observable(specifiedColor1),
+          color2 = ko.observable(specifiedColor2),
+          color3 = ko.observable(specifiedColor3),
+          color4 = ko.observable(specifiedColor4),
+          color5 = ko.observable(specifiedColor5),
+          color6 = ko.observable(specifiedColor6),
+          color7 = ko.observable(specifiedColor7),
+          skinId = ko.observable(specifiedSkinId),
+          isDefault = ko.observable(specifiedIsDefault),
+          companyId = ko.observable(specifiedCompanyId),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                // ReSharper restore InconsistentNaming
+                color1: color1,
+                color2: color2,
+                color3: color3,
+                color4: color4,
+                color5: color5,
+                color6: color6,
+                color7: color7,
+                skinId: skinId,
+                isDefault: isDefault,
+                companyId: companyId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.SystemUserId = source.systemUserId();
+                result.UserName = source.userName();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            palleteName: palleteName,
+            color1: color1,
+            color2: color2,
+            color3: color3,
+            color4: color4,
+            color5: color5,
+            color6: color6,
+            color7: color7,
+            skinId: skinId,
+            isDefault: isDefault,
+            companyId: companyId,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
     return {
         Store: Store,
         CompanyType: CompanyType,

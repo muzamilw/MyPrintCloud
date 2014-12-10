@@ -146,6 +146,21 @@ namespace MPC.Implementation.MISServices
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
         }
 
+
+        /// <summary>
+        /// Delete stock Item
+        /// </summary>
+        /// <param name="stockItemId"></param>
+        public void DeleteInvenotry(long stockItemId)
+        {
+            StockItem stockItem = stockItemRepository.Find(stockItemId);
+            if (stockItem != null)
+            {
+                stockItemRepository.Delete(stockItem);
+                stockItemRepository.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// Get Suppliers For Inventory
         /// </summary>
