@@ -30,12 +30,6 @@ namespace MPC.Interfaces.MISServices
         StockItem GetById(long stockItemId);
 
         /// <summary>
-        /// Delete Inventory
-        /// </summary>
-        /// <param name="stockItemId"></param>
-        void DeleteInvenotry(long stockItemId);
-
-        /// <summary>
         /// Get Suppliers For Inventory
         /// </summary>
         SupplierSearchResponseForInventory LoadSuppliers(SupplierRequestModelForInventory request);

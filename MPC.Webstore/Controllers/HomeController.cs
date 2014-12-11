@@ -15,7 +15,6 @@ using DotNetOpenAuth.ApplicationBlock.Facebook;
 using System.IO;
 using System.Text;
 using System.Security.Claims;
-
 using MPC.Webstore.Common;
 
 namespace MPC.Webstore.Controllers
@@ -82,7 +81,7 @@ namespace MPC.Webstore.Controllers
 
             return View();
         }
-        public ActionResult oAuth(int id)
+        public ActionResult oAuth(int id,int isRegWithSM)
         {
             int isFacebook = id;
             if (isFacebook == 1)
@@ -121,8 +120,17 @@ namespace MPC.Webstore.Controllers
                             lastname = ResponseJon.last_name;
                         }
                     }
-                    ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
-                    return View();
+                    if (isRegWithSM == 1)
+                    {
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
+
+                        return View();
+                    }
+                    else
+                    {
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
+                        return View();
+                    }
 
                 }
             }
@@ -154,22 +162,23 @@ namespace MPC.Webstore.Controllers
 
                     if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     {
-                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "' </script>";
-                        return View();
+                        if (isRegWithSM == 1)
+                        {
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "' </script>";
+
+                            return View();
+                        }
+                        else
+                        {
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "' </script>";
+                            return View();
+                        }
 
                     }
                 }
             }
             return View();
         }
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                ControllerContext.HttpContext.Response.Redirect(returnUrl);
-            }
-            ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
-            return null;
-        }
+     
     }
 }

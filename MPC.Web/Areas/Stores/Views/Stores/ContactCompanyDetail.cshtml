@@ -1112,7 +1112,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-widgets">
-                                    <div class="col-md-12 form-horizontal" data-bind="with: colorPalette">
+                                    <div class="col-md-12 form-horizontal">
 
                                         <h3 class="group-header">Color Palettes</h3>
                                         <div class="col-md-9">
@@ -1122,8 +1122,9 @@
                                                 </div>
                                                 <label class="col-md-6">Color 1: Webstore background</label>
                                                 <div class="col-md-3">
-                                                    @*<input type="text" data-bind="colorPicker:color1" />*@
-                                                    @*<span id="colorPick1" class="label" data-bind="colorpicker:color1" style="background-color: #320B0B; cursor: pointer;" onclick="">#320B0B    </span>*@
+                                                    @*<input type="text" data-bind="colorpicker:color1" />*@
+                                                    @*<input type="text" data-bind="jqColorPicker:color1" />*@
+                                                    <span id="colorPick1" class="label" style="background-color: #320B0B; cursor: pointer;">#320B0B    </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1483,9 +1484,10 @@
                                                         <option>Spring Set</option>
                                                     </select>
                                                 </div>
-                                                <a href="~/CRM/AddBanner" class="btn btn-primary pull-right">
+
+                                                <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Banner
-                                                </a>
+                                                </div>
                                                 @*Banners Grid Starts here*@
                                                 <div class="clearfix">
                                                     <div class="table-responsive">
@@ -1919,6 +1921,9 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
                                     <div class="clearfix">
                                         &nbsp;
                                     </div>
@@ -3157,18 +3162,18 @@
                                             </div>
                                         </div>
                                         @*<footer class="main-box-header pull-right">
-                                                <div id="pagerCMYKDiv">
-                                                    <ul class="pagination pull-right">
-                                                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                                        <li><a href="#">1</a></li>
-                                                        <li><a href="#">2</a></li>
-                                                        <li><a href="#">3</a></li>
-                                                        <li><a href="#">4</a></li>
-                                                        <li><a href="#">5</a></li>
-                                                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </footer>*@
+                                            <div id="pagerCMYKDiv">
+                                                <ul class="pagination pull-right">
+                                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                                                    <li><a href="#">1</a></li>
+                                                    <li><a href="#">2</a></li>
+                                                    <li><a href="#">3</a></li>
+                                                    <li><a href="#">4</a></li>
+                                                    <li><a href="#">5</a></li>
+                                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </footer>*@
                                     </div>
 
                                 </div>
@@ -3298,7 +3303,8 @@
 @Html.Partial("Widgets/_AddEditAddress")
 @Html.Partial("Widgets/_UserProfileDetails")
 @Html.Partial("Widgets/_AddEditTerritory")
-@Html.Partial("Widgets/_EditBanner")
+@Html.Partial("~/Areas/Stores/Views/Stores/_EditBanner.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("Widgets/_AddEditPaymentGateway")
@@ -3537,13 +3543,15 @@
     <script>
 
 
-        function ShowHidePopupControls(ID) {
+        function ShowHidePopupControls(ID)
+        {
 
             if ($('input:checkbox[id=switchSiteFeaturedProduct]').is(':checked')) {
 
                 $("#A1").css("display", "block");
             }
-            else {
+            else
+            {
                 $("#A1").css("display", "none");
             }
 
@@ -3608,11 +3616,13 @@
 
         function headingPFchange(id) {
 
-            if (id == "A1") {
+            if (id == "A1")
+            {
 
                 $('#headingPF').text('Featured Products Filter');
             }
-            else if (id == "A2") {
+            else if (id == "A2")
+            {
                 $('#headingPF').text('Popular Products Filter');
             }
             else if (id == "A3") {

@@ -185,7 +185,7 @@ define("stores/stores.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     _.each(data.SystemUsers, function (item) {
-                                        var systemUser = new model.SystemUser.Create(item);
+                                        var systemUser = new model.SystemUsers.Create(item);
                                         systemUsers.push(systemUser);
                                     });
                                 }
@@ -228,6 +228,13 @@ define("stores/stores.viewModel",
                         //    }
                         //}
                     },
+
+                    onCreateBanner = function () {
+                        view.showEditBannerDialog();
+                    },
+                     onAddSetBanner = function () {
+                         view.showSetBannerDialog();
+                     },
                     // Delete a Rave review
                     onDeleteRaveReview = function (raveReview) {
                         selectedStore().raveReviews.remove(raveReview);
@@ -592,13 +599,15 @@ define("stores/stores.viewModel",
                     doBeforeSaveRaveReview: doBeforeSaveRaveReview,
                     onSaveRaveReview: onSaveRaveReview,
                     templateToUseCompanyCMYKColors: templateToUseCompanyCMYKColors,
-                    selectedCompanyCMYKColor: selectedCompanyCMYKColor,
+                    selectedCompanyCMYKColor:selectedCompanyCMYKColor,
                     onCreateNewCompanyCMYKColor: onCreateNewCompanyCMYKColor,
                     onDeleteCompanyCMYKColors: onDeleteCompanyCMYKColors,
                     onEditCompanyCMYKColor: onEditCompanyCMYKColor,
                     onCloseCompanyCMYKColor: onCloseCompanyCMYKColor,
                     doBeforeSaveCompanyCMYKColor: doBeforeSaveCompanyCMYKColor,
                     onSaveCompanyCMYKColor: onSaveCompanyCMYKColor,
+                    onCreateBanner: onCreateBanner,
+                    onAddSetBanner: onAddSetBanner,
                     selectedCompanyTerritory: selectedCompanyTerritory,
                     templateToUseCompanyTerritories: templateToUseCompanyTerritories,
                     searchCompanyTerritoryFilter: searchCompanyTerritoryFilter,

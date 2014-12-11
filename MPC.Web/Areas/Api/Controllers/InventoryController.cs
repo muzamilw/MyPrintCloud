@@ -78,7 +78,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            inventoryService.DeleteInvenotry(stockItem.StockItemId);
+            //inventoryService.SaveInevntory(stockItem.CreateFrom()).CreateFrom();
         }
         #endregion
     }

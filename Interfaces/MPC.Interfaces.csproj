@@ -63,6 +63,7 @@
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
+    <Compile Include="Repository\ICampaignRepository.cs" />
     <Compile Include="Repository\IColorPalleteRepository.cs" />
     <Compile Include="Repository\ICompanyCMYKColorRepository.cs" />
     <Compile Include="Repository\IAddressRepository.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Repository\ICompanyTypeRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
+    <Compile Include="Repository\ITemplateRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />
     <Compile Include="Repository\IPrefixRepository.cs" />
     <Compile Include="Repository\IItemVdpPriceRepository.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Repository\ICompanyBannerRepository.cs" />
     <Compile Include="Repository\ICompanyBannerSetRepository.cs" />
     <Compile Include="Repository\ISystemUserRepository.cs" />
+    <Compile Include="Repository\IUserManagerRepository.cs" />
     <Compile Include="Repository\IWeightUnitRepository.cs" />
     <Compile Include="WebStoreServices\ICampaignService.cs" />
     <Compile Include="WebStoreServices\ICmsSkinPageWidgetService.cs" />
@@ -113,6 +116,7 @@
     <Compile Include="Repository\IMarkupRepository.cs" />
     <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
+    <Compile Include="WebStoreServices\IUserManagerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\MPC.Models.csproj">

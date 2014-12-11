@@ -11,7 +11,8 @@ namespace MPC.Models.DomainModels
         public bool? isDefault { get; set; }
 
         public virtual Company Company { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
+
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

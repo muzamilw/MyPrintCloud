@@ -176,7 +176,6 @@ namespace MPC.Repository.BaseRepository
         public DbSet<DiscountVoucher> DiscountVouchers { get; set; }
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public DbSet<GetItemsListView> GetItemsListViews { get; set; }
-        public DbSet<ColorPallete> ColorPalletes { get; set; }
 
         public DbSet<Address> Addesses { get; set; }
         /// <summary>
@@ -190,14 +189,14 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ItemVideo> ItemVideos { get; set; }
 
         /// <summary>
+        /// Color Pallete DbSet
+        /// </summary>
+        public DbSet<ColorPallete> ColorPalletes { get; set; }
+
+        /// <summary>
         /// Template DbSet
         /// </summary>
         public DbSet<Template> Templates { get; set; }
-
-        /// <summary>
-        /// Template Page DbSet
-        /// </summary>
-        public DbSet<TemplatePage> TemplatePages { get; set; }
 
         /// <summary>
         /// Get next id for a table
