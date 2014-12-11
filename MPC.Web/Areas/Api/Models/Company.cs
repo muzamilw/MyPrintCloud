@@ -106,8 +106,8 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public ICollection<CompanyTerritory> CompanyTerritories { get; set; }
         public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }// Maintaining List for POST call to determine new Added List Of Territories
-        public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }//
-        public ICollection<CompanyTerritory> DeletedCompanyTerritories { get; set; }//
+        public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }
+        public ICollection<CompanyTerritory> DeletedCompanyTerritories { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         /// <summary>
         /// Image Source

@@ -63,7 +63,10 @@ namespace MPC.Repository.Repositories
 
         public Company GetCompanyById(long companyId)
         {
-            return db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+            var company = db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+            company.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
+            company.Addresses = company.Addresses.Take(5).ToList();
+            return company;
         }
         /// <summary>
         /// Get Companies list for Companies List View

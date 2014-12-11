@@ -726,131 +726,6 @@
                                                                     </a>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Defauult Territory
-                                                                </td>
-                                                                <td>
-                                                                    London
-                                                                </td>
-                                                                <td>
-                                                                    T1
-                                                                </td>
-                                                                <td>
-                                                                    Yes
-                                                                </td>
-                                                                <td>
-                                                                    No
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myAddressSetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    West Region
-                                                                </td>
-                                                                <td>
-                                                                    London
-                                                                </td>
-                                                                <td>
-                                                                    T1
-                                                                </td>
-                                                                <td>
-                                                                    Yes
-                                                                </td>
-                                                                <td>
-                                                                    No
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myAddressSetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    South Region
-                                                                </td>
-                                                                <td>
-                                                                    London
-                                                                </td>
-                                                                <td>
-                                                                    T1
-                                                                </td>
-                                                                <td>
-                                                                    Yes
-                                                                </td>
-                                                                <td>
-                                                                    No
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myAddressSetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    East Region
-                                                                </td>
-                                                                <td>
-                                                                    London
-                                                                </td>
-                                                                <td>
-                                                                    T2
-                                                                </td>
-                                                                <td>
-                                                                    Yes
-                                                                </td>
-                                                                <td>
-                                                                    No
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myAddressSetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -1237,7 +1112,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-widgets">
-                                    <div class="col-md-12 form-horizontal" data-bind="with:colorPalette">
+                                    <div class="col-md-12 form-horizontal" data-bind="with: colorPalette">
 
                                         <h3 class="group-header">Color Palettes</h3>
                                         <div class="col-md-9">
@@ -1247,7 +1122,7 @@
                                                 </div>
                                                 <label class="col-md-6">Color 1: Webstore background</label>
                                                 <div class="col-md-3">
-                                                    <input type="text" data-bind="colorPicker:color1" />
+                                                    @*<input type="text" data-bind="colorPicker:color1" />*@
                                                     @*<span id="colorPick1" class="label" data-bind="colorpicker:color1" style="background-color: #320B0B; cursor: pointer;" onclick="">#320B0B    </span>*@
                                                 </div>
                                             </div>
@@ -3376,6 +3251,34 @@
                 <td data-bind="text: territoryCode"></td>
                 <td id="actionColumn" class="text-right">
                     <!-- ko template: { name: "actionsCompanyTerritoryTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>
+            </tr>
+        </script>
+        
+        <script id="actionsAddressTemplate" type="text/html">
+            <a class="table-link" data-bind="click : $root.onEditAddress">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click : $root.onDeleteAddress">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </script>
+        <script id="itemAddressTemplate" type="text/html">
+            <tr data-bind="click: $root.selectAddress, css: { selectedRow: $data === $root.selectedAddress}">
+                <td data-bind="text: addressName"></td>
+                <td data-bind="text: city"></td>
+                <td data-bind="text: territoryId"></td>
+                <td data-bind="text: isDefaultTerrorityBilling"></td>
+                <td data-bind="text: isDefaultAddress"></td>
+                <td id="actionColumn" class="text-right">
+                    <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
                 </td>
             </tr>

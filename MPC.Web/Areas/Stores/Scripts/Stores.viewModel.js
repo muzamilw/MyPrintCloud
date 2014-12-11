@@ -108,7 +108,7 @@ define("stores/stores.viewModel",
                     //Save Store
                     saveStore = function (item) {
                         var storeToSave = model.Store().convertToServerData(selectedStore());
-                        
+
                         _.each(newCompanyTerritories(), function (territory) {
                             storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
                         });
@@ -120,21 +120,21 @@ define("stores/stores.viewModel",
                         });
                         dataservice.saveStore(
                             storeToSave
-                            ,{
-                            success: function (data) {
-                                //new store adding
-                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
-                                    stores.splice(0, 0, selectedStore());
+                            , {
+                                success: function (data) {
+                                    //new store adding
+                                    if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                        stores.splice(0, 0, selectedStore());
+                                    }
+                                    //selectedStore().storeId(data.StoreId);
+                                    isStoreEditorVisible(false);
+                                    toastr.success("Successfully save.");
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Update . Error: " + response);
+                                    isStoreEditorVisible(false);
                                 }
-                                //selectedStore().storeId(data.StoreId);
-                                isStoreEditorVisible(false);
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to Update . Error: " + response);
-                                isStoreEditorVisible(false);
-                            }
-                        });
+                            });
                     },
                     //Open Store Dialog
                     openEditDialog = function () {
@@ -162,6 +162,7 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+
                     //Close Store Dialog
                     closeEditDialog = function () {
                         if (selectedStore() != undefined) {
@@ -198,7 +199,6 @@ define("stores/stores.viewModel",
                     },
 
                     // ***** RAVE REVIEW BEGIN*****//
-
                     //Selected Rave Review
                     selectedRaveReview = ko.observable(),
                     // Template Chooser For Rave Review
@@ -257,8 +257,7 @@ define("stores/stores.viewModel",
                     },
                     // ***** RAVE REVIEW END*****//
 
-                    // ***** C O M P A N Y   T E R R I T O R Y ****//
-
+                    //***** COMPANY   TERRITORY ****//
                     //Selected CompanyTerritory
                     selectedCompanyTerritory = ko.observable(),
                     //Deleted Company Territory 
@@ -270,7 +269,7 @@ define("stores/stores.viewModel",
                     //CompanyTerritory Search Filter
                     searchCompanyTerritoryFilter = ko.observable(),
                     //Search Company Territory
-                    searchCompanyTerritory  = function() {
+                    searchCompanyTerritory = function () {
                         dataservice.searchCompanyTerritory({
                             SearchFilter: searchCompanyTerritoryFilter(),
                             CompanyId: selectedStore().companyId(),
@@ -300,7 +299,7 @@ define("stores/stores.viewModel",
                                     });
                                 });
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 toastr.error("Failed To Load Company territories" + response);
                             }
                         });
@@ -364,16 +363,15 @@ define("stores/stores.viewModel",
                                     if (!match) {
                                         edittedCompanyTerritories.push(selectedCompanyTerritory());
                                     }
-                                    
+
                                 }
                             }
                             view.hideCompanyTerritoryDialog();
                         }
                     },
                     // ***** Company Territory END *****
-                    
-                    // ***** COMPANY CMYK COLOR BEGIN*****// 
 
+                    // ***** COMPANY CMYK COLOR BEGIN*****// 
                     //Selected Company CMYK Color
                     // ReSharper disable InconsistentNaming
                     selectedCompanyCMYKColor = ko.observable(),
@@ -408,30 +406,142 @@ define("stores/stores.viewModel",
                         selectedStore().companyCMYKColors.remove(companyCMYKColor);
                         return;
                     },
-            onEditCompanyCMYKColor = function (companyCMYKColor) {
-                selectedCompanyCMYKColor(companyCMYKColor);
-                view.showCompanyCMYKColorDialog();
-            },
-            onCloseCompanyCMYKColor = function () {
-                view.hideCompanyCMYKColorDialog();
-            },
-            //Do Before Save Rave Review
-            doBeforeSaveCompanyCMYKColor = function () {
-                var flag = true;
-                if (!selectedCompanyCMYKColor().isValid()) {
-                    selectedCompanyCMYKColor().errors.showAllMessages();
-                    flag = false;
-                }
-                return flag;
-            },
-            onSaveCompanyCMYKColor = function () {
-                if (doBeforeSaveCompanyCMYKColor()) {
-                    selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
-                    view.hideCompanyCMYKColorDialog();
-                }
-            },
+                    onEditCompanyCMYKColor = function (companyCMYKColor) {
+                        selectedCompanyCMYKColor(companyCMYKColor);
+                        view.showCompanyCMYKColorDialog();
+                    },
+                    onCloseCompanyCMYKColor = function () {
+                        view.hideCompanyCMYKColorDialog();
+                    },
+                    //Do Before Save Rave Review
+                    doBeforeSaveCompanyCMYKColor = function () {
+                        var flag = true;
+                        if (!selectedCompanyCMYKColor().isValid()) {
+                            selectedCompanyCMYKColor().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveCompanyCMYKColor = function () {
+                        if (doBeforeSaveCompanyCMYKColor()) {
+                            selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                            view.hideCompanyCMYKColorDialog();
+                        }
+                    },
+                    // ***** COMPANY CMYK COLOR END*****//
+                    //***** ADDRESSES ****//
+                    //Selected Address
+                    selectedAddress = ko.observable(),
+                    //Deleted Address
+                    deletedAddresses = ko.observableArray([]),
+                    edittedAddresses = ko.observableArray([]),
+                    newAddresses = ko.observableArray([]),
+                    //Address Pager
+                    addressPager = ko.observable(),
+                    //Address Search Filter
+                    searchAddressFilter = ko.observable(),
+                    //Search Address
+                    searchAddress = function () {
+                        dataservice.searchAddress({//searchCompanyTerritory
+                            SearchFilter: searchAddressFilter(),
+                            CompanyId: selectedStore().companyId(),
+                            PageSize: companyTerritoryPager().pageSize(),
+                            PageNo: companyTerritoryPager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                selectedStore().addresses.removeAll();
+                                _.each(data.Addresses, function (addressItem) {
+                                    var address = new model.Address.Create(addressItem);
+                                    selectedStore().addresses.push(address);
+                                });
+                                _.each(edittedAddresses(), function (item) {
+                                    _.each(selectedStore().addresses(), function (addressItem) {
+                                        if (item.addressId() == addressItem.addressId()) {
+                                            selectedStore().addresses.remove(addressItem);
+                                        }
+                                    });
+                                });
+                                _.each(deletedAddresses(), function (item) {
+                                    _.each(selectedStore().addresses(), function (addressItem) {
+                                        if (item.addressId() == addressItem.addressId()) {
+                                            selectedStore().addresses.remove(addressItem);
+                                        }
+                                    });
+                                });
+                            },
+                            error: function (response) {
+                                toastr.error("Failed To Load Addresses" + response);
+                            }
+                        });
+                    },
+                    //isSavingNewAddress
+                    isSavingNewAddress = ko.observable(false),
+                    // Template Chooser For Address
+                    templateToUseAddresses = function (address) {
+                        return (address === selectedAddress() ? 'editAddressTemplate' : 'itemAddressTemplate');
+                    },
+                    //Create Address
+                    onCreateNewAddress = function () {
+                        var address = new model.Address();
+                        selectedAddress(address);
+                        isSavingNewAddress(true);
+                        view.showAddressDialog();
+                    },
+                    // Delete Address
+                    onDeleteAddress = function (address) {
+                        if (address.addressId() !== undefined) {
+                            _.each(edittedAddresses(), function (item) {
+                                if (item.addressId() == address.addressId()) {
+                                    edittedAddresses.remove(address);
+                                }
+                            });
+                            deletedAddresses.push(address);
+                        }
+                        selectedStore().addresses.remove(address);
+                        return;
+                    },
+                    onEditAddress = function (address) {
+                        selectedAddress(address);
+                        isSavingNewAddress(false);
+                        view.showAddressDialog();
+                    },
+                    onCloseAddress = function () {
+                        view.hideAddressDialog();
+                        isSavingNewAddress(false);
+                    },
+                    //Do Before Save Address
+                    doBeforeSaveAddress = function () {
+                        var flag = true;
+                        if (!selectedAddress().isValid()) {
+                            selectedAddress().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveAddress = function () {
+                        if (doBeforeSaveAddress()) {
+                            if (selectedAddress().addressId() === undefined && isSavingNewAddress() === true) {
+                                selectedStore().addresses.splice(0, 0, selectedAddress());
+                                newAddresses.push(selectedAddress());
+                            } else {
+                                //pushing item in editted Addresses List
+                                if (selectedAddress().addressId() != undefined) {
+                                    var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
+                                        return (selectedAddress().addressId() === item.addressId() );
+                                    });
 
-                // ***** COMPANY CMYK COLOR END*****//
+                                    if (!match) {
+                                        edittedAddresses.push(selectedAddress());
+                                    }
+
+                                }
+                            }
+                            view.hideAddressDialog();
+                        }
+                    },
+                    // ***** Address END *****
 
             //Initialize
             // ReSharper disable once AssignToImplicitGlobalInFunctionScope
@@ -439,7 +549,8 @@ define("stores/stores.viewModel",
                 view = specifiedView;
                 ko.applyBindings(view.viewModel, view.bindingRoot);
                 pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, stores, searchCompanyTerritory));
+                addressPager(pagination.Pagination({ PageSize: 5 }, stores, searchAddress));
                 getStores();
                 getBaseData();
                 view.initializeForm();
@@ -491,7 +602,7 @@ define("stores/stores.viewModel",
                     selectedCompanyTerritory: selectedCompanyTerritory,
                     templateToUseCompanyTerritories: templateToUseCompanyTerritories,
                     searchCompanyTerritoryFilter: searchCompanyTerritoryFilter,
-                    onCreateNewCompanyTerritory: onCreateNewCompanyTerritory ,
+                    onCreateNewCompanyTerritory: onCreateNewCompanyTerritory,
                     onDeleteCompanyTerritory: onDeleteCompanyTerritory,
                     onEditCompanyTerritory: onEditCompanyTerritory,
                     onCloseCompanyTerritory: onCloseCompanyTerritory,
@@ -500,9 +611,24 @@ define("stores/stores.viewModel",
                     companyTerritoryPager: companyTerritoryPager,
                     searchCompanyTerritory: searchCompanyTerritory,
                     deletedCompanyTerritories: deletedCompanyTerritories,
-                    edittedCompanyTerritories:edittedCompanyTerritories ,
+                    edittedCompanyTerritories: edittedCompanyTerritories,
                     newCompanyTerritories: newCompanyTerritories,
                     isSavingNewCompanyTerritory: isSavingNewCompanyTerritory,
+                    selectedAddress: selectedAddress,
+                    deletedAddresses: deletedAddresses,
+                    edittedAddresses: edittedAddresses,
+                    newAddresses: newAddresses,
+                    addressPager: addressPager,
+                    searchAddressFilter: searchAddressFilter,
+                    searchAddress: searchAddress,
+                    isSavingNewAddress: isSavingNewAddress,
+                    templateToUseAddresses: templateToUseAddresses,
+                    onCreateNewAddress: onCreateNewAddress,
+                    onDeleteAddress: onDeleteAddress,
+                    onEditAddress: onEditAddress,
+                    onCloseAddress: onCloseAddress,
+                    doBeforeSaveAddress: doBeforeSaveAddress,
+                    onSaveAddress: onSaveAddress,
                     initialize: initialize
                 };
             })()
