@@ -122,17 +122,21 @@ namespace MPC.Webstore.Controllers
                     //SessionParameters.LoginContact.ContactId = contact.ContactId;
                     //SessionParameters.LoginCompany = _myCompanyService.GetCompanyByCompanyID(contact.CompanyId);
                     //SessionParameters.LoginContact = _myCompanyService.GetContactByID(contact.ContactId);
+                    MPC.Models.DomainModels.Company company = _myCompanyService.GetCompanyByCompanyID(CompanyID);
+                    MPC.Models.DomainModels.CompanyContact companyContact = _myCompanyService.GetContactByID(contact.ContactId);
 
-                    //Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration);
-                    //// work for email to sale manager
-                    //isContactCreate = true;
+                    Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration);
 
-                    //cep.SalesManagerContactID =  SessionParameters.LoginContact.ContactId; // this is only dummy data these variables replaced with organization values 
-                    //cep.StoreID = SessionParameters.LoginCompany.OrganisationId ?? 0;
-                    //cep.AddressID = SessionParameters.LoginCompany.CompanyId;
+                    // work for email to sale manager
+                    isContactCreate = true;
 
-                    //SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(SessionParameters.LoginCompany.OrganisationId));
-                    //emailmgr.emailBodyGenerator(RegistrationCampaign, SessionParameters.CompanySite, cep, SessionParameters.CustomerContact, StoreMode.Retail, "", "", "", EmailOFSM.Email, "", "", null, "");
+                    cep.SalesManagerContactID = companyContact.ContactId; // this is only dummy data these variables replaced with organization values 
+                    cep.StoreID = company.OrganisationId ?? 0;
+                    cep.AddressID = company.CompanyId;
+
+                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
+
+                   // emailmgr.emailBodyGenerator(RegistrationCampaign, SessionParameters.CompanySite, cep, SessionParameters.CustomerContact, StoreMode.Retail, "", "", "", EmailOFSM.Email, "", "", null, "");
                     //emailmgr.SendEmailToSalesManager((int)EmailEvents.NewRegistrationToSalesManager, CurrentUser.ContactID, CurrentUser.ContactCompanyID, 0, 0, SessionParameters.CompanySite, 0, 0, StoreMode.Retail);
                    // SetFormAuthDetails();
                    // PostLoginCustomerAndCardChanges(out replacedWithOrderID);
