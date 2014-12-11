@@ -12,7 +12,7 @@ using System;
 
 namespace MPC.Implementation.WebStoreServices
 {
-    public class CompanyService : ICompanyService   
+    public class CompanyService : ICompanyService
     {
         #region Private
 
@@ -21,12 +21,14 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public readonly ICompanyRepository _CompanyRepository;
         public readonly ICompanyContactRepository _CompanyContactRepository;
-    
+
         private readonly ICmsSkinPageWidgetRepository _widgetRepository;
         private readonly ICompanyBannerRepository _companyBannerRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly ICmsPageRepository _cmsPageRepositary;
         private readonly IPageCategoryRepository _pageCategoryRepositary;
+        private readonly ICurrencyRepository _currencyRepository;
+        private readonly IGlobalLanguageRepository _globalLanguageRepository;
         #endregion
 
         #region Constructor
@@ -36,7 +38,8 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
-            IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository)
+            IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
+            , IGlobalLanguageRepository globalLanguageRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -45,6 +48,8 @@ namespace MPC.Implementation.WebStoreServices
             this._cmsPageRepositary = cmspageRepository;
             this._pageCategoryRepositary = pageCategoryRepository;
             this._CompanyContactRepository = companyContactRepository;
+            this._currencyRepository = currencyRepository;
+            this._globalLanguageRepository = globalLanguageRepository;
         }
 
         #endregion
@@ -52,52 +57,88 @@ namespace MPC.Implementation.WebStoreServices
 
         #region Public
         /// <summary>
-        /// Resolves the Company/Store by the domain provided
+        /// Resolves the Company/Stores by the companyid and organizationid
         /// </summary>
         /// <param name="domain"></param>
         /// <returns></returns>
 
-        public MyCompanyDomainBaseReponse GetBaseData(long companyId)
+        public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
+            Company oCompany = GetCompanyByCompanyID(companyId);
+
             string CacheKeyName = "CompanyBaseResponse";
-             ObjectCache cache = MemoryCache.Default;
+            ObjectCache cache = MemoryCache.Default;
+            CacheItemPolicy policy = null;
 
-             MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
 
-            if (responseObject == null)
+            policy = new CacheItemPolicy();
+            policy.Priority = CacheItemPriority.NotRemovable;
+            policy.SlidingExpiration =
+                TimeSpan.FromMinutes(5);
+            policy.RemovedCallback = null;
+
+            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
+
+            if (stores == null)
             {
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId); 
+
+                stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+
+                MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(oCompany.CompanyId);
+
+                oStore = new MyCompanyDomainBaseReponse();
+                oStore.Company = oCompany;
+                oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
+                oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
+                oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                //oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+
+                stores.Add(oCompany.CompanyId, oStore);
 
 
-                responseObject = new MyCompanyDomainBaseReponse();
-                responseObject.Company = _CompanyRepository.GetCompanyById(companyId);
-                responseObject.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(companyId);
-                responseObject.Banners = _companyBannerRepository.GetCompanyBannersById(companyId);
-                responseObject.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
-                responseObject.SecondaryPages = AllPages.Where(s => s.CompanyId == companyId).ToList();
-                responseObject.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-             
-                CacheItemPolicy policy = null;
-                CacheEntryRemovedCallback callback = null;
 
-                policy = new CacheItemPolicy();
-                policy.Priority = CacheItemPriority.NotRemovable;
-                policy.SlidingExpiration =
-                    TimeSpan.FromMinutes(5);
-                policy.RemovedCallback = callback;
-                cache.Set(CacheKeyName, responseObject, policy);
-                return responseObject;
+
+                cache.Set(CacheKeyName, stores, policy);
+                return stores[oCompany.CompanyId];
             }
-            else
+            else // there are some stores already in cache.
             {
-                return responseObject;
+
+                if (!stores.ContainsKey(oCompany.CompanyId))
+                {
+                    MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+
+                    List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(oCompany.CompanyId);
+
+                    oStore = new MyCompanyDomainBaseReponse();
+                    oStore.Company = oCompany;
+                    oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                    oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
+                    oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
+                    oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                    oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                    //oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+
+                    stores.Add(oCompany.CompanyId, oStore);
+                    cache.Set(CacheKeyName, stores, policy);
+                    return stores[oCompany.CompanyId];
+                }
+                else
+                {
+                    return stores[oCompany.CompanyId];
+                }
             }
-        } 
-        public long GetCompanyIdByDomain(string domain)
-        {
-            return _CompanyRepository.GetCompanyIdByDomain(domain);
         }
-       
+
+        public long GetStoreIdFromDomain(string domain)
+        {
+            return _CompanyRepository.GetStoreIdFromDomain(domain);
+        }
+
         public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
         {
             return _productCategoryRepository.GetParentCategoriesByTerritory(companyId);
@@ -124,10 +165,8 @@ namespace MPC.Implementation.WebStoreServices
 
         public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
         {
-            return _CompanyContactRepository.CreateContact(Contact,Name,OrganizationID,CustomerType,TwitterScreanName);
+            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName);
         }
-
-       
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
@@ -138,6 +177,13 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactByID(ContactID);
         }
+
+        //public string GetUiCulture(long organisationId)
+        //{
+        //    return _globalLanguageRepository.GetLanguageCodeById(organisationId);
+
+        //}
+
         #endregion
     }
 }

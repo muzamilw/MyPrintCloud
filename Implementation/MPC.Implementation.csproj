@@ -148,6 +148,8 @@
     <Compile Include="WebStoreServices\CompanyBannerService.cs" />
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
+    <Compile Include="WebStoreServices\WebstoreClaimsHelperService.cs" />
+    <Compile Include="WebStoreServices\WebstoreClaimsSecurityService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExceptionHandling\MPC.ExceptionHandling.csproj">

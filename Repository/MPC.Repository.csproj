@@ -182,7 +182,9 @@
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
     <Compile Include="Repositories\CompanyTypeRepository.cs" />
+    <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
+    <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\PrefixRepository.cs" />
     <Compile Include="Repositories\ItemVdpPriceRepository.cs" />
     <Compile Include="Repositories\LengthUnitRepository.cs" />

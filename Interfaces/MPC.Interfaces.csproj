@@ -67,7 +67,9 @@
     <Compile Include="Repository\IAddressRepository.cs" />
     <Compile Include="Repository\ICompanyContactRepository.cs" />
     <Compile Include="Repository\ICompanyTypeRepository.cs" />
+    <Compile Include="Repository\ICurrencyRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
+    <Compile Include="Repository\IGlobalLanguageRepository.cs" />
     <Compile Include="Repository\IPrefixRepository.cs" />
     <Compile Include="Repository\IItemVdpPriceRepository.cs" />
     <Compile Include="Repository\ILengthUnitRepository.cs" />
@@ -109,6 +111,8 @@
     <Compile Include="Repository\IMarkupRepository.cs" />
     <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
+    <Compile Include="WebStoreServices\IWebstoreClaimsHelperService.cs" />
+    <Compile Include="WebStoreServices\IWebstoreClaimsSecurityService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\MPC.Models.csproj">

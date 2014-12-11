@@ -12,8 +12,8 @@ namespace MPC.Interfaces.WebStoreServices
     public interface ICompanyService
     {
 
-        MyCompanyDomainBaseReponse GetBaseData(long companyId);
-        long GetCompanyIdByDomain(string domain);
+        MyCompanyDomainBaseReponse GetStoreFromCache(long companyId);
+        long GetStoreIdFromDomain(string domain);
         List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetContactUser(string email, string password);
@@ -27,8 +27,7 @@ namespace MPC.Interfaces.WebStoreServices
         Company GetCompanyByCompanyID(Int64 companyID);
 
         CompanyContact GetContactByID(Int64 contactID);
-        //List<CmsPage> GetSecondaryPages(long companyId);
 
-        //List<PageCategory> GetSecondaryPageCategories();
+       // string GetUiCulture(long organisationId);
     }
 }
