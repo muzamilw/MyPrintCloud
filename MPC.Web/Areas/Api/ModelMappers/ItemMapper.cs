@@ -46,7 +46,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescription2 = source.JobDescription2,
                 JobDescriptionTitle3 = source.JobDescriptionTitle3,
                 JobDescription3 = source.JobDescription3,
-                JobDescriptionTitle4= source.JobDescriptionTitle4,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
                 JobDescription4 = source.JobDescription4,
                 JobDescriptionTitle5 = source.JobDescriptionTitle5,
                 JobDescription5 = source.JobDescription5,

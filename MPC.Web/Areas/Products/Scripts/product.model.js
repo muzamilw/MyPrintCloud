@@ -163,7 +163,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // On Select Related Item
             onSelectRelatedItem = function (relatedItem) {
-                var relatedProduct = itemRelatedItems.find(function(item) {
+                var relatedProduct = itemRelatedItems.find(function (item) {
                     return item.relatedItemId() == relatedItem.relatedItemId();
                 });
 
@@ -174,7 +174,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         RelatedItemName: relatedItem.relatedItemName()
                     }));
                 }
-                
+
                 if (callbacks && callbacks.onSelectRelatedItem && typeof callbacks.onSelectRelatedItem === "function") {
                     callbacks.onSelectRelatedItem();
                 }
@@ -567,8 +567,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.IsStockControl, source.IsVdpProduct, source.XeroAccessCode, source.WebDescription, source.ProductSpecification, source.TipsAndHints,
             source.MetaTitle, source.MetaDescription, source.MetaKeywords, source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
-            source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7, 
-            source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9, 
+            source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
+            source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
             source.JobDescriptionTitle10, source.JobDescription10, callbacks);
 
         // Map Item Vdp Prices if any

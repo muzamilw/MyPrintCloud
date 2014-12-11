@@ -34,8 +34,8 @@ define("product/product.viewModel",
                     // Active Product
                     selectedProduct = ko.observable(),
                     // Page Header 
-                    pageHeader = ko.computed(function() {
-                        return selectedProduct() && selectedProduct().productName() ? selectedProduct().productName() : 'Products';    
+                    pageHeader = ko.computed(function () {
+                        return selectedProduct() && selectedProduct().productName() ? selectedProduct().productName() : 'Products';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
@@ -64,10 +64,10 @@ define("product/product.viewModel",
                     }),
                     // Item Actions
                     itemActions = {
-                        onSaveVideo: function() {
+                        onSaveVideo: function () {
                             closeVideoDialog();
                         },
-                        onSelectRelatedItem: function() {
+                        onSelectRelatedItem: function () {
                             closeRelatedItemDialog();
                         }
                     },
@@ -122,7 +122,7 @@ define("product/product.viewModel",
                     },
                     // On Archive
                     onArchiveProduct = function (item) {
-                        confirmation.afterProceed(function() {
+                        confirmation.afterProceed(function () {
                             archiveProduct(item.id());
                         });
                         confirmation.show();
@@ -132,22 +132,22 @@ define("product/product.viewModel",
                     // Added Video Counter
                     videoCounter = -1,
                     // Reset Video Counter
-                    resetVideoCounter = function() {
+                    resetVideoCounter = function () {
                         videoCounter = -1;
                     },
                     // On Add Video
-                    onAddVideo = function() {
+                    onAddVideo = function () {
                         // Open Video Dialog  
                         openVideoDialog();
                         activeVideo(model.ItemVideo.Create({ VideoId: 0, ItemId: selectedProduct().id() }));
                     },
-                    onEditVideo = function(itemVideo) {
+                    onEditVideo = function (itemVideo) {
                         // Open Video Dialog  
                         openVideoDialog();
                         activeVideo(itemVideo);
                     },
                     // Save Video
-                    saveVideo = function() {
+                    saveVideo = function () {
                         if (activeVideo().id() === 0) { // Add
                             activeVideo().id(videoCounter);
                             selectedProduct().addVideo(activeVideo());
@@ -157,13 +157,13 @@ define("product/product.viewModel",
                         closeVideoDialog();
                     },
                     // Open Video Dialog
-                    openVideoDialog = function() {
+                    openVideoDialog = function () {
                         // Reset Current Video Item
-                        activeVideo(model.ItemVideo.Create({ }));
+                        activeVideo(model.ItemVideo.Create({}));
                         view.showVideoDialog();
                     },
                     // Close Video Dialog
-                    closeVideoDialog = function() {
+                    closeVideoDialog = function () {
                         view.hideVideoDialog();
                     },
                     // On Add Related Item
@@ -273,8 +273,8 @@ define("product/product.viewModel",
                         return flag;
                     },
                     // Get Item From List
-                    getItemFromList = function(id) {
-                        return products.find(function(item) {
+                    getItemFromList = function (id) {
+                        return products.find(function (item) {
                             return item.id() === id;
                         });
                     },
@@ -299,7 +299,7 @@ define("product/product.viewModel",
                                         item.isPublished(data.IsPublished);
                                     }
                                 }
-                                
+
                                 toastr.success("Saved Successfully.");
 
                                 if (callback && typeof callback === "function") {

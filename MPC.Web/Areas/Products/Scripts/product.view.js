@@ -14,7 +14,7 @@ define("product/product.view",
                 // Binding root used with knockout
                 bindingRoot = $("#productBinding")[0],
                 // Change View - List/Grid View
-                changeView = function(element) {
+                changeView = function (element) {
                     var elementId = element.currentTarget.id;
                     if (elementId === "listViewIcon") {
                         if (viewModel.isListViewVisible()) {

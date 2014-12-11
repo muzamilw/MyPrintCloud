@@ -28,6 +28,15 @@ namespace MPC.Webstore.ModelMappers
             };
         }
 
+        public static ApiResponse.MyCompanyDomainBaseResponse CreateFromCompany(this DomainResponse.MyCompanyDomainBaseReponse source)
+        {
+            return new ApiResponse.MyCompanyDomainBaseResponse
+            {
+                Company = source.Company.CreateFrom()
+            };
+        }
+
+
         public static ApiResponse.MyCompanyDomainBaseResponse CreateFromWiget(this DomainResponse.MyCompanyDomainBaseReponse source)
         {
             return new ApiResponse.MyCompanyDomainBaseResponse

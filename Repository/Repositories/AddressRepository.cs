@@ -2,7 +2,12 @@
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MPC.Repository.Repositories
 {
@@ -22,6 +27,11 @@ namespace MPC.Repository.Repositories
             {
                 return db.Addesses;
             }
+        }
+
+        public List<Address>  GetAddressesByTerritoryID(Int64 TerritoryID)
+        {
+            return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
         }
     }
 }

@@ -104,6 +104,8 @@
   <ItemGroup>
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
+    <Compile Include="Common\CampaignEmailParams.cs" />
+    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\ItemByColumn.cs" />
     <Compile Include="Common\CompanyByColumn.cs" />
     <Compile Include="Common\InventoryByColumn.cs" />
@@ -149,7 +151,6 @@
     <Compile Include="DomainModels\Item.cs" />
     <Compile Include="DomainModels\ItemAddonCostCentre.cs" />
     <Compile Include="DomainModels\ItemAttachment.cs" />
-    <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\ItemImage.cs" />
     <Compile Include="DomainModels\ItemPriceMatrix.cs" />
     <Compile Include="DomainModels\ItemProductDetail.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="DomainModels\ItemStockControl.cs" />
     <Compile Include="DomainModels\ItemStockOption.cs" />
     <Compile Include="DomainModels\ItemVDPPrice.cs" />
+    <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\LengthUnit.cs" />
     <Compile Include="DomainModels\Prefix.cs" />
     <Compile Include="DomainModels\PageCategory.cs" />
@@ -205,6 +207,7 @@
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
+    <Compile Include="ModelMappers\TemplateMapper.cs" />
     <Compile Include="ModelMappers\ItemVdpPriceMapper.cs" />
     <Compile Include="ModelMappers\ItemMapper.cs" />
     <Compile Include="ModelMappers\ItemMapperActions.cs" />

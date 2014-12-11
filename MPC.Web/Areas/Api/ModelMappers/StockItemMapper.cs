@@ -26,6 +26,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WeightUnits = source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList(),
                 LengthUnits = source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList(),
                 PaperBasisAreas = source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList(),
+                RegistrationQuestions = source.RegistrationQuestions.Select(q => q.CreateFromDropDown()),
             };
         }
 
