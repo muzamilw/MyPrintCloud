@@ -55,24 +55,25 @@ namespace MPC.Webstore.Controllers
 
             if (ModelState.IsValid)
             {
+                string isSocial = Request.Form["hfIsSocial"];
                 if (_myCompanyService.GetContactByEmail(model.Email) != null)
                 {
                    ViewBag.Message = string.Format("You indicated you are a new customer, but an account already exists with the e-mail {0}", model.Email);
                     return View();
                 }
-                //else if (hfisRegWithTwitter.Value == "1")
-                //{
-                //    if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
-                //    {
-                //        ViewBag.Message = string.Format("You indicated you are a new customer, but an account already exists with the e-mail {0}", txtEmail.Text);
-                //        return View();
-                //    }
-                //    else
-                //    {
-                //        SetRegisterCustomer(model);
-
-                //    }
-                //}
+                else if (isSocial == "1")
+                {
+                    if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+                    {
+                        ViewBag.Message = string.Format("You indicated you are a new customer, but an account already exists with the e-mail {0}",model.Email);
+                        return View();
+                    }
+                    else
+                    {
+                        SetRegisterCustomer(model);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
                 else
                 {
                     SetRegisterCustomer(model);

@@ -11,7 +11,7 @@ define("product/product.dataservice", function () {
             initialize = function () {
                 if (!isInitialized) {
 
-                    
+
                     // Define request to get items
                     amplify.request.define('getItems', 'ajax', {
                         url: ist.siteUrl + '/Api/Item',

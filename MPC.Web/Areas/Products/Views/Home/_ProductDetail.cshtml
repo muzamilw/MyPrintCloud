@@ -406,7 +406,7 @@
                                 </div>
 
                             </div>
-                            
+
                             <div class="tab-pane fade" id="tab-ProductDetailSection">
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Detail Page and Section</h3>
@@ -3735,7 +3735,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtZeroAccessCode" placeholder="Xero Access Code">
+                                                <input type="text" class="form-control" id="txtZeroAccessCode" placeholder="Xero Access Code" data-bind="value: xeroAccessCode">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -3779,19 +3779,7 @@
 
                                                             <div class="col-lg-12 Internal-Tab-Height">
 
-                                                                <textarea class="form-control textAreaHeight" id="txtareaProdSpec" rows="5">
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-                                                                    • Order before 2pm for next day shipping
-                                                                    • Free Delivery
-                                                                    • 1000s of Free Images and Layouts
-
-                                                                    Call us for other quantities and finishing options.
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-                                                                </textarea>
+                                                                <textarea class="form-control textAreaHeight" id="txtareaProdSpec" rows="5" data-bind="value: webDescription"></textarea>
 
                                                             </div>
                                                         </div>
@@ -3802,36 +3790,7 @@
 
                                                             <div class="col-lg-12 Internal-Tab-Height">
 
-                                                                <textarea class="form-control textAreaHeight" id="txtMarketintips" rows="5">
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-
-                                                                    • Order before 2pm for next day shipping
-                                                                    • Free Delivery
-                                                                    • 1000s of Free Images and Layouts
-
-                                                                    Call us for other quantities and finishing options.
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-
-                                                                    • Order before 2pm for next day shipping
-
-                                                                    • Free Delivery
-                                                                    • 1000s of Free Images and Layouts
-
-                                                                    Call us for other quantities and finishing options.
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-
-                                                                    • Order before 2pm for next day shipping
-                                                                    • Free Delivery
-                                                                    • 1000s of Free Images and Layouts
-
-                                                                    Call us for other quantities and finishing options.
-                                                                </textarea>
+                                                                <textarea class="form-control textAreaHeight" id="txtMarketintips" rows="5" data-bind="value: productSpecification"></textarea>
 
 
 
@@ -3845,36 +3804,7 @@
 
                                                             <div class="col-lg-12 Internal-Tab-Height">
 
-                                                                <textarea class="form-control textAreaHeight" id="txtMoreIdeas" rows="5">
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-
-                                                                    • Order before 2pm for next day shipping
-                                                                    • Free Delivery
-                                                                    • 1000s of Free Images and Layouts
-
-                                                                    Call us for other quantities and finishing options.
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-
-                                                                    • Order before 2pm for next day shipping
-
-                                                                    • Free Delivery
-                                                                    • 1000s of Free Images and Layouts
-
-                                                                    Call us for other quantities and finishing options.
-                                                                    • 85mm x 55 mm
-                                                                    • Premium 350 gsm board
-                                                                    • Full colour print on both sides
-
-                                                                    • Order before 2pm for next day shipping
-                                                                    • Free Delivery
-                                                                    • 1000s of Free Images and Layouts
-
-                                                                    Call us for other quantities and finishing options.
-                                                                </textarea>
+                                                                <textarea class="form-control textAreaHeight" id="txtMoreIdeas" rows="5" data-bind="value: tipsAndHints"></textarea>
 
 
 
@@ -3898,113 +3828,20 @@
 
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <img src="~/Content/themes/Centaurus/img/youtube-grey.png" style="border: 1px solid lightgray;" />
                                                                     <div class="col-lg-12" style="padding:0px;">
                                                                         <div class="col-xs-6" style="padding:0px;">
-                                                                            <a data-toggle="modal" style="margin-top:5px;" onclick="AddNewVideo();" href="#ProductVideo" class="btn btn-primary">
-                                                                                <i class="fa fa-plus fa-lg"></i>&nbsp;Add
+                                                                            <a style="margin-top:5px;" class="btn btn-primary" data-bind="click: $root.onAddVideo">
+                                                                                <i class="fa fa-plus-circle fa-lg"></i>
                                                                             </a>
                                                                         </div>
-                                                                        @*  <div class="col-xs-6">
-                                                                                       <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
-                                                                                <i class="fa fa-lg"></i>&nbsp;Remove
-                                                                            </a>
-                                                                                 </div>*@
                                                                     </div>
 
                                                                 </div>
                                                             </div>
                                                             <div id="OuterVidDiv">
-                                                                <div id="Vid1" style="display:none;">
-                                                                    <div class="form-group">
-                                                                        <div class="col-lg-3 text-right">
-                                                                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Meta Title" data-original-title="" title="">
-                                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                                </a>
-
-                                                                            </div>
-
-                                                                            <label for="txtMetaTitle" class="control-label text-right tooltip-float">Product Video 1</label>
-
-                                                                        </div>
-                                                                        <div class="col-lg-6">
-                                                                            <img src="~/Content/themes/Centaurus/img/youtube-grey.png" style="border: 1px solid lightgray;" />
-                                                                            <div class="col-lg-12" style="padding:0px;">
-                                                                                <div class="col-xs-3" style="padding:0px;">
-                                                                                    <a data-toggle="modal" style="margin-top:5px;" onclick="" href="#ProductVideo" class="btn btn-primary">
-                                                                                        <i class="fa fa-lg"></i>&nbsp;Edit
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="col-xs-3" style="padding:0px;">
-                                                                                    <a style="margin-top: 5px;margin-right: 35px;" onclick="RemoveVideo();" class="btn btn-primary pull-right">
-                                                                                        <i class="fa fa-lg"></i>&nbsp;Delete
-                                                                                    </a>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-
-                                                                <div id="Vid2" style="display:none;">
-                                                                    <div class="form-group">
-                                                                        <div class="col-lg-3 text-right">
-                                                                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Meta Title" data-original-title="" title="">
-                                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                                </a>
-
-                                                                            </div>
-
-                                                                            <label for="txtMetaTitle" class="control-label text-right tooltip-float">Product Video 2</label>
-
-                                                                        </div>
-                                                                        <div class="col-lg-6">
-                                                                            <img src="~/Content/themes/Centaurus/img/youtube-grey.png" style="border: 1px solid lightgray;" />
-                                                                            <div class="col-lg-12" style="padding:0px;">
-                                                                                <div class="col-xs-3" style="padding:0px;">
-                                                                                    <a data-toggle="modal" style="margin-top:5px;" onclick="" href="#ProductVideo" class="btn btn-primary">
-                                                                                        <i class="fa fa-plus fa-lg"></i>&nbsp;Edit
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="col-xs-3" style="padding:0px;">
-                                                                                    <a onclick="RemoveVideo();" style="margin-top: 5px;margin-right: 35px;" class="btn btn-primary pull-right">
-                                                                                        <i class="fa fa-lg"></i>&nbsp;Delete
-                                                                                    </a>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
+                                                                <!-- ko template: { name: 'itemVideoTemplate', foreach: itemVideos } -->
+                                                                <!-- /ko -->
                                                             </div>
-                                                            @* <div class="col-lg-12 Internal-Tab-Height">
-
-
-
-                                                                                                                 <textarea class="form-control textarea-width textAreaHeight" id="txtProductVideos" rows="5">
-                                                                Business cards should be a conversation starter.
-                                                                Don't let your visiting cards let you down when it's so easy to make a great first impression.
-
-                                                                FULL COLOUR BUSINESS CARD PRINTING THAT'S FAST,
-                                                                EASY & AFFORDABLE
-
-                                                                Quality Business Cards (85 x 55mm)
-                                                                Printed on 400gsm quality board.
-
-                                                                Personalise with your details or Upload your own design.
-                                                                Matching Sets - Find similar design concepts for Greetings Cards, Postcards and Calendars.
-                                                                                                                 </textarea>
-
-
-
-                                                                                                    </div>*@
                                                         </div>
 
                                                     </div>
@@ -4025,7 +3862,7 @@
 
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Meta Title">
+                                                                    <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Meta Title" data-bind="value: metaTitle">
                                                                     <span class="help-block text-right"></span>
                                                                 </div>
                                                             </div>
@@ -4044,7 +3881,7 @@
 
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <textarea class="form-control" id="txtMetaDescription" placeholder="Enter Meta Discription" rows="4"></textarea>
+                                                                    <textarea class="form-control" id="txtMetaDescription" placeholder="Enter Meta Discription" rows="4" data-bind="value: metaDescription"></textarea>
                                                                     <span class="help-block text-right"></span>
                                                                 </div>
                                                             </div>
@@ -4063,7 +3900,7 @@
 
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <textarea class="form-control" id="txtMetakeywords" placeholder="Enter Meta Keywords" rows="3"></textarea>
+                                                                    <textarea class="form-control" id="txtMetakeywords" placeholder="Enter Meta Keywords" rows="3" data-bind="value: metaKeywords"></textarea>
                                                                     <span class="help-block text-right"></span>
                                                                 </div>
                                                             </div>
@@ -4077,26 +3914,26 @@
 
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle1" placeholder="Enter Title 1">
+                                                                    <input type="text" class="form-control" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1" />
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-6">
 
-                                                                    <textarea class="form-control" onclick="VisiblePhraseLibrary(1);" id="txtDescription1" placeholder="Enter Description 1" style="width:91%;float:left;" rows="3"></textarea>
-                                                                    <a data-toggle="modal" id="P1" style="display:none;" href="#PhraseModel" class="btn btn-primary pull-right">
+                                                                    <textarea class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" style="width:91%;float:left;" rows="3"></textarea>
+                                                                    <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1'" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle2" placeholder="Enter Title 2">
+                                                                    <input type="text" class="form-control" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
 
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <textarea class="form-control" onclick="VisiblePhraseLibrary(2);" id="txtDescription2" placeholder="Enter Description 2" style="width:91%;float:left;" rows="3"></textarea>
-                                                                    <a data-toggle="modal" id="P2" href="#PhraseModel" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <textarea class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" style="width:91%;float:left;" rows="3"></textarea>
+                                                                    <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2'" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                                     </a>
                                                                     <span class="help-block text-right"></span>
@@ -4104,28 +3941,13 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle3" placeholder="Enter Title 3">
+                                                                    <input type="text" class="form-control" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <textarea class="form-control" onclick="VisiblePhraseLibrary(3);" id="txtDescription3" placeholder="Enter Description 3" style="width:91%;float:left;" rows="3"></textarea>
+                                                                    <textarea class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a data-toggle="modal" id="P3" href="#PhraseModel" style="display:none;" class="btn btn-primary pull-right">
-                                                                        <i class="fa fa-lg"></i>&nbsp;....
-
-                                                                    </a>
-                                                                    <span class="help-block text-right"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle4" placeholder="Enter Title 4">
-                                                                    <span class="label label-circle-question"></span>
-                                                                </div>
-                                                                <div class="col-lg-6">
-                                                                    <textarea class="form-control" onclick="VisiblePhraseLibrary(4);" id="txtDescription4" placeholder="Enter Description 4" style="width:91%;float:left;" rows="3"></textarea>
-
-                                                                    <a data-toggle="modal" id="P4" href="#PhraseModel" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3'" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
 
                                                                     </a>
@@ -4134,13 +3956,13 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle5" placeholder="Enter Title 5">
+                                                                    <input type="text" class="form-control" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <textarea class="form-control" onclick="VisiblePhraseLibrary(5);" id="txtDescription5" placeholder="Enter Description 5" style="width:91%;float:left;" rows="3"></textarea>
+                                                                    <textarea class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a data-toggle="modal" id="P5" href="#PhraseModel" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4'" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
 
                                                                     </a>
@@ -4149,13 +3971,13 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle6" placeholder="Enter Title 6">
+                                                                    <input type="text" class="form-control" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <textarea class="form-control" onclick="VisiblePhraseLibrary(6);" id="txtDescription6" placeholder="Enter Description 6" style="width:91%;float:left;" rows="3"></textarea>
+                                                                    <textarea class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a data-toggle="modal" id="P6" href="#PhraseModel" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5'" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
 
                                                                     </a>
@@ -4164,13 +3986,28 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-3 text-right">
-                                                                    <input type="text" class="form-control" id="txtTitle7" placeholder="Enter Title 7">
+                                                                    <input type="text" class="form-control" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
                                                                 <div class="col-lg-6">
-                                                                    <textarea class="form-control" onclick="VisiblePhraseLibrary(7);" id="txtDescription7" placeholder="Enter Description 7" style="width:91%;float:left;" rows="3"></textarea>
+                                                                    <textarea class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a data-toggle="modal" id="P7" href="#PhraseModel" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6'" style="display:none;" class="btn btn-primary pull-right">
+                                                                        <i class="fa fa-lg"></i>&nbsp;....
+
+                                                                    </a>
+                                                                    <span class="help-block text-right"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-lg-3 text-right">
+                                                                    <input type="text" class="form-control" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
+                                                                    <span class="label label-circle-question"></span>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <textarea class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" style="width:91%;float:left;" rows="3"></textarea>
+
+                                                                    <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7'" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                                     </a>
 
@@ -4197,7 +4034,7 @@
                                             <header class="clearfix">
                                                 <div class="filter-block pull-right">
 
-                                                    <a href="#" class="btn btn-primary pull-right">
+                                                    <a class="btn btn-primary pull-right" data-bind="click: $root.onAddRelatedItem">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
                                                     </a>
                                                 </div>
@@ -4213,73 +4050,14 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    Single Sided A4
-                                                                </td>
-
-                                                                <td class="text-right">
-
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Double Sided A4
-                                                                </td>
-
-                                                                <td class="text-right">
-
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Expo Pack 2
-                                                                </td>
-
-                                                                <td class="text-right">
-
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Popup Counter
-                                                                </td>
-
-                                                                <td class="text-right">
-
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
+                                                            <!-- ko template: { name: 'itemRelatedItemTemplate', foreach: itemRelatedItems } -->
+                                                            <!-- /ko -->
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
 
                                         </div>
-
 
                                     </div>
 
@@ -4913,6 +4691,62 @@
             </td>
         </tr>
     </script>
+
+    @* Item Video Template *@
+    <script type="text/html" id="itemVideoTemplate">
+        <div>
+            <div class="form-group">
+                <div class="col-lg-3 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+
+                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Meta Title" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+
+                    </div>
+
+                    <label for="txtMetaTitle" class="control-label text-right tooltip-float" data-bind="text: caption"></label>
+
+                </div>
+                <div class="col-lg-6">
+                    <img src="@Url.Content("~/Content/themes/Centaurus/img/youtube-grey.png")" style="border: 1px solid lightgray;" />
+                    <div class="col-lg-12" style="padding:0px;">
+                        <div class="col-xs-2" style="padding:0px;">
+                            <a style="margin-top:5px;" data-bind="click: $root.onEditVideo" class="btn btn-primary">
+                                <i class="fa fa-pencil fa-inverse"></i>
+                            </a>
+                        </div>
+                        <div class="col-xs-1" style="padding:0px;">
+                            <a style="margin-top: 5px;margin-right: 35px;" data-bind="click: $parent.removeItemVideo" class="btn btn-warning pull-right">
+                                <i class="fa fa-trash-o fa-inverse"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </script>
+
+    @* Item Related Item Template *@
+    <script id="itemRelatedItemTemplate" type="text/html">
+        <tr>
+            <td data-bind="text: relatedItemName"></td>
+            <td class="text-right">
+                <a href="#" class="table-link danger" data-bind="click: $parent.removeItemRelatedItem.bind($data)">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </script>
+
+    @Html.Partial("_AddVideo")
+    @Html.Partial("_RelatedProductDialog")
 
 </div>
 @*@Html.Partial("Product/_SelectStock")
