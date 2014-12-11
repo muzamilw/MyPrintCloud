@@ -8,14 +8,14 @@
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="pull-left"><h4 class="modal-title">Edit Banner</h4></div>
+                <div class="pull-left"><h4 class="modal-title">Banner Detail</h4></div>
                 <div class="pull-right">
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveBanner">Save</button>
                 </div>
             </div>
 
-            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+            <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with:$root.selectedCompanyBanner">
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -84,7 +84,7 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtBannerHead">
+                        <input type="text" class="form-control" id="txtBannerHead" data-bind="value:heading">
                     </div>
 
                 </div>
@@ -105,7 +105,7 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtdesc">
+                        <input type="text" class="form-control" id="txtdesc" data-bind="value:description">
                     </div>
 
                 </div>
@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtItemUrl">
+                        <input type="text" class="form-control" id="txtItemUrl" data-bind="value:itemURL">
                     </div>
 
                 </div>
@@ -147,7 +147,7 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtBtnUrl">
+                        <input type="text" class="form-control" id="txtBtnUrl" data-bind="value:buttonURL">
                     </div>
 
                 </div>

@@ -266,6 +266,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemVideoMapper.cs" />
@@ -277,6 +279,8 @@
     <Compile Include="Areas\Api\ModelMappers\RaveReviewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\Address.cs" />
+    <Compile Include="Areas\Api\Models\CompanyBanner.cs" />
+    <Compile Include="Areas\Api\Models\CompanyBannerSet.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
