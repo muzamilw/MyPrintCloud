@@ -13,14 +13,14 @@ using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.MISServices
 {
-    public class CompanyService: ICompanyService
+    public class CompanyService : ICompanyService
     {
         #region Private
 
         private readonly ICompanyRepository companyRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
-        private readonly  ICompanyCMYKColorRepository companyCmykColorRepository;
+        private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         /// <summary>
         /// Save Company
@@ -92,7 +92,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in company.CompanyCMYKColors)
                 {
-                    if (companyDbVersion.CompanyCMYKColors.All(x => x.ColorId != item.ColorId && x.CompanyId != item.CompanyId) )
+                    if (companyDbVersion.CompanyCMYKColors.All(x => x.ColorId != item.ColorId && x.CompanyId != item.CompanyId))
                     {
                         item.CompanyId = company.CompanyId;
                         companyDbVersion.CompanyCMYKColors.Add(item);
@@ -118,8 +118,8 @@ namespace MPC.Implementation.MISServices
                 CompanyCMYKColor dbVersionMissingItem = companyDbVersion.CompanyCMYKColors.First(x => x.ColorId == missingCompanyCMYKColor.ColorId && x.CompanyId == missingCompanyCMYKColor.CompanyId);
                 //if (dbVersionMissingItem.ColorId > 0)
                 //{
-                    companyDbVersion.CompanyCMYKColors.Remove(dbVersionMissingItem);
-                    companyCmykColorRepository.Delete(dbVersionMissingItem);
+                companyDbVersion.CompanyCMYKColors.Remove(dbVersionMissingItem);
+                companyCmykColorRepository.Delete(dbVersionMissingItem);
                 //}
             }
             if (company.CompanyCMYKColors != null)
@@ -157,14 +157,64 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Update Company
         /// </summary>
-        private Company UpdateCompany(CompanySavingModel companySavingModel)
+        private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
+            BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
+        }
+
+        /// <summary>
+        /// Update Company Banners and Banner Set
+        /// </summary>
+        private void BannersUpdate(Company company, Company companyDbVersion)
+        {
+            if (company.CompanyBannerSets != null)
+            {
+                foreach (var bannerItem in company.CompanyBannerSets)
+                {
+
+                    //Company Banner Set New Add
+                    if (bannerItem.CompanySetId < 0)
+                    {
+                        bannerItem.CompanySetId = 0;
+                        bannerItem.CompanyId = company.CompanyId;
+                        bannerItem.OrganisationId = companyRepository.OrganisationId;
+
+                        if (bannerItem.CompanyBanners != null)
+                        {
+                            foreach (var item in bannerItem.CompanyBanners)
+                            {
+                                //Company Banner new Added
+                                if (item.CompanyBannerId < 0)
+                                {
+                                    item.CompanyBannerId = 0;
+                                    item.CompanySetId = 0;
+                                }
+                            }
+                        }
+                        companyDbVersion.CompanyBannerSets.Add(bannerItem);
+                    }
+
+                    //if (bannerItem.CompanyBanners != null && bannerItem.CompanySetId > 0)
+                    //{
+                    //    foreach (var item in bannerItem.CompanyBanners)
+                    //    {
+                    //        //Company Banner new Added
+                    //        if (item.CompanyBannerId < 0)
+                    //        {
+                    //            item.CompanyBannerId = 0;
+                    //            item.CompanySetId = 0;
+                    //        }
+                    //    }
+                    //}
+
+                }
+            }
         }
         #endregion
 
@@ -204,8 +254,8 @@ namespace MPC.Implementation.MISServices
         }
         public void SaveFile(string filePath, long companyId)
         {
-            Company company= companyRepository.GetCompanyById(companyId);
-            if (company.Image!= null)
+            Company company = companyRepository.GetCompanyById(companyId);
+            if (company.Image != null)
             {
                 if (File.Exists(company.Image))
                 {
@@ -226,7 +276,7 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                UpdateCompany(companyModel);
+                UpdateCompany(companyModel, companyDbVersion);
             }
             return null;
         }

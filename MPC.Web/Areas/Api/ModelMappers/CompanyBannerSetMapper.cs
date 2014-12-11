@@ -20,7 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanySetId = source.CompanySetId,
                 SetName = source.SetName,
-                CompanyBanners = source.CompanyBanners.Select(cb => cb.CreateFrom()).ToList()
+                CompanyBanners = source.CompanyBanners != null ? source.CompanyBanners.Select(cb => cb.CreateFrom()).ToList() : null
             };
         }
 
@@ -33,6 +33,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanySetId = source.CompanySetId,
                 SetName = source.SetName,
+                CompanyBanners = source.CompanyBanners != null ? source.CompanyBanners.Select(cb => cb.CreateFrom()).ToList() : null
             };
         }
         #endregion

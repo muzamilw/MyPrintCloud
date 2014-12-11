@@ -42,7 +42,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImageURL = source.ImageURL,
                 ButtonURL = source.ButtonURL,
                 ItemURL = source.ItemURL,
-                PageId = source.PageId,
             };
         }
         #endregion

@@ -5,13 +5,13 @@
 
 
 <div class="modal fade" id="mybannerSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog">
-        <div class="modal-content">
+    <div style="width: 838px;" class="modal-dialog" >
+        <div class="modal-content" data-bind="with:$root.selectedCompanyBannerSet">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add Banner Set</h4>
             </div>
-            <div class="col-lg-12" data-bind="with:$root.selectedCompanyBannerSet">
+            <div class="col-lg-12">
 
                 <div class="col-lg-12 clearfix outerDiv-Padding">
 
@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" id="txtSetName" value="" data-bind="value:setName">
+                                <input type="text" class="form-control" id="txtSetName" value="" data-bind="value:setName, validationTooltip:setName">
                             </div>
 
                         </div>
