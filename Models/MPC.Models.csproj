@@ -137,13 +137,11 @@
     <Compile Include="DomainModels\CompanyTerritory.cs" />
     <Compile Include="DomainModels\CostCentre.cs" />
     <Compile Include="DomainModels\Country.cs" />
-    <Compile Include="DomainModels\Currency.cs" />
     <Compile Include="DomainModels\DeliveryNote.cs" />
     <Compile Include="DomainModels\DeliveryNoteDetail.cs" />
     <Compile Include="DomainModels\DiscountVoucher.cs" />
     <Compile Include="DomainModels\EmailEvent.cs" />
     <Compile Include="DomainModels\Estimate.cs" />
-    <Compile Include="DomainModels\GlobalLanguage.cs" />
     <Compile Include="DomainModels\Inquiry.cs" />
     <Compile Include="DomainModels\InquiryAttachment.cs" />
     <Compile Include="DomainModels\InquiryItem.cs" />
