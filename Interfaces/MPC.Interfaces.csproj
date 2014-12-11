@@ -70,7 +70,9 @@
     <Compile Include="Repository\ICompanyContactRepository.cs" />
     <Compile Include="Repository\ICompanyTerritoryRepository.cs" />
     <Compile Include="Repository\ICompanyTypeRepository.cs" />
+    <Compile Include="Repository\ICurrencyRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
+    <Compile Include="Repository\IGlobalLanguageRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\ITemplateRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />
@@ -116,7 +118,9 @@
     <Compile Include="Repository\IMarkupRepository.cs" />
     <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
+    <Compile Include="WebStoreServices\IWebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\IUserManagerService.cs" />
+    <Compile Include="WebStoreServices\IWebstoreClaimsSecurityService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\MPC.Models.csproj">

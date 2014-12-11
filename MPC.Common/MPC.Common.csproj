@@ -55,6 +55,7 @@
     <Compile Include="OAuthUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializeHelper.cs" />
+    <Compile Include="WebstoreClaimTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
