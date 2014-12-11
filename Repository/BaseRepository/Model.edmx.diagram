@@ -149,6 +149,8 @@
         <AssociationConnector Association="DomainModels.FK_Products_tbl_ProductCategory" />
         <AssociationConnector Association="DomainModels.FK_Templates_TemplatePages" />
         <AssociationConnector Association="DomainModels.FK_Template_Items" />
+        <EntityTypeShape EntityType="DomainModels.GlobalLanguage" Width="1.5" PointX="26.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.CampaignEmailQueue" Width="1.5" PointX="27.375" PointY="3.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

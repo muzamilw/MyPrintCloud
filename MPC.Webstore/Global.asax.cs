@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Globalization;
+using System.Net;
+using System.Security.Claims;
 using System.Security.Policy;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.SessionState;
+using Microsoft.AspNet.Identity;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.Unity;
+using MPC.Implementation.MISServices;
 using MPC.Implementation.WebStoreServices;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
+using MPC.Webstore.ModelMappers;
+using MPC.Webstore.ResponseModels;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
 using System.Web;
 using MPC.Interfaces.WebStoreServices;
@@ -29,6 +35,7 @@ namespace MPC.Webstore
         #region Private
         private static IUnityContainer container;
         private ICompanyService companyService;
+      
 
         /// <summary>
         /// Configure Logger
@@ -123,50 +130,46 @@ namespace MPC.Webstore
         //    System.Web.HttpContext.Current.SetSessionStateBehavior(
         //        SessionStateBehavior.Required);
         //}
-        protected void Application_AcquireRequestState(object sender, EventArgs e)
-        {
-            //It's important to check whether session object is ready
-            if (HttpContext.Current.Session != null)
-            {
-                CultureInfo ci = (CultureInfo)this.Session["Culture"];
-                //Checking first if there is no value in session 
-                //and set default language 
-                //this can happen for first user's request
-                if (ci == null)
-                {
-                    //Sets default culture to english invariant
-                    string langName = "fr-FR";
-                    //string langName = "en-US";
-                    //Try to get values from Accept lang HTTP header
-                    if (HttpContext.Current.Request.UserLanguages != null &&
-                       HttpContext.Current.Request.UserLanguages.Length != 0)
-                    {
-                        //Gets accepted list 
-                        //langName = HttpContext.Current.Request.UserLanguages[0].Substring(0, 2);
-                    }
-                    ci = new CultureInfo(langName);
-                    this.Session["Culture"] = ci;
-                }
-                //Finally setting culture for each request
-                Thread.CurrentThread.CurrentUICulture = ci;
-                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-            }
-        }
+      
         protected void Session_Start()
         {
             companyService = container.Resolve<ICompanyService>();
 
             string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
-            long storeid = companyService.GetCompanyIdByDomain(url);
 
-            if (storeid == 0)
+            long storeId = companyService.GetStoreIdFromDomain(url);
+
+            MyCompanyDomainBaseResponse baseResponse = companyService.GetStoreFromCache(storeId).CreateFromWiget();
+
+            if (baseResponse.Company != null)
             {
-                Response.Redirect("/Home/About");
+
+                Session["storeId"] = baseResponse.Company.CompanyId;
+
+                // set global language of store
+
+                string languageName = ""; //companyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
+
+                CultureInfo ci = null;
+
+                if (string.IsNullOrEmpty(languageName))
+                {
+                    languageName = "en-US";
+                }
+
+                ci = new CultureInfo(languageName);
+
+                Thread.CurrentThread.CurrentUICulture = ci;
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+
+                if (baseResponse.Company.IsCustomer == 3)// corporate customer
+                {
+                    Response.Redirect("/Login");
+                }
             }
             else
             {
-                Session["storeId"] = storeid;
-
+                Response.Redirect("/Home/About");
             }
         }
     }

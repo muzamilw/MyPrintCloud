@@ -11,11 +11,13 @@ using MPC.Webstore.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
+
     public class BannerController : Controller
     {
          #region Private
 
         private readonly ICompanyService _myCompanyService;
+        private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
         #endregion
 
@@ -23,13 +25,18 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public BannerController(ICompanyService myCompanyService)
+        public BannerController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
+            if (webstoreAuthorizationChecker == null)
+            {
+                throw new ArgumentNullException("webstoreAuthorizationChecker");
+            }
             this._myCompanyService = myCompanyService;
+            this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
         }
 
         #endregion
@@ -37,8 +44,9 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
             long storeId = Convert.ToInt64(Session["storeId"]);
+            long organisationId = Convert.ToInt64(Session["organizationId"]);
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetBaseData(storeId).CreateFromBanner();
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(_webstoreAuthorizationChecker.CompanyId()).CreateFromBanner();
 
             return PartialView("PartialViews/Banner", baseResponse.Banners);
         }
