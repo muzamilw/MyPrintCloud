@@ -110,7 +110,7 @@ namespace MPC.Webstore.Controllers
 
             long storeId = Convert.ToInt64(Session["storeId"]);
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetBaseData(storeId).CreateFromCompany();
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
 
             if (baseResponse.Company.IsCustomer == (int)StoreMode.Retail)
             {
