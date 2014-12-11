@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets27C3BF4737CAC3346636E1F488F2DD63E19F64B8724C82BD04C2133E8882E09A))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets58829F48AF0F61268CFCEB2F2A5C3A61323A9EB8D57DC730A636FAD7227C9B13))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,19 +38,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets27C3BF4737CAC3346636E1F488F2DD63E19F64B8724C82BD04C2133E8882E09A : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets58829F48AF0F61268CFCEB2F2A5C3A61323A9EB8D57DC730A636FAD7227C9B13 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets27C3BF4737CAC3346636E1F488F2DD63E19F64B8724C82BD04C2133E8882E09A()
+        public ViewsForBaseEntitySets58829F48AF0F61268CFCEB2F2A5C3A61323A9EB8D57DC730A636FAD7227C9B13()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "21211f07de35e0343edfae9d115f1013bb3816903a58f50de8bff6300d7ab678";
-            this.HashOverAllExtentViews = "3d32300b6fb2fc430da5e19bd8fd015c85a4e335f8b83aa3cdb5c6e2229238e7";
-            this.ViewCount = 156;
+            this.HashOverMappingClosure = "1801bb150a597fc8afeadb40610dd20f14e45cba0756ea3f705a129283cb6142";
+            this.HashOverAllExtentViews = "0a512538371679ce99737fdcd3bb63c5b49662ebc6942e704e05aa86d0f323c9";
+            this.ViewCount = 158;
         }
         
         /// <Summary>
@@ -681,6 +681,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 155))
             {
                 return GetView155();
+            }
+            if ((index == 156))
+            {
+                return GetView156();
+            }
+            if ((index == 157))
+            {
+                return GetView157();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -7018,6 +7026,78 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM DomainModelsStoreContainer.GlobalLanguage AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.CampaignEmailQueue
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView156()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2080);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CampaignEmailQueue\r\n        [DomainModels.Sto");
+            viewString.Append("re.CampaignEmailQueue](T1.CampaignEmailQueue_EmailQueueId, T1.CampaignEmailQueue");
+            viewString.Append("_To, T1.CampaignEmailQueue_Cc, T1.CampaignEmailQueue_EmailFrom, T1.CampaignEmail");
+            viewString.Append("Queue_Type, T1.CampaignEmailQueue_Subject, T1.CampaignEmailQueue_Body, T1.Campai");
+            viewString.Append("gnEmailQueue_Images, T1.CampaignEmailQueue_SendDateTime, T1.CampaignEmailQueue_I");
+            viewString.Append("sDeliverd, T1.CampaignEmailQueue_SMTPUserName, T1.CampaignEmailQueue_SMTPPasswor");
+            viewString.Append("d, T1.CampaignEmailQueue_SMTPServer, T1.CampaignEmailQueue_ErrorResponse, T1.Cam");
+            viewString.Append("paignEmailQueue_FileAttachment, T1.CampaignEmailQueue_AttemptCount, T1.CampaignE");
+            viewString.Append("mailQueue_ToName, T1.CampaignEmailQueue_FromName, T1.CampaignEmailQueue_Campaign");
+            viewString.Append("ReportId, T1.CampaignEmailQueue_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n  ");
+            viewString.Append("          T.EmailQueueId AS CampaignEmailQueue_EmailQueueId, \r\n            T.To ");
+            viewString.Append("AS CampaignEmailQueue_To, \r\n            T.Cc AS CampaignEmailQueue_Cc, \r\n       ");
+            viewString.Append("     T.EmailFrom AS CampaignEmailQueue_EmailFrom, \r\n            T.Type AS Campai");
+            viewString.Append("gnEmailQueue_Type, \r\n            T.Subject AS CampaignEmailQueue_Subject, \r\n    ");
+            viewString.Append("        T.Body AS CampaignEmailQueue_Body, \r\n            T.Images AS CampaignEma");
+            viewString.Append("ilQueue_Images, \r\n            T.SendDateTime AS CampaignEmailQueue_SendDateTime,");
+            viewString.Append(" \r\n            T.IsDeliverd AS CampaignEmailQueue_IsDeliverd, \r\n            T.SM");
+            viewString.Append("TPUserName AS CampaignEmailQueue_SMTPUserName, \r\n            T.SMTPPassword AS C");
+            viewString.Append("ampaignEmailQueue_SMTPPassword, \r\n            T.SMTPServer AS CampaignEmailQueue");
+            viewString.Append("_SMTPServer, \r\n            T.ErrorResponse AS CampaignEmailQueue_ErrorResponse, ");
+            viewString.Append("\r\n            T.FileAttachment AS CampaignEmailQueue_FileAttachment, \r\n         ");
+            viewString.Append("   T.AttemptCount AS CampaignEmailQueue_AttemptCount, \r\n            T.ToName AS ");
+            viewString.Append("CampaignEmailQueue_ToName, \r\n            T.FromName AS CampaignEmailQueue_FromNa");
+            viewString.Append("me, \r\n            T.CampaignReportId AS CampaignEmailQueue_CampaignReportId, \r\n ");
+            viewString.Append("           T.OrganisationId AS CampaignEmailQueue_OrganisationId, \r\n            ");
+            viewString.Append("True AS _from0\r\n        FROM BaseDbContext.CampaignEmailQueues AS T\r\n    ) AS T1");
+            viewString.Append("");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CampaignEmailQueue", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.CampaignEmailQueues
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView157()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2087);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CampaignEmailQueues\r\n        [DomainModels.Ca");
+            viewString.Append("mpaignEmailQueue](T1.CampaignEmailQueue_EmailQueueId, T1.CampaignEmailQueue_To, ");
+            viewString.Append("T1.CampaignEmailQueue_Cc, T1.CampaignEmailQueue_EmailFrom, T1.CampaignEmailQueue");
+            viewString.Append("_Type, T1.CampaignEmailQueue_Subject, T1.CampaignEmailQueue_Body, T1.CampaignEma");
+            viewString.Append("ilQueue_Images, T1.CampaignEmailQueue_SendDateTime, T1.CampaignEmailQueue_IsDeli");
+            viewString.Append("verd, T1.CampaignEmailQueue_SMTPUserName, T1.CampaignEmailQueue_SMTPPassword, T1");
+            viewString.Append(".CampaignEmailQueue_SMTPServer, T1.CampaignEmailQueue_ErrorResponse, T1.Campaign");
+            viewString.Append("EmailQueue_FileAttachment, T1.CampaignEmailQueue_AttemptCount, T1.CampaignEmailQ");
+            viewString.Append("ueue_ToName, T1.CampaignEmailQueue_FromName, T1.CampaignEmailQueue_CampaignRepor");
+            viewString.Append("tId, T1.CampaignEmailQueue_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n       ");
+            viewString.Append("     T.EmailQueueId AS CampaignEmailQueue_EmailQueueId, \r\n            T.To AS Ca");
+            viewString.Append("mpaignEmailQueue_To, \r\n            T.Cc AS CampaignEmailQueue_Cc, \r\n            ");
+            viewString.Append("T.EmailFrom AS CampaignEmailQueue_EmailFrom, \r\n            T.Type AS CampaignEma");
+            viewString.Append("ilQueue_Type, \r\n            T.Subject AS CampaignEmailQueue_Subject, \r\n         ");
+            viewString.Append("   T.Body AS CampaignEmailQueue_Body, \r\n            T.Images AS CampaignEmailQue");
+            viewString.Append("ue_Images, \r\n            T.SendDateTime AS CampaignEmailQueue_SendDateTime, \r\n  ");
+            viewString.Append("          T.IsDeliverd AS CampaignEmailQueue_IsDeliverd, \r\n            T.SMTPUse");
+            viewString.Append("rName AS CampaignEmailQueue_SMTPUserName, \r\n            T.SMTPPassword AS Campai");
+            viewString.Append("gnEmailQueue_SMTPPassword, \r\n            T.SMTPServer AS CampaignEmailQueue_SMTP");
+            viewString.Append("Server, \r\n            T.ErrorResponse AS CampaignEmailQueue_ErrorResponse, \r\n   ");
+            viewString.Append("         T.FileAttachment AS CampaignEmailQueue_FileAttachment, \r\n            T.");
+            viewString.Append("AttemptCount AS CampaignEmailQueue_AttemptCount, \r\n            T.ToName AS Campa");
+            viewString.Append("ignEmailQueue_ToName, \r\n            T.FromName AS CampaignEmailQueue_FromName, \r");
+            viewString.Append("\n            T.CampaignReportId AS CampaignEmailQueue_CampaignReportId, \r\n      ");
+            viewString.Append("      T.OrganisationId AS CampaignEmailQueue_OrganisationId, \r\n            True ");
+            viewString.Append("AS _from0\r\n        FROM DomainModelsStoreContainer.CampaignEmailQueue AS T\r\n    ");
+            viewString.Append(") AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CampaignEmailQueues", viewString.ToString());
         }
     }
 }

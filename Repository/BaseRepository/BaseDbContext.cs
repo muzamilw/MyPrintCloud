@@ -218,6 +218,17 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Currency> Currencies { get; set; }
 
         public DbSet<GlobalLanguage> GlobalLanguages { get; set; }
+
+        /// <summary>
+        /// Template Page DbSet
+        /// </summary>
+        public DbSet<TemplatePage> TemplatePages { get; set; }
+
+        /// <summary>
+        /// Campaign Email Queue DbSet
+        /// </summary>
+        public DbSet<CampaignEmailQueue> CampaignEmailQueues { get; set; }
+
         #endregion
     }
 }
