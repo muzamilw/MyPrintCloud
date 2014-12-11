@@ -5,8 +5,8 @@
 
 
 <div class="modal fade" id="mybannerSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog">
-        <div class="modal-content">
+    <div style="width: 838px;" class="modal-dialog" >
+        <div class="modal-content" data-bind="with:$root.selectedCompanyBannerSet">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add Banner Set</h4>
@@ -23,7 +23,8 @@
                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
 
                                 </div>
 
@@ -33,7 +34,7 @@
                             </div>
 
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" id="txtSetName" value="">
+                                <input type="text" class="form-control" id="txtSetName" value="" data-bind="value:setName, validationTooltip:setName">
                             </div>
 
                         </div>
@@ -45,7 +46,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveBannerSet">Save</button>
             </div>
         </div>
     </div>
