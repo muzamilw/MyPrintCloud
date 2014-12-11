@@ -199,6 +199,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Template> Templates { get; set; }
 
         /// <summary>
+        /// Global Language DbSet
+        /// </summary>
+        public DbSet<GlobalLanguage> GlobalLanguages { get; set; }
+
+        /// <summary>
+        /// Currency DbSet
+        /// </summary>
+        public DbSet<Currency> Currencies { get; set; }
+
+        /// <summary>
         /// Get next id for a table
         /// </summary>
         public double GetMinimumProductValue(long itemId)

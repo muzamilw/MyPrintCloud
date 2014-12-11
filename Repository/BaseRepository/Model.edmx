@@ -863,6 +863,15 @@
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="GlobalLanguage">
+          <Key>
+            <PropertyRef Name="LanguageId" />
+          </Key>
+          <Property Name="LanguageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FriendlyName" Type="varchar" MaxLength="50" />
+          <Property Name="uiCulture" Type="varchar" MaxLength="50" />
+          <Property Name="culture" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Inquiry">
           <Key>
             <PropertyRef Name="InquiryId" />
@@ -2215,6 +2224,8 @@
           <Property Name="ColorK" Type="int" />
           <Property Name="IsPrintable" Type="bit" />
           <Property Name="hasOverlayObjects" Type="bit" />
+          <Property Name="Width" Type="float" />
+          <Property Name="Height" Type="float" />
         </EntityType>
         <EntityType Name="WeightUnit">
           <Key>
@@ -3118,6 +3129,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="DiscountVoucher" EntityType="Self.DiscountVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailEvent" EntityType="Self.EmailEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryItem" EntityType="Self.InquiryItem" Schema="dbo" store:Type="Tables" />
@@ -3814,6 +3826,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="Template" EntitySet="Templates" />
             <End Role="Item" EntitySet="Items" />
           </AssociationSet>
+          <EntitySet Name="GlobalLanguages" EntityType="DomainModels.GlobalLanguage" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6990,6 +7003,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsPrintable" Type="Boolean" />
           <Property Name="hasOverlayObjects" Type="Boolean" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_Templates_TemplatePages" FromRole="TemplatePage" ToRole="Template" />
+          <Property Name="Width" Type="Double" />
+          <Property Name="Height" Type="Double" />
         </EntityType>
         <Association Name="FK_Products_tbl_ProductCategory">
           <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
@@ -7027,6 +7042,15 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GlobalLanguage">
+          <Key>
+            <PropertyRef Name="LanguageId" />
+          </Key>
+          <Property Name="LanguageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FriendlyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="uiCulture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="culture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9355,6 +9379,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySetMapping Name="TemplatePages">
             <EntityTypeMapping TypeName="DomainModels.TemplatePage">
               <MappingFragment StoreEntitySet="TemplatePage">
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="hasOverlayObjects" ColumnName="hasOverlayObjects" />
                 <ScalarProperty Name="IsPrintable" ColumnName="IsPrintable" />
                 <ScalarProperty Name="ColorK" ColumnName="ColorK" />
@@ -9369,6 +9395,16 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="PageNo" ColumnName="PageNo" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="ProductPageId" ColumnName="ProductPageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GlobalLanguages">
+            <EntityTypeMapping TypeName="DomainModels.GlobalLanguage">
+              <MappingFragment StoreEntitySet="GlobalLanguage">
+                <ScalarProperty Name="culture" ColumnName="culture" />
+                <ScalarProperty Name="uiCulture" ColumnName="uiCulture" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

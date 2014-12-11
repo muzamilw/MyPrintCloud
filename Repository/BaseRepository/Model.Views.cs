@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets27C3BF4737CAC3346636E1F488F2DD63E19F64B8724C82BD04C2133E8882E09A))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,19 +38,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets27C3BF4737CAC3346636E1F488F2DD63E19F64B8724C82BD04C2133E8882E09A : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7()
+        public ViewsForBaseEntitySets27C3BF4737CAC3346636E1F488F2DD63E19F64B8724C82BD04C2133E8882E09A()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "51ad45bb402c5daa0dffcaa2f5baaf80a08ae71928d547234a6355d3f8fa5253";
-            this.HashOverAllExtentViews = "d38a98574bf07e8fc82c0a4d377d4458a3df73cff3207fcf50ecbb4ece90a12b";
-            this.ViewCount = 154;
+            this.HashOverMappingClosure = "21211f07de35e0343edfae9d115f1013bb3816903a58f50de8bff6300d7ab678";
+            this.HashOverAllExtentViews = "3d32300b6fb2fc430da5e19bd8fd015c85a4e335f8b83aa3cdb5c6e2229238e7";
+            this.ViewCount = 156;
         }
         
         /// <Summary>
@@ -673,6 +673,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 153))
             {
                 return GetView153();
+            }
+            if ((index == 154))
+            {
+                return GetView154();
+            }
+            if ((index == 155))
+            {
+                return GetView155();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -3090,28 +3098,25 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView53()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplatePage", @"
-    SELECT VALUE -- Constructing TemplatePage
-        [DomainModels.Store.TemplatePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplatePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects)
-    FROM (
-        SELECT 
-            T.ProductPageId AS TemplatePage_ProductPageId, 
-            T.ProductId AS TemplatePage_ProductId, 
-            T.PageNo AS TemplatePage_PageNo, 
-            T.PageType AS TemplatePage_PageType, 
-            T.Orientation AS TemplatePage_Orientation, 
-            T.BackGroundType AS TemplatePage_BackGroundType, 
-            T.BackgroundFileName AS TemplatePage_BackgroundFileName, 
-            T.ColorC AS TemplatePage_ColorC, 
-            T.ColorM AS TemplatePage_ColorM, 
-            T.ColorY AS TemplatePage_ColorY, 
-            T.PageName AS TemplatePage_PageName, 
-            T.ColorK AS TemplatePage_ColorK, 
-            T.IsPrintable AS TemplatePage_IsPrintable, 
-            T.hasOverlayObjects AS TemplatePage_hasOverlayObjects, 
-            True AS _from0
-        FROM BaseDbContext.TemplatePages AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplatePage", "\r\n    SELECT VALUE -- Constructing TemplatePage\r\n        [DomainModels.Store.Temp" +
+                    "latePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplateP" +
+                    "age_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePa" +
+                    "ge_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T" +
+                    "1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.Temp" +
+                    "latePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects," +
+                    " T1.TemplatePage_Width, T1.TemplatePage_Height)\r\n    FROM (\r\n        SELECT \r\n  " +
+                    "          T.ProductPageId AS TemplatePage_ProductPageId, \r\n            T.Product" +
+                    "Id AS TemplatePage_ProductId, \r\n            T.PageNo AS TemplatePage_PageNo, \r\n " +
+                    "           T.PageType AS TemplatePage_PageType, \r\n            T.Orientation AS T" +
+                    "emplatePage_Orientation, \r\n            T.BackGroundType AS TemplatePage_BackGrou" +
+                    "ndType, \r\n            T.BackgroundFileName AS TemplatePage_BackgroundFileName, \r" +
+                    "\n            T.ColorC AS TemplatePage_ColorC, \r\n            T.ColorM AS Template" +
+                    "Page_ColorM, \r\n            T.ColorY AS TemplatePage_ColorY, \r\n            T.Page" +
+                    "Name AS TemplatePage_PageName, \r\n            T.ColorK AS TemplatePage_ColorK, \r\n" +
+                    "            T.IsPrintable AS TemplatePage_IsPrintable, \r\n            T.hasOverla" +
+                    "yObjects AS TemplatePage_hasOverlayObjects, \r\n            T.Width AS TemplatePag" +
+                    "e_Width, \r\n            T.Height AS TemplatePage_Height, \r\n            True AS _f" +
+                    "rom0\r\n        FROM BaseDbContext.TemplatePages AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -5522,28 +5527,25 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView107()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplatePages", @"
-    SELECT VALUE -- Constructing TemplatePages
-        [DomainModels.TemplatePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplatePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects)
-    FROM (
-        SELECT 
-            T.ProductPageId AS TemplatePage_ProductPageId, 
-            T.ProductId AS TemplatePage_ProductId, 
-            T.PageNo AS TemplatePage_PageNo, 
-            T.PageType AS TemplatePage_PageType, 
-            T.Orientation AS TemplatePage_Orientation, 
-            T.BackGroundType AS TemplatePage_BackGroundType, 
-            T.BackgroundFileName AS TemplatePage_BackgroundFileName, 
-            T.ColorC AS TemplatePage_ColorC, 
-            T.ColorM AS TemplatePage_ColorM, 
-            T.ColorY AS TemplatePage_ColorY, 
-            T.PageName AS TemplatePage_PageName, 
-            T.ColorK AS TemplatePage_ColorK, 
-            T.IsPrintable AS TemplatePage_IsPrintable, 
-            T.hasOverlayObjects AS TemplatePage_hasOverlayObjects, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.TemplatePage AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplatePages", "\r\n    SELECT VALUE -- Constructing TemplatePages\r\n        [DomainModels.TemplateP" +
+                    "age](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_P" +
+                    "ageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_Ba" +
+                    "ckGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.Tem" +
+                    "platePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplateP" +
+                    "age_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects, T1.T" +
+                    "emplatePage_Width, T1.TemplatePage_Height)\r\n    FROM (\r\n        SELECT \r\n       " +
+                    "     T.ProductPageId AS TemplatePage_ProductPageId, \r\n            T.ProductId AS" +
+                    " TemplatePage_ProductId, \r\n            T.PageNo AS TemplatePage_PageNo, \r\n      " +
+                    "      T.PageType AS TemplatePage_PageType, \r\n            T.Orientation AS Templa" +
+                    "tePage_Orientation, \r\n            T.BackGroundType AS TemplatePage_BackGroundTyp" +
+                    "e, \r\n            T.BackgroundFileName AS TemplatePage_BackgroundFileName, \r\n    " +
+                    "        T.ColorC AS TemplatePage_ColorC, \r\n            T.ColorM AS TemplatePage_" +
+                    "ColorM, \r\n            T.ColorY AS TemplatePage_ColorY, \r\n            T.PageName " +
+                    "AS TemplatePage_PageName, \r\n            T.ColorK AS TemplatePage_ColorK, \r\n     " +
+                    "       T.IsPrintable AS TemplatePage_IsPrintable, \r\n            T.hasOverlayObje" +
+                    "cts AS TemplatePage_hasOverlayObjects, \r\n            T.Width AS TemplatePage_Wid" +
+                    "th, \r\n            T.Height AS TemplatePage_Height, \r\n            True AS _from0\r" +
+                    "\n        FROM DomainModelsStoreContainer.TemplatePage AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -6977,6 +6979,44 @@ namespace Edm_EntityMappingGeneratedViews
             T.CompanyId AS ColorPallete_CompanyId, 
             True AS _from0
         FROM DomainModelsStoreContainer.ColorPallete AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.GlobalLanguage
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView154()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GlobalLanguage", @"
+    SELECT VALUE -- Constructing GlobalLanguage
+        [DomainModels.Store.GlobalLanguage](T1.GlobalLanguage_LanguageId, T1.GlobalLanguage_FriendlyName, T1.GlobalLanguage_uiCulture, T1.GlobalLanguage_culture)
+    FROM (
+        SELECT 
+            T.LanguageId AS GlobalLanguage_LanguageId, 
+            T.FriendlyName AS GlobalLanguage_FriendlyName, 
+            T.uiCulture AS GlobalLanguage_uiCulture, 
+            T.culture AS GlobalLanguage_culture, 
+            True AS _from0
+        FROM BaseDbContext.GlobalLanguages AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.GlobalLanguages
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView155()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GlobalLanguages", @"
+    SELECT VALUE -- Constructing GlobalLanguages
+        [DomainModels.GlobalLanguage](T1.GlobalLanguage_LanguageId, T1.GlobalLanguage_FriendlyName, T1.GlobalLanguage_uiCulture, T1.GlobalLanguage_culture)
+    FROM (
+        SELECT 
+            T.LanguageId AS GlobalLanguage_LanguageId, 
+            T.FriendlyName AS GlobalLanguage_FriendlyName, 
+            T.uiCulture AS GlobalLanguage_uiCulture, 
+            T.culture AS GlobalLanguage_culture, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.GlobalLanguage AS T
     ) AS T1");
         }
     }
