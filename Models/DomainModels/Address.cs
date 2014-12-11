@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
+    /// <summary>
+    /// Address Domain Model
+    /// </summary>
     public class Address
     {
         public long AddressId { get; set; }
@@ -34,12 +37,14 @@ namespace MPC.Models.DomainModels
         public string GeoLatitude { get; set; }
         public string GeoLongitude { get; set; }
         public Nullable<bool> isPrivate { get; set; }
-        public Nullable<int> ContactId { get; set; }
+        public Nullable<Int64> ContactId { get; set; }
         public Nullable<bool> isDefaultTerrorityBilling { get; set; }
         public Nullable<bool> isDefaultTerrorityShipping { get; set; }
         public Nullable<long> OrganisationId { get; set; }
 
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
+
+        public virtual Company Company { get; set; }
     }
 }

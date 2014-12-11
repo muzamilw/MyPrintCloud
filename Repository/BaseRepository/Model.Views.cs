@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsD4B973EA76F5F05FA4235F03B874E717203486FBBF0640D2E1C9EBC1DED2AF6E))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,19 +38,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsD4B973EA76F5F05FA4235F03B874E717203486FBBF0640D2E1C9EBC1DED2AF6E : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsD4B973EA76F5F05FA4235F03B874E717203486FBBF0640D2E1C9EBC1DED2AF6E()
+        public ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "d6f673af81909b3e0f685d4f99e647205dbb87a892bfb616ffde6bb127ddb4ab";
-            this.HashOverAllExtentViews = "3e804e0a71810fc700d2eef2e59ab67b29a47c922710029a1395c8e11a7690c5";
-            this.ViewCount = 146;
+            this.HashOverMappingClosure = "51ad45bb402c5daa0dffcaa2f5baaf80a08ae71928d547234a6355d3f8fa5253";
+            this.HashOverAllExtentViews = "d38a98574bf07e8fc82c0a4d377d4458a3df73cff3207fcf50ecbb4ece90a12b";
+            this.ViewCount = 154;
         }
         
         /// <Summary>
@@ -642,6 +642,38 @@ namespace Edm_EntityMappingGeneratedViews
             {
                 return GetView145();
             }
+            if ((index == 146))
+            {
+                return GetView146();
+            }
+            if ((index == 147))
+            {
+                return GetView147();
+            }
+            if ((index == 148))
+            {
+                return GetView148();
+            }
+            if ((index == 149))
+            {
+                return GetView149();
+            }
+            if ((index == 150))
+            {
+                return GetView150();
+            }
+            if ((index == 151))
+            {
+                return GetView151();
+            }
+            if ((index == 152))
+            {
+                return GetView152();
+            }
+            if ((index == 153))
+            {
+                return GetView153();
+            }
             throw new System.IndexOutOfRangeException();
         }
         
@@ -1225,7 +1257,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView14()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7977);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7956);
             viewString.Append("\r\n    SELECT VALUE -- Constructing CompanyContact\r\n        [DomainModels.Store.C");
             viewString.Append("ompanyContact](T1.CompanyContact_ContactId, T1.CompanyContact_AddressId, T1.Comp");
             viewString.Append("anyContact_CompanyId, T1.CompanyContact_FirstName, T1.CompanyContact_MiddleName,");
@@ -1261,71 +1293,71 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("T1.CompanyContact_AdditionalField5, T1.CompanyContact_canUserPlaceOrderWithoutAp");
             viewString.Append("proval, T1.CompanyContact_CanUserEditProfile, T1.CompanyContact_canPlaceDirectOr");
             viewString.Append("der, T1.CompanyContact_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n           ");
-            viewString.Append(" T.ContactId AS CompanyContact_ContactId, \r\n            CAST(T.AddressId AS [Edm");
-            viewString.Append(".Int64]) AS CompanyContact_AddressId, \r\n            T.CompanyId AS CompanyContac");
-            viewString.Append("t_CompanyId, \r\n            T.FirstName AS CompanyContact_FirstName, \r\n          ");
-            viewString.Append("  T.MiddleName AS CompanyContact_MiddleName, \r\n            T.LastName AS Company");
-            viewString.Append("Contact_LastName, \r\n            T.Title AS CompanyContact_Title, \r\n            T");
-            viewString.Append(".HomeTel1 AS CompanyContact_HomeTel1, \r\n            T.HomeTel2 AS CompanyContact");
-            viewString.Append("_HomeTel2, \r\n            T.HomeExtension1 AS CompanyContact_HomeExtension1, \r\n  ");
-            viewString.Append("          T.HomeExtension2 AS CompanyContact_HomeExtension2, \r\n            T.Mob");
-            viewString.Append("ile AS CompanyContact_Mobile, \r\n            T.Email AS CompanyContact_Email, \r\n ");
-            viewString.Append("           T.FAX AS CompanyContact_FAX, \r\n            T.JobTitle AS CompanyConta");
-            viewString.Append("ct_JobTitle, \r\n            T.DOB AS CompanyContact_DOB, \r\n            T.Notes AS");
-            viewString.Append(" CompanyContact_Notes, \r\n            T.IsDefaultContact AS CompanyContact_IsDefa");
-            viewString.Append("ultContact, \r\n            T.HomeAddress1 AS CompanyContact_HomeAddress1, \r\n     ");
-            viewString.Append("       T.HomeAddress2 AS CompanyContact_HomeAddress2, \r\n            T.HomeCity A");
-            viewString.Append("S CompanyContact_HomeCity, \r\n            T.HomeState AS CompanyContact_HomeState");
-            viewString.Append(", \r\n            T.HomePostCode AS CompanyContact_HomePostCode, \r\n            T.H");
-            viewString.Append("omeCountry AS CompanyContact_HomeCountry, \r\n            T.SecretQuestion AS Comp");
-            viewString.Append("anyContact_SecretQuestion, \r\n            T.SecretAnswer AS CompanyContact_Secret");
-            viewString.Append("Answer, \r\n            T.Password AS CompanyContact_Password, \r\n            T.URL");
-            viewString.Append(" AS CompanyContact_URL, \r\n            T.IsEmailSubscription AS CompanyContact_Is");
-            viewString.Append("EmailSubscription, \r\n            T.IsNewsLetterSubscription AS CompanyContact_Is");
-            viewString.Append("NewsLetterSubscription, \r\n            T.image AS CompanyContact_image, \r\n       ");
-            viewString.Append("     T.quickFullName AS CompanyContact_quickFullName, \r\n            T.quickTitle");
-            viewString.Append(" AS CompanyContact_quickTitle, \r\n            T.quickCompanyName AS CompanyContac");
-            viewString.Append("t_quickCompanyName, \r\n            T.quickAddress1 AS CompanyContact_quickAddress");
-            viewString.Append("1, \r\n            T.quickAddress2 AS CompanyContact_quickAddress2, \r\n            ");
-            viewString.Append("T.quickAddress3 AS CompanyContact_quickAddress3, \r\n            T.quickPhone AS C");
-            viewString.Append("ompanyContact_quickPhone, \r\n            T.quickFax AS CompanyContact_quickFax, \r");
-            viewString.Append("\n            T.quickEmail AS CompanyContact_quickEmail, \r\n            T.quickWeb");
-            viewString.Append("site AS CompanyContact_quickWebsite, \r\n            T.quickCompMessage AS Company");
-            viewString.Append("Contact_quickCompMessage, \r\n            T.QuestionId AS CompanyContact_QuestionI");
-            viewString.Append("d, \r\n            T.IsApprover AS CompanyContact_IsApprover, \r\n            T.isWe");
-            viewString.Append("bAccess AS CompanyContact_isWebAccess, \r\n            T.isPlaceOrder AS CompanyCo");
-            viewString.Append("ntact_isPlaceOrder, \r\n            T.CreditLimit AS CompanyContact_CreditLimit, \r");
-            viewString.Append("\n            T.isArchived AS CompanyContact_isArchived, \r\n            T.ContactR");
-            viewString.Append("oleId AS CompanyContact_ContactRoleId, \r\n            T.TerritoryId AS CompanyCon");
-            viewString.Append("tact_TerritoryId, \r\n            T.ClaimIdentifer AS CompanyContact_ClaimIdentife");
-            viewString.Append("r, \r\n            T.AuthentifiedBy AS CompanyContact_AuthentifiedBy, \r\n          ");
-            viewString.Append("  T.IsPayByPersonalCreditCard AS CompanyContact_IsPayByPersonalCreditCard, \r\n   ");
-            viewString.Append("         T.IsPricingshown AS CompanyContact_IsPricingshown, \r\n            T.Skyp");
-            viewString.Append("eId AS CompanyContact_SkypeId, \r\n            T.LinkedinURL AS CompanyContact_Lin");
-            viewString.Append("kedinURL, \r\n            T.FacebookURL AS CompanyContact_FacebookURL, \r\n         ");
-            viewString.Append("   T.TwitterURL AS CompanyContact_TwitterURL, \r\n            T.authenticationToke");
-            viewString.Append("n AS CompanyContact_authenticationToken, \r\n            T.twitterScreenName AS Co");
-            viewString.Append("mpanyContact_twitterScreenName, \r\n            T.ShippingAddressId AS CompanyCont");
-            viewString.Append("act_ShippingAddressId, \r\n            T.isUserLoginFirstTime AS CompanyContact_is");
-            viewString.Append("UserLoginFirstTime, \r\n            T.quickMobileNumber AS CompanyContact_quickMob");
-            viewString.Append("ileNumber, \r\n            T.quickTwitterId AS CompanyContact_quickTwitterId, \r\n  ");
-            viewString.Append("          T.quickFacebookId AS CompanyContact_quickFacebookId, \r\n            T.q");
-            viewString.Append("uickLinkedInId AS CompanyContact_quickLinkedInId, \r\n            T.quickOtherId A");
-            viewString.Append("S CompanyContact_quickOtherId, \r\n            T.POBoxAddress AS CompanyContact_PO");
-            viewString.Append("BoxAddress, \r\n            T.CorporateUnit AS CompanyContact_CorporateUnit, \r\n   ");
-            viewString.Append("         T.OfficeTradingName AS CompanyContact_OfficeTradingName, \r\n            ");
-            viewString.Append("T.ContractorName AS CompanyContact_ContractorName, \r\n            T.BPayCRN AS Co");
-            viewString.Append("mpanyContact_BPayCRN, \r\n            T.ABN AS CompanyContact_ABN, \r\n            T");
-            viewString.Append(".ACN AS CompanyContact_ACN, \r\n            T.AdditionalField1 AS CompanyContact_A");
-            viewString.Append("dditionalField1, \r\n            T.AdditionalField2 AS CompanyContact_AdditionalFi");
-            viewString.Append("eld2, \r\n            T.AdditionalField3 AS CompanyContact_AdditionalField3, \r\n   ");
-            viewString.Append("         T.AdditionalField4 AS CompanyContact_AdditionalField4, \r\n            T.");
-            viewString.Append("AdditionalField5 AS CompanyContact_AdditionalField5, \r\n            T.canUserPlac");
-            viewString.Append("eOrderWithoutApproval AS CompanyContact_canUserPlaceOrderWithoutApproval, \r\n    ");
-            viewString.Append("        T.CanUserEditProfile AS CompanyContact_CanUserEditProfile, \r\n           ");
-            viewString.Append(" T.canPlaceDirectOrder AS CompanyContact_canPlaceDirectOrder, \r\n            T.Or");
-            viewString.Append("ganisationId AS CompanyContact_OrganisationId, \r\n            True AS _from0\r\n   ");
-            viewString.Append("     FROM BaseDbContext.CompanyContacts AS T\r\n    ) AS T1");
+            viewString.Append(" T.ContactId AS CompanyContact_ContactId, \r\n            T.AddressId AS CompanyCo");
+            viewString.Append("ntact_AddressId, \r\n            T.CompanyId AS CompanyContact_CompanyId, \r\n      ");
+            viewString.Append("      T.FirstName AS CompanyContact_FirstName, \r\n            T.MiddleName AS Com");
+            viewString.Append("panyContact_MiddleName, \r\n            T.LastName AS CompanyContact_LastName, \r\n ");
+            viewString.Append("           T.Title AS CompanyContact_Title, \r\n            T.HomeTel1 AS CompanyC");
+            viewString.Append("ontact_HomeTel1, \r\n            T.HomeTel2 AS CompanyContact_HomeTel2, \r\n        ");
+            viewString.Append("    T.HomeExtension1 AS CompanyContact_HomeExtension1, \r\n            T.HomeExten");
+            viewString.Append("sion2 AS CompanyContact_HomeExtension2, \r\n            T.Mobile AS CompanyContact");
+            viewString.Append("_Mobile, \r\n            T.Email AS CompanyContact_Email, \r\n            T.FAX AS C");
+            viewString.Append("ompanyContact_FAX, \r\n            T.JobTitle AS CompanyContact_JobTitle, \r\n      ");
+            viewString.Append("      T.DOB AS CompanyContact_DOB, \r\n            T.Notes AS CompanyContact_Notes");
+            viewString.Append(", \r\n            T.IsDefaultContact AS CompanyContact_IsDefaultContact, \r\n       ");
+            viewString.Append("     T.HomeAddress1 AS CompanyContact_HomeAddress1, \r\n            T.HomeAddress2");
+            viewString.Append(" AS CompanyContact_HomeAddress2, \r\n            T.HomeCity AS CompanyContact_Home");
+            viewString.Append("City, \r\n            T.HomeState AS CompanyContact_HomeState, \r\n            T.Hom");
+            viewString.Append("ePostCode AS CompanyContact_HomePostCode, \r\n            T.HomeCountry AS Company");
+            viewString.Append("Contact_HomeCountry, \r\n            T.SecretQuestion AS CompanyContact_SecretQues");
+            viewString.Append("tion, \r\n            T.SecretAnswer AS CompanyContact_SecretAnswer, \r\n           ");
+            viewString.Append(" T.Password AS CompanyContact_Password, \r\n            T.URL AS CompanyContact_UR");
+            viewString.Append("L, \r\n            T.IsEmailSubscription AS CompanyContact_IsEmailSubscription, \r\n");
+            viewString.Append("            T.IsNewsLetterSubscription AS CompanyContact_IsNewsLetterSubscriptio");
+            viewString.Append("n, \r\n            T.image AS CompanyContact_image, \r\n            T.quickFullName ");
+            viewString.Append("AS CompanyContact_quickFullName, \r\n            T.quickTitle AS CompanyContact_qu");
+            viewString.Append("ickTitle, \r\n            T.quickCompanyName AS CompanyContact_quickCompanyName, \r");
+            viewString.Append("\n            T.quickAddress1 AS CompanyContact_quickAddress1, \r\n            T.qu");
+            viewString.Append("ickAddress2 AS CompanyContact_quickAddress2, \r\n            T.quickAddress3 AS Co");
+            viewString.Append("mpanyContact_quickAddress3, \r\n            T.quickPhone AS CompanyContact_quickPh");
+            viewString.Append("one, \r\n            T.quickFax AS CompanyContact_quickFax, \r\n            T.quickE");
+            viewString.Append("mail AS CompanyContact_quickEmail, \r\n            T.quickWebsite AS CompanyContac");
+            viewString.Append("t_quickWebsite, \r\n            T.quickCompMessage AS CompanyContact_quickCompMess");
+            viewString.Append("age, \r\n            T.QuestionId AS CompanyContact_QuestionId, \r\n            T.Is");
+            viewString.Append("Approver AS CompanyContact_IsApprover, \r\n            T.isWebAccess AS CompanyCon");
+            viewString.Append("tact_isWebAccess, \r\n            T.isPlaceOrder AS CompanyContact_isPlaceOrder, \r");
+            viewString.Append("\n            T.CreditLimit AS CompanyContact_CreditLimit, \r\n            T.isArch");
+            viewString.Append("ived AS CompanyContact_isArchived, \r\n            T.ContactRoleId AS CompanyConta");
+            viewString.Append("ct_ContactRoleId, \r\n            T.TerritoryId AS CompanyContact_TerritoryId, \r\n ");
+            viewString.Append("           T.ClaimIdentifer AS CompanyContact_ClaimIdentifer, \r\n            T.Au");
+            viewString.Append("thentifiedBy AS CompanyContact_AuthentifiedBy, \r\n            T.IsPayByPersonalCr");
+            viewString.Append("editCard AS CompanyContact_IsPayByPersonalCreditCard, \r\n            T.IsPricings");
+            viewString.Append("hown AS CompanyContact_IsPricingshown, \r\n            T.SkypeId AS CompanyContact");
+            viewString.Append("_SkypeId, \r\n            T.LinkedinURL AS CompanyContact_LinkedinURL, \r\n         ");
+            viewString.Append("   T.FacebookURL AS CompanyContact_FacebookURL, \r\n            T.TwitterURL AS Co");
+            viewString.Append("mpanyContact_TwitterURL, \r\n            T.authenticationToken AS CompanyContact_a");
+            viewString.Append("uthenticationToken, \r\n            T.twitterScreenName AS CompanyContact_twitterS");
+            viewString.Append("creenName, \r\n            T.ShippingAddressId AS CompanyContact_ShippingAddressId");
+            viewString.Append(", \r\n            T.isUserLoginFirstTime AS CompanyContact_isUserLoginFirstTime, \r");
+            viewString.Append("\n            T.quickMobileNumber AS CompanyContact_quickMobileNumber, \r\n        ");
+            viewString.Append("    T.quickTwitterId AS CompanyContact_quickTwitterId, \r\n            T.quickFace");
+            viewString.Append("bookId AS CompanyContact_quickFacebookId, \r\n            T.quickLinkedInId AS Com");
+            viewString.Append("panyContact_quickLinkedInId, \r\n            T.quickOtherId AS CompanyContact_quic");
+            viewString.Append("kOtherId, \r\n            T.POBoxAddress AS CompanyContact_POBoxAddress, \r\n       ");
+            viewString.Append("     T.CorporateUnit AS CompanyContact_CorporateUnit, \r\n            T.OfficeTrad");
+            viewString.Append("ingName AS CompanyContact_OfficeTradingName, \r\n            T.ContractorName AS C");
+            viewString.Append("ompanyContact_ContractorName, \r\n            T.BPayCRN AS CompanyContact_BPayCRN,");
+            viewString.Append(" \r\n            T.ABN AS CompanyContact_ABN, \r\n            T.ACN AS CompanyContac");
+            viewString.Append("t_ACN, \r\n            T.AdditionalField1 AS CompanyContact_AdditionalField1, \r\n  ");
+            viewString.Append("          T.AdditionalField2 AS CompanyContact_AdditionalField2, \r\n            T");
+            viewString.Append(".AdditionalField3 AS CompanyContact_AdditionalField3, \r\n            T.Additional");
+            viewString.Append("Field4 AS CompanyContact_AdditionalField4, \r\n            T.AdditionalField5 AS C");
+            viewString.Append("ompanyContact_AdditionalField5, \r\n            T.canUserPlaceOrderWithoutApproval");
+            viewString.Append(" AS CompanyContact_canUserPlaceOrderWithoutApproval, \r\n            T.CanUserEdit");
+            viewString.Append("Profile AS CompanyContact_CanUserEditProfile, \r\n            T.canPlaceDirectOrde");
+            viewString.Append("r AS CompanyContact_canPlaceDirectOrder, \r\n            T.OrganisationId AS Compa");
+            viewString.Append("nyContact_OrganisationId, \r\n            True AS _from0\r\n        FROM BaseDbConte");
+            viewString.Append("xt.CompanyContacts AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CompanyContact", viewString.ToString());
         }
         
@@ -2945,9 +2977,147 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.Companies
+        /// return view for DomainModelsStoreContainer.Address
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView51()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2368);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Address\r\n        [DomainModels.Store.Address]");
+            viewString.Append("(T1.Address_AddressId, T1.Address_CompanyId, T1.Address_AddressName, T1.Address_");
+            viewString.Append("Address1, T1.Address_Address2, T1.Address_Address3, T1.Address_City, T1.Address_");
+            viewString.Append("State, T1.Address_Country, T1.Address_PostCode, T1.Address_Fax, T1.Address_Email");
+            viewString.Append(", T1.Address_URL, T1.Address_Tel1, T1.Address_Tel2, T1.Address_Extension1, T1.Ad");
+            viewString.Append("dress_Extension2, T1.Address_Reference, T1.Address_FAO, T1.Address_IsDefaultAddr");
+            viewString.Append("ess, T1.Address_IsDefaultShippingAddress, T1.Address_isArchived, T1.Address_Terr");
+            viewString.Append("itoryId, T1.Address_GeoLatitude, T1.Address_GeoLongitude, T1.Address_isPrivate, ");
+            viewString.Append("T1.Address_ContactId, T1.Address_isDefaultTerrorityBilling, T1.Address_isDefault");
+            viewString.Append("TerrorityShipping, T1.Address_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n    ");
+            viewString.Append("        T.AddressId AS Address_AddressId, \r\n            T.CompanyId AS Address_C");
+            viewString.Append("ompanyId, \r\n            T.AddressName AS Address_AddressName, \r\n            T.Ad");
+            viewString.Append("dress1 AS Address_Address1, \r\n            T.Address2 AS Address_Address2, \r\n    ");
+            viewString.Append("        T.Address3 AS Address_Address3, \r\n            T.City AS Address_City, \r\n");
+            viewString.Append("            T.State AS Address_State, \r\n            T.Country AS Address_Country");
+            viewString.Append(", \r\n            T.PostCode AS Address_PostCode, \r\n            T.Fax AS Address_F");
+            viewString.Append("ax, \r\n            T.Email AS Address_Email, \r\n            T.URL AS Address_URL, ");
+            viewString.Append("\r\n            T.Tel1 AS Address_Tel1, \r\n            T.Tel2 AS Address_Tel2, \r\n  ");
+            viewString.Append("          T.Extension1 AS Address_Extension1, \r\n            T.Extension2 AS Addr");
+            viewString.Append("ess_Extension2, \r\n            T.Reference AS Address_Reference, \r\n            T.");
+            viewString.Append("FAO AS Address_FAO, \r\n            T.IsDefaultAddress AS Address_IsDefaultAddress");
+            viewString.Append(", \r\n            T.IsDefaultShippingAddress AS Address_IsDefaultShippingAddress, ");
+            viewString.Append("\r\n            T.isArchived AS Address_isArchived, \r\n            T.TerritoryId AS");
+            viewString.Append(" Address_TerritoryId, \r\n            T.GeoLatitude AS Address_GeoLatitude, \r\n    ");
+            viewString.Append("        T.GeoLongitude AS Address_GeoLongitude, \r\n            T.isPrivate AS Add");
+            viewString.Append("ress_isPrivate, \r\n            T.ContactId AS Address_ContactId, \r\n            T.");
+            viewString.Append("isDefaultTerrorityBilling AS Address_isDefaultTerrorityBilling, \r\n            T.");
+            viewString.Append("isDefaultTerrorityShipping AS Address_isDefaultTerrorityShipping, \r\n            ");
+            viewString.Append("T.OrganisationId AS Address_OrganisationId, \r\n            True AS _from0\r\n      ");
+            viewString.Append("  FROM BaseDbContext.Addresses AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Address", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Template
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView52()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4809);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Template\r\n        [DomainModels.Store.Templat");
+            viewString.Append("e](T1.Template_ProductId, T1.Template_Code, T1.Template_ProductName, T1.Template");
+            viewString.Append("_Description, T1.Template_ProductCategoryId, T1.Template_LowResPDFTemplates, T1.");
+            viewString.Append("Template_BackgroundArtwork, T1.Template_Side2LowResPDFTemplates, T1.Template_Sid");
+            viewString.Append("e2BackgroundArtwork, T1.Template_Thumbnail, T1.Template_Image, T1.Template_IsDis");
+            viewString.Append("abled, T1.Template_PTempId, T1.Template_IsDoubleSide, T1.Template_IsUsePDFFile, ");
+            viewString.Append("T1.Template_PDFTemplateWidth, T1.Template_PDFTemplateHeight, T1.Template_IsUseBa");
+            viewString.Append("ckGroundColor, T1.Template_BgR, T1.Template_BgG, T1.Template_BgB, T1.Template_Is");
+            viewString.Append("UseSide2BackGroundColor, T1.Template_Side2BgR, T1.Template_Side2BgG, T1.Template");
+            viewString.Append("_Side2BgB, T1.Template_CuttingMargin, T1.Template_MultiPageCount, T1.Template_Or");
+            viewString.Append("ientation, T1.Template_MatchingSetTheme, T1.Template_BaseColorID, T1.Template_Su");
+            viewString.Append("bmittedBy, T1.Template_SubmittedByName, T1.Template_SubmitDate, T1.Template_Stat");
+            viewString.Append("us, T1.Template_ApprovedBy, T1.Template_ApprovedByName, T1.Template_UserRating, ");
+            viewString.Append("T1.Template_UsedCount, T1.Template_MPCRating, T1.Template_RejectionReason, T1.Te");
+            viewString.Append("mplate_ApprovalDate, T1.Template_TempString, T1.Template_MatchingSetID, T1.Templ");
+            viewString.Append("ate_FullView, T1.Template_SLThumbnail, T1.Template_SuperView, T1.Template_ColorH");
+            viewString.Append("ex, T1.Template_TemplateOwner, T1.Template_TemplateOwnerName, T1.Template_IsPriv");
+            viewString.Append("ate, T1.Template_ApprovedDate, T1.Template_IsCorporateEditable, T1.Template_Temp");
+            viewString.Append("lateType, T1.Template_isWatermarkText, T1.Template_isSpotTemplate, T1.Template_i");
+            viewString.Append("sCreatedManual, T1.Template_isEditorChoice)\r\n    FROM (\r\n        SELECT \r\n      ");
+            viewString.Append("      T.ProductId AS Template_ProductId, \r\n            T.Code AS Template_Code, ");
+            viewString.Append("\r\n            T.ProductName AS Template_ProductName, \r\n            T.Description");
+            viewString.Append(" AS Template_Description, \r\n            T.ProductCategoryId AS Template_ProductC");
+            viewString.Append("ategoryId, \r\n            T.LowResPDFTemplates AS Template_LowResPDFTemplates, \r\n");
+            viewString.Append("            T.BackgroundArtwork AS Template_BackgroundArtwork, \r\n            T.S");
+            viewString.Append("ide2LowResPDFTemplates AS Template_Side2LowResPDFTemplates, \r\n            T.Side");
+            viewString.Append("2BackgroundArtwork AS Template_Side2BackgroundArtwork, \r\n            T.Thumbnail");
+            viewString.Append(" AS Template_Thumbnail, \r\n            T.Image AS Template_Image, \r\n            T");
+            viewString.Append(".IsDisabled AS Template_IsDisabled, \r\n            T.PTempId AS Template_PTempId,");
+            viewString.Append(" \r\n            T.IsDoubleSide AS Template_IsDoubleSide, \r\n            T.IsUsePDF");
+            viewString.Append("File AS Template_IsUsePDFFile, \r\n            T.PDFTemplateWidth AS Template_PDFT");
+            viewString.Append("emplateWidth, \r\n            T.PDFTemplateHeight AS Template_PDFTemplateHeight, \r");
+            viewString.Append("\n            T.IsUseBackGroundColor AS Template_IsUseBackGroundColor, \r\n        ");
+            viewString.Append("    T.BgR AS Template_BgR, \r\n            T.BgG AS Template_BgG, \r\n            T.");
+            viewString.Append("BgB AS Template_BgB, \r\n            T.IsUseSide2BackGroundColor AS Template_IsUse");
+            viewString.Append("Side2BackGroundColor, \r\n            T.Side2BgR AS Template_Side2BgR, \r\n         ");
+            viewString.Append("   T.Side2BgG AS Template_Side2BgG, \r\n            T.Side2BgB AS Template_Side2Bg");
+            viewString.Append("B, \r\n            T.CuttingMargin AS Template_CuttingMargin, \r\n            T.Mult");
+            viewString.Append("iPageCount AS Template_MultiPageCount, \r\n            T.Orientation AS Template_O");
+            viewString.Append("rientation, \r\n            T.MatchingSetTheme AS Template_MatchingSetTheme, \r\n   ");
+            viewString.Append("         T.BaseColorID AS Template_BaseColorID, \r\n            T.SubmittedBy AS T");
+            viewString.Append("emplate_SubmittedBy, \r\n            T.SubmittedByName AS Template_SubmittedByName");
+            viewString.Append(", \r\n            T.SubmitDate AS Template_SubmitDate, \r\n            T.Status AS T");
+            viewString.Append("emplate_Status, \r\n            T.ApprovedBy AS Template_ApprovedBy, \r\n           ");
+            viewString.Append(" T.ApprovedByName AS Template_ApprovedByName, \r\n            T.UserRating AS Temp");
+            viewString.Append("late_UserRating, \r\n            T.UsedCount AS Template_UsedCount, \r\n            ");
+            viewString.Append("T.MPCRating AS Template_MPCRating, \r\n            T.RejectionReason AS Template_R");
+            viewString.Append("ejectionReason, \r\n            T.ApprovalDate AS Template_ApprovalDate, \r\n       ");
+            viewString.Append("     T.TempString AS Template_TempString, \r\n            T.MatchingSetID AS Templ");
+            viewString.Append("ate_MatchingSetID, \r\n            T.FullView AS Template_FullView, \r\n            ");
+            viewString.Append("T.SLThumbnail AS Template_SLThumbnail, \r\n            T.SuperView AS Template_Sup");
+            viewString.Append("erView, \r\n            T.ColorHex AS Template_ColorHex, \r\n            T.TemplateO");
+            viewString.Append("wner AS Template_TemplateOwner, \r\n            T.TemplateOwnerName AS Template_Te");
+            viewString.Append("mplateOwnerName, \r\n            T.IsPrivate AS Template_IsPrivate, \r\n            ");
+            viewString.Append("T.ApprovedDate AS Template_ApprovedDate, \r\n            T.IsCorporateEditable AS ");
+            viewString.Append("Template_IsCorporateEditable, \r\n            T.TemplateType AS Template_TemplateT");
+            viewString.Append("ype, \r\n            T.isWatermarkText AS Template_isWatermarkText, \r\n            ");
+            viewString.Append("T.isSpotTemplate AS Template_isSpotTemplate, \r\n            T.isCreatedManual AS ");
+            viewString.Append("Template_isCreatedManual, \r\n            T.isEditorChoice AS Template_isEditorCho");
+            viewString.Append("ice, \r\n            True AS _from0\r\n        FROM BaseDbContext.Templates AS T\r\n  ");
+            viewString.Append("  ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Template", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.TemplatePage
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView53()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplatePage", @"
+    SELECT VALUE -- Constructing TemplatePage
+        [DomainModels.Store.TemplatePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplatePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects)
+    FROM (
+        SELECT 
+            T.ProductPageId AS TemplatePage_ProductPageId, 
+            T.ProductId AS TemplatePage_ProductId, 
+            T.PageNo AS TemplatePage_PageNo, 
+            T.PageType AS TemplatePage_PageType, 
+            T.Orientation AS TemplatePage_Orientation, 
+            T.BackGroundType AS TemplatePage_BackGroundType, 
+            T.BackgroundFileName AS TemplatePage_BackgroundFileName, 
+            T.ColorC AS TemplatePage_ColorC, 
+            T.ColorM AS TemplatePage_ColorM, 
+            T.ColorY AS TemplatePage_ColorY, 
+            T.PageName AS TemplatePage_PageName, 
+            T.ColorK AS TemplatePage_ColorK, 
+            T.IsPrintable AS TemplatePage_IsPrintable, 
+            T.hasOverlayObjects AS TemplatePage_hasOverlayObjects, 
+            True AS _from0
+        FROM BaseDbContext.TemplatePages AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Companies
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView54()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(9418);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Companies\r\n        [DomainModels.Company](T1.");
@@ -3074,7 +3244,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CmsSkinPageWidgets
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView52()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView55()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsSkinPageWidgets", @"
     SELECT VALUE -- Constructing CmsSkinPageWidgets
@@ -3096,7 +3266,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CmsSkinPageWidgetParams
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView53()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView56()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CmsSkinPageWidgetParams", @"
     SELECT VALUE -- Constructing CmsSkinPageWidgetParams
@@ -3115,7 +3285,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyBanners
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView54()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView57()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyBanners", @"
     SELECT VALUE -- Constructing CompanyBanners
@@ -3143,7 +3313,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyBannerSets
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView55()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView58()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyBannerSets", @"
     SELECT VALUE -- Constructing CompanyBannerSets
@@ -3162,7 +3332,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyDomains
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView56()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView59()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyDomains", @"
     SELECT VALUE -- Constructing CompanyDomains
@@ -3180,7 +3350,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Organisations
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView57()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView60()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2526);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
@@ -3221,7 +3391,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ProductCategories
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView58()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView61()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5811);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ProductCategories\r\n        [DomainModels.Prod");
@@ -3303,7 +3473,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Widgets
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView59()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView62()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Widgets", @"
     SELECT VALUE -- Constructing Widgets
@@ -3322,7 +3492,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.StockCategories
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView60()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView63()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCategories", "\r\n    SELECT VALUE -- Constructing StockCategories\r\n        [DomainModels.StockCa" +
                     "tegory](T1.StockCategory_CategoryId, T1.StockCategory_Code, T1.StockCategory_Nam" +
@@ -3352,7 +3522,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.StockSubCategories
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView61()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView64()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockSubCategories", @"
     SELECT VALUE -- Constructing StockSubCategories
@@ -3373,7 +3543,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CmsPages
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView62()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView65()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2777);
             viewString.Append("\r\n    SELECT VALUE -- Constructing CmsPages\r\n        [DomainModels.CmsPage](T1.C");
@@ -3417,7 +3587,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.StockCostAndPrices
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView63()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView66()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StockCostAndPrices", @"
     SELECT VALUE -- Constructing StockCostAndPrices
@@ -3440,7 +3610,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.StockItems
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView64()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView67()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5768);
             viewString.Append("\r\n    SELECT VALUE -- Constructing StockItems\r\n        [DomainModels.StockItem](");
@@ -3522,9 +3692,9 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyContacts
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView65()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView68()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7984);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7963);
             viewString.Append("\r\n    SELECT VALUE -- Constructing CompanyContacts\r\n        [DomainModels.Compan");
             viewString.Append("yContact](T1.CompanyContact_ContactId, T1.CompanyContact_AddressId, T1.CompanyCo");
             viewString.Append("ntact_CompanyId, T1.CompanyContact_FirstName, T1.CompanyContact_MiddleName, T1.C");
@@ -3560,78 +3730,78 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("mpanyContact_AdditionalField5, T1.CompanyContact_canUserPlaceOrderWithoutApprova");
             viewString.Append("l, T1.CompanyContact_CanUserEditProfile, T1.CompanyContact_canPlaceDirectOrder, ");
             viewString.Append("T1.CompanyContact_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n            T.Co");
-            viewString.Append("ntactId AS CompanyContact_ContactId, \r\n            CAST(T.AddressId AS [Edm.Int3");
-            viewString.Append("2]) AS CompanyContact_AddressId, \r\n            T.CompanyId AS CompanyContact_Com");
-            viewString.Append("panyId, \r\n            T.FirstName AS CompanyContact_FirstName, \r\n            T.M");
-            viewString.Append("iddleName AS CompanyContact_MiddleName, \r\n            T.LastName AS CompanyConta");
-            viewString.Append("ct_LastName, \r\n            T.Title AS CompanyContact_Title, \r\n            T.Home");
-            viewString.Append("Tel1 AS CompanyContact_HomeTel1, \r\n            T.HomeTel2 AS CompanyContact_Home");
-            viewString.Append("Tel2, \r\n            T.HomeExtension1 AS CompanyContact_HomeExtension1, \r\n       ");
-            viewString.Append("     T.HomeExtension2 AS CompanyContact_HomeExtension2, \r\n            T.Mobile A");
-            viewString.Append("S CompanyContact_Mobile, \r\n            T.Email AS CompanyContact_Email, \r\n      ");
-            viewString.Append("      T.FAX AS CompanyContact_FAX, \r\n            T.JobTitle AS CompanyContact_Jo");
-            viewString.Append("bTitle, \r\n            T.DOB AS CompanyContact_DOB, \r\n            T.Notes AS Comp");
-            viewString.Append("anyContact_Notes, \r\n            T.IsDefaultContact AS CompanyContact_IsDefaultCo");
-            viewString.Append("ntact, \r\n            T.HomeAddress1 AS CompanyContact_HomeAddress1, \r\n          ");
-            viewString.Append("  T.HomeAddress2 AS CompanyContact_HomeAddress2, \r\n            T.HomeCity AS Com");
-            viewString.Append("panyContact_HomeCity, \r\n            T.HomeState AS CompanyContact_HomeState, \r\n ");
-            viewString.Append("           T.HomePostCode AS CompanyContact_HomePostCode, \r\n            T.HomeCo");
-            viewString.Append("untry AS CompanyContact_HomeCountry, \r\n            T.SecretQuestion AS CompanyCo");
-            viewString.Append("ntact_SecretQuestion, \r\n            T.SecretAnswer AS CompanyContact_SecretAnswe");
-            viewString.Append("r, \r\n            T.Password AS CompanyContact_Password, \r\n            T.URL AS C");
-            viewString.Append("ompanyContact_URL, \r\n            T.IsEmailSubscription AS CompanyContact_IsEmail");
-            viewString.Append("Subscription, \r\n            T.IsNewsLetterSubscription AS CompanyContact_IsNewsL");
-            viewString.Append("etterSubscription, \r\n            T.image AS CompanyContact_image, \r\n            ");
-            viewString.Append("T.quickFullName AS CompanyContact_quickFullName, \r\n            T.quickTitle AS C");
-            viewString.Append("ompanyContact_quickTitle, \r\n            T.quickCompanyName AS CompanyContact_qui");
-            viewString.Append("ckCompanyName, \r\n            T.quickAddress1 AS CompanyContact_quickAddress1, \r\n");
-            viewString.Append("            T.quickAddress2 AS CompanyContact_quickAddress2, \r\n            T.qui");
-            viewString.Append("ckAddress3 AS CompanyContact_quickAddress3, \r\n            T.quickPhone AS Compan");
-            viewString.Append("yContact_quickPhone, \r\n            T.quickFax AS CompanyContact_quickFax, \r\n    ");
-            viewString.Append("        T.quickEmail AS CompanyContact_quickEmail, \r\n            T.quickWebsite ");
-            viewString.Append("AS CompanyContact_quickWebsite, \r\n            T.quickCompMessage AS CompanyConta");
-            viewString.Append("ct_quickCompMessage, \r\n            T.QuestionId AS CompanyContact_QuestionId, \r\n");
-            viewString.Append("            T.IsApprover AS CompanyContact_IsApprover, \r\n            T.isWebAcce");
-            viewString.Append("ss AS CompanyContact_isWebAccess, \r\n            T.isPlaceOrder AS CompanyContact");
-            viewString.Append("_isPlaceOrder, \r\n            T.CreditLimit AS CompanyContact_CreditLimit, \r\n    ");
-            viewString.Append("        T.isArchived AS CompanyContact_isArchived, \r\n            T.ContactRoleId");
-            viewString.Append(" AS CompanyContact_ContactRoleId, \r\n            T.TerritoryId AS CompanyContact_");
-            viewString.Append("TerritoryId, \r\n            T.ClaimIdentifer AS CompanyContact_ClaimIdentifer, \r\n");
-            viewString.Append("            T.AuthentifiedBy AS CompanyContact_AuthentifiedBy, \r\n            T.I");
-            viewString.Append("sPayByPersonalCreditCard AS CompanyContact_IsPayByPersonalCreditCard, \r\n        ");
-            viewString.Append("    T.IsPricingshown AS CompanyContact_IsPricingshown, \r\n            T.SkypeId A");
-            viewString.Append("S CompanyContact_SkypeId, \r\n            T.LinkedinURL AS CompanyContact_Linkedin");
-            viewString.Append("URL, \r\n            T.FacebookURL AS CompanyContact_FacebookURL, \r\n            T.");
-            viewString.Append("TwitterURL AS CompanyContact_TwitterURL, \r\n            T.authenticationToken AS ");
-            viewString.Append("CompanyContact_authenticationToken, \r\n            T.twitterScreenName AS Company");
-            viewString.Append("Contact_twitterScreenName, \r\n            T.ShippingAddressId AS CompanyContact_S");
-            viewString.Append("hippingAddressId, \r\n            T.isUserLoginFirstTime AS CompanyContact_isUserL");
-            viewString.Append("oginFirstTime, \r\n            T.quickMobileNumber AS CompanyContact_quickMobileNu");
-            viewString.Append("mber, \r\n            T.quickTwitterId AS CompanyContact_quickTwitterId, \r\n       ");
-            viewString.Append("     T.quickFacebookId AS CompanyContact_quickFacebookId, \r\n            T.quickL");
-            viewString.Append("inkedInId AS CompanyContact_quickLinkedInId, \r\n            T.quickOtherId AS Com");
-            viewString.Append("panyContact_quickOtherId, \r\n            T.POBoxAddress AS CompanyContact_POBoxAd");
-            viewString.Append("dress, \r\n            T.CorporateUnit AS CompanyContact_CorporateUnit, \r\n        ");
-            viewString.Append("    T.OfficeTradingName AS CompanyContact_OfficeTradingName, \r\n            T.Con");
-            viewString.Append("tractorName AS CompanyContact_ContractorName, \r\n            T.BPayCRN AS Company");
-            viewString.Append("Contact_BPayCRN, \r\n            T.ABN AS CompanyContact_ABN, \r\n            T.ACN ");
-            viewString.Append("AS CompanyContact_ACN, \r\n            T.AdditionalField1 AS CompanyContact_Additi");
-            viewString.Append("onalField1, \r\n            T.AdditionalField2 AS CompanyContact_AdditionalField2,");
-            viewString.Append(" \r\n            T.AdditionalField3 AS CompanyContact_AdditionalField3, \r\n        ");
-            viewString.Append("    T.AdditionalField4 AS CompanyContact_AdditionalField4, \r\n            T.Addit");
-            viewString.Append("ionalField5 AS CompanyContact_AdditionalField5, \r\n            T.canUserPlaceOrde");
-            viewString.Append("rWithoutApproval AS CompanyContact_canUserPlaceOrderWithoutApproval, \r\n         ");
-            viewString.Append("   T.CanUserEditProfile AS CompanyContact_CanUserEditProfile, \r\n            T.ca");
-            viewString.Append("nPlaceDirectOrder AS CompanyContact_canPlaceDirectOrder, \r\n            T.Organis");
-            viewString.Append("ationId AS CompanyContact_OrganisationId, \r\n            True AS _from0\r\n        ");
-            viewString.Append("FROM DomainModelsStoreContainer.CompanyContact AS T\r\n    ) AS T1");
+            viewString.Append("ntactId AS CompanyContact_ContactId, \r\n            T.AddressId AS CompanyContact");
+            viewString.Append("_AddressId, \r\n            T.CompanyId AS CompanyContact_CompanyId, \r\n           ");
+            viewString.Append(" T.FirstName AS CompanyContact_FirstName, \r\n            T.MiddleName AS CompanyC");
+            viewString.Append("ontact_MiddleName, \r\n            T.LastName AS CompanyContact_LastName, \r\n      ");
+            viewString.Append("      T.Title AS CompanyContact_Title, \r\n            T.HomeTel1 AS CompanyContac");
+            viewString.Append("t_HomeTel1, \r\n            T.HomeTel2 AS CompanyContact_HomeTel2, \r\n            T");
+            viewString.Append(".HomeExtension1 AS CompanyContact_HomeExtension1, \r\n            T.HomeExtension2");
+            viewString.Append(" AS CompanyContact_HomeExtension2, \r\n            T.Mobile AS CompanyContact_Mobi");
+            viewString.Append("le, \r\n            T.Email AS CompanyContact_Email, \r\n            T.FAX AS Compan");
+            viewString.Append("yContact_FAX, \r\n            T.JobTitle AS CompanyContact_JobTitle, \r\n           ");
+            viewString.Append(" T.DOB AS CompanyContact_DOB, \r\n            T.Notes AS CompanyContact_Notes, \r\n ");
+            viewString.Append("           T.IsDefaultContact AS CompanyContact_IsDefaultContact, \r\n            ");
+            viewString.Append("T.HomeAddress1 AS CompanyContact_HomeAddress1, \r\n            T.HomeAddress2 AS C");
+            viewString.Append("ompanyContact_HomeAddress2, \r\n            T.HomeCity AS CompanyContact_HomeCity,");
+            viewString.Append(" \r\n            T.HomeState AS CompanyContact_HomeState, \r\n            T.HomePost");
+            viewString.Append("Code AS CompanyContact_HomePostCode, \r\n            T.HomeCountry AS CompanyConta");
+            viewString.Append("ct_HomeCountry, \r\n            T.SecretQuestion AS CompanyContact_SecretQuestion,");
+            viewString.Append(" \r\n            T.SecretAnswer AS CompanyContact_SecretAnswer, \r\n            T.Pa");
+            viewString.Append("ssword AS CompanyContact_Password, \r\n            T.URL AS CompanyContact_URL, \r\n");
+            viewString.Append("            T.IsEmailSubscription AS CompanyContact_IsEmailSubscription, \r\n     ");
+            viewString.Append("       T.IsNewsLetterSubscription AS CompanyContact_IsNewsLetterSubscription, \r\n");
+            viewString.Append("            T.image AS CompanyContact_image, \r\n            T.quickFullName AS Co");
+            viewString.Append("mpanyContact_quickFullName, \r\n            T.quickTitle AS CompanyContact_quickTi");
+            viewString.Append("tle, \r\n            T.quickCompanyName AS CompanyContact_quickCompanyName, \r\n    ");
+            viewString.Append("        T.quickAddress1 AS CompanyContact_quickAddress1, \r\n            T.quickAd");
+            viewString.Append("dress2 AS CompanyContact_quickAddress2, \r\n            T.quickAddress3 AS Company");
+            viewString.Append("Contact_quickAddress3, \r\n            T.quickPhone AS CompanyContact_quickPhone, ");
+            viewString.Append("\r\n            T.quickFax AS CompanyContact_quickFax, \r\n            T.quickEmail ");
+            viewString.Append("AS CompanyContact_quickEmail, \r\n            T.quickWebsite AS CompanyContact_qui");
+            viewString.Append("ckWebsite, \r\n            T.quickCompMessage AS CompanyContact_quickCompMessage, ");
+            viewString.Append("\r\n            T.QuestionId AS CompanyContact_QuestionId, \r\n            T.IsAppro");
+            viewString.Append("ver AS CompanyContact_IsApprover, \r\n            T.isWebAccess AS CompanyContact_");
+            viewString.Append("isWebAccess, \r\n            T.isPlaceOrder AS CompanyContact_isPlaceOrder, \r\n    ");
+            viewString.Append("        T.CreditLimit AS CompanyContact_CreditLimit, \r\n            T.isArchived ");
+            viewString.Append("AS CompanyContact_isArchived, \r\n            T.ContactRoleId AS CompanyContact_Co");
+            viewString.Append("ntactRoleId, \r\n            T.TerritoryId AS CompanyContact_TerritoryId, \r\n      ");
+            viewString.Append("      T.ClaimIdentifer AS CompanyContact_ClaimIdentifer, \r\n            T.Authent");
+            viewString.Append("ifiedBy AS CompanyContact_AuthentifiedBy, \r\n            T.IsPayByPersonalCreditC");
+            viewString.Append("ard AS CompanyContact_IsPayByPersonalCreditCard, \r\n            T.IsPricingshown ");
+            viewString.Append("AS CompanyContact_IsPricingshown, \r\n            T.SkypeId AS CompanyContact_Skyp");
+            viewString.Append("eId, \r\n            T.LinkedinURL AS CompanyContact_LinkedinURL, \r\n            T.");
+            viewString.Append("FacebookURL AS CompanyContact_FacebookURL, \r\n            T.TwitterURL AS Company");
+            viewString.Append("Contact_TwitterURL, \r\n            T.authenticationToken AS CompanyContact_authen");
+            viewString.Append("ticationToken, \r\n            T.twitterScreenName AS CompanyContact_twitterScreen");
+            viewString.Append("Name, \r\n            T.ShippingAddressId AS CompanyContact_ShippingAddressId, \r\n ");
+            viewString.Append("           T.isUserLoginFirstTime AS CompanyContact_isUserLoginFirstTime, \r\n    ");
+            viewString.Append("        T.quickMobileNumber AS CompanyContact_quickMobileNumber, \r\n            T");
+            viewString.Append(".quickTwitterId AS CompanyContact_quickTwitterId, \r\n            T.quickFacebookI");
+            viewString.Append("d AS CompanyContact_quickFacebookId, \r\n            T.quickLinkedInId AS CompanyC");
+            viewString.Append("ontact_quickLinkedInId, \r\n            T.quickOtherId AS CompanyContact_quickOthe");
+            viewString.Append("rId, \r\n            T.POBoxAddress AS CompanyContact_POBoxAddress, \r\n            ");
+            viewString.Append("T.CorporateUnit AS CompanyContact_CorporateUnit, \r\n            T.OfficeTradingNa");
+            viewString.Append("me AS CompanyContact_OfficeTradingName, \r\n            T.ContractorName AS Compan");
+            viewString.Append("yContact_ContractorName, \r\n            T.BPayCRN AS CompanyContact_BPayCRN, \r\n  ");
+            viewString.Append("          T.ABN AS CompanyContact_ABN, \r\n            T.ACN AS CompanyContact_ACN");
+            viewString.Append(", \r\n            T.AdditionalField1 AS CompanyContact_AdditionalField1, \r\n       ");
+            viewString.Append("     T.AdditionalField2 AS CompanyContact_AdditionalField2, \r\n            T.Addi");
+            viewString.Append("tionalField3 AS CompanyContact_AdditionalField3, \r\n            T.AdditionalField");
+            viewString.Append("4 AS CompanyContact_AdditionalField4, \r\n            T.AdditionalField5 AS Compan");
+            viewString.Append("yContact_AdditionalField5, \r\n            T.canUserPlaceOrderWithoutApproval AS C");
+            viewString.Append("ompanyContact_canUserPlaceOrderWithoutApproval, \r\n            T.CanUserEditProfi");
+            viewString.Append("le AS CompanyContact_CanUserEditProfile, \r\n            T.canPlaceDirectOrder AS ");
+            viewString.Append("CompanyContact_canPlaceDirectOrder, \r\n            T.OrganisationId AS CompanyCon");
+            viewString.Append("tact_OrganisationId, \r\n            True AS _from0\r\n        FROM DomainModelsStor");
+            viewString.Append("eContainer.CompanyContact AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyContacts", viewString.ToString());
         }
         
         /// <Summary>
         /// return view for BaseDbContext.CompanyContactRoles
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView66()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView69()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyContactRoles", @"
     SELECT VALUE -- Constructing CompanyContactRoles
@@ -3648,7 +3818,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyTerritories
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView67()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView70()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyTerritories", @"
     SELECT VALUE -- Constructing CompanyTerritories
@@ -3668,7 +3838,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyTypes
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView68()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView71()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyTypes", @"
     SELECT VALUE -- Constructing CompanyTypes
@@ -3686,7 +3856,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CostCentres
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView69()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView72()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(12364);
             viewString.Append("\r\n    SELECT VALUE -- Constructing CostCentres\r\n        [DomainModels.CostCentre");
@@ -3850,7 +4020,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemAttachments
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView70()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView73()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemAttachments", "\r\n    SELECT VALUE -- Constructing ItemAttachments\r\n        [DomainModels.ItemAtt" +
                     "achment](T1.ItemAttachment_ItemAttachmentId, T1.ItemAttachment_FileTitle, T1.Ite" +
@@ -3880,7 +4050,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemImages
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView71()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView74()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemImages", @"
     SELECT VALUE -- Constructing ItemImages
@@ -3902,7 +4072,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemPriceMatrices
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView72()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView75()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2365);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemPriceMatrices\r\n        [DomainModels.Item");
@@ -3941,7 +4111,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemRelatedItems
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView73()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView76()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemRelatedItems", @"
     SELECT VALUE -- Constructing ItemRelatedItems
@@ -3959,7 +4129,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Items
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView74()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView77()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(16662);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Items\r\n        [DomainModels.Item](T1.Item_It");
@@ -4177,7 +4347,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemSections
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView75()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView78()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(15739);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemSections\r\n        [DomainModels.ItemSecti");
@@ -4383,7 +4553,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemStateTaxes
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView76()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView79()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemStateTaxes", @"
     SELECT VALUE -- Constructing ItemStateTaxes
@@ -4403,7 +4573,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemStockOptions
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView77()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView80()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemStockOptions", @"
     SELECT VALUE -- Constructing ItemStockOptions
@@ -4425,7 +4595,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemVdpPrices1
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView78()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView81()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemVdpPrices1", @"
     SELECT VALUE -- Constructing ItemVdpPrices1
@@ -4446,7 +4616,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Countries
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView79()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView82()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Countries", @"
     SELECT VALUE -- Constructing Countries
@@ -4464,7 +4634,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SectionCostcentres
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView80()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView83()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(11187);
             viewString.Append("\r\n    SELECT VALUE -- Constructing SectionCostcentres\r\n        [DomainModels.Sec");
@@ -4613,7 +4783,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SectionCostCentreDetails
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView81()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView84()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionCostCentreDetails", @"
     SELECT VALUE -- Constructing SectionCostCentreDetails
@@ -4639,7 +4809,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SectionCostCentreResources
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView82()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView85()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionCostCentreResources", @"
     SELECT VALUE -- Constructing SectionCostCentreResources
@@ -4660,7 +4830,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.States
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView83()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView86()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.States", @"
     SELECT VALUE -- Constructing States
@@ -4679,7 +4849,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Status
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView84()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView87()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Status", @"
     SELECT VALUE -- Constructing Status
@@ -4698,7 +4868,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Estimates
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView85()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView88()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(8312);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Estimates\r\n        [DomainModels.Estimate](T1");
@@ -4811,7 +4981,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PaymentGateways
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView86()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView89()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaymentGateways", @"
     SELECT VALUE -- Constructing PaymentGateways
@@ -4833,7 +5003,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PaymentMethods
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView87()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView90()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaymentMethods", @"
     SELECT VALUE -- Constructing PaymentMethods
@@ -4851,7 +5021,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PrePayments
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView88()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView91()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PrePayments", @"
     SELECT VALUE -- Constructing PrePayments
@@ -4875,7 +5045,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.RaveReviews
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView89()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView92()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.RaveReviews", @"
     SELECT VALUE -- Constructing RaveReviews
@@ -4898,7 +5068,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Inquiries
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView90()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView93()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Inquiries", @"
     SELECT VALUE -- Constructing Inquiries
@@ -4928,7 +5098,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.InquiryAttachments
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView91()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView94()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InquiryAttachments", @"
     SELECT VALUE -- Constructing InquiryAttachments
@@ -4948,7 +5118,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.InquiryItems
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView92()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView95()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InquiryItems", @"
     SELECT VALUE -- Constructing InquiryItems
@@ -4969,7 +5139,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Invoices
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView93()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView96()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(3244);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Invoices\r\n        [DomainModels.Invoice](T1.I");
@@ -5019,7 +5189,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.InvoiceDetails
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView94()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView97()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InvoiceDetails", @"
     SELECT VALUE -- Constructing InvoiceDetails
@@ -5048,7 +5218,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.RegistrationQuestions
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView95()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView98()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.RegistrationQuestions", @"
     SELECT VALUE -- Constructing RegistrationQuestions
@@ -5065,7 +5235,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.DeliveryNotes
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView96()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView99()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2814);
             viewString.Append("\r\n    SELECT VALUE -- Constructing DeliveryNotes\r\n        [DomainModels.Delivery");
@@ -5110,7 +5280,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.DeliveryNoteDetails
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView97()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView100()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DeliveryNoteDetails", @"
     SELECT VALUE -- Constructing DeliveryNoteDetails
@@ -5131,7 +5301,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyCMYKColors
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView98()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView101()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyCMYKColors", @"
     SELECT VALUE -- Constructing CompanyCMYKColors
@@ -5153,7 +5323,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SystemUsers
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView99()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView102()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2974);
             viewString.Append("\r\n    SELECT VALUE -- Constructing SystemUsers\r\n        [DomainModels.SystemUser");
@@ -5200,7 +5370,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemAddonCostCentres
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView100()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView103()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemAddonCostCentres", @"
     SELECT VALUE -- Constructing ItemAddonCostCentres
@@ -5222,7 +5392,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemVideos
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView101()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView104()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemVideos", @"
     SELECT VALUE -- Constructing ItemVideos
@@ -5239,9 +5409,147 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
+        /// return view for BaseDbContext.Addresses
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView105()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2375);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Addresses\r\n        [DomainModels.Address](T1.");
+            viewString.Append("Address_AddressId, T1.Address_CompanyId, T1.Address_AddressName, T1.Address_Addr");
+            viewString.Append("ess1, T1.Address_Address2, T1.Address_Address3, T1.Address_City, T1.Address_Stat");
+            viewString.Append("e, T1.Address_Country, T1.Address_PostCode, T1.Address_Fax, T1.Address_Email, T1");
+            viewString.Append(".Address_URL, T1.Address_Tel1, T1.Address_Tel2, T1.Address_Extension1, T1.Addres");
+            viewString.Append("s_Extension2, T1.Address_Reference, T1.Address_FAO, T1.Address_IsDefaultAddress,");
+            viewString.Append(" T1.Address_IsDefaultShippingAddress, T1.Address_isArchived, T1.Address_Territor");
+            viewString.Append("yId, T1.Address_GeoLatitude, T1.Address_GeoLongitude, T1.Address_isPrivate, T1.A");
+            viewString.Append("ddress_ContactId, T1.Address_isDefaultTerrorityBilling, T1.Address_isDefaultTerr");
+            viewString.Append("orityShipping, T1.Address_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n        ");
+            viewString.Append("    T.AddressId AS Address_AddressId, \r\n            T.CompanyId AS Address_Compa");
+            viewString.Append("nyId, \r\n            T.AddressName AS Address_AddressName, \r\n            T.Addres");
+            viewString.Append("s1 AS Address_Address1, \r\n            T.Address2 AS Address_Address2, \r\n        ");
+            viewString.Append("    T.Address3 AS Address_Address3, \r\n            T.City AS Address_City, \r\n    ");
+            viewString.Append("        T.State AS Address_State, \r\n            T.Country AS Address_Country, \r\n");
+            viewString.Append("            T.PostCode AS Address_PostCode, \r\n            T.Fax AS Address_Fax, ");
+            viewString.Append("\r\n            T.Email AS Address_Email, \r\n            T.URL AS Address_URL, \r\n  ");
+            viewString.Append("          T.Tel1 AS Address_Tel1, \r\n            T.Tel2 AS Address_Tel2, \r\n      ");
+            viewString.Append("      T.Extension1 AS Address_Extension1, \r\n            T.Extension2 AS Address_");
+            viewString.Append("Extension2, \r\n            T.Reference AS Address_Reference, \r\n            T.FAO ");
+            viewString.Append("AS Address_FAO, \r\n            T.IsDefaultAddress AS Address_IsDefaultAddress, \r\n");
+            viewString.Append("            T.IsDefaultShippingAddress AS Address_IsDefaultShippingAddress, \r\n  ");
+            viewString.Append("          T.isArchived AS Address_isArchived, \r\n            T.TerritoryId AS Add");
+            viewString.Append("ress_TerritoryId, \r\n            T.GeoLatitude AS Address_GeoLatitude, \r\n        ");
+            viewString.Append("    T.GeoLongitude AS Address_GeoLongitude, \r\n            T.isPrivate AS Address");
+            viewString.Append("_isPrivate, \r\n            T.ContactId AS Address_ContactId, \r\n            T.isDe");
+            viewString.Append("faultTerrorityBilling AS Address_isDefaultTerrorityBilling, \r\n            T.isDe");
+            viewString.Append("faultTerrorityShipping AS Address_isDefaultTerrorityShipping, \r\n            T.Or");
+            viewString.Append("ganisationId AS Address_OrganisationId, \r\n            True AS _from0\r\n        FR");
+            viewString.Append("OM DomainModelsStoreContainer.Address AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Addresses", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Templates
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView106()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4816);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Templates\r\n        [DomainModels.Template](T1");
+            viewString.Append(".Template_ProductId, T1.Template_Code, T1.Template_ProductName, T1.Template_Desc");
+            viewString.Append("ription, T1.Template_ProductCategoryId, T1.Template_LowResPDFTemplates, T1.Templ");
+            viewString.Append("ate_BackgroundArtwork, T1.Template_Side2LowResPDFTemplates, T1.Template_Side2Bac");
+            viewString.Append("kgroundArtwork, T1.Template_Thumbnail, T1.Template_Image, T1.Template_IsDisabled");
+            viewString.Append(", T1.Template_PTempId, T1.Template_IsDoubleSide, T1.Template_IsUsePDFFile, T1.Te");
+            viewString.Append("mplate_PDFTemplateWidth, T1.Template_PDFTemplateHeight, T1.Template_IsUseBackGro");
+            viewString.Append("undColor, T1.Template_BgR, T1.Template_BgG, T1.Template_BgB, T1.Template_IsUseSi");
+            viewString.Append("de2BackGroundColor, T1.Template_Side2BgR, T1.Template_Side2BgG, T1.Template_Side");
+            viewString.Append("2BgB, T1.Template_CuttingMargin, T1.Template_MultiPageCount, T1.Template_Orienta");
+            viewString.Append("tion, T1.Template_MatchingSetTheme, T1.Template_BaseColorID, T1.Template_Submitt");
+            viewString.Append("edBy, T1.Template_SubmittedByName, T1.Template_SubmitDate, T1.Template_Status, T");
+            viewString.Append("1.Template_ApprovedBy, T1.Template_ApprovedByName, T1.Template_UserRating, T1.Te");
+            viewString.Append("mplate_UsedCount, T1.Template_MPCRating, T1.Template_RejectionReason, T1.Templat");
+            viewString.Append("e_ApprovalDate, T1.Template_TempString, T1.Template_MatchingSetID, T1.Template_F");
+            viewString.Append("ullView, T1.Template_SLThumbnail, T1.Template_SuperView, T1.Template_ColorHex, T");
+            viewString.Append("1.Template_TemplateOwner, T1.Template_TemplateOwnerName, T1.Template_IsPrivate, ");
+            viewString.Append("T1.Template_ApprovedDate, T1.Template_IsCorporateEditable, T1.Template_TemplateT");
+            viewString.Append("ype, T1.Template_isWatermarkText, T1.Template_isSpotTemplate, T1.Template_isCrea");
+            viewString.Append("tedManual, T1.Template_isEditorChoice)\r\n    FROM (\r\n        SELECT \r\n           ");
+            viewString.Append(" T.ProductId AS Template_ProductId, \r\n            T.Code AS Template_Code, \r\n   ");
+            viewString.Append("         T.ProductName AS Template_ProductName, \r\n            T.Description AS T");
+            viewString.Append("emplate_Description, \r\n            T.ProductCategoryId AS Template_ProductCatego");
+            viewString.Append("ryId, \r\n            T.LowResPDFTemplates AS Template_LowResPDFTemplates, \r\n     ");
+            viewString.Append("       T.BackgroundArtwork AS Template_BackgroundArtwork, \r\n            T.Side2L");
+            viewString.Append("owResPDFTemplates AS Template_Side2LowResPDFTemplates, \r\n            T.Side2Back");
+            viewString.Append("groundArtwork AS Template_Side2BackgroundArtwork, \r\n            T.Thumbnail AS T");
+            viewString.Append("emplate_Thumbnail, \r\n            T.Image AS Template_Image, \r\n            T.IsDi");
+            viewString.Append("sabled AS Template_IsDisabled, \r\n            T.PTempId AS Template_PTempId, \r\n  ");
+            viewString.Append("          T.IsDoubleSide AS Template_IsDoubleSide, \r\n            T.IsUsePDFFile ");
+            viewString.Append("AS Template_IsUsePDFFile, \r\n            T.PDFTemplateWidth AS Template_PDFTempla");
+            viewString.Append("teWidth, \r\n            T.PDFTemplateHeight AS Template_PDFTemplateHeight, \r\n    ");
+            viewString.Append("        T.IsUseBackGroundColor AS Template_IsUseBackGroundColor, \r\n            T");
+            viewString.Append(".BgR AS Template_BgR, \r\n            T.BgG AS Template_BgG, \r\n            T.BgB A");
+            viewString.Append("S Template_BgB, \r\n            T.IsUseSide2BackGroundColor AS Template_IsUseSide2");
+            viewString.Append("BackGroundColor, \r\n            T.Side2BgR AS Template_Side2BgR, \r\n            T.");
+            viewString.Append("Side2BgG AS Template_Side2BgG, \r\n            T.Side2BgB AS Template_Side2BgB, \r\n");
+            viewString.Append("            T.CuttingMargin AS Template_CuttingMargin, \r\n            T.MultiPage");
+            viewString.Append("Count AS Template_MultiPageCount, \r\n            T.Orientation AS Template_Orient");
+            viewString.Append("ation, \r\n            T.MatchingSetTheme AS Template_MatchingSetTheme, \r\n        ");
+            viewString.Append("    T.BaseColorID AS Template_BaseColorID, \r\n            T.SubmittedBy AS Templa");
+            viewString.Append("te_SubmittedBy, \r\n            T.SubmittedByName AS Template_SubmittedByName, \r\n ");
+            viewString.Append("           T.SubmitDate AS Template_SubmitDate, \r\n            T.Status AS Templa");
+            viewString.Append("te_Status, \r\n            T.ApprovedBy AS Template_ApprovedBy, \r\n            T.Ap");
+            viewString.Append("provedByName AS Template_ApprovedByName, \r\n            T.UserRating AS Template_");
+            viewString.Append("UserRating, \r\n            T.UsedCount AS Template_UsedCount, \r\n            T.MPC");
+            viewString.Append("Rating AS Template_MPCRating, \r\n            T.RejectionReason AS Template_Reject");
+            viewString.Append("ionReason, \r\n            T.ApprovalDate AS Template_ApprovalDate, \r\n            ");
+            viewString.Append("T.TempString AS Template_TempString, \r\n            T.MatchingSetID AS Template_M");
+            viewString.Append("atchingSetID, \r\n            T.FullView AS Template_FullView, \r\n            T.SLT");
+            viewString.Append("humbnail AS Template_SLThumbnail, \r\n            T.SuperView AS Template_SuperVie");
+            viewString.Append("w, \r\n            T.ColorHex AS Template_ColorHex, \r\n            T.TemplateOwner ");
+            viewString.Append("AS Template_TemplateOwner, \r\n            T.TemplateOwnerName AS Template_Templat");
+            viewString.Append("eOwnerName, \r\n            T.IsPrivate AS Template_IsPrivate, \r\n            T.App");
+            viewString.Append("rovedDate AS Template_ApprovedDate, \r\n            T.IsCorporateEditable AS Templ");
+            viewString.Append("ate_IsCorporateEditable, \r\n            T.TemplateType AS Template_TemplateType, ");
+            viewString.Append("\r\n            T.isWatermarkText AS Template_isWatermarkText, \r\n            T.isS");
+            viewString.Append("potTemplate AS Template_isSpotTemplate, \r\n            T.isCreatedManual AS Templ");
+            viewString.Append("ate_isCreatedManual, \r\n            T.isEditorChoice AS Template_isEditorChoice, ");
+            viewString.Append("\r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.Template A");
+            viewString.Append("S T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Templates", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.TemplatePages
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView107()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplatePages", @"
+    SELECT VALUE -- Constructing TemplatePages
+        [DomainModels.TemplatePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplatePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects)
+    FROM (
+        SELECT 
+            T.ProductPageId AS TemplatePage_ProductPageId, 
+            T.ProductId AS TemplatePage_ProductId, 
+            T.PageNo AS TemplatePage_PageNo, 
+            T.PageType AS TemplatePage_PageType, 
+            T.Orientation AS TemplatePage_Orientation, 
+            T.BackGroundType AS TemplatePage_BackGroundType, 
+            T.BackgroundFileName AS TemplatePage_BackgroundFileName, 
+            T.ColorC AS TemplatePage_ColorC, 
+            T.ColorM AS TemplatePage_ColorM, 
+            T.ColorY AS TemplatePage_ColorY, 
+            T.PageName AS TemplatePage_PageName, 
+            T.ColorK AS TemplatePage_ColorK, 
+            T.IsPrintable AS TemplatePage_IsPrintable, 
+            T.hasOverlayObjects AS TemplatePage_hasOverlayObjects, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.TemplatePage AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
         /// return view for DomainModelsStoreContainer.ChartOfAccount
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView102()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView108()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ChartOfAccount", "\r\n    SELECT VALUE -- Constructing ChartOfAccount\r\n        [DomainModels.Store.Ch" +
                     "artOfAccount](T1.ChartOfAccount_Id, T1.ChartOfAccount_AccountNo, T1.ChartOfAccou" +
@@ -5270,7 +5578,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ChartOfAccounts
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView103()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView109()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ChartOfAccounts", "\r\n    SELECT VALUE -- Constructing ChartOfAccounts\r\n        [DomainModels.ChartOf" +
                     "Account](T1.ChartOfAccount_Id, T1.ChartOfAccount_AccountNo, T1.ChartOfAccount_Na" +
@@ -5299,7 +5607,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Markup
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView104()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView110()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Markup", @"
     SELECT VALUE -- Constructing Markup
@@ -5320,7 +5628,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.prefix
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView105()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView111()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(3853);
             viewString.Append("\r\n    SELECT VALUE -- Constructing prefix\r\n        [DomainModels.Store.prefix](T");
@@ -5378,7 +5686,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Markups
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView106()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView112()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Markups", @"
     SELECT VALUE -- Constructing Markups
@@ -5399,7 +5707,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Prefixes1
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView107()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView113()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(3860);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Prefixes1\r\n        [DomainModels.Prefix](T1.P");
@@ -5457,7 +5765,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaperSize
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView108()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView114()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaperSize", @"
     SELECT VALUE -- Constructing PaperSize
@@ -5481,7 +5789,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PaperSizes
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView109()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView115()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaperSizes", @"
     SELECT VALUE -- Constructing PaperSizes
@@ -5505,7 +5813,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CategoryTerritory
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView110()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView116()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CategoryTerritory", @"
     SELECT VALUE -- Constructing CategoryTerritory
@@ -5525,7 +5833,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CategoryTerritories
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView111()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView117()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CategoryTerritories", @"
     SELECT VALUE -- Constructing CategoryTerritories
@@ -5545,7 +5853,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PageCategory
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView112()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView118()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PageCategory", @"
     SELECT VALUE -- Constructing PageCategory
@@ -5562,7 +5870,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PageCategories
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView113()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView119()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PageCategories", @"
     SELECT VALUE -- Constructing PageCategories
@@ -5579,7 +5887,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Section
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView114()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView120()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Section", @"
     SELECT VALUE -- Constructing Section
@@ -5602,7 +5910,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SectionFlag
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView115()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView121()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SectionFlag", @"
     SELECT VALUE -- Constructing SectionFlag
@@ -5625,7 +5933,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Sections
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView116()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView122()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Sections", @"
     SELECT VALUE -- Constructing Sections
@@ -5648,7 +5956,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SectionFlags
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView117()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView123()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionFlags", @"
     SELECT VALUE -- Constructing SectionFlags
@@ -5671,7 +5979,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.WeightUnit
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView118()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView124()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.WeightUnit", @"
     SELECT VALUE -- Constructing WeightUnit
@@ -5691,7 +5999,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.WeightUnits
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView119()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView125()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.WeightUnits", @"
     SELECT VALUE -- Constructing WeightUnits
@@ -5711,7 +6019,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CompanyCostCentre
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView120()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView126()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CompanyCostCentre", @"
     SELECT VALUE -- Constructing CompanyCostCentre
@@ -5733,7 +6041,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CompanyCostCentres
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView121()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView127()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyCostCentres", @"
     SELECT VALUE -- Constructing CompanyCostCentres
@@ -5755,7 +6063,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemProductDetail
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView122()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView128()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemProductDetail", @"
     SELECT VALUE -- Constructing ItemProductDetail
@@ -5781,7 +6089,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemProductDetails
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView123()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView129()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemProductDetails", @"
     SELECT VALUE -- Constructing ItemProductDetails
@@ -5807,7 +6115,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemStockControl
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView124()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView130()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5074);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemStockControl\r\n        [DomainModels.Store");
@@ -5880,7 +6188,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemStockControls
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView125()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView131()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5081);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemStockControls\r\n        [DomainModels.Item");
@@ -5953,7 +6261,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SystemEmail
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView126()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView132()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SystemEmail", @"
     SELECT VALUE -- Constructing SystemEmail
@@ -5977,7 +6285,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SystemEmails
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView127()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView133()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SystemEmails", @"
     SELECT VALUE -- Constructing SystemEmails
@@ -6001,7 +6309,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.EmailEvent
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView128()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView134()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.EmailEvent", @"
     SELECT VALUE -- Constructing EmailEvent
@@ -6020,7 +6328,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.EmailEvents
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView129()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView135()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.EmailEvents", @"
     SELECT VALUE -- Constructing EmailEvents
@@ -6039,7 +6347,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.LengthUnit
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView130()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView136()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.LengthUnit", @"
     SELECT VALUE -- Constructing LengthUnit
@@ -6059,7 +6367,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.LengthUnits
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView131()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView137()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.LengthUnits", @"
     SELECT VALUE -- Constructing LengthUnits
@@ -6079,7 +6387,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaperBasisArea
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView132()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView138()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaperBasisArea", @"
     SELECT VALUE -- Constructing PaperBasisArea
@@ -6098,7 +6406,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PaperBasisAreas
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView133()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView139()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaperBasisAreas", @"
     SELECT VALUE -- Constructing PaperBasisAreas
@@ -6117,7 +6425,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Campaign
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView134()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView140()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(9024);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Campaign\r\n        [DomainModels.Store.Campaig");
@@ -6239,7 +6547,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CampaignImage
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView135()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView141()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CampaignImage", @"
     SELECT VALUE -- Constructing CampaignImage
@@ -6258,7 +6566,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Campaigns
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView136()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView142()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(9031);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Campaigns\r\n        [DomainModels.Campaign](T1");
@@ -6380,7 +6688,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CampaignImages
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView137()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView143()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CampaignImages", @"
     SELECT VALUE -- Constructing CampaignImages
@@ -6399,7 +6707,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CampaignEmailVariable
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView138()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView144()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CampaignEmailVariable", @"
     SELECT VALUE -- Constructing CampaignEmailVariable
@@ -6424,7 +6732,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CampaignEmailVariables
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView139()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView145()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CampaignEmailVariables", @"
     SELECT VALUE -- Constructing CampaignEmailVariables
@@ -6449,7 +6757,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.DiscountVoucher
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView140()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView146()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DiscountVoucher", @"
     SELECT VALUE -- Constructing DiscountVoucher
@@ -6474,7 +6782,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.DiscountVouchers
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView141()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView147()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DiscountVouchers", @"
     SELECT VALUE -- Constructing DiscountVouchers
@@ -6499,7 +6807,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.GetItemsListView
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView142()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView148()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2647);
             viewString.Append("\r\n    SELECT VALUE -- Constructing GetItemsListView\r\n        [DomainModels.Store");
@@ -6542,7 +6850,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.GetItemsListViews
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView143()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView149()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2654);
             viewString.Append("\r\n    SELECT VALUE -- Constructing GetItemsListViews\r\n        [DomainModels.GetI");
@@ -6585,7 +6893,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Currency
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView144()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView150()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Currency", @"
     SELECT VALUE -- Constructing Currency
@@ -6603,7 +6911,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Currencies
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView145()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView151()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Currencies", @"
     SELECT VALUE -- Constructing Currencies
@@ -6615,6 +6923,60 @@ namespace Edm_EntityMappingGeneratedViews
             T.CurrencyName AS Currency_CurrencyName, 
             True AS _from0
         FROM DomainModelsStoreContainer.Currency AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ColorPallete
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView152()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ColorPallete", @"
+    SELECT VALUE -- Constructing ColorPallete
+        [DomainModels.Store.ColorPallete](T1.ColorPallete_PalleteId, T1.ColorPallete_PalleteName, T1.ColorPallete_Color1, T1.ColorPallete_Color2, T1.ColorPallete_Color3, T1.ColorPallete_Color4, T1.ColorPallete_Color5, T1.ColorPallete_Color6, T1.ColorPallete_Color7, T1.ColorPallete_SkinId, T1.ColorPallete_isDefault, T1.ColorPallete_CompanyId)
+    FROM (
+        SELECT 
+            T.PalleteId AS ColorPallete_PalleteId, 
+            T.PalleteName AS ColorPallete_PalleteName, 
+            T.Color1 AS ColorPallete_Color1, 
+            T.Color2 AS ColorPallete_Color2, 
+            T.Color3 AS ColorPallete_Color3, 
+            T.Color4 AS ColorPallete_Color4, 
+            T.Color5 AS ColorPallete_Color5, 
+            T.Color6 AS ColorPallete_Color6, 
+            T.Color7 AS ColorPallete_Color7, 
+            T.SkinId AS ColorPallete_SkinId, 
+            T.IsDefault AS ColorPallete_isDefault, 
+            T.CompanyId AS ColorPallete_CompanyId, 
+            True AS _from0
+        FROM BaseDbContext.ColorPalletes AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ColorPalletes
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView153()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ColorPalletes", @"
+    SELECT VALUE -- Constructing ColorPalletes
+        [DomainModels.ColorPallete](T1.ColorPallete_PalleteId, T1.ColorPallete_PalleteName, T1.ColorPallete_Color1, T1.ColorPallete_Color2, T1.ColorPallete_Color3, T1.ColorPallete_Color4, T1.ColorPallete_Color5, T1.ColorPallete_Color6, T1.ColorPallete_Color7, T1.ColorPallete_SkinId, T1.ColorPallete_IsDefault, T1.ColorPallete_CompanyId)
+    FROM (
+        SELECT 
+            T.PalleteId AS ColorPallete_PalleteId, 
+            T.PalleteName AS ColorPallete_PalleteName, 
+            T.Color1 AS ColorPallete_Color1, 
+            T.Color2 AS ColorPallete_Color2, 
+            T.Color3 AS ColorPallete_Color3, 
+            T.Color4 AS ColorPallete_Color4, 
+            T.Color5 AS ColorPallete_Color5, 
+            T.Color6 AS ColorPallete_Color6, 
+            T.Color7 AS ColorPallete_Color7, 
+            T.SkinId AS ColorPallete_SkinId, 
+            T.isDefault AS ColorPallete_IsDefault, 
+            T.CompanyId AS ColorPallete_CompanyId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.ColorPallete AS T
     ) AS T1");
         }
     }

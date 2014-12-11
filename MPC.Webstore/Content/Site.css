@@ -15601,6 +15601,7 @@ ul.LogBar li a
     .smallTxtBox
     {
         margin: 0;
+       
         border: 1px solid #ccc5b9;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -15621,7 +15622,9 @@ ul.LogBar li a
         margin-bottom: 10px;
         width: 100% !important;
     }
-
+    .margin-right{
+        margin-right:20px;
+    }
     .collapseMenu
     {
         display: block;

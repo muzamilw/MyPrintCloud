@@ -142,6 +142,7 @@
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebStoreServices\CampaignService.cs" />
     <Compile Include="WebStoreServices\CmsSkinPageWidgetService.cs" />
     <Compile Include="WebStoreServices\CompanyService.cs" />
     <Compile Include="MISServices\MyOrganizationService.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsHelperService.cs" />
+    <Compile Include="WebStoreServices\UserManagerService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsSecurityService.cs" />
   </ItemGroup>
   <ItemGroup>

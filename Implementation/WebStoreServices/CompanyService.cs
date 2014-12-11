@@ -29,6 +29,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IPageCategoryRepository _pageCategoryRepositary;
         private readonly ICurrencyRepository _currencyRepository;
         private readonly IGlobalLanguageRepository _globalLanguageRepository;
+        private readonly IAddressRepository _addressRepository;
+             
         #endregion
 
         #region Constructor
@@ -70,6 +72,7 @@ namespace MPC.Implementation.WebStoreServices
             ObjectCache cache = MemoryCache.Default;
             CacheItemPolicy policy = null;
 
+             MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
@@ -81,14 +84,13 @@ namespace MPC.Implementation.WebStoreServices
 
             if (stores == null)
             {
-
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId); 
+
+                CacheEntryRemovedCallback callback = null;
+
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
-
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(oCompany.CompanyId);
-
-                oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
                 oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                 oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
@@ -110,11 +112,9 @@ namespace MPC.Implementation.WebStoreServices
 
                 if (!stores.ContainsKey(oCompany.CompanyId))
                 {
-                    MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
-
                     List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(oCompany.CompanyId);
 
-                    oStore = new MyCompanyDomainBaseReponse();
+                    MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                     oStore.Company = oCompany;
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
@@ -168,6 +168,8 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName);
         }
 
+       
+
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
             return _CompanyRepository.GetCompanyById(CompanyID);
@@ -176,6 +178,15 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyContact GetContactByID(Int64 ContactID)
         {
             return _CompanyContactRepository.GetContactByID(ContactID);
+        }
+
+        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
+        {
+            return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
+        }
+        public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
+        {
+            return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact,TwitterScreenName);
         }
 
         //public string GetUiCulture(long organisationId)

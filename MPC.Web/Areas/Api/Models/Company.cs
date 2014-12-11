@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MPC.MIS.Models;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -103,6 +104,10 @@ namespace MPC.MIS.Areas.Api.Models
         public long? DeliveryPickUpAddressId { get; set; }
         public List<RaveReview> RaveReviews{ get; set; }
         public List<CompanyCMYKColor> CompanyCmykColors{ get; set; }
+        public ICollection<CompanyTerritory> CompanyTerritories { get; set; }
+        public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }// Maintaining List for POST call to determine new Added List Of Territories
+        public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }//
+        public ICollection<CompanyTerritory> DeletedCompanyTerritories { get; set; }//
         public virtual CompanyType CompanyType { get; set; }
         /// <summary>
         /// Image Source
@@ -120,6 +125,9 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }
+        public List<Address> Addresses { get; set; }
+        public List<CompanyContact> CompanyContacts { get; set; }
+
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         //public virtual ICollection<ProductCategory> ProductCategories { get; set; }

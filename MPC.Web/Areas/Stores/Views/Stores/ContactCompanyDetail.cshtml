@@ -3,7 +3,7 @@
 }
 @section leftmenue {
 }
-<div data-bind="visible: $root.isEditorVisible()">
+<div data-bind="visible: $root.isEditorVisible()" style="display: none">
     <form method="post" enctype="multipart/form-data" id="fileUploadForm">
         <div class="col-lg-12">
             <div class="row">
@@ -622,10 +622,10 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
                                                     <div class="form-group pull-left">
-                                                        <input type="text" class="form-control" placeholder="Search...">
-                                                        <i class="fa fa-search search-icon"></i>
+                                                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchCompanyTerritoryFilter">
+                                                        <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
                                                     </div>
-                                                    <a data-toggle="modal" href="#myTerritorySetModal" class="btn btn-primary pull-right">
+                                                    <a data-toggle="modal"  class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyTerritory">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Territory
                                                     </a>
                                                 </div>
@@ -641,121 +641,8 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    Jack Nicholson
-                                                                </td>
-                                                                <td>
-                                                                    Registered
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Defauult Territory
-                                                                </td>
-                                                                <td>
-                                                                    Def110
-                                                                </td>
-
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    West Region
-                                                                </td>
-                                                                <td>
-                                                                    WR110
-                                                                </td>
-
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    South Region
-                                                                </td>
-                                                                <td>
-                                                                    SR110
-                                                                </td>
-
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    East Region
-                                                                </td>
-                                                                <td>
-                                                                    ER110
-                                                                </td>
-
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myTerritorySetModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-
+                                                            <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
+                                                            <!-- /ko -->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -763,15 +650,9 @@
 
                                             <footer class="main-box-header pull-right">
                                                 <div id="pagerDiv">
-                                                    <ul class="pagination pull-right">
-                                                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                                        <li><a href="#">1</a></li>
-                                                        <li><a href="#">2</a></li>
-                                                        <li><a href="#">3</a></li>
-                                                        <li><a href="#">4</a></li>
-                                                        <li><a href="#">5</a></li>
-                                                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                                                    </ul>
+                                                    <!-- ko with: $root.companyTerritoryPager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
                                                 </div>
                                             </footer>
                                         </div>
@@ -1258,14 +1139,10 @@
 
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 1</label>
-
+                                                         
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class=" form-control col-lg-4">
-                                                        <option>David</option>
-                                                        <option>Lucae Eyre</option>
-                                                        <option>Smit Jones</option>
-                                                    </select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -1282,11 +1159,7 @@
 
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class=" form-control col-lg-4">
-                                                        <option>David</option>
-                                                        <option>Lucae Eyre</option>
-                                                        <option>Smit Jones</option>
-                                                    </select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -1303,11 +1176,7 @@
 
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class=" form-control col-lg-4">
-                                                        <option>David</option>
-                                                        <option>Lucae Eyre</option>
-                                                        <option>Smit Jones</option>
-                                                    </select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -1324,11 +1193,7 @@
 
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class=" form-control col-lg-4">
-                                                        <option>David</option>
-                                                        <option>Lucae Eyre</option>
-                                                        <option>Smit Jones</option>
-                                                    </select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId2"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -1345,11 +1210,7 @@
 
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class=" form-control col-lg-4">
-                                                        <option>David</option>
-                                                        <option>Lucae Eyre</option>
-                                                        <option>Smit Jones</option>
-                                                    </select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId1"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -1366,11 +1227,7 @@
 
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class=" form-control col-lg-4">
-                                                        <option>David</option>
-                                                        <option>Lucae Eyre</option>
-                                                        <option>Smit Jones</option>
-                                                    </select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId2"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
@@ -1390,7 +1247,9 @@
                                                 </div>
                                                 <label class="col-md-6">Color 1: Webstore background</label>
                                                 <div class="col-md-3">
-                                                    <span id="colorPick1" class="label" style="background-color: #320B0B; cursor: pointer;" onclick="">#320B0B    </span>
+                                                    @*<input type="text" data-bind="colorpicker:color1" />*@
+                                                    @*<input type="text" data-bind="jqColorPicker:color1" />*@
+                                                    <span id="colorPick1" class="label" style="background-color: #320B0B; cursor: pointer;">#320B0B    </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1750,9 +1609,10 @@
                                                         <option>Spring Set</option>
                                                     </select>
                                                 </div>
-                                                <a href="~/CRM/AddBanner" class="btn btn-primary pull-right">
+
+                                                <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Banner
-                                                </a>
+                                                </div>
                                                 @*Banners Grid Starts here*@
                                                 <div class="clearfix">
                                                     <div class="table-responsive">
@@ -3500,6 +3360,31 @@
                 </td>
             </tr>
         </script>
+        
+        <script id="actionsCompanyTerritoryTemplate" type="text/html">
+            <a class="table-link" data-bind="click : $root.onEditCompanyTerritory">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCompanyTerritory">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </script>
+        <script id="itemCompanyTerritoryTemplate" type="text/html">
+            <tr data-bind="click: $root.selectCompanyTerritory, css: { selectedRow: $data === $root.selectedCompanyTerritory}">
+                <td data-bind="text: territoryName"></td>
+                <td data-bind="text: territoryCode"></td>
+                <td id="actionColumn" class="text-right">
+                    <!-- ko template: { name: "actionsCompanyTerritoryTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>
+            </tr>
+        </script>
     </form>
 </div>
 <style type="text/css" media="screen">
@@ -3515,7 +3400,8 @@
 @Html.Partial("Widgets/_AddEditAddress")
 @Html.Partial("Widgets/_UserProfileDetails")
 @Html.Partial("Widgets/_AddEditTerritory")
-@Html.Partial("Widgets/_EditBanner")
+@Html.Partial("~/Areas/Stores/Views/Stores/_EditBanner.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("Widgets/_AddEditPaymentGateway")

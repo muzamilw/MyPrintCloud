@@ -124,5 +124,6 @@ namespace MPC.Repository.Repositories
                 Suppliers = companies
             };
         }
+        
     }
 }

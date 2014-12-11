@@ -21,9 +21,9 @@
                         var left = (screen.width / 2) - (w / 2);
                         var top = (screen.height / 2) - (h / 2);
                         if (isFacebook == 1)
-                            window.open("/Home/oAuth?id=1", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                            window.open("/Home/oAuth?id=1&isRegWithSM=0", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                         else
-                            window.open("/Home/oAuth?id=0", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                            window.open("/Home/oAuth?id=0&isRegWithSM=0", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                         return false;
                     }
                 </script>
@@ -79,7 +79,7 @@
     </div>
     <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
         <div class="containerRegisternow">
-            <input type="button" class="SignUpButton rounded_corners5" onclick="location.href='@Url.Action("Index", "SignUp")'" />
+            <input type="button" class="SignUpButton rounded_corners5" onclick="location.href='/SignUp'" />
         </div>
         <div class="divDontHaveAccont rounded_corners5">
             <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">By registering you are able to:</p>

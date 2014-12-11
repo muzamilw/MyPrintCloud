@@ -2,6 +2,7 @@
 using System.Linq;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
+using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -11,7 +12,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.Company CreateFrom(this MPC.Models.DomainModels.Company source)
+        public static ApiModels.Company CreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
             if (source.Image != null && File.Exists(source.Image))
@@ -82,13 +83,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 RaveReviews = source.RaveReviews.Select(x => x.CreateFrom()).ToList(),
-                CompanyCmykColors = source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
+                CompanyCmykColors = source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList(),
+                CompanyTerritories = source.CompanyTerritories.Select(x=> x.CreateFrom()).ToList()
             };
         }
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static MPC.Models.DomainModels.Company CreateFrom(this ApiModels.Company source)
+        public static DomainModels.Company CreateFrom(this ApiModels.Company source)
         {
             var company = new MPC.Models.DomainModels.Company
                           {
@@ -154,7 +156,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                               CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                               RaveReviews =source.RaveReviews != null? source.RaveReviews.Select(x => x.CreateFrom()).ToList(): null,
-                              CompanyCMYKColors = source.CompanyCmykColors != null? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList():null
+                              CompanyCMYKColors = source.CompanyCmykColors != null ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList() : null,
+                              CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x=> x.CreateFrom()).ToList(): null
                           };
             
             return company;
@@ -163,7 +166,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.SupplierForInventory CreateFromForInventory(this MPC.Models.DomainModels.Company source)
+        public static ApiModels.SupplierForInventory CreateFromForInventory(this DomainModels.Company source)
         {
             return new ApiModels.SupplierForInventory
             {
@@ -189,6 +192,40 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RegistrationQuestions = source.RegistrationQuestions.Select(pf => pf.CreateFromDropDown())
             };
         }
+
+        /// <summary>
+        /// Crete From Web Model
+        /// </summary>
+        public static DomainModels.Company CreateFromSupplier(this ApiModels.Company source)
+        {
+            return new DomainModels.Company
+            {
+                CompanyId = source.CompanyId,
+                Name = source.Name,
+                AccountNumber = source.AccountNumber,
+                URL = source.URL,
+                CreditReference = source.CreditReference,
+                CreditLimit = source.CreditLimit,
+                Terms = source.Terms,
+                TypeId = source.TypeId,
+                DefaultNominalCode = source.DefaultNominalCode,
+                DefaultMarkUpId = source.DefaultMarkUpId,
+                AccountOpenDate = source.AccountOpenDate,
+                AccountManagerId = source.AccountManagerId,
+                Status = source.Status,
+                IsCustomer = source.IsCustomer,
+                Notes = source.Notes,
+                AccountBalance = source.AccountBalance,
+                CreationDate = source.CreationDate,
+                VATRegNumber = source.VATRegNumber,
+                VATRegReference = source.VATRegReference,
+                FlagId = source.FlagId,
+                PhoneNo = source.PhoneNo,
+                Addresses = source.Addresses != null ? source.Addresses.Select(add => add.CreateFromSupplier()).ToList() : null,
+                CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(c => c.CreateFromSupplier()).ToList() : null,
+            };
+        }
+
         #endregion
     }
 }

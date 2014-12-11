@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
-using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Models.Common;
+
 
 namespace MPC.Implementation.MISServices
 {
@@ -144,6 +145,21 @@ namespace MPC.Implementation.MISServices
 
 
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
+        }
+
+
+        /// <summary>
+        /// Delete stock Item
+        /// </summary>
+        /// <param name="stockItemId"></param>
+        public void DeleteInvenotry(long stockItemId)
+        {
+            StockItem stockItem = stockItemRepository.Find(stockItemId);
+            if (stockItem != null)
+            {
+                stockItemRepository.Delete(stockItem);
+                stockItemRepository.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -335,6 +351,51 @@ namespace MPC.Implementation.MISServices
         {
             return stockItemRepository.Find(stockItemId);
         }
+
+        /// <summary>
+        /// Add New Supplier
+        /// </summary>
+        public Company SaveSupplier(Company company)
+        {
+            company.CreationDate = DateTime.Now;
+            company.OrganisationId = companyRepository.OrganisationId;
+
+            if (company.Addresses != null)
+            {
+                foreach (var item in company.Addresses)
+                {
+                    item.OrganisationId = companyRepository.OrganisationId;
+                }
+
+            }
+
+            if (company.CompanyContacts != null)
+            {
+                foreach (var item in company.CompanyContacts)
+                {
+                    item.OrganisationId = companyRepository.OrganisationId;
+                }
+
+            }
+            companyRepository.Add(company);
+            companyRepository.SaveChanges();
+            return company;
+        }
+
+        /// <summary>
+        /// Save image path for company logo in supplier
+        /// </summary>
+        public void SaveCompanyImage(string path, long supplierId)
+        {
+            Company company = companyRepository.Find(supplierId);
+            if (company != null)
+            {
+                company.Image = path;
+                companyRepository.SaveChanges();
+            }
+        }
+
         #endregion
     }
+
 }
