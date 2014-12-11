@@ -138,6 +138,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemVideos = ko.observableArray([]),
             // Item Related Items
             itemRelatedItems = ko.observableArray([]),
+            // Template 
+            template = ko.observable(Template.Create({})),
             // Can Add Item Vdp Price
             canAddItemVdpPrice = ko.computed(function () {
                 return itemVdpPrices.length < 15;
@@ -240,24 +242,29 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
-                var itemVdpPriceItem = itemVdpPrices.find(function (itemVdpPrice) {
+                return itemVdpPrices.find(function (itemVdpPrice) {
                     return itemVdpPrice.hasChanges();
-                });
-                if (!itemVdpPriceItem) {
-                    return false;
-                }
-
-                return itemVdpPriceItem.hasChanges();
+                }) != null;
+            }),
+            // Item Videos Has Changes
+            itemVideosHasChanges = ko.computed(function() {
+                return itemVideos.find(function(itemVideo) {
+                    return itemVideo.hasChanges();
+                }) != null;
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty() || itemVdpPriceListHasChanges();
+                return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges();
             }),
             // Reset
             reset = function () {
                 itemVdpPrices.each(function (itemVdpPrice) {
                     return itemVdpPrice.reset();
                 });
+                itemVideos.each(function (itemVideo) {
+                    return itemVideo.reset();
+                });
+                template().reset();
                 dirtyFlag.reset();
             },
             // Convert To Server Data
@@ -310,7 +317,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }),
                     ItemRelatedItems: itemRelatedItems.map(function (itemRelatedItem) {
                         return itemRelatedItem.convertToServerData();
-                    })
+                    }),
+                    Template: template.convertToServerData()
                 }
             };
 
@@ -372,6 +380,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemVideo: removeItemVideo,
             onSelectRelatedItem: onSelectRelatedItem,
             removeItemRelatedItem: removeItemRelatedItem,
+            template: template,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -543,6 +552,169 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isValid: isValid,
             convertToServerData: convertToServerData
         };
+    },
+        
+    // Template Entity
+    // ReSharper disable InconsistentNaming
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Pdf Template Width
+            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined),
+            // Pdf Template Height
+            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
+            // Template Pages
+            templatePages = ko.observableArray([]),
+            // Add Template Page
+            addTemplatePage = function () {
+                templatePages.push(TemplatePage.Create({ ProductId: id() }));
+            },
+            // Remove Template Page
+            removeTemplatePage = function (templatePage) {
+                templatePages.remove(templatePage);
+            },
+            // Move Template Page Up
+            moveTemplatePageUp = function(templatePage) {
+                var i = templatePages.indexOf(templatePage);
+                if (i >= 1) {
+                    var array = templatePages();
+                    templatePages.splice(i - 1, 2, array[i], array[i - 1]);
+                }
+            },
+            // Move Template Page Down
+            moveTemplatePageDown = function (templatePage) {
+                var i = templatePages.indexOf(templatePage);
+                var array = templatePages();
+                if (i < array.length) {
+                    templatePages.splice(i, 2, array[i + 1], array[i]);
+                }
+            },
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0 || templatePages.filter(function(templatePage) {
+                    return !templatePage.isValid();
+                }).length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                pdfTemplateWidth: pdfTemplateWidth,
+                pdfTemplateHeight: pdfTemplateHeight
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty() || templatePages.find(function(templatePage) {
+                    return templatePage.hasChanges();
+                }) != null;
+            }),
+            // Reset
+            reset = function () {
+                // Reset Template Page State to Un-Modified
+                templatePages.each(function (templatePage) {
+                    return templatePage.reset();
+                });
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ProductId: id(),
+                    PdfTemplateWidth: pdfTemplateWidth(),
+                    PdfTemplateHeight: pdfTemplateHeight(),
+                    TemplatePages: templatePages.map(function (templatePage, index) {
+                        var templatePageItem = templatePage.convertToServerData();
+                        templatePageItem.PageNo = index + 1;
+                        return templatePageItem;
+                    })
+                }
+            };
+
+        return {
+            id: id,
+            pdfTemplateWidth: pdfTemplateWidth,
+            pdfTemplateHeight: pdfTemplateHeight,
+            templatePages: templatePages,
+            addTemplatePage: addTemplatePage,
+            removeTemplatePage: removeTemplatePage,
+            moveTemplatePageUp: moveTemplatePageUp,
+            moveTemplatePageDown: moveTemplatePageDown,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+        
+    // Template Page Entity
+    TemplatePage = function (specifiedId, specifiedWidth, specifiedHeight, specifiedPageName, specifiedPageNo, specifiedProductId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Width
+            width = ko.observable(specifiedWidth || undefined),
+            // Height
+            height = ko.observable(specifiedHeight || undefined),
+            // Page Name
+            pageName = ko.observable(specifiedPageName || undefined),
+            // Page No
+            pageNo = ko.observable(specifiedPageNo || undefined),
+            // Product Id
+            productId = ko.observable(specifiedProductId || 0),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                width: width,
+                height: height,
+                pageName: pageName,
+                pageNo: pageNo
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ProductPageId: id(),
+                    Width: width(),
+                    Height: height(),
+                    PageName: pageName(),
+                    PageNo: pageNo(),
+                    ProductId: productId()
+                }
+            };
+
+        return {
+            id: id,
+            productId: productId,
+            width: width,
+            height: height,
+            pageName: pageName,
+            pageNo: pageNo,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
     };
 
     // Item Vdp Price Factory
@@ -558,6 +730,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Related Item Factory
     ItemRelatedItem.Create = function (source) {
         return new ItemRelatedItem(source.Id, source.RelatedItemId, source.RelatedItemName, source.RelatedItemCode, source.ItemId);
+    }
+
+    // Template Page Factory
+    TemplatePage.Create = function (source) {
+        return new TemplatePage(source.ProductPageId, source.Width, source.Height, source.PageName, source.PageNo, source.ProductId);
+    }
+
+    // Template Factory
+    Template.Create = function (source) {
+        return new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.ItemId);
     }
 
     // Item Factory
@@ -610,6 +792,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             item.itemRelatedItems.valueHasMutated();
         }
 
+        // Map Template
+        if (source.Template != null) {
+            item.template(Template.Create(source.Template));
+        }
+
         // Reset State to Un-Modified
         item.reset();
 
@@ -624,6 +811,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Item Video Constructor
         ItemVideo: ItemVideo,
         // Item Related Item Consturctor
-        ItemRelatedItem: ItemRelatedItem
+        ItemRelatedItem: ItemRelatedItem,
+        // Template Constructor
+        Template: Template,
+        // Template Page Constructor
+        TemplatePage: TemplatePage
     };
 });

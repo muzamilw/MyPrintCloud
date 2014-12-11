@@ -4067,7 +4067,7 @@
                             <div class="tab-pane fade" id="tab-tempProperties">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Template Properties</h3>
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-9" data-bind="with: template">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <label for="txtMaster Template" class="control-label text-right Label-Bold">Master Template</label>
@@ -4110,7 +4110,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtTempWidth" style="width:30%;" style="width:30%;" placeholder="Enter Width" value="88.000">
+                                                <input type="text" class="form-control" id="txtTempWidth" data-bind="value: pdfTemplateWidth" style="width:30%;" placeholder="Enter Width">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -4127,7 +4127,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtHeight" placeholder="Enter Width" style="width:30%;" value="50.000">
+                                                <input type="text" class="form-control" id="txtHeight" data-bind="value: pdfTemplateHeight" placeholder="Enter Height" style="width:30%;">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -4434,7 +4434,7 @@
                             <div class="tab-pane fade" id="tab-tempPages">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Template Pages</h3>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" data-bind="with: template">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
@@ -4453,85 +4453,12 @@
                                                             <th><a href="#"><span>Width</span></a></th>
 
                                                             <th style="text-align:center;"><span>Move Page</span></th>
-                                                            <th style="width: 114px;">Remove Page</th>
+                                                            <th style="width: 114px;"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td style="width:25%;">
-                                                                <input type="text" style="width:200px;" class="form-control" id="txtPages" placeholder="Enter Page Name" value="Page 1">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Height" value="88.00">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Width" value="50.00">
-                                                            </td>
-
-
-                                                            <td class="text-center">
-                                                                <img src="~/Content/themes/Centaurus/img/ArrowDown.png" style="width: 30px;" alt="" />
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" style="width:200px;" id="txtPages" placeholder="Enter Page Name" value="Page 2">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Height" value="68.00">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Width" value="20.00">
-                                                            </td>
-
-                                                            <td class="text-center">
-                                                                <img src="~/Content/themes/Centaurus/img/ArrowUp.png" style="width: 30px;" alt="" />
-                                                                <img src="~/Content/themes/Centaurus/img/ArrowDown.png" style="width: 30px;" alt="" />
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" style="width:200px;" id="txtPages" placeholder="Enter Page Name" value="Page 3">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Height" value="34.00">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Width" value="58.00">
-                                                            </td>
-
-                                                            <td class="text-center">
-                                                                <img src="~/Content/themes/Centaurus/img/ArrowUp.png" style="width: 30px;" alt="" />
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <a href="#" class="table-link danger">
-                                                                    <span class="fa-stack">
-                                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-
-                                                        </tr>
-
+                                                        <!-- ko template: { name: 'templatePageTemplate', foreach: templatePages } -->
+                                                        <!-- /ko -->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -4744,6 +4671,37 @@
             </td>
         </tr>
     </script>
+    
+    @* Template Page Template *@
+    <script id="templatePageTemplate" type="text/html">
+        <tr>
+            <td style="width:25%;">
+                <input type="text" style="width:200px;" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName">
+            </td>
+            <td>
+                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="value: height">
+            </td>
+            <td>
+                <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="value: width">
+            </td>
+            <td class="text-center">
+                <!-- ko if: $index < $parent.templatePages().length -->
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveTemplatePageDown" />
+                <!-- /ko-->
+                <!-- ko if: $index >= 1 -->
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveTemplatePageUp" />
+                <!-- /ko-->
+            </td>
+            <td class="text-center">
+                <a class="table-link danger" data-bind="click: $parent.removeTemplatePage.bind($data)">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </script>
 
     @Html.Partial("_AddVideo")
     @Html.Partial("_RelatedProductDialog")
@@ -4754,4 +4712,4 @@
     @Html.Partial("Widgets/_PhraseLibrary")
     @Html.Partial("Widgets/_AddVideo")
     @Html.Partial("Product/_SelectProductCategory")
-    @Html.Partial("Product/_SelectProductOption")*@
+    @Html.Partial("Product/_SelectProductOption")*@>
