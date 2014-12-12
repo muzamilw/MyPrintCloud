@@ -12,5 +12,7 @@ namespace MPC.Models.DomainModels
         public Nullable<long> CampaignId { get; set; }
         public string ImagePath { get; set; }
         public string ImageName { get; set; }
+
+        public virtual Campaign Campaign { get; set; }
     }
 }

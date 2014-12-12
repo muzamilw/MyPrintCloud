@@ -107,5 +107,7 @@ namespace MPC.Models.DomainModels
         public Nullable<long> OrganisationId { get; set; }
         public Nullable<long> CompanyId { get; set; }
         public string UnsubscribeEmailAddress { get; set; }
+
+        public virtual ICollection<CampaignImage> CampaignImages { get; set; }
     }
 }

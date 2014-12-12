@@ -374,6 +374,73 @@ namespace MPC.MIS.Areas.Api.Models
         public long? OrganisationId { get; set; }
         public double? PackagingWeight { get; set; }
         public bool? IsVdpProduct { get; set; }
+
+        /// <summary>
+        /// Thumbnail Image
+        /// </summary>
+        public byte[] ThumbnailImage { get; set; }
+
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ThumbnailImageSource
+        {
+            get
+            {
+                if (ThumbnailImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(ThumbnailImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        /// <summary>
+        /// Grid Image
+        /// </summary>
+        public byte[] GridImageBytes { get; set; }
+
+        /// <summary>
+        /// Grid Image Source
+        /// </summary>
+        public string GridImageSource
+        {
+            get
+            {
+                if (GridImageBytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(GridImageBytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        /// <summary>
+        /// Image Path Image
+        /// </summary>
+        public byte[] ImagePathImage { get; set; }
+
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ImagePathImageSource
+        {
+            get
+            {
+                if (ImagePathImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(ImagePathImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
         public IEnumerable<ItemVdpPrice> ItemVdpPrices { get; set; }
         public IEnumerable<ItemVideo> ItemVideos { get; set; }
 
