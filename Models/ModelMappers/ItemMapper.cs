@@ -318,16 +318,13 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static void UpdateTemplate(Item source, Item target, ItemMapperActions actions)
         {
-            Template targetTemplate = target.Template;
-            Template sourceTemplate = source.Template;
-
-            if (targetTemplate == null)
+            if (target.Template == null)
             {
-                targetTemplate = actions.CreateTemplate();
+                target.Template = actions.CreateTemplate();
             }
 
-            targetTemplate.PDFTemplateHeight = sourceTemplate.PDFTemplateHeight;
-            targetTemplate.PDFTemplateWidth = sourceTemplate.PDFTemplateWidth;
+            target.Template.PDFTemplateHeight = source.Template.PDFTemplateHeight;
+            target.Template.PDFTemplateWidth = source.Template.PDFTemplateWidth;
 
             UpdateTemplatePages(source, target, actions);
 
