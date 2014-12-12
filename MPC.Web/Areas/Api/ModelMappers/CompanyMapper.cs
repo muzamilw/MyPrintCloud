@@ -86,6 +86,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyCmykColors = source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList(),
                 //CompanyTerritories = source.CompanyTerritories.Select(x => x.CreateFrom()).ToList(),
                 //Addresses = source.Addresses.Select(x => x.CreateFrom()).ToList()
+                CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList()
             };
         }
         /// <summary>

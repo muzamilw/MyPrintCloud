@@ -238,7 +238,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 jobDescription10: jobDescription10,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
-                itemRelatedItems: itemRelatedItems
+                itemRelatedItems: itemRelatedItems,
+                template: template
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -318,7 +319,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ItemRelatedItems: itemRelatedItems.map(function (itemRelatedItem) {
                         return itemRelatedItem.convertToServerData();
                     }),
-                    Template: template.convertToServerData()
+                    Template: template().convertToServerData()
                 }
             };
 
@@ -603,7 +604,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 pdfTemplateWidth: pdfTemplateWidth,
-                pdfTemplateHeight: pdfTemplateHeight
+                pdfTemplateHeight: pdfTemplateHeight,
+                templatePages: templatePages
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -739,7 +741,30 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Factory
     Template.Create = function (source) {
-        return new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.ItemId);
+        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.ItemId);
+
+        // Map Template Pages if any
+        if (source.TemplatePages != null) {
+            var templatePages = [];
+
+            // Sort by PageNo
+            source.TemplatePages.sort(function (a, b) {
+                return a.PageNo > b.PageNo ? 1 : -1;
+            });
+
+            _.each(source.TemplatePages, function(templatePage) {
+                templatePages.push(TemplatePage.Create(templatePage));
+            });
+
+            // Push to original array
+            ko.utils.arrayPushAll(template.templatePages(), templatePages);
+            template.templatePages.valueHasMutated();
+        }
+
+        // Reset template state to Un-Modified
+        template.reset();
+
+        return template;
     }
 
     // Item Factory
