@@ -172,7 +172,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
-            return _CompanyRepository.GetCompanyById(CompanyID);
+            return _CompanyRepository.GetCompanyById(CompanyID).Company;
         }
 
         public CompanyContact GetContactByID(Int64 ContactID)

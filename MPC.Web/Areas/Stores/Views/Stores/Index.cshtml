@@ -4,7 +4,7 @@
 @section leftmenue {
 
 }
-<div class="row" id="storesBinding" >
+<div class="row" id="storesBinding">
     <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
         <div class="row">
             <div class="col-lg-12">
@@ -116,14 +116,17 @@
         </script>
 
     </div>
-   @Html.Partial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml")
+    @Html.Partial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml")
 </div>
+<!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+<!-- /ko -->
 @section Scripts{
     <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-<script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
     <script>
-        
+
         require(["stores/stores.view", "common/confirmation.view"]);
         $(function () {
             $('#lisettings').addClass('active');

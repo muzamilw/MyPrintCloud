@@ -1,5 +1,5 @@
 ﻿/*
-    Module with the view model for the My Organization.
+    Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
     ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination"],
@@ -8,17 +8,17 @@ define("stores/stores.viewModel",
         ist.stores = {
             viewModel: (function () {
                 var
-                    //View
-                    view,
-                    filteredCompanySetId = ko.observable(),
-                 //stores List
+                //View
+                view,
+                filteredCompanySetId = ko.observable(),
+                //stores List
                  stores = ko.observableArray([]),
                 //Store Image
                 storeImage = ko.observable(),
                 //system Users
                 systemUsers = ko.observableArray([]),
-                    //Tab User And Addressed, Addresses Section Company Territories Filter
-                    addressCompanyTerritoriesFilter = ko.observableArray(),
+                //Tab User And Addressed, Addresses Section Company Territories Filter
+                addressCompanyTerritoriesFilter = ko.observableArray(),
                 //Company Banners
                 companyBanners = ko.observableArray([]),
                 //Filetered Company Bannens List
@@ -38,9 +38,15 @@ define("stores/stores.viewModel",
                 //Search Filter
                 searchFilter = ko.observable(),
                 // Editor View Model
-                editorViewModel = new ist.ViewModel(model.Store),
+                editorViewModel = new ist.ViewModel(model.StoreListView),
                 //Selected store
-                selectedStore = editorViewModel.itemForEditing,
+                selectedStoreListView = editorViewModel.itemForEditing,
+                //selectedStore
+                selectedStore = ko.observable(new model.Store),
+                //// Editor View Model
+                //editorViewModelListView = new ist.ViewModel(model.StoreListView),
+                ////Selected store
+                //selectedStoreListView = editorViewModelListView.itemForEditing,
                 //Template To Use
                 templateToUse = function (store) {
                     return (store === selectedStore() ? 'editStoreTemplate' : 'itemStoreTemplate');
@@ -51,12 +57,11 @@ define("stores/stores.viewModel",
                 createNewStore = function () {
                     var store = new model.Store();
                     editorViewModel.selectItem(store);
-                        //selectedStore(store);
+                    //selectedStore(store);
                     isStoreEditorVisible(true);
                 },
                 //On Edit Click Of Store
                 onEditItem = function (item) {
-                        
                     editorViewModel.selectItem(item);
                     openEditDialog();
                 },
@@ -65,7 +70,7 @@ define("stores/stores.viewModel",
                 //Delete Stock Category
                 deleteStore = function (store) {
                     dataservice.deleteStore({
-                        storeId: store.storeId(),
+                        companyId: store.companyId(),
                     }, {
                         success: function (data) {
                             if (data != null) {
@@ -78,7 +83,7 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
-                //GET Stores
+                //GET Stores For Stores List View
                 getStores = function () {
                     isLoadingStores(true);
                     dataservice.getStores({
@@ -93,7 +98,7 @@ define("stores/stores.viewModel",
                             if (data != null) {
                                 pager().totalCount(data.RowCount);
                                 _.each(data.Companies, function (item) {
-                                    var module = model.Store.Create(item);
+                                    var module = model.StoreListView.Create(item);
                                     stores.push(module);
                                 });
                             }
@@ -142,41 +147,54 @@ define("stores/stores.viewModel",
                     });
                     dataservice.saveStore(
                         storeToSave, {
-                                success: function (data) {
-                                    //new store adding
-                                    if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
-                                        stores.splice(0, 0, selectedStore());
-                                    }
-                                    //selectedStore().storeId(data.StoreId);
-                                    isStoreEditorVisible(false);
-                                    toastr.success("Successfully save.");
-                                },
-                                error: function (response) {
-                                    toastr.error("Failed to Update . Error: " + response);
-                                    isStoreEditorVisible(false);
+                            success: function (data) {
+                                //new store adding
+                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                    stores.splice(0, 0, selectedStore());
                                 }
-                            });
+                                //selectedStore().storeId(data.StoreId);
+                                isStoreEditorVisible(false);
+                                toastr.success("Successfully save.");
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Update . Error: " + response);
+                                isStoreEditorVisible(false);
+                            }
+                        });
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
-                        addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
-                        companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
+
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
-                        getBaseData();
-                        
+                    getBaseData();
+
                 },
                 //Get Store For editting
                 getStoreForEditting = function () {
                     dataservice.getStoreById({
                         //dataservice.getStores({
-                        CompanyId: selectedStore().companyId()
+                        companyId: selectedStoreListView().companyId()
                     }, {
                         success: function (data) {
                             selectedStore(undefined);
                             if (data != null) {
-                                selectedStore(model.Store.Create(data));
+                                selectedStore(model.Store.Create(data.Company));
+                                _.each(data.AddressResponse.Addresses, function (item) {
+                                    selectedStore().addresses.push(model.Address.Create(item));
+                                });
+                                _.each(data.CompanyTerritoryResponse.CompanyTerritories, function (item) {
+                                    selectedStore().companyTerritories.push(model.CompanyTerritory.Create(item));
+                                });
+
+                                addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
+                                companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
+                                companyTerritoryPager().totalCount(data.CompanyTerritoryResponse.RowCount);
+                                addressPager().totalCount(data.AddressResponse.RowCount);
+                                //contactCompanyPager().totalCount(data.CompanyTerritoryResponse.RowCount);
+                                //contactCompanyPager().totalCount(data.AddressResponse.RowCount);
+
                                 storeImage(data.ImageSource);
                                 companyBannerSetList.removeAll();
                                 companyBanners.removeAll();
@@ -221,18 +239,18 @@ define("stores/stores.viewModel",
                 //Get Base Data
                 getBaseData = function () {
                     dataservice.getBaseData({
-                            companyId: selectedStore().companyId()
-                        },{
+                        companyId: selectedStoreListView().companyId()
+                    }, {
                         success: function (data) {
                             if (data != null) {
                                 _.each(data.SystemUsers, function (item) {
-                                        var systemUser = new model.SystemUser.Create(item);
+                                    var systemUser = new model.SystemUser.Create(item);
                                     systemUsers.push(systemUser);
                                 });
-                                    _.each(data.CompanyTerritories, function (item) {
-                                        var territory = new model.CompanyTerritory.Create(item);
-                                        addressCompanyTerritoriesFilter.push(territory);
-                                    });
+                                _.each(data.CompanyTerritories, function (item) {
+                                    var territory = new model.CompanyTerritory.Create(item);
+                                    addressCompanyTerritoriesFilter.push(territory);
+                                });
                             }
                             isLoadingStores(false);
                         },
@@ -451,36 +469,36 @@ define("stores/stores.viewModel",
                     selectedStore().companyCMYKColors.remove(companyCMYKColor);
                     return;
                 },
-                    onEditCompanyCMYKColor = function (companyCMYKColor) {
-                        selectedCompanyCMYKColor(companyCMYKColor);
-                        view.showCompanyCMYKColorDialog();
-                    },
-                    onCloseCompanyCMYKColor = function () {
+                onEditCompanyCMYKColor = function (companyCMYKColor) {
+                    selectedCompanyCMYKColor(companyCMYKColor);
+                    view.showCompanyCMYKColorDialog();
+                },
+                onCloseCompanyCMYKColor = function () {
+                    view.hideCompanyCMYKColorDialog();
+                },
+                //Do Before Save Rave Review
+                doBeforeSaveCompanyCMYKColor = function () {
+                    var flag = true;
+                    if (!selectedCompanyCMYKColor().isValid()) {
+                        selectedCompanyCMYKColor().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                onSaveCompanyCMYKColor = function () {
+                    if (doBeforeSaveCompanyCMYKColor()) {
+                        selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
                         view.hideCompanyCMYKColorDialog();
-                    },
-                    //Do Before Save Rave Review
-                    doBeforeSaveCompanyCMYKColor = function () {
-                        var flag = true;
-                        if (!selectedCompanyCMYKColor().isValid()) {
-                            selectedCompanyCMYKColor().errors.showAllMessages();
-                            flag = false;
-                        }
-                        return flag;
-                    },
-                    onSaveCompanyCMYKColor = function () {
-                        if (doBeforeSaveCompanyCMYKColor()) {
-                            selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
-                            view.hideCompanyCMYKColorDialog();
-                        }
-                    },
-                    // ***** COMPANY CMYK COLOR END*****//
+                    }
+                },
+                // ***** COMPANY CMYK COLOR END*****//
 
                 // ***** COMPANY BANNER AND COMPANY BANNER SET*****//
                 bannerEditorViewModel = new ist.ViewModel(model.CompanyBanner),
                 selectedCompanyBanner = bannerEditorViewModel.itemForEditing,
-                selectedCompanyBannerSet = ko.observable();
-                addBannerCount = ko.observable(-1);
-                addBannerSetCount = ko.observable(-1);
+                selectedCompanyBannerSet = ko.observable(),
+                addBannerCount = ko.observable(-1),
+                addBannerSetCount = ko.observable(-1),
                 //Craete Banner
                 onCreateBanner = function () {
                     selectedCompanyBanner(model.CompanyBanner());
@@ -494,21 +512,34 @@ define("stores/stores.viewModel",
                 //Save Company Banner
                 onSaveCompanyBanner = function (companyBanner) {
                     if (doBeforeSaveCompanyBanner()) {
-                        companyBanner.id(addBannerCount() - 1);
                         _.each(companyBannerSetList(), function (item) {
                             if (item.id() === companyBanner.companySetId()) {
                                 companyBanner.setName(item.setName());
                             }
                         });
-                        if (companyBanner.companySetId() === filteredCompanySetId() || filteredCompanySetId() === undefined) {
-                            filteredCompanyBanners().splice(0, 0, companyBanner);
-                            companyBanners().splice(0, 0, companyBanner);
+                        if (companyBanner.id() === undefined) {
+                            companyBanner.id(addBannerCount() - 1);
+                            if (companyBanner.companySetId() === filteredCompanySetId() || filteredCompanySetId() === undefined) {
+                                filteredCompanyBanners.splice(0, 0, companyBanner);
+                                companyBanners.splice(0, 0, companyBanner);
+                            } else {
+                                companyBanners.splice(0, 0, companyBanner);
+                            }
                         } else {
-                            companyBanners().splice(0, 0, companyBanner);
+                            _.each(companyBanners(), function (item) {
+                                if (item.id() === companyBanner.id()) {
+                                    item.heading(companyBanner.heading());
+                                    item.description(companyBanner.description());
+                                    item.itemURL(companyBanner.itemURL());
+                                    item.buttonURL(companyBanner.buttonURL());
+                                    item.companySetId(companyBanner.companySetId());
+                                }
+                            });
                         }
                         view.hideEditBannerDialog();
                     }
                 },
+                //Save Banner Set
                 onSaveBannerSet = function (bannerSet) {
                     if (doBeforeSaveCompanyBannerSet()) {
                         bannerSet.id(addBannerSetCount() - 1);
@@ -534,11 +565,13 @@ define("stores/stores.viewModel",
                     }
                     return flag;
                 },
+                //Edit Company Banner
                 onEditCompanyBanner = function (banner) {
                     // bannerEditorViewModel.selectItem(banner);
                     //selectedCompanyBanner().reset();
                     view.showEditBannerDialog();
                 },
+                //Filter Banners based on banner set id
                 filterBannerSet = ko.computed(function () {
                     if (filteredCompanySetId() !== undefined) {
                         filteredCompanyBanners.removeAll();
@@ -555,23 +588,42 @@ define("stores/stores.viewModel",
 
 
                 }, this),
+                //Dalete company Banner
+                onDeleteCompanyBanner = function (banner) {
+                    if (!banner.id()) {
+                        companyBanners.remove(banner);
+                        return;
+                    }
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        _.each(companyBanners(), function (item) {
+                            if (item.id() === banner.id()) {
+                                companyBanners.remove(item);
+                            }
+                        });
+                        filteredCompanyBanners.remove(banner);
+                    });
+                    confirmation.show();
+                }
                 // ***** COMPANY BANNER eND*****//
 
-                    //***** ADDRESSES ****//
-                    //Selected Address
+                //***** ADDRESSES ****//
+                //Selected Address
                     selectedAddress = ko.observable(),
-                    //SelectedAddressTerritoryFilter
+                //SelectedAddressTerritoryFilter
                     addressTerritoryFilter = ko.observable(),
-                    
-                    //Deleted Address
+
+                //Deleted Address
                     deletedAddresses = ko.observableArray([]),
                     edittedAddresses = ko.observableArray([]),
                     newAddresses = ko.observableArray([]),
-                    //Address Pager
+                //Address Pager
                     addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
-                    //Address Search Filter
+                //Contact Company Pager
+                    contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                //Address Search Filter
                     searchAddressFilter = ko.observable(),
-                    //Search Address
+                //Search Address
                     searchAddress = function () {
                         dataservice.searchAddress({
                             SearchFilter: searchAddressFilter(),
@@ -610,23 +662,23 @@ define("stores/stores.viewModel",
                     },
                     addressTerritoryFilterSelected = ko.computed(function () {
                         if (selectedStore() != null && selectedStore() != undefined) {
-                        searchAddress();
+                            searchAddress();
                         }
                     }),
-                    //isSavingNewAddress
+                //isSavingNewAddress
                     isSavingNewAddress = ko.observable(false),
-                    // Template Chooser For Address
+                // Template Chooser For Address
                     templateToUseAddresses = function (address) {
                         return (address === selectedAddress() ? 'editAddressTemplate' : 'itemAddressTemplate');
                     },
-                    //Create Address
+                //Create Address
                     onCreateNewAddress = function () {
                         var address = new model.Address();
                         selectedAddress(address);
                         isSavingNewAddress(true);
                         view.showAddressDialog();
                     },
-                    // Delete Address
+                // Delete Address
                     onDeleteAddress = function (address) {
                         if (address.addressId() !== undefined) {
                             _.each(edittedAddresses(), function (item) {
@@ -648,7 +700,7 @@ define("stores/stores.viewModel",
                         view.hideAddressDialog();
                         isSavingNewAddress(false);
                     },
-                    //Do Before Save Address
+                //Do Before Save Address
                     doBeforeSaveAddress = function () {
                         var flag = true;
                         if (!selectedAddress().isValid()) {
@@ -666,7 +718,7 @@ define("stores/stores.viewModel",
                                 //pushing item in editted Addresses List
                                 if (selectedAddress().addressId() != undefined) {
                                     var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
-                                        return (selectedAddress().addressId() === item.addressId() );
+                                        return (selectedAddress().addressId() === item.addressId());
                                     });
 
                                     if (!match) {
@@ -678,20 +730,17 @@ define("stores/stores.viewModel",
                             view.hideAddressDialog();
                         }
                     },
-                    // ***** Address END *****
+                // ***** Address END *****
 
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        initialize = function (specifiedView) {
-            view = specifiedView;
-            ko.applyBindings(view.viewModel, view.bindingRoot);
-                pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                //companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
-                
-            getStores();
-               // getBaseData();
-            view.initializeForm();
-        };
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+            pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                    getStores();
+                    view.initializeForm();
+                };
 
                 return {
                     filteredCompanySetId: filteredCompanySetId,
@@ -774,6 +823,7 @@ define("stores/stores.viewModel",
                     onSaveBannerSet: onSaveBannerSet,
                     onSaveCompanyBanner: onSaveCompanyBanner,
                     onEditCompanyBanner: onEditCompanyBanner,
+                    onDeleteCompanyBanner: onDeleteCompanyBanner,
                     onEditAddress: onEditAddress,
                     onCloseAddress: onCloseAddress,
                     doBeforeSaveAddress: doBeforeSaveAddress,
@@ -781,6 +831,9 @@ define("stores/stores.viewModel",
                     addressCompanyTerritoriesFilter: addressCompanyTerritoriesFilter,
                     addressTerritoryFilter: addressTerritoryFilter,
                     addressTerritoryFilterSelected: addressTerritoryFilterSelected,
+                    //editorViewModelListView: editorViewModelListView,
+                    selectedStoreListView: selectedStoreListView,
+                    contactCompanyPager: contactCompanyPager,
                     initialize: initialize
                 };
             })()

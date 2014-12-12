@@ -6,7 +6,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyRepository : IBaseRepository<Company, long>
     {
-        Company GetCompanyById(long companyId);
+        CompanyResponse GetCompanyById(long companyId);
 
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
