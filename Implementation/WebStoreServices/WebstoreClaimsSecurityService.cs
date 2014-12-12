@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MPC.Common;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
+using MPC.Models.DomainModels;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -32,11 +33,24 @@ namespace MPC.Implementation.WebStoreServices
             claimsIdentity.AddClaim(claim);
         }
 
-        public void AddClaimsToIdentity(long companyIdentity, ClaimsIdentity claimsIdentity)
+        private static void AddLoginUserClaims(CompanyContact userContact, ClaimsIdentity claimsIdentity)
+        {
+            Claim claim = new Claim(WebstoreClaimTypes.LoginUser,
+                                        ClaimHelper.Serialize(
+                                            new OrganisationClaimValue { loginContact = userContact }),
+                                        typeof(OrganisationClaimValue).AssemblyQualifiedName);
+            claimsIdentity.AddClaim(claim);
+        }
+
+        public void AddClaimsToIdentity(long companyIdentity, CompanyContact contact ,ClaimsIdentity claimsIdentity)
         {
             if (companyIdentity > 0)
             {
                 AddCompanyClaims(companyIdentity, claimsIdentity);
+            }
+            if (contact != null)
+            {
+                AddLoginUserClaims(contact, claimsIdentity);
             }
         }
 

@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface IGlobalLanguageRepository : IBaseRepository<GlobalLanguage, long>
     {
-      //  string GetLanguageCodeById(long organisationId);
+        string GetLanguageCodeById(long organisationId);
     }
 }

@@ -97,7 +97,7 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                //oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
 
                 stores.Add(oCompany.CompanyId, oStore);
 
@@ -121,7 +121,7 @@ namespace MPC.Implementation.WebStoreServices
                     oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                     oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                     oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                    //oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                    oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
 
                     stores.Add(oCompany.CompanyId, oStore);
                     cache.Set(CacheKeyName, stores, policy);
@@ -189,11 +189,11 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact,TwitterScreenName);
         }
 
-        //public string GetUiCulture(long organisationId)
-        //{
-        //    return _globalLanguageRepository.GetLanguageCodeById(organisationId);
+        public string GetUiCulture(long organisationId)
+        {
+            return _globalLanguageRepository.GetLanguageCodeById(organisationId);
 
-        //}
+        }
 
         #endregion
     }

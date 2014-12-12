@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using MPC.Models.Common;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.WebStoreServices
 {
     public interface IWebstoreClaimsSecurityService
     {
-        void AddClaimsToIdentity(long companyIdentity, ClaimsIdentity claimsIdentity);
+        void AddClaimsToIdentity(long companyIdentity, CompanyContact contact, ClaimsIdentity claimsIdentity);
     }
 }

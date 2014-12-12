@@ -139,7 +139,7 @@ namespace MPC.Webstore
 
             long storeId = companyService.GetStoreIdFromDomain(url);
 
-            MyCompanyDomainBaseResponse baseResponse = companyService.GetStoreFromCache(storeId).CreateFromWiget();
+            MyCompanyDomainBaseResponse baseResponse = companyService.GetStoreFromCache(storeId).CreateFromCompany();
 
             if (baseResponse.Company != null)
             {
@@ -148,7 +148,7 @@ namespace MPC.Webstore
 
                 // set global language of store
 
-                string languageName = ""; //companyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
+                string languageName = companyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
 
                 CultureInfo ci = null;
 

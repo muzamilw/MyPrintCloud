@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.Common
+﻿using MPC.Models.DomainModels;
+
+namespace MPC.Models.Common
 {
     /// <summary>
     /// Organisation Claim Value
@@ -9,5 +11,7 @@
         /// Organisation Id
         /// </summary>
         public long OrganisationId { get; set; }
+
+        public CompanyContact loginContact { get; set; }
     }
 }

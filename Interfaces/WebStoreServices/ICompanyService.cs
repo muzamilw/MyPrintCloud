@@ -31,8 +31,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetContactByID(Int64 contactID);
 
         List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
-        //List<CmsPage> GetSecondaryPages(long companyId);
-
-       // string GetUiCulture(long organisationId);
+       
+        string GetUiCulture(long organisationId);
     }
 }
