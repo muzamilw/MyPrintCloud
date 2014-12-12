@@ -56,6 +56,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemRelatedItemRepository, ItemRelatedItemRepository>();
             unityContainer.RegisterType<IColorPalleteRepository, ColorPalleteRepository>();
             unityContainer.RegisterType<ITemplateRepository, TemplateRepository>();
+            unityContainer.RegisterType<ITemplatePageRepository, TemplatePageRepository>();
         }
     }
 }

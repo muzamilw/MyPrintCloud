@@ -378,6 +378,9 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ItemVideo> ItemVideos { get; set; }
 
         public IEnumerable<ItemRelatedItem> ItemRelatedItems { get; set; }
+
+        public Template Template { get; set; }
+
         #endregion
     }
 }

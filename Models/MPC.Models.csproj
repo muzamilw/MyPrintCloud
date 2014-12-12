@@ -124,6 +124,7 @@
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\Campaign.cs" />
+    <Compile Include="DomainModels\CampaignEmailQueue.cs" />
     <Compile Include="DomainModels\CampaignEmailVariable.cs" />
     <Compile Include="DomainModels\CampaignImage.cs" />
     <Compile Include="DomainModels\CmsPage.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
+    <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
     <Compile Include="ModelMappers\ItemVdpPriceMapper.cs" />
     <Compile Include="ModelMappers\ItemMapper.cs" />
