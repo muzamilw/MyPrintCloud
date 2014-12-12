@@ -187,11 +187,13 @@ define("stores/stores.viewModel",
                                 _.each(data.CompanyTerritoryResponse.CompanyTerritories, function (item) {
                                     selectedStore().companyTerritories.push(model.CompanyTerritory.Create(item));
                                 });
-                               
+
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                                 companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                                 companyTerritoryPager().totalCount(data.CompanyTerritoryResponse.RowCount);
                                 addressPager().totalCount(data.AddressResponse.RowCount);
+                                //contactCompanyPager().totalCount(data.CompanyTerritoryResponse.RowCount);
+                                //contactCompanyPager().totalCount(data.AddressResponse.RowCount);
 
                                 storeImage(data.ImageSource);
                                 companyBannerSetList.removeAll();
@@ -585,6 +587,8 @@ define("stores/stores.viewModel",
                     newAddresses = ko.observableArray([]),
                 //Address Pager
                     addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                //Contact Company Pager
+                    contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
                     searchAddressFilter = ko.observable(),
                 //Search Address
@@ -702,10 +706,7 @@ define("stores/stores.viewModel",
             view = specifiedView;
             ko.applyBindings(view.viewModel, view.bindingRoot);
             pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
-            //companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
-
             getStores();
-            // getBaseData();
             view.initializeForm();
         };
 
@@ -799,6 +800,7 @@ define("stores/stores.viewModel",
                     addressTerritoryFilterSelected: addressTerritoryFilterSelected,
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
+                    contactCompanyPager: contactCompanyPager,
                     initialize: initialize
                 };
             })()
