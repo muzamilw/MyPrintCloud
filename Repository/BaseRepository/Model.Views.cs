@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets58829F48AF0F61268CFCEB2F2A5C3A61323A9EB8D57DC730A636FAD7227C9B13))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,19 +38,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets58829F48AF0F61268CFCEB2F2A5C3A61323A9EB8D57DC730A636FAD7227C9B13 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets0273514C0EBEE8457BF431567BD953E379D0C797695D4A68A5982112DD5E3DD7()
+        public ViewsForBaseEntitySets58829F48AF0F61268CFCEB2F2A5C3A61323A9EB8D57DC730A636FAD7227C9B13()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "51ad45bb402c5daa0dffcaa2f5baaf80a08ae71928d547234a6355d3f8fa5253";
-            this.HashOverAllExtentViews = "d38a98574bf07e8fc82c0a4d377d4458a3df73cff3207fcf50ecbb4ece90a12b";
-            this.ViewCount = 154;
+            this.HashOverMappingClosure = "1801bb150a597fc8afeadb40610dd20f14e45cba0756ea3f705a129283cb6142";
+            this.HashOverAllExtentViews = "0a512538371679ce99737fdcd3bb63c5b49662ebc6942e704e05aa86d0f323c9";
+            this.ViewCount = 158;
         }
         
         /// <Summary>
@@ -673,6 +673,22 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 153))
             {
                 return GetView153();
+            }
+            if ((index == 154))
+            {
+                return GetView154();
+            }
+            if ((index == 155))
+            {
+                return GetView155();
+            }
+            if ((index == 156))
+            {
+                return GetView156();
+            }
+            if ((index == 157))
+            {
+                return GetView157();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -3090,28 +3106,25 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView53()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplatePage", @"
-    SELECT VALUE -- Constructing TemplatePage
-        [DomainModels.Store.TemplatePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplatePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects)
-    FROM (
-        SELECT 
-            T.ProductPageId AS TemplatePage_ProductPageId, 
-            T.ProductId AS TemplatePage_ProductId, 
-            T.PageNo AS TemplatePage_PageNo, 
-            T.PageType AS TemplatePage_PageType, 
-            T.Orientation AS TemplatePage_Orientation, 
-            T.BackGroundType AS TemplatePage_BackGroundType, 
-            T.BackgroundFileName AS TemplatePage_BackgroundFileName, 
-            T.ColorC AS TemplatePage_ColorC, 
-            T.ColorM AS TemplatePage_ColorM, 
-            T.ColorY AS TemplatePage_ColorY, 
-            T.PageName AS TemplatePage_PageName, 
-            T.ColorK AS TemplatePage_ColorK, 
-            T.IsPrintable AS TemplatePage_IsPrintable, 
-            T.hasOverlayObjects AS TemplatePage_hasOverlayObjects, 
-            True AS _from0
-        FROM BaseDbContext.TemplatePages AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplatePage", "\r\n    SELECT VALUE -- Constructing TemplatePage\r\n        [DomainModels.Store.Temp" +
+                    "latePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplateP" +
+                    "age_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePa" +
+                    "ge_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T" +
+                    "1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.Temp" +
+                    "latePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects," +
+                    " T1.TemplatePage_Width, T1.TemplatePage_Height)\r\n    FROM (\r\n        SELECT \r\n  " +
+                    "          T.ProductPageId AS TemplatePage_ProductPageId, \r\n            T.Product" +
+                    "Id AS TemplatePage_ProductId, \r\n            T.PageNo AS TemplatePage_PageNo, \r\n " +
+                    "           T.PageType AS TemplatePage_PageType, \r\n            T.Orientation AS T" +
+                    "emplatePage_Orientation, \r\n            T.BackGroundType AS TemplatePage_BackGrou" +
+                    "ndType, \r\n            T.BackgroundFileName AS TemplatePage_BackgroundFileName, \r" +
+                    "\n            T.ColorC AS TemplatePage_ColorC, \r\n            T.ColorM AS Template" +
+                    "Page_ColorM, \r\n            T.ColorY AS TemplatePage_ColorY, \r\n            T.Page" +
+                    "Name AS TemplatePage_PageName, \r\n            T.ColorK AS TemplatePage_ColorK, \r\n" +
+                    "            T.IsPrintable AS TemplatePage_IsPrintable, \r\n            T.hasOverla" +
+                    "yObjects AS TemplatePage_hasOverlayObjects, \r\n            T.Width AS TemplatePag" +
+                    "e_Width, \r\n            T.Height AS TemplatePage_Height, \r\n            True AS _f" +
+                    "rom0\r\n        FROM BaseDbContext.TemplatePages AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -5522,28 +5535,25 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView107()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplatePages", @"
-    SELECT VALUE -- Constructing TemplatePages
-        [DomainModels.TemplatePage](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_PageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_BackGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.TemplatePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplatePage_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects)
-    FROM (
-        SELECT 
-            T.ProductPageId AS TemplatePage_ProductPageId, 
-            T.ProductId AS TemplatePage_ProductId, 
-            T.PageNo AS TemplatePage_PageNo, 
-            T.PageType AS TemplatePage_PageType, 
-            T.Orientation AS TemplatePage_Orientation, 
-            T.BackGroundType AS TemplatePage_BackGroundType, 
-            T.BackgroundFileName AS TemplatePage_BackgroundFileName, 
-            T.ColorC AS TemplatePage_ColorC, 
-            T.ColorM AS TemplatePage_ColorM, 
-            T.ColorY AS TemplatePage_ColorY, 
-            T.PageName AS TemplatePage_PageName, 
-            T.ColorK AS TemplatePage_ColorK, 
-            T.IsPrintable AS TemplatePage_IsPrintable, 
-            T.hasOverlayObjects AS TemplatePage_hasOverlayObjects, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.TemplatePage AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplatePages", "\r\n    SELECT VALUE -- Constructing TemplatePages\r\n        [DomainModels.TemplateP" +
+                    "age](T1.TemplatePage_ProductPageId, T1.TemplatePage_ProductId, T1.TemplatePage_P" +
+                    "ageNo, T1.TemplatePage_PageType, T1.TemplatePage_Orientation, T1.TemplatePage_Ba" +
+                    "ckGroundType, T1.TemplatePage_BackgroundFileName, T1.TemplatePage_ColorC, T1.Tem" +
+                    "platePage_ColorM, T1.TemplatePage_ColorY, T1.TemplatePage_PageName, T1.TemplateP" +
+                    "age_ColorK, T1.TemplatePage_IsPrintable, T1.TemplatePage_hasOverlayObjects, T1.T" +
+                    "emplatePage_Width, T1.TemplatePage_Height)\r\n    FROM (\r\n        SELECT \r\n       " +
+                    "     T.ProductPageId AS TemplatePage_ProductPageId, \r\n            T.ProductId AS" +
+                    " TemplatePage_ProductId, \r\n            T.PageNo AS TemplatePage_PageNo, \r\n      " +
+                    "      T.PageType AS TemplatePage_PageType, \r\n            T.Orientation AS Templa" +
+                    "tePage_Orientation, \r\n            T.BackGroundType AS TemplatePage_BackGroundTyp" +
+                    "e, \r\n            T.BackgroundFileName AS TemplatePage_BackgroundFileName, \r\n    " +
+                    "        T.ColorC AS TemplatePage_ColorC, \r\n            T.ColorM AS TemplatePage_" +
+                    "ColorM, \r\n            T.ColorY AS TemplatePage_ColorY, \r\n            T.PageName " +
+                    "AS TemplatePage_PageName, \r\n            T.ColorK AS TemplatePage_ColorK, \r\n     " +
+                    "       T.IsPrintable AS TemplatePage_IsPrintable, \r\n            T.hasOverlayObje" +
+                    "cts AS TemplatePage_hasOverlayObjects, \r\n            T.Width AS TemplatePage_Wid" +
+                    "th, \r\n            T.Height AS TemplatePage_Height, \r\n            True AS _from0\r" +
+                    "\n        FROM DomainModelsStoreContainer.TemplatePage AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -6978,6 +6988,116 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM DomainModelsStoreContainer.ColorPallete AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.GlobalLanguage
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView154()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GlobalLanguage", @"
+    SELECT VALUE -- Constructing GlobalLanguage
+        [DomainModels.Store.GlobalLanguage](T1.GlobalLanguage_LanguageId, T1.GlobalLanguage_FriendlyName, T1.GlobalLanguage_uiCulture, T1.GlobalLanguage_culture)
+    FROM (
+        SELECT 
+            T.LanguageId AS GlobalLanguage_LanguageId, 
+            T.FriendlyName AS GlobalLanguage_FriendlyName, 
+            T.uiCulture AS GlobalLanguage_uiCulture, 
+            T.culture AS GlobalLanguage_culture, 
+            True AS _from0
+        FROM BaseDbContext.GlobalLanguages AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.GlobalLanguages
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView155()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GlobalLanguages", @"
+    SELECT VALUE -- Constructing GlobalLanguages
+        [DomainModels.GlobalLanguage](T1.GlobalLanguage_LanguageId, T1.GlobalLanguage_FriendlyName, T1.GlobalLanguage_uiCulture, T1.GlobalLanguage_culture)
+    FROM (
+        SELECT 
+            T.LanguageId AS GlobalLanguage_LanguageId, 
+            T.FriendlyName AS GlobalLanguage_FriendlyName, 
+            T.uiCulture AS GlobalLanguage_uiCulture, 
+            T.culture AS GlobalLanguage_culture, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.GlobalLanguage AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.CampaignEmailQueue
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView156()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2080);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CampaignEmailQueue\r\n        [DomainModels.Sto");
+            viewString.Append("re.CampaignEmailQueue](T1.CampaignEmailQueue_EmailQueueId, T1.CampaignEmailQueue");
+            viewString.Append("_To, T1.CampaignEmailQueue_Cc, T1.CampaignEmailQueue_EmailFrom, T1.CampaignEmail");
+            viewString.Append("Queue_Type, T1.CampaignEmailQueue_Subject, T1.CampaignEmailQueue_Body, T1.Campai");
+            viewString.Append("gnEmailQueue_Images, T1.CampaignEmailQueue_SendDateTime, T1.CampaignEmailQueue_I");
+            viewString.Append("sDeliverd, T1.CampaignEmailQueue_SMTPUserName, T1.CampaignEmailQueue_SMTPPasswor");
+            viewString.Append("d, T1.CampaignEmailQueue_SMTPServer, T1.CampaignEmailQueue_ErrorResponse, T1.Cam");
+            viewString.Append("paignEmailQueue_FileAttachment, T1.CampaignEmailQueue_AttemptCount, T1.CampaignE");
+            viewString.Append("mailQueue_ToName, T1.CampaignEmailQueue_FromName, T1.CampaignEmailQueue_Campaign");
+            viewString.Append("ReportId, T1.CampaignEmailQueue_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n  ");
+            viewString.Append("          T.EmailQueueId AS CampaignEmailQueue_EmailQueueId, \r\n            T.To ");
+            viewString.Append("AS CampaignEmailQueue_To, \r\n            T.Cc AS CampaignEmailQueue_Cc, \r\n       ");
+            viewString.Append("     T.EmailFrom AS CampaignEmailQueue_EmailFrom, \r\n            T.Type AS Campai");
+            viewString.Append("gnEmailQueue_Type, \r\n            T.Subject AS CampaignEmailQueue_Subject, \r\n    ");
+            viewString.Append("        T.Body AS CampaignEmailQueue_Body, \r\n            T.Images AS CampaignEma");
+            viewString.Append("ilQueue_Images, \r\n            T.SendDateTime AS CampaignEmailQueue_SendDateTime,");
+            viewString.Append(" \r\n            T.IsDeliverd AS CampaignEmailQueue_IsDeliverd, \r\n            T.SM");
+            viewString.Append("TPUserName AS CampaignEmailQueue_SMTPUserName, \r\n            T.SMTPPassword AS C");
+            viewString.Append("ampaignEmailQueue_SMTPPassword, \r\n            T.SMTPServer AS CampaignEmailQueue");
+            viewString.Append("_SMTPServer, \r\n            T.ErrorResponse AS CampaignEmailQueue_ErrorResponse, ");
+            viewString.Append("\r\n            T.FileAttachment AS CampaignEmailQueue_FileAttachment, \r\n         ");
+            viewString.Append("   T.AttemptCount AS CampaignEmailQueue_AttemptCount, \r\n            T.ToName AS ");
+            viewString.Append("CampaignEmailQueue_ToName, \r\n            T.FromName AS CampaignEmailQueue_FromNa");
+            viewString.Append("me, \r\n            T.CampaignReportId AS CampaignEmailQueue_CampaignReportId, \r\n ");
+            viewString.Append("           T.OrganisationId AS CampaignEmailQueue_OrganisationId, \r\n            ");
+            viewString.Append("True AS _from0\r\n        FROM BaseDbContext.CampaignEmailQueues AS T\r\n    ) AS T1");
+            viewString.Append("");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CampaignEmailQueue", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.CampaignEmailQueues
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView157()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2087);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing CampaignEmailQueues\r\n        [DomainModels.Ca");
+            viewString.Append("mpaignEmailQueue](T1.CampaignEmailQueue_EmailQueueId, T1.CampaignEmailQueue_To, ");
+            viewString.Append("T1.CampaignEmailQueue_Cc, T1.CampaignEmailQueue_EmailFrom, T1.CampaignEmailQueue");
+            viewString.Append("_Type, T1.CampaignEmailQueue_Subject, T1.CampaignEmailQueue_Body, T1.CampaignEma");
+            viewString.Append("ilQueue_Images, T1.CampaignEmailQueue_SendDateTime, T1.CampaignEmailQueue_IsDeli");
+            viewString.Append("verd, T1.CampaignEmailQueue_SMTPUserName, T1.CampaignEmailQueue_SMTPPassword, T1");
+            viewString.Append(".CampaignEmailQueue_SMTPServer, T1.CampaignEmailQueue_ErrorResponse, T1.Campaign");
+            viewString.Append("EmailQueue_FileAttachment, T1.CampaignEmailQueue_AttemptCount, T1.CampaignEmailQ");
+            viewString.Append("ueue_ToName, T1.CampaignEmailQueue_FromName, T1.CampaignEmailQueue_CampaignRepor");
+            viewString.Append("tId, T1.CampaignEmailQueue_OrganisationId)\r\n    FROM (\r\n        SELECT \r\n       ");
+            viewString.Append("     T.EmailQueueId AS CampaignEmailQueue_EmailQueueId, \r\n            T.To AS Ca");
+            viewString.Append("mpaignEmailQueue_To, \r\n            T.Cc AS CampaignEmailQueue_Cc, \r\n            ");
+            viewString.Append("T.EmailFrom AS CampaignEmailQueue_EmailFrom, \r\n            T.Type AS CampaignEma");
+            viewString.Append("ilQueue_Type, \r\n            T.Subject AS CampaignEmailQueue_Subject, \r\n         ");
+            viewString.Append("   T.Body AS CampaignEmailQueue_Body, \r\n            T.Images AS CampaignEmailQue");
+            viewString.Append("ue_Images, \r\n            T.SendDateTime AS CampaignEmailQueue_SendDateTime, \r\n  ");
+            viewString.Append("          T.IsDeliverd AS CampaignEmailQueue_IsDeliverd, \r\n            T.SMTPUse");
+            viewString.Append("rName AS CampaignEmailQueue_SMTPUserName, \r\n            T.SMTPPassword AS Campai");
+            viewString.Append("gnEmailQueue_SMTPPassword, \r\n            T.SMTPServer AS CampaignEmailQueue_SMTP");
+            viewString.Append("Server, \r\n            T.ErrorResponse AS CampaignEmailQueue_ErrorResponse, \r\n   ");
+            viewString.Append("         T.FileAttachment AS CampaignEmailQueue_FileAttachment, \r\n            T.");
+            viewString.Append("AttemptCount AS CampaignEmailQueue_AttemptCount, \r\n            T.ToName AS Campa");
+            viewString.Append("ignEmailQueue_ToName, \r\n            T.FromName AS CampaignEmailQueue_FromName, \r");
+            viewString.Append("\n            T.CampaignReportId AS CampaignEmailQueue_CampaignReportId, \r\n      ");
+            viewString.Append("      T.OrganisationId AS CampaignEmailQueue_OrganisationId, \r\n            True ");
+            viewString.Append("AS _from0\r\n        FROM DomainModelsStoreContainer.CampaignEmailQueue AS T\r\n    ");
+            viewString.Append(") AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CampaignEmailQueues", viewString.ToString());
         }
     }
 }

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
@@ -15,6 +19,7 @@ namespace MPC.Webstore.Controllers
            #region Private
 
         private readonly ICompanyService _myCompanyService;
+        private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
         #endregion
 
@@ -22,33 +27,34 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public LoginController(ICompanyService myCompanyService)
+        public LoginController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
+            if (webstoreAuthorizationChecker == null)
+            {
+                throw new ArgumentNullException("webstoreAuthorizationChecker");
+            }
             this._myCompanyService = myCompanyService;
+            this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
         }
 
         #endregion
+
+        [Dependency]
+        public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
         // GET: Login
         public ActionResult Index(string FirstName,string LastName,string Email)
         {
-           
+            //CompanyContact uu = _webstoreAuthorizationChecker.LoginContact();
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
-                //if (System.Web.HttpContext.Current.Request.UrlReferrer == null)
-                //{
-                //    returnUrl = "/Home/Index";
-                //}
-                //else
-                //{
-                //    // returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
-                //    returnUrl = "/Home/Index";
-                //}
+
                 CompanyContact user = new CompanyContact();
+
                 if (!string.IsNullOrEmpty(Email))
                 {
                     user = _myCompanyService.GetContactByEmail(Email);
@@ -71,17 +77,19 @@ namespace MPC.Webstore.Controllers
             else
             {
                  return View("PartialViews/Login");
-             }
+            }
         }
 
         [HttpPost]
         public ActionResult Index(AccountViewModel model)
         {
+            
             string returnUrl = string.Empty;
-            if (System.Web.HttpContext.Current.Request.UrlReferrer != null)
-                returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
-            else
-                returnUrl = string.Empty;
+
+            //if (System.Web.HttpContext.Current.Request.UrlReferrer != null)
+            //    returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
+            //else
+            //    returnUrl = string.Empty;
             
             if (ModelState.IsValid)
             {
@@ -89,7 +97,6 @@ namespace MPC.Webstore.Controllers
                 if (user != null)
                 {
                     return VerifyUser(user, returnUrl);
-                    
                 }
                 else
                 {
@@ -118,6 +125,13 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+
+                ClaimsSecurityService.AddClaimsToIdentity(0, user ,identity);
+
+                HttpContext.User = new ClaimsPrincipal(identity);
+                // Make sure the Principal's are in sync
+                Thread.CurrentPrincipal = HttpContext.User;
                 SessionParameters.LoginCompany = user.Company;
                 SessionParameters.LoginContact = user;
                 RedirectToLocal(ReturnUrl);
@@ -134,25 +148,5 @@ namespace MPC.Webstore.Controllers
             ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }
-      
-        //public ActionResult Login(string email, string password)
-        //{
-
-        //    if (ModelState.IsValid)
-        //    {
-
-        //    }
-        //    else
-        //    {
-               
-        //    }
-        //   //return  "Invalid email or password.";
-        //   //return Content("no");
-        //    return View("PartialViews/Login");
-        //    //return View("PartialViews/Login", "no");
-        //   // return View("PartialViews/Login");
-        //    // return RedirectToAction("Index", "Home", model);
-        //   // return Redirect("/Login");
-        //}
     }
 }

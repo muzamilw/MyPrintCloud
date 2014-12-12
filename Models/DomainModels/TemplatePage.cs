@@ -20,6 +20,10 @@
         public bool? IsPrintable { get; set; }
         public bool? hasOverlayObjects { get; set; }
 
+        public double? Width { get; set; }
+
+        public double? Height { get; set; }
+
         public virtual Template Template { get; set; }
     }
 }

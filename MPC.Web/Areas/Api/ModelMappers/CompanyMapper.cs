@@ -93,7 +93,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static DomainModels.Company CreateFrom(this ApiModels.Company source)
         {
-            var company = new MPC.Models.DomainModels.Company
+            var company = new DomainModels.Company
                           {
                               CompanyId = source.CompanyId,
                               Name = source.Name,
@@ -158,8 +158,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                               RaveReviews =source.RaveReviews != null? source.RaveReviews.Select(x => x.CreateFrom()).ToList(): null,
                               CompanyCMYKColors = source.CompanyCmykColors != null ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList() : null,
-                              CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList() : null,
                               Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null
+                              CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x=> x.CreateFrom()).ToList(): null,
+                              CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null
                           };
             
             return company;

@@ -7,7 +7,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
-            specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2, specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2
+            specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
+            specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners
         ) {
             var
                 self,
@@ -41,6 +42,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),
                 companyType = ko.observable(),
                 type = ko.observable(),
+                isDisplayBanners = ko.observable(specifiedisDisplayBanners),
                 raveReviews = ko.observableArray([]),
                 companyTerritories = ko.observableArray([]),
                 addresses = ko.observableArray([]),
@@ -49,10 +51,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyCMYKColors = ko.observableArray([]),
                 //Color Palette
                 colorPalette = ko.observable(new ColorPalette()),
-                ////Company Banner
-                //companyBanner = ko.observable(new CompanyBanner()),
-                ////Company Banner Set
-                //companyBannerSet = ko.observable(new CompanyBannerSet()),
+                //Company Banner Set List
+                companyBannerSets = ko.observableArray([]),
                 // ReSharper restore InconsistentNaming
 
                 // Errors
@@ -103,7 +103,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     productionManagerId1: productionManagerId1,
                     productionManagerId2: productionManagerId2,
                     stockNotificationManagerId1: stockNotificationManagerId1,
-                    stockNotificationManagerId2: stockNotificationManagerId2
+                    stockNotificationManagerId2: stockNotificationManagerId2,
+                    isDisplayBanners: isDisplayBanners,
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -140,6 +141,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.ProductionManagerId2 = source.productionManagerId2();
                     result.StockNotificationManagerId1 = source.stockNotificationManagerId1();
                     result.StockNotificationManagerId2 = source.stockNotificationManagerId2();
+                    result.isDisplayBanners = source.isDisplayBanners();
                     result.CompanyType = CompanyType().convertToServerData(source.companyType());
                     result.RaveReviews = [];
                     _.each(source.raveReviews(), function (item) {
@@ -157,6 +159,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.EdittedCompanyTerritories = [];
                     result.DeletedCompanyTerritories = [];
                     result.NewAddedAddresses = [];
+                    result.CompanyBannerSets = [];
                     result.EdittedAddresses = [];
                     result.DeletedAddresses = [];
                     return result;
@@ -195,12 +198,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 stockNotificationManagerId2: stockNotificationManagerId2,
                 twitterAppKey: twitterAppKey,
                 companyType: companyType,
+                isDisplayBanners: isDisplayBanners,
                 type: type,
                 raveReviews: raveReviews,
                 companyTerritories: companyTerritories,
                 addresses: addresses,
                 companyCMYKColors: companyCMYKColors,
                 colorPalette: colorPalette,
+                companyBannerSets: companyBannerSets,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -952,42 +957,51 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var CompanyBanner = function (specifiedCompanyBannerId, specifiedHeading, specifiedDescription, specifiedItemURL, specifiedButtonURL, specifiedCompanySetId) {
         var self,
           id = ko.observable(specifiedCompanyBannerId),
-          heading = ko.observable(specifiedHeading),
+          heading = ko.observable(specifiedHeading).extend({ required: true }),
           description = ko.observable(specifiedDescription),
           itemURL = ko.observable(specifiedItemURL),
           buttonURL = ko.observable(specifiedButtonURL),
           companySetId = ko.observable(specifiedCompanySetId),
-               // Errors
-            errors = ko.validation.group({
+          //Set Name For List View
+          setName = ko.observable(),
+        // Errors
+        errors = ko.validation.group({
+            //companySetId: companySetId,
+            heading: heading
+        }),
+        // Is Valid 
+        isValid = ko.computed(function () {
+            return errors().length === 0 ? true : false;
+        }),
 
-            }),
-            // Is Valid 
-            isValid = ko.computed(function () {
-                return errors().length === 0 ? true : false;
-            }),
-
-            // ReSharper disable InconsistentNaming
-            dirtyFlag = new ko.dirtyFlag({
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty();
-            }),
-            //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};
-                result.CompanyBannerId = source.id() === undefined ? 0 : source.id();
-                result.Heading = source.heading() === undefined ? null : source.heading();;
-                result.Description = source.description() === undefined ? null : source.description();
-                result.ItemURL = source.itemURL() === undefined ? null : source.itemURL();
-                result.ButtonURL = source.buttonURL() === undefined ? null : source.buttonURL();
-                result.CompanySetId = source.companySetId() === undefined ? null : source.companySetId();
-                return result;
-            },
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
-            };
+        // ReSharper disable InconsistentNaming
+        dirtyFlag = new ko.dirtyFlag({
+            heading: heading,
+            description: description,
+            itemURL: itemURL,
+            buttonURL: buttonURL,
+            companySetId: companySetId,
+            setName: setName,
+        }),
+        // Has Changes
+        hasChanges = ko.computed(function () {
+            return dirtyFlag.isDirty();
+        }),
+        //Convert To Server
+        convertToServerData = function (source) {
+            var result = {};
+            result.CompanyBannerId = source.id() === undefined ? 0 : source.id();
+            result.Heading = source.heading() === undefined ? null : source.heading();;
+            result.Description = source.description() === undefined ? null : source.description();
+            result.ItemURL = source.itemURL() === undefined ? null : source.itemURL();
+            result.ButtonURL = source.buttonURL() === undefined ? null : source.buttonURL();
+            result.CompanySetId = source.companySetId() === undefined ? null : source.companySetId();
+            return result;
+        },
+        // Reset
+        reset = function () {
+            dirtyFlag.reset();
+        };
         self = {
             id: id,
             heading: heading,
@@ -995,6 +1009,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             itemURL: itemURL,
             buttonURL: buttonURL,
             companySetId: companySetId,
+            setName: setName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1020,10 +1035,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var CompanyBannerSet = function (specifiedCompanySetId, specifiedSetName) {
         var self,
           id = ko.observable(specifiedCompanySetId),
-          setName = ko.observable(specifiedSetName),
+          setName = ko.observable(specifiedSetName).extend({ required: true }),
+          //Compnay Banners
+          companyBanners = ko.observableArray([]),
            // Errors
             errors = ko.validation.group({
-
+                setName: setName
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1042,6 +1059,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 var result = {};
                 result.CompanySetId = source.id() === undefined ? 0 : source.id();
                 result.SetName = source.setName() === undefined ? null : source.setName();;
+                result.CompanyBanners = [];
                 return result;
             },
             // Reset
@@ -1051,6 +1069,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         self = {
             id: id,
             setName: setName,
+            companyBanners: companyBanners,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1061,10 +1080,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return self;
     };
     CompanyBannerSet.Create = function (source) {
-        return new CompanyBanner(
+        return new CompanyBannerSet(
             source.CompanySetId,
             source.SetName
            );
+    };
+    CompanyBannerSet.CreateNew = function () {
+        return new CompanyBannerSet(0, undefined);
     };
         self = {
             addressId: addressId,

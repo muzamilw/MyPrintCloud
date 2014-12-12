@@ -267,9 +267,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\TemplateMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemVDPPriceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCMYKColorMapper.cs" />
@@ -279,6 +283,8 @@
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\Address.cs" />
     <Compile Include="Areas\Api\Models\AddressResponse.cs" />
+    <Compile Include="Areas\Api\Models\CompanyBanner.cs" />
+    <Compile Include="Areas\Api\Models\CompanyBannerSet.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
@@ -301,6 +307,8 @@
     <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
+    <Compile Include="Areas\Api\Models\Template.cs" />
+    <Compile Include="Areas\Api\Models\TemplatePage.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
@@ -1111,12 +1119,12 @@
     <Content Include="Content\less\Products.less" />
     <Content Include="Areas\Products\Views\Home\_ProductDetail.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_SupplierDialog.cshtml" />
-    <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_EditBanner.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddSet.cshtml" />
     <Content Include="Areas\Products\Views\Home\_AddVideo.cshtml" />
     <Content Include="Areas\Products\Views\Home\_RelatedProductDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditAddress.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2273,8 +2281,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
-    <Folder Include="Areas\Api\Views\Company\" />
-    <Folder Include="Areas\Api\Views\StockBase\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Products\Models\" />

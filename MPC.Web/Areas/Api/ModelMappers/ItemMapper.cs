@@ -60,9 +60,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescription9 = source.JobDescription9,
                 JobDescriptionTitle10 = source.JobDescriptionTitle10,
                 JobDescription10 = source.JobDescription10,
+                TemplateId = source.TemplateId,
+                Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()) : new List<ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()) : new List<ItemVideo>(),
-                ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()) : new List<ItemRelatedItem>()
+                ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()) : new List<ItemRelatedItem>(),
             };
         }
 
@@ -138,6 +140,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescription9 = source.JobDescription9,
                 JobDescriptionTitle10 = source.JobDescriptionTitle10,
                 JobDescription10 = source.JobDescription10,
+                TemplateId = source.TemplateId,
+                Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
                 ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemRelatedItem>()

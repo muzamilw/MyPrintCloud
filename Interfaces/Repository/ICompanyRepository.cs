@@ -8,7 +8,7 @@ namespace MPC.Interfaces.Repository
     {
         Company GetCompanyById(long companyId);
 
-        long GetCompanyIdByDomain(string domain);
+        long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
 
         /// <summary>

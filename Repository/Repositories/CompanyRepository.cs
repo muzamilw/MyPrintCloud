@@ -44,16 +44,13 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
 
-        public long GetCompanyIdByDomain(string domain)
+        public long GetStoreIdFromDomain(string domain)
         {
-            //var companyDomain = from c in db.Company.Include("CmsSkinPageWidgetParams").Include("Widget")
-            //                    join cc in db.CompanyDomains on c.CompanyId equals cc.CompanyId  
-            //                    where cc.Domain.Contains(domain) && c.OrganisationId == UserDomainKey 
-            //                    select c;
             var companyDomain = db.CompanyDomains.Where(d => d.Domain.Contains(domain)).ToList();
             if (companyDomain.FirstOrDefault() != null)
             {
                 return companyDomain.FirstOrDefault().CompanyId;
+               
             }
             else
             {
