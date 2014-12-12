@@ -85,7 +85,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RaveReviews = source.RaveReviews.Select(x => x.CreateFrom()).ToList(),
                 CompanyCmykColors = source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList(),
                 CompanyTerritories = source.CompanyTerritories.Select(x => x.CreateFrom()).ToList(),
-                Addresses = source.Addresses.Select(x => x.CreateFrom()).ToList()
+                Addresses = source.Addresses.Select(x => x.CreateFrom()).ToList(),
+                CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList()
             };
         }
         /// <summary>
@@ -156,13 +157,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                               DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                               CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
-                              RaveReviews =source.RaveReviews != null? source.RaveReviews.Select(x => x.CreateFrom()).ToList(): null,
+                              RaveReviews = source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                               CompanyCMYKColors = source.CompanyCmykColors != null ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList() : null,
-                              Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null
-                              CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x=> x.CreateFrom()).ToList(): null,
+                              Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
+                              CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList() : null,
                               CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null
                           };
-            
+
             return company;
         }
 

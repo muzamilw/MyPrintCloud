@@ -143,7 +143,7 @@ namespace MPC.Implementation.MISServices
                 {
                     companyTerritory.CompanyId = companySavingModel.Company.CompanyId;
                     companyTerritoryRepository.Add(companyTerritory);
-                } 
+                }
             }
             if (companySavingModel.EdittedCompanyTerritories != null)
             {
@@ -304,7 +304,7 @@ namespace MPC.Implementation.MISServices
         #region Constructor
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
-            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyBannerRepository companyBannerRepository)
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
