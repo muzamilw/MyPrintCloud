@@ -4439,7 +4439,7 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
 
-                                                    <a href="#" class="btn btn-primary pull-right">
+                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: addTemplatePage">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Page
                                                     </a>
                                                 </div>
@@ -4685,10 +4685,10 @@
                 <input type="text" style="width:80px;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="value: width">
             </td>
             <td class="text-center">
-                <!-- ko if: $index < $parent.templatePages().length -->
+                <!-- ko if: $index() < $parent.templatePages().length - 1 -->
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveTemplatePageDown" />
                 <!-- /ko-->
-                <!-- ko if: $index >= 1 -->
+                <!-- ko if: $index() >= 1 -->
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveTemplatePageUp" />
                 <!-- /ko-->
             </td>
@@ -4712,4 +4712,4 @@
     @Html.Partial("Widgets/_PhraseLibrary")
     @Html.Partial("Widgets/_AddVideo")
     @Html.Partial("Product/_SelectProductCategory")
-    @Html.Partial("Product/_SelectProductOption")*@>
+    @Html.Partial("Product/_SelectProductOption")*@
