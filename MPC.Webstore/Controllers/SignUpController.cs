@@ -29,6 +29,7 @@ namespace MPC.Webstore.Controllers
                 throw new ArgumentNullException("myCompanyService");
             }
             this._myCompanyService = myCompanyService;
+
         }
 
         #endregion
@@ -136,7 +137,10 @@ namespace MPC.Webstore.Controllers
 
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
 
-                   // emailmgr.emailBodyGenerator(RegistrationCampaign, SessionParameters.CompanySite, cep, SessionParameters.CustomerContact, StoreMode.Retail, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                    MPC.Models.DomainModels.Organisation organisation = new MPC.Models.DomainModels.Organisation();
+
+                    _campaignService.emailBodyGenerator(RegistrationCampaign, organisation , cep, companyContact, StoreMode.Retail, "", "", "", EmailOFSM.Email, "", "", null, "");
                     //emailmgr.SendEmailToSalesManager((int)EmailEvents.NewRegistrationToSalesManager, CurrentUser.ContactID, CurrentUser.ContactCompanyID, 0, 0, SessionParameters.CompanySite, 0, 0, StoreMode.Retail);
                    // SetFormAuthDetails();
                    // PostLoginCustomerAndCardChanges(out replacedWithOrderID);

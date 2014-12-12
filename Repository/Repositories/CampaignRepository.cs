@@ -11,6 +11,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Data.Objects;
+using System.Data;
+using System.IO;
+using System.Reflection;
 
 namespace MPC.Repository.Repositories
 {
@@ -45,7 +49,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public bool emailBodyGenerator(Campaign oCampaign, Organisation SeverSettings, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", HttpContext oHttpContext = null, string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0)
+        public bool emailBodyGenerator(Campaign oCampaign, Organisation SeverSettings, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0)
         {
 
             string mesgBody = null;
@@ -59,8 +63,8 @@ namespace MPC.Repository.Repositories
             string HtmlText = null;
 
 
-            if (oHttpContext == null)
-                oHttpContext = HttpContext.Current;
+           
+           HttpContext oHttpContext = HttpContext.Current;
 
 
 
@@ -231,6 +235,95 @@ namespace MPC.Repository.Repositories
                 return false;
             }
             return true;
+        }
+
+        public void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId, Organisation ServerSettings, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode,Company company,SystemUser SalesManager, int ItemID, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
+        {
+
+            //UsersManager usermgr = new UsersManager();
+          //  SystemUser SalesManager = null;
+            List<CompanyContact> listOfApprovers = new List<CompanyContact>();
+           // SalesManager = GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
+            if (SalesManager != null)
+            {
+                Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event);
+                CampaignEmailParams EmailParams = new CampaignEmailParams();
+                EmailParams.ContactID = ContactId;
+                EmailParams.ContactCompanyID = CompanyId;
+                EmailParams.CompanySiteID = 1;
+                EmailParams.AddressID = CompanyId;
+                EmailParams.SystemUserID = SalesManager.SystemUserId;
+                EmailParams.InquiryID = RFQId;
+                if (Mode == StoreMode.Retail)
+                {
+                    EmailParams.StoreID = ServerSettings.OrganisationId;
+                }
+                else
+                {
+                    EmailParams.StoreID = CompanyId;
+                }
+
+                EmailParams.SalesManagerContactID = ContactId;
+                if (brokerid > 0)
+                {
+                    EmailParams.ContactCompanyID = brokerid;
+                    EmailParams.BrokerID = brokerid;
+                    EmailParams.BrokerContactID = BrokerAdminContactID;
+                    EmailParams.SalesManagerContactID = BrokerAdminContactID;
+                    EmailParams.StoreID = brokerid;
+                    EmailParams.AddressID = brokerid;
+                    int admin = Convert.ToInt32(Roles.Adminstrator);
+                    int Manager = Convert.ToInt32(Roles.Manager);
+
+
+                    listOfApprovers = (from c in db.CompanyContacts
+                                       join cc in db.Company on brokerid equals cc.CompanyId
+                                       where (c.ContactRoleId == admin || c.ContactRoleId == Manager) && cc.IsCustomer == (int)CustomerTypes.Broker  && c.CompanyId == brokerid
+                                       select c).ToList();
+
+                }
+                if (CorporateManagerID > 0)
+                {
+                    EmailParams.CorporateManagerID = CorporateManagerID;
+                }
+                if (OrderId > 0)
+                {
+                    EmailParams.EstimateID = OrderId;
+
+                    EmailParams.ItemID = ItemID;
+                }
+
+                if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
+                {
+                    EmailParams.MarketingID = 1;
+                    emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName, "", null, "", null, "", NameOfBrokerComp, null, "", MarketingBreifMesgSummry);
+                }
+                else
+                {
+                    emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName, "", null, "", null, "", NameOfBrokerComp);
+                }
+                if (brokerid > 0 && OrderId == 0)
+                {
+                    if (listOfApprovers != null)
+                    {
+                        foreach (var approver in listOfApprovers)
+                        {
+                            EmailParams.SystemUserID = 0;
+                            EmailParams.ApprovarID = (int)approver.ContactId;
+                            if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
+                            {
+                                EmailParams.MarketingID = 1;
+                                emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp, null, "", MarketingBreifMesgSummry);
+                            }
+                            else
+                            {
+                                emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp);
+                            }
+                        }
+                    }
+                }
+            }
+          
         }
 
         private string ResolveVariablesInHtml(string HtmlDocToResolve, PropertyInfo[] propertyInfos, CampaignEmailParams variablValues, Organisation OrganizationRec, StoreMode Mode, string OrgSMEmail, System.Web.HttpContext oContext, string password = "", string PostCodes = "", string SubscriptionEndDate = "", string PayyPalGatwayEmail = "", string subScriptionPath = "", string BreifSummry = "", int EstmateTotalItems = 0, string EstimateTotall = "", int CountOFSaveDesigns = 0)
@@ -551,18 +644,18 @@ namespace MPC.Repository.Repositories
             string oResult = null;
             //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
 
-
-            //oResult = result.FirstOrDefault();
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+            oResult = result.FirstOrDefault();
             return oResult;
         }
         public string DynamicQueryToGetAddressByCompanyID(string feildname, string tblname, string keyName, int keyValue)
         {
           
                     string oResult = null;
-                    //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>("select top 1 cast(" + feildname + " as varchar) from " + tblname + " where " + keyName + "= " + keyValue + " and IsDefaultAddress = 1", "");
+                    //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>(("select top 1 cast(" + feildname + " as varchar) from " + tblname + " where " + keyName + "= " + keyValue + " and IsDefaultAddress = 1", "");
 
-
-                    //oResult = result.FirstOrDefault();
+                    System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar) from " + tblname + " where " + keyName + "= " + keyValue + " and IsDefaultAddress = 1", "");
+                   oResult = result.FirstOrDefault();
                     return oResult;
            
 
@@ -572,9 +665,9 @@ namespace MPC.Repository.Repositories
           
                     string oResult = null;
 
-                    //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>("select " + feildname + " from " + tblname + " where " + keyName + "= " + keyValue + "", "");
-
-                    //oResult = result.FirstOrDefault();
+                    //System.Data.Objects.ObjectResult<string> result = db.Database.SqlQuery()<string>("select " + feildname + " from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+                    System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select " + feildname + " from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+                    oResult = result.FirstOrDefault();
                     return oResult;
              
 
@@ -589,10 +682,10 @@ namespace MPC.Repository.Repositories
         {
           
                     PrePayment oResult = null;
-
-                    //System.Data.Objects.ObjectResult<PrePayment> result = db.ExecuteStoreQuery<PrePayment>("select * from " + tblname + " where " + feildname + "= " + keyValue + "", "");
-
-                    //oResult = result.FirstOrDefault();
+          
+                    //System.Data.Objects.ObjectResult<PrePayment> result =  db.Database <PrePayment>("select * from " + tblname + " where " + feildname + "= " + keyValue + "", "");
+                    System.Data.Entity.Infrastructure.DbRawSqlQuery<PrePayment> result = db.Database.SqlQuery<PrePayment>("select * from " + tblname + " where " + feildname + "= " + keyValue + "", "");
+                    oResult = result.FirstOrDefault();
                     return oResult;
             
 
@@ -622,34 +715,34 @@ namespace MPC.Repository.Repositories
         }
         public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
         {
-           
-                    //campaigne emailQueue = new tbl_CampaignEmailQueue();
 
-                    //emailQueue.To = Toemail;
-                    //emailQueue.Cc = CC;
-                    //emailQueue.ToName = ToName;
-                    //emailQueue.Body = msgbody;
-                    //emailQueue.FromName = fromName;
-                    //emailQueue.EmailFrom = fromEmail;
-                    //emailQueue.Subject = subject;
-                    //emailQueue.IsDeliverd = 0;
-                    //emailQueue.SMTPUserName = smtpUserName;
-                    //emailQueue.SMTPServer = ServerName;
-                    //emailQueue.SMTPPassword = ServerPass;
-                    //emailQueue.AttemptCount = 0;
-                    //emailQueue.CampaignReportID = CampaignReportID;
-                    //string fileAttachment = "";
-                    //if (AttachmentList != null)
-                    //{
-                    //    foreach (string item in AttachmentList)
-                    //    {
-                    //        fileAttachment += item + "|";
-                    //    }
-                    //    emailQueue.FileAttachment = fileAttachment;
-                    //}
+            CampaignEmailQueue emailQueue = new CampaignEmailQueue();
 
-                    //context.AddTotbl_CampaignEmailQueue(emailQueue);
-                    //context.SaveChanges();
+            emailQueue.To = Toemail;
+            emailQueue.Cc = CC;
+            emailQueue.ToName = ToName;
+            emailQueue.Body = msgbody;
+            emailQueue.FromName = fromName;
+            emailQueue.EmailFrom = fromEmail;
+            emailQueue.Subject = subject;
+            emailQueue.IsDeliverd = 0;
+            emailQueue.SMTPUserName = smtpUserName;
+            emailQueue.SMTPServer = ServerName;
+            emailQueue.SMTPPassword = ServerPass;
+            emailQueue.AttemptCount = 0;
+            emailQueue.CampaignReportId = CampaignReportID;
+            string fileAttachment = "";
+            if (AttachmentList != null)
+            {
+                foreach (string item in AttachmentList)
+                {
+                    fileAttachment += item + "|";
+                }
+                emailQueue.FileAttachment = fileAttachment;
+            }
+
+            db.CampaignEmailQueues.Add(emailQueue);
+            db.SaveChanges();
                     return true;
               
         }

@@ -82,4 +82,17 @@ namespace MPC.Models.Common
         Sales = 39
     }
 
+    public enum CustomerTypes
+    {
+        Prospects = 0,
+        Customers = 1,
+        Suppliers = 2,
+        Corporate = 3,
+        Broker = 4
+    }
+
+    public enum ItemTypes : int
+    {
+        Delivery = 2
+    }
 }
