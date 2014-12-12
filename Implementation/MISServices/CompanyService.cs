@@ -267,7 +267,7 @@ namespace MPC.Implementation.MISServices
         {
             return addressRepository.GetAddress(request);
         }
-        public Company GetCompanyById(int companyId)
+        public CompanyResponse GetCompanyById(int companyId)
         {
             return companyRepository.GetCompanyById(companyId);
         }
@@ -282,7 +282,7 @@ namespace MPC.Implementation.MISServices
         }
         public void SaveFile(string filePath, long companyId)
         {
-            Company company = companyRepository.GetCompanyById(companyId);
+            Company company = companyRepository.GetCompanyById(companyId).Company;
             if (company.Image != null)
             {
                 if (File.Exists(company.Image))

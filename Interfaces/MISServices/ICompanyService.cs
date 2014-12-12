@@ -9,7 +9,7 @@ namespace MPC.Interfaces.MISServices
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
         AddressResponse SearchAddresses(AddressRequestModel request);
-        Company GetCompanyById(int companyId);
+        CompanyResponse GetCompanyById(int companyId);
         CompanyBaseResponse GetBaseData(long clubId);
         /// <summary>
         /// Save File Path In Db against organization ID

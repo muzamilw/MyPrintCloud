@@ -2,9 +2,115 @@
 
 define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
+         //_________ S T O R E   L I S T    V I E W____________________//
+        // ReSharper disable once InconsistentNaming
+        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer) {
+            var
+                self,
+                companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
+                name = ko.observable(specifiedName),
+                status = ko.observable(specifiedStatus),
+                image = ko.observable(specifiedImage),
+                url = ko.observable(specifiedUrl),
+                isCustomer = ko.observable(specifiedIsCustomer),
+                type = ko.observable(),
+                // Errors
+                errors = ko.validation.group({
+                
+                }),
+                // Is Valid 
+                isValid = ko.computed(function() {
+                    return errors().length === 0 ? true : false;
+                }),
+
+
+                // ReSharper disable InconsistentNaming
+                dirtyFlag = new ko.dirtyFlag({
+                    // ReSharper restore InconsistentNaming
+                    companyId: companyId,
+                    name: name,
+                    status: status,
+                    image: image,
+                    url: url,
+                    type: type,
+                    isCustomer: isCustomer
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function() {
+                    return dirtyFlag.isDirty();
+                }),
+                //Convert To Server
+                convertToServerData = function(source) {
+                    var result = {};
+                    result.CompanyId = source.companyId();
+                    result.Name = source.name();
+                    result.Status = source.status();
+                    result.Image = source.image();
+                    result.URL = source.url();
+                    result.IsCustomer = source.isCustomer();
+                    return result;
+                },
+                // Reset
+                reset = function() {
+                    dirtyFlag.reset();
+                };
+            self = {
+                companyId: companyId,
+                name: name,
+                status: status,
+                image: image,
+                url: url,
+                type: type,
+                isCustomer: isCustomer,
+                isValid: isValid,
+                errors: errors,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                convertToServerData: convertToServerData,
+                reset: reset
+            };
+            return self;
+        };
+        StoreListView.CreateFromClientModel = function (source) {
+            var result = new StoreListView(
+                source.companyId,
+                source.name,
+                source.status,
+                source.image,
+                source.url,
+                source.isCustomer
+                );
+            return result;
+        };
+        StoreListView.Create = function (source) {
+            var store = new StoreListView(
+                source.CompanyId,
+                source.Name,
+                source.Status,
+                source.Image,
+                source.URL,
+                source.IsCustomer
+                );
+
+            if (source.IsCustomer == 0) {
+                store.type("Supplier");
+            }
+            else if (source.IsCustomer == 1) {
+                store.type("Retail Customer");
+            }
+            else if (source.IsCustomer == 2) {
+                store.type("Prospect");
+            }
+            else if (source.IsCustomer == 3) {
+                store.type("Corporate");
+            }
+            return store;
+        };
+
+    //_____________________ S T O R E ______________________________//
         //WebMasterTag WebAnalyticCode
         // ReSharper disable once InconsistentNaming
-        Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+      var  Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
             specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
@@ -841,7 +947,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             self,
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
-            addressName = ko.observable(specifiedAddressName),
+            addressName = ko.observable(specifiedAddressName).extend({ required: true }),
             address1 = ko.observable(specifiedAddress1),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
@@ -870,7 +976,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             organisationId = ko.observable(specifiedOrganisationId),
             // Errors
                 errors = ko.validation.group({
-                    //typeName: typeName
+                    addressName: addressName
                 }),
                 // Is Valid 
                 isValid = ko.computed(function () {
@@ -1202,7 +1308,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CompanyCMYKColor: CompanyCMYKColor,
         CompanyTerritory: CompanyTerritory,
         ColorPalette: ColorPalette,
-        Address: Address
+        Address: Address,
+        StoreListView: StoreListView
         //CompanyBanner: CompanyBanner,
         //CompanyBannerSet: CompanyBannerSet
     };
