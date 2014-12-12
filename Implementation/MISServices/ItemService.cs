@@ -26,6 +26,8 @@ namespace MPC.Implementation.MISServices
         private readonly IPrefixRepository prefixRepository;
         private readonly IItemVideoRepository itemVideoRepository;
         private readonly IItemRelatedItemRepository itemRelatedItemRepository;
+        private readonly ITemplatePageRepository templatePageRepository;
+        private readonly ITemplateRepository templateRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -81,6 +83,34 @@ namespace MPC.Implementation.MISServices
             itemRelatedItemRepository.Delete(relatedItem);
         }
 
+        /// <summary>
+        /// Create Template
+        /// </summary>
+        private Template CreateTemplate()
+        {
+            Template template = templateRepository.Create();
+            templateRepository.Add(template);
+            return template;
+        }
+
+        /// <summary>
+        /// Create Template Page
+        /// </summary>
+        private TemplatePage CreateTemplatePage()
+        {
+            TemplatePage relatedItem = templatePageRepository.Create();
+            templatePageRepository.Add(relatedItem);
+            return relatedItem;
+        }
+
+        /// <summary>
+        /// Delete Template Page
+        /// </summary>
+        private void DeleteTemplatePage(TemplatePage relatedItem)
+        {
+            templatePageRepository.Delete(relatedItem);
+        }
+
         #endregion
 
         #region Constructor
@@ -89,7 +119,8 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
-            IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository)
+            IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository, 
+            ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository)
         {
             if (itemRepository == null)
             {
@@ -115,6 +146,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemRelatedItemRepository");
             }
+            if (templatePageRepository == null)
+            {
+                throw new ArgumentNullException("templatePageRepository");
+            }
+            if (templateRepository == null)
+            {
+                throw new ArgumentNullException("templateRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -122,6 +161,8 @@ namespace MPC.Implementation.MISServices
             this.prefixRepository = prefixRepository;
             this.itemVideoRepository = itemVideoRepository;
             this.itemRelatedItemRepository = itemRelatedItemRepository;
+            this.templatePageRepository = templatePageRepository;
+            this.templateRepository = templateRepository;
         }
 
         #endregion
@@ -206,7 +247,10 @@ namespace MPC.Implementation.MISServices
                 CreateItemVideo = CreateItemVideo,
                 DeleteItemVideo = DeleteItemVideo,
                 CreateItemRelatedItem = CreateItemRelatedItem,
-                DeleteItemRelatedItem = DeleteItemRelatedItem
+                DeleteItemRelatedItem = DeleteItemRelatedItem,
+                CreateTemplatePage = CreateTemplatePage,
+                DeleteTemplatePage = DeleteTemplatePage,
+                CreateTemplate = CreateTemplate
             });
 
             // Save Changes

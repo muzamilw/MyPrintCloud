@@ -40,6 +40,21 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Action<ItemRelatedItem> DeleteItemRelatedItem { get; set; }
 
+        /// <summary>
+        /// Action to create a Template Page
+        /// </summary>
+        public Func<TemplatePage> CreateTemplatePage { get; set; }
+
+        /// <summary>
+        /// Action to delete a Template Page
+        /// </summary>
+        public Action<TemplatePage> DeleteTemplatePage { get; set; }
+
+        /// <summary>
+        /// Action to create a Template
+        /// </summary>
+        public Func<Template> CreateTemplate { get; set; }
+
         #endregion
     }
 }

@@ -625,7 +625,7 @@
                                                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchCompanyTerritoryFilter">
                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
                                                     </div>
-                                                    <a data-toggle="modal"  class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyTerritory">
+                                                    <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyTerritory">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Territory
                                                     </a>
                                                 </div>
@@ -1139,7 +1139,7 @@
 
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 1</label>
-                                                         
+
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
@@ -1588,7 +1588,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPageBanners" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPageBanners" data-bind="checked:isDisplayBanners">
                                                         <label class="onoffswitch-label" for="switchPageBanners">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1601,13 +1601,7 @@
                                             @* <div class="col-md-3"></div>*@
                                             <div class="col-md-9">
                                                 <div class="form-group pull-left col-xs-4">
-
-                                                    <select class="form-control">
-                                                        <option>All Sets </option>
-                                                        <option>Summer Set</option>
-                                                        <option>Winter Set</option>
-                                                        <option>Spring Set</option>
-                                                    </select>
+                                                    <select class="form-control" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:$root.filteredCompanySetId"></select>
                                                 </div>
 
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
@@ -1621,99 +1615,13 @@
                                                                 <tr>
                                                                     <th>Banner Image</th>
                                                                     <th>Set Name</th>
-
+                                                                    <th>&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />
-                                                                    </td>
-                                                                    <td>
-                                                                        Summer Set
-                                                                    </td>
-                                                                    <td class="text-right">
-                                                                        <a data-toggle="modal" href="#myEditBannerModal" class="table-link" title="Edit Banner">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                        <a href="#" class="table-link danger">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <img src="~/Content/themes/Centaurus/img/samples/banner2.jpg" alt="Banner 2" />
-                                                                    </td>
-                                                                    <td>
-                                                                        Summer Set
-                                                                    </td>
-                                                                    <td class="text-right">
-                                                                        <a data-toggle="modal" href="#myEditBannerModal" class="table-link" title="Edit Banner">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                        <a href="#" class="table-link danger">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <img src="~/Content/themes/Centaurus/img/samples/banner3.jpg" alt="Banner 3" />
-                                                                    </td>
-                                                                    <td>
-                                                                        Spring Set
-                                                                    </td>
-                                                                    <td class="text-right">
-                                                                        <a data-toggle="modal" href="#myEditBannerModal" class="table-link" title="Edit Banner">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                        <a href="#" class="table-link danger">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 4" />
-                                                                    </td>
-                                                                    <td>
-                                                                        Winter Set
-                                                                    </td>
-                                                                    <td class="text-right">
-                                                                        <a data-toggle="modal" href="#myEditBannerModal" class="table-link" title="Edit Banner">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                        <a href="#" class="table-link danger">
-                                                                            <span class="fa-stack">
-                                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
 
+                                                                <!-- ko template: { name: 'bannerItemTemplate' , foreach: $root.filteredCompanyBanners  } -->
+                                                                <!-- /ko -->
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -2046,9 +1954,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-
                                     <div class="clearfix">
                                         &nbsp;
                                     </div>
@@ -3287,18 +3192,18 @@
                                             </div>
                                         </div>
                                         @*<footer class="main-box-header pull-right">
-                                            <div id="pagerCMYKDiv">
-                                                <ul class="pagination pull-right">
-                                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                                    <li><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li><a href="#">4</a></li>
-                                                    <li><a href="#">5</a></li>
-                                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </footer>*@
+                                                <div id="pagerCMYKDiv">
+                                                    <ul class="pagination pull-right">
+                                                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                                                        <li><a href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </footer>*@
                                     </div>
 
                                 </div>
@@ -3360,7 +3265,7 @@
                 </td>
             </tr>
         </script>
-        
+
         <script id="actionsCompanyTerritoryTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditCompanyTerritory">
                 <span class="fa-stack">
@@ -3385,6 +3290,29 @@
                 </td>
             </tr>
         </script>
+        <script id="bannerItemTemplate" type="text/html">
+            <tr data-bind="click: $root.selectedCompanyBanner">
+                <td>
+                    <img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />
+                </td>
+                <td data-bind="text:setName"></td>
+                <td class="text-right">
+                    <a  class="table-link" title="Edit Banner" data-bind="click:$root.onEditCompanyBanner">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                    <a href="#" class="table-link danger">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        </script>
+
     </form>
 </div>
 <style type="text/css" media="screen">
@@ -3640,15 +3568,13 @@
     <script>
 
 
-        function ShowHidePopupControls(ID)
-        {
+        function ShowHidePopupControls(ID) {
 
             if ($('input:checkbox[id=switchSiteFeaturedProduct]').is(':checked')) {
 
                 $("#A1").css("display", "block");
             }
-            else
-            {
+            else {
                 $("#A1").css("display", "none");
             }
 
@@ -3713,13 +3639,11 @@
 
         function headingPFchange(id) {
 
-            if (id == "A1")
-            {
+            if (id == "A1") {
 
                 $('#headingPF').text('Featured Products Filter');
             }
-            else if (id == "A2")
-            {
+            else if (id == "A2") {
                 $('#headingPF').text('Popular Products Filter');
             }
             else if (id == "A3") {

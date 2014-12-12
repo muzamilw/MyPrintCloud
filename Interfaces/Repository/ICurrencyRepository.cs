@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICurrencyRepository: IBaseRepository<Currency, long>
     {
-       // string GetCurrencyCodeById(long currencyId);
+       string GetCurrencyCodeById(long currencyId);
     }
 }

@@ -239,6 +239,101 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// True if the TemplatePage is new
+        /// </summary>
+        private static bool IsNewTemplatePage(TemplatePage sourceTemplatePage)
+        {
+            return sourceTemplatePage.ProductPageId == 0;
+        }
+
+        /// <summary>
+        /// Initialize target TemplatePages
+        /// </summary>
+        private static void InitializeTemplatePages(Item item)
+        {
+            if (item.Template.TemplatePages == null)
+            {
+                item.Template.TemplatePages = new List<TemplatePage>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddTemplatePages(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (TemplatePage sourceLine in source.Template.TemplatePages.ToList())
+            {
+                UpdateOrAddTemplatePage(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target RelatedItems 
+        /// </summary>
+        private static void UpdateOrAddTemplatePage(TemplatePage sourceTemplatePage, Item target, ItemMapperActions actions)
+        {
+            TemplatePage targetLine;
+            if (IsNewTemplatePage(sourceTemplatePage))
+            {
+                targetLine = actions.CreateTemplatePage();
+                target.Template.TemplatePages.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.Template.TemplatePages.FirstOrDefault(vdp => vdp.ProductPageId == sourceTemplatePage.ProductPageId);
+            }
+            sourceTemplatePage.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete RelatedItems no longer needed
+        /// </summary>
+        private static void DeleteTemplatePages(Item source, Item target, ItemMapperActions actions)
+        {
+            List<TemplatePage> linesToBeRemoved = target.Template.TemplatePages.Where(
+                vdp => !IsNewTemplatePage(vdp) && source.Template.TemplatePages.All(sourceVdp => sourceVdp.ProductPageId != vdp.ProductPageId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.Template.TemplatePages.Remove(line);
+                actions.DeleteTemplatePage(line);
+            });
+        }
+
+        /// <summary>
+        /// Update RelatedItems
+        /// </summary>
+        private static void UpdateTemplatePages(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeTemplatePages(source);
+            InitializeTemplatePages(target);
+
+            UpdateOrAddTemplatePages(source, target, actions);
+            DeleteTemplatePages(source, target, actions);
+        }
+
+        /// <summary>
+        /// Update Template
+        /// </summary>
+        private static void UpdateTemplate(Item source, Item target, ItemMapperActions actions)
+        {
+            Template targetTemplate = target.Template;
+            Template sourceTemplate = source.Template;
+
+            if (targetTemplate == null)
+            {
+                targetTemplate = actions.CreateTemplate();
+            }
+
+            targetTemplate.PDFTemplateHeight = sourceTemplate.PDFTemplateHeight;
+            targetTemplate.PDFTemplateWidth = sourceTemplate.PDFTemplateWidth;
+
+            UpdateTemplatePages(source, target, actions);
+
+        }
+
+        /// <summary>
         /// Update the header
         /// </summary>
         private static void UpdateHeader(Item source, Item target)
@@ -332,10 +427,12 @@ namespace MPC.Models.ModelMappers
             {
                 throw new ArgumentException(LanguageResources.ItemMapper_DeleteItemVdpPriceMustBeSpecified, "actions");
             }
+
             UpdateHeader(source, target);
             UpdateItemVdpPrices(source, target, actions);
             UpdateItemVideos(source, target, actions);
             UpdateItemRelatedItems(source, target, actions);
+            UpdateTemplate(source, target, actions);
         }
 
         #endregion
