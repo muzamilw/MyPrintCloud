@@ -8,6 +8,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// System Users List
         /// </summary>
         public IEnumerable<SystemUserDropDown> SystemUsers { get; set; }
+        public IEnumerable<CompanyTerritory> CompanyTerritories{ get; set; }
 
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
