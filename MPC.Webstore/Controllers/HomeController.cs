@@ -5,23 +5,16 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
-using MPC.Common;
-using MPC.Interfaces.MISServices;
 using MPC.Interfaces.WebStoreServices;
-using MPC.Models.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
-using System.Runtime.Caching;
 using MPC.Webstore.Models;
 using DotNetOpenAuth.OAuth2;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using DotNetOpenAuth.ApplicationBlock.Facebook;
 using System.IO;
 using System.Text;
 using System.Security.Claims;
-using MPC.Webstore.Common;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 
 namespace MPC.Webstore.Controllers
@@ -65,11 +58,11 @@ namespace MPC.Webstore.Controllers
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
         public ActionResult Index()
         {
-            if (Thread.CurrentPrincipal == null)
+            if (Thread.CurrentPrincipal == null || _webstoreAuthorizationChecker.CompanyId() == 0)
             {
                 ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddClaimsToIdentity(Convert.ToInt64(Session["storeId"]), identity);
+                ClaimsSecurityService.AddClaimsToIdentity(Convert.ToInt64(Session["storeId"]), null ,identity);
 
                 HttpContext.User = new ClaimsPrincipal(identity);
                 // Make sure the Principal's are in sync

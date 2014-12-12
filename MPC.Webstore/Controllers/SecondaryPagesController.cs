@@ -46,7 +46,7 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(_webstoreAuthorizationChecker.CompanyId()).CreateFromSecondaryPages();
 
             ViewData["PageCategory"] = baseResponse.PageCategories;
-            ViewData["CmsPage"] = baseResponse.SystemPages;
+            ViewData["CmsPage"] = baseResponse.SecondaryPages;
           
             return PartialView("PartialViews/SecondaryPages");
         }

@@ -29,20 +29,20 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        //public string GetLanguageCodeById(long organisationId)
-        //{
-        //    Organisation organisation = db.Organisations.Where(o => o.OrganisationId == organisationId).FirstOrDefault();
-        //    if (organisation != null)
-        //    {
-        //        return
-        //            db.GlobalLanguages.Where(c => c.LanguageId == organisation.LanguageId)
-        //                .Select(n => n.uiCulture)
-        //                .FirstOrDefault();
-        //    }
-        //    else
-        //    {
-        //        return "";
-        //    }
-        //}
+        public string GetLanguageCodeById(long organisationId)
+        {
+            Organisation organisation = db.Organisations.Where(o => o.OrganisationId == organisationId).Single();
+            if (organisation != null)
+            {
+                return
+                    db.GlobalLanguages.Where(c => c.LanguageId == organisation.LanguageId)
+                        .Select(n => n.uiCulture)
+                        .FirstOrDefault();
+            }
+            else
+            {
+                return "";
+            }
+        }
     }
 }

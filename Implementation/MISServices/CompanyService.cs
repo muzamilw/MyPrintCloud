@@ -7,6 +7,7 @@ using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Repository.Repositories;
 
 namespace MPC.Implementation.MISServices
 {
@@ -20,6 +21,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly ICompanyBannerRepository companyBannerRepository;
+        private readonly IAddressRepository addressRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -160,6 +162,25 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
+        private void UpdateAddressOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            //Add New Addresses
+            foreach (var address in companySavingModel.NewAddedAddresses)
+            {
+                address.CompanyId = companySavingModel.Company.CompanyId;
+                addressRepository.Add(address);
+            }
+            //Update addresses
+            foreach (var address in companySavingModel.EdittedAddresses)
+            {
+                addressRepository.Update(address);
+            }
+            //Delete Addresses
+            foreach (var address in companySavingModel.DeletedAddresses)
+            {
+                addressRepository.Delete(address);
+            }
+        }
 
         /// <summary>
         /// Update Company
@@ -170,6 +191,7 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
+            UpdateAddressOfUpdatingCompany(companySavingModel);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
@@ -290,6 +312,7 @@ namespace MPC.Implementation.MISServices
             this.companyCmykColorRepository = companyCmykColorRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
             this.companyBannerRepository = companyBannerRepository;
+            this.addressRepository = addressRepository;
         }
         #endregion
 
@@ -303,16 +326,21 @@ namespace MPC.Implementation.MISServices
         {
             return companyTerritoryRepository.GetCompanyTerritory(request);
         }
+        public AddressResponse SearchAddresses(AddressRequestModel request)
+        {
+            return addressRepository.GetAddress(request);
+        }
         public Company GetCompanyById(int companyId)
         {
             return companyRepository.GetCompanyById(companyId);
         }
 
-        public CompanyBaseResponse GetBaseData()
+        public CompanyBaseResponse GetBaseData(long clubId)
         {
             return new CompanyBaseResponse
                    {
-                       SystemUsers = systemUserRepository.GetAll()
+                       SystemUsers = systemUserRepository.GetAll(),
+                       CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(clubId)
                    };
         }
         public void SaveFile(string filePath, long companyId)

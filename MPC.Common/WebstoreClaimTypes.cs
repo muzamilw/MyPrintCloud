@@ -11,5 +11,7 @@ namespace MPC.Common
         public const string OrganisationId = "http://schemas.2xb.com/2012/07/identity/claims/organisation";
 
         public const string Company = "http://schemas.2xb.com/2012/07/identity/claims/company";
+
+        public const string LoginUser = "http://schemas.2xb.com/2012/07/identity/claims/loginUser";
     }
 }

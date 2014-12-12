@@ -17,6 +17,8 @@ define("stores/stores.viewModel",
                 storeImage = ko.observable(),
                 //system Users
                 systemUsers = ko.observableArray([]),
+                    //Tab User And Addressed, Addresses Section Company Territories Filter
+                    addressCompanyTerritoriesFilter = ko.observableArray(),
                 //Company Banners
                 companyBanners = ko.observableArray([]),
                 //Filetered Company Bannens List
@@ -49,11 +51,12 @@ define("stores/stores.viewModel",
                 createNewStore = function () {
                     var store = new model.Store();
                     editorViewModel.selectItem(store);
-                    selectedStore(store);
+                        //selectedStore(store);
                     isStoreEditorVisible(true);
                 },
                 //On Edit Click Of Store
                 onEditItem = function (item) {
+                        
                     editorViewModel.selectItem(item);
                     openEditDialog();
                 },
@@ -139,26 +142,30 @@ define("stores/stores.viewModel",
                     });
                     dataservice.saveStore(
                         storeToSave, {
-                            success: function (data) {
-                                //new store adding
-                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
-                                    stores.splice(0, 0, selectedStore());
+                                success: function (data) {
+                                    //new store adding
+                                    if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                        stores.splice(0, 0, selectedStore());
+                                    }
+                                    //selectedStore().storeId(data.StoreId);
+                                    isStoreEditorVisible(false);
+                                    toastr.success("Successfully save.");
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Update . Error: " + response);
+                                    isStoreEditorVisible(false);
                                 }
-                                //selectedStore().storeId(data.StoreId);
-                                isStoreEditorVisible(false);
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to Update . Error: " + response);
-                                isStoreEditorVisible(false);
-                            }
-                        });
+                            });
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
+                        addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
+                        companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
+                        getBaseData();
+                        
                 },
                 //Get Store For editting
                 getStoreForEditting = function () {
@@ -194,6 +201,7 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
+
                 //Close Store Dialog
                 closeEditDialog = function () {
                     if (selectedStore() != undefined) {
@@ -213,12 +221,18 @@ define("stores/stores.viewModel",
                 //Get Base Data
                 getBaseData = function () {
                     dataservice.getBaseData({
+                            companyId: selectedStore().companyId()
+                        },{
                         success: function (data) {
                             if (data != null) {
                                 _.each(data.SystemUsers, function (item) {
-                                    var systemUser = new model.SystemUser.Create(item);
+                                        var systemUser = new model.SystemUser.Create(item);
                                     systemUsers.push(systemUser);
                                 });
+                                    _.each(data.CompanyTerritories, function (item) {
+                                        var territory = new model.CompanyTerritory.Create(item);
+                                        addressCompanyTerritoriesFilter.push(territory);
+                                    });
                             }
                             isLoadingStores(false);
                         },
@@ -230,7 +244,6 @@ define("stores/stores.viewModel",
                 },
 
                 // ***** RAVE REVIEW BEGIN*****//
-
                 //Selected Rave Review
                 selectedRaveReview = ko.observable(),
                 // Template Chooser For Rave Review
@@ -290,7 +303,6 @@ define("stores/stores.viewModel",
                 // ***** RAVE REVIEW END*****//
 
                 // ***** C O M P A N Y   T E R R I T O R Y ****//
-
                 //Selected CompanyTerritory
                 selectedCompanyTerritory = ko.observable(),
                 //Deleted Company Territory 
@@ -298,7 +310,7 @@ define("stores/stores.viewModel",
                 edittedCompanyTerritories = ko.observableArray([]),
                 newCompanyTerritories = ko.observableArray([]),
                 //Company Territory Pager
-                companyTerritoryPager = ko.observable(),
+                    companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //CompanyTerritory Search Filter
                 searchCompanyTerritoryFilter = ko.observable(),
                 //Search Company Territory
@@ -405,7 +417,6 @@ define("stores/stores.viewModel",
                 // ***** Company Territory END *****
 
                 // ***** COMPANY CMYK COLOR BEGIN*****// 
-
                 //Selected Company CMYK Color
                 // ReSharper disable InconsistentNaming
                 selectedCompanyCMYKColor = ko.observable(),
@@ -440,30 +451,29 @@ define("stores/stores.viewModel",
                     selectedStore().companyCMYKColors.remove(companyCMYKColor);
                     return;
                 },
-                onEditCompanyCMYKColor = function (companyCMYKColor) {
-                    selectedCompanyCMYKColor(companyCMYKColor);
-                    view.showCompanyCMYKColorDialog();
-                },
-                onCloseCompanyCMYKColor = function () {
-                    view.hideCompanyCMYKColorDialog();
-                },
-                //Do Before Save Rave Review
-                doBeforeSaveCompanyCMYKColor = function () {
-                    var flag = true;
-                    if (!selectedCompanyCMYKColor().isValid()) {
-                        selectedCompanyCMYKColor().errors.showAllMessages();
-                        flag = false;
-                    }
-                    return flag;
-                },
-                onSaveCompanyCMYKColor = function () {
-                    if (doBeforeSaveCompanyCMYKColor()) {
-                        selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                    onEditCompanyCMYKColor = function (companyCMYKColor) {
+                        selectedCompanyCMYKColor(companyCMYKColor);
+                        view.showCompanyCMYKColorDialog();
+                    },
+                    onCloseCompanyCMYKColor = function () {
                         view.hideCompanyCMYKColorDialog();
-                    }
-                },
-
-                // ***** COMPANY CMYK COLOR END*****//
+                    },
+                    //Do Before Save Rave Review
+                    doBeforeSaveCompanyCMYKColor = function () {
+                        var flag = true;
+                        if (!selectedCompanyCMYKColor().isValid()) {
+                            selectedCompanyCMYKColor().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveCompanyCMYKColor = function () {
+                        if (doBeforeSaveCompanyCMYKColor()) {
+                            selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                            view.hideCompanyCMYKColorDialog();
+                        }
+                    },
+                    // ***** COMPANY CMYK COLOR END*****//
 
                 // ***** COMPANY BANNER AND COMPANY BANNER SET*****//
                 bannerEditorViewModel = new ist.ViewModel(model.CompanyBanner),
@@ -578,15 +588,140 @@ define("stores/stores.viewModel",
                     confirmation.show();
                 }
                 // ***** COMPANY BANNER eND*****//
+
+                    //***** ADDRESSES ****//
+                    //Selected Address
+                    selectedAddress = ko.observable(),
+                    //SelectedAddressTerritoryFilter
+                    addressTerritoryFilter = ko.observable(),
+                    
+                    //Deleted Address
+                    deletedAddresses = ko.observableArray([]),
+                    edittedAddresses = ko.observableArray([]),
+                    newAddresses = ko.observableArray([]),
+                    //Address Pager
+                    addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    //Address Search Filter
+                    searchAddressFilter = ko.observable(),
+                    //Search Address
+                    searchAddress = function () {
+                        dataservice.searchAddress({
+                            SearchFilter: searchAddressFilter(),
+                            CompanyId: selectedStore().companyId(),
+                            TerritoryId: addressTerritoryFilter(),
+                            PageSize: companyTerritoryPager().pageSize(),
+                            PageNo: companyTerritoryPager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                selectedStore().addresses.removeAll();
+                                _.each(data.Addresses, function (addressItem) {
+                                    var address = new model.Address.Create(addressItem);
+                                    selectedStore().addresses.push(address);
+                                });
+                                _.each(edittedAddresses(), function (item) {
+                                    _.each(selectedStore().addresses(), function (addressItem) {
+                                        if (item.addressId() == addressItem.addressId()) {
+                                            selectedStore().addresses.remove(addressItem);
+                                        }
+                                    });
+                                });
+                                _.each(deletedAddresses(), function (item) {
+                                    _.each(selectedStore().addresses(), function (addressItem) {
+                                        if (item.addressId() == addressItem.addressId()) {
+                                            selectedStore().addresses.remove(addressItem);
+                                        }
+                                    });
+                                });
+                            },
+                            error: function (response) {
+                                toastr.error("Failed To Load Addresses" + response);
+                            }
+                        });
+                    },
+                    addressTerritoryFilterSelected = ko.computed(function () {
+                        if (selectedStore() != null && selectedStore() != undefined) {
+                        searchAddress();
+                        }
+                    }),
+                    //isSavingNewAddress
+                    isSavingNewAddress = ko.observable(false),
+                    // Template Chooser For Address
+                    templateToUseAddresses = function (address) {
+                        return (address === selectedAddress() ? 'editAddressTemplate' : 'itemAddressTemplate');
+                    },
+                    //Create Address
+                    onCreateNewAddress = function () {
+                        var address = new model.Address();
+                        selectedAddress(address);
+                        isSavingNewAddress(true);
+                        view.showAddressDialog();
+                    },
+                    // Delete Address
+                    onDeleteAddress = function (address) {
+                        if (address.addressId() !== undefined) {
+                            _.each(edittedAddresses(), function (item) {
+                                if (item.addressId() == address.addressId()) {
+                                    edittedAddresses.remove(address);
+                                }
+                            });
+                            deletedAddresses.push(address);
+                        }
+                        selectedStore().addresses.remove(address);
+                        return;
+                    },
+                    onEditAddress = function (address) {
+                        selectedAddress(address);
+                        isSavingNewAddress(false);
+                        view.showAddressDialog();
+                    },
+                    onCloseAddress = function () {
+                        view.hideAddressDialog();
+                        isSavingNewAddress(false);
+                    },
+                    //Do Before Save Address
+                    doBeforeSaveAddress = function () {
+                        var flag = true;
+                        if (!selectedAddress().isValid()) {
+                            selectedAddress().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveAddress = function () {
+                        if (doBeforeSaveAddress()) {
+                            if (selectedAddress().addressId() === undefined && isSavingNewAddress() === true) {
+                                selectedStore().addresses.splice(0, 0, selectedAddress());
+                                newAddresses.push(selectedAddress());
+                            } else {
+                                //pushing item in editted Addresses List
+                                if (selectedAddress().addressId() != undefined) {
+                                    var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
+                                        return (selectedAddress().addressId() === item.addressId() );
+                                    });
+
+                                    if (!match) {
+                                        edittedAddresses.push(selectedAddress());
+                                    }
+
+                                }
+                            }
+                            view.hideAddressDialog();
+                        }
+                    },
+                    // ***** Address END *****
+
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                    companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                //companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
+                
                     getStores();
-                    getBaseData();
+               // getBaseData();
                     view.initializeForm();
                 };
 
@@ -649,6 +784,17 @@ define("stores/stores.viewModel",
                     edittedCompanyTerritories: edittedCompanyTerritories,
                     newCompanyTerritories: newCompanyTerritories,
                     isSavingNewCompanyTerritory: isSavingNewCompanyTerritory,
+                    selectedAddress: selectedAddress,
+                    deletedAddresses: deletedAddresses,
+                    edittedAddresses: edittedAddresses,
+                    newAddresses: newAddresses,
+                    addressPager: addressPager,
+                    searchAddressFilter: searchAddressFilter,
+                    searchAddress: searchAddress,
+                    isSavingNewAddress: isSavingNewAddress,
+                    templateToUseAddresses: templateToUseAddresses,
+                    onCreateNewAddress: onCreateNewAddress,
+                    onDeleteAddress: onDeleteAddress,
                     /*****Company Banner****/
                     selectedCompanyBanner: selectedCompanyBanner,
                     companyBanners: companyBanners,
@@ -661,6 +807,13 @@ define("stores/stores.viewModel",
                     onSaveCompanyBanner: onSaveCompanyBanner,
                     onEditCompanyBanner: onEditCompanyBanner,
                     onDeleteCompanyBanner: onDeleteCompanyBanner,
+                    onEditAddress: onEditAddress,
+                    onCloseAddress: onCloseAddress,
+                    doBeforeSaveAddress: doBeforeSaveAddress,
+                    onSaveAddress: onSaveAddress,
+                    addressCompanyTerritoriesFilter: addressCompanyTerritoriesFilter,
+                    addressTerritoryFilter: addressTerritoryFilter,
+                    addressTerritoryFilterSelected: addressTerritoryFilterSelected,
                     initialize: initialize
                 };
             })()
