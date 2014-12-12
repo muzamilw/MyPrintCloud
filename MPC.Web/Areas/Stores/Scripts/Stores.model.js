@@ -49,10 +49,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyCMYKColors = ko.observableArray([]),
                 //Color Palette
                 colorPalette = ko.observable(new ColorPalette()),
-                //Company Banner
-                companyBanner = ko.observable(new CompanyBanner()),
-                //Company Banner Set
-                companyBannerSet = ko.observable(new CompanyBannerSet()),
+                ////Company Banner
+                //companyBanner = ko.observable(new CompanyBanner()),
+                ////Company Banner Set
+                //companyBannerSet = ko.observable(new CompanyBannerSet()),
                 // ReSharper restore InconsistentNaming
 
                 // Errors
@@ -1181,9 +1181,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CompanyTerritory: CompanyTerritory,
         ColorPalette: ColorPalette,
         Address: Address
-        ColorPalette: ColorPalette,
-        CompanyBanner: CompanyBanner,
-        CompanyBannerSet: CompanyBannerSet
+        //CompanyBanner: CompanyBanner,
+        //CompanyBannerSet: CompanyBannerSet
     };
 
 });

@@ -58,5 +58,10 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        public IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId)
+        {
+            return DbSet.Where(x => x.CompanyId == companyId).ToList();
+        } 
+
     }
 }

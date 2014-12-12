@@ -108,6 +108,9 @@ namespace MPC.MIS.Areas.Api.Models
         public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }// Maintaining List for POST call to determine new Added List Of Territories
         public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }
         public ICollection<CompanyTerritory> DeletedCompanyTerritories { get; set; }
+        public ICollection<Address> NewAddedAddresses { get; set; }// Maintaining List for POST call to determine new Added List Of Addresses
+        public ICollection<Address> EdittedAddresses { get; set; }
+        public ICollection<Address> DeletedAddresses { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         /// <summary>
         /// Image Source

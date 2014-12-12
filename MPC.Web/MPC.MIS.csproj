@@ -247,6 +247,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Areas\Api\ModelMappers\RaveReviewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\Address.cs" />
+    <Compile Include="Areas\Api\Models\AddressResponse.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\LengthUnitMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaperBasisAreaMapper.cs" />
@@ -1114,6 +1116,7 @@
     <Content Include="Areas\Stores\Views\Stores\_AddSet.cshtml" />
     <Content Include="Areas\Products\Views\Home\_AddVideo.cshtml" />
     <Content Include="Areas\Products\Views\Home\_RelatedProductDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddEditAddress.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2234,7 +2237,6 @@
     <Content Include="Views\Shared\Product\_Products.cshtml" />
     <Content Include="Views\Shared\Product\_SelectStock.cshtml" />
     <Content Include="Views\Shared\Product\_SignatureEdit.cshtml" />
-    <Content Include="Views\Shared\Widgets\_AddEditAddress.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditCMYKColors.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditDeliveryCarriers.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditTerritory.cshtml" />
@@ -2270,6 +2272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Api\Views\Address\" />
     <Folder Include="Areas\Api\Views\Company\" />
     <Folder Include="Areas\Api\Views\StockBase\" />
     <Folder Include="Areas\Common\Controllers\" />

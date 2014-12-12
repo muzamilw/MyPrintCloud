@@ -67,6 +67,9 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.NewAddedCompanyTerritories = company.NewAddedCompanyTerritories.Select(x => x.CreateFrom());
             companySavingModel.EdittedCompanyTerritories = company.EdittedCompanyTerritories.Select(x => x.CreateFrom());
             companySavingModel.DeletedCompanyTerritories = company.DeletedCompanyTerritories.Select(x => x.CreateFrom());
+            companySavingModel.NewAddedAddresses = company.NewAddedAddresses.Select(x => x.CreateFrom());
+            companySavingModel.EdittedAddresses = company.EdittedAddresses.Select(x => x.CreateFrom());
+            companySavingModel.DeletedAddresses = company.DeletedAddresses.Select(x => x.CreateFrom());
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
     }
