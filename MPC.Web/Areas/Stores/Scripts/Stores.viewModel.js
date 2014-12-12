@@ -1,5 +1,5 @@
 ﻿/*
-    Module with the view model for the My Organization.
+    Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
     ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination"],
@@ -10,8 +10,8 @@ define("stores/stores.viewModel",
                 var
                     //View
                     view,
-                    filteredCompanySetId = ko.observable(),
-                 //stores List
+                filteredCompanySetId = ko.observable(),
+                //stores List
                  stores = ko.observableArray([]),
                 //Store Image
                 storeImage = ko.observable(),
@@ -484,21 +484,34 @@ define("stores/stores.viewModel",
                 //Save Company Banner
                 onSaveCompanyBanner = function (companyBanner) {
                     if (doBeforeSaveCompanyBanner()) {
-                        companyBanner.id(addBannerCount() - 1);
                         _.each(companyBannerSetList(), function (item) {
                             if (item.id() === companyBanner.companySetId()) {
                                 companyBanner.setName(item.setName());
                             }
                         });
-                        if (companyBanner.companySetId() === filteredCompanySetId() || filteredCompanySetId() === undefined) {
-                            filteredCompanyBanners().splice(0, 0, companyBanner);
-                            companyBanners().splice(0, 0, companyBanner);
+                        if (companyBanner.id() === undefined) {
+                            companyBanner.id(addBannerCount() - 1);
+                            if (companyBanner.companySetId() === filteredCompanySetId() || filteredCompanySetId() === undefined) {
+                                filteredCompanyBanners.splice(0, 0, companyBanner);
+                                companyBanners.splice(0, 0, companyBanner);
+                            } else {
+                                companyBanners.splice(0, 0, companyBanner);
+                            }
                         } else {
-                            companyBanners().splice(0, 0, companyBanner);
+                            _.each(companyBanners(), function (item) {
+                                if (item.id() === companyBanner.id()) {
+                                    item.heading(companyBanner.heading());
+                                    item.description(companyBanner.description());
+                                    item.itemURL(companyBanner.itemURL());
+                                    item.buttonURL(companyBanner.buttonURL());
+                                    item.companySetId(companyBanner.companySetId());
+                                }
+                            });
                         }
                         view.hideEditBannerDialog();
                     }
                 },
+                //Save Banner Set
                 onSaveBannerSet = function (bannerSet) {
                     if (doBeforeSaveCompanyBannerSet()) {
                         bannerSet.id(addBannerSetCount() - 1);
@@ -524,11 +537,13 @@ define("stores/stores.viewModel",
                     }
                     return flag;
                 },
+                //Edit Company Banner
                 onEditCompanyBanner = function (banner) {
                     // bannerEditorViewModel.selectItem(banner);
                     //selectedCompanyBanner().reset();
                     view.showEditBannerDialog();
                 },
+                //Filter Banners based on banner set id
                 filterBannerSet = ko.computed(function () {
                     if (filteredCompanySetId() !== undefined) {
                         filteredCompanyBanners.removeAll();
@@ -545,18 +560,35 @@ define("stores/stores.viewModel",
 
 
                 }, this),
+                //Dalete company Banner
+                onDeleteCompanyBanner = function (banner) {
+                    if (!banner.id()) {
+                        companyBanners.remove(banner);
+                        return;
+                    }
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        _.each(companyBanners(), function (item) {
+                            if (item.id() === banner.id()) {
+                                companyBanners.remove(item);
+                            }
+                        });
+                        filteredCompanyBanners.remove(banner);
+                    });
+                    confirmation.show();
+                }
                 // ***** COMPANY BANNER eND*****//
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-        initialize = function (specifiedView) {
-            view = specifiedView;
-            ko.applyBindings(view.viewModel, view.bindingRoot);
-            pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
-            companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
-            getStores();
-            getBaseData();
-            view.initializeForm();
-        };
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    pager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                    companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                    getStores();
+                    getBaseData();
+                    view.initializeForm();
+                };
 
                 return {
                     filteredCompanySetId: filteredCompanySetId,
@@ -628,6 +660,7 @@ define("stores/stores.viewModel",
                     onSaveBannerSet: onSaveBannerSet,
                     onSaveCompanyBanner: onSaveCompanyBanner,
                     onEditCompanyBanner: onEditCompanyBanner,
+                    onDeleteCompanyBanner: onDeleteCompanyBanner,
                     initialize: initialize
                 };
             })()

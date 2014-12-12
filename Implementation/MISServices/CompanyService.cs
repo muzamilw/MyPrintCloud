@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -22,6 +19,7 @@ namespace MPC.Implementation.MISServices
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
+        private readonly ICompanyBannerRepository companyBannerRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -137,20 +135,29 @@ namespace MPC.Implementation.MISServices
         private void UpdateCompanyTerritoryOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             //Add New Company Territories
-            foreach (var companyTerritory in companySavingModel.NewAddedCompanyTerritories)
+            if (companySavingModel.NewAddedCompanyTerritories != null)
             {
-                companyTerritory.CompanyId = companySavingModel.Company.CompanyId;
-                companyTerritoryRepository.Add(companyTerritory);
+                foreach (var companyTerritory in companySavingModel.NewAddedCompanyTerritories)
+                {
+                    companyTerritory.CompanyId = companySavingModel.Company.CompanyId;
+                    companyTerritoryRepository.Add(companyTerritory);
+                } 
             }
-            //Update Company Territories
-            foreach (var companyTerritory in companySavingModel.EdittedCompanyTerritories)
+            if (companySavingModel.EdittedCompanyTerritories != null)
             {
-                companyTerritoryRepository.Update(companyTerritory);
+                //Update Company Territories
+                foreach (var companyTerritory in companySavingModel.EdittedCompanyTerritories)
+                {
+                    companyTerritoryRepository.Update(companyTerritory);
+                }
             }
-            //Delete Company Territories
-            foreach (var companyTerritory in companySavingModel.DeletedCompanyTerritories)
+            if (companySavingModel.DeletedCompanyTerritories != null)
             {
-                companyTerritoryRepository.Delete(companyTerritory);
+                //Delete Company Territories
+                foreach (var companyTerritory in companySavingModel.DeletedCompanyTerritories)
+                {
+                    companyTerritoryRepository.Delete(companyTerritory);
+                }
             }
         }
 
@@ -177,8 +184,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var bannerItem in company.CompanyBannerSets)
                 {
-
-                    //Company Banner Set New Add
+                    //Company Banner Set New Added and company banner also added under this banner set
                     if (bannerItem.CompanySetId < 0)
                     {
                         bannerItem.CompanySetId = 0;
@@ -194,25 +200,80 @@ namespace MPC.Implementation.MISServices
                                 {
                                     item.CompanyBannerId = 0;
                                     item.CompanySetId = 0;
+                                    item.CreateDate = DateTime.Now;
                                 }
                             }
                         }
                         companyDbVersion.CompanyBannerSets.Add(bannerItem);
                     }
 
-                    //if (bannerItem.CompanyBanners != null && bannerItem.CompanySetId > 0)
-                    //{
-                    //    foreach (var item in bannerItem.CompanyBanners)
-                    //    {
-                    //        //Company Banner new Added
-                    //        if (item.CompanyBannerId < 0)
-                    //        {
-                    //            item.CompanyBannerId = 0;
-                    //            item.CompanySetId = 0;
-                    //        }
-                    //    }
-                    //}
+                    if (bannerItem.CompanyBanners != null && bannerItem.CompanySetId > 0)
+                    {
+                        CompanyBannerSet bannerSetDbVersion =
+                                  companyDbVersion.CompanyBannerSets.FirstOrDefault(
+                                      x => x.CompanySetId == bannerItem.CompanySetId);
 
+                        foreach (var item in bannerItem.CompanyBanners)
+                        {
+                            //Company Banner new Added under existing banner set
+                            if (item.CompanyBannerId < 0)
+                            {
+                                item.CompanyBannerId = 0;
+                                item.CompanySetId = 0;
+                                item.CreateDate = DateTime.Now;
+                                if (bannerSetDbVersion != null) bannerSetDbVersion.CompanyBanners.Add(item);
+                            }
+                            else
+                            {    //Updated company banner
+                                if (bannerSetDbVersion != null)
+                                {
+                                    CompanyBanner bannerDbVersion = bannerSetDbVersion.CompanyBanners.FirstOrDefault(
+                                        x => x.CompanyBannerId == item.CompanyBannerId);
+                                    if (bannerDbVersion != null)
+                                    {
+
+                                        bannerDbVersion.Heading = item.Heading;
+                                        bannerDbVersion.ButtonURL = item.ButtonURL;
+                                        bannerDbVersion.ItemURL = item.ItemURL;
+                                        bannerDbVersion.Description = item.Description;
+                                        bannerDbVersion.CompanySetId = item.CompanySetId;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                companyRepository.SaveChanges();
+            }//End Add/Edit 
+
+            foreach (var bannerSetDbVersion in companyDbVersion.CompanyBannerSets)
+            {
+
+                //find missing items
+                List<CompanyBanner> missingCompanyBannerListItems = new List<CompanyBanner>();
+                foreach (var dbversionCompanyBannerItem in bannerSetDbVersion.CompanyBanners)
+                {
+                    CompanyBannerSet bannerSetItem = company.CompanyBannerSets != null ? company.CompanyBannerSets.FirstOrDefault(x => x.CompanySetId == dbversionCompanyBannerItem.CompanySetId) : null;
+                    if (bannerSetItem != null && bannerSetItem.CompanyBanners != null && bannerSetItem.CompanyBanners.All(x => x.CompanyBannerId != dbversionCompanyBannerItem.CompanyBannerId))
+                    {
+                        missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
+                    }
+                    //In case user delete all Stock Cost And Price items from client side then it delete all items from db
+                    if (bannerSetItem == null || bannerSetItem.CompanyBanners == null)
+                    {
+                        missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
+                    }
+                }
+                //remove missing items
+                foreach (CompanyBanner missingCompanyBannerItem in missingCompanyBannerListItems)
+                {
+                    CompanyBanner dbVersionMissingItem = bannerSetDbVersion.CompanyBanners.First(x => x.CompanyBannerId == missingCompanyBannerItem.CompanyBannerId);
+                    if (dbVersionMissingItem.CompanyBannerId > 0)
+                    {
+                        companyBannerRepository.Delete(dbVersionMissingItem);
+                        companyBannerRepository.SaveChanges();
+                    }
                 }
             }
         }
@@ -220,13 +281,15 @@ namespace MPC.Implementation.MISServices
 
         #region Constructor
 
-        public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository, ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository)
+        public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyBannerRepository companyBannerRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
+            this.companyBannerRepository = companyBannerRepository;
         }
         #endregion
 
