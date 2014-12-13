@@ -215,6 +215,7 @@
     <Compile Include="Repositories\StockSubCategoryRepository.cs" />
     <Compile Include="Repositories\SystemUserRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
+    <Compile Include="Repositories\UserManagerRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>

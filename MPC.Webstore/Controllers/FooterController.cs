@@ -25,5 +25,7 @@ namespace MPC.Webstore.Controllers
 
             return PartialView("PartialViews/Footer", model);
         }
+
+
     }
 }

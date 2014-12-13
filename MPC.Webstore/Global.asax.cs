@@ -25,7 +25,7 @@ using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyRe
 using System.Web;
 using MPC.Interfaces.WebStoreServices;
 using System.Threading;
-
+using FluentScheduler;
 namespace MPC.Webstore
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -35,7 +35,7 @@ namespace MPC.Webstore
         #region Private
         private static IUnityContainer container;
         private ICompanyService companyService;
-      
+        private ICampaignService campaignService;
 
         /// <summary>
         /// Configure Logger
@@ -80,6 +80,8 @@ namespace MPC.Webstore
         protected void Application_Start()
         {
 
+            
+
             RegisterIoC();
             ConfigureLogger();
             AreaRegistration.RegisterAllAreas();
@@ -92,8 +94,8 @@ namespace MPC.Webstore
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             // Set Web Api resolver
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
-
-
+            campaignService = container.Resolve<ICampaignService>();
+            TaskManager.Initialize(new EmailBackgroundTask(HttpContext.Current, campaignService));
             //AreaRegistration.RegisterAllAreas();
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -134,7 +136,7 @@ namespace MPC.Webstore
         protected void Session_Start()
         {
             companyService = container.Resolve<ICompanyService>();
-
+            
             string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
 
             long storeId = companyService.GetStoreIdFromDomain(url);

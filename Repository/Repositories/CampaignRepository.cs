@@ -15,6 +15,9 @@ using System.Data.Objects;
 using System.Data;
 using System.IO;
 using System.Reflection;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Net;
 
 namespace MPC.Repository.Repositories
 {
@@ -40,11 +43,12 @@ namespace MPC.Repository.Repositories
 
         public Campaign GetCampaignRecordByEmailEvent(int iEmailEvent)
         {
-          
-                var email = (from c in db.Campaigns
-                                 where c.EmailEvent == iEmailEvent
-                                 select c).FirstOrDefault();
-                return email;
+
+            return db.Campaigns.Where(c => c.EmailEvent == iEmailEvent).FirstOrDefault();
+                //var email = (from c in db.Campaigns
+                //                 where c.EmailEvent == iEmailEvent
+                //                 select c).FirstOrDefault();
+                //return email;
          
         }
 
@@ -179,7 +183,7 @@ namespace MPC.Repository.Repositories
                     {
 
 
-                        userRecord = GetContactByID(Convert.ToInt32(variablValues.ContactID));
+                        userRecord = GetContactByID(Convert.ToInt32(variablValues.ContactId));
                         if (userRecord != null)
                         {
                             To = userRecord.Email;
@@ -248,8 +252,8 @@ namespace MPC.Repository.Repositories
             {
                 Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event);
                 CampaignEmailParams EmailParams = new CampaignEmailParams();
-                EmailParams.ContactID = ContactId;
-                EmailParams.ContactCompanyID = CompanyId;
+                EmailParams.ContactId = ContactId;
+                EmailParams.CompanyId = CompanyId;
                 EmailParams.CompanySiteID = 1;
                 EmailParams.AddressID = CompanyId;
                 EmailParams.SystemUserID = SalesManager.SystemUserId;
@@ -266,7 +270,7 @@ namespace MPC.Repository.Repositories
                 EmailParams.SalesManagerContactID = ContactId;
                 if (brokerid > 0)
                 {
-                    EmailParams.ContactCompanyID = brokerid;
+                    EmailParams.CompanyId = brokerid;
                     EmailParams.BrokerID = brokerid;
                     EmailParams.BrokerContactID = BrokerAdminContactID;
                     EmailParams.SalesManagerContactID = BrokerAdminContactID;
@@ -450,7 +454,7 @@ namespace MPC.Repository.Repositories
                                                         }
                                                         else
                                                         {
-                                                            tagValue = DynamicQueryToGetAddressByCompanyID(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactCompanyID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                            tagValue = DynamicQueryToGetAddressByCompanyID(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                         }
 
                                                     }
@@ -458,12 +462,12 @@ namespace MPC.Repository.Repositories
                                                     {
                                                         if (Tag.Contains("Broker_Website"))
                                                         {
-                                                            tagValue = DynamicQueryToGetBrokerImageURL(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactCompanyID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                            tagValue = DynamicQueryToGetBrokerImageURL(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                             tagValue = oContext.Request.Url.Scheme + "://" + tagValue;
                                                         }
                                                         if (Tag.Contains("StoreDomainName"))
                                                         {
-                                                            tagValue = DynamicQueryToGetBrokerImageURL(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactCompanyID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                            tagValue = DynamicQueryToGetBrokerImageURL(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue + "/login";
                                                         }
                                                     }
@@ -488,19 +492,19 @@ namespace MPC.Repository.Repositories
                                                     }
                                                     else if (propertyInfo.Name == "SupplierCompanyID")
                                                     {
-                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactCompanyID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                     }
                                                     else if (propertyInfo.Name == "StoreID")
                                                     {
                                                         if (Mode == StoreMode.Broker || Mode == StoreMode.Corp)// if broker mode then Company name == Broker company
                                                         {
-                                                            tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactCompanyID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                            tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
 
                                                         }
                                                         else
                                                         {
-                                                            tagValue = DynamicQueryToGetRecord("WebsiteLogo", "tbl_company_sites", "CompanySiteID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                            tagValue = DynamicQueryToGetRecord("WebsiteLogo", "organisation", "OrganisationId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
                                                         }
                                                     }
@@ -756,6 +760,270 @@ namespace MPC.Repository.Repositories
                     db.SaveChanges();
               
         }
+        public void SendPendingCorporateUserRegistrationEmailToAdmins(int contactID, int Companyid,Organisation serverSetting)
+        {
+            
+                int admin = Convert.ToInt32(Roles.Adminstrator);
+                CampaignEmailParams obj = new CampaignEmailParams();
+                List<CompanyContact> listOfApprovers = new List<CompanyContact>();
+               
+                listOfApprovers = (from c in db.CompanyContacts
+                                       join cc in db.Company on Companyid equals cc.CompanyId
+                                       
+                                   where c.ContactRoleId == admin && cc.IsCustomer == (int)CustomerTypes.Corporate && c.CompanyId == Companyid
+                                       select c).ToList();
+                    if (listOfApprovers.Count() > 0)
+                    {
+                        Campaign CorporateOrderForApprovalCampaign = GetCampaignRecordByEmailEvent((int)Events.CorporateRegistrationForApproval);
+                        Organisation SeverSettings = serverSetting;
+                        foreach (CompanyContact corpRec in listOfApprovers)
+                        {
+                            obj.ApprovarID = (int)corpRec.ContactId;
+                            obj.ContactId = contactID;
+                            obj.CompanyId = Companyid;
+                            obj.SalesManagerContactID = corpRec.ContactId;
+                            obj.StoreID = Companyid;
+                            obj.AddressID = Companyid;
+                            emailBodyGenerator(CorporateOrderForApprovalCampaign, SeverSettings, obj, corpRec, StoreMode.Corp, "", "", "", corpRec.Email, "");
+                        }
+                    }
+                }
+
+        public void SendEmailFromQueue(System.Web.HttpContext hcontext)
+        {
+
+            bool res = false;
+            int? isCampaignPaused = 0;
+
+            List<CampaignEmailQueue> allrecords = (from c in db.CampaignEmailQueues
+                                                               where c.IsDeliverd == 0 && c.AttemptCount < 5
+                                                               select c).ToList();
+
+              if (allrecords != null)
+              {
+                        string ErrorMsg = string.Empty;
+
+                        foreach (CampaignEmailQueue record in allrecords)
+                        {
+                            ErrorMsg = string.Empty;
+                            if (isCampaignPaused == 0 && record.CampaignReportId != null)
+                            {
+                                isCampaignPaused = (from c in db.Campaigns
+                                                    where c.CampaignReportId == record.CampaignReportId
+                                                    select c.Status).FirstOrDefault();
+                            }
+                            if (isCampaignPaused != Convert.ToInt32(ScheduledStatus.Paused))
+                            {
+                                if (SendEmail(record, hcontext, out ErrorMsg))
+                                {
+                                    if (record.FileAttachment != null)
+                                    {
+                                        res = true;
+                                    }
+
+                                    if (res)
+                                    {
+                                       
+                                            string filePath = string.Empty;
+                                            string[] Allfiles = record.FileAttachment.Split('|');
+                                            foreach (var file in Allfiles)
+                                            {
+                                                filePath = hcontext.Server.MapPath(file);
+                                                if (File.Exists(filePath))
+                                                    File.Delete(filePath);
+                                            }
+                                      
+                                        }
+                                    }
+                                    db.CampaignEmailQueues.Remove(record);
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    record.ErrorResponse = ErrorMsg;
+                                    record.AttemptCount++;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+
+        private bool SendEmail(CampaignEmailQueue oEmailBody, System.Web.HttpContext context, out string ErrorMsg)
+        {
+
+            MailMessage objMail = new MailMessage();
+            bool retVal = false;
+           
+                string smtp = oEmailBody.SMTPServer;
+                string SmtpUserName = oEmailBody.SMTPUserName;
+                string SenderPassword = oEmailBody.SMTPPassword;
+                string FromEmail = oEmailBody.EmailFrom;
+                string FromName = oEmailBody.FromName;
+                string ToName = oEmailBody.ToName;
+                string MailTo = oEmailBody.To;
+                string CC = oEmailBody.Cc;
+
+
+                Attachment data = null;
+                if (oEmailBody.FileAttachment != null)
+                {
+                    string[] Allfiles = oEmailBody.FileAttachment.Split('|');
+                    foreach (string temp in Allfiles)
+                    {
+                        if (temp != "")
+                        {
+                            string fname = temp;
+                            if (temp.Contains('_'))
+                            {
+                                string[] abc = temp.Split('_');
+                                fname = abc[abc.Length - 1];
+                            }
+                            else
+                            {
+                                string[] abc = temp.Split('/');
+                                fname = abc[abc.Length - 1];
+                            }
+
+                            string FilePath = context.Server.MapPath(temp);
+                            data = new Attachment(FilePath, MediaTypeNames.Application.Octet);
+                            ContentDisposition disposition = data.ContentDisposition;
+                            disposition.CreationDate = System.IO.File.GetCreationTime(FilePath);
+                            disposition.ModificationDate = System.IO.File.GetLastWriteTime(FilePath);
+                            disposition.ReadDate = System.IO.File.GetLastAccessTime(FilePath);
+                            disposition.FileName = fname;
+                            objMail.Attachments.Add(data);
+                        }
+                    }
+                }
+
+                SmtpClient objSmtpClient = new SmtpClient(smtp);
+                objSmtpClient.Credentials = new NetworkCredential(SmtpUserName, SenderPassword);
+                objMail.From = new MailAddress(FromEmail, FromName);
+                objMail.To.Add(new MailAddress(MailTo, ToName));
+                if (!string.IsNullOrEmpty(CC))
+                {
+                    if (!string.IsNullOrWhiteSpace(CC))
+                        objMail.CC.Add(new MailAddress(CC));
+                }
+
+                objMail.IsBodyHtml = true;
+                objMail.Body = oEmailBody.Body;
+                objMail.Subject = oEmailBody.Subject;
+
+                objSmtpClient.Send(objMail);
+
+                if (data != null)
+                {
+                    objMail.Attachments.Remove(data);
+                    data.Dispose();
+                }
+                retVal = true;
+                ErrorMsg = "";
+
+         
+                objMail.Dispose();
+                if (objMail != null)
+                    objMail = null;
+
+            return retVal;
+        }
+
+        private static bool validURL(string url)
+        {
+            Uri urlCheck = new Uri(url);
+            WebRequest request = WebRequest.Create(urlCheck);
+            request.Timeout = 5000;//Timeout set to 5 seconds
+
+            WebResponse response;
+            try
+            {
+                response = request.GetResponse();
+                if (request.RequestUri != response.ResponseUri)
+                    return false;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Contains("denied"))
+                    return true; //url exists but access is denied
+                else
+                    return false; //url does not exist
+            }
+
+        }
+
+        public void MonitorScheduledEmails()
+        {
+            
+                    //int InProgress = Convert.ToInt32(ScheduledStatus.InProgress);
+                    ////get the list of active news letters which are in progress
+                    //var ActiveCampgns =  db.Campaigns.Where(g => g.Status == InProgress && g.CampaignReportId != null).ToList();
+
+
+                    //foreach (var item in ActiveCampgns)
+                    //{
+
+
+                    //    int CampaignID = (int)item.CampaignId;
+                    //    int CampaignReportID = item.CampaignReportId.Value;
+
+                    //    var oReportCampgn = db.cam.Where(g => g.CampaignReportID == CampaignReportID).FirstOrDefault();
+
+                    //    //getting the counts
+
+                    //    int FailedCount = context.tbl_CampaignEmailQueue.Where(g => g.CampaignReportID == CampaignReportID && g.AttemptCount == 5).Count();
+
+                    //    int Undelivered = context.tbl_CampaignEmailQueue.Where(g => g.CampaignReportID == CampaignReportID && g.AttemptCount < 5).Count();
+                    //    if (oReportCampgn != null)
+                    //    {
+                    //        int Delivered = oReportCampgn.TotalCount.Value - FailedCount - Undelivered;
+
+
+                    //        //updating the status
+                    //        oReportCampgn.TotalCount = oReportCampgn.TotalCount - CountOfEmailsFailed;
+                    //        oReportCampgn.TotalDeliverd = Delivered;
+                    //        oReportCampgn.TotalFailed = FailedCount;
+
+
+                    //        if (Undelivered == 0)
+                    //        {
+                    //            oReportCampgn.EndDate = DateTime.Now;
+                    //            item.Status = Convert.ToInt32(ScheduledStatus.Compeleted); //completed
+                    //            item.CampaignReportID = null;   //resetting it.
+                    //            string ReportSummery = string.Format("<BR /> {0} <br/>", "Report of " + item.CampaignName);
+                    //            ReportSummery += "<BR /><BR />";
+                    //            ReportSummery += string.Format(" The campaign starts at {0}", oReportCampgn.StartDate + ",");
+                    //            ReportSummery += "<BR /><BR /> total" + oReportCampgn.TotalCount + " emails are composed for this campaign";
+                    //            ReportSummery += " from which total delivered emails are " + oReportCampgn.TotalDeliverd + "<BR /><BR />and undelivered emails are " + oReportCampgn.TotalFailed;
+                    //            ReportSummery += "<BR /><BR />The End date time of campaign is " + oReportCampgn.EndDate;
+                    //            ReportSummery += "<BR /><BR />---------------------------------------------------------------------------------- <BR /><BR />";
+                    //            ReportSummery += "Please do not reply to this mail as this is a system generated email. <BR />";
+                    //            oReportCampgn.Report = ReportSummery;
+                    //            if (item.EmailLogFile ?? false)
+                    //            {
+                    //                tbl_company_sites ServerSettings = GetSeverSettings();
+                    //                if (!string.IsNullOrEmpty(item.EmailLogFileAddress) && !string.IsNullOrEmpty(item.EmailLogFileAddress2))
+                    //                {
+                    //                    AddMsgToTblQueue(item.EmailLogFileAddress, item.EmailLogFileAddress2, item.EmailLogFileAddress, ReportSummery, item.FromName, item.FromAddress, ServerSettings.SmtpUserName, ServerSettings.SmtpPassword, ServerSettings.SmtpServer, "Report", null, 0);
+                    //                }
+                    //                else if (!string.IsNullOrEmpty(item.EmailLogFileAddress) && string.IsNullOrEmpty(item.EmailLogFileAddress2))
+                    //                {
+                    //                    AddMsgToTblQueue(item.EmailLogFileAddress, "", item.EmailLogFileAddress, ReportSummery, item.FromName, item.FromAddress, ServerSettings.SmtpUserName, ServerSettings.SmtpPassword, ServerSettings.SmtpServer, "Report", null, 0);
+                    //                }
+                    //                else if (string.IsNullOrEmpty(item.EmailLogFileAddress) && !string.IsNullOrEmpty(item.EmailLogFileAddress2))
+                    //                {
+                    //                    AddMsgToTblQueue(item.EmailLogFileAddress2, "", item.EmailLogFileAddress2, ReportSummery, item.FromName, item.FromAddress, ServerSettings.SmtpUserName, ServerSettings.SmtpPassword, ServerSettings.SmtpServer, "Report", null, 0);
+                    //                }
+                    //            }
+                    //        }
+                    //        context.SaveChanges();
+                    //    }
+                    //}
+              
+           
+        }
+
 
     }
 }

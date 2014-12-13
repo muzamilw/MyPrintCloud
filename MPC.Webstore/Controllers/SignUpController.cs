@@ -17,19 +17,22 @@ namespace MPC.Webstore.Controllers
         private readonly ICompanyService _myCompanyService;
         private readonly ICampaignService _campaignService;
         private readonly IUserManagerService _userManagerService;
-        
+        private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
+
        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public SignUpController(ICompanyService myCompanyService)
+        public SignUpController(ICompanyService myCompanyService,ICampaignService myCampaignService, IUserManagerService userManagerService)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
             this._myCompanyService = myCompanyService;
-
+        
+            this._campaignService = myCampaignService;
+            this._userManagerService = userManagerService;
         }
 
         #endregion
@@ -60,7 +63,7 @@ namespace MPC.Webstore.Controllers
                 if (_myCompanyService.GetContactByEmail(model.Email) != null)
                 {
                    ViewBag.Message = string.Format("You indicated you are a new customer, but an account already exists with the e-mail {0}", model.Email);
-                    return View();
+                   return View("PartialViews/SignUp");
                 }
                 else if (isSocial == "1")
                 {
@@ -112,6 +115,10 @@ namespace MPC.Webstore.Controllers
             long storeId = Convert.ToInt64(Session["storeId"]);
 
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
+           
+            MPC.Models.DomainModels.Organisation organisation = new MPC.Models.DomainModels.Organisation();
+
+            organisation = null;
 
             if (baseResponse.Company.IsCustomer == (int)StoreMode.Retail)
             {
@@ -138,11 +145,18 @@ namespace MPC.Webstore.Controllers
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
 
 
-                    MPC.Models.DomainModels.Organisation organisation = new MPC.Models.DomainModels.Organisation();
+                  
+                    _campaignService.emailBodyGenerator(RegistrationCampaign, organisation, cep, companyContact, StoreMode.Retail,(int)company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                    
+                    //void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId,Organisation ServerSettings, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode,Company company,SystemUser SaleManager,int ItemID, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0);
 
-                    _campaignService.emailBodyGenerator(RegistrationCampaign, organisation , cep, companyContact, StoreMode.Retail, "", "", "", EmailOFSM.Email, "", "", null, "");
-                    //emailmgr.SendEmailToSalesManager((int)EmailEvents.NewRegistrationToSalesManager, CurrentUser.ContactID, CurrentUser.ContactCompanyID, 0, 0, SessionParameters.CompanySite, 0, 0, StoreMode.Retail);
-                   // SetFormAuthDetails();
+
+
+                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)companyContact.ContactId, (int)companyContact.CompanyId, 0, 0, organisation, 0, 0, StoreMode.Retail, company, EmailOFSM);
+                  
+                   
+                    
+                    // SetFormAuthDetails();
                    // PostLoginCustomerAndCardChanges(out replacedWithOrderID);
                     //if (!string.IsNullOrWhiteSpace(PageParameters.RetUrl))
                     //{
@@ -173,15 +187,21 @@ namespace MPC.Webstore.Controllers
             {
                 int cid = (int)baseResponse.Company.CompanyId;
                 CompanyContact CorpContact = _myCompanyService.CreateCorporateContact(cid, contact, TwitterScreenName);
+                 
+                cep.ContactId = (int)CorpContact.ContactId;
+                cep.CompanyId = (int)CorpContact.CompanyId;
+                cep.SalesManagerContactID = CorpContact.ContactId; // this is only dummy data these variables replaced with organization values 
+                cep.StoreID = CorpContact.CompanyId;
+                cep.AddressID = CorpContact.CompanyId;
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration);
+                SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(baseResponse.Company.SalesAndOrderManagerId1));
 
-                //cep.ContactID = (int)CorpContact.ContactId;
-                //cep.ContactCompanyID = (int)SessionParameters.LoginCompany.CompanyId;
-                //cep.SalesManagerContactID = CorpContact.ContactId; // this is only dummy data these variables replaced with organization values 
-                //cep.StoreID = SessionParameters.LoginCompany.CompanyId;
-                //cep.AddressID = SessionParameters.LoginCompany.CompanyId;
-                //Campaign RegistrationCampaign = emailmgr.GetCampaignRecordByEmailEvent((int)EmailEvents.CorpUserRegistration);
-                //emailmgr.emailBodyGenerator(RegistrationCampaign, SessionParameters.CompanySite, cep, CorpContact, StoreMode.Corp, "", "", "", EmailOFSM.Email, "", "", null, "", null, "", "", null, "", "", "", 0, "", 0);
-                //emailmgr.SendPendingCorporateUserRegistrationEmailToAdmins(CorpContact.ContactID, SessionParameters.ContactCompany.ContactCompanyID);
+               // _campaignService.emailBodyGenerator(RegistrationCampaign, organisation, cep, companyContact, StoreMode.Retail, (int)company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                _campaignService.emailBodyGenerator(RegistrationCampaign, organisation, cep, CorpContact, StoreMode.Corp, (int)baseResponse.Company.OrganisationId, "", "","", EmailOFSM.Email , "", "", null, "");
+
+                int OrganisationId = (int)baseResponse.Company.OrganisationId;
+                _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)corpContact.CompanyId, OrganisationId);
                
             }
 

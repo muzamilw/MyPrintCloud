@@ -1,27 +1,48 @@
 ﻿
 
-
-
- @foreach (var item in ViewData["PageCategory"] as List<MPC.Webstore.Models.PageCategory>)
- {
-    <div class="footer_left_portion_division float_left_simple">
-        <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:black;">@item.CategoryName</label>
-       @* <asp:Label ID="lblQuickLinks1" runat="server" Text="Label" CssClass="heading_small_orange themeFontColor" Style="font-size: 14px;font-weight:bolder;">@item.CategoryName</asp:Label>*@
-    
-                @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPage>)
-                {
-                    if (page.CategoryId == item.CategoryId)
+<div id="SPagesContainer" class="spclColor">
+    <div class="GreyBackS6">
+        <div class="container heightauto content_area">
+            <div class="row left_right_padding">
+                <div class="space5">
+                    &nbsp;
+                </div>
+                <div class="footer_portion themeFontColor">
+                    @foreach (var item in ViewData["PageCategory"] as List<MPC.Webstore.Models.PageCategory>)
                     {
-                           <ul>
-                               <li>
-                                   <a href="#" id="secPages" class="uSecPageList" style="color:black;">@page.PageTitle</a>
-                               </li>
-                           </ul>
+                        <div class="footer_left_portion_division float_left_simple">
+                            <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@item.CategoryName</label>
+                            @* <asp:Label ID="lblQuickLinks1" runat="server" Text="Label" CssClass="heading_small_orange themeFontColor" Style="font-size: 14px;font-weight:bolder;">@item.CategoryName</asp:Label>*@
+
+                            @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPage>)
+                            {
+                                if (page.CategoryId == item.CategoryId)
+                                {
+                                    <ul>
+                                        <li>
+                                            <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@page.PageTitle</a>
+                                        </li>
+                                    </ul>
+                                }
+                            }
+
+                            @*<asp:BulletedList CssClass="uSecPageList themeFontColor" ID="lstQuickLinks1" runat="server" DisplayMode="HyperLink">
+                </asp:BulletedList>*@
+                        </div>
                     }
-               }
-        
-        @*<asp:BulletedList CssClass="uSecPageList themeFontColor" ID="lstQuickLinks1" runat="server" DisplayMode="HyperLink">
-        </asp:BulletedList>*@
+                </div>
+                <div class="space5">
+                    &nbsp;
+                </div>
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
     </div>
- }
+</div>
+
 
