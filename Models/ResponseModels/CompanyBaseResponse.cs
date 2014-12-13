@@ -9,7 +9,7 @@ namespace MPC.Models.ResponseModels
         /// System Users List
         /// </summary>
         public IEnumerable<SystemUser> SystemUsers { get; set; }
-
+        public IEnumerable<CompanyTerritory> CompanyTerritories { get; set; } 
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }

@@ -9,5 +9,8 @@ namespace MPC.Models.RequestModels
         public IEnumerable<CompanyTerritory> NewAddedCompanyTerritories { get; set; }
         public IEnumerable<CompanyTerritory> EdittedCompanyTerritories { get; set; }
         public IEnumerable<CompanyTerritory> DeletedCompanyTerritories { get; set; }
+        public IEnumerable<Address> NewAddedAddresses { get; set; }
+        public IEnumerable<Address> EdittedAddresses { get; set; }
+        public IEnumerable<Address> DeletedAddresses { get; set; }
     }
 }

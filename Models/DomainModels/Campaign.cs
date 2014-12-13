@@ -111,6 +111,5 @@ namespace MPC.Models.DomainModels
 
         public virtual ICollection<CampaignImage> CampaignImages { get; set; }
 
-
     }
 }

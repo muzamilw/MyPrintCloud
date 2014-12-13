@@ -19,6 +19,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Address
+                    amplify.request.define('searchAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Store By StoreId
                     amplify.request.define('getStoreById', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
@@ -69,6 +75,16 @@
                     data: params
                 });
             },
+            // search Address
+            searchAddress = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'searchAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // get Store by id
             getStoreById = function (params, callbacks) {
                 initialize();
@@ -80,12 +96,13 @@
                 });
             },
             // get Store by id
-            getBaseData = function (callbacks) {
+            getBaseData = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: params
                 });
             },
             // delete Stores
@@ -116,7 +133,8 @@
             getBaseData: getBaseData,
             deleteStore: deleteStore,
             saveStore: saveStore,
-            searchCompanyTerritory: searchCompanyTerritory
+            searchCompanyTerritory: searchCompanyTerritory,
+            searchAddress: searchAddress
         };
     })();
 

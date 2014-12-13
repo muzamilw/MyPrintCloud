@@ -50,7 +50,7 @@ namespace MPC.Repository.Repositories
             if (companyDomain.FirstOrDefault() != null)
             {
                 return companyDomain.FirstOrDefault().CompanyId;
-               
+
             }
             else
             {
@@ -58,9 +58,19 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Company GetCompanyById(long companyId)
+        public CompanyResponse GetCompanyById(long companyId)
         {
-            return db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+            CompanyResponse companyResponse = new CompanyResponse();
+            var company = db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+            
+            companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
+            companyResponse.AddressResponse = new AddressResponse();
+            companyResponse.Company = company;
+            companyResponse.CompanyTerritoryResponse.RowCount = company.CompanyTerritories.Count();
+            companyResponse.AddressResponse.RowCount = company.Addresses.Count();
+            companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
+            companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
+            return companyResponse;
         }
         /// <summary>
         /// Get Companies list for Companies List View
@@ -124,6 +134,6 @@ namespace MPC.Repository.Repositories
                 Suppliers = companies
             };
         }
-        
+
     }
 }

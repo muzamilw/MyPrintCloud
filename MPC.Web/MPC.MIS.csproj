@@ -247,6 +247,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
@@ -268,6 +269,7 @@
     </Compile>
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyListViewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
@@ -281,6 +283,7 @@
     <Compile Include="Areas\Api\ModelMappers\RaveReviewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\Address.cs" />
+    <Compile Include="Areas\Api\Models\AddressResponse.cs" />
     <Compile Include="Areas\Api\Models\CompanyBanner.cs" />
     <Compile Include="Areas\Api\Models\CompanyBannerSet.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
@@ -289,6 +292,7 @@
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
     <Compile Include="Areas\Api\Models\CompanyContact.cs" />
+    <Compile Include="Areas\Api\Models\CompanyListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
@@ -1121,6 +1125,7 @@
     <Content Include="Areas\Stores\Views\Stores\_AddSet.cshtml" />
     <Content Include="Areas\Products\Views\Home\_AddVideo.cshtml" />
     <Content Include="Areas\Products\Views\Home\_RelatedProductDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddEditAddress.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
@@ -2242,7 +2247,6 @@
     <Content Include="Views\Shared\Product\_Products.cshtml" />
     <Content Include="Views\Shared\Product\_SelectStock.cshtml" />
     <Content Include="Views\Shared\Product\_SignatureEdit.cshtml" />
-    <Content Include="Views\Shared\Widgets\_AddEditAddress.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditCMYKColors.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditDeliveryCarriers.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditTerritory.cshtml" />
@@ -2278,6 +2282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Api\Views\Address\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Products\Models\" />

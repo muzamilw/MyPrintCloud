@@ -27,6 +27,12 @@ define("product/product.viewModel",
                     isProductDetailsVisible = ko.observable(false),
                     // #endregion Busy Indicators
                     // #region Observables
+                    // Item File Types
+                    itemFileTypes = {
+                        thumbnail: 1,
+                        grid: 2,
+                        imagePath: 3
+                    },
                     // filter
                     filterText = ko.observable(),
                     // filter for Related Items
@@ -99,6 +105,7 @@ define("product/product.viewModel",
                     // Open Editor
                     openProductEditor = function () {
                         isProductDetailsVisible(true);
+                        view.initializeDropZones();
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {
@@ -413,6 +420,7 @@ define("product/product.viewModel",
                     activeVideo: activeVideo,
                     productsToRelate: productsToRelate,
                     selectedJobDescription: selectedJobDescription,
+                    itemFileTypes: itemFileTypes,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
