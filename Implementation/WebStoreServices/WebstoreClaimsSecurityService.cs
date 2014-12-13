@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using FaceSharp.Api.Objects;
 using MPC.Common;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
@@ -13,14 +14,14 @@ namespace MPC.Implementation.WebStoreServices
 {
     public sealed class WebstoreClaimsSecurityService : MarshalByRefObject, IWebstoreClaimsSecurityService
     {
-        private static void AddOrganisationClaims(long organisationId, ClaimsIdentity claimsIdentity)
-        {
-            Claim claim = new Claim(WebstoreClaimTypes.OrganisationId,
-                                        ClaimHelper.Serialize(
-                                            new OrganisationClaimValue { OrganisationId = organisationId }),
-                                        typeof(OrganisationClaimValue).AssemblyQualifiedName);
-            claimsIdentity.AddClaim(claim);
-        }
+        //private static void AddOrganisationClaims(long organisationId, ClaimsIdentity claimsIdentity)
+        //{
+        //    Claim claim = new Claim(WebstoreClaimTypes.OrganisationId,
+        //                                ClaimHelper.Serialize(
+        //                                    new OrganisationClaimValue { OrganisationId = organisationId }),
+        //                                typeof(OrganisationClaimValue).AssemblyQualifiedName);
+        //    claimsIdentity.AddClaim(claim);
+        //}
 
      
 
@@ -37,7 +38,14 @@ namespace MPC.Implementation.WebStoreServices
         {
             Claim claim = new Claim(WebstoreClaimTypes.LoginUser,
                                         ClaimHelper.Serialize(
-                                            new OrganisationClaimValue { loginContact = userContact }),
+                                            new OrganisationClaimValue
+                                            {
+                                                Email = userContact.Email,
+                                                FirstName = userContact.FirstName,
+                                                LastName = userContact.LastName,
+                                                LoginuserId = userContact.ContactId
+    
+                                            }),
                                         typeof(OrganisationClaimValue).AssemblyQualifiedName);
             claimsIdentity.AddClaim(claim);
         }

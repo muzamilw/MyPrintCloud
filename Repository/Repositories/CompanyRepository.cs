@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using Microsoft.Practices.Unity;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -38,7 +39,7 @@ namespace MPC.Repository.Repositories
                 return db.Company;
             }
         }
-
+        
         public override IEnumerable<Company> GetAll()
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
@@ -60,7 +61,7 @@ namespace MPC.Repository.Repositories
 
         public Company GetCompanyById(long companyId)
         {
-            return db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+            return db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).FirstOrDefault();
         }
         /// <summary>
         /// Get Companies list for Companies List View

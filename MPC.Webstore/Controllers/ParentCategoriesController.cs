@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.Common;
 
 namespace MPC.Webstore.Controllers
 {
@@ -32,8 +33,7 @@ namespace MPC.Webstore.Controllers
         // GET: ParentCategories
         public ActionResult Index()
         {
-            long storeId = Convert.ToInt64(Session["storeId"]);
-            var model = _myCompanyService.GetCompanyParentCategoriesById(storeId);
+            var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
             return PartialView("PartialViews/ParentCategories", model);
         }
     }

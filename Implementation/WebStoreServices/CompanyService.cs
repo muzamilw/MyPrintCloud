@@ -66,7 +66,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-            Company oCompany = GetCompanyByCompanyID(companyId);
+            
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -86,7 +86,10 @@ namespace MPC.Implementation.WebStoreServices
             {
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId); 
+
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+
+                Company oCompany = GetCompanyByCompanyID(companyId);
 
                 CacheEntryRemovedCallback callback = null;
 
@@ -110,11 +113,15 @@ namespace MPC.Implementation.WebStoreServices
             else // there are some stores already in cache.
             {
 
-                if (!stores.ContainsKey(oCompany.CompanyId))
+                if (!stores.ContainsKey(companyId))
                 {
+                    Company oCompany = GetCompanyByCompanyID(companyId);
+
                     List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(oCompany.CompanyId);
 
                     MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+
+
                     oStore.Company = oCompany;
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
@@ -129,7 +136,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 else
                 {
-                    return stores[oCompany.CompanyId];
+                    return stores[companyId];
                 }
             }
         }

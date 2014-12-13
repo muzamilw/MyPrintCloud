@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System;
@@ -16,7 +17,6 @@ namespace MPC.Webstore.Controllers
 
         private readonly ICompanyService _myCompanyService;
 
-        private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
         #endregion
 
@@ -24,18 +24,14 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public SecondaryPagesController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public SecondaryPagesController(ICompanyService myCompanyService)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
-            if (webstoreAuthorizationChecker == null)
-            {
-                throw new ArgumentNullException("webstoreAuthorizationChecker");
-            }
+           
             this._myCompanyService = myCompanyService;
-            this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
         }
 
         #endregion
@@ -43,7 +39,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(_webstoreAuthorizationChecker.CompanyId()).CreateFromSecondaryPages();
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromSecondaryPages();
 
             ViewData["PageCategory"] = baseResponse.PageCategories;
             ViewData["CmsPage"] = baseResponse.SecondaryPages;
