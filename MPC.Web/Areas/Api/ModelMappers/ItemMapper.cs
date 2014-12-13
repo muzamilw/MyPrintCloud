@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -15,7 +16,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Item CreateFrom(this DomainModels.Item source)
         {
-            return new Item
+            Item item = new Item
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
@@ -66,6 +67,26 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()) : new List<ItemVideo>(),
                 ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()) : new List<ItemRelatedItem>(),
             };
+
+            // Load Thumbnail Image
+            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            {
+                item.ThumbnailImage = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+            }
+
+            // Load Grid Image
+            if (source.GridImage != null && File.Exists(source.GridImage))
+            {
+                item.GridImageBytes = source.GridImage != null ? File.ReadAllBytes(source.GridImage) : null;
+            }
+
+            // Load Image Path
+            if (source.ImagePath != null && File.Exists(source.ImagePath))
+            {
+                item.ImagePathImage = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
+            }
+
+            return item;
         }
 
         /// <summary>

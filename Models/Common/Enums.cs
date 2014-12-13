@@ -68,6 +68,16 @@ namespace MPC.Models.Common
         PO_Notification_To_SalesManager = 33,
         PO_Notification_To_Supplier = 34
     }
+    public enum ScheduledStatus
+    {
+        Draft = 0,
+        Scheduled = 1,
+        InProgress = 2,
+        Paused = 3,
+        Compeleted = 4,
+        Disabled = 5
+    }
+
 
     public enum Campaigns : int
     {
@@ -82,4 +92,17 @@ namespace MPC.Models.Common
         Sales = 39
     }
 
+    public enum CustomerTypes
+    {
+        Prospects = 0,
+        Customers = 1,
+        Suppliers = 2,
+        Corporate = 3,
+        Broker = 4
+    }
+
+    public enum ItemTypes : int
+    {
+        Delivery = 2
+    }
 }

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Repository.Repositories;
 
 namespace MPC.Implementation.MISServices
 {
@@ -22,6 +20,8 @@ namespace MPC.Implementation.MISServices
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
+        private readonly ICompanyBannerRepository companyBannerRepository;
+        private readonly IAddressRepository addressRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -137,20 +137,48 @@ namespace MPC.Implementation.MISServices
         private void UpdateCompanyTerritoryOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             //Add New Company Territories
-            foreach (var companyTerritory in companySavingModel.NewAddedCompanyTerritories)
+            if (companySavingModel.NewAddedCompanyTerritories != null)
             {
-                companyTerritory.CompanyId = companySavingModel.Company.CompanyId;
-                companyTerritoryRepository.Add(companyTerritory);
+                foreach (var companyTerritory in companySavingModel.NewAddedCompanyTerritories)
+                {
+                    companyTerritory.CompanyId = companySavingModel.Company.CompanyId;
+                    companyTerritoryRepository.Add(companyTerritory);
+                }
             }
-            //Update Company Territories
-            foreach (var companyTerritory in companySavingModel.EdittedCompanyTerritories)
+            if (companySavingModel.EdittedCompanyTerritories != null)
             {
-                companyTerritoryRepository.Update(companyTerritory);
+                //Update Company Territories
+                foreach (var companyTerritory in companySavingModel.EdittedCompanyTerritories)
+                {
+                    companyTerritoryRepository.Update(companyTerritory);
+                }
             }
-            //Delete Company Territories
-            foreach (var companyTerritory in companySavingModel.DeletedCompanyTerritories)
+            if (companySavingModel.DeletedCompanyTerritories != null)
             {
-                companyTerritoryRepository.Delete(companyTerritory);
+                //Delete Company Territories
+                foreach (var companyTerritory in companySavingModel.DeletedCompanyTerritories)
+                {
+                    companyTerritoryRepository.Delete(companyTerritory);
+                }
+            }
+        }
+        private void UpdateAddressOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            //Add New Addresses
+            foreach (var address in companySavingModel.NewAddedAddresses)
+            {
+                address.CompanyId = companySavingModel.Company.CompanyId;
+                addressRepository.Add(address);
+            }
+            //Update addresses
+            foreach (var address in companySavingModel.EdittedAddresses)
+            {
+                addressRepository.Update(address);
+            }
+            //Delete Addresses
+            foreach (var address in companySavingModel.DeletedAddresses)
+            {
+                addressRepository.Delete(address);
             }
         }
 
@@ -163,6 +191,7 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
+            UpdateAddressOfUpdatingCompany(companySavingModel);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
@@ -177,8 +206,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var bannerItem in company.CompanyBannerSets)
                 {
-
-                    //Company Banner Set New Add
+                    //Company Banner Set New Added and company banner also added under this banner set
                     if (bannerItem.CompanySetId < 0)
                     {
                         bannerItem.CompanySetId = 0;
@@ -194,25 +222,80 @@ namespace MPC.Implementation.MISServices
                                 {
                                     item.CompanyBannerId = 0;
                                     item.CompanySetId = 0;
+                                    item.CreateDate = DateTime.Now;
                                 }
                             }
                         }
                         companyDbVersion.CompanyBannerSets.Add(bannerItem);
                     }
 
-                    //if (bannerItem.CompanyBanners != null && bannerItem.CompanySetId > 0)
-                    //{
-                    //    foreach (var item in bannerItem.CompanyBanners)
-                    //    {
-                    //        //Company Banner new Added
-                    //        if (item.CompanyBannerId < 0)
-                    //        {
-                    //            item.CompanyBannerId = 0;
-                    //            item.CompanySetId = 0;
-                    //        }
-                    //    }
-                    //}
+                    if (bannerItem.CompanyBanners != null && bannerItem.CompanySetId > 0)
+                    {
+                        CompanyBannerSet bannerSetDbVersion =
+                                  companyDbVersion.CompanyBannerSets.FirstOrDefault(
+                                      x => x.CompanySetId == bannerItem.CompanySetId);
 
+                        foreach (var item in bannerItem.CompanyBanners)
+                        {
+                            //Company Banner new Added under existing banner set
+                            if (item.CompanyBannerId < 0)
+                            {
+                                item.CompanyBannerId = 0;
+                                item.CompanySetId = 0;
+                                item.CreateDate = DateTime.Now;
+                                if (bannerSetDbVersion != null) bannerSetDbVersion.CompanyBanners.Add(item);
+                            }
+                            else
+                            {    //Updated company banner
+                                if (bannerSetDbVersion != null)
+                                {
+                                    CompanyBanner bannerDbVersion = bannerSetDbVersion.CompanyBanners.FirstOrDefault(
+                                        x => x.CompanyBannerId == item.CompanyBannerId);
+                                    if (bannerDbVersion != null)
+                                    {
+
+                                        bannerDbVersion.Heading = item.Heading;
+                                        bannerDbVersion.ButtonURL = item.ButtonURL;
+                                        bannerDbVersion.ItemURL = item.ItemURL;
+                                        bannerDbVersion.Description = item.Description;
+                                        bannerDbVersion.CompanySetId = item.CompanySetId;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                companyRepository.SaveChanges();
+            }//End Add/Edit 
+
+            foreach (var bannerSetDbVersion in companyDbVersion.CompanyBannerSets)
+            {
+
+                //find missing items
+                List<CompanyBanner> missingCompanyBannerListItems = new List<CompanyBanner>();
+                foreach (var dbversionCompanyBannerItem in bannerSetDbVersion.CompanyBanners)
+                {
+                    CompanyBannerSet bannerSetItem = company.CompanyBannerSets != null ? company.CompanyBannerSets.FirstOrDefault(x => x.CompanySetId == dbversionCompanyBannerItem.CompanySetId) : null;
+                    if (bannerSetItem != null && bannerSetItem.CompanyBanners != null && bannerSetItem.CompanyBanners.All(x => x.CompanyBannerId != dbversionCompanyBannerItem.CompanyBannerId))
+                    {
+                        missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
+                    }
+                    //In case user delete all Stock Cost And Price items from client side then it delete all items from db
+                    if (bannerSetItem == null || bannerSetItem.CompanyBanners == null)
+                    {
+                        missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
+                    }
+                }
+                //remove missing items
+                foreach (CompanyBanner missingCompanyBannerItem in missingCompanyBannerListItems)
+                {
+                    CompanyBanner dbVersionMissingItem = bannerSetDbVersion.CompanyBanners.First(x => x.CompanyBannerId == missingCompanyBannerItem.CompanyBannerId);
+                    if (dbVersionMissingItem.CompanyBannerId > 0)
+                    {
+                        companyBannerRepository.Delete(dbVersionMissingItem);
+                        companyBannerRepository.SaveChanges();
+                    }
                 }
             }
         }
@@ -220,13 +303,16 @@ namespace MPC.Implementation.MISServices
 
         #region Constructor
 
-        public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository, ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository)
+        public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
+            this.companyBannerRepository = companyBannerRepository;
+            this.addressRepository = addressRepository;
         }
         #endregion
 
@@ -240,21 +326,26 @@ namespace MPC.Implementation.MISServices
         {
             return companyTerritoryRepository.GetCompanyTerritory(request);
         }
-        public Company GetCompanyById(int companyId)
+        public AddressResponse SearchAddresses(AddressRequestModel request)
+        {
+            return addressRepository.GetAddress(request);
+        }
+        public CompanyResponse GetCompanyById(int companyId)
         {
             return companyRepository.GetCompanyById(companyId);
         }
 
-        public CompanyBaseResponse GetBaseData()
+        public CompanyBaseResponse GetBaseData(long clubId)
         {
             return new CompanyBaseResponse
                    {
-                       SystemUsers = systemUserRepository.GetAll()
+                       SystemUsers = systemUserRepository.GetAll(),
+                       CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(clubId)
                    };
         }
         public void SaveFile(string filePath, long companyId)
         {
-            Company company = companyRepository.GetCompanyById(companyId);
+            Company company = companyRepository.GetCompanyById(companyId).Company;
             if (company.Image != null)
             {
                 if (File.Exists(company.Image))

@@ -49,6 +49,7 @@ namespace MPC.Repository.BaseRepository
             this.container = container;
             string connectionString = ConfigurationManager.ConnectionStrings["BaseDbContext"].ConnectionString;
             db = (BaseDbContext)container.Resolve(typeof(BaseDbContext), new ResolverOverride[] { new ParameterOverride("connectionString", connectionString) });
+           
         }
 
         #endregion

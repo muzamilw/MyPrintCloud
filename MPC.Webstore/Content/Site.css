@@ -15622,7 +15622,8 @@ ul.LogBar li a
         margin-bottom: 10px;
         width: 100% !important;
     }
-    .margin-right{
+    .margin-right
+    {
         margin-right:20px;
     }
     .collapseMenu

@@ -189,6 +189,7 @@
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\TemplatePageRepository.cs" />
     <Compile Include="Repositories\TemplateRepository.cs" />
     <Compile Include="Repositories\ItemVideoRepository.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Repositories\StockSubCategoryRepository.cs" />
     <Compile Include="Repositories\SystemUserRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
+    <Compile Include="Repositories\UserManagerRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>

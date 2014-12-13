@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using MPC.Models.DomainModels;
+﻿using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -9,8 +8,9 @@ namespace MPC.Interfaces.MISServices
     {
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
-        Company GetCompanyById(int companyId);
-        CompanyBaseResponse GetBaseData();
+        AddressResponse SearchAddresses(AddressRequestModel request);
+        CompanyResponse GetCompanyById(int companyId);
+        CompanyBaseResponse GetBaseData(long clubId);
         /// <summary>
         /// Save File Path In Db against organization ID
         /// </summary>

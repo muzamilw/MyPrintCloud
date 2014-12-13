@@ -2,9 +2,115 @@
 
 define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
+         //_________ S T O R E   L I S T    V I E W____________________//
+        // ReSharper disable once InconsistentNaming
+        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer) {
+            var
+                self,
+                companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
+                name = ko.observable(specifiedName),
+                status = ko.observable(specifiedStatus),
+                image = ko.observable(specifiedImage),
+                url = ko.observable(specifiedUrl),
+                isCustomer = ko.observable(specifiedIsCustomer),
+                type = ko.observable(),
+                // Errors
+                errors = ko.validation.group({
+                
+                }),
+                // Is Valid 
+                isValid = ko.computed(function() {
+                    return errors().length === 0 ? true : false;
+                }),
+
+
+                // ReSharper disable InconsistentNaming
+                dirtyFlag = new ko.dirtyFlag({
+                    // ReSharper restore InconsistentNaming
+                    companyId: companyId,
+                    name: name,
+                    status: status,
+                    image: image,
+                    url: url,
+                    type: type,
+                    isCustomer: isCustomer
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function() {
+                    return dirtyFlag.isDirty();
+                }),
+                //Convert To Server
+                convertToServerData = function(source) {
+                    var result = {};
+                    result.CompanyId = source.companyId();
+                    result.Name = source.name();
+                    result.Status = source.status();
+                    result.Image = source.image();
+                    result.URL = source.url();
+                    result.IsCustomer = source.isCustomer();
+                    return result;
+                },
+                // Reset
+                reset = function() {
+                    dirtyFlag.reset();
+                };
+            self = {
+                companyId: companyId,
+                name: name,
+                status: status,
+                image: image,
+                url: url,
+                type: type,
+                isCustomer: isCustomer,
+                isValid: isValid,
+                errors: errors,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                convertToServerData: convertToServerData,
+                reset: reset
+            };
+            return self;
+        };
+        StoreListView.CreateFromClientModel = function (source) {
+            var result = new StoreListView(
+                source.companyId,
+                source.name,
+                source.status,
+                source.image,
+                source.url,
+                source.isCustomer
+                );
+            return result;
+        };
+        StoreListView.Create = function (source) {
+            var store = new StoreListView(
+                source.CompanyId,
+                source.Name,
+                source.Status,
+                source.Image,
+                source.URL,
+                source.IsCustomer
+                );
+
+            if (source.IsCustomer == 0) {
+                store.type("Supplier");
+            }
+            else if (source.IsCustomer == 1) {
+                store.type("Retail Customer");
+            }
+            else if (source.IsCustomer == 2) {
+                store.type("Prospect");
+            }
+            else if (source.IsCustomer == 3) {
+                store.type("Corporate");
+            }
+            return store;
+        };
+
+    //_____________________ S T O R E ______________________________//
         //WebMasterTag WebAnalyticCode
         // ReSharper disable once InconsistentNaming
-        Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+      var  Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
             specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
             specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
             specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
@@ -45,6 +151,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 isDisplayBanners = ko.observable(specifiedisDisplayBanners),
                 raveReviews = ko.observableArray([]),
                 companyTerritories = ko.observableArray([]),
+                addresses = ko.observableArray([]),
 
                 // ReSharper disable InconsistentNaming
                 companyCMYKColors = ko.observableArray([]),
@@ -93,6 +200,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     type: type,
                     raveReviews: raveReviews,
                     companyTerritories: companyTerritories,
+                    addresses: addresses,
                     companyCMYKColors: companyCMYKColors,
                     webMasterTag: webMasterTag,
                     webAnalyticCode: webAnalyticCode,
@@ -156,7 +264,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     result.NewAddedCompanyTerritories = [];
                     result.EdittedCompanyTerritories = [];
                     result.DeletedCompanyTerritories = [];
+                    result.NewAddedAddresses = [];
                     result.CompanyBannerSets = [];
+                    result.EdittedAddresses = [];
+                    result.DeletedAddresses = [];
                     return result;
                 },
                 // Reset
@@ -197,6 +308,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 type: type,
                 raveReviews: raveReviews,
                 companyTerritories: companyTerritories,
+                addresses: addresses,
                 companyCMYKColors: companyCMYKColors,
                 colorPalette: colorPalette,
                 companyBannerSets: companyBannerSets,
@@ -247,6 +359,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         _.each(source.companyTerritories, function (item) {
             result.companyTerritories.push(CompanyTerritory.CreateFromClientModel(item));
         });
+        _.each(source.addresses, function (item) {
+            result.addresses.push(Address.CreateFromClientModel(item));
+        });
         _.each(source.companyCMYKColors, function (item) {
             result.companyCMYKColors.push(CompanyCMYKColor.CreateFromClientModel(item));
         });
@@ -281,7 +396,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ProductionManagerId1,
             source.ProductionManagerId2,
             source.StockNotificationManagerId1,
-            source.StockNotificationManagerId2
+            source.StockNotificationManagerId2,
+            source.isDisplayBanners
             );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -302,6 +418,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         });
         _.each(source.CompanyTerritories, function (item) {
             store.companyTerritories.push(CompanyTerritory.Create(item));
+        });
+        _.each(source.Addresses, function (item) {
+            store.addresses.push(Address.Create(item));
         });
         _.each(source.CompanyCmykColors, function (item) {
             store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
@@ -819,65 +938,156 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
-
-    // ______________  Company Banner   _________________//
+    // ______________  A D D R E S S   _________________//
     // ReSharper disable once InconsistentNaming
-    var CompanyBanner = function (specifiedCompanyBannerId, specifiedHeading, specifiedDescription, specifiedItemURL, specifiedButtonURL, specifiedCompanySetId) {
-        var self,
-          id = ko.observable(specifiedCompanyBannerId),
-          heading = ko.observable(specifiedHeading).extend({ required: true }),
-          description = ko.observable(specifiedDescription),
-          itemURL = ko.observable(specifiedItemURL),
-          buttonURL = ko.observable(specifiedButtonURL),
-          companySetId = ko.observable(specifiedCompanySetId),
-          //Set Name For List View
-          setName = ko.observable(),
-        // Errors
-        errors = ko.validation.group({
-            //companySetId: companySetId,
-            heading: heading
-        }),
-        // Is Valid 
-        isValid = ko.computed(function () {
-            return errors().length === 0 ? true : false;
-        }),
+    var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedPostCode, specifiedFax,
+                            specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
+                            specifiedisArchived, specifiedTerritoryId, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
+                            specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
+        var
+            self,
+            addressId = ko.observable(specifiedAddressId),
+            companyId = ko.observable(specifiedCompanyId),
+            addressName = ko.observable(specifiedAddressName).extend({ required: true }),
+            address1 = ko.observable(specifiedAddress1),
+            address2 = ko.observable(specifiedAddress2),
+            address3 = ko.observable(specifiedAddress3),
+            city = ko.observable(specifiedCity),
+            state = ko.observable(specifiedState),
+            country = ko.observable(specifiedCountry),
+            postCode = ko.observable(specifiedPostCode),
+            fax = ko.observable(specifiedFax),
+            email = ko.observable(specifiedEmail),
+            uRL = ko.observable(specifiedURL),
+            tel1 = ko.observable(specifiedTel1),
+            tel2 = ko.observable(specifiedTel2),
+            extension1 = ko.observable(specifiedExtension1),
+            extension2 = ko.observable(specifiedExtension2),
+            reference = ko.observable(specifiedReference),
+            fAO = ko.observable(specifiedFAO),
+            isDefaultAddress = ko.observable(specifiedIsDefaultAddress),
+            isDefaultShippingAddress = ko.observable(specifiedIsDefaultShippingAddress),
+            isArchived = ko.observable(specifiedisArchived),
+            territoryId = ko.observable(specifiedTerritoryId),
+            geoLatitude = ko.observable(specifiedGeoLatitude),
+            geoLongitude = ko.observable(specifiedGeoLongitude),
+            isPrivate = ko.observable(specifiedisPrivate),
+            isDefaultTerrorityBilling = ko.observable(specifiedisDefaultTerrorityBilling),
+            isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
+            organisationId = ko.observable(specifiedOrganisationId),
+            // Errors
+                errors = ko.validation.group({
+                    addressName: addressName
+                }),
+                // Is Valid 
+                isValid = ko.computed(function () {
+                    return errors().length === 0 ? true : false;
+                }),
 
-        // ReSharper disable InconsistentNaming
-        dirtyFlag = new ko.dirtyFlag({
-            heading: heading,
-            description: description,
-            itemURL: itemURL,
-            buttonURL: buttonURL,
-            companySetId: companySetId,
-            setName: setName,
-        }),
-        // Has Changes
-        hasChanges = ko.computed(function () {
-            return dirtyFlag.isDirty();
-        }),
-        //Convert To Server
-        convertToServerData = function (source) {
-            var result = {};
-            result.CompanyBannerId = source.id() === undefined ? 0 : source.id();
-            result.Heading = source.heading() === undefined ? null : source.heading();;
-            result.Description = source.description() === undefined ? null : source.description();
-            result.ItemURL = source.itemURL() === undefined ? null : source.itemURL();
-            result.ButtonURL = source.buttonURL() === undefined ? null : source.buttonURL();
-            result.CompanySetId = source.companySetId() === undefined ? null : source.companySetId();
-            return result;
-        },
-        // Reset
-        reset = function () {
-            dirtyFlag.reset();
-        };
+
+                // ReSharper disable InconsistentNaming
+                dirtyFlag = new ko.dirtyFlag({
+                    addressId: addressId,
+                    companyId: companyId,
+                    addressName: addressName,
+                    address1: address1,
+                    address2: address2,
+                    address3: address3,
+                    city: city,
+                    state: state,
+                    country: country,
+                    postCode: postCode,
+                    fax: fax,
+                    email: email,
+                    uRL: uRL,
+                    tel1: tel1,
+                    tel2: tel2,
+                    extension1: extension1,
+                    extension2: extension2,
+                    reference: reference,
+                    fAO: fAO,
+                    isDefaultAddress: isDefaultAddress,
+                    isDefaultShippingAddress: isDefaultShippingAddress,
+                    isArchived: isArchived,
+                    territoryId: territoryId,
+                    geoLatitude: geoLatitude,
+                    geoLongitude: geoLongitude,
+                    isPrivate: isPrivate,
+                    isDefaultTerrorityBilling: isDefaultTerrorityBilling,
+                    isDefaultTerrorityShipping: isDefaultTerrorityShipping,
+                    organisationId: organisationId
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty();
+                }),
+                //Convert To Server
+                convertToServerData = function (source) {
+                    var result = {};
+                    result.AddressId = source.addressId();
+                    result.CompanyId = source.companyId();
+                    result.AddressName = source.addressName();
+                    result.Address1 = source.address1();
+                    result.Address2 = source.address2();
+                    result.Address3 = source.address3();
+                    result.City = source.city();
+                    result.State = source.state();
+                    result.Country = source.Ccuntry();
+                    result.PostCode = source.postCode();
+                    result.Fax = source.fax();
+                    result.URL = source.uRL();
+                    result.Tel1 = source.tel1();
+                    result.Tel2 = source.tel2();
+                    result.Extension1 = source.extension1();
+                    result.Extension2 = source.extension2();
+                    result.Reference = source.reference();
+                    result.FAO = source.fAO();
+                    result.IsDefaultAddress = source.isDefaultAddress();
+                    result.IsDefaultShippingAddress = source.isDefaultShippingAddress();
+                    result.isArchived = source.isArchived();
+                    result.TerritoryId = source.territoryId();
+                    result.GeoLatitude = source.geoLatitude();
+                    result.GeoLongitude = source.geoLongitude();
+                    result.isPrivate = source.isPrivate();
+                    result.isDefaultTerrorityBilling = source.isDefaultTerrorityBilling();
+                    result.isDefaultTerrorityShipping = source.isDefaultTerrorityShipping();
+                    result.OrganisationId = source.organisationId();
+                    return result;
+                },
+                // Reset
+                reset = function () {
+                    dirtyFlag.reset();
+                };
         self = {
-            id: id,
-            heading: heading,
-            description: description,
-            itemURL: itemURL,
-            buttonURL: buttonURL,
-            companySetId: companySetId,
-            setName: setName,
+            addressId: addressId,
+            companyId: companyId,
+            addressName: addressName,
+            address1: address1,
+            address2: address2,
+            address3: address3,
+            city: city,
+            state: state,
+            country: country,
+            postCode: postCode,
+            fax: fax,
+            email: email,
+            uRL: uRL,
+            tel1: tel1,
+            tel2: tel2,
+            extension1: extension1,
+            extension2: extension2,
+            reference: reference,
+            fAO: fAO,
+            isDefaultAddress: isDefaultAddress,
+            isDefaultShippingAddress: isDefaultShippingAddress,
+            isArchived: isArchived,
+            territoryId: territoryId,
+            geoLatitude: geoLatitude,
+            geoLongitude: geoLongitude,
+            isPrivate: isPrivate,
+            isDefaultTerrorityBilling: isDefaultTerrorityBilling,
+            isDefaultTerrorityShipping: isDefaultTerrorityShipping,
+            organisationId: organisationId,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -887,28 +1097,22 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
-    CompanyBanner.Create = function (source) {
-        return new CompanyBanner(
-            source.CompanyBannerId,
-            source.Heading,
-            source.Description,
-            source.ItemURL,
-            source.ButtonURL,
-            source.CompanySetId
-            );
-    };
-
-    // ______________  Company Banner  Set _________________//
-    // ReSharper disable once InconsistentNaming
-    var CompanyBannerSet = function (specifiedCompanySetId, specifiedSetName) {
-        var self,
-          id = ko.observable(specifiedCompanySetId),
-          setName = ko.observable(specifiedSetName).extend({ required: true }),
-          //Compnay Banners
-          companyBanners = ko.observableArray([]),
-           // Errors
+        // ______________  Company Banner   _________________//
+        // ReSharper disable once InconsistentNaming
+        var CompanyBanner = function (specifiedCompanyBannerId, specifiedHeading, specifiedDescription, specifiedItemURL, specifiedButtonURL, specifiedCompanySetId) {
+            var self,
+              id = ko.observable(specifiedCompanyBannerId),
+              heading = ko.observable(specifiedHeading).extend({ required: true }),
+              description = ko.observable(specifiedDescription),
+              itemURL = ko.observable(specifiedItemURL),
+              buttonURL = ko.observable(specifiedButtonURL),
+              companySetId = ko.observable(specifiedCompanySetId),
+              //Set Name For List View
+              setName = ko.observable(),
+            // Errors
             errors = ko.validation.group({
-                setName: setName
+                //companySetId: companySetId,
+                heading: heading
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -917,6 +1121,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
+                heading: heading,
+                description: description,
+                itemURL: itemURL,
+                buttonURL: buttonURL,
+                companySetId: companySetId,
+                setName: setName,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -925,9 +1135,458 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
-                result.CompanySetId = source.id() === undefined ? 0 : source.id();
-                result.SetName = source.setName() === undefined ? null : source.setName();;
-                result.CompanyBanners = [];
+                result.CompanyBannerId = source.id() === undefined ? 0 : source.id();
+                result.Heading = source.heading() === undefined ? null : source.heading();;
+                result.Description = source.description() === undefined ? null : source.description();
+                result.ItemURL = source.itemURL() === undefined ? null : source.itemURL();
+                result.ButtonURL = source.buttonURL() === undefined ? null : source.buttonURL();
+                result.CompanySetId = source.companySetId() === undefined ? null : source.companySetId();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+            self = {
+                id: id,
+                heading: heading,
+                description: description,
+                itemURL: itemURL,
+                buttonURL: buttonURL,
+                companySetId: companySetId,
+                setName: setName,
+                isValid: isValid,
+                errors: errors,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                convertToServerData: convertToServerData,
+                reset: reset
+            };
+            return self;
+        };
+        CompanyBanner.Create = function (source) {
+            return new CompanyBanner(
+                source.CompanyBannerId,
+                source.Heading,
+                source.Description,
+                source.ItemURL,
+                source.ButtonURL,
+                source.CompanySetId
+                );
+        };
+
+        // ______________  Company Banner  Set _________________//
+        // ReSharper disable once InconsistentNaming
+        var CompanyBannerSet = function (specifiedCompanySetId, specifiedSetName) {
+            var self,
+              id = ko.observable(specifiedCompanySetId),
+              setName = ko.observable(specifiedSetName).extend({ required: true }),
+              //Compnay Banners
+              companyBanners = ko.observableArray([]),
+               // Errors
+                errors = ko.validation.group({
+                    setName: setName
+                }),
+                // Is Valid 
+                isValid = ko.computed(function () {
+                    return errors().length === 0 ? true : false;
+                }),
+
+                // ReSharper disable InconsistentNaming
+                dirtyFlag = new ko.dirtyFlag({
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty();
+                }),
+                //Convert To Server
+                convertToServerData = function (source) {
+                    var result = {};
+                    result.CompanySetId = source.id() === undefined ? 0 : source.id();
+                    result.SetName = source.setName() === undefined ? null : source.setName();;
+                    result.CompanyBanners = [];
+                    return result;
+                },
+                // Reset
+                reset = function () {
+                    dirtyFlag.reset();
+                };
+            self = {
+                id: id,
+                setName: setName,
+                companyBanners: companyBanners,
+                isValid: isValid,
+                errors: errors,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                convertToServerData: convertToServerData,
+                reset: reset
+            };
+            return self;
+        };
+        CompanyBannerSet.Create = function (source) {
+            return new CompanyBannerSet(
+                source.CompanySetId,
+                source.SetName
+               );
+        };
+        CompanyBannerSet.CreateNew = function () {
+            return new CompanyBannerSet(0, undefined);
+        };
+       
+    Address.CreateFromClientModel = function (source) {
+        return new Address(
+            source.addressId,
+            source.companyId,
+            source.addressName,
+            source.address1,
+            source.address2,
+            source.address3,
+            source.city,
+            source.state,
+            source.country,
+            source.postCode,
+            source.fax,
+            source.email,
+            source.uRL,
+            source.tel1,
+            source.tel2,
+            source.extension1,
+            source.extension2,
+            source.reference,
+            source.fAO,
+            source.isDefaultAddress,
+            source.isDefaultShippingAddress,
+            source.isArchived,
+            source.territoryId,
+            source.geoLatitude,
+            source.geoLongitude,
+            source.isPrivate,
+            source.isDefaultTerrorityBilling,
+            source.isDefaultTerrorityShipping,
+            source.organisationId
+            );
+    };
+    Address.Create = function (source) {
+        var address = new Address(
+            source.AddressId,
+            source.CompanyId,
+            source.AddressName,
+            source.Address1,
+            source.Address2,
+            source.Address3,
+            source.City,
+            source.State,
+            source.Country,
+            source.PostCode,
+            source.Fax,
+            source.Email,
+            source.URL,
+            source.Tel1,
+            source.Tel2,
+            source.Extension1,
+            source.Extension2,
+            source.Reference,
+            source.FAO,
+            source.IsDefaultAddress,
+            source.IsDefaultShippingAddress,
+            source.isArchived,
+            source.TerritoryId,
+            source.GeoLatitude,
+            source.GeoLongitude,
+            source.isPrivate,
+            source.isDefaultTerrorityBilling,
+            source.isDefaultTerrorityShipping,
+            source.OrganisationId
+            );
+        return address;
+    };
+
+    //________________COMPANY CONTACT ___________________//
+
+        // ReSharper disable once InconsistentNaming
+        // ReSharper restore InconsistentNaming
+    var CompanyContact = function(specifiedContactId, specifiedAddressId, specifiedCompanyId, specifiedFirstName, specifiedMiddleName, specifiedLastName, specifiedTitle,
+        specifiedHomeTel1, specifiedHomeTel2, specifiedHomeExtension1, specifiedHomeExtension2, specifiedMobile, specifiedEmail, specifiedFAX, specifiedJobTitle, specifiedDOB,
+        specifiedNotes, specifiedIsDefaultContact, specifiedHomeAddress1, specifiedHomeAddress2, specifiedHomeCity, specifiedHomeState, specifiedHomePostCode, specifiedHomeCountry,
+        specifiedSecretQuestion, specifiedSecretAnswer, specifiedPassword, specifiedURL, specifiedIsEmailSubscription, specifiedIsNewsLetterSubscription, specifiedimage,
+        specifiedquickFullName, specifiedquickTitle, specifiedquickCompanyName, specifiedquickAddress1, specifiedquickAddress2, specifiedquickAddress3, specifiedquickPhone,
+        specifiedquickFax, specifiedquickEmail, specifiedquickWebsite, specifiedquickCompMessage, specifiedQuestionId, specifiedIsApprover, specifiedisWebAccess, specifiedisPlaceOrder,
+        specifiedCreditLimit, specifiedisArchived, specifiedContactRoleId, specifiedTerritoryId, specifiedClaimIdentifer, specifiedAuthentifiedBy, specifiedIsPayByPersonalCreditCard,
+        specifiedIsPricingshown, specifiedSkypeId, specifiedLinkedinURL, specifiedFacebookURL, specifiedTwitterURL, specifiedauthenticationToken, specifiedtwitterScreenName,
+        specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
+        specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
+        specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId) {
+        var self,
+             contactId = ko.observable(specifiedContactId),
+                       addressId = ko.observable(specifiedAddressId),
+                       companyId = ko.observable(specifiedCompanyId),
+                       firstName = ko.observable(specifiedFirstName),
+                       middleName = ko.observable(specifiedMiddleName),
+                       lastName = ko.observable(specifiedLastName),
+                       title = ko.observable(specifiedTitle),
+                       homeTel1 = ko.observable(specifiedHomeTel1),
+                       homeTel2 = ko.observable(specifiedHomeTel2),
+                       homeExtension1 = ko.observable(specifiedHomeExtension1),
+                       homeExtension2 = ko.observable(specifiedHomeExtension2),
+                       mobile = ko.observable(specifiedMobile),
+                       email = ko.observable(specifiedEmail),
+                       fAX = ko.observable(specifiedFAX),
+                       jobTitle = ko.observable(specifiedJobTitle),
+                       dOB = ko.observable(specifiedDOB),
+                       notes = ko.observable(specifiedNotes),
+                       isDefaultContact = ko.observable(specifiedIsDefaultContact),
+                       homeAddress1 = ko.observable(specifiedHomeAddress1),
+                       homeAddress2 = ko.observable(specifiedHomeAddress2),
+                       homeCity = ko.observable(specifiedHomeCity),
+                       homeState = ko.observable(specifiedHomeState),
+                       homePostCode = ko.observable(specifiedHomePostCode),
+                       homeCountry = ko.observable(specifiedHomeCountry),
+                       secretQuestion = ko.observable(specifiedSecretQuestion),
+                       secretAnswer = ko.observable(specifiedSecretAnswer),
+                       password = ko.observable(specifiedPassword),
+                       uRL = ko.observable(specifiedURL),
+                       isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
+                       isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
+                       image = ko.observable(specifiedimage),
+                       quickFullName = ko.observable(specifiedquickFullName),
+                       quickTitle = ko.observable(specifiedquickTitle),
+                       quickCompanyName = ko.observable(specifiedquickCompanyName),
+                       quickAddress1 = ko.observable(specifiedquickAddress1),
+                       quickAddress2 = ko.observable(specifiedquickAddress2),
+                       quickAddress3 = ko.observable(specifiedquickAddress3),
+                       quickPhone = ko.observable(specifiedquickPhone),
+                       quickFax = ko.observable(specifiedquickFax),
+                       quickEmail = ko.observable(specifiedquickEmail),
+                       quickWebsite = ko.observable(specifiedquickWebsite),
+                       quickCompMessage = ko.observable(specifiedquickCompMessage),
+                       questionId = ko.observable(specifiedQuestionId),
+                       isApprover = ko.observable(specifiedIsApprover),
+                       isWebAccess = ko.observable(specifiedisWebAccess),
+                       isPlaceOrder = ko.observable(specifiedisPlaceOrder),
+                       creditLimit = ko.observable(specifiedCreditLimit),
+                       isArchived = ko.observable(specifiedisArchived),
+                       contactRoleId = ko.observable(specifiedContactRoleId),
+                       territoryId = ko.observable(specifiedTerritoryId),
+                       claimIdentifer = ko.observable(specifiedClaimIdentifer),
+                       authentifiedBy = ko.observable(specifiedAuthentifiedBy),
+                       isPayByPersonalCreditCard = ko.observable(specifiedIsPayByPersonalCreditCard),
+                       isPricingshown = ko.observable(specifiedIsPricingshown),
+                       skypeId = ko.observable(specifiedSkypeId),
+                       linkedinURL = ko.observable(specifiedLinkedinURL),
+                       facebookURL = ko.observable(specifiedFacebookURL),
+                       twitterURL = ko.observable(specifiedTwitterURL),
+                       authenticationToken = ko.observable(specifiedauthenticationToken),
+                       twitterScreenName = ko.observable(specifiedtwitterScreenName),
+                       shippingAddressId = ko.observable(specifiedShippingAddressId),
+                       isUserLoginFirstTime = ko.observable(specifiedisUserLoginFirstTime),
+                       quickMobileNumber = ko.observable(specifiedquickMobileNumber),
+                       quickTwitterId = ko.observable(specifiedquickTwitterId),
+                       quickFacebookId = ko.observable(specifiedquickFacebookId),
+                       quickLinkedInId = ko.observable(specifiedquickLinkedInId),
+                       quickOtherId = ko.observable(specifiedquickOtherId),
+                       pOBoxAddress = ko.observable(specifiedPOBoxAddress),
+                       corporateUnit = ko.observable(specifiedCorporateUnit),
+                       officeTradingName = ko.observable(specifiedOfficeTradingName),
+                       contractorName = ko.observable(specifiedContractorName),
+                       bPayCRN = ko.observable(specifiedBPayCRN),
+                       aBN = ko.observable(specifiedABN),
+                       aCN = ko.observable(specifiedACN),
+                       additionalField1 = ko.observable(specifiedAdditionalField1),
+                       additionalField2 = ko.observable(specifiedAdditionalField2),
+                       additionalField3 = ko.observable(specifiedAdditionalField3),
+                       additionalField4 = ko.observable(specifiedAdditionalField4),
+                       additionalField5 = ko.observable(specifiedAdditionalField5),
+                       canUserPlaceOrderWithoutApproval = ko.observable(specifiedcanUserPlaceOrderWithoutApproval),
+                       canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
+                       canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
+                       organisationId = ko.observable(specifiedOrganisationId),
+                       // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                contactId: contactId,
+                addressId: addressId,
+                companyId: companyId,
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName,
+                title: title,
+                homeTel1: homeTel1,
+                homeTel2: homeTel2,
+                homeExtension1: homeExtension1,
+                homeExtension2: homeExtension2,
+                mobile: mobile,
+                email: email,
+                fAX: fAX,
+                jobTitle: jobTitle,
+                dOB: dOB,
+                notes: notes,
+                isDefaultContact: isDefaultContact,
+                homeAddress1: homeAddress1,
+                homeAddress2: homeAddress2,
+                homeCity: homeCity,
+                homeState: homeState,
+                homePostCode: homePostCode,
+                HomeCountry: homeCountry,
+                secretQuestion: secretQuestion,
+                secretAnswer: secretAnswer,
+                password: password,
+                uRL: uRL,
+                isEmailSubscription: isEmailSubscription,
+                isNewsLetterSubscription: isNewsLetterSubscription,
+                image: image,
+                quickFullName: quickFullName,
+                quickTitle: quickTitle,
+                quickCompanyName: quickCompanyName,
+                quickAddress1: quickAddress1,
+                quickAddress2: quickAddress2,
+                quickAddress3: quickAddress3,
+                quickPhone: quickPhone,
+                quickFax: quickFax,
+                quickEmail: quickEmail,
+                quickWebsite: quickWebsite,
+                quickCompMessage: quickCompMessage,
+                questionId: questionId,
+                isApprover: isApprover,
+                isWebAccess: isWebAccess,
+                isPlaceOrder: isPlaceOrder,
+                creditLimit: creditLimit,
+                isArchived: isArchived,
+                contactRoleId: contactRoleId,
+                territoryId: territoryId,
+                claimIdentifer: claimIdentifer,
+                authentifiedBy: authentifiedBy,
+                isPayByPersonalCreditCard: isPayByPersonalCreditCard,
+                isPricingshown: isPricingshown,
+                skypeId: skypeId,
+                linkedinURL: linkedinURL,
+                facebookURL: facebookURL,
+                twitterURL: twitterURL,
+                authenticationToken: authenticationToken,
+                twitterScreenName: twitterScreenName,
+                shippingAddressId: shippingAddressId,
+                isUserLoginFirstTime: isUserLoginFirstTime,
+                quickMobileNumber: quickMobileNumber,
+                quickTwitterId: quickTwitterId,
+                quickFacebookId: quickFacebookId,
+                quickLinkedInId: quickLinkedInId,
+                quickOtherId: quickOtherId,
+                pOBoxAddress: pOBoxAddress,
+                corporateUnit: corporateUnit,
+                officeTradingName: officeTradingName,
+                contractorName: contractorName,
+                bPayCRN: bPayCRN,
+                aBN: aBN,
+                aCN: aCN,
+                additionalField1: additionalField1,
+                additionalField2: additionalField2,
+                additionalField3: additionalField3,
+                additionalField4: additionalField4,
+                additionalField5: additionalField5,
+                canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
+                canUserEditProfile: canUserEditProfile,
+                canPlaceDirectOrder: canPlaceDirectOrder,
+                organisationId: organisationId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.ContactId = source.contactId();
+                result.AddressId = source.addressId();
+                result.CompanyId = source.companyId();
+                result.FirstName = source.firstName();
+                result.MiddleName = source.middleName();
+                result.LastName = source.lastName();
+                result.Title = source.title();
+                result.HomeTel1 = source.homeTel1();
+                result.HomeTel2 = source.homeTel2();
+                result.HomeExtension1 = source.homeExtension1();
+                result.HomeExtension2 = source.homeExtension2();
+                result.Mobile = source.mobile();
+                result.Email = source.email();
+                result.FAX = source.fAX();
+                result.JobTitle = source.jobTitle();
+                result.DOB = source.dOB();
+                result.Notes = source.notes();
+                result.IsDefaultContact = source.isDefaultContact();
+                result.HomeAddress1 = source.homeAddress1();
+                result.HomeAddress2 = source.homeAddress2();
+                result.HomeCity = source.homeCity();
+                result.HomeState = source.homeState();
+                result.HomePostCode = source.homePostCode();
+                result.HomeCountry = source.homeCountry();
+                result.SecretQuestion = source.secretQuestion();
+                result.SecretAnswer = source.secretAnswer();
+                result.Password = source.password();
+                result.URL = source.uRL();
+                result.IsEmailSubscription = source.isEmailSubscription();
+                result.IsNewsLetterSubscription = source.IsNewsLetterSubscription();
+                result.image = source.image();
+                result.quickFullName = source.quickFullName();
+                result.quickTitle = source.quickTitle();
+                result.quickCompanyName = source.quickCompanyName();
+                result.quickAddress1 = source.quickAddress1();
+                result.quickAddress2 = source.quickAddress2();
+                result.quickAddress3 = source.quickAddress3();
+                result.quickPhone = source.quickPhone();
+                result.quickFax = source.quickFax();
+                result.quickEmail = source.quickEmail();
+                result.quickWebsite = source.quickWebsite();
+                result.quickCompMessage = source.quickCompMessage();
+                result.QuestionId = source.questionId();
+                result.IsApprover = source.isApprover();
+                result.isWebAccess = source.isWebAccess();
+                result.isPlaceOrder = source.isPlaceOrder();
+                result.CreditLimit = source.creditLimit();
+                result.isArchived = source.isArchived();
+                result.ContactRoleId = source.contactRoleId();
+                result.TerritoryId = source.cerritoryId();
+                result.ClaimIdentifer = source.claimIdentifer();
+                result.AuthentifiedBy = source.authentifiedBy();
+                result.IsPayByPersonalCreditCard = source.isPayByPersonalCreditCard();
+                result.IsPricingshown = source.isPricingshown();
+                result.SkypeId = source.skypeId();
+                result.LinkedinURL = source.linkedinURL();
+                result.FacebookURL = source.facebookURL();
+                result.TwitterURL = source.twitterURL();
+                result.authenticationToken = source.authenticationToken();
+                result.twitterScreenName = source.twitterScreenName();
+                result.ShippingAddressId = source.shippingAddressId();
+                result.isUserLoginFirstTime = source.isUserLoginFirstTime();
+                result.quickMobileNumber = source.quickMobileNumber();
+                result.quickTwitterId = source.quickTwitterId();
+                result.quickFacebookId = source.quickFacebookId();
+                result.quickLinkedInId = source.quickLinkedInId();
+                result.quickOtherId = source.quickOtherId();
+                result.POBoxAddress = source.pOBoxAddress();
+                result.CorporateUnit = source.corporateUnit();
+                result.OfficeTradingName = source.officeTradingName();
+                result.ContractorName = source.contractorName();
+                result.BPayCRN = source.bPayCRN();
+                result.ABN = source.aBN();
+                result.ACN = source.aCN();
+                result.AdditionalField1 = source.additionalField1();
+                result.AdditionalField2 = source.additionalField2();
+                result.AdditionalField3 = source.additionalField3();
+                result.AdditionalField4 = source.additionalField4();
+                result.AdditionalField5 = source.additionalField5();
+                result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
+                result.CanUserEditProfile = source.canUserEditProfile();
+                result.canPlaceDirectOrder = source.canPlaceDirectOrder();
+                result.OrganisationId = source.organisationId();
                 return result;
             },
             // Reset
@@ -935,9 +1594,89 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 dirtyFlag.reset();
             };
         self = {
-            id: id,
-            setName: setName,
-            companyBanners: companyBanners,
+            contactId: contactId,
+            addressId: addressId,
+            companyId: companyId,
+            firstName: firstName,
+            middleName: middleName,
+            lastName: lastName,
+            title: title,
+            homeTel1: homeTel1,
+            homeTel2: homeTel2,
+            homeExtension1: homeExtension1,
+            homeExtension2: homeExtension2,
+            mobile: mobile,
+            email: email,
+            fAX: fAX,
+            jobTitle: jobTitle,
+            dOB: dOB,
+            notes: notes,
+            isDefaultContact: isDefaultContact,
+            homeAddress1: homeAddress1,
+            homeAddress2: homeAddress2,
+            homeCity: homeCity,
+            homeState: homeState,
+            homePostCode: homePostCode,
+            HomeCountry: homeCountry,
+            secretQuestion: secretQuestion,
+            secretAnswer: secretAnswer,
+            password: password,
+            uRL: uRL,
+            isEmailSubscription: isEmailSubscription,
+            isNewsLetterSubscription: isNewsLetterSubscription,
+            image: image,
+            quickFullName: quickFullName,
+            quickTitle: quickTitle,
+            quickCompanyName: quickCompanyName,
+            quickAddress1: quickAddress1,
+            quickAddress2: quickAddress2,
+            quickAddress3: quickAddress3,
+            quickPhone: quickPhone,
+            quickFax: quickFax,
+            quickEmail: quickEmail,
+            quickWebsite: quickWebsite,
+            quickCompMessage: quickCompMessage,
+            questionId: questionId,
+            isApprover: isApprover,
+            isWebAccess: isWebAccess,
+            isPlaceOrder: isPlaceOrder,
+            creditLimit: creditLimit,
+            isArchived: isArchived,
+            contactRoleId: contactRoleId,
+            territoryId: territoryId,
+            claimIdentifer: claimIdentifer,
+            authentifiedBy: authentifiedBy,
+            isPayByPersonalCreditCard: isPayByPersonalCreditCard,
+            isPricingshown: isPricingshown,
+            skypeId: skypeId,
+            linkedinURL: linkedinURL,
+            facebookURL: facebookURL,
+            twitterURL: twitterURL,
+            authenticationToken: authenticationToken,
+            twitterScreenName: twitterScreenName,
+            shippingAddressId: shippingAddressId,
+            isUserLoginFirstTime: isUserLoginFirstTime,
+            quickMobileNumber: quickMobileNumber,
+            quickTwitterId: quickTwitterId,
+            quickFacebookId: quickFacebookId,
+            quickLinkedInId: quickLinkedInId,
+            quickOtherId: quickOtherId,
+            pOBoxAddress: pOBoxAddress,
+            corporateUnit: corporateUnit,
+            officeTradingName: officeTradingName,
+            contractorName: contractorName,
+            bPayCRN: bPayCRN,
+            aBN: aBN,
+            aCN: aCN,
+            additionalField1: additionalField1,
+            additionalField2: additionalField2,
+            additionalField3: additionalField3,
+            additionalField4: additionalField4,
+            additionalField5: additionalField5,
+            canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
+            canUserEditProfile: canUserEditProfile,
+            canPlaceDirectOrder: canPlaceDirectOrder,
+            organisationId: organisationId,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -947,23 +1686,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
-    CompanyBannerSet.Create = function (source) {
-        return new CompanyBannerSet(
-            source.CompanySetId,
-            source.SetName
-           );
-    };
-    CompanyBannerSet.CreateNew = function () {
-        return new CompanyBannerSet(0, undefined);
-    };
     return {
         Store: Store,
         CompanyType: CompanyType,
         SystemUser: SystemUser,
         RaveReview: RaveReview,
         CompanyCMYKColor: CompanyCMYKColor,
+        CompanyTerritory: CompanyTerritory,
         ColorPalette: ColorPalette,
-        CompanyTerritory: CompanyTerritory, //territoryId territoryName  companyId  territoryCode  isDefault
+        Address: Address,
         CompanyBanner: CompanyBanner,
         CompanyBannerSet: CompanyBannerSet
     };

@@ -70,7 +70,7 @@
                         @*<div id="cntAlertMesg" class="errorMessage mainHeadingAveniorCheckout">Complete your registration below</div>*@
                         <p id="lblSignupMessage" class="errorMessage">@ViewBag.Message</p>
                         <br />
-                        @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                        @using (Html.BeginForm())
                         {
                          
                            
@@ -88,9 +88,9 @@
                             
 
                             <div id="MessageBox"></div>
-                            @Html.AntiForgeryToken()
+                         
                             <div class="errorMesgLoginPage">
-                                @ViewBag.Message<br />
+                                
                                 @Html.ValidationMessageFor(u => u.FirstName)<br />
                                 @Html.ValidationMessageFor(u => u.LastName)<br />
                                 @Html.ValidationMessageFor(u => u.Phone)<br />
@@ -98,7 +98,7 @@
                                 @Html.ValidationMessageFor(u => u.Password)<br />
 
                             </div>
-                            @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox margin-right", @placeholder = ViewData.ModelMetadata.DisplayName })
+                            @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox margin-right", @Styles = "margin-right:20px; !important",  @placeholder = ViewData.ModelMetadata.DisplayName })
                             @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", @placeholder = "Last Name" })
                             @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
                             @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", @placeholder = "Email" })

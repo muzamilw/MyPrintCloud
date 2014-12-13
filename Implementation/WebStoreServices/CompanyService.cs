@@ -30,7 +30,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICurrencyRepository _currencyRepository;
         private readonly IGlobalLanguageRepository _globalLanguageRepository;
         private readonly IAddressRepository _addressRepository;
-             
+        private readonly IOrganisationRepository _organisationRepository;
+
         #endregion
 
         #region Constructor
@@ -41,7 +42,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -52,6 +53,7 @@ namespace MPC.Implementation.WebStoreServices
             this._CompanyContactRepository = companyContactRepository;
             this._currencyRepository = currencyRepository;
             this._globalLanguageRepository = globalLanguageRepository;
+            this._organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -92,9 +94,10 @@ namespace MPC.Implementation.WebStoreServices
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
                 CacheEntryRemovedCallback callback = null;
-
+         
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
                 oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                 oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
@@ -179,7 +182,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
-            return _CompanyRepository.GetCompanyById(CompanyID);
+            return _CompanyRepository.GetCompanyById(CompanyID).Company;
         }
 
         public CompanyContact GetContactByID(Int64 ContactID)
@@ -193,6 +196,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
         {
+        
             return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact,TwitterScreenName);
         }
 
