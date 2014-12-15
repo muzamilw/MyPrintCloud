@@ -29,7 +29,19 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyContact LoginContact()
         {
             IList<OrganisationClaimValue> roles = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(WebstoreClaimTypes.LoginUser);
-            return roles.Select(role => role.loginContact).FirstOrDefault();
+            OrganisationClaimValue rolValue = roles.Select(role => role).FirstOrDefault();
+            if (rolValue == null)
+            {
+                return null;
+            }
+            else
+            {
+                CompanyContact user = new CompanyContact();
+                user.ContactId = rolValue.LoginuserId;
+                user.Email = rolValue.Email;
+                return user;
+            }
+           
         }
     }
 }

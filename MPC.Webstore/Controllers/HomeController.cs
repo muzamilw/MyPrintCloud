@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.Models;
@@ -49,36 +51,44 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-        private IAuthenticationManager AuthenticationManager
-        {
-            get { return HttpContext.GetOwinContext().Authentication; }
-        }
+        //private IAuthenticationManager AuthenticationManager
+        //{
+        //    get { return HttpContext.GetOwinContext().Authentication; }
+        //}
 
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
         public ActionResult Index()
         {
-            if (Thread.CurrentPrincipal == null || _webstoreAuthorizationChecker.CompanyId() == 0)
+            //if (Thread.CurrentPrincipal == null || _webstoreAuthorizationChecker.CompanyId() == 0)
+            //{
+            //    ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+
+            //    ClaimsSecurityService.AddClaimsToIdentity(Convert.ToInt64(Session["storeId"]), null, identity);
+
+            //    HttpContext.User = new ClaimsPrincipal(identity);
+            //    // Make sure the Principal's are in sync
+            //    Thread.CurrentPrincipal = HttpContext.User;
+            //    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+            //}
+
+            if (UserCookieManager.StoreId == 0)
             {
-                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
-
-                ClaimsSecurityService.AddClaimsToIdentity(Convert.ToInt64(Session["storeId"]), null ,identity);
-
-                HttpContext.User = new ClaimsPrincipal(identity);
-                // Make sure the Principal's are in sync
-                Thread.CurrentPrincipal = HttpContext.User;
+                return RedirectToAction("Index", "Domain", HttpContext.Request.Url);
             }
-         
-            List<CmsSkinPageWidget> model = null;
+            else
+            {
+                List<CmsSkinPageWidget> model = null;
 
-            string pageRouteValue = (((System.Web.Routing.Route) (RouteData.Route))).Url.Split('{')[0];
+                string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(_webstoreAuthorizationChecker.CompanyId()).CreateFromWiget();
+                MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromWiget();
 
-            model = GetWidgetsByPageName(baseResponse.SystemPages, pageRouteValue.Split('/')[0], baseResponse.CmsSkinPageWidgets); 
+                model = GetWidgetsByPageName(baseResponse.SystemPages, pageRouteValue.Split('/')[0], baseResponse.CmsSkinPageWidgets);
 
-            return View(model);
+                return View(model);
+            }
         }
 
         public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPage> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
@@ -95,6 +105,12 @@ namespace MPC.Webstore.Controllers
         }
 
         public ActionResult About()
+        {
+
+            return View();
+        }
+
+        public ActionResult Error()
         {
 
             return View();

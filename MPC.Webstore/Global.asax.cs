@@ -9,16 +9,17 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.SessionState;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.Unity;
-using MPC.Implementation.MISServices;
 using MPC.Implementation.WebStoreServices;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
+using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
@@ -141,38 +142,46 @@ namespace MPC.Webstore
 
             long storeId = companyService.GetStoreIdFromDomain(url);
 
-            MyCompanyDomainBaseResponse baseResponse = companyService.GetStoreFromCache(storeId).CreateFromCompany();
-
-            if (baseResponse.Company != null)
+            if (storeId > 0)
             {
+                MyCompanyDomainBaseResponse baseResponse = companyService.GetStoreFromCache(storeId).CreateFromCompany();
 
-                Session["storeId"] = baseResponse.Company.CompanyId;
-
-                // set global language of store
-
-                string languageName = companyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
-
-                CultureInfo ci = null;
-
-                if (string.IsNullOrEmpty(languageName))
+                if (baseResponse.Company != null)
                 {
-                    languageName = "en-US";
+                    UserCookieManager.StoreId = baseResponse.Company.CompanyId;
+
+                    // set global language of store
+
+                    string languageName =
+                        companyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
+
+                    CultureInfo ci = null;
+
+                    if (string.IsNullOrEmpty(languageName))
+                    {
+                        languageName = "en-US";
+                    }
+
+                    ci = new CultureInfo(languageName);
+
+                    Thread.CurrentThread.CurrentUICulture = ci;
+                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+
+                    if (baseResponse.Company.IsCustomer == 3) // corporate customer
+                    {
+                        Response.Redirect("/Login");
+                    }
                 }
-
-                ci = new CultureInfo(languageName);
-
-                Thread.CurrentThread.CurrentUICulture = ci;
-                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-
-                if (baseResponse.Company.IsCustomer == 3)// corporate customer
+                else
                 {
-                    Response.Redirect("/Login");
+                    Response.Redirect("/Home/About");
                 }
             }
             else
             {
-                Response.Redirect("/Home/About");
+                Response.Redirect("/Home/Error");
             }
+
         }
     }
 }
