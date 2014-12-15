@@ -24,6 +24,13 @@ namespace MPC.Webstore
             "SignUp/{controller}/{action}/{id}",
             new { controller = "Home", action = "Index", id = UrlParameter.Optional }
               );
+
+            routes.MapRoute(
+          "ForgotPassword",
+          "ForgotPassword/{controller}/{action}/{id}",
+          new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

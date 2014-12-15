@@ -58,6 +58,11 @@ namespace MPC.Repository.Repositories
             return qry.ToList().FirstOrDefault();
 
         }
+        public string GeneratePasswordHash(string plainText)
+        {
+            return ComputeHashSHA1(plainText);
+        }
+
         private static bool VerifyHashSha1(string plainText, string compareWithSalt)
         {
             bool result = false;
@@ -509,5 +514,23 @@ namespace MPC.Repository.Repositories
             return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
         }
 
+        public CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID)
+        {
+            var query = (from c in db.CompanyContacts
+                         join cc in db.Company on c.CompanyId equals cc.CompanyId
+                         where c.Email == Email && cc.IsCustomer == Type
+                         select c).FirstOrDefault();
+            return query;
+
+        }
+
+
+        public void UpdateUserPassword(int userId, string pass)
+        {
+           CompanyContact contacts = db.CompanyContacts.Where(c => c.ContactId == userId).FirstOrDefault();
+           contacts.Password = pass;
+           db.SaveChanges();
+           
+        }
     }
 }

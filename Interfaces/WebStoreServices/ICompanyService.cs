@@ -33,5 +33,11 @@ namespace MPC.Interfaces.WebStoreServices
         List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
        
         string GetUiCulture(long organisationId);
+
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+
+        string GeneratePasswordHash(string plainText);
+
+        void UpdateUserPassword(int userId, string pass);
     }
 }

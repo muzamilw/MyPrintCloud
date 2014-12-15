@@ -10,5 +10,7 @@ namespace MPC.Interfaces.WebStoreServices
     public interface IUserManagerService
     {
         SystemUser GetSalesManagerDataByID(int ManagerId);
+
+      
     }
 }

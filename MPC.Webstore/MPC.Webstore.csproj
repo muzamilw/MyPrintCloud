@@ -255,7 +255,10 @@
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\SessionParameters.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AllProductsController.cs" />
+    <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\FooterController.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginBarController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -379,6 +382,9 @@
     <Content Include="Views\Home\oAuth.cshtml" />
     <Content Include="Views\Shared\PartialViews\SignUp.cshtml" />
     <Content Include="Views\Shared\PartialViews\Footer.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ForgotPassword.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ContactUs.cshtml" />
+    <Content Include="Views\Shared\PartialViews\AllProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -391,7 +397,10 @@
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
     <Folder Include="DLLs\" />
+    <Folder Include="Views\AllProducts\" />
+    <Folder Include="Views\ContactUs\" />
     <Folder Include="Views\Footer\" />
+    <Folder Include="Views\ForgetPassword\" />
     <Folder Include="Views\LoginBar\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\News\" />

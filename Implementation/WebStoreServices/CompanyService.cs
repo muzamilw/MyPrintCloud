@@ -199,6 +199,22 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
+        public CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID)
+        {
+            return _CompanyContactRepository.GetContactByEmailAndMode(Email, Type, customerID);
+        }
+
+
+        public string GeneratePasswordHash(string plainText)
+        {
+            return _CompanyContactRepository.GeneratePasswordHash(plainText);
+        }
+
+        public void UpdateUserPassword(int userId, string pass)
+        {
+            _CompanyContactRepository.UpdateUserPassword(userId, pass);
+        }
+
         #endregion
     }
 }

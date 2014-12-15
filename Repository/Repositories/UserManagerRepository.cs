@@ -35,5 +35,7 @@ namespace MPC.Repository.Repositories
             SystemUser rec = db.SystemUsers.Where(u => u.SystemUserId == ManagerId).FirstOrDefault();
             return rec;
         }
+
+      
     }
 }
