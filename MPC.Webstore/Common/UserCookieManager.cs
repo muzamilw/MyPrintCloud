@@ -27,16 +27,15 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["StorId"] != null)
+                if (HttpContext.Current.Response.Cookies["StorId"] != null)
                 {
-                    HttpContext.Current.Request.Cookies["StorId"].Value = value.ToString();
+                    HttpContext.Current.Response.Cookies.Remove("StorId");
+
                 }
-                else
-                {
-                    HttpCookie storeIdCookie = null;
-                    storeIdCookie = new HttpCookie("StorId", value.ToString());
-                    HttpContext.Current.Response.Cookies.Add(storeIdCookie);
-                }
+
+                HttpCookie storeIdCookie = null;
+                storeIdCookie = new HttpCookie("StorId", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(storeIdCookie);
             }
         }
 

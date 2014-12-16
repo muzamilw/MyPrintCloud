@@ -36,6 +36,7 @@ namespace MPC.Webstore.Controllers
 
             var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
             ViewData["ParentCats"] = model.Where(p => p.ParentCategoryId == null || p.ParentCategoryId == 0).ToList();
+            ViewData["SubCats"] = model.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).ToList();
             return View("PartialViews/AllProducts");
         }
     }

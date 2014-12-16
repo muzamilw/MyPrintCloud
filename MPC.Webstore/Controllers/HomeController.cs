@@ -53,11 +53,9 @@ namespace MPC.Webstore.Controllers
         #endregion
        
 
-        [Dependency]
-        public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
+       
         public ActionResult Index()
         {
-
             List<CmsSkinPageWidget> model = null;
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
