@@ -136,7 +136,10 @@ namespace MPC.Repository.Repositories
             };
         }
 
-
+        public Company GetStoreById(long companyId)
+        {
+            return db.Company.Where(c => c.CompanyId == companyId).Single();
+        }
 
     }
 }

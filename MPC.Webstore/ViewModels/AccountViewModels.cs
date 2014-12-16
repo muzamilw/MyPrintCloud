@@ -142,4 +142,33 @@ namespace MPC.Webstore.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+    public class ContactViewModel
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress()]
+        [Display(Name = "Email id")]
+
+        public string Email { get; set; }
+
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Your name")]
+        public string YourName { get; set; }
+
+
+
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Company name")]
+        public string CompanyName { get; set; }
+
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Enquiry")]
+        public string YourEnquiry { get; set; }
+
+
+    }
+ 
 }

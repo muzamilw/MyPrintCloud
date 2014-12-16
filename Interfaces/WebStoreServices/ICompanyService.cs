@@ -39,5 +39,7 @@ namespace MPC.Interfaces.WebStoreServices
         string GeneratePasswordHash(string plainText);
 
         void UpdateUserPassword(int userId, string pass);
+
+        SystemUser GetSystemUserById(long SystemUserId);
     }
 }

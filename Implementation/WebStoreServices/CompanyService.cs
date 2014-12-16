@@ -31,6 +31,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IGlobalLanguageRepository _globalLanguageRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly IOrganisationRepository _organisationRepository;
+        private readonly ISystemUserRepository _systemUserRepository;
 
         #endregion
 
@@ -42,7 +43,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -54,6 +55,7 @@ namespace MPC.Implementation.WebStoreServices
             this._currencyRepository = currencyRepository;
             this._globalLanguageRepository = globalLanguageRepository;
             this._organisationRepository = organisationRepository;
+            this._systemUserRepository = systemUserRepository;
         }
 
         #endregion
@@ -182,7 +184,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
-            return _CompanyRepository.GetCompanyById(CompanyID).Company;
+            return _CompanyRepository.GetStoreById(CompanyID);
         }
 
         public CompanyContact GetContactByID(Int64 ContactID)
@@ -220,6 +222,10 @@ namespace MPC.Implementation.WebStoreServices
         public void UpdateUserPassword(int userId, string pass)
         {
             _CompanyContactRepository.UpdateUserPassword(userId, pass);
+        }
+        public SystemUser GetSystemUserById(long SystemUserId)
+        {
+            return _systemUserRepository.GetSalesManagerById(SystemUserId);
         }
 
         #endregion

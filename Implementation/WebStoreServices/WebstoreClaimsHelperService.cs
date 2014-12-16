@@ -13,35 +13,25 @@ namespace MPC.Implementation.WebStoreServices
 {
     public sealed class WebstoreClaimsHelperService : IWebstoreClaimsHelperService
     {
-   
-        public long OrganisationId()
+        public long loginContactID()
         {
-            IList<OrganisationClaimValue> roles = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(WebstoreClaimTypes.OrganisationId);
-            return roles.Select(role => role.OrganisationId).FirstOrDefault();
+            IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
+            return roles.Select(role => role.ContactId).FirstOrDefault();
         }
-
-        public long CompanyId()
+        public long loginContactCompanyID()
         {
-            IList<CompanyClaimValue> roles = ClaimHelper.GetClaimsByType<CompanyClaimValue>(WebstoreClaimTypes.Company);
-            return roles.Select(role => role.CompanyId).FirstOrDefault();
+            IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
+            return roles.Select(role => role.ContactCompanyId).FirstOrDefault();
         }
-
-        public CompanyContact LoginContact()
+        public long loginContactRoleID()
         {
-            IList<OrganisationClaimValue> roles = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(WebstoreClaimTypes.LoginUser);
-            OrganisationClaimValue rolValue = roles.Select(role => role).FirstOrDefault();
-            if (rolValue == null)
-            {
-                return null;
-            }
-            else
-            {
-                CompanyContact user = new CompanyContact();
-                user.ContactId = rolValue.LoginuserId;
-                user.Email = rolValue.Email;
-                return user;
-            }
-           
+            IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
+            return roles.Select(role => role.ContactRoleId).FirstOrDefault();
+        }
+        public long loginContactTerritoryID()
+        {
+            IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
+            return roles.Select(role => role.ContactTerritoryId).FirstOrDefault();
         }
     }
 }
