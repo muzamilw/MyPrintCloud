@@ -35,7 +35,7 @@ namespace MPC.Repository.Repositories
         {
             get
             {
-                return db.Company;
+                return db.Companies;
             }
         }
 
@@ -61,15 +61,17 @@ namespace MPC.Repository.Repositories
         public CompanyResponse GetCompanyById(long companyId)
         {
             CompanyResponse companyResponse = new CompanyResponse();
-            var company = db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
-            
+            var company = db.Companies.FirstOrDefault(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId);
             companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
             companyResponse.AddressResponse = new AddressResponse();
+            companyResponse.CompanyContactResponse = new CompanyContactResponse();
             companyResponse.Company = company;
             companyResponse.CompanyTerritoryResponse.RowCount = company.CompanyTerritories.Count();
             companyResponse.AddressResponse.RowCount = company.Addresses.Count();
             companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
             companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
+            companyResponse.CompanyContactResponse.CompanyContacts = company.CompanyContacts.Take(5).ToList();
+            companyResponse.CompanyContactResponse.RowCount = company.CompanyContacts.Count;
             return companyResponse;
         }
         /// <summary>

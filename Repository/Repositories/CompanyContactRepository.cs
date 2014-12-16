@@ -1,11 +1,13 @@
 ﻿
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Practices.Unity;
 using MPC.Models.DomainModels;
 using MPC.Interfaces.Repository;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
 using MPC.Common;
@@ -31,7 +33,7 @@ namespace MPC.Repository.Repositories
         public CompanyContact GetContactUser(string email, string password)
         {
             var qury = from contacts in db.CompanyContacts
-                       join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                       join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                        where string.Compare(contacts.Email, email, true) == 0
                        select contacts;
 
@@ -40,7 +42,7 @@ namespace MPC.Repository.Repositories
         public CompanyContact GetContactByFirstName(string FName)
         {
             var qry = from contacts in db.CompanyContacts
-                      join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                      join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                       where string.Compare(contacts.twitterScreenName, FName, true) == 0
                       select contacts;
 
@@ -51,7 +53,7 @@ namespace MPC.Repository.Repositories
         public CompanyContact GetContactByEmail(string Email)
         {
             var qry = from contacts in db.CompanyContacts
-                      join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                      join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                       where string.Compare(contacts.Email, Email, true) == 0
                       select contacts;
 
@@ -315,7 +317,7 @@ namespace MPC.Repository.Repositories
               }
 
                     //Create Customer
-                    db.Company.Add(Company);
+                    db.Companies.Add(Company);
 
                     //Create Billing Address and Delivery Address and mark them default billing and shipping
                     address = PopulateAddressObject(0, (Int16)Company.CompanyId, true, true);
@@ -508,6 +510,36 @@ namespace MPC.Repository.Repositories
         {
             return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
         }
+        public Models.ResponseModels.CompanyContactResponse GetCompanyContacts(Models.RequestModels.CompanyContactRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
+           
+            Expression<Func<CompanyContact, bool>> query =
+                s =>
+                    (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
+                     (s.quickCompanyName.Contains(request.SearchFilter)) ||
+                     !isSearchFilterSpecified);
 
+            int rowCount = DbSet.Count(query);
+            // ReSharper disable once ConditionalTernaryEqualBranch
+            IEnumerable<CompanyContact> companyContacts = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CompanyContactResponse
+            {
+                RowCount = rowCount,
+                CompanyContacts = companyContacts
+            };
+        }
     }
 }

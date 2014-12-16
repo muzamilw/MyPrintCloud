@@ -17,5 +17,8 @@ namespace MPC.Interfaces.Repository
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
         CompanyContact GetContactByID(Int64 ContactID);
 
+        Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
+            Models.RequestModels.CompanyContactRequestModel request);
+
     }
 }

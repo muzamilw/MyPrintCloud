@@ -245,7 +245,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                                                   {
                                                       CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
                                                       RowCount = source.CompanyTerritoryResponse.RowCount
-                                                  }
+                                                  },
+                       CompanyContactResponse = new ApiModels.CompanyContactResponse
+                       {
+                           CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
+                           RowCount = source.CompanyContactResponse.RowCount
+                       }
 
                    };
         }

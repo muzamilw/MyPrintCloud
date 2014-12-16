@@ -68,7 +68,7 @@ namespace MPC.Models.DomainModels
         public string LinkedinURL { get; set; }
         public string WebMasterTag { get; set; }
         public string WebAnalyticCode { get; set; }
-        public bool? isShowGoogleMap { get; set; }
+        public int isShowGoogleMap { get; set; }
         public bool? isTextWatermark { get; set; }
         public string WatermarkText { get; set; }
         public int? CoreCustomerId { get; set; }

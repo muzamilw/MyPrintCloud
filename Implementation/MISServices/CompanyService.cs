@@ -22,6 +22,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly ICompanyBannerRepository companyBannerRepository;
         private readonly IAddressRepository addressRepository;
+        private readonly ICompanyContactRepository companyContactRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -304,7 +305,7 @@ namespace MPC.Implementation.MISServices
         #region Constructor
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
-            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository)
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -313,6 +314,7 @@ namespace MPC.Implementation.MISServices
             this.companyTerritoryRepository = companyTerritoryRepository;
             this.companyBannerRepository = companyBannerRepository;
             this.addressRepository = addressRepository;
+            this.companyContactRepository = companyContactRepository;
         }
         #endregion
 
@@ -329,6 +331,10 @@ namespace MPC.Implementation.MISServices
         public AddressResponse SearchAddresses(AddressRequestModel request)
         {
             return addressRepository.GetAddress(request);
+        }
+        public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
+        {
+            return companyContactRepository.GetCompanyContacts(request);
         }
         public CompanyResponse GetCompanyById(int companyId)
         {
