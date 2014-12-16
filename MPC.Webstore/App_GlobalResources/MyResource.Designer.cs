@@ -68,5 +68,14 @@ namespace Resources {
                 return ResourceManager.GetString("AllProducts", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your new password is sent to given e-mail address. Please check your email.
+        /// </summary>
+        internal static string ForgotPasswordSuccessfull {
+            get {
+                return ResourceManager.GetString("ForgotPasswordSuccessfull", resourceCulture);
+            }
+        }
     }
 }

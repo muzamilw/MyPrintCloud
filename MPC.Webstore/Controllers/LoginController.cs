@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
@@ -46,6 +47,11 @@ namespace MPC.Webstore.Controllers
 
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
         // GET: Login
         public ActionResult Index(string FirstName, string LastName, string Email)
         {
@@ -126,6 +132,16 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+
+                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+
+                ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
+
+                HttpContext.User = new ClaimsPrincipal(identity);
+                // Make sure the Principal's are in sync
+                Thread.CurrentPrincipal = HttpContext.User;
+                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
                 RedirectToLocal(ReturnUrl);
                 return null;
             }

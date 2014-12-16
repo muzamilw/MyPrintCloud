@@ -13,6 +13,17 @@ namespace MPC.Webstore
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+               "Error",
+               "Error/{controller}/{action}/{id}",
+               new { controller = "Home", action = "Error", id = UrlParameter.Optional }
+           );
+
+            routes.MapRoute("store"
+                 , "store/{name}"
+                 , new { controller = "Domain", action = "Index", name = "" });
+
             
             routes.MapRoute(
                 "Login",

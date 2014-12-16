@@ -149,7 +149,7 @@ namespace MPC.Webstore
                 if (baseResponse.Company != null)
                 {
                     UserCookieManager.StoreId = baseResponse.Company.CompanyId;
-
+                    UserCookieManager.StoreMode = baseResponse.Company.IsCustomer;
                     // set global language of store
 
                     string languageName =
@@ -174,14 +174,13 @@ namespace MPC.Webstore
                 }
                 else
                 {
-                    Response.Redirect("/Home/About");
+                    Response.Redirect("/Error");
                 }
             }
             else
             {
-                Response.Redirect("/Home/Error");
+                Response.Redirect("/Error");
             }
-
         }
     }
 }

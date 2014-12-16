@@ -107,8 +107,10 @@ namespace MPC.Webstore.Controllers
                    
                     if (result)
                     {
+                      
 
-                        ViewBag.Message = "Your new password is sent to given e-mail address. Please check your email"; 
+                      
+                        ViewBag.Message =  "Your new password is sent to given e-mail address. Please check your email"; 
                         // lblMessage.Text = "Your new password is sent to given e-mail address. Please check your email";
                        // lblMessage.Text = (string)GetGlobalResourceObject("MyResource", "hfPsswordSent");
                     }

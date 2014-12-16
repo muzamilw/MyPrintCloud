@@ -39,45 +39,57 @@ namespace MPC.Webstore.Controllers
         #endregion
 
         // GET: Domain
-        public ActionResult Index(string url)
+        public void Index()
         {
 
-            long storeId = _myCompanyService.GetStoreIdFromDomain(url);
-
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
-
-            if (baseResponse.Company != null)
+            string url = HttpContext.Request.Url.ToString();
+            if (!string.IsNullOrEmpty(url))
             {
-                UserCookieManager.StoreId = baseResponse.Company.CompanyId;
-
-                //Session["storeId"] = ;
-
-                // set global language of store
-
-                string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
-
-                CultureInfo ci = null;
-
-                if (string.IsNullOrEmpty(languageName))
-                {
-                    languageName = "en-US";
-                }
-
-                ci = new CultureInfo(languageName);
-
-                Thread.CurrentThread.CurrentUICulture = ci;
-                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-
-                if (baseResponse.Company.IsCustomer == 3)// corporate customer
-                {
-                    Response.Redirect("/Login");
-                }
+                url = url.Substring(7);
+            }
+            long storeId = _myCompanyService.GetStoreIdFromDomain(url);
+            if (storeId == 0)
+            {
+                Response.Redirect("/Error");
+                //return RedirectToAction("Error", "Home"); //Response.Redirect("Home/Error");
+                //throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             else
             {
-                Response.Redirect("/Home/About");
+                MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
+
+                if (baseResponse.Company != null)
+                {
+                    UserCookieManager.StoreId = baseResponse.Company.CompanyId;
+
+                    // set global language of store
+
+                    string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
+
+                    CultureInfo ci = null;
+
+                    if (string.IsNullOrEmpty(languageName))
+                    {
+                        languageName = "en-US";
+                    }
+
+                    ci = new CultureInfo(languageName);
+
+                    Thread.CurrentThread.CurrentUICulture = ci;
+                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+
+                    if (baseResponse.Company.IsCustomer == 3)// corporate customer
+                    {
+                        Response.Redirect("/Login");
+                    }
+                }
+                else
+                {
+                    RedirectToAction("Error", "Home");
+                }
             }
-            return View();
+            RedirectToAction("Index", "Home");
+          //  return View();
         }
     }
 }

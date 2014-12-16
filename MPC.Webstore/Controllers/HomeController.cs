@@ -51,44 +51,23 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-        //private IAuthenticationManager AuthenticationManager
-        //{
-        //    get { return HttpContext.GetOwinContext().Authentication; }
-        //}
+       
 
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
         public ActionResult Index()
         {
-            //if (Thread.CurrentPrincipal == null || _webstoreAuthorizationChecker.CompanyId() == 0)
-            //{
-            //    ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-            //    ClaimsSecurityService.AddClaimsToIdentity(Convert.ToInt64(Session["storeId"]), null, identity);
+            List<CmsSkinPageWidget> model = null;
 
-            //    HttpContext.User = new ClaimsPrincipal(identity);
-            //    // Make sure the Principal's are in sync
-            //    Thread.CurrentPrincipal = HttpContext.User;
-            //    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
-            //}
-
-            if (UserCookieManager.StoreId == 0)
-            {
-                return RedirectToAction("Index", "Domain", HttpContext.Request.Url);
-            }
-            else
-            {
-                List<CmsSkinPageWidget> model = null;
-
-                string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+            string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
 
-                MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromWiget();
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromWiget();
 
-                model = GetWidgetsByPageName(baseResponse.SystemPages, pageRouteValue.Split('/')[0], baseResponse.CmsSkinPageWidgets);
+            model = GetWidgetsByPageName(baseResponse.SystemPages, pageRouteValue.Split('/')[0], baseResponse.CmsSkinPageWidgets);
 
-                return View(model);
-            }
+            return View(model);
         }
 
         public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPage> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)

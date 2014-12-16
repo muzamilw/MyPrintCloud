@@ -31,6 +31,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IGlobalLanguageRepository _globalLanguageRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly IOrganisationRepository _organisationRepository;
+        private readonly ISystemUserRepository _systemUserRepository;
         private readonly ICampaignRepository _campaignRepository;
         #endregion
 
@@ -42,7 +43,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -54,6 +55,7 @@ namespace MPC.Implementation.WebStoreServices
             this._currencyRepository = currencyRepository;
             this._globalLanguageRepository = globalLanguageRepository;
             this._organisationRepository = organisationRepository;
+            this._systemUserRepository = systemUserRepository;
         }
 
         #endregion
@@ -182,7 +184,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
-            return _CompanyRepository.GetCompanyById(CompanyID).Company;
+            return _CompanyRepository.GetStoreById(CompanyID);
         }
 
         public CompanyContact GetContactByID(Int64 ContactID)
@@ -221,12 +223,32 @@ namespace MPC.Implementation.WebStoreServices
         {
             _CompanyContactRepository.UpdateUserPassword(userId, pass);
         }
+        public SystemUser GetSystemUserById(long SystemUserId)
+        {
+            return _systemUserRepository.GetSalesManagerById(SystemUserId);
+        }
 
 
         public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
         {
             return _campaignRepository.AddMsgToTblQueue(Toemail, CC, ToName, msgbody, fromName, fromEmail, smtpUserName, ServerPass, ServerName, subject, AttachmentList, CampaignReportID);
 
+        }
+
+
+        public List<ProductCategory> GetAllParentCorporateCatalog(int customerId)
+        {
+            return _productCategoryRepository.GetAllParentCorporateCatalog(customerId);
+        }
+
+        public List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId)
+        {
+            return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
+        }
+
+        public List<ProductCategory> GetParentCategories()
+        {
+            return _productCategoryRepository.GetParentCategories();
         }
         #endregion
     }
