@@ -21,6 +21,8 @@ namespace MPC.Interfaces.Repository
 
         
 
+        Company GetStoreById(long companyId);
+
 
 
     }

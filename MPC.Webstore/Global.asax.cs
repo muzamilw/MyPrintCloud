@@ -174,14 +174,13 @@ namespace MPC.Webstore
                 }
                 else
                 {
-                    Response.Redirect("/Home/About");
+                    Response.Redirect("/Error");
                 }
             }
             else
             {
-                Response.Redirect("/Home/Error");
+                Response.Redirect("/Error");
             }
-
         }
     }
 }

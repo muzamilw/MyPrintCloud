@@ -60,7 +60,7 @@ namespace MPC.Webstore.Controllers
             //    //rptTopLevelCategory.DataBind();
             //}
             //var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
-            return PartialView("PartialViews/ParentCategories", model);
+            return PartialView("PartialViews/ParentCategories");
         }
     }
 }

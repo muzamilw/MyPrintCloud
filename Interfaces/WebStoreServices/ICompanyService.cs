@@ -11,7 +11,6 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
-
         MyCompanyDomainBaseReponse GetStoreFromCache(long companyId);
         long GetStoreIdFromDomain(string domain);
         List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
@@ -31,7 +30,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetContactByID(Int64 contactID);
 
         List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
-       
+
         string GetUiCulture(long organisationId);
 
         CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
@@ -40,11 +39,10 @@ namespace MPC.Interfaces.WebStoreServices
 
         void UpdateUserPassword(int userId, string pass);
 
-        List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
+        SystemUser GetSystemUserById(long SystemUserId);
 
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
 
         List<ProductCategory> GetParentCategories();
-
     }
 }
