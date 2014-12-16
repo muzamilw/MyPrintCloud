@@ -35,7 +35,7 @@ namespace MPC.Repository.Repositories
         {
             get
             {
-                return db.Company;
+                return db.Companies;
             }
         }
 
@@ -60,7 +60,7 @@ namespace MPC.Repository.Repositories
 
         public Company GetCompanyById(long companyId)
         {
-            var company = db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+            var company = DbSet.FirstOrDefault(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId);
             company.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
             company.Addresses = company.Addresses.Take(5).ToList();
             return company;

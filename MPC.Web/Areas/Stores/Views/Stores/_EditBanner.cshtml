@@ -27,11 +27,20 @@
                         </div>
 
 
-                        <label for="txtCompanyName" class="control-label text-right tooltip-float">Banner main Image (PNG 400 X 250 pixels)</label>
+                        <label  class="control-label text-right tooltip-float">Banner main Image (PNG 400 X 250 pixels)</label>
 
                     </div>
 
                     <div class="col-lg-6">
+                        <input type="file" id="image_files" multiple
+                               data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <img style="min-height: 200px; width: 250px;" data-bind="attr: { src: fileBinary }" />
+                            </div>
+                        </div>
+
                         <div id="dropzone1" class="dropzonepl">
                             <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
                                 <div class="dz-default dz-message">

@@ -51,12 +51,12 @@ define("stores/stores.viewModel",
                 createNewStore = function () {
                     var store = new model.Store();
                     editorViewModel.selectItem(store);
-                        //selectedStore(store);
+                    //selectedStore(store);
                     isStoreEditorVisible(true);
                 },
                 //On Edit Click Of Store
                 onEditItem = function (item) {
-                        
+
                     editorViewModel.selectItem(item);
                     openEditDialog();
                 },
@@ -142,30 +142,30 @@ define("stores/stores.viewModel",
                     });
                     dataservice.saveStore(
                         storeToSave, {
-                                success: function (data) {
-                                    //new store adding
-                                    if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
-                                        stores.splice(0, 0, selectedStore());
-                                    }
-                                    //selectedStore().storeId(data.StoreId);
-                                    isStoreEditorVisible(false);
-                                    toastr.success("Successfully save.");
-                                },
-                                error: function (response) {
-                                    toastr.error("Failed to Update . Error: " + response);
-                                    isStoreEditorVisible(false);
+                            success: function (data) {
+                                //new store adding
+                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                    stores.splice(0, 0, selectedStore());
                                 }
-                            });
+                                //selectedStore().storeId(data.StoreId);
+                                isStoreEditorVisible(false);
+                                toastr.success("Successfully save.");
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Update . Error: " + response);
+                                isStoreEditorVisible(false);
+                            }
+                        });
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
-                        addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
-                        companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
+                    addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
+                    companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
-                        getBaseData();
-                        
+                    getBaseData();
+
                 },
                 //Get Store For editting
                 getStoreForEditting = function () {
@@ -221,18 +221,18 @@ define("stores/stores.viewModel",
                 //Get Base Data
                 getBaseData = function () {
                     dataservice.getBaseData({
-                            companyId: selectedStore().companyId()
-                        },{
+                        companyId: selectedStore().companyId()
+                    }, {
                         success: function (data) {
                             if (data != null) {
                                 _.each(data.SystemUsers, function (item) {
-                                        var systemUser = new model.SystemUser.Create(item);
+                                    var systemUser = new model.SystemUser.Create(item);
                                     systemUsers.push(systemUser);
                                 });
-                                    _.each(data.CompanyTerritories, function (item) {
-                                        var territory = new model.CompanyTerritory.Create(item);
-                                        addressCompanyTerritoriesFilter.push(territory);
-                                    });
+                                _.each(data.CompanyTerritories, function (item) {
+                                    var territory = new model.CompanyTerritory.Create(item);
+                                    addressCompanyTerritoriesFilter.push(territory);
+                                });
                             }
                             isLoadingStores(false);
                         },
@@ -515,6 +515,10 @@ define("stores/stores.viewModel",
                                     item.itemURL(companyBanner.itemURL());
                                     item.buttonURL(companyBanner.buttonURL());
                                     item.companySetId(companyBanner.companySetId());
+                                    item.fileBinary(companyBanner.fileBinary());
+                                    item.imageSource(companyBanner.fileBinary());
+                                    item.filename(companyBanner.filename());
+
                                 }
                             });
                         }
@@ -550,7 +554,7 @@ define("stores/stores.viewModel",
                 //Edit Company Banner
                 onEditCompanyBanner = function (banner) {
                     // bannerEditorViewModel.selectItem(banner);
-                    //selectedCompanyBanner().reset();
+                    //selectedCompanyBanner().fileBinary(banner.imageSource());
                     view.showEditBannerDialog();
                 },
                 //Filter Banners based on banner set id
@@ -589,143 +593,148 @@ define("stores/stores.viewModel",
                 }
                 // ***** COMPANY BANNER eND*****//
 
-                    //***** ADDRESSES ****//
-                    //Selected Address
-                    selectedAddress = ko.observable(),
-                    //SelectedAddressTerritoryFilter
-                    addressTerritoryFilter = ko.observable(),
-                    
-                    //Deleted Address
-                    deletedAddresses = ko.observableArray([]),
-                    edittedAddresses = ko.observableArray([]),
-                    newAddresses = ko.observableArray([]),
-                    //Address Pager
-                    addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
-                    //Address Search Filter
-                    searchAddressFilter = ko.observable(),
-                    //Search Address
-                    searchAddress = function () {
-                        dataservice.searchAddress({
-                            SearchFilter: searchAddressFilter(),
-                            CompanyId: selectedStore().companyId(),
-                            TerritoryId: addressTerritoryFilter(),
-                            PageSize: companyTerritoryPager().pageSize(),
-                            PageNo: companyTerritoryPager().currentPage(),
-                            SortBy: sortOn(),
-                            IsAsc: sortIsAsc()
-                        }, {
-                            success: function (data) {
-                                selectedStore().addresses.removeAll();
-                                _.each(data.Addresses, function (addressItem) {
-                                    var address = new model.Address.Create(addressItem);
-                                    selectedStore().addresses.push(address);
+                //***** ADDRESSES ****//
+                //Selected Address
+                selectedAddress = ko.observable(),
+                //SelectedAddressTerritoryFilter
+                addressTerritoryFilter = ko.observable(),
+
+                //Deleted Address
+                deletedAddresses = ko.observableArray([]),
+                edittedAddresses = ko.observableArray([]),
+                newAddresses = ko.observableArray([]),
+                //Address Pager
+                addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                //Address Search Filter
+                searchAddressFilter = ko.observable(),
+                //Search Address
+                searchAddress = function () {
+                    dataservice.searchAddress({
+                        SearchFilter: searchAddressFilter(),
+                        CompanyId: selectedStore().companyId(),
+                        TerritoryId: addressTerritoryFilter(),
+                        PageSize: companyTerritoryPager().pageSize(),
+                        PageNo: companyTerritoryPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+                            selectedStore().addresses.removeAll();
+                            _.each(data.Addresses, function (addressItem) {
+                                var address = new model.Address.Create(addressItem);
+                                selectedStore().addresses.push(address);
+                            });
+                            _.each(edittedAddresses(), function (item) {
+                                _.each(selectedStore().addresses(), function (addressItem) {
+                                    if (item.addressId() == addressItem.addressId()) {
+                                        selectedStore().addresses.remove(addressItem);
+                                    }
                                 });
-                                _.each(edittedAddresses(), function (item) {
-                                    _.each(selectedStore().addresses(), function (addressItem) {
-                                        if (item.addressId() == addressItem.addressId()) {
-                                            selectedStore().addresses.remove(addressItem);
-                                        }
-                                    });
+                            });
+                            _.each(deletedAddresses(), function (item) {
+                                _.each(selectedStore().addresses(), function (addressItem) {
+                                    if (item.addressId() == addressItem.addressId()) {
+                                        selectedStore().addresses.remove(addressItem);
+                                    }
                                 });
-                                _.each(deletedAddresses(), function (item) {
-                                    _.each(selectedStore().addresses(), function (addressItem) {
-                                        if (item.addressId() == addressItem.addressId()) {
-                                            selectedStore().addresses.remove(addressItem);
-                                        }
-                                    });
-                                });
-                            },
-                            error: function (response) {
-                                toastr.error("Failed To Load Addresses" + response);
+                            });
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Addresses" + response);
+                        }
+                    });
+                },
+                addressTerritoryFilterSelected = ko.computed(function () {
+                    if (selectedStore() != null && selectedStore() != undefined) {
+                        searchAddress();
+                    }
+                }),
+                //isSavingNewAddress
+                isSavingNewAddress = ko.observable(false),
+                // Template Chooser For Address
+                templateToUseAddresses = function (address) {
+                    return (address === selectedAddress() ? 'editAddressTemplate' : 'itemAddressTemplate');
+                },
+                //Create Address
+                onCreateNewAddress = function () {
+                    var address = new model.Address();
+                    selectedAddress(address);
+                    isSavingNewAddress(true);
+                    view.showAddressDialog();
+                },
+                // Delete Address
+                onDeleteAddress = function (address) {
+                    if (address.addressId() !== undefined) {
+                        _.each(edittedAddresses(), function (item) {
+                            if (item.addressId() == address.addressId()) {
+                                edittedAddresses.remove(address);
                             }
                         });
-                    },
-                    addressTerritoryFilterSelected = ko.computed(function () {
-                        if (selectedStore() != null && selectedStore() != undefined) {
-                        searchAddress();
-                        }
-                    }),
-                    //isSavingNewAddress
-                    isSavingNewAddress = ko.observable(false),
-                    // Template Chooser For Address
-                    templateToUseAddresses = function (address) {
-                        return (address === selectedAddress() ? 'editAddressTemplate' : 'itemAddressTemplate');
-                    },
-                    //Create Address
-                    onCreateNewAddress = function () {
-                        var address = new model.Address();
-                        selectedAddress(address);
-                        isSavingNewAddress(true);
-                        view.showAddressDialog();
-                    },
-                    // Delete Address
-                    onDeleteAddress = function (address) {
-                        if (address.addressId() !== undefined) {
-                            _.each(edittedAddresses(), function (item) {
-                                if (item.addressId() == address.addressId()) {
-                                    edittedAddresses.remove(address);
-                                }
-                            });
-                            deletedAddresses.push(address);
-                        }
-                        selectedStore().addresses.remove(address);
-                        return;
-                    },
-                    onEditAddress = function (address) {
-                        selectedAddress(address);
-                        isSavingNewAddress(false);
-                        view.showAddressDialog();
-                    },
-                    onCloseAddress = function () {
-                        view.hideAddressDialog();
-                        isSavingNewAddress(false);
-                    },
-                    //Do Before Save Address
-                    doBeforeSaveAddress = function () {
-                        var flag = true;
-                        if (!selectedAddress().isValid()) {
-                            selectedAddress().errors.showAllMessages();
-                            flag = false;
-                        }
-                        return flag;
-                    },
-                    onSaveAddress = function () {
-                        if (doBeforeSaveAddress()) {
-                            if (selectedAddress().addressId() === undefined && isSavingNewAddress() === true) {
-                                selectedStore().addresses.splice(0, 0, selectedAddress());
-                                newAddresses.push(selectedAddress());
-                            } else {
-                                //pushing item in editted Addresses List
-                                if (selectedAddress().addressId() != undefined) {
-                                    var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
-                                        return (selectedAddress().addressId() === item.addressId() );
-                                    });
+                        deletedAddresses.push(address);
+                    }
+                    selectedStore().addresses.remove(address);
+                    return;
+                },
+                onEditAddress = function (address) {
+                    selectedAddress(address);
+                    isSavingNewAddress(false);
+                    view.showAddressDialog();
+                },
+                onCloseAddress = function () {
+                    view.hideAddressDialog();
+                    isSavingNewAddress(false);
+                },
+                //Do Before Save Address
+                doBeforeSaveAddress = function () {
+                    var flag = true;
+                    if (!selectedAddress().isValid()) {
+                        selectedAddress().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                onSaveAddress = function () {
+                    if (doBeforeSaveAddress()) {
+                        if (selectedAddress().addressId() === undefined && isSavingNewAddress() === true) {
+                            selectedStore().addresses.splice(0, 0, selectedAddress());
+                            newAddresses.push(selectedAddress());
+                        } else {
+                            //pushing item in editted Addresses List
+                            if (selectedAddress().addressId() != undefined) {
+                                var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
+                                    return (selectedAddress().addressId() === item.addressId());
+                                });
 
-                                    if (!match) {
-                                        edittedAddresses.push(selectedAddress());
-                                    }
-
+                                if (!match) {
+                                    edittedAddresses.push(selectedAddress());
                                 }
+
                             }
-                            view.hideAddressDialog();
                         }
-                    },
-                    // ***** Address END *****
-
+                        view.hideAddressDialog();
+                    }
+                },
+                // ***** Address END *****
+                 MultipleImageFilesLoadedCallback = function (file, data) {
+                     selectedCompanyBanner().fileBinary(data);
+                     selectedCompanyBanner().filename(file.name);
+                     selectedCompanyBanner().fileType(data.imageType);
+                 },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
+            initialize = function (specifiedView) {
+                view = specifiedView;
+                ko.applyBindings(view.viewModel, view.bindingRoot);
                 pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
                 //companyTerritoryPager(pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
-                
-                    getStores();
-               // getBaseData();
-                    view.initializeForm();
-                };
+
+                getStores();
+                // getBaseData();
+                view.initializeForm();
+            };
 
                 return {
+                    MultipleImageFilesLoadedCallback: MultipleImageFilesLoadedCallback,
                     filteredCompanySetId: filteredCompanySetId,
                     stores: stores,
                     storeImage: storeImage,

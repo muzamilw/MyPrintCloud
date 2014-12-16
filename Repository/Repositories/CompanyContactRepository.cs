@@ -31,7 +31,7 @@ namespace MPC.Repository.Repositories
         public CompanyContact GetContactUser(string email, string password)
         {
             var qury = from contacts in db.CompanyContacts
-                       join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                       join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                        where string.Compare(contacts.Email, email, true) == 0
                        select contacts;
 
@@ -40,7 +40,7 @@ namespace MPC.Repository.Repositories
         public CompanyContact GetContactByFirstName(string FName)
         {
             var qry = from contacts in db.CompanyContacts
-                      join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                      join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                       where string.Compare(contacts.twitterScreenName, FName, true) == 0
                       select contacts;
 
@@ -51,7 +51,7 @@ namespace MPC.Repository.Repositories
         public CompanyContact GetContactByEmail(string Email)
         {
             var qry = from contacts in db.CompanyContacts
-                      join contactCompany in db.Company on contacts.CompanyId equals contactCompany.CompanyId
+                      join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                       where string.Compare(contacts.Email, Email, true) == 0
                       select contacts;
 
@@ -315,7 +315,7 @@ namespace MPC.Repository.Repositories
               }
 
                     //Create Customer
-                    db.Company.Add(Company);
+              db.Companies.Add(Company);
 
                     //Create Billing Address and Delivery Address and mark them default billing and shipping
                     address = PopulateAddressObject(0, (Int16)Company.CompanyId, true, true);
