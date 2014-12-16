@@ -40,6 +40,11 @@ namespace MPC.Interfaces.WebStoreServices
 
         void UpdateUserPassword(int userId, string pass);
 
-       
+        List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
+
+        List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
+
+        List<ProductCategory> GetParentCategories();
+
     }
 }

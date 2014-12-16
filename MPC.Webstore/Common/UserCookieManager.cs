@@ -32,5 +32,27 @@ namespace MPC.Webstore.Common
                 HttpContext.Current.Response.Cookies.Add(storeIdCookie);
             }
         }
+
+        public static int StoreMode
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["StoreMode"] != null)
+                {
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["StoreMode"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                HttpCookie storeIdCookie = null;
+                storeIdCookie = new HttpCookie("StoreMode", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(storeIdCookie);
+            }
+        }
     }
 }
