@@ -57,7 +57,7 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                   
+
                     isInitialized = true;
                 }
             },
@@ -131,7 +131,7 @@
                     data: params
                 });
             },
-           
+
         // save Store
         saveStore = function (param, callbacks) {
             initialize();

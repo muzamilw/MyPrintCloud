@@ -39,7 +39,7 @@ namespace MPC.Repository.Repositories
                 return db.Companies;
             }
         }
-        
+
         public override IEnumerable<Company> GetAll()
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();

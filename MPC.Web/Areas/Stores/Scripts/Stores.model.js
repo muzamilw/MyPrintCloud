@@ -1180,54 +1180,60 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // ______________  Company Banner   _________________//
     // ReSharper disable once InconsistentNaming
-    var CompanyBanner = function (specifiedCompanyBannerId, specifiedHeading, specifiedDescription, specifiedItemURL, specifiedButtonURL, specifiedCompanySetId) {
+    var CompanyBanner = function (specifiedCompanyBannerId, specifiedHeading, specifiedDescription, specifiedItemURL, specifiedButtonURL, specifiedCompanySetId, specifiedImageSource) {
         var self,
-            id = ko.observable(specifiedCompanyBannerId),
-            heading = ko.observable(specifiedHeading).extend({ required: true }),
-            description = ko.observable(specifiedDescription),
-            itemURL = ko.observable(specifiedItemURL),
-            buttonURL = ko.observable(specifiedButtonURL),
-            companySetId = ko.observable(specifiedCompanySetId),
-            //Set Name For List View
-            setName = ko.observable(),
+          id = ko.observable(specifiedCompanyBannerId),
+          heading = ko.observable(specifiedHeading).extend({ required: true }),
+          description = ko.observable(specifiedDescription),
+          itemURL = ko.observable(specifiedItemURL),
+          buttonURL = ko.observable(specifiedButtonURL),
+          companySetId = ko.observable(specifiedCompanySetId),
+          filename = ko.observable(""),
+          fileBinary = ko.observable(specifiedImageSource),
+          fileType = ko.observable(),
+          imageSource = ko.observable(specifiedImageSource),
+        //Set Name For List View
+        setName = ko.observable(),
         // Errors
-        errors = ko.validation.group({
-            //companySetId: companySetId,
-            heading: heading
-        }),
+      errors = ko.validation.group({
+          //companySetId: companySetId,
+          heading: heading
+      }),
         // Is Valid 
-        isValid = ko.computed(function () {
-            return errors().length === 0 ? true : false;
-        }),
+      isValid = ko.computed(function () {
+          return errors().length === 0 ? true : false;
+      }),
 
         // ReSharper disable InconsistentNaming
-        dirtyFlag = new ko.dirtyFlag({
-            heading: heading,
-            description: description,
-            itemURL: itemURL,
-            buttonURL: buttonURL,
-            companySetId: companySetId,
-            setName: setName,
-        }),
+      dirtyFlag = new ko.dirtyFlag({
+          heading: heading,
+          description: description,
+          itemURL: itemURL,
+          buttonURL: buttonURL,
+          companySetId: companySetId,
+          setName: setName,
+      }),
         // Has Changes
-        hasChanges = ko.computed(function () {
-            return dirtyFlag.isDirty();
-        }),
+      hasChanges = ko.computed(function () {
+          return dirtyFlag.isDirty();
+      }),
         //Convert To Server
-        convertToServerData = function (source) {
-            var result = {};
-            result.CompanyBannerId = source.id() === undefined ? 0 : source.id();
-            result.Heading = source.heading() === undefined ? null : source.heading();;
-            result.Description = source.description() === undefined ? null : source.description();
-            result.ItemURL = source.itemURL() === undefined ? null : source.itemURL();
-            result.ButtonURL = source.buttonURL() === undefined ? null : source.buttonURL();
-            result.CompanySetId = source.companySetId() === undefined ? null : source.companySetId();
-            return result;
-        },
+      convertToServerData = function (source) {
+          var result = {};
+          result.CompanyBannerId = source.id() === undefined ? 0 : source.id();
+          result.Heading = source.heading() === undefined ? null : source.heading();;
+          result.Description = source.description() === undefined ? null : source.description();
+          result.ItemURL = source.itemURL() === undefined ? null : source.itemURL();
+          result.ButtonURL = source.buttonURL() === undefined ? null : source.buttonURL();
+          result.CompanySetId = source.companySetId() === undefined ? null : source.companySetId();
+          result.FileName = source.filename() === undefined ? null : source.filename();
+          result.Bytes = source.fileBinary() === undefined ? null : source.fileBinary();
+          return result;
+      },
         // Reset
-        reset = function () {
-            dirtyFlag.reset();
-        };
+      reset = function () {
+          dirtyFlag.reset();
+      };
         self = {
             id: id,
             heading: heading,
@@ -1236,6 +1242,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             buttonURL: buttonURL,
             companySetId: companySetId,
             setName: setName,
+            filename: filename,
+            fileBinary: fileBinary,
+            fileType: fileType,
+            imageSource: imageSource,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1252,7 +1262,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.Description,
             source.ItemURL,
             source.ButtonURL,
-            source.CompanySetId
+            source.CompanySetId,
+            source.ImageSource
             );
     };
 
@@ -1260,11 +1271,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // ReSharper disable once InconsistentNaming
     var CompanyBannerSet = function (specifiedCompanySetId, specifiedSetName) {
         var self,
-            id = ko.observable(specifiedCompanySetId),
-            setName = ko.observable(specifiedSetName).extend({ required: true }),
-            //Compnay Banners
-            companyBanners = ko.observableArray([]),
-            // Errors
+          id = ko.observable(specifiedCompanySetId),
+          setName = ko.observable(specifiedSetName).extend({ required: true }),
+          //Compnay Banners
+          companyBanners = ko.observableArray([]),
+           // Errors
             errors = ko.validation.group({
                 setName: setName
             }),
@@ -1309,7 +1320,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return new CompanyBannerSet(
             source.CompanySetId,
             source.SetName
-            );
+           );
     };
     CompanyBannerSet.CreateNew = function () {
         return new CompanyBannerSet(0, undefined);
@@ -1889,6 +1900,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CompanyBanner: CompanyBanner,
         CompanyBannerSet: CompanyBannerSet,
         CompanyContact: CompanyContact
+        StoreListView: StoreListView,
     };
 
 });

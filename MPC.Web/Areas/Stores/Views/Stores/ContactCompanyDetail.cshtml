@@ -196,7 +196,7 @@
                                                         <i class="fa fa-upload" onclick="readURL(this);"></i>
                                                     </a>
                                                     @*<div class="fa fa-upload" onclick="readURL(this);"></div>*@
-                                                    <img id="companyImage" src="#" alt="" style="min-height: 200px; width: 230px;" data-bind="attr:{ src: $root.storeImage }" />
+                                                    <img id="companyImage" class="profile-img img-responsive center-block" src="#" alt="" style="min-height: 200px; width: 230px;" data-bind="attr:{ src: $root.storeImage }" />
 
                                                     <input type="file" id="my_file" style="display: none;" name="file" onchange="readURL(this);" />
                                                     <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary" style="margin-left: 33%;">Upload</button>
@@ -2972,10 +2972,11 @@
                 </td>
             </tr>
         </script>
-         <script id="bannerItemTemplate" type="text/html">
+        <script id="bannerItemTemplate" type="text/html">
             <tr data-bind="click: $root.selectedCompanyBanner">
                 <td>
-                    <img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />
+                    <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="attr:{ src: imageSource }" />
+                    @*<img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />*@
                 </td>
                 <td data-bind="text:setName"></td>
                 <td class="text-right">

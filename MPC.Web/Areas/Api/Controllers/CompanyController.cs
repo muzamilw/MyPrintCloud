@@ -1,12 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using Microsoft.Owin;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
+using PagedList;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -50,7 +56,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         public CompanyResponse Get([FromUri]int companyId)
         {
-            var result = companyService.GetCompanyById(companyId);
+            //var result = companyService.GetCompanyById(companyId);
 
             return companyService.GetCompanyById(companyId).CreateFrom();
         }
@@ -58,12 +64,15 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Add/Update Company
         /// </summary>
         [ApiException]
+        [HttpPost]
         public Company Post(Company company)
         {
-            if (company == null || !ModelState.IsValid)
+            //FormCollection
+            if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
+
             CompanySavingModel companySavingModel = new CompanySavingModel();
             companySavingModel.Company = company.CreateFrom();
             companySavingModel.NewAddedCompanyTerritories = company.NewAddedCompanyTerritories != null ? company.NewAddedCompanyTerritories.Select(x => x.CreateFrom()) : null;

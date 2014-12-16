@@ -2413,6 +2413,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ItemStockOption_ItemAddonCostCentre">
+          <End Role="ItemStockOption" Type="Self.ItemStockOption" Multiplicity="0..1" />
+          <End Role="ItemAddonCostCentre" Type="Self.ItemAddonCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemStockOption">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Principal>
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ItemVDPPrice_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ItemVDPPrice" Type="Self.ItemVDPPrice" Multiplicity="*" />
@@ -2472,6 +2484,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="StockSubCategory">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockItem_ItemStockOption">
+          <End Role="StockItem" Type="Self.StockItem" Multiplicity="0..1" />
+          <End Role="ItemStockOption" Type="Self.ItemStockOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItem">
+              <PropertyRef Name="StockItemId" />
+            </Principal>
+            <Dependent Role="ItemStockOption">
+              <PropertyRef Name="StockId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3270,6 +3294,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="State" EntitySet="State" />
             <End Role="ItemStateTax" EntitySet="ItemStateTax" />
           </AssociationSet>
+          <AssociationSet Name="FK_ItemStockOption_ItemAddonCostCentre" Association="Self.FK_ItemStockOption_ItemAddonCostCentre">
+            <End Role="ItemStockOption" EntitySet="ItemStockOption" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentre" />
+          </AssociationSet>
           <AssociationSet Name="FK_ItemVDPPrice_Items" Association="Self.FK_ItemVDPPrice_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVDPPrice" EntitySet="ItemVDPPrice" />
@@ -3289,6 +3317,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
             <End Role="StockCategory" EntitySet="StockCategory" />
             <End Role="StockSubCategory" EntitySet="StockSubCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockItem_ItemStockOption" Association="Self.FK_StockItem_ItemStockOption">
+            <End Role="StockItem" EntitySet="StockItem" />
+            <End Role="ItemStockOption" EntitySet="ItemStockOption" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_addresses_tbl_contactcompanies" Association="Self.FK_tbl_addresses_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
@@ -3855,6 +3887,14 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           </AssociationSet>
           <EntitySet Name="GlobalLanguages" EntityType="DomainModels.GlobalLanguage" />
           <EntitySet Name="CampaignEmailQueues" EntityType="DomainModels.CampaignEmailQueue" />
+          <AssociationSet Name="FK_ItemStockOption_ItemAddonCostCentre" Association="DomainModels.FK_ItemStockOption_ItemAddonCostCentre">
+            <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
+            <End Role="ItemAddonCostCentre" EntitySet="ItemAddonCostCentres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockItem_ItemStockOption" Association="DomainModels.FK_StockItem_ItemStockOption">
+            <End Role="StockItem" EntitySet="StockItems" />
+            <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4488,6 +4528,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="ThresholdProductionQuantity" Type="Int32" />
           <Property Name="isAllowBackOrder" Type="Boolean" />
           <NavigationProperty Name="SectionCostCentreDetails" Relationship="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" FromRole="StockItem" ToRole="SectionCostCentreDetail" />
+          <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="StockItem" ToRole="ItemStockOption" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -5478,6 +5519,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="ImageURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Item" Relationship="DomainModels.itemmidfk" FromRole="ItemStockOption" ToRole="Item" />
+          <NavigationProperty Name="ItemAddonCostCentres" Relationship="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" FromRole="ItemStockOption" ToRole="ItemAddonCostCentre" />
+          <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="ItemStockOption" ToRole="StockItem" />
         </EntityType>
         <EntityType Name="ItemVdpPrice">
           <Key>
@@ -6822,6 +6865,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="Sequence" Type="Int32" />
           <Property Name="IsMandatory" Type="Boolean" />
           <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="ItemAddonCostCentre" ToRole="CostCentre" />
+          <NavigationProperty Name="ItemStockOption" Relationship="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" FromRole="ItemAddonCostCentre" ToRole="ItemStockOption" />
         </EntityType>
         <EntityType Name="ItemVideo">
           <Key>
@@ -7105,6 +7149,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="CampaignReportId" Type="Int32" />
           <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
+        <Association Name="FK_ItemStockOption_ItemAddonCostCentre">
+          <End Type="DomainModels.ItemStockOption" Role="ItemStockOption" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemAddonCostCentre" Role="ItemAddonCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemStockOption">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Principal>
+            <Dependent Role="ItemAddonCostCentre">
+              <PropertyRef Name="ItemStockOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockItem_ItemStockOption">
+          <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemStockOption" Role="ItemStockOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItem">
+              <PropertyRef Name="StockItemId" />
+            </Principal>
+            <Dependent Role="ItemStockOption">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

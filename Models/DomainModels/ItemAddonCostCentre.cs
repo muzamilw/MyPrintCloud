@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MPC.Models.DomainModels
 {
     public class ItemAddonCostCentre
     {
         public int ProductAddOnId { get; set; }
-        public Nullable<long> ItemStockOptionId { get; set; }
-        public Nullable<long> CostCentreId { get; set; }
-        public Nullable<double> DiscountPercentage { get; set; }
-        public Nullable<bool> IsDiscounted { get; set; }
-        public Nullable<int> Sequence { get; set; }
-        public Nullable<bool> IsMandatory { get; set; }
+        public long? ItemStockOptionId { get; set; }
+        public long? CostCentreId { get; set; }
+        public double? DiscountPercentage { get; set; }
+        public bool? IsDiscounted { get; set; }
+        public int? Sequence { get; set; }
+        public bool? IsMandatory { get; set; }
 
         public virtual CostCentre CostCentre { get; set; }
+
+        public virtual ItemStockOption ItemStockOption { get; set; }
     }
 }

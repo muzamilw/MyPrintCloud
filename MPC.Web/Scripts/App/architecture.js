@@ -266,6 +266,120 @@ require(["ko", "knockout-validation"], function (ko) {
             $(element).change();
         }
     };
+    var windowURL = window.URL || window.webkitURL;
+    ko.bindingHandlers.file = {
+        init: function (element, valueAccessor) {
+            $(element).change(function () {
+                var file = this.files[0];
+                if (ko.isObservable(valueAccessor())) {
+                    valueAccessor()(file);
+                }
+            });
+        },
+
+        update: function (element, valueAccessor, allBindingsAccessor) {
+            var file = ko.utils.unwrapObservable(valueAccessor());
+            var bindings = allBindingsAccessor();
+
+            if (bindings.imageBase64 && ko.isObservable(bindings.imageBase64)) {
+                if (!file) {
+                    bindings.imageBase64(null);
+                    bindings.imageType(null);
+                } else {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var result = e.target.result || {};
+                        var resultParts = result.split(",");
+                        if (resultParts.length === 2) {
+                            bindings.imageBase64(resultParts[1]);
+                            bindings.imageType(resultParts[0]);
+                        }
+
+                        //Now update fileObjet, we do this last thing as implementation detail, it triggers post
+                        if (bindings.fileObjectURL && ko.isObservable(bindings.fileObjectURL)) {
+                            var oldUrl = bindings.fileObjectURL();
+                            if (oldUrl) {
+                                windowURL.revokeObjectURL(oldUrl);
+                            }
+                            bindings.fileObjectURL(file && windowURL.createObjectURL(file));
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    };
+    ko.bindingHandlers.files = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var allBindings = allBindingsAccessor();
+            var loadedCallback, progressCallback, errorCallback, fileFilter, readAs, maxFileSize;
+            var filesBinding = allBindings.files;
+
+            if (typeof (ko.unwrap(filesBinding)) == "function")
+            { loadedCallback = ko.unwrap(filesBinding); }
+            else
+            {
+                loadedCallback = ko.unwrap(filesBinding.onLoaded);
+                progressCallback = ko.unwrap(filesBinding.onProgress);
+                errorCallback = ko.unwrap(filesBinding.onError);
+                fileFilter = ko.unwrap(filesBinding.fileFilter);
+                maxFileSize = ko.unwrap(filesBinding.maxFileSize);
+                readAs = ko.unwrap(filesBinding.readAs);
+            }
+
+            if (typeof (loadedCallback) != "function")
+            { return; }
+
+            var readFile = function (file) {
+                var reader = new FileReader();
+                reader.onload = function (fileLoadedEvent) {
+                    loadedCallback(file, fileLoadedEvent.target.result);
+                };
+
+                if (typeof (progressCallback) == "function") {
+                    reader.onprogress = function (fileProgressEvent) {
+                        progressCallback(file, fileProgressEvent.loaded, fileProgressEvent.total);
+                    };
+                }
+
+                if (typeof (errorCallback) == "function") {
+                    reader.onerror = function (fileErrorEvent) {
+                        errorCallback(file, fileErrorEvent.target.error);
+                    };
+                }
+
+                if (readAs == "text")
+                { reader.readAsText(file); }
+                else if (readAs == "array")
+                { reader.readAsArrayBuffer(file); }
+                else if (readAs == "binary")
+                { reader.readAsBinaryString(file); }
+                else
+                { reader.readAsDataURL(file); }
+            };
+
+            var handleFileChangedEvent = function (fileChangedEvent) {
+                var files = fileChangedEvent.target.files;
+                for (var i = 0, f; f = files[i]; i++) {
+                    if (typeof (fileFilter) != "undefined" && !f.type.match(fileFilter)) {
+                        if (typeof (errorCallback) == "function")
+                        { errorCallback(f, "File type does not match filter"); }
+                        continue;
+                    }
+
+                    if (typeof (maxFileSize) != "undefined" && f.size >= maxFileSize) {
+                        if (typeof (errorCallback) == "function")
+                        { errorCallback(f, "File exceeds file size limit"); }
+                        continue;
+                    }
+
+                    readFile(f);
+                }
+            };
+
+            element.addEventListener('change', handleFileChangedEvent, false);
+        }
+    };
     // date formatting. Example <div class="date" data-bind="dateString: today, datePattern: 'dddd, MMMM dd, yyyy'">Thursday, April 05, 2012</div>
     ko.bindingHandlers.dateString = {
         update: function (element, valueAccessor, allBindingsAccessor) {
