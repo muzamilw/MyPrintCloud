@@ -35,5 +35,33 @@ namespace MPC.Repository.Repositories
            
         }
 
+        public List<ProductCategory> GetAllParentCorporateCatalog(int customerId)
+        {
+                var query = (from product in db.ProductCategories
+                             where product.CompanyId == customerId && (product.ParentCategoryId == 0 || product.ParentCategoryId == null) && product.isEnabled == true && product.isPublished == true
+                             && (product.isArchived == false || product.isArchived == null)
+                             select product).ToList();
+                return query.OrderBy(i => i.DisplayOrder).ToList();
+           
+
+        }
+
+        public List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId)
+        {
+          
+                var query = (from product in db.ProductCategories
+                             join CT in db.CategoryTerritories on product.ProductCategoryId equals CT.ProductCategoryId
+                             join contact in db.CompanyContacts on CT.TerritoryId equals contact.TerritoryId
+                             where contact.ContactId == ContactId && product.CompanyId == customerId && (product.ParentCategoryId == 0 || product.ParentCategoryId == null) && product.isEnabled == true && product.isPublished == true
+                             && (product.isArchived == false || product.isArchived == null)
+                             select product).ToList();
+                return query.OrderBy(i => i.DisplayOrder).ToList();
+            
+        }
+        public List<ProductCategory> GetParentCategories()
+        {
+                return db.ProductCategories.Where(category => (category.ParentCategoryId == null || category.ParentCategoryId == 0) && category.isEnabled == true && category.isPublished == true && category.isArchived == false && (category.CompanyId == null || category.CompanyId == 0)).ToList();
+          
+        }
     }
 }

@@ -441,6 +441,28 @@ namespace MPC.MIS.Areas.Api.Models
             }
         }
 
+        /// <summary>
+        /// File1 Image
+        /// </summary>
+        public byte[] File1Bytes { get; set; }
+
+        /// <summary>
+        /// File1 Source
+        /// </summary>
+        public string File1BytesSource
+        {
+            get
+            {
+                if (File1Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File1Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
         public IEnumerable<ItemVdpPrice> ItemVdpPrices { get; set; }
         public IEnumerable<ItemVideo> ItemVideos { get; set; }
 

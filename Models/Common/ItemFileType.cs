@@ -18,6 +18,11 @@
         /// <summary>
         /// Image Path
         /// </summary>
-        ImagePath = 3
+        ImagePath = 3,
+
+        /// <summary>
+        /// File1
+        /// </summary>
+        File1 = 4
     }
 }

@@ -86,6 +86,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 item.ImagePathImage = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
             }
 
+            // Load File1
+            if (source.File1 != null && File.Exists(source.File1))
+            {
+                item.File1Bytes = source.File1 != null ? File.ReadAllBytes(source.File1) : null;
+            }
+
             return item;
         }
 

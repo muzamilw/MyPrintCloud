@@ -234,6 +234,22 @@ namespace MPC.Implementation.WebStoreServices
             return _campaignRepository.AddMsgToTblQueue(Toemail, CC, ToName, msgbody, fromName, fromEmail, smtpUserName, ServerPass, ServerName, subject, AttachmentList, CampaignReportID);
 
         }
+
+
+        public List<ProductCategory> GetAllParentCorporateCatalog(int customerId)
+        {
+            return _productCategoryRepository.GetAllParentCorporateCatalog(customerId);
+        }
+
+        public List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId)
+        {
+            return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
+        }
+
+        public List<ProductCategory> GetParentCategories()
+        {
+            return _productCategoryRepository.GetParentCategories();
+        }
         #endregion
     }
 }

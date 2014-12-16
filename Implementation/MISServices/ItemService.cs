@@ -208,7 +208,7 @@ namespace MPC.Implementation.MISServices
                 throw new ArgumentException(LanguageResources.ItemService_InvalidItem, "itemId");
             }
 
-            if (string.IsNullOrEmpty(filePath))
+            if (filePath == null)
             {
                 throw new ArgumentException(LanguageResources.ItemService_InvalidFilePath, "filePath");
             }
@@ -225,6 +225,9 @@ namespace MPC.Implementation.MISServices
                     break;
                 case ItemFileType.ImagePath:
                     item.ImagePath = filePath;
+                    break;
+                case ItemFileType.File1:
+                    item.File1 = filePath;
                     break;
             }
             

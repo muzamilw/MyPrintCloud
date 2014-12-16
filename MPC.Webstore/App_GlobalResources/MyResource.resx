@@ -120,4 +120,7 @@
   <data name="AllProducts" xml:space="preserve">
     <value>All Products</value>
   </data>
+  <data name="ForgotPasswordSuccessfull" xml:space="preserve">
+    <value>Your new password is sent to given e-mail address. Please check your email</value>
+  </data>
 </root>
