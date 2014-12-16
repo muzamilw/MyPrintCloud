@@ -183,6 +183,26 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        private void UpdateCompanyContactOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            //Add New companyContacts
+            foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
+            {
+                //address.CompanyId = companySavingModel.Company.CompanyId;
+                companyContactRepository.Add(companyContact);
+            }
+            //Update companyContacts
+            foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
+            {
+                companyContactRepository.Update(companyContact);
+            }
+            //Delete companyContacts
+            foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
+            {
+                companyContactRepository.Delete(companyContact);
+            }
+        }
+
         /// <summary>
         /// Update Company
         /// </summary>
@@ -193,6 +213,7 @@ namespace MPC.Implementation.MISServices
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
+            UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;

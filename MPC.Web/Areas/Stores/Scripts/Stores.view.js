@@ -54,6 +54,14 @@ define("stores/stores.view",
                 hideAddressDialog = function () {
                     $("#myAddressSetModal").modal("hide");
                 },
+                // Show Contact Company the dialog
+                showCompanyContactDialog = function () {
+                    $("#myContactProfileModal").modal("show");
+                },
+                // Hide Company Contact the dialog
+                hideCompanyContactDialog = function () {
+                    $("#myContactProfileModal").modal("hide");
+                },
                 // Show Add Banner Set the dialog
                 showSetBannerDialog = function () {
                     $("#mybannerSetModal").modal("show");
@@ -95,6 +103,8 @@ define("stores/stores.view",
                 showSetBannerDialog: showSetBannerDialog,
                 showAddressDialog: showAddressDialog,
                 hideAddressDialog: hideAddressDialog,
+                showCompanyContactDialog: showCompanyContactDialog,
+                hideCompanyContactDialog: hideCompanyContactDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

@@ -19,6 +19,7 @@ define("stores/stores.viewModel",
                 systemUsers = ko.observableArray([]),
                 //Tab User And Addressed, Addresses Section Company Territories Filter
                 addressCompanyTerritoriesFilter = ko.observableArray(),
+                contactCompanyTerritoriesFilter = ko.observableArray(),
                 //Company Banners
                 companyBanners = ko.observableArray([]),
                 //Filetered Company Bannens List
@@ -254,6 +255,10 @@ define("stores/stores.viewModel",
                                 _.each(data.CompanyTerritories, function (item) {
                                     var territory = new model.CompanyTerritory.Create(item);
                                     addressCompanyTerritoriesFilter.push(territory);
+                                });
+                                _.each(data.CompanyTerritories, function (item) {
+                                    var territory = new model.CompanyTerritory.Create(item);
+                                    contactCompanyTerritoriesFilter.push(territory);
                                 });
                             }
                             isLoadingStores(false);
@@ -742,7 +747,7 @@ define("stores/stores.viewModel",
                 selectedCompanyContact = ko.observable(),
                 //companyContactFilter
                 companyContactFilter = ko.observable(),
-
+                contactCompanyTerritoryFilter = ko.observable(),
                 //Deleted Company Contact 
                 deletedCompanyContacts = ko.observableArray([]),
                 edittedCompanyContacts = ko.observableArray([]),
@@ -756,7 +761,7 @@ define("stores/stores.viewModel",
                     dataservice.searchCompanyContact({
                         SearchFilter: searchCompanyContactFilter(),
                         CompanyId: selectedStore().companyId(),
-                        //TerritoryId: addressTerritoryFilter(),
+                        TerritoryId: contactCompanyTerritoryFilter(),
                         PageSize: companyContactPager().pageSize(),
                         PageNo: companyContactPager().currentPage(),
                         SortBy: sortOn(),
@@ -979,6 +984,8 @@ define("stores/stores.viewModel",
                     onCloseCompanyContact: onCloseCompanyContact,
                     doBeforeSaveCompanyContact: doBeforeSaveCompanyContact,
                     onSaveCompanyContact: onSaveCompanyContact,
+                    contactCompanyTerritoriesFilter: contactCompanyTerritoriesFilter,
+                    contactCompanyTerritoryFilter: contactCompanyTerritoryFilter,
                     initialize: initialize
                 };
             })()
