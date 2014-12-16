@@ -60,7 +60,7 @@ namespace MPC.Repository.Repositories
         }
         public List<ProductCategory> GetParentCategories()
         {
-                return db.ProductCategories.Where(category => (category.ParentCategoryId == null || category.ParentCategoryId == 0) && category.isEnabled == true && category.isPublished == true && category.isArchived == false && (category.CompanyId == null || category.CompanyId == 0)).ToList();
+            return db.ProductCategories.Where(category => (category.ParentCategoryId == null || category.ParentCategoryId == 0) && category.isEnabled == true && category.isPublished == true && category.isArchived == false && (category.CompanyId == null || category.CompanyId == 0)).OrderBy(s => s.DisplayOrder).ToList();
           
         }
     }

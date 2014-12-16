@@ -36,33 +36,30 @@ namespace MPC.Webstore.Controllers
         // GET: ParentCategories
         public ActionResult Index()
         {
-            //List<ProductCategory> lstParentCategories = new List<ProductCategory>();
+            List<ProductCategory> lstParentCategories = new List<ProductCategory>();
 
-            //if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-            //{
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            {
 
-            //    int roleid = _myClaimHelper.LoginContact().ContactRoleId ?? 0;
+                Int64 roleid = _myClaimHelper.loginContactRoleID();
 
-            //    if (_myClaimHelper.LoginContact() != null && roleid == Convert.ToInt32(Roles.Adminstrator))
-            //    {
-            //        lstParentCategories = _myCompanyService.GetAllParentCorporateCatalog((int)_myClaimHelper.LoginContact().CompanyId);
-            //    }
-            //    else
-            //    {
-            //        lstParentCategories = _myCompanyService.GetAllParentCorporateCatalogByTerritory((int)_myClaimHelper.LoginContact().CompanyId,(int) _myClaimHelper.LoginContact().ContactId);
-            //    }
+                if (_myClaimHelper.loginContactID() != 0 && roleid == Convert.ToInt32(Roles.Adminstrator))
+                {
+                    lstParentCategories = _myCompanyService.GetAllParentCorporateCatalog((int)_myClaimHelper.loginContactCompanyID());
+                }
+                else
+                {
+                    lstParentCategories = _myCompanyService.GetAllParentCorporateCatalogByTerritory((int)_myClaimHelper.loginContactCompanyID(), (int)_myClaimHelper.loginContactID());
+                }
 
 
-            //}
-            //else
-            //{
-            //    lstParentCategories = _myCompanyService.GetParentCategories();
-
-              
-            //    //rptTopLevelCategory.DataBind();
-            //}
-            var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
-            return PartialView("PartialViews/ParentCategories",model);
+            }
+            else
+            {
+                lstParentCategories = _myCompanyService.GetParentCategories();
+            }
+          //  var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
+            return PartialView("PartialViews/ParentCategories", lstParentCategories);
         }
     }
 }
