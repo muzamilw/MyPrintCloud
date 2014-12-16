@@ -44,24 +44,36 @@ namespace MPC.MIS.Areas.Products.Controllers
 
         [HttpPost]
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
-        public ActionResult Index(HttpPostedFileBase file, long itemId)
+        public ActionResult Index(HttpPostedFileBase file, long itemId, int imageFileType)
         {
             if (file != null && file.InputStream != null)
             {
                 // Before attempting to save the file, verify
-                SaveFile(file, itemId);
+                SaveFile(file, itemId, (ItemFileType)imageFileType);
 
             }
             return null;
         }
 
+        [HttpPost]
+        public ActionResult DeleteImage(long itemId, int imageFileType)
+        {
+            string filePath = itemService.DeleteProductImage(itemId, (ItemFileType)imageFileType);
+            if (filePath != null && System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+
+            return Content("success");
+        }
+
         /// <summary>
         /// Upload File For Product
         /// </summary>
-        private void SaveFile(HttpPostedFileBase file, long itemId)
+        private void SaveFile(HttpPostedFileBase file, long itemId, ItemFileType imageFileType)
         {
             // Specify the path to save Product files.
-            string path = Server.MapPath("~/Resorces/Products" + itemId);
+            string path = Server.MapPath("~/Resources/Products/" + itemId + "/");
 
             if (!Directory.Exists(path))
             {
@@ -69,8 +81,8 @@ namespace MPC.MIS.Areas.Products.Controllers
 
             }
 
-            path = Server.MapPath(path + "/" + file.FileName);
-            itemService.SaveProductImage(path, itemId);
+            path += file.FileName;
+            itemService.SaveProductImage(path, itemId, imageFileType);
             file.SaveAs(path);
         }
 

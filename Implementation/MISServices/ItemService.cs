@@ -3,6 +3,7 @@ using System.Globalization;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
@@ -200,24 +201,57 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Product Image
         /// </summary>
-        public Item SaveProductImage(string filePath, long itemId)
+        public Item SaveProductImage(string filePath, long itemId, ItemFileType itemFileType)
         {
             if (itemId <= 0)
             {
                 throw new ArgumentException(LanguageResources.ItemService_InvalidItem, "itemId");
             }
 
-            if (string.IsNullOrEmpty(filePath))
+            if (filePath == null)
             {
                 throw new ArgumentException(LanguageResources.ItemService_InvalidFilePath, "filePath");
             }
-
+            
             Item item = GetById(itemId);
 
-            item.ThumbnailPath = filePath;
+            switch (itemFileType)
+            {
+                case ItemFileType.Thumbnail:
+                    item.ThumbnailPath = filePath;
+                    break;
+                case ItemFileType.Grid:
+                    item.GridImage = filePath;
+                    break;
+                case ItemFileType.ImagePath:
+                    item.ImagePath = filePath;
+                    break;
+                case ItemFileType.File1:
+                    item.File1 = filePath;
+                    break;
+            }
+            
             itemRepository.SaveChanges();
 
             return item;
+        }
+
+        /// <summary>
+        /// Delete File
+        /// </summary>
+        public string DeleteProductImage(long itemId, ItemFileType itemFileType)
+        {
+            if (itemId <= 0)
+            {
+                throw new ArgumentException(LanguageResources.ItemService_InvalidItem, "itemId");
+            }
+            
+            Item item = GetById(itemId);
+            string filePath = item.ThumbnailPath;
+
+            SaveProductImage(string.Empty, itemId, itemFileType);
+
+            return filePath;
         }
 
         /// <summary>

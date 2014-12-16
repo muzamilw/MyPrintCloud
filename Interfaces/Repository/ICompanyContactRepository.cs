@@ -17,5 +17,11 @@ namespace MPC.Interfaces.Repository
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
         CompanyContact GetContactByID(Int64 ContactID);
 
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+
+        string GeneratePasswordHash(string plainText);
+
+        void UpdateUserPassword(int userId, string pass);
+
     }
 }

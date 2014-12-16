@@ -48,5 +48,12 @@ namespace MPC.Models.ResponseModels
         ///  Language of Store 
         /// </summary>
         public string Language { get; set; }
+
+        /// <summary>
+        /// Organisation
+        /// </summary>
+        public Organisation Organisation { get; set; }
+
+       
     }
 }

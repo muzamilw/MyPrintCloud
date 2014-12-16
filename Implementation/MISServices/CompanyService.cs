@@ -192,6 +192,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
@@ -376,7 +377,7 @@ namespace MPC.Implementation.MISServices
         {
             return addressRepository.GetAddress(request);
         }
-        public Company GetCompanyById(int companyId)
+        public CompanyResponse GetCompanyById(int companyId)
         {
             return companyRepository.GetCompanyById(companyId);
         }
@@ -391,7 +392,7 @@ namespace MPC.Implementation.MISServices
         }
         public void SaveFile(string filePath, long companyId)
         {
-            Company company = companyRepository.GetCompanyById(companyId);
+            Company company = companyRepository.GetCompanyById(companyId).Company;
             if (company.Image != null)
             {
                 if (File.Exists(company.Image))
@@ -409,13 +410,12 @@ namespace MPC.Implementation.MISServices
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
             if (companyDbVersion == null)
             {
-                SaveNewCompany(companyModel.Company);
+                return SaveNewCompany(companyModel.Company);
             }
             else
             {
-                UpdateCompany(companyModel, companyDbVersion);
+                return UpdateCompany(companyModel, companyDbVersion);
             }
-            return null;
         }
 
         public long GetOrganisationId()

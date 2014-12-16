@@ -12,7 +12,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3, specifiedJobDescription3, specifiedJobDescriptionTitle4,
         specifiedJobDescription4, specifiedJobDescriptionTitle5, specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
         specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
-        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, callbacks) {
+        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1, callbacks) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -33,6 +33,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productCode = ko.observable(specifiedProductCode || undefined),
             // thumbnail
             thumbnail = ko.observable(specifiedThumbnail || undefined),
+            // grid image
+            gridImage = ko.observable(specifiedGridImage || undefined),
+            // image path
+            imagePath = ko.observable(specifiedImagePath || undefined),
+            // file 1
+            file1 = ko.observable(specifiedFile1 || undefined),
             // mini Price
             miniPrice = ko.observable(specifiedMinPrice || undefined),
             // is archived
@@ -52,18 +58,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // is featured
             isFeatured = ko.observable(specifiedIsFeatured || undefined),
             // is finished goods
-            isFinishedGoods = ko.observable(specifiedIsFinishedGoods || undefined),
+            isFinishedGoods = ko.observable(specifiedIsFinishedGoods !== undefined && specifiedIsFinishedGoods != null ?
+            (specifiedIsFinishedGoods === 0 ? 0 : specifiedIsFinishedGoods) : undefined),
             // is finished goods for ui
             isFinishedGoodsUi = ko.computed({
                 read: function () {
-                    if (!isFinishedGoods()) {
+                    if (isFinishedGoods() === undefined || isFinishedGoods() === null) {
                         return '1';
+                    }
+                    if (isFinishedGoods() === 0) {
+                        return '3';
                     }
                     return '' + isFinishedGoods();
                 },
                 write: function (value) {
                     var finishedGoods = parseInt(value);
-                    if (parseInt(value) === isFinishedGoods()) {
+                    if (finishedGoods === isFinishedGoods()) {
                         return;
                     }
 
@@ -132,6 +142,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription9 = ko.observable(specifiedJobDescription9 || undefined),
             // job description 10
             jobDescription10 = ko.observable(specifiedJobDescription10 || undefined),
+            // Is Template tabs Visible
+            isTemplateTabsVisible = ko.computed(function() {
+                return isFinishedGoodsUi() === '1';
+            }),
             // Item Vdp Prices
             itemVdpPrices = ko.observableArray([]),
             // Item Videos
@@ -282,7 +296,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsVdpProduct: isVdpProduct(),
                     IsStockControl: isStockControl(),
                     SortOrder: sortOrder(),
-                    IsFinishedGoods: isFinishedGoods(),
+                    IsFinishedGoods: isFinishedGoodsUi() === '3' ? 0 : parseInt(isFinishedGoodsUi()),
                     XeroAccessCode: xeroAccessCode(),
                     WebDescription: webDescription(),
                     ProductSpecification: productSpecification(),
@@ -331,6 +345,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productNameForGrid: productNameForGrid,
             productCode: productCode,
             thumbnail: thumbnail,
+            gridImage: gridImage,
+            imagePath: imagePath,
+            file1: file1,
             miniPrice: miniPrice,
             isArchived: isArchived,
             isPublished: isPublished,
@@ -372,6 +389,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription8: jobDescription8,
             jobDescription9: jobDescription9,
             jobDescription10: jobDescription10,
+            isTemplateTabsVisible: isTemplateTabsVisible,
             itemVideos: itemVideos,
             itemRelatedItems: itemRelatedItems,
             canAddItemVdpPrice: canAddItemVdpPrice,
@@ -769,14 +787,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Factory
     Item.Create = function (source, callbacks) {
-        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailPath, source.MinPrice,
+        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
             source.IsArchived, source.IsPublished, source.ProductCategoryName, source.IsEnabled, source.IsFeatured, source.IsFinishedGoods, source.SortOrder,
             source.IsStockControl, source.IsVdpProduct, source.XeroAccessCode, source.WebDescription, source.ProductSpecification, source.TipsAndHints,
             source.MetaTitle, source.MetaDescription, source.MetaKeywords, source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
-            source.JobDescriptionTitle10, source.JobDescription10, callbacks);
+            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, callbacks);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

@@ -362,7 +362,7 @@
           <Property Name="LinkedinURL" Type="varchar" MaxLength="200" />
           <Property Name="WebMasterTag" Type="nvarchar(max)" />
           <Property Name="WebAnalyticCode" Type="nvarchar(max)" />
-          <Property Name="isShowGoogleMap" Type="bit" />
+          <Property Name="isShowGoogleMap" Type="int" />
           <Property Name="isTextWatermark" Type="bit" />
           <Property Name="WatermarkText" Type="varchar" MaxLength="100" />
           <Property Name="CoreCustomerId" Type="int" />
@@ -400,6 +400,7 @@
           <Property Name="TaxRate" Type="float" />
           <Property Name="IsDisplayDiscountVoucherCode" Type="bit" />
           <Property Name="IsDisplayCorporateBinding" Type="bit" />
+          <Property Name="MapImageURL" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -3919,7 +3920,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="LinkedinURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="WebMasterTag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="WebAnalyticCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="isShowGoogleMap" Type="Boolean" />
+          <Property Name="isShowGoogleMap" Type="Int32" />
           <Property Name="isTextWatermark" Type="Boolean" />
           <Property Name="WatermarkText" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CoreCustomerId" Type="Int32" />
@@ -3969,6 +3970,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="RaveReviews" Relationship="DomainModels.FK_RaveReview_Company" FromRole="Company" ToRole="RaveReview" />
           <NavigationProperty Name="CompanyCMYKColors" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="Company" ToRole="CompanyCMYKColor" />
           <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_contactcompanies" FromRole="Company" ToRole="Address" />
+          <Property Name="MapImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -7112,6 +7114,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="MapImageUrl" ColumnName="MapImageURL" />
                 <ScalarProperty Name="IsDisplayCorporateBinding" ColumnName="IsDisplayCorporateBinding" />
                 <ScalarProperty Name="IsDisplayDiscountVoucherCode" ColumnName="IsDisplayDiscountVoucherCode" />
                 <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />

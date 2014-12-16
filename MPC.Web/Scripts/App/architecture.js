@@ -236,19 +236,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-    //ko.bindingHandlers.colorpicker = {
-    //    init: function (element, valueAccessor) {
-    //        var value = valueAccessor();
-    //        $(element).val(ko.utils.unwrapObservable(value));
-    //        $(element).colorpicker();
-    //        $(element).change(function () { value(this.value); });
-    //    },
-    //    update: function (element, valueAccessor) {
-    //        $(element).val(ko.utils.unwrapObservable(valueAccessor()));
-    //    }
-    //};
-
-
+    
     ko.bindingHandlers.colorpicker = {
         init: function (element, valueAccessor, allBindingsAccessor) {
 
@@ -628,7 +616,3 @@ $(function () {
         }
     });
 });
-
-//function format(item) {
-//    return $+item.FlagName;
-//}

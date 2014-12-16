@@ -668,7 +668,7 @@
                                                     </div>
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search by Role, email, name..." data-bind="value: $root.searchAddressFilter">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter">
                                                             <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
                                                         </div>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
@@ -698,7 +698,9 @@
                                             </div>
                                             <footer class="main-box-header pull-right">
                                                 <div id="pagerDivAddress">
-                                                    
+                                                    <!-- ko with: $root.addressPager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
                                                 </div>
                                             </footer>
                                         </div>
@@ -708,7 +710,6 @@
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block form-group pull-left col-xs-4">
-
                                                     <select class="form-control">
                                                         <option>All Territories </option>
                                                         <option>T1</option>
@@ -3166,8 +3167,8 @@
                 <td data-bind="text: addressName"></td>
                 <td data-bind="text: city"></td>
                 <td data-bind="text: territoryId"></td>
-                <td data-bind="text: isDefaultTerrorityBilling"></td>
-                <td data-bind="text: isDefaultAddress"></td>
+                <td data-bind="text: isDefaultTerrorityBilling() == true ? 'Yes' : 'No' "></td>
+                <td data-bind="text: isDefaultAddress() == true ? 'Yes' : 'No' "></td>
                 <td id="actionColumn" class="text-right">
                     <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->

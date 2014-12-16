@@ -45,7 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             var result = companyService.GetAllCompaniesOfOrganisation(request);
             return new CompanyResponse
             {
-                Companies = result.Companies.Select(x => x.CreateFrom()),
+                Companies = result.Companies.Select(x => x.ListViewModelCreateFrom()),
                 RowCount = result.RowCount
             };
         }
@@ -54,8 +54,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Company By Id
         /// </summary>
         /// <returns></returns>
-        public Company Get(int companyId)
+        public CompanyResponse Get([FromUri]int companyId)
         {
+            //var result = companyService.GetCompanyById(companyId);
+            
             return companyService.GetCompanyById(companyId).CreateFrom();
         }
         /// <summary>
@@ -80,6 +82,11 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.EdittedAddresses = company.EdittedAddresses != null ? company.EdittedAddresses.Select(x => x.CreateFrom()) : null;
             companySavingModel.DeletedAddresses = company.DeletedAddresses != null ? company.DeletedAddresses.Select(x => x.CreateFrom()) : null;
             return companyService.SaveCompany(companySavingModel).CreateFrom();
+        }
+
+        public Company Delete(int companyId)
+        {
+            return null;//todo
         }
     }
 }

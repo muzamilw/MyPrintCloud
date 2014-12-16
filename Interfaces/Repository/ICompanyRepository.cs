@@ -1,12 +1,13 @@
 ﻿using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System.Collections.Generic;
 
 namespace MPC.Interfaces.Repository
 {
     public interface ICompanyRepository : IBaseRepository<Company, long>
     {
-        Company GetCompanyById(long companyId);
+        CompanyResponse GetCompanyById(long companyId);
 
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
@@ -17,6 +18,10 @@ namespace MPC.Interfaces.Repository
         /// <param name="request"></param>
         /// <returns></returns>
         SupplierSearchResponseForInventory GetSuppliersForInventories(SupplierRequestModelForInventory request);
+
+        
+
+        Company GetStoreById(long companyId);
 
 
 

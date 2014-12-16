@@ -47,6 +47,103 @@ define("product/product.view",
                 hideRelatedItemDialog = function () {
                     $("#relatedProductDialog").modal("hide");
                 },
+                // Initiate Dropzone events 
+                initiateDropzoneEvents = function (element, itemId, itemImageType, imageCaption, filePath) {
+
+                    var self = element;
+                    self.on("sending", function (file, xhr, formData) {
+                        formData.append("itemId", itemId);
+                        formData.append("imageFileType", itemImageType);
+                    });
+
+                    self.on("removedfile", function () {
+                        $.ajax({
+                            type: 'post',
+                            url: '/Products/Home/DeleteImage?itemId=' + itemId + '&imageFileType=' + itemImageType,
+                            success: function () {
+                                toastr.success(imageCaption + " removed successfully!");
+                            }
+                        });
+                    });
+
+                    self.on("addedfile", function(file) {
+                        var img = $(file.previewTemplate).find("img");
+                        img[0].onload = function() {
+                            var max = this.width > this.height ? this.width : this.height;
+                            var ratio = 100.0 / max;
+
+                            var width = this.width * ratio;
+                            var height = this.height * ratio;
+
+                            img.css({
+                                width: width + "px",
+                                height: height + "px",
+                                top: ((100 - height) / 2) + "px",
+                                left: ((100 - width) / 2) + "px"
+                            });
+                        };
+                    });
+
+                    if (!filePath) {
+                        return;
+                    }
+
+                    var mockFile = { name: imageCaption, size: 12345, type: 'image/jpeg' };
+                    self.emit('addedfile', mockFile);
+                    self.emit('thumbnail', mockFile, filePath);
+                },
+                // Initialize Dropzones
+                initializeDropZones = function () {
+
+                    // Create Dropzone's
+                    // "demoUpload1" is the HTML element's ID
+                    $("#demoUpload1").dropzone({
+                        paramName: "file", // The name that will be used to transfer the file
+                        maxFilesize: 1,
+                        addRemoveLinks: true,
+                        dictRemoveFile: "Delete",
+                        init: function() {
+                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.thumbnail, "Thumbnail",
+                                viewModel.selectedProduct().thumbnail());
+                        }
+                    });
+
+                    // Image Path
+                    $("#demoUpload2").dropzone({
+                        paramName: "file", // The name that will be used to transfer the file
+                        maxFilesize: 1,
+                        addRemoveLinks: true,
+                        dictRemoveFile: "Delete",
+                        init: function() {
+                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.imagePath, "Image Path",
+                                viewModel.selectedProduct().imagePath());
+                        }
+                    });
+
+                    // Grid Image
+                    $("#demoUpload3").dropzone({
+                        paramName: "file", // The name that will be used to transfer the file
+                        maxFilesize: 1,
+                        addRemoveLinks: true,
+                        dictRemoveFile: "Delete",
+                        init: function() {
+                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.grid, "Grid",
+                                viewModel.selectedProduct().gridImage());
+                        }
+                    });
+
+                    // Grid Image
+                    $("#demoUpload4").dropzone({
+                        paramName: "file", // The name that will be used to transfer the file
+                        maxFilesize: 1,
+                        addRemoveLinks: true,
+                        dictRemoveFile: "Delete",
+                        init: function() {
+                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.file1, "File1",
+                                viewModel.selectedProduct().file1());
+                        }
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -61,7 +158,8 @@ define("product/product.view",
                 showVideoDialog: showVideoDialog,
                 hideVideoDialog: hideVideoDialog,
                 showRelatedItemDialog: showRelatedItemDialog,
-                hideRelatedItemDialog: hideRelatedItemDialog
+                hideRelatedItemDialog: hideRelatedItemDialog,
+                initializeDropZones: initializeDropZones
             };
         })(productViewModel);
 

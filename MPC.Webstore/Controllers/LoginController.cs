@@ -6,17 +6,19 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.Models;
+using MPC.Webstore.SessionModels;
 
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
     {
-           #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
@@ -45,10 +47,14 @@ namespace MPC.Webstore.Controllers
 
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
-        // GET: Login
-        public ActionResult Index(string FirstName,string LastName,string Email)
+
+        private IAuthenticationManager AuthenticationManager
         {
-            //CompanyContact uu = _webstoreAuthorizationChecker.LoginContact();
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
+        // GET: Login
+        public ActionResult Index(string FirstName, string LastName, string Email)
+        {
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
@@ -65,35 +71,36 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user != null)
                 {
-                         return  VerifyUser(user,returnUrl);
-                      
+                    return VerifyUser(user, returnUrl);
+
                 }
                 else
                 {
-                        ModelState.AddModelError("", "Invalid login attempt.");
-                        return View("PartialViews/Login");
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View("PartialViews/Login");
                 }
             }
             else
             {
-                 return View("PartialViews/Login");
+                return View("PartialViews/Login");
             }
         }
 
         [HttpPost]
         public ActionResult Index(AccountViewModel model)
         {
-            
+
             string returnUrl = string.Empty;
 
             //if (System.Web.HttpContext.Current.Request.UrlReferrer != null)
             //    returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
             //else
             //    returnUrl = string.Empty;
-            
+
             if (ModelState.IsValid)
             {
-                CompanyContact user = _myCompanyService.GetContactUser(model.Email, model.Password);
+                var user = _myCompanyService.GetContactUser(model.Email, model.Password);
+
                 if (user != null)
                 {
                     return VerifyUser(user, returnUrl);
@@ -108,10 +115,10 @@ namespace MPC.Webstore.Controllers
             {
                 return View("PartialViews/Login");
             }
-            
+
         }
 
-        private ActionResult VerifyUser(CompanyContact user,string ReturnUrl)
+        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl)
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
@@ -125,15 +132,16 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+
                 ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddClaimsToIdentity(0, user ,identity);
+                ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
 
                 HttpContext.User = new ClaimsPrincipal(identity);
                 // Make sure the Principal's are in sync
                 Thread.CurrentPrincipal = HttpContext.User;
-                SessionParameters.LoginCompany = user.Company;
-                SessionParameters.LoginContact = user;
+                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
                 RedirectToLocal(ReturnUrl);
                 return null;
             }

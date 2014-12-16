@@ -68,7 +68,7 @@ namespace MPC.Models.DomainModels
         public string LinkedinURL { get; set; }
         public string WebMasterTag { get; set; }
         public string WebAnalyticCode { get; set; }
-        public bool? isShowGoogleMap { get; set; }
+        public int? isShowGoogleMap { get; set; }
         public bool? isTextWatermark { get; set; }
         public string WatermarkText { get; set; }
         public int? CoreCustomerId { get; set; }
@@ -106,6 +106,11 @@ namespace MPC.Models.DomainModels
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
+
+        /// <summary>
+        /// Map Image Url
+        /// </summary>
+        public string MapImageUrl { get; set; }
 
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 

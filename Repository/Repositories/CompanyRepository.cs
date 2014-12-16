@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using Microsoft.Practices.Unity;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -50,7 +51,7 @@ namespace MPC.Repository.Repositories
             if (companyDomain.FirstOrDefault() != null)
             {
                 return companyDomain.FirstOrDefault().CompanyId;
-               
+
             }
             else
             {
@@ -58,12 +59,19 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Company GetCompanyById(long companyId)
+        public CompanyResponse GetCompanyById(long companyId)
         {
-            var company = DbSet.FirstOrDefault(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId);
-            company.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
-            company.Addresses = company.Addresses.Take(5).ToList();
-            return company;
+            CompanyResponse companyResponse = new CompanyResponse();
+            var company = db.Companies.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+
+            companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
+            companyResponse.AddressResponse = new AddressResponse();
+            companyResponse.Company = company;
+            companyResponse.CompanyTerritoryResponse.RowCount = company.CompanyTerritories.Count();
+            companyResponse.AddressResponse.RowCount = company.Addresses.Count();
+            companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
+            companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
+            return companyResponse;
         }
         /// <summary>
         /// Get Companies list for Companies List View
@@ -127,6 +135,11 @@ namespace MPC.Repository.Repositories
                 Suppliers = companies
             };
         }
-        
+
+        public Company GetStoreById(long companyId)
+        {
+            return DbSet.FirstOrDefault(c => c.CompanyId == companyId);
+        }
+
     }
 }

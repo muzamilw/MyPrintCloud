@@ -12,6 +12,6 @@ namespace MPC.Models.Common
         /// </summary>
         public long OrganisationId { get; set; }
 
-        public CompanyContact loginContact { get; set; }
+      
     }
 }
