@@ -30,7 +30,9 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICurrencyRepository _currencyRepository;
         private readonly IGlobalLanguageRepository _globalLanguageRepository;
         private readonly IAddressRepository _addressRepository;
-             
+        private readonly IOrganisationRepository _organisationRepository;
+        private readonly ISystemUserRepository _systemUserRepository;
+        private readonly ICampaignRepository _campaignRepository;
         #endregion
 
         #region Constructor
@@ -41,7 +43,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -52,6 +54,8 @@ namespace MPC.Implementation.WebStoreServices
             this._CompanyContactRepository = companyContactRepository;
             this._currencyRepository = currencyRepository;
             this._globalLanguageRepository = globalLanguageRepository;
+            this._organisationRepository = organisationRepository;
+            this._systemUserRepository = systemUserRepository;
         }
 
         #endregion
@@ -66,7 +70,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-            Company oCompany = GetCompanyByCompanyID(companyId);
+            
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -86,12 +90,16 @@ namespace MPC.Implementation.WebStoreServices
             {
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId); 
+
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+
+                Company oCompany = GetCompanyByCompanyID(companyId);
 
                 CacheEntryRemovedCallback callback = null;
-
+         
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
                 oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                 oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
@@ -110,11 +118,15 @@ namespace MPC.Implementation.WebStoreServices
             else // there are some stores already in cache.
             {
 
-                if (!stores.ContainsKey(oCompany.CompanyId))
+                if (!stores.ContainsKey(companyId))
                 {
+                    Company oCompany = GetCompanyByCompanyID(companyId);
+
                     List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(oCompany.CompanyId);
 
                     MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+
+
                     oStore.Company = oCompany;
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
@@ -129,7 +141,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 else
                 {
-                    return stores[oCompany.CompanyId];
+                    return stores[companyId];
                 }
             }
         }
@@ -172,7 +184,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
-            return _CompanyRepository.GetCompanyById(CompanyID).Company;
+            return _CompanyRepository.GetStoreById(CompanyID);
         }
 
         public CompanyContact GetContactByID(Int64 ContactID)
@@ -186,6 +198,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
         {
+        
             return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact,TwitterScreenName);
         }
 
@@ -195,6 +208,48 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
+        public CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID)
+        {
+            return _CompanyContactRepository.GetContactByEmailAndMode(Email, Type, customerID);
+        }
+
+
+        public string GeneratePasswordHash(string plainText)
+        {
+            return _CompanyContactRepository.GeneratePasswordHash(plainText);
+        }
+
+        public void UpdateUserPassword(int userId, string pass)
+        {
+            _CompanyContactRepository.UpdateUserPassword(userId, pass);
+        }
+        public SystemUser GetSystemUserById(long SystemUserId)
+        {
+            return _systemUserRepository.GetSalesManagerById(SystemUserId);
+        }
+
+
+        public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
+        {
+            return _campaignRepository.AddMsgToTblQueue(Toemail, CC, ToName, msgbody, fromName, fromEmail, smtpUserName, ServerPass, ServerName, subject, AttachmentList, CampaignReportID);
+
+        }
+
+
+        public List<ProductCategory> GetAllParentCorporateCatalog(int customerId)
+        {
+            return _productCategoryRepository.GetAllParentCorporateCatalog(customerId);
+        }
+
+        public List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId)
+        {
+            return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
+        }
+
+        public List<ProductCategory> GetParentCategories()
+        {
+            return _productCategoryRepository.GetParentCategories();
+        }
         #endregion
     }
 }

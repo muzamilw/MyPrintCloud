@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using FaceSharp.Api.Objects;
 using MPC.Common;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
@@ -13,45 +14,25 @@ namespace MPC.Implementation.WebStoreServices
 {
     public sealed class WebstoreClaimsSecurityService : MarshalByRefObject, IWebstoreClaimsSecurityService
     {
-        private static void AddOrganisationClaims(long organisationId, ClaimsIdentity claimsIdentity)
-        {
-            Claim claim = new Claim(WebstoreClaimTypes.OrganisationId,
-                                        ClaimHelper.Serialize(
-                                            new OrganisationClaimValue { OrganisationId = organisationId }),
-                                        typeof(OrganisationClaimValue).AssemblyQualifiedName);
-            claimsIdentity.AddClaim(claim);
-        }
-
-     
-
-        private static void AddCompanyClaims(long companyId, ClaimsIdentity claimsIdentity)
-        {
-            Claim claim = new Claim(WebstoreClaimTypes.Company,
-                                        ClaimHelper.Serialize(
-                                            new CompanyClaimValue { CompanyId = companyId }),
-                                        typeof(CompanyClaimValue).AssemblyQualifiedName);
-            claimsIdentity.AddClaim(claim);
-        }
-
-        private static void AddLoginUserClaims(CompanyContact userContact, ClaimsIdentity claimsIdentity)
+        private static void AddLoginUserClaims(long contactId, long companyId, int roleId, long territoryId, ClaimsIdentity claimsIdentity)
         {
             Claim claim = new Claim(WebstoreClaimTypes.LoginUser,
                                         ClaimHelper.Serialize(
-                                            new OrganisationClaimValue { loginContact = userContact }),
-                                        typeof(OrganisationClaimValue).AssemblyQualifiedName);
+                                            new ContactClaimValue
+                                            {
+                                                ContactId = contactId,
+                                                ContactCompanyId = companyId,
+                                                ContactRoleId = roleId,
+                                                ContactTerritoryId = territoryId
+    
+                                            }),
+                                        typeof(ContactClaimValue).AssemblyQualifiedName);
             claimsIdentity.AddClaim(claim);
         }
 
-        public void AddClaimsToIdentity(long companyIdentity, CompanyContact contact ,ClaimsIdentity claimsIdentity)
+        public void AddSignInClaimsToIdentity(long contactId, long companyId, int roleId, long territoryId, ClaimsIdentity claimsIdentity)
         {
-            if (companyIdentity > 0)
-            {
-                AddCompanyClaims(companyIdentity, claimsIdentity);
-            }
-            if (contact != null)
-            {
-                AddLoginUserClaims(contact, claimsIdentity);
-            }
+            AddLoginUserClaims(contactId, companyId, roleId,territoryId, claimsIdentity);
         }
 
         /// <summary>

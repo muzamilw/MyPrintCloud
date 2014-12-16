@@ -57,6 +57,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<IColorPalleteRepository, ColorPalleteRepository>();
             unityContainer.RegisterType<ITemplateRepository, TemplateRepository>();
             unityContainer.RegisterType<ITemplatePageRepository, TemplatePageRepository>();
+            unityContainer.RegisterType<ICampaignRepository, CampaignRepository>();
+            unityContainer.RegisterType<IUserManagerRepository, UserManagerRepository>();
+            unityContainer.RegisterType<IOrderRepository, OrderRepository>();
         }
     }
 }

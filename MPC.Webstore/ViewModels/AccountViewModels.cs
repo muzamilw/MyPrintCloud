@@ -3,6 +3,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MPC.Webstore.Models
 {
+    public class AccountViewModel
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress()]
+        [Display(Name = "Email id")]
+
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+
+
+        [Display(Name = "KeepMeLoggedIn")]
+        public bool KeepMeLoggedIn { get; set; }
+
+
+    }
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -121,4 +142,33 @@ namespace MPC.Webstore.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+    public class ContactViewModel
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress()]
+        [Display(Name = "Email id")]
+
+        public string Email { get; set; }
+
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Your name")]
+        public string YourName { get; set; }
+
+
+
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Company name")]
+        public string CompanyName { get; set; }
+
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Enquiry")]
+        public string YourEnquiry { get; set; }
+
+
+    }
+ 
 }

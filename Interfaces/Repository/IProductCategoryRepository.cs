@@ -10,5 +10,11 @@ namespace MPC.Interfaces.Repository
     public interface IProductCategoryRepository : IBaseRepository<ProductCategory, long>
     {
         List<ProductCategory> GetParentCategoriesByTerritory(long companyId);
+
+        List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
+
+        List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
+
+        List<ProductCategory> GetParentCategories();
     }
 }

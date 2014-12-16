@@ -20,5 +20,11 @@ namespace MPC.Interfaces.Repository
         Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
             Models.RequestModels.CompanyContactRequestModel request);
 
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+
+        string GeneratePasswordHash(string plainText);
+
+        void UpdateUserPassword(int userId, string pass);
+
     }
 }

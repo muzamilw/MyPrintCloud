@@ -19,8 +19,6 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult LogOut()
         {
-            SessionParameters.LoginContact = null;
-            SessionParameters.LoginCompany = null;
 
             ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;

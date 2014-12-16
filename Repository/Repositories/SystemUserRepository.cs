@@ -39,6 +39,10 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(systemUser => systemUser.OrganizationId == OrganisationId).ToList();
         }
+        public SystemUser GetSalesManagerById(long SytemUserId)
+        {
+            return db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
+        }
         #endregion
     }
 }

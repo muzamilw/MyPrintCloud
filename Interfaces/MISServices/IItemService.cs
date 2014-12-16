@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -22,7 +23,12 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Save Product Image
         /// </summary>
-        Item SaveProductImage(string filePath, long itemId);
+        Item SaveProductImage(string filePath, long itemId, ItemFileType itemFileType);
+
+        /// <summary>
+        /// Delete Image
+        /// </summary>
+        string DeleteProductImage(long itemId, ItemFileType itemFileType);
 
         /// <summary>
         /// Save Product

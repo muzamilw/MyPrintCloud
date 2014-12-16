@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using Microsoft.Practices.Unity;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -38,7 +39,7 @@ namespace MPC.Repository.Repositories
                 return db.Companies;
             }
         }
-
+        
         public override IEnumerable<Company> GetAll()
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
@@ -135,6 +136,11 @@ namespace MPC.Repository.Repositories
                 TotalCount = rowCount,
                 Suppliers = companies
             };
+        }
+
+        public Company GetStoreById(long companyId)
+        {
+            return db.Company.Where(c => c.CompanyId == companyId).Single();
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿@model List<MPC.Models.DomainModels.ProductCategory>
+@using System.Text.RegularExpressions;
 <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
     <div class="row left_right_padding cntTopLevelCategory">
 
@@ -7,12 +8,15 @@
 {
     <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
         <div class="LCLB">
-
-            <asp:HyperLink ID="hlProductDetail" runat="server">
-                <div class="PDTC_TL FI_TL H4B_TL">
-                    <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="http://yolkpm.myprintcloud.com/StoredImages/ProductCategoryImages/de30e12f-af42-4a95-85f5-071a48c4a16a_catThumb.png" />
-                </div>
-            </asp:HyperLink>
+            @{
+                    Regex reg = new Regex("[\\s;\\/:*?\"<>|&']", RegexOptions.IgnoreCase);
+                    string categoryName = reg.Replace(@categories.CategoryName, "-");
+                    <a id="hlProductDetail" href="Category/@categoryName/@categories.ProductCategoryId">
+                        <div class="PDTC_TL FI_TL H4B_TL">
+                            <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="http://yolkpm.myprintcloud.com/StoredImages/ProductCategoryImages/de30e12f-af42-4a95-85f5-071a48c4a16a_catThumb.png" />
+                        </div>
+                    </a>
+            }
             <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
                 @categories.CategoryName
             </div>

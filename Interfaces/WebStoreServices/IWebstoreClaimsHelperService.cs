@@ -9,9 +9,10 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IWebstoreClaimsHelperService
     {
-        long OrganisationId();
+        long loginContactID();
 
-        long CompanyId();
-        CompanyContact LoginContact();
+        long loginContactCompanyID();
+        long loginContactRoleID();
+        long loginContactTerritoryID();
     }
 }

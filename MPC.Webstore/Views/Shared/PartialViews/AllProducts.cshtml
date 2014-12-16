@@ -1,0 +1,30 @@
+﻿@using System.Linq
+<h1 class="allprodHead">
+    <label>All Products</label>
+</h1>
+@foreach (var topCat in ViewData["ParentCats"] as List<MPC.Models.DomainModels.ProductCategory>)
+    <div class="white-container-lightgrey-border rounded_corners">
+        <h2 class="width_allPro">
+            <a class="Parent_Cat_allPro" href="/Category?CategoryId=@topCat.ProductCategoryId">@topCat.CategoryName</a>
+        </h2>
+        <div class="colContainer">
+            @foreach (var subCats in ViewData["SubCats"] as List<MPC.Models.DomainModels.ProductCategory>)
+
+                <div class="allproducts_col">
+
+                    <div class="allproducts_col_cat">
+                        <div class="allproducts_colCat_cont">
+                            <a class="SubCatLink" href="/Category?CategoryId=@subCats.ProductCategoryId">@subCats.CategoryName</a>
+                        </div>
+
+                    </div>
+
+                </div>
+                }
+                <div class="clearBoth">
+                </div>
+            </div>
+            <div class="clearBoth">
+            </div>
+        </div>
+        }

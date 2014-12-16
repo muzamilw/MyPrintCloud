@@ -1,6 +1,7 @@
 ﻿using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System.Collections.Generic;
 
 namespace MPC.Interfaces.Repository
 {
@@ -17,6 +18,10 @@ namespace MPC.Interfaces.Repository
         /// <param name="request"></param>
         /// <returns></returns>
         SupplierSearchResponseForInventory GetSuppliersForInventories(SupplierRequestModelForInventory request);
+
+        
+
+        Company GetStoreById(long companyId);
 
 
 

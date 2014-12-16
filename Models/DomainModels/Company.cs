@@ -107,6 +107,11 @@ namespace MPC.Models.DomainModels
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
 
+        /// <summary>
+        /// Map Image Url
+        /// </summary>
+        public string MapImageUrl { get; set; }
+
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
         public virtual ICollection<CompanyCMYKColor> CompanyCMYKColors { get; set; }
