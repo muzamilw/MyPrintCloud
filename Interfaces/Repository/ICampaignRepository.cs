@@ -20,5 +20,7 @@ namespace MPC.Interfaces.Repository
         void SendEmailFromQueue(System.Web.HttpContext hcontext);
         void MonitorScheduledEmails();
 
+        bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID);
+
     }
 }

@@ -32,7 +32,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IAddressRepository _addressRepository;
         private readonly IOrganisationRepository _organisationRepository;
         private readonly ISystemUserRepository _systemUserRepository;
-
+        private readonly ICampaignRepository _campaignRepository;
         #endregion
 
         #region Constructor
@@ -228,6 +228,12 @@ namespace MPC.Implementation.WebStoreServices
             return _systemUserRepository.GetSalesManagerById(SystemUserId);
         }
 
+
+        public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
+        {
+            return _campaignRepository.AddMsgToTblQueue(Toemail, CC, ToName, msgbody, fromName, fromEmail, smtpUserName, ServerPass, ServerName, subject, AttachmentList, CampaignReportID);
+
+        }
         #endregion
     }
 }
