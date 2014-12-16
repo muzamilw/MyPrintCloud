@@ -57,14 +57,14 @@ namespace MPC.MIS.Areas.Settings.Controllers
         private void SaveFile(HttpPostedFileBase file, long organizationId)
         {
             // Specify the path to save organisations files.
-            string organisationDirectoryPath = Server.MapPath("~/Organisations/" + organizationId);
+            string organisationDirectoryPath = Server.MapPath("~/Resources/Organisations/" + organizationId);
 
             if (!Directory.Exists(organisationDirectoryPath))
             {
                 Directory.CreateDirectory(organisationDirectoryPath);
 
             }
-            string savePath = Server.MapPath("~/Organisations/" + organizationId + "/");
+            string savePath = Server.MapPath("~/Resources/Organisations/" + organizationId + "/");
             string fileName = file.FileName;
             // Append the name of the file to upload to the path.
             savePath += fileName;

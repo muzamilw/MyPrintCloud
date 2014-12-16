@@ -1,4 +1,8 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System;
+using System.IO;
+using System.Web;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Company Banner Mis Model
@@ -46,5 +50,37 @@
         /// </summary>
         public long? CompanySetId { get; set; }
 
+        /// <summary>
+        /// File Bytes
+        /// </summary>
+        public string Bytes { get; set; }
+
+        /// <summary>
+        /// File Name
+        /// </summary>
+        public string FileName { get; set; }
+
+
+        /// <summary>
+        /// Image Bytes
+        /// </summary>
+        public byte[] Image { get; set; }
+
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ImageSource
+        {
+            get
+            {
+                if (Image == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(Image);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
     }
 }

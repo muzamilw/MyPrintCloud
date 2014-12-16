@@ -112,9 +112,9 @@ namespace MPC.Webstore.Controllers
             if (isSocial == "1")
                 TwitterScreenName = model.FirstName;
 
-            long storeId = Convert.ToInt64(Session["storeId"]);
+         //   long storeId = Convert.ToInt64(Session["storeId"]);
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
            
             MPC.Models.DomainModels.Organisation organisation = new MPC.Models.DomainModels.Organisation();
 

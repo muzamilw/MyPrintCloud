@@ -71,7 +71,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxPercentageId = source.TaxPercentageId,
                 canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                 CanUserEditProfile = source.CanUserEditProfile,
-                OrganisationId = source.OrganisationId,
                 SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
                 SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
                 ProductionManagerId1 = source.ProductionManagerId1,
@@ -104,7 +103,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               CreditReference = source.CreditReference,
                               CreditLimit = source.CreditLimit,
                               Terms = source.Terms,
-                              TypeId = source.TypeId,
+                              TypeId = 52,
                               DefaultNominalCode = source.DefaultNominalCode,
                               DefaultMarkUpId = source.DefaultMarkUpId,
                               AccountOpenDate = source.AccountOpenDate,
@@ -146,7 +145,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               TaxPercentageId = source.TaxPercentageId,
                               canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                               CanUserEditProfile = source.CanUserEditProfile,
-                              OrganisationId = source.OrganisationId,
                               SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
                               SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
                               ProductionManagerId1 = source.ProductionManagerId1,
@@ -240,7 +238,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                                                Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
                                                RowCount = source.AddressResponse.RowCount
                                            },
-                       
+
                        CompanyTerritoryResponse = new ApiModels.CompanyTerritoryResponse
                                                   {
                                                       CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),

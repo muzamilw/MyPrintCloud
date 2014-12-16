@@ -36,10 +36,10 @@ namespace MPC.Repository.Repositories
         {
             get
             {
-                return db.Company;
+                return db.Companies;
             }
         }
-        
+
         public override IEnumerable<Company> GetAll()
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
@@ -62,8 +62,8 @@ namespace MPC.Repository.Repositories
         public CompanyResponse GetCompanyById(long companyId)
         {
             CompanyResponse companyResponse = new CompanyResponse();
-            var company = db.Company.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
-            
+            var company = db.Companies.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
+
             companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
             companyResponse.AddressResponse = new AddressResponse();
             companyResponse.Company = company;
@@ -138,7 +138,7 @@ namespace MPC.Repository.Repositories
 
         public Company GetStoreById(long companyId)
         {
-            return db.Company.Where(c => c.CompanyId == companyId).Single();
+            return DbSet.FirstOrDefault(c => c.CompanyId == companyId);
         }
 
     }

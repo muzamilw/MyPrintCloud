@@ -164,22 +164,27 @@ namespace MPC.Implementation.MISServices
         }
         private void UpdateAddressOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
-            //Add New Addresses
-            foreach (var address in companySavingModel.NewAddedAddresses)
+            if (companySavingModel.NewAddedAddresses != null)
             {
-                address.CompanyId = companySavingModel.Company.CompanyId;
-                addressRepository.Add(address);
+                //Add New Addresses
+                foreach (var address in companySavingModel.NewAddedAddresses)
+                {
+                    address.CompanyId = companySavingModel.Company.CompanyId;
+                    addressRepository.Add(address);
+                }
             }
-            //Update addresses
-            foreach (var address in companySavingModel.EdittedAddresses)
-            {
-                addressRepository.Update(address);
-            }
-            //Delete Addresses
-            foreach (var address in companySavingModel.DeletedAddresses)
-            {
-                addressRepository.Delete(address);
-            }
+            if (companySavingModel.EdittedAddresses != null)
+                //Update addresses
+                foreach (var address in companySavingModel.EdittedAddresses)
+                {
+                    addressRepository.Update(address);
+                }
+            if (companySavingModel.DeletedAddresses != null)
+                //Delete Addresses
+                foreach (var address in companySavingModel.DeletedAddresses)
+                {
+                    addressRepository.Delete(address);
+                }
         }
 
         /// <summary>
@@ -187,6 +192,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
@@ -298,6 +304,47 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
+            if (company.CompanyBannerSets != null)
+                SaveImages(company.CompanyBannerSets);
+        }
+        /// <summary>
+        /// Save Images
+        /// </summary>
+        private void SaveImages(IEnumerable<CompanyBannerSet> companyBannerSets)
+        {
+
+            List<CompanyBanner> companyBannersList = companyBannerRepository.GetAll().ToList();
+
+            foreach (var item in companyBannerSets)
+            {
+                if (item.CompanyBanners != null)
+                    foreach (var img in item.CompanyBanners)
+                    {
+                        if (img.Bytes != null)
+                        {
+                            string base64 = img.Bytes.Substring(img.Bytes.IndexOf(',') + 1);
+                            base64 = base64.Trim('\0');
+                            byte[] data = Convert.FromBase64String(base64);
+
+                            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyBanners");
+                            if (directoryPath != null && !Directory.Exists(directoryPath))
+                            {
+                                Directory.CreateDirectory(directoryPath);
+                            }
+                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "-" + img.FileName;
+                            File.WriteAllBytes(savePath, data);
+
+                            CompanyBanner companyBanner = companyBannersList.FirstOrDefault(x => x.CompanyBannerId == img.CompanyBannerId);
+                            if (companyBanner != null)
+                            {
+                                companyBanner.ImageURL = savePath;
+                            }
+                        }
+                    }
+            }
+
+            companyBannerRepository.SaveChanges();
+
         }
         #endregion
 
@@ -363,13 +410,12 @@ namespace MPC.Implementation.MISServices
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
             if (companyDbVersion == null)
             {
-                SaveNewCompany(companyModel.Company);
+                return SaveNewCompany(companyModel.Company);
             }
             else
             {
-                UpdateCompany(companyModel, companyDbVersion);
+                return UpdateCompany(companyModel, companyDbVersion);
             }
-            return null;
         }
 
         public long GetOrganisationId()
