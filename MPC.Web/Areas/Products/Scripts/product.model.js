@@ -12,7 +12,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3, specifiedJobDescription3, specifiedJobDescriptionTitle4,
         specifiedJobDescription4, specifiedJobDescriptionTitle5, specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
         specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
-        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, callbacks) {
+        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1, callbacks) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -37,6 +37,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             gridImage = ko.observable(specifiedGridImage || undefined),
             // image path
             imagePath = ko.observable(specifiedImagePath || undefined),
+            // file 1
+            file1 = ko.observable(specifiedFile1 || undefined),
             // mini Price
             miniPrice = ko.observable(specifiedMinPrice || undefined),
             // is archived
@@ -345,6 +347,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             thumbnail: thumbnail,
             gridImage: gridImage,
             imagePath: imagePath,
+            file1: file1,
             miniPrice: miniPrice,
             isArchived: isArchived,
             isPublished: isPublished,
@@ -791,7 +794,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
-            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathSource, callbacks);
+            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, callbacks);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

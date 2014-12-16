@@ -31,7 +31,8 @@ define("product/product.viewModel",
                     itemFileTypes = {
                         thumbnail: 1,
                         grid: 2,
-                        imagePath: 3
+                        imagePath: 3,
+                        file1: 4
                     },
                     // filter
                     filterText = ko.observable(),

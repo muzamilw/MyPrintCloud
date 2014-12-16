@@ -73,7 +73,7 @@ namespace MPC.MIS.Areas.Products.Controllers
         private void SaveFile(HttpPostedFileBase file, long itemId, ItemFileType imageFileType)
         {
             // Specify the path to save Product files.
-            string path = Server.MapPath("~/Resorces/Products/" + itemId + "/");
+            string path = Server.MapPath("~/Resources/Products/" + itemId + "/");
 
             if (!Directory.Exists(path))
             {
