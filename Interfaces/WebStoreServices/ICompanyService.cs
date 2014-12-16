@@ -42,6 +42,7 @@ namespace MPC.Interfaces.WebStoreServices
         SystemUser GetSystemUserById(long SystemUserId);
 
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
+        List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
         List<ProductCategory> GetParentCategories();
     }

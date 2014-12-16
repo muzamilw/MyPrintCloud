@@ -15,20 +15,21 @@ namespace MPC.Webstore.Controllers
           #region Private
 
         private readonly ICompanyService _myCompanyService;
-
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public ParentCategoriesController(ICompanyService myCompanyService)
+        public ParentCategoriesController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
             this._myCompanyService = myCompanyService;
+            this._myClaimHelper = myClaimHelper;
         }
 
         #endregion
@@ -39,28 +40,29 @@ namespace MPC.Webstore.Controllers
 
             //if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
             //{
-               
-                  
-            //        if (SessionParameters.CustomerContact != null && SessionParameters.CustomerContact.ContactRoleID == Convert.ToInt32(Roles.Adminstrator))
-            //        {
-            //            lstParentCategories = CategoriesManager.GetAllParentCorporateCatalog(SessionParameters.CustomerID);
-            //        }
-            //        else
-            //        {
-            //            lstParentCategories = CategoriesManager.GetAllParentCorporateCatalogByTerritory(SessionParameters.CustomerID, SessionParameters.ContactID);
-            //        }
-               
+
+            //    int roleid = _myClaimHelper.LoginContact().ContactRoleId ?? 0;
+
+            //    if (_myClaimHelper.LoginContact() != null && roleid == Convert.ToInt32(Roles.Adminstrator))
+            //    {
+            //        lstParentCategories = _myCompanyService.GetAllParentCorporateCatalog((int)_myClaimHelper.LoginContact().CompanyId);
+            //    }
+            //    else
+            //    {
+            //        lstParentCategories = _myCompanyService.GetAllParentCorporateCatalogByTerritory((int)_myClaimHelper.LoginContact().CompanyId,(int) _myClaimHelper.LoginContact().ContactId);
+            //    }
+
 
             //}
             //else
             //{
-            //    lstParentCategories = oMngr.GetParentCategories();
-             
-            //    rptTopLevelCategory.DataSource = lstParentCategories.OrderBy(i => i.DisplayOrder);
+            //    lstParentCategories = _myCompanyService.GetParentCategories();
+
+              
             //    //rptTopLevelCategory.DataBind();
             //}
-            //var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
-            return PartialView("PartialViews/ParentCategories");
+            var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
+            return PartialView("PartialViews/ParentCategories",model);
         }
     }
 }
