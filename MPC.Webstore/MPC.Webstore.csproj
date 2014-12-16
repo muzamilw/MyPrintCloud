@@ -383,7 +383,7 @@
     <Content Include="Views\Shared\PartialViews\ForgotPassword.cshtml" />
     <Content Include="Views\Shared\PartialViews\ContactUs.cshtml" />
     <Content Include="Views\Shared\PartialViews\AllProducts.cshtml" />
-    <Content Include="Views\Shared\PartialViews\_Category.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Category.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
