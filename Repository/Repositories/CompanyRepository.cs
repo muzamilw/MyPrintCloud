@@ -62,17 +62,28 @@ namespace MPC.Repository.Repositories
         public CompanyResponse GetCompanyById(long companyId)
         {
             CompanyResponse companyResponse = new CompanyResponse();
-            var company = db.Companies.Where(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId).Single();
-
+            var company = DbSet.Find(companyId);
             companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
             companyResponse.AddressResponse = new AddressResponse();
+            companyResponse.CompanyContactResponse = new CompanyContactResponse();
+            companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
             companyResponse.Company = company;
             companyResponse.CompanyTerritoryResponse.RowCount = company.CompanyTerritories.Count();
             companyResponse.AddressResponse.RowCount = company.Addresses.Count();
             companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
             companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
+            companyResponse.CompanyContactResponse.CompanyContacts = company.CompanyContacts.Take(5).ToList();
+            //LoadProperties(company);
+            companyResponse.SecondaryPageResponse.RowCount = company.CmsPages.Count;
+            companyResponse.SecondaryPageResponse.CmsPages = company.CmsPages.Take(5).ToList();
             return companyResponse;
         }
+
+        private void LoadProperties(Company company)
+        {
+            LoadProperty(company, () => company.CmsPages, true);
+        }
+
         /// <summary>
         /// Get Companies list for Companies List View
         /// </summary>
@@ -138,7 +149,7 @@ namespace MPC.Repository.Repositories
 
         public Company GetStoreById(long companyId)
         {
-            return DbSet.FirstOrDefault(c => c.CompanyId == companyId);
+            return db.Companies.FirstOrDefault(c => c.CompanyId == companyId);
         }
 
     }

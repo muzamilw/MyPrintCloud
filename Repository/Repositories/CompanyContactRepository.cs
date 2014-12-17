@@ -1,11 +1,13 @@
 ﻿
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Practices.Unity;
 using MPC.Models.DomainModels;
 using MPC.Interfaces.Repository;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
 using MPC.Common;
@@ -16,7 +18,7 @@ namespace MPC.Repository.Repositories
 {
     public class CompanyContactRepository : BaseRepository<CompanyContact>, ICompanyContactRepository
     {
-        public CompanyContactRepository(IUnityContainer container) 
+        public CompanyContactRepository(IUnityContainer container)
             : base(container)
         {
         }
@@ -36,7 +38,7 @@ namespace MPC.Repository.Repositories
                        select contacts;
 
             return qury.ToList().Where(contct => VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();
-        } 
+        }
         public CompanyContact GetContactByFirstName(string FName)
         {
             var qry = from contacts in db.CompanyContacts
@@ -271,7 +273,7 @@ namespace MPC.Repository.Repositories
 
             return salt;
         }
-        public Int64 CreateContact(CompanyContact Contact, string Name,int OrganizationID,int CustomerType,string TwitterScreanName)
+        public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
         {
             Address address = null;
             CompanyContact tblContacts = null;
@@ -280,7 +282,7 @@ namespace MPC.Repository.Repositories
 
             //CompanySiteManager companySiteManager = new CompanySiteManager();
             Company Company = new Company();
-            Organisation organization =  null;// CompanySiteManager.GetCompanySite();
+            Organisation organization = null;// CompanySiteManager.GetCompanySite();
 
             Company.isArchived = false;
             Company.AccountNumber = "123";
@@ -289,15 +291,15 @@ namespace MPC.Repository.Repositories
             Company.TypeId = CustomerType; //contactCompanyType.TypeID;
             Company.Status = 0;
 
-            if (Contact != null && !string.IsNullOrEmpty(Contact.Mobile ))
+            if (Contact != null && !string.IsNullOrEmpty(Contact.Mobile))
                 Company.PhoneNo = Contact.Mobile;
-            
-          
+
+
             Company.CreationDate = DateTime.Now;
             Company.AccountManagerId = Company.AccountManagerId;
             Company.CreditLimit = 0;
             Company.IsCustomer = Convert.ToInt16(CustomerType);
-            
+
             //if (BrokerContactCompanyID != null)
             //{
             //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;
@@ -308,73 +310,73 @@ namespace MPC.Repository.Repositories
             //    contactCompany.IsCustomer = 0; //prospect
             //}
 
-           
-              Markup zeroMarkup = GetZeroMarkup();
-              if (zeroMarkup != null)
-              {
-                        Company.DefaultMarkUpId = Convert.ToInt16(zeroMarkup.MarkUpId);
-              }
-              else
-              {
-                        Company.DefaultMarkUpId = 1;
-              }
 
-                    //Create Customer
-              db.Companies.Add(Company);
+            Markup zeroMarkup = GetZeroMarkup();
+            if (zeroMarkup != null)
+            {
+                Company.DefaultMarkUpId = Convert.ToInt16(zeroMarkup.MarkUpId);
+            }
+            else
+            {
+                Company.DefaultMarkUpId = 1;
+            }
 
-                    //Create Billing Address and Delivery Address and mark them default billing and shipping
-                    address = PopulateAddressObject(0, (Int16)Company.CompanyId, true, true);
-                    db.Addesses.Add(address);
+            //Create Customer
+            db.Companies.Add(Company);
 
-                    //Create Contact
-                    tblContacts = PopulateContactsObject((Int16)Company.CompanyId, (Int16)address.AddressId, true);
-                    tblContacts.isArchived = false;
+            //Create Billing Address and Delivery Address and mark them default billing and shipping
+            address = PopulateAddressObject(0, (Int16)Company.CompanyId, true, true);
+            db.Addesses.Add(address);
 
-                    if (Contact != null)
-                    {
-                        tblContacts.FirstName = Contact.FirstName;
-                        tblContacts.LastName = Contact.LastName;
-                        tblContacts.Email = Contact.Email;
-                        tblContacts.Mobile = Contact.Mobile;
-                        tblContacts.Password = ComputeHashSHA1(Contact.Password);
-                        tblContacts.QuestionId = 1;
-                        tblContacts.SecretAnswer = "";
-                        tblContacts.ClaimIdentifer = Contact.ClaimIdentifer;
-                        tblContacts.AuthentifiedBy = Contact.AuthentifiedBy;
-                        //Quick Text Fields
-                        tblContacts.quickAddress1 = Contact.quickAddress1;
-                        tblContacts.quickAddress2 = Contact.quickAddress2;
-                        tblContacts.quickAddress3 = Contact.quickAddress3;
-                        tblContacts.quickCompanyName = Contact.quickCompanyName;
-                        tblContacts.quickCompMessage = Contact.quickCompMessage;
-                        tblContacts.quickEmail = Contact.quickEmail;
-                        tblContacts.quickFax = Contact.quickFax;
-                        tblContacts.quickFullName = Contact.quickFullName;
-                        tblContacts.quickPhone = Contact.quickPhone;
-                        tblContacts.quickTitle = Contact.quickTitle;
-                        tblContacts.quickWebsite = Contact.quickWebsite;
-                        if (!string.IsNullOrEmpty(TwitterScreanName))
-                        {
-                            tblContacts.twitterScreenName = TwitterScreanName;
-                        }
+            //Create Contact
+            tblContacts = PopulateContactsObject((Int16)Company.CompanyId, (Int16)address.AddressId, true);
+            tblContacts.isArchived = false;
 
-
-                    }
-                    db.CompanyContacts.Add(tblContacts);
-                   
-
-                    if (db.SaveChanges() > 0)
-                    {
-                        customerID =  Company.CompanyId; // customer id
-                        if (Contact != null)
-                        {
-                            Contact.ContactId = tblContacts.ContactId;
-                            Contact.CompanyId = customerID;
-                        }
-                    }
-
-                    return customerID;
+            if (Contact != null)
+            {
+                tblContacts.FirstName = Contact.FirstName;
+                tblContacts.LastName = Contact.LastName;
+                tblContacts.Email = Contact.Email;
+                tblContacts.Mobile = Contact.Mobile;
+                tblContacts.Password = ComputeHashSHA1(Contact.Password);
+                tblContacts.QuestionId = 1;
+                tblContacts.SecretAnswer = "";
+                tblContacts.ClaimIdentifer = Contact.ClaimIdentifer;
+                tblContacts.AuthentifiedBy = Contact.AuthentifiedBy;
+                //Quick Text Fields
+                tblContacts.quickAddress1 = Contact.quickAddress1;
+                tblContacts.quickAddress2 = Contact.quickAddress2;
+                tblContacts.quickAddress3 = Contact.quickAddress3;
+                tblContacts.quickCompanyName = Contact.quickCompanyName;
+                tblContacts.quickCompMessage = Contact.quickCompMessage;
+                tblContacts.quickEmail = Contact.quickEmail;
+                tblContacts.quickFax = Contact.quickFax;
+                tblContacts.quickFullName = Contact.quickFullName;
+                tblContacts.quickPhone = Contact.quickPhone;
+                tblContacts.quickTitle = Contact.quickTitle;
+                tblContacts.quickWebsite = Contact.quickWebsite;
+                if (!string.IsNullOrEmpty(TwitterScreanName))
+                {
+                    tblContacts.twitterScreenName = TwitterScreanName;
                 }
+
+
+            }
+            db.CompanyContacts.Add(tblContacts);
+
+
+            if (db.SaveChanges() > 0)
+            {
+                customerID = Company.CompanyId; // customer id
+                if (Contact != null)
+                {
+                    Contact.ContactId = tblContacts.ContactId;
+                    Contact.CompanyId = customerID;
+                }
+            }
+
+            return customerID;
+        }
 
         public Markup GetZeroMarkup()
         {
@@ -412,95 +414,95 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContacts.FirstOrDefault();
         }
-        public  CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact,string TwitterScreenName)
+        public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
         {
             if (regContact != null)
             {
-               
-                
-                    // int defaultAddressID = addmgr.GetCompanyDefaultAddressID(CustomerId);
-                    CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
-                    CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
 
-                    Contact.CompanyId = CustomerId;
-                    //  Contact.AddressID = defaultAddressID;
-                    Contact.FirstName = string.Empty;
-                    Contact.IsDefaultContact = 0;
-                    Contact.FirstName = regContact.FirstName;
-                    Contact.LastName = regContact.LastName;
-                    Contact.Email = regContact.Email;
-                    Contact.Mobile = regContact.Mobile;
-                    Contact.Password = ComputeHashSHA1(regContact.Password);
-                    Contact.QuestionId = 1;
-                    Contact.SecretAnswer = "";
-                    Contact.ClaimIdentifer = regContact.ClaimIdentifer;
-                    Contact.AuthentifiedBy = regContact.AuthentifiedBy;
-                    Contact.isArchived = false;
-                    Contact.twitterScreenName = TwitterScreenName;
-                    Contact.isWebAccess = false;
-                    Contact.ContactRoleId = Convert.ToInt32(Roles.User);
-                   
-                    Contact.isPlaceOrder = true;
 
-                    //Quick Text Fields
-                    Contact.quickAddress1 = regContact.quickAddress1;
-                    Contact.quickAddress2 = regContact.quickAddress2;
-                    Contact.quickAddress3 = regContact.quickAddress3;
-                    Contact.quickCompanyName = regContact.quickCompanyName;
-                    Contact.quickCompMessage = regContact.quickCompMessage;
-                    Contact.quickEmail = regContact.quickEmail;
-                    Contact.quickFax = regContact.quickFax;
-                    Contact.quickFullName = regContact.quickFullName;
-                    Contact.quickPhone = regContact.quickPhone;
-                    Contact.quickTitle = regContact.quickTitle;
-                    Contact.quickWebsite = regContact.quickWebsite;
-                    Contact.IsPricingshown = true;
-                    if (companyTerritory != null)
+                // int defaultAddressID = addmgr.GetCompanyDefaultAddressID(CustomerId);
+                CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
+                CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
+
+                Contact.CompanyId = CustomerId;
+                //  Contact.AddressID = defaultAddressID;
+                Contact.FirstName = string.Empty;
+                Contact.IsDefaultContact = 0;
+                Contact.FirstName = regContact.FirstName;
+                Contact.LastName = regContact.LastName;
+                Contact.Email = regContact.Email;
+                Contact.Mobile = regContact.Mobile;
+                Contact.Password = ComputeHashSHA1(regContact.Password);
+                Contact.QuestionId = 1;
+                Contact.SecretAnswer = "";
+                Contact.ClaimIdentifer = regContact.ClaimIdentifer;
+                Contact.AuthentifiedBy = regContact.AuthentifiedBy;
+                Contact.isArchived = false;
+                Contact.twitterScreenName = TwitterScreenName;
+                Contact.isWebAccess = false;
+                Contact.ContactRoleId = Convert.ToInt32(Roles.User);
+
+                Contact.isPlaceOrder = true;
+
+                //Quick Text Fields
+                Contact.quickAddress1 = regContact.quickAddress1;
+                Contact.quickAddress2 = regContact.quickAddress2;
+                Contact.quickAddress3 = regContact.quickAddress3;
+                Contact.quickCompanyName = regContact.quickCompanyName;
+                Contact.quickCompMessage = regContact.quickCompMessage;
+                Contact.quickEmail = regContact.quickEmail;
+                Contact.quickFax = regContact.quickFax;
+                Contact.quickFullName = regContact.quickFullName;
+                Contact.quickPhone = regContact.quickPhone;
+                Contact.quickTitle = regContact.quickTitle;
+                Contact.quickWebsite = regContact.quickWebsite;
+                Contact.IsPricingshown = true;
+                if (companyTerritory != null)
+                {
+                    List<Address> addresses = GetAddressesByTerritoryID(companyTerritory.TerritoryId);
+                    if (addresses != null && addresses.Count > 0)
                     {
-                        List<Address> addresses = GetAddressesByTerritoryID(companyTerritory.TerritoryId);
-                        if (addresses != null && addresses.Count > 0)
+                        foreach (var address in addresses)
                         {
-                            foreach (var address in addresses)
+
+                            if (address.isDefaultTerrorityBilling == true && address.isDefaultTerrorityShipping == true)
+                            {
+                                Contact.AddressId = (int)address.AddressId;
+                                Contact.ShippingAddressId = (int)address.AddressId;
+                            }
+                            else
                             {
 
-                                if (address.isDefaultTerrorityBilling == true && address.isDefaultTerrorityShipping == true)
-                                {
+                                if (address.isDefaultTerrorityBilling == true)
                                     Contact.AddressId = (int)address.AddressId;
+                                if (address.isDefaultTerrorityShipping == true)
                                     Contact.ShippingAddressId = (int)address.AddressId;
-                                }
-                                else
-                                {
-
-                                    if (address.isDefaultTerrorityBilling == true)
-                                        Contact.AddressId = (int)address.AddressId;
-                                    if (address.isDefaultTerrorityShipping == true)
-                                        Contact.ShippingAddressId = (int)address.AddressId;
-                                }
                             }
                         }
-                        Contact.TerritoryId = companyTerritory.TerritoryId;
-                        //Contact.ShippingAddressID = companyTerritory.ShippingAddressID;
-                        //if (companyTerritory.BillingAddressID != null)
-                        //     Contact.AddressID = (int)companyTerritory.BillingAddressI
                     }
-                    else
-                    {
-                        Contact.TerritoryId = 0;
-                        Contact.ShippingAddressId = 0;
-                    }
+                    Contact.TerritoryId = companyTerritory.TerritoryId;
+                    //Contact.ShippingAddressID = companyTerritory.ShippingAddressID;
+                    //if (companyTerritory.BillingAddressID != null)
+                    //     Contact.AddressID = (int)companyTerritory.BillingAddressI
+                }
+                else
+                {
+                    Contact.TerritoryId = 0;
+                    Contact.ShippingAddressId = 0;
+                }
 
 
-                    db.CompanyContacts.Add(Contact);
+                db.CompanyContacts.Add(Contact);
 
-                    if (db.SaveChanges() > 0)
-                    {
-                        return Contact;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                
+                if (db.SaveChanges() > 0)
+                {
+                    return Contact;
+                }
+                else
+                {
+                    return null;
+                }
+
             }
             else
             {
@@ -512,6 +514,39 @@ namespace MPC.Repository.Repositories
         public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
         {
             return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
+        }
+
+        public Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
+            Models.RequestModels.CompanyContactRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
+
+            Expression<Func<CompanyContact, bool>> query =
+                s =>
+                    (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
+                     (s.quickCompanyName.Contains(request.SearchFilter)) ||
+                     !isSearchFilterSpecified);
+
+            int rowCount = DbSet.Count(query);
+            // ReSharper disable once ConditionalTernaryEqualBranch
+            IEnumerable<CompanyContact> companyContacts = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CompanyContactResponse
+            {
+                RowCount = rowCount,
+                CompanyContacts = companyContacts
+            };
         }
 
         public CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID)
@@ -527,10 +562,11 @@ namespace MPC.Repository.Repositories
 
         public void UpdateUserPassword(int userId, string pass)
         {
-           CompanyContact contacts = db.CompanyContacts.Where(c => c.ContactId == userId).FirstOrDefault();
-           contacts.Password = pass;
-           db.SaveChanges();
-           
+            CompanyContact contacts = db.CompanyContacts.Where(c => c.ContactId == userId).FirstOrDefault();
+            contacts.Password = pass;
+            db.SaveChanges();
+
         }
     }
 }
+

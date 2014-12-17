@@ -111,6 +111,9 @@ namespace MPC.MIS.Areas.Api.Models
         public ICollection<Address> NewAddedAddresses { get; set; }// Maintaining List for POST call to determine new Added List Of Addresses
         public ICollection<Address> EdittedAddresses { get; set; }
         public ICollection<Address> DeletedAddresses { get; set; }
+        public ICollection<CompanyContact> NewAddedCompanyContacts { get; set; }
+        public ICollection<CompanyContact> EdittedCompanyContacts { get; set; }
+        public ICollection<CompanyContact> DeletedCompanyContacts { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         /// <summary>
         /// Image Source
@@ -131,6 +134,7 @@ namespace MPC.MIS.Areas.Api.Models
         public List<Address> Addresses { get; set; }
         public List<CompanyContact> CompanyContacts { get; set; }
         public List<CompanyBannerSet> CompanyBannerSets { get; set; }
+        public List<CmsPageForListView> CmsPages { get; set; }
 
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }

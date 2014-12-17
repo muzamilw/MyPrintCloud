@@ -43,15 +43,22 @@ namespace MPC.Models.DomainModels
         #endregion
 
         #region Reference Properties
+        /// <summary>
+        /// Company
+        /// </summary>
         public virtual Company Company { get; set; }
-        #endregion
+        /// <summary>
+        /// Page Category
+        /// </summary>
+        public virtual PageCategory PageCategory { get; set; }
 
-        #region Additional Properties
-        [NotMapped]
-        public string FileName { get; set; }
-
-        [NotMapped]
-        public byte[] Image { get; set; }
         #endregion
+        //#region Additional Properties
+        //[NotMapped]
+        //public string FileName { get; set; }
+
+        //[NotMapped]
+        //public byte[] Image { get; set; }
+        //#endregion
     }
 }

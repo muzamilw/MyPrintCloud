@@ -19,6 +19,7 @@ define("stores/stores.viewModel",
                 systemUsers = ko.observableArray([]),
                 //Tab User And Addressed, Addresses Section Company Territories Filter
                 addressCompanyTerritoriesFilter = ko.observableArray(),
+                contactCompanyTerritoriesFilter = ko.observableArray(),
                 //Company Banners
                 companyBanners = ko.observableArray([]),
                 //Filetered Company Bannens List
@@ -188,14 +189,23 @@ define("stores/stores.viewModel",
                                 _.each(data.CompanyTerritoryResponse.CompanyTerritories, function (item) {
                                     selectedStore().companyTerritories.push(model.CompanyTerritory.Create(item));
                                 });
-
+                                _.each(data.CompanyContactResponse.CompanyContacts, function (item) {
+                                    selectedStore().users.push(model.CompanyContact.Create(item));
+                                });
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                                 companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
+                                contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                                 companyTerritoryPager().totalCount(data.CompanyTerritoryResponse.RowCount);
                                 addressPager().totalCount(data.AddressResponse.RowCount);
+                                contactCompanyPager().totalCount(data.CompanyContactResponse.RowCount);
                                 //contactCompanyPager().totalCount(data.CompanyTerritoryResponse.RowCount);
                                 //contactCompanyPager().totalCount(data.AddressResponse.RowCount);
-
+                                //Seconday Page List And Pager
+                                secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().secondaryPages, getSecondoryPages));
+                                secondaryPagePager().totalCount(data.SecondaryPageResponse.RowCount);
+                                _.each(data.SecondaryPageResponse.CmsPages, function (item) {
+                                    selectedStore().secondaryPages.push(model.SecondaryPageListView.Create(item));
+                                });
                                 storeImage(data.ImageSource);
                                 companyBannerSetList.removeAll();
                                 companyBanners.removeAll();
@@ -251,6 +261,10 @@ define("stores/stores.viewModel",
                                 _.each(data.CompanyTerritories, function (item) {
                                     var territory = new model.CompanyTerritory.Create(item);
                                     addressCompanyTerritoriesFilter.push(territory);
+                                });
+                                _.each(data.CompanyTerritories, function (item) {
+                                    var territory = new model.CompanyTerritory.Create(item);
+                                    contactCompanyTerritoriesFilter.push(territory);
                                 });
                             }
                             isLoadingStores(false);
@@ -329,7 +343,7 @@ define("stores/stores.viewModel",
                 edittedCompanyTerritories = ko.observableArray([]),
                 newCompanyTerritories = ko.observableArray([]),
                 //Company Territory Pager
-                    companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                 companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //CompanyTerritory Search Filter
                 searchCompanyTerritoryFilter = ko.observable(),
                 //Search Company Territory
@@ -609,7 +623,7 @@ define("stores/stores.viewModel",
                         filteredCompanyBanners.remove(banner);
                     });
                     confirmation.show();
-                }
+                },
                 // ***** COMPANY BANNER eND*****//
 
                 //***** ADDRESSES ****//
@@ -625,7 +639,9 @@ define("stores/stores.viewModel",
                 //Address Pager
                 addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
-                    contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                //Secondary Page Pager
+                secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
                 searchAddressFilter = ko.observable(),
                 //Search Address
@@ -634,8 +650,8 @@ define("stores/stores.viewModel",
                         SearchFilter: searchAddressFilter(),
                         CompanyId: selectedStore().companyId(),
                         TerritoryId: addressTerritoryFilter(),
-                        PageSize: companyTerritoryPager().pageSize(),
-                        PageNo: companyTerritoryPager().currentPage(),
+                        PageSize: addressPager().pageSize(),
+                        PageNo: addressPager().currentPage(),
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     }, {
@@ -740,13 +756,61 @@ define("stores/stores.viewModel",
                 //***** Secondry Page *****
 
                 //Add Secondry Page
+                selectedSecondaryPage = ko.observable(),
                 onAddSecondryPage = function () {
                     view.showSecondoryPageDialog();
                 },
-
                 //Add Secondry Page Category
                 onAddSecondryPageCategory = function () {
                     view.showSecondaryPageCategoryDialog();
+                },
+                //Get Secondory Pages
+                getSecondoryPages = function () {
+                    dataservice.getSecondaryPages({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: secondaryPagePager().pageSize(),
+                        PageNo: secondaryPagePager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+                            selectedStore().secondaryPages.removeAll();
+                            _.each(data.CmsPages, function (cmsPage) {
+                                selectedStore().secondaryPages.push(model.SecondaryPageListView.Create(cmsPage));
+                            });
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Secondary Pages" + response);
+                        }
+                    });
+                },
+               //Edit Secondary Page
+                onEditSecondaryPage = function (secondaryPage) {
+                    dataservice.getSecondryPageById({
+                        id: secondaryPage.id(),
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                selectedSecondaryPage(model.CMSPage.Create(data));
+                                view.showSecondoryPageDialog();
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to load Secondary Page Detail . Error: ");
+                        }
+                    });
+                },
+                //Delete Secondary Page
+                onDeleteSecondaryPage = function (secondaryPage) {
+                    if (!secondaryPage.id()) {
+                        //companyBanners.remove(secondaryPage);
+                        return;
+                    }
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        //filteredCompanyBanners.remove(secondaryPage);
+                    });
+                    confirmation.show();
                 },
                 //***** Secondy Page End
                  MultipleImageFilesLoadedCallback = function (file, data) {
@@ -754,6 +818,130 @@ define("stores/stores.viewModel",
                      selectedCompanyBanner().filename(file.name);
                      selectedCompanyBanner().fileType(data.imageType);
                  },
+
+                //*****    COMPANY CONTACT      ***************//
+                //Selected Address
+                selectedCompanyContact = ko.observable(),
+                //companyContactFilter
+                companyContactFilter = ko.observable(),
+                contactCompanyTerritoryFilter = ko.observable(),
+                //Deleted Company Contact 
+                deletedCompanyContacts = ko.observableArray([]),
+                edittedCompanyContacts = ko.observableArray([]),
+                newCompanyContacts = ko.observableArray([]),
+                //Company Contact  Pager
+                companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                //Company Contact Search Filter
+                searchCompanyContactFilter = ko.observable(),
+                //Search Company Contact        
+                searchCompanyContact = function () {
+                    dataservice.searchCompanyContact({
+                        SearchFilter: searchCompanyContactFilter(),
+                        CompanyId: selectedStore().companyId(),
+                        TerritoryId: contactCompanyTerritoryFilter(),
+                        PageSize: companyContactPager().pageSize(),
+                        PageNo: companyContactPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+                            selectedStore().users.removeAll();
+                            _.each(data.CompanyContacts, function (companyContactItem) {
+                                var companyContact = new model.CompanyContact.Create(companyContactItem);
+                                selectedStore().users.push(companyContact);
+                            });
+                            _.each(edittedCompanyContacts(), function (item) {
+                                _.each(selectedStore().users(), function (companyContactItem) {
+                                    if (item.contactId() == companyContactItem.contactId()) {
+                                        selectedStore().users.remove(companyContactItem);
+                                    }
+                                });
+                            });
+                            _.each(deletedCompanyContacts(), function (item) {
+                                _.each(selectedStore().users(), function (companyContactItem) {
+                                    if (item.contactId() == companyContactItem.contactId()) {
+                                        selectedStore().users.remove(companyContactItem);
+                                    }
+                                });
+                            });
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Users" + response);
+                        }
+                    });
+                },
+                companyContactFilterSelected = ko.computed(function () {
+                    if (selectedStore() != null && selectedStore() != undefined) {
+                        searchCompanyContact();
+                    }
+                }),
+                //isSavingNewCompanyContact
+                isSavingNewCompanyContact = ko.observable(false),
+                // Template Chooser For CompanyContact
+                templateToUseCompanyContacts = function (companyContact) {
+                    return (companyContact === selectedCompanyContact() ? 'editCompanyContactTemplate' : 'itemCompanyContactTemplate');
+                },
+                //Create CompanyContact
+                onCreateNewCompanyContact = function () {
+                    var user = new model.CompanyContact();
+                    selectedCompanyContact(user);
+                    isSavingNewCompanyContact(true);
+                    view.showCompanyContactDialog();
+                },
+                // Delete CompanyContact
+                onDeleteCompanyContact = function (companyContact) {
+                    if (companyContact.contactId() !== undefined) {
+                        _.each(edittedCompanyContacts(), function (item) {
+                            if (item.contactId() == companyContact.contactId()) {
+                                edittedCompanyContacts.remove(companyContact);
+                            }
+                        });
+                        deletedCompanyContacts.push(companyContact);
+                    }
+                    selectedStore().users.remove(companyContact);
+                    return;
+                },
+                onEditCompanyContact = function (companyContact) {
+                    selectedCompanyContact(companyContact);
+                    isSavingNewCompanyContact(false);
+                    view.showCompanyContactDialog();
+                },
+                onCloseCompanyContact = function () {
+                    view.hideCompanyContactDialog();
+                    isSavingNewCompanyContact(false);
+                },
+                //Do Before Save CompanyContact
+                doBeforeSaveCompanyContact = function () {
+                    var flag = true;
+                    if (!selectedCompanyContact().isValid()) {
+                        selectedCompanyContact().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                onSaveCompanyContact = function () {
+                    if (doBeforeSaveCompanyContact()) {
+                        if (selectedCompanyContact().contactId() === undefined && isSavingNewCompanyContact() === true) {
+                            selectedStore().users.splice(0, 0, selectedCompanyContact());
+                            newCompanyContacts.push(selectedCompanyContact());
+                        } else {
+                            //pushing item in editted CompanyContacts List
+                            if (selectedCompanyContact().contactId() != undefined) {
+                                var match = ko.utils.arrayFirst(edittedCompanyContacts(), function (item) {
+                                    return (selectedCompanyContact().contactId() === item.contactId());
+                                });
+
+                                if (!match) {
+                                    edittedCompanyContacts.push(selectedCompanyContact());
+                                }
+
+                            }
+                        }
+                        view.hideCompanyContactDialog();
+                    }
+                },
+                // ***** CompanyContact END *****
+
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
             initialize = function (specifiedView) {
@@ -859,6 +1047,29 @@ define("stores/stores.viewModel",
                     contactCompanyPager: contactCompanyPager,
                     onAddSecondryPage: onAddSecondryPage,
                     onAddSecondryPageCategory: onAddSecondryPageCategory,
+                    selectedCompanyContact: selectedCompanyContact,
+                    companyContactFilter: companyContactFilter,
+                    deletedCompanyContacts: deletedCompanyContacts,
+                    edittedCompanyContacts: edittedCompanyContacts,
+                    newCompanyContacts: newCompanyContacts,
+                    companyContactPager: companyContactPager,
+                    searchCompanyContactFilter: searchCompanyContactFilter,
+                    searchCompanyContact: searchCompanyContact,
+                    companyContactFilterSelected: companyContactFilterSelected,
+                    isSavingNewCompanyContact: isSavingNewCompanyContact,
+                    templateToUseCompanyContacts: templateToUseCompanyContacts,
+                    onCreateNewCompanyContact: onCreateNewCompanyContact,
+                    onDeleteCompanyContact: onDeleteCompanyContact,
+                    onEditCompanyContact: onEditCompanyContact,
+                    onCloseCompanyContact: onCloseCompanyContact,
+                    doBeforeSaveCompanyContact: doBeforeSaveCompanyContact,
+                    onSaveCompanyContact: onSaveCompanyContact,
+                    contactCompanyTerritoriesFilter: contactCompanyTerritoriesFilter,
+                    contactCompanyTerritoryFilter: contactCompanyTerritoryFilter,
+                    secondaryPagePager: secondaryPagePager,
+                    selectedSecondaryPage: selectedSecondaryPage,
+                    onEditSecondaryPage: onEditSecondaryPage,
+                    onDeleteSecondaryPage: onDeleteSecondaryPage,
                     initialize: initialize
                 };
             })()

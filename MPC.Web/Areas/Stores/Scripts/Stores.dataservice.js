@@ -13,7 +13,7 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get Store
+                    // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
                         dataType: 'json',
@@ -22,6 +22,18 @@
                     // Define request to get Address
                     amplify.request.define('searchAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Secondary Pages
+                    amplify.request.define('getSecondaryPages', 'ajax', {
+                        url: ist.siteUrl + '/Api/SecondaryPage',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get CompanyContact
+                    amplify.request.define('searchCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -51,7 +63,12 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-
+                    // Define request to Get Secondry Page By Id
+                    amplify.request.define('getSecondryPageById', 'ajax', {
+                        url: ist.siteUrl + '/Api/SecondaryPage',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -80,6 +97,26 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'searchAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+             //Get Secondary Pages
+            getSecondaryPages = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getSecondaryPages',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // search Company Contact
+            searchCompanyContact = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'searchCompanyContact',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -115,7 +152,16 @@
                     data: params
                 });
             },
-
+              // Get Secondry Page By Id
+            getSecondryPageById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getSecondryPageById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -134,7 +180,10 @@
             deleteStore: deleteStore,
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
-            searchAddress: searchAddress
+            searchAddress: searchAddress,
+            searchCompanyContact: searchCompanyContact,
+            getSecondaryPages: getSecondaryPages,
+            getSecondryPageById: getSecondryPageById,
         };
     })();
 

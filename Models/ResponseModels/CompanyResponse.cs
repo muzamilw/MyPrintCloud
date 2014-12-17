@@ -26,5 +26,14 @@ namespace MPC.Models.ResponseModels
         /// Took List of Addresses Territories on editting of any company
         /// </summary>
         public AddressResponse AddressResponse { get; set; }
+        /// <summary>
+        /// Took List of Contact Companies on editting of any company
+        /// </summary>
+        public CompanyContactResponse CompanyContactResponse { get; set; }
+
+        /// <summary>
+        /// Secondary Page Response
+        /// </summary>
+        public SecondaryPageResponse SecondaryPageResponse { get; set; }
     }
 }

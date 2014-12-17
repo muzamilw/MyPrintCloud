@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Linq;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
+using ResponseDomainModels = MPC.Models.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -54,8 +56,8 @@ namespace MPC.MIS.Areas.Api.Models
                 PageHTML = source.PageHTML,
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
-                FileName = source.FileName,
-                Image = source.Image,
+                //FileName = source.FileName,
+                //Image = source.Image,
             };
         }
 
@@ -71,7 +73,19 @@ namespace MPC.MIS.Areas.Api.Models
                 IsDisplay = source.isDisplay,
                 IsEnabled = source.isEnabled,
                 Meta_Title = source.Meta_Title,
-                //CategoryName = source.CategoryName,
+                CategoryName = source.PageCategory != null ? source.PageCategory.CategoryName : string.Empty,
+            };
+        }
+
+        /// <summary>
+        /// Create From Domain Response Model
+        /// </summary>
+        public static SecondaryPageResponse CreateFrom(this ResponseDomainModels.SecondaryPageResponse source)
+        {
+            return new SecondaryPageResponse
+            {
+                CmsPages = source.CmsPages.Select(x => x.CreateFromForListView()),
+                RowCount = source.RowCount
             };
         }
 

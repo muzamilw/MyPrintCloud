@@ -22,6 +22,8 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly ICompanyBannerRepository companyBannerRepository;
         private readonly IAddressRepository addressRepository;
+        private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICmsPageRepository cmsPageRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -187,6 +189,26 @@ namespace MPC.Implementation.MISServices
                 }
         }
 
+        private void UpdateCompanyContactOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            //Add New companyContacts
+            foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
+            {
+                //address.CompanyId = companySavingModel.Company.CompanyId;
+                companyContactRepository.Add(companyContact);
+            }
+            //Update companyContacts
+            foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
+            {
+                companyContactRepository.Update(companyContact);
+            }
+            //Delete companyContacts
+            foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
+            {
+                companyContactRepository.Delete(companyContact);
+            }
+        }
+
         /// <summary>
         /// Update Company
         /// </summary>
@@ -198,6 +220,7 @@ namespace MPC.Implementation.MISServices
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
+            UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
@@ -351,7 +374,8 @@ namespace MPC.Implementation.MISServices
         #region Constructor
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
-            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository)
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository
+            , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -360,6 +384,8 @@ namespace MPC.Implementation.MISServices
             this.companyTerritoryRepository = companyTerritoryRepository;
             this.companyBannerRepository = companyBannerRepository;
             this.addressRepository = addressRepository;
+            this.companyContactRepository = companyContactRepository;
+            this.cmsPageRepository = cmsPageRepository;
         }
         #endregion
 
@@ -376,6 +402,26 @@ namespace MPC.Implementation.MISServices
         public AddressResponse SearchAddresses(AddressRequestModel request)
         {
             return addressRepository.GetAddress(request);
+        }
+        public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
+        {
+            return companyContactRepository.GetCompanyContacts(request);
+        }
+
+        /// <summary>
+        /// Get CMS Pages
+        /// </summary>
+        public SecondaryPageResponse GetCMSPages(SecondaryPageRequestModel request)
+        {
+            return cmsPageRepository.GetCMSPages(request);
+        }
+
+        /// <summary>
+        /// Get Cms Page By Id
+        /// </summary>
+        public CmsPage GetCmsPageById(long pageId)
+        {
+            return cmsPageRepository.Find(pageId);
         }
         public CompanyResponse GetCompanyById(int companyId)
         {

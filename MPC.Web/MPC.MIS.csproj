@@ -248,6 +248,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
@@ -258,6 +259,7 @@
     <Compile Include="Areas\Api\Controllers\GetSettingsBaseData.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationController.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetController.cs" />
+    <Compile Include="Areas\Api\Controllers\SecondaryPageController.cs" />
     <Compile Include="Areas\Api\Controllers\StoreBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\SupplierBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\SupplierController.cs" />
@@ -295,6 +297,7 @@
     <Compile Include="Areas\Api\ModelMappers\RegistrationQuestionMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
     <Compile Include="Areas\Api\Models\CompanyContact.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactResponse.cs" />
     <Compile Include="Areas\Api\Models\CompanyListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
@@ -2289,6 +2292,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
+    <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Products\Models\" />

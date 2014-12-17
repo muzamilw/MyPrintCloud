@@ -8,5 +8,8 @@ namespace MPC.Interfaces.Repository
     {
         List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
         Models.ResponseModels.AddressResponse GetAddress(Models.RequestModels.AddressRequestModel request);
+
+        Address GetDefaultAddressByStoreID(Int64 StoreID);
+
     }
 }

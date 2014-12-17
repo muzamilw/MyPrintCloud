@@ -113,14 +113,14 @@ namespace MPC.Repository.BaseRepository
         public DbSet<StockCategory> StockCategories { get; set; }
         public DbSet<StockSubCategory> StockSubCategories { get; set; }
 
-        public DbSet<CmsPage> CmsPage { get; set; }
+        public DbSet<CmsPage> CmsPages { get; set; }
 
         public DbSet<CmsSkinPageWidget> PageWidgets { get; set; }
 
         public DbSet<CmsSkinPageWidgetParam> PageWidgetParams { get; set; }
         public DbSet<Widget> Widgets { get; set; }
 
-        public DbSet<CompanyBanner> CompanyBanner { get; set; }
+        public DbSet<CompanyBanner> CompanyBanners { get; set; }
 
         public DbSet<CompanyBannerSet> CompanyBannerSets { get; set; }
 
@@ -150,7 +150,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<SectionCostcentre> SectionCostcentres { get; set; }
-        public DbSet<SectionCostCentreDetail> SectionCostCentre { get; set; }
+        public DbSet<SectionCostCentreDetail> SectionCostCentreDetails { get; set; }
         public DbSet<SectionCostCentreResource> SectionCostCentreResources { get; set; }
         public DbSet<SystemUser> SystemUsers { get; set; }
         public DbSet<EmailEvent> EmailEvents { get; set; }
@@ -228,6 +228,11 @@ namespace MPC.Repository.BaseRepository
         /// Campaign Email Queue DbSet
         /// </summary>
         public DbSet<CampaignEmailQueue> CampaignEmailQueues { get; set; }
+
+        /// <summary>
+        /// Products List View DbSet
+        /// </summary>
+        public DbSet<GetProductsListView> GetProductsListViews { get; set; }
 
         #endregion
     }
