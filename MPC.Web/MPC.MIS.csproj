@@ -274,6 +274,8 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemAddOnCostCentreMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
@@ -297,9 +299,11 @@
     <Compile Include="Areas\Api\Models\CompanyListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
+    <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
+    <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />

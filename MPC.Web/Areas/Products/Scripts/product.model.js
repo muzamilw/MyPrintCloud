@@ -154,6 +154,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemRelatedItems = ko.observableArray([]),
             // Template 
             template = ko.observable(Template.Create({})),
+            // Item Stock options
+            itemStockOptions = ko.observableArray([]),
             // Can Add Item Vdp Price
             canAddItemVdpPrice = ko.computed(function () {
                 return itemVdpPrices.length < 15;
@@ -199,6 +201,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemRelatedItem = function (item) {
                 itemRelatedItems.remove(item);
             },
+            // Add Item Stock Option
+            addItemStockOption = function () {
+                itemStockOptions.push(ItemStockOption.Create({ ItemId: id() }));
+            },
+            // Remove Item Stock Option
+            removeItemStockOption = function (itemStockOption) {
+                itemStockOptions.remove(itemStockOption);
+            },
             // Errors
             errors = ko.validation.group({
             }),
@@ -206,6 +216,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isValid = ko.computed(function () {
                 return errors().length === 0 && itemVdpPrices.filter(function (itemVdpPrice) {
                     return !itemVdpPrice.isValid();
+                }).length === 0 &&
+                itemStockOptions.filter(function (itemStockOption) {
+                    return !itemStockOption.isValid();
                 }).length === 0;
             }),
             // True if the product has been changed
@@ -253,7 +266,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
                 itemRelatedItems: itemRelatedItems,
-                template: template
+                template: template,
+                itemStockOptions: itemStockOptions
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -267,9 +281,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return itemVideo.hasChanges();
                 }) != null;
             }),
+            // Item Stock Option Changes
+            itemStockOptionHasChanges = ko.computed(function () {
+                return itemStockOptions.find(function (itemStockOption) {
+                    return itemStockOption.hasChanges();
+                }) != null;
+            }),
             // Has Changes
             hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges();
+                return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges() || itemStockOptionHasChanges();
             }),
             // Reset
             reset = function () {
@@ -278,6 +298,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 });
                 itemVideos.each(function (itemVideo) {
                     return itemVideo.reset();
+                });
+                itemStockOptions.each(function (itemStockOption) {
+                    return itemStockOption.reset();
                 });
                 template().reset();
                 dirtyFlag.reset();
@@ -332,6 +355,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }),
                     ItemRelatedItems: itemRelatedItems.map(function (itemRelatedItem) {
                         return itemRelatedItem.convertToServerData();
+                    }),
+                    ItemStockOptions: itemStockOptions.map(function (itemStockOption) {
+                        return itemStockOption.convertToServerData();
                     }),
                     Template: template().convertToServerData()
                 }
@@ -400,6 +426,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onSelectRelatedItem: onSelectRelatedItem,
             removeItemRelatedItem: removeItemRelatedItem,
             template: template,
+            itemStockOptions: itemStockOptions,
+            addItemStockOption: addItemStockOption,
+            removeItemStockOption: removeItemStockOption,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -735,6 +764,160 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             reset: reset,
             convertToServerData: convertToServerData
         };
+    },
+        
+    // Item Stock Option Entity
+    ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
+        specifiedItemId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Label
+            label = ko.observable(specifiedStockLabel || undefined),
+            // Stock Item Id
+            stockItemId = ko.observable(specifiedStockId || undefined),
+            // Stock Item Name
+            stockItemName = ko.observable(specifiedStockItemName || undefined),
+            // Stock Item Description
+            stockItemDescription = ko.observable(specifiedStockItemDescription || undefined),
+            // image
+            image = ko.observable(specifiedImage || undefined),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || undefined),
+            // Item Addon Cost Centers
+            itemAddonCostCentres = ko.observableArray([]),
+            // Add Item Addon Cost Center
+            addItemAddonCostCentre = function () {
+                itemAddonCostCentres.push(ItemAddonCostCentre.Create({ ItemStockOptionId: id() }));
+            },
+            // Remove ItemAddon Cost Centre
+            removeItemAddonCostCentre = function (itemAddonCostCentre) {
+                itemAddonCostCentres.remove(itemAddonCostCentre);
+            },
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0 || itemAddonCostCentres.filter(function (itemAddonCostCentre) {
+                    return !itemAddonCostCentre.isValid();
+                }).length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                stockItemId: stockItemId,
+                label: label,
+                itemAddonCostCentres: itemAddonCostCentres
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty() || itemAddonCostCentres.find(function (itemAddonCostCentre) {
+                    return itemAddonCostCentre.hasChanges();
+                }) != null;
+            }),
+            // Reset
+            reset = function () {
+                // Reset Item Addon Cost Centres State to Un-Modified
+                itemAddonCostCentres.each(function (itemAddonCostCentre) {
+                    return itemAddonCostCentre.reset();
+                });
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ItemStockOptionId: id(),
+                    StockLabel: label(),
+                    StockId: stockItemId(),
+                    ItemId: itemId(),
+                    ItemAddOnCostCentres: itemAddonCostCentres.map(function (itemAddonCostCentre) {
+                        return itemAddonCostCentre.convertToServerData();
+                    })
+                }
+            };
+
+        return {
+            id: id,
+            stockItemId: stockItemId,
+            label: label,
+            stockItemName: stockItemName,
+            stockItemDescription: stockItemDescription,
+            itemId: itemId,
+            image: image,
+            itemAddonCostCentres: itemAddonCostCentres,
+            addItemAddonCostCentre: addItemAddonCostCentre,
+            removeItemAddonCostCentre: removeItemAddonCostCentre,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
+    // Item Addon Cost Centre Entity
+    ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
+        specifiedCostCentreType) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // is Mandatory
+            isMandatory = ko.observable(specifiedIsMandatory || undefined),
+            // Cost Centre Id
+            costCentreId = ko.observable(specifiedCostCentreId || undefined),
+            // Cost Centre Name
+            costCentreName = ko.observable(specifiedCostCentreName || undefined),
+            // Cost Centre Type
+            costCentreType = ko.observable(specifiedCostCentreType || undefined),
+            // Item Stock Option Id
+            itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                isMandatory: isMandatory,
+                costCentreId: costCentreId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ProductAddOnId: id(),
+                    IsMandatory: isMandatory(),
+                    CostCentreId: costCentreId(),
+                    ItemStockOptionId: itemStockOptionId()
+                }
+            };
+
+        return {
+            id: id,
+            itemStockOptionId: itemStockOptionId,
+            costCentreId: costCentreId,
+            costCentreName: costCentreName,
+            costCentreType: costCentreType,
+            isMandatory: isMandatory,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
     };
 
     // Item Vdp Price Factory
@@ -783,6 +966,36 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         template.reset();
 
         return template;
+    }
+
+    // Item Addon Cost Centre Factory
+    ItemAddonCostCentre.Create = function (source) {
+        return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
+            source.CostCentreType);
+    }
+
+    // Item Stock Option Factory
+    ItemStockOption.Create = function (source) {
+        var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
+            source.ImageSource, source.ItemId);
+
+        // If Item Addon CostCentres exists then add
+        if (source.ItemAddOnCostCentres) {
+            var itemAddonCostCentres = [];
+
+            _.each(source.ItemAddOnCostCentres, function (itemAddonCostCenter) {
+                itemAddonCostCentres.push(ItemAddonCostCentre.Create(itemAddonCostCenter));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.itemAddonCostCenters(), itemAddonCostCentres);
+            item.itemAddonCostCenters.valueHasMutated();
+        }
+
+        // Reset State to Un-Modified
+        itemStockOption.reset();
+
+        return itemStockOption;
     }
 
     // Item Factory
@@ -840,6 +1053,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             item.template(Template.Create(source.Template));
         }
 
+        // Map Item Stock Options if any
+        if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
+            var itemStockOptions = [];
+
+            _.each(source.ItemStockOptions, function (itemStockOption) {
+                itemStockOptions.push(ItemStockOption.Create(itemStockOption));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.itemStockOptions(), itemStockOptions);
+            item.itemStockOptions.valueHasMutated();
+        }
+
         // Reset State to Un-Modified
         item.reset();
 
@@ -858,6 +1084,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Template Constructor
         Template: Template,
         // Template Page Constructor
-        TemplatePage: TemplatePage
+        TemplatePage: TemplatePage,
+        // Item Stock Option Constructor
+        ItemStockOption: ItemStockOption,
+        // Item Addon CostCentre Constructor
+        ItemAddonCostCentre: ItemAddonCostCentre
     };
 });

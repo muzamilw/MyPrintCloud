@@ -66,7 +66,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()) : new List<ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()) : new List<ItemVideo>(),
                 ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()) : new List<ItemRelatedItem>(),
-            };
+                ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(vdp => vdp.CreateFrom()) : new List<ItemStockOption>()
+            }; 
 
             // Load Thumbnail Image
             if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
@@ -171,7 +172,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
-                ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemRelatedItem>()
+                ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()).ToList() : 
+                new List<DomainModels.ItemRelatedItem>(),
+                ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(stockOption => stockOption.CreateFrom()).ToList() : 
+                new List<DomainModels.ItemStockOption>()
             };
         }
     }

@@ -29,6 +29,8 @@ namespace MPC.Implementation.MISServices
         private readonly IItemRelatedItemRepository itemRelatedItemRepository;
         private readonly ITemplatePageRepository templatePageRepository;
         private readonly ITemplateRepository templateRepository;
+        private readonly IItemStockOptionRepository itemStockOptionRepository;
+        private readonly IItemAddOnCostCentreRepository itemAddOnCostCentreRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -112,6 +114,42 @@ namespace MPC.Implementation.MISServices
             templatePageRepository.Delete(relatedItem);
         }
 
+        /// <summary>
+        /// Create Item Stock Option
+        /// </summary>
+        private ItemStockOption CreateItemStockOption()
+        {
+            ItemStockOption line = itemStockOptionRepository.Create();
+            itemStockOptionRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Stock Option
+        /// </summary>
+        private void DeleteItemStockOption(ItemStockOption line)
+        {
+            itemStockOptionRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create Item Addon Cost Centre
+        /// </summary>
+        private ItemAddonCostCentre CreateItemAddonCostCentre()
+        {
+            ItemAddonCostCentre line = itemAddOnCostCentreRepository.Create();
+            itemAddOnCostCentreRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Addon Cost Centre
+        /// </summary>
+        private void DeleteItemAddonCostCentre(ItemAddonCostCentre line)
+        {
+            itemAddOnCostCentreRepository.Delete(line);
+        }
+
         #endregion
 
         #region Constructor
@@ -121,7 +159,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
             IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository, 
-            ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository)
+            ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
+            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository)
         {
             if (itemRepository == null)
             {
@@ -155,6 +194,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("templateRepository");
             }
+            if (itemStockOptionRepository == null)
+            {
+                throw new ArgumentNullException("itemStockOptionRepository");
+            }
+            if (itemAddOnCostCentreRepository == null)
+            {
+                throw new ArgumentNullException("itemAddOnCostCentreRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -164,6 +211,8 @@ namespace MPC.Implementation.MISServices
             this.itemRelatedItemRepository = itemRelatedItemRepository;
             this.templatePageRepository = templatePageRepository;
             this.templateRepository = templateRepository;
+            this.itemStockOptionRepository = itemStockOptionRepository;
+            this.itemAddOnCostCentreRepository = itemAddOnCostCentreRepository;
         }
 
         #endregion
@@ -284,7 +333,11 @@ namespace MPC.Implementation.MISServices
                 DeleteItemRelatedItem = DeleteItemRelatedItem,
                 CreateTemplatePage = CreateTemplatePage,
                 DeleteTemplatePage = DeleteTemplatePage,
-                CreateTemplate = CreateTemplate
+                CreateTemplate = CreateTemplate,
+                CreateItemStockOption = CreateItemStockOption,
+                DeleteItemStockOption = DeleteItemStockOption,
+                CreateItemAddonCostCentre = CreateItemAddonCostCentre,
+                DeleteItemAddonCostCentre = DeleteItemAddonCostCentre
             });
 
             // Save Changes
