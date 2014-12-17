@@ -284,6 +284,9 @@
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\Address.cs" />
     <Compile Include="Areas\Api\Models\AddressResponse.cs" />
+    <Compile Include="Areas\Api\Models\CmsPage.cs" />
+    <Compile Include="Areas\Api\Models\CmsPageForListView.cs" />
+    <Compile Include="Areas\Api\Models\CmsPageMapper.cs" />
     <Compile Include="Areas\Api\Models\CompanyBanner.cs" />
     <Compile Include="Areas\Api\Models\CompanyBannerSet.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
@@ -299,6 +302,7 @@
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
+    <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
@@ -1127,6 +1131,8 @@
     <Content Include="Areas\Products\Views\Home\_RelatedProductDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditAddress.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\AddEditSecondaryPage.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_EditSecondaryPageCategories.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />

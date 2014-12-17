@@ -667,7 +667,7 @@ define("stores/stores.viewModel",
                 },
                 addressTerritoryFilterSelected = ko.computed(function () {
                     if (selectedStore() != null && selectedStore() != undefined) {
-                            searchAddress();
+                        searchAddress();
                     }
                 }),
                 //isSavingNewAddress
@@ -723,7 +723,7 @@ define("stores/stores.viewModel",
                             //pushing item in editted Addresses List
                             if (selectedAddress().addressId() != undefined) {
                                 var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
-                                        return (selectedAddress().addressId() === item.addressId());
+                                    return (selectedAddress().addressId() === item.addressId());
                                 });
 
                                 if (!match) {
@@ -736,6 +736,19 @@ define("stores/stores.viewModel",
                     }
                 },
                 // ***** Address END *****
+
+                //***** Secondry Page *****
+
+                //Add Secondry Page
+                onAddSecondryPage = function () {
+                    view.showSecondoryPageDialog();
+                },
+
+                //Add Secondry Page Category
+                onAddSecondryPageCategory = function () {
+                    view.showSecondaryPageCategoryDialog();
+                },
+                //***** Secondy Page End
                  MultipleImageFilesLoadedCallback = function (file, data) {
                      selectedCompanyBanner().fileBinary(data);
                      selectedCompanyBanner().filename(file.name);
@@ -746,7 +759,7 @@ define("stores/stores.viewModel",
             initialize = function (specifiedView) {
                 view = specifiedView;
                 ko.applyBindings(view.viewModel, view.bindingRoot);
-            pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
                 getStores();
                 view.initializeForm();
             };
@@ -844,6 +857,8 @@ define("stores/stores.viewModel",
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
                     contactCompanyPager: contactCompanyPager,
+                    onAddSecondryPage: onAddSecondryPage,
+                    onAddSecondryPageCategory: onAddSecondryPageCategory,
                     initialize: initialize
                 };
             })()
