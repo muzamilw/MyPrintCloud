@@ -34,9 +34,9 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
 
-            var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
-            ViewData["ParentCats"] = model.Where(p => p.ParentCategoryId == null || p.ParentCategoryId == 0).ToList();
-            ViewData["SubCats"] = model.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).ToList();
+            var model = _myCompanyService.GetAllCategories(UserCookieManager.StoreId);
+            ViewData["ParentCats"] = model.Where(p => p.ParentCategoryId == null || p.ParentCategoryId == 0).OrderBy(s => s.DisplayOrder).ToList();
+            ViewData["SubCats"] = model.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             return View("PartialViews/AllProducts");
         }
     }

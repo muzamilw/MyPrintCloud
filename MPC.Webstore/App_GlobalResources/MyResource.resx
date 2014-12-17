@@ -123,4 +123,13 @@
   <data name="ForgotPasswordSuccessfull" xml:space="preserve">
     <value>Your new password is sent to given e-mail address. Please check your email</value>
   </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="ShoppingCart" xml:space="preserve">
+    <value>Shopping Cart</value>
+  </data>
+  <data name="SignInRegister" xml:space="preserve">
+    <value>SignIn / Register</value>
+  </data>
 </root>

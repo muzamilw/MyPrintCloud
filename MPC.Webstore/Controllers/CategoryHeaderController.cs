@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.Common;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Interfaces.WebStoreServices;
 
 namespace MPC.Webstore.Controllers
 {
-    public class ParentCategoriesController : Controller
+    public class CategoryHeaderController : Controller
     {
-          #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
@@ -22,7 +22,7 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public ParentCategoriesController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
+        public CategoryHeaderController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
         {
             if (myCompanyService == null)
             {
@@ -33,7 +33,7 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-        // GET: ParentCategories
+        // GET: CategoryHeader
         public ActionResult Index()
         {
             List<ProductCategory> lstParentCategories = new List<ProductCategory>();
@@ -59,7 +59,7 @@ namespace MPC.Webstore.Controllers
                 lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId);
             }
 
-            return PartialView("PartialViews/ParentCategories", lstParentCategories);
+            return PartialView("PartialViews/CategoryHeader", lstParentCategories);
         }
     }
 }

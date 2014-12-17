@@ -9,28 +9,32 @@
                     <img src="http://pinkcards.com//StoredImages/CompanyLogo/1_WebSiteLogo.png" class="pink_company_top_logo LOgo_ImgeP" />
                 </a>
                 <a class="MLF top_header" target="_blank" href="http://www.myprintcloud.com/">Powered by&nbsp; MyPrintCloud</a>
-              
+
             </div>
             <div style="float: right; padding-right: 0px; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-12 col-sm-8 cntrightMenu">
 
-                <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple"  >
-                    <a href="/AllProducts" class="iconHover">All Products</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
-                    <a id="lnkRequestQuote" style="cursor: pointer;" class="iconHover">Request a Quote</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
-                    <a href="/ContactUs" class="iconHover">Contact Us</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                   
+                <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
+                    @if (Model.IsCustomer == 3)
+                    {
+                        <a href="/AllProducts" class="iconHover">All Products</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
+                        <a id="lnkRequestQuote" style="cursor: pointer;" class="iconHover">Request a Quote</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                        <a href="/ContactUs" class="iconHover">Contact Us</a>
+                    }
+
+
                 </div>
                 <div class="phone_number_sec ">
-                    <div class="TeleImg"   id="telephoneIcon">
+                    <div class="TeleImg" id="telephoneIcon">
                     </div>
-                    <div id="CompanyName" visible="false"   class="HeaderCompnyNameCs">
-                        <asp:Label ID="ltrlCompanyName"   CssClass="BrokerCompanyNameCs"></asp:Label>
-                        <asp:Label ID="ltrlCity"   CssClass="BrokerCompanyCityCs"></asp:Label>
+                    <div id="CompanyName" visible="false" class="HeaderCompnyNameCs">
+                        <asp:label id="ltrlCompanyName" cssclass="BrokerCompanyNameCs"></asp:label>
+                        <asp:label id="ltrlCity" cssclass="BrokerCompanyCityCs"></asp:label>
                     </div>
-                    <div id="lblPoneNumber"   class="lblPhoneNo">
+                    <div id="lblPoneNumber" class="lblPhoneNo">
                     </div>
 
                 </div>
-                <div id="cntresponsiveMenu"  >
+                <div id="cntresponsiveMenu">
 
 
                     <div id="CollapseBtn" class="float_right">
@@ -48,13 +52,13 @@
             <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
                 <ul id="ulCollapseMenu" style="">
                     <li>
-                        <asp:HyperLink ID="pullDownMenuAllPro"   NavigateUrl="~/Allproducts.aspx">All Products</asp:HyperLink>
+                        <asp:hyperlink id="pullDownMenuAllPro" navigateurl="~/Allproducts.aspx">All Products</asp:hyperlink>
                     </li>
                     <li>
                         <a id="pullDownMenuRFQ" style="cursor: pointer;">Request a Quote</a>
                     </li>
                     <li>
-                        <asp:HyperLink ID="pullDownMenuCU"   NavigateUrl="~/ContactUs.aspx">Contact Us</asp:HyperLink>
+                        <asp:hyperlink id="pullDownMenuCU" navigateurl="~/ContactUs.aspx">Contact Us</asp:hyperlink>
 
                     </li>
                 </ul>

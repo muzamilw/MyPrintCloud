@@ -532,5 +532,18 @@ namespace MPC.Repository.Repositories
            db.SaveChanges();
            
         }
+
+        public CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId)
+        {
+            
+                var qury = from Contacts in db.CompanyContacts
+                           join ContactCompany in db.Company on Contacts.CompanyId equals ContactCompany.CompanyId
+                           where string.Compare(Contacts.Email, emailAddress, true) == 0
+                                 && Contacts.CompanyId == companyId && (ContactCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                           select Contacts;
+
+                return qury.ToList().Where(contct => VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
+           
+        }
     }
 }

@@ -10,10 +10,10 @@
             <div id="cntSocialLink" class="cntSignInWithSocialinks">
                 <em id="emfacebook" class="emfb"></em>
 
- 
-        <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
-    
-                
+
+                <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
+
+
                 <script>
                     function OpenNewWindow(isFacebook) {
                         var w = 820;
@@ -49,8 +49,8 @@
 
                 <div id="MessageBox"></div>
                 <div class="errorMesgLoginPage">
-                    @ViewBag.Message<br/>
-                    @Html.ValidationMessageFor(u => u.Email)<br/>
+                    @ViewBag.Message<br />
+                    @Html.ValidationMessageFor(u => u.Email)<br />
                     @Html.ValidationMessageFor(u => u.Password)
                 </div>
 
@@ -63,7 +63,7 @@
                     @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
                     <label for="rememberMe">Keep me logged in</label>
                 </div>
-            
+
                 <div id="divBtnContainer" style="margin-top: 20px;">
                     <div class="divwidth">
                         <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">Forgot your Password?</a>
@@ -79,9 +79,12 @@
         </div>
     </div>
     <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
-        <div class="containerRegisternow">
-            <input type="button" class="SignUpButton rounded_corners5" onclick="location.href='/SignUp'" />
-        </div>
+        @if (ViewBag.AllowRegisteration == 1)
+        {
+            <div class="containerRegisternow">
+                <input type="button" class="SignUpButton rounded_corners5" onclick="location.href='/SignUp'" />
+            </div>
+        }
         <div class="divDontHaveAccont rounded_corners5">
             <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">By registering you are able to:</p>
             <div class="registering_item">
@@ -133,8 +136,5 @@
         if (data == "Success") {
             window.location.href = "/Home/Index";
         }
-    }
-    function showProgress(data) {
-        alert();
     }
 </script>

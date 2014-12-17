@@ -1,82 +1,76 @@
-﻿@model MPC.Models.DomainModels.Company
-@using  Resources;
+﻿
+@using Resources;
 @{ Layout = null;}
 <div class="container content_area">
-<div class="row left_right_padding">
-    <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
-        &nbsp;
-    </div>
-    @if (true)
-    {
-        <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
-            <ul id="menu-my-account" class="navM">
-                <li style="margin-right: 0px !important;" class="">
-                    <a href="/Login.aspx"><i class="fa fa-user usercolorSize"></i></a>
-                    <a href="/Signup.aspx"><i class="fa fa-unlock usercolorSize"></i></a>
-                </li>
-                <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
-                    <a id="lnkLogin" href="/Login" class="lnkSignInCs">@Resources.MyResource.AllProducts</a>
-                </li>
-                <li class="ZeroRightMargin BlackBtnCS">
-                    <asp:hyperlink id="hyperlink3" navigateurl="~/PinkCardShopCart.aspx"
-                                   cssclass="top_sub_section_links hyperlinkCart ">
-                        <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                        <span class="carttxtcolorSize classicthemeLoginMenu">Shopping cart</span>
-                        <div class="lblCartCounter" id="lblCartCount">
+    <div class="row left_right_padding">
+        <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
+            &nbsp;
+        </div>
+        @if (!ViewBag.isUserLoggedIn)
+        {
+            <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
+                <ul id="menu-my-account" class="navM">
+                    <li style="margin-right: 0px !important;">
+                        <a href="/Login.aspx"><i class="fa fa-user usercolorSize"></i></a>
+                        <a href="/Signup.aspx"><i class="fa fa-unlock usercolorSize"></i></a>
+                    </li>
+                    <li class="sub PinkBtnMyAccS6">
+                        <a id="lnkLogin" href="/Login" class="lnkSignInCs">@Resources.MyResource.SignInRegister</a>
+                    </li>
+                    <li class="ZeroRightMargin BlackBtnCS">
+                        <a href="#" class="top_sub_section_links hyperlinkCart ">
+                            <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
+                            <span class="carttxtcolorSize classicthemeLoginMenu">@Resources.MyResource.ShoppingCart</span>
+                            <div class="lblCartCounter" id="lblCartCount">
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <div id="USerInfoContainer" class="float_right">
+                <ul class="LogBar">
+
+                    <li class="liUserInfo">
+
+                        <label class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</label>
+                    </li>
+
+                    <li class="liMarginRight">
+
+                        <div class="ProfileSetingbtn">
+                            <a href="#" class="top_sub_section_links hyperlinkCart">
+
+                            </a>
                         </div>
-                    </asp:hyperlink>
-                </li>
-            </ul>
+                    </li>
+                    <li class="liMarginRight">
+                        <div class="SavedDesignBtn">
+                            <a href="#" class="top_sub_section_links hyperlinkCart">
+                                <div class="lblSDCounter" id="lblSavedDesignCount">
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="liMarginRight">
+
+                        <div class="CartBtn">
+                            <a href="#" class="top_sub_section_links hyperlinkCart">
+                                <div class="lblItemsCartCounter" id="lblCartCounter">
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        @Html.ActionLink(Resources.MyResource.LogOut, "LogOut", "LoginBar")
+                    </li>
+                </ul>
+            </div>
+        }
+        <div class="clearBoth">
+            &nbsp;
         </div>
-    }
-    else
-    {
-        <div id="USerInfoContainer" class="float_right">
-            <ul class="LogBar">
-
-                <li class="liUserInfo">
-
-                    <asp:label id="lblUserInfo" text="Hi Omer" cssclass="LoginBarColor liUserInfo" />
-                </li>
-           
-                <li class="liMarginRight">
-
-                    <div class="ProfileSetingbtn">
-                        <asp:hyperlink id="hyperlink1" navigateurl="~/DashBoard.aspx" cssclass="top_sub_section_links hyperlinkCart">
-
-                        </asp:hyperlink>
-                    </div>
-                </li>
-                <li class="liMarginRight">
-                    <div class="SavedDesignBtn">
-                        <asp:hyperlink id="hyperlink2" navigateurl="~/SavedDesignes.aspx"
-                                       cssclass="top_sub_section_links hyperlinkCart">
-
-                            <div class="lblSDCounter" id="lblSavedDesignCount">
-                            </div>
-                        </asp:hyperlink>
-                    </div>
-                </li>
-                <li class="liMarginRight">
-                   
-                    <div class="CartBtn">
-                        <asp:hyperlink id="hyperlinkCart" navigateurl="~/PinkCardShopCart.aspx"
-                                       cssclass="top_sub_section_links hyperlinkCart">
-
-                            <div class="lblItemsCartCounter" id="lblCartCounter">
-                            </div>
-                        </asp:hyperlink>
-                    </div>
-                </li>
-                <li>
-                    @Html.ActionLink("Log Out","LogOut", "LoginBar")
-                </li>
-            </ul>
-        </div>
-    }
- 
-    <div class="clearBoth">
-        &nbsp;
     </div>
-</div>
 </div>

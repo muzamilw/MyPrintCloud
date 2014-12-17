@@ -153,7 +153,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
         {
-            return _productCategoryRepository.GetParentCategoriesByTerritory(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
@@ -161,7 +161,7 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyRepository.SearchCompanies(request);
         }
 
-        public CompanyContact GetContactUser(string email, string password)
+        public CompanyContact GetUserByEmailAndPassword(string email, string password)
         {
             return _CompanyContactRepository.GetContactUser(email, password);
         }
@@ -246,9 +246,18 @@ namespace MPC.Implementation.WebStoreServices
             return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
         }
 
-        public List<ProductCategory> GetParentCategories()
+        public List<ProductCategory> GetStoreParentCategories(long companyId)
         {
-            return _productCategoryRepository.GetParentCategories();
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+        }
+        public List<ProductCategory> GetAllCategories(long companyId) 
+        {
+            return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
+        }
+
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId) 
+        {
+            return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
         }
         #endregion
     }

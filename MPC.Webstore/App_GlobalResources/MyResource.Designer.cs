@@ -77,5 +77,32 @@ namespace Resources {
                 return ResourceManager.GetString("ForgotPasswordSuccessfull", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign out.
+        /// </summary>
+        internal static string LogOut {
+            get {
+                return ResourceManager.GetString("LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shopping Cart.
+        /// </summary>
+        internal static string ShoppingCart {
+            get {
+                return ResourceManager.GetString("ShoppingCart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SignIn / Register.
+        /// </summary>
+        internal static string SignInRegister {
+            get {
+                return ResourceManager.GetString("SignInRegister", resourceCulture);
+            }
+        }
     }
 }

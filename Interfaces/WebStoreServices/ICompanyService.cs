@@ -15,21 +15,21 @@ namespace MPC.Interfaces.WebStoreServices
         long GetStoreIdFromDomain(string domain);
         List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
-        CompanyContact GetContactUser(string email, string password);
+        CompanyContact GetUserByEmailAndPassword(string email, string password);
 
         CompanyContact GetContactByFirstName(string FName);
 
         CompanyContact GetContactByEmail(string Email);
 
-        Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
+        long CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
 
 
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
         Company GetCompanyByCompanyID(Int64 companyID);
 
-        CompanyContact GetContactByID(Int64 contactID);
+        CompanyContact GetContactByID(long contactID);
 
-        List<Address> GetAddressesByTerritoryID(Int64 TerritoryID);
+        List<Address> GetAddressesByTerritoryID(long TerritoryID);
 
         string GetUiCulture(long organisationId);
 
@@ -44,6 +44,8 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
-        List<ProductCategory> GetParentCategories();
+        List<ProductCategory> GetStoreParentCategories(long companyId);
+        List<ProductCategory> GetAllCategories(long companyId);
+        CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
     }
 }
