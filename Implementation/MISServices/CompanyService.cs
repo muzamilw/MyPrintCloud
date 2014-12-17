@@ -190,21 +190,30 @@ namespace MPC.Implementation.MISServices
 
         private void UpdateCompanyContactOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
-            //Add New companyContacts
-            foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
+            if (companySavingModel.NewAddedCompanyContacts != null)
             {
-                //address.CompanyId = companySavingModel.Company.CompanyId;
-                companyContactRepository.Add(companyContact);
+                //Add New companyContacts
+                foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
+                {
+                    //address.CompanyId = companySavingModel.Company.CompanyId;
+                    companyContactRepository.Add(companyContact);
+                }
             }
-            //Update companyContacts
-            foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
+            if (companySavingModel.EdittedCompanyContacts != null)
             {
-                companyContactRepository.Update(companyContact);
+                //Update companyContacts
+                foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
+                {
+                    companyContactRepository.Update(companyContact);
+                }
             }
-            //Delete companyContacts
-            foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
+            if (companySavingModel.DeletedCompanyContacts != null)
             {
-                companyContactRepository.Delete(companyContact);
+                //Delete companyContacts
+                foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
+                {
+                    companyContactRepository.Delete(companyContact);
+                }
             }
         }
 

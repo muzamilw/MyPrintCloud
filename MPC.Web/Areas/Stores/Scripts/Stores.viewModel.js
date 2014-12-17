@@ -121,6 +121,7 @@ define("stores/stores.viewModel",
                     }
                     return flag;
                 },
+               
                 //Save Store
                 saveStore = function (item) {
                     var storeToSave = model.Store().convertToServerData(selectedStore());
@@ -147,11 +148,22 @@ define("stores/stores.viewModel",
                         storeToSave.CompanyBannerSets.push(bannerSetServer);
                         //storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
                     });
+                    
+                    _.each(newCompanyContacts(), function (companyContact) {
+                        storeToSave.NewAddedCompanyContacts.push(companyContact.convertToServerData());
+                    });
+                    _.each(edittedCompanyContacts(), function (companyContact) {
+                        storeToSave.EdittedCompanyContacts.push(companyContact.convertToServerData());
+                    });
+                    _.each(deletedCompanyContacts(), function (companyContact) {
+                        storeToSave.DeletedCompanyContacts.push(companyContact.convertToServerData());
+                    });
                     dataservice.saveStore(
                         storeToSave, {
                             success: function (data) {
                                 //new store adding
-                                if (selectedStore().storeId() == undefined || selectedStore().storeId() == 0) {
+                                if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
+                                    selectedStore().companyId(data.CompanyId);
                                     stores.splice(0, 0, selectedStore());
                                 }
                                 //selectedStore().storeId(data.StoreId);
@@ -197,9 +209,7 @@ define("stores/stores.viewModel",
                                 contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                                 companyTerritoryPager().totalCount(data.CompanyTerritoryResponse.RowCount);
                                 addressPager().totalCount(data.AddressResponse.RowCount);
-                                contactCompanyPager().totalCount(data.CompanyContactResponse.RowCount);
-                                //contactCompanyPager().totalCount(data.CompanyTerritoryResponse.RowCount);
-                                //contactCompanyPager().totalCount(data.AddressResponse.RowCount);
+                                
 
                                 storeImage(data.ImageSource);
                                 companyBannerSetList.removeAll();
@@ -351,7 +361,8 @@ define("stores/stores.viewModel",
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     }, {
-                        success: function (data) {
+                        success: function (data)
+                        {
                             selectedStore().companyTerritories.removeAll();
                             _.each(data.CompanyTerritories, function (companyTerritoryItem) {
                                 var companyTerritory = new model.CompanyTerritory.Create(companyTerritoryItem);
@@ -634,7 +645,7 @@ define("stores/stores.viewModel",
                 //Address Pager
                 addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
-                    contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                 contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
                 searchAddressFilter = ko.observable(),
                 //Search Address
@@ -778,6 +789,7 @@ define("stores/stores.viewModel",
                     }, {
                         success: function (data) {
                             selectedStore().users.removeAll();
+                            contactCompanyPager().totalCount(data.CompanyContactResponse.RowCount);
                             _.each(data.CompanyContacts, function (companyContactItem) {
                                 var companyContact = new model.CompanyContact.Create(companyContactItem);
                                 selectedStore().users.push(companyContact);

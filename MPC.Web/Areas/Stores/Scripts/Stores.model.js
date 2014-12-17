@@ -251,6 +251,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.isDisplayBanners = source.isDisplayBanners();
                 result.CompanyType = CompanyType().convertToServerData(source.companyType());
                 result.RaveReviews = [];
+                result.CompanyContacts = [];
                 _.each(source.raveReviews(), function (item) {
                     result.RaveReviews.push(item.convertToServerData());
                 });
@@ -275,6 +276,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.CompanyBannerSets = [];
                 result.EdittedAddresses = [];
                 result.DeletedAddresses = [];
+                
                 return result;
             },
             // Reset
@@ -623,16 +625,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     SortOrder: sortOrder(),
                     OrganisationId: organisationId(),
                     CompanyId: companyId()
-                }
-                //var result = {};
-                //result.ReviewId = source.reviewId();
-                //result.ReviewBy = source.reviewBy();
-                //result.Review = source.review();
-                //result.IsDisplay = source.isDisplay();
-                //result.SortOrder = source.sortOrder();
-                //result.OrganisationId = source.organisationId();
-                //result.CompanyId = source.companyId();
-                //return result;
+                };
             },
             // Reset
             reset = function () {
@@ -1528,92 +1521,92 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};
-                result.ContactId = source.contactId();
-                result.AddressId = source.addressId();
-                result.CompanyId = source.companyId();
-                result.FirstName = source.firstName();
-                result.MiddleName = source.middleName();
-                result.LastName = source.lastName();
-                result.Title = source.title();
-                result.HomeTel1 = source.homeTel1();
-                result.HomeTel2 = source.homeTel2();
-                result.HomeExtension1 = source.homeExtension1();
-                result.HomeExtension2 = source.homeExtension2();
-                result.Mobile = source.mobile();
-                result.Email = source.email();
-                result.FAX = source.fAX();
-                result.JobTitle = source.jobTitle();
-                result.DOB = source.dOB();
-                result.Notes = source.notes();
-                result.IsDefaultContact = source.isDefaultContact();
-                result.HomeAddress1 = source.homeAddress1();
-                result.HomeAddress2 = source.homeAddress2();
-                result.HomeCity = source.homeCity();
-                result.HomeState = source.homeState();
-                result.HomePostCode = source.homePostCode();
-                result.HomeCountry = source.homeCountry();
-                result.SecretQuestion = source.secretQuestion();
-                result.SecretAnswer = source.secretAnswer();
-                result.Password = source.password();
-                result.URL = source.uRL();
-                result.IsEmailSubscription = source.isEmailSubscription();
-                result.IsNewsLetterSubscription = source.IsNewsLetterSubscription();
-                result.image = source.image();
-                result.quickFullName = source.quickFullName();
-                result.quickTitle = source.quickTitle();
-                result.quickCompanyName = source.quickCompanyName();
-                result.quickAddress1 = source.quickAddress1();
-                result.quickAddress2 = source.quickAddress2();
-                result.quickAddress3 = source.quickAddress3();
-                result.quickPhone = source.quickPhone();
-                result.quickFax = source.quickFax();
-                result.quickEmail = source.quickEmail();
-                result.quickWebsite = source.quickWebsite();
-                result.quickCompMessage = source.quickCompMessage();
-                result.QuestionId = source.questionId();
-                result.IsApprover = source.isApprover();
-                result.isWebAccess = source.isWebAccess();
-                result.isPlaceOrder = source.isPlaceOrder();
-                result.CreditLimit = source.creditLimit();
-                result.isArchived = source.isArchived();
-                result.ContactRoleId = source.contactRoleId();
-                result.TerritoryId = source.cerritoryId();
-                result.ClaimIdentifer = source.claimIdentifer();
-                result.AuthentifiedBy = source.authentifiedBy();
-                result.IsPayByPersonalCreditCard = source.isPayByPersonalCreditCard();
-                result.IsPricingshown = source.isPricingshown();
-                result.SkypeId = source.skypeId();
-                result.LinkedinURL = source.linkedinURL();
-                result.FacebookURL = source.facebookURL();
-                result.TwitterURL = source.twitterURL();
-                result.authenticationToken = source.authenticationToken();
-                result.twitterScreenName = source.twitterScreenName();
-                result.ShippingAddressId = source.shippingAddressId();
-                result.isUserLoginFirstTime = source.isUserLoginFirstTime();
-                result.quickMobileNumber = source.quickMobileNumber();
-                result.quickTwitterId = source.quickTwitterId();
-                result.quickFacebookId = source.quickFacebookId();
-                result.quickLinkedInId = source.quickLinkedInId();
-                result.quickOtherId = source.quickOtherId();
-                result.POBoxAddress = source.pOBoxAddress();
-                result.CorporateUnit = source.corporateUnit();
-                result.OfficeTradingName = source.officeTradingName();
-                result.ContractorName = source.contractorName();
-                result.BPayCRN = source.bPayCRN();
-                result.ABN = source.aBN();
-                result.ACN = source.aCN();
-                result.AdditionalField1 = source.additionalField1();
-                result.AdditionalField2 = source.additionalField2();
-                result.AdditionalField3 = source.additionalField3();
-                result.AdditionalField4 = source.additionalField4();
-                result.AdditionalField5 = source.additionalField5();
-                result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
-                result.CanUserEditProfile = source.canUserEditProfile();
-                result.canPlaceDirectOrder = source.canPlaceDirectOrder();
-                result.OrganisationId = source.organisationId();
-                return result;
+            convertToServerData = function () {
+                return {
+                    ContactId: contactId(),
+                    AddressId: addressId(),
+                    CompanyId: companyId(),
+                    FirstName: firstName(),
+                    MiddleName: middleName(),
+                    LastName: lastName(),
+                    Title: title(),
+                    HomeTel1: homeTel1(),
+                    HomeTel2: homeTel2(),
+                    HomeExtension1: homeExtension1(),
+                    HomeExtension2: homeExtension2(),
+                    Mobile: mobile(),
+                    Email: email(),
+                    FAX: fAX(),
+                    JobTitle: jobTitle(),
+                    DOB: dOB(),
+                    Notes: notes(),
+                    IsDefaultContact: isDefaultContact(),
+                    HomeAddress1: homeAddress1(),
+                    HomeAddress2: homeAddress2(),
+                    HomeCity: homeCity(),
+                    HomeState: homeState(),
+                    HomePostCode: homePostCode(),
+                    HomeCountry: homeCountry(),
+                    SecretQuestion: secretQuestion(),
+                    SecretAnswer: secretAnswer(),
+                    Password: password(),
+                    URL: uRL(),
+                    IsEmailSubscription: isEmailSubscription(),
+                    IsNewsLetterSubscription: isNewsLetterSubscription(),
+                    image: image(),
+                    quickFullName: quickFullName(),
+                    quickTitle: quickTitle(),
+                    quickCompanyName: quickCompanyName(),
+                    quickAddress1: quickAddress1(),
+                    quickAddress2: quickAddress2(),
+                    quickAddress3: quickAddress3(),
+                    quickPhone: quickPhone(),
+                    quickFax: quickFax(),
+                    quickEmail: quickEmail(),
+                    quickWebsite: quickWebsite(),
+                    quickCompMessage: quickCompMessage(),
+                    QuestionId: questionId(),
+                    IsApprover: isApprover(),
+                    isWebAccess: isWebAccess(),
+                    isPlaceOrder: isPlaceOrder(),
+                    CreditLimit: creditLimit(),
+                    isArchived: isArchived(),
+                    ContactRoleId: contactRoleId(),
+                    TerritoryId: territoryId(),
+                    ClaimIdentifer: claimIdentifer(),
+                    AuthentifiedBy: authentifiedBy(),
+                    IsPayByPersonalCreditCard: isPayByPersonalCreditCard(),
+                    IsPricingshown: isPricingshown(),
+                    SkypeId: skypeId(),
+                    LinkedinURL: linkedinURL(),
+                    FacebookURL: facebookURL(),
+                    TwitterURL: twitterURL(),
+                    authenticationToken: authenticationToken(),
+                    twitterScreenName: twitterScreenName(),
+                    ShippingAddressId: shippingAddressId(),
+                    isUserLoginFirstTime: isUserLoginFirstTime(),
+                    quickMobileNumber: quickMobileNumber(),
+                    quickTwitterId: quickTwitterId(),
+                    quickFacebookId: quickFacebookId(),
+                    quickLinkedInId: quickLinkedInId(),
+                    quickOtherId: quickOtherId(),
+                    POBoxAddress: pOBoxAddress(),
+                    CorporateUnit: corporateUnit(),
+                    OfficeTradingName: officeTradingName(),
+                    ContractorName: contractorName(),
+                    BPayCRN: bPayCRN(),
+                    ABN: aBN(),
+                    ACN: aCN(),
+                    AdditionalField1: additionalField1(),
+                    AdditionalField2: additionalField2(),
+                    AdditionalField3: additionalField3(),
+                    AdditionalField4: additionalField4(),
+                    AdditionalField5: additionalField5(),
+                    canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval(),
+                    CanUserEditProfile: canUserEditProfile(),
+                    canPlaceDirectOrder: canPlaceDirectOrder(),
+                    OrganisationId: organisationId(),
+                };
             },
             // Reset
             reset = function () {
@@ -1900,7 +1893,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CompanyBanner: CompanyBanner,
         CompanyBannerSet: CompanyBannerSet,
         CompanyContact: CompanyContact
-        StoreListView: StoreListView,
     };
 
 });
