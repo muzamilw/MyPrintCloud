@@ -61,7 +61,42 @@ namespace MPC.Repository.Repositories
         public List<ProductCategory> GetParentCategories()
         {
             return db.ProductCategories.Where(category => (category.ParentCategoryId == null || category.ParentCategoryId == 0) && category.isEnabled == true && category.isPublished == true && category.isArchived == false && (category.CompanyId == null || category.CompanyId == 0)).OrderBy(s => s.DisplayOrder).ToList();
-          
+
         }
+
+        public ProductCategory GetCategoryById(int categoryId)
+        {
+            List<ProductCategory> LstCategories = this.GetPublicCategories(); //get all the categories
+            ProductCategory objCategory = LstCategories.Find(category => category.ProductCategoryId == categoryId);
+            return objCategory;
+        }
+
+        public List<ProductCategory> GetPublicCategories()
+        {
+            return db.ProductCategories.ToList();
+        
+        }
+
+        public List<ProductCategory> GetChildCategories(int categoryId)
+        {
+           
+                List<ProductCategory> childCategoresList =  db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true).ToList();
+                return childCategoresList;
+       
+
+        }
+
+        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId)
+        {
+                var query = (from product in db.ProductCategories
+                             join CT in db.CategoryTerritories on product.ParentCategoryId equals CT.ProductCategoryId
+                             join contact in db.CompanyContacts on CT.TerritoryId equals contact.TerritoryId
+                             where contact.ContactId == ContactId && product.ParentCategoryId == ParentCatId && product.isEnabled == true
+                             && product.isPublished == true && (product.isArchived == false || product.isArchived == null)
+                             select product).ToList();
+                return query.OrderBy(i => i.DisplayOrder).ToList();
+           
+        }
+
     }
 }
