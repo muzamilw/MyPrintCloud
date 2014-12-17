@@ -8,6 +8,7 @@ namespace MPC.Interfaces.MISServices
     {
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
+        CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request);
         AddressResponse SearchAddresses(AddressRequestModel request);
         CompanyResponse GetCompanyById(int companyId);
         CompanyBaseResponse GetBaseData(long clubId);

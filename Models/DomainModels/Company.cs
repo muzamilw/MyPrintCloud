@@ -112,6 +112,8 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public string MapImageUrl { get; set; }
 
+        public long? PickupAddressId { get; set; }
+
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
         public virtual ICollection<CompanyCMYKColor> CompanyCMYKColors { get; set; }

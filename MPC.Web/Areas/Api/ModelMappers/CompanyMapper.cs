@@ -71,7 +71,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxPercentageId = source.TaxPercentageId,
                 canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                 CanUserEditProfile = source.CanUserEditProfile,
-                OrganisationId = source.OrganisationId,
                 SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
                 SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
                 ProductionManagerId1 = source.ProductionManagerId1,
@@ -82,11 +81,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
-                RaveReviews = source.RaveReviews.Select(x => x.CreateFrom()).ToList(),
-                CompanyCmykColors = source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList(),
-                //CompanyTerritories = source.CompanyTerritories.Select(x => x.CreateFrom()).ToList(),
-                //Addresses = source.Addresses.Select(x => x.CreateFrom()).ToList()
-                CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList()
+                RaveReviews =  source.RaveReviews != null? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyCmykColors = source.CompanyCMYKColors != null? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList():null,
+                CompanyTerritories = source.CompanyTerritories != null? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList(): null,
+                Addresses = source.Addresses !=null? source.Addresses.Select(x => x.CreateFrom()).ToList():null,
+                CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(),
+                CompanyContacts = source.CompanyContacts != null? source.CompanyContacts.Select(x=> x.CreateFrom()).ToList(): null
             };
         }
         /// <summary>
@@ -104,7 +104,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               CreditReference = source.CreditReference,
                               CreditLimit = source.CreditLimit,
                               Terms = source.Terms,
-                              TypeId = source.TypeId,
+                              TypeId = 52,
                               DefaultNominalCode = source.DefaultNominalCode,
                               DefaultMarkUpId = source.DefaultMarkUpId,
                               AccountOpenDate = source.AccountOpenDate,
@@ -146,7 +146,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               TaxPercentageId = source.TaxPercentageId,
                               canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                               CanUserEditProfile = source.CanUserEditProfile,
-                              OrganisationId = source.OrganisationId,
                               SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
                               SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
                               ProductionManagerId1 = source.ProductionManagerId1,
@@ -161,7 +160,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               CompanyCMYKColors = source.CompanyCmykColors != null ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList() : null,
                               Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
                               CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList() : null,
-                              CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null
+                              CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
+                              CompanyContacts = source.CompanyContacts != null? source.CompanyContacts.Select(x => x.Createfrom()).ToList(): null
                           };
 
             return company;
@@ -240,12 +240,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                                                Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
                                                RowCount = source.AddressResponse.RowCount
                                            },
-                       
+
                        CompanyTerritoryResponse = new ApiModels.CompanyTerritoryResponse
                                                   {
                                                       CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
                                                       RowCount = source.CompanyTerritoryResponse.RowCount
-                                                  }
+                                                  },
+                       CompanyContactResponse = new ApiModels.CompanyContactResponse
+                       {
+                           CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
+                           RowCount = source.CompanyContactResponse.RowCount
+                       }
 
                    };
         }

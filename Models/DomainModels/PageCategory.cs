@@ -10,5 +10,7 @@ namespace MPC.Models.DomainModels
     {
         public long CategoryId { get; set; }
         public string CategoryName { get; set; }
+
+        public virtual ICollection<CmsPage> CmsPages { get; set; }
     }
 }

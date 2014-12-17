@@ -3,6 +3,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -47,5 +48,15 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetStoreParentCategories(long companyId);
         List<ProductCategory> GetAllCategories(long companyId);
         CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
+
+        ProductCategory GetCategoryById(int categoryId);
+
+        List<ProductCategory> GetChildCategories(int categoryId);
+
+        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId);
+
+        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
+
+        Address GetDefaultAddressByStoreID(Int64 StoreID);
     }
 }

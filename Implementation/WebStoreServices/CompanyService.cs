@@ -9,6 +9,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
+using MPC.Models.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -33,6 +34,11 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IOrganisationRepository _organisationRepository;
         private readonly ISystemUserRepository _systemUserRepository;
         private readonly ICampaignRepository _campaignRepository;
+
+        private string pageTitle = string.Empty;
+        private string MetaKeywords = string.Empty;
+        private string MetaDEsc = string.Empty;
+
         #endregion
 
         #region Constructor
@@ -259,6 +265,51 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
         }
+
+        public ProductCategory GetCategoryById(int categoryId)
+        {
+            return _productCategoryRepository.GetCategoryById(categoryId);
+        }
+
+        public List<ProductCategory> GetChildCategories(int categoryId)
+        {
+            return _productCategoryRepository.GetChildCategories(categoryId);
+        }
+
+        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId)
+        {
+            return _productCategoryRepository.GetAllChildCorporateCatalogByTerritory(customerId, ContactId, ParentCatId);
+            
+        }
+
+
+        public string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode, string StoreName, Address address = null)
+        {
+                
+
+                this.pageTitle = MetaTitle + " - " + StoreName + ", " + address.City + ", " + address.State;
+                this.MetaKeywords = metaKeyword + ", " + address.City + ", " + address.State + ", " + address.Country + "," + address.PostCode;
+
+                if (!string.IsNullOrEmpty(metaDesc))
+                {
+                    if (metaDesc.Length > 156)
+                    {
+                        this.MetaDEsc = metaDesc.Substring(0, 156) + " - " + StoreName + ", " + address.City + ", " + address.State;
+                    }
+                    else
+                    {
+                        this.MetaDEsc = metaDesc + " - " + StoreName + ", " + address.City + ", " + address.State;
+                    }
+                }
+                return new[] { pageTitle, MetaKeywords, MetaDEsc };
+        }
+
+        public Address GetDefaultAddressByStoreID(Int64 StoreID)
+        {
+            return _addressRepository.GetDefaultAddressByStoreID(StoreID);
+        }
         #endregion
     }
+
+    
 }

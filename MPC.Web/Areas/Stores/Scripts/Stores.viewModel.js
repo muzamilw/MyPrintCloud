@@ -19,6 +19,7 @@ define("stores/stores.viewModel",
                 systemUsers = ko.observableArray([]),
                 //Tab User And Addressed, Addresses Section Company Territories Filter
                 addressCompanyTerritoriesFilter = ko.observableArray(),
+                contactCompanyTerritoriesFilter = ko.observableArray(),
                 //Company Banners
                 companyBanners = ko.observableArray([]),
                 //Filetered Company Bannens List
@@ -62,6 +63,7 @@ define("stores/stores.viewModel",
                 },
                 //On Edit Click Of Store
                 onEditItem = function (item) {
+
                     editorViewModel.selectItem(item);
                     openEditDialog();
                 },
@@ -187,11 +189,15 @@ define("stores/stores.viewModel",
                                 _.each(data.CompanyTerritoryResponse.CompanyTerritories, function (item) {
                                     selectedStore().companyTerritories.push(model.CompanyTerritory.Create(item));
                                 });
-
+                                _.each(data.CompanyContactResponse.CompanyContacts, function (item) {
+                                    selectedStore().users.push(model.CompanyContact.Create(item));
+                                });
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                                 companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
+                                contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                                 companyTerritoryPager().totalCount(data.CompanyTerritoryResponse.RowCount);
                                 addressPager().totalCount(data.AddressResponse.RowCount);
+                                contactCompanyPager().totalCount(data.CompanyContactResponse.RowCount);
                                 //contactCompanyPager().totalCount(data.CompanyTerritoryResponse.RowCount);
                                 //contactCompanyPager().totalCount(data.AddressResponse.RowCount);
 
@@ -199,7 +205,7 @@ define("stores/stores.viewModel",
                                 companyBannerSetList.removeAll();
                                 companyBanners.removeAll();
                                 filteredCompanyBanners.removeAll();
-                                _.each(data.CompanyBannerSets, function (item) {
+                                _.each(data.Company.CompanyBannerSets, function (item) {
                                     companyBannerSetList.push(model.CompanyBannerSet.Create(item));
                                     //Extract Company Banners from company banner set item
                                     _.each(item.CompanyBanners, function (bannerSet) {
@@ -250,6 +256,10 @@ define("stores/stores.viewModel",
                                 _.each(data.CompanyTerritories, function (item) {
                                     var territory = new model.CompanyTerritory.Create(item);
                                     addressCompanyTerritoriesFilter.push(territory);
+                                });
+                                _.each(data.CompanyTerritories, function (item) {
+                                    var territory = new model.CompanyTerritory.Create(item);
+                                    contactCompanyTerritoriesFilter.push(territory);
                                 });
                             }
                             isLoadingStores(false);
@@ -533,6 +543,10 @@ define("stores/stores.viewModel",
                                     item.itemURL(companyBanner.itemURL());
                                     item.buttonURL(companyBanner.buttonURL());
                                     item.companySetId(companyBanner.companySetId());
+                                    item.fileBinary(companyBanner.fileBinary());
+                                    item.imageSource(companyBanner.fileBinary());
+                                    item.filename(companyBanner.filename());
+
                                 }
                             });
                         }
@@ -568,7 +582,7 @@ define("stores/stores.viewModel",
                 //Edit Company Banner
                 onEditCompanyBanner = function (banner) {
                     // bannerEditorViewModel.selectItem(banner);
-                    //selectedCompanyBanner().reset();
+                    //selectedCompanyBanner().fileBinary(banner.imageSource());
                     view.showEditBannerDialog();
                 },
                 //Filter Banners based on banner set id
@@ -604,145 +618,274 @@ define("stores/stores.viewModel",
                         filteredCompanyBanners.remove(banner);
                     });
                     confirmation.show();
-                }
+                },
                 // ***** COMPANY BANNER eND*****//
 
                 //***** ADDRESSES ****//
                 //Selected Address
-                    selectedAddress = ko.observable(),
+                selectedAddress = ko.observable(),
                 //SelectedAddressTerritoryFilter
-                    addressTerritoryFilter = ko.observable(),
+                addressTerritoryFilter = ko.observable(),
 
                 //Deleted Address
-                    deletedAddresses = ko.observableArray([]),
-                    edittedAddresses = ko.observableArray([]),
-                    newAddresses = ko.observableArray([]),
+                deletedAddresses = ko.observableArray([]),
+                edittedAddresses = ko.observableArray([]),
+                newAddresses = ko.observableArray([]),
                 //Address Pager
-                    addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
                     contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
-                    searchAddressFilter = ko.observable(),
+                searchAddressFilter = ko.observable(),
                 //Search Address
-                    searchAddress = function () {
-                        dataservice.searchAddress({
-                            SearchFilter: searchAddressFilter(),
-                            CompanyId: selectedStore().companyId(),
-                            TerritoryId: addressTerritoryFilter(),
-                            PageSize: companyTerritoryPager().pageSize(),
-                            PageNo: companyTerritoryPager().currentPage(),
-                            SortBy: sortOn(),
-                            IsAsc: sortIsAsc()
-                        }, {
-                            success: function (data) {
-                                selectedStore().addresses.removeAll();
-                                _.each(data.Addresses, function (addressItem) {
-                                    var address = new model.Address.Create(addressItem);
-                                    selectedStore().addresses.push(address);
+                searchAddress = function () {
+                    dataservice.searchAddress({
+                        SearchFilter: searchAddressFilter(),
+                        CompanyId: selectedStore().companyId(),
+                        TerritoryId: addressTerritoryFilter(),
+                            PageSize: addressPager().pageSize(),
+                            PageNo: addressPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+                            selectedStore().addresses.removeAll();
+                            _.each(data.Addresses, function (addressItem) {
+                                var address = new model.Address.Create(addressItem);
+                                selectedStore().addresses.push(address);
+                            });
+                            _.each(edittedAddresses(), function (item) {
+                                _.each(selectedStore().addresses(), function (addressItem) {
+                                    if (item.addressId() == addressItem.addressId()) {
+                                        selectedStore().addresses.remove(addressItem);
+                                    }
                                 });
-                                _.each(edittedAddresses(), function (item) {
-                                    _.each(selectedStore().addresses(), function (addressItem) {
-                                        if (item.addressId() == addressItem.addressId()) {
-                                            selectedStore().addresses.remove(addressItem);
-                                        }
-                                    });
+                            });
+                            _.each(deletedAddresses(), function (item) {
+                                _.each(selectedStore().addresses(), function (addressItem) {
+                                    if (item.addressId() == addressItem.addressId()) {
+                                        selectedStore().addresses.remove(addressItem);
+                                    }
                                 });
-                                _.each(deletedAddresses(), function (item) {
-                                    _.each(selectedStore().addresses(), function (addressItem) {
-                                        if (item.addressId() == addressItem.addressId()) {
-                                            selectedStore().addresses.remove(addressItem);
-                                        }
-                                    });
-                                });
-                            },
-                            error: function (response) {
-                                toastr.error("Failed To Load Addresses" + response);
+                            });
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Addresses" + response);
+                        }
+                    });
+                },
+                addressTerritoryFilterSelected = ko.computed(function () {
+                    if (selectedStore() != null && selectedStore() != undefined) {
+                            searchAddress();
+                    }
+                }),
+                //isSavingNewAddress
+                isSavingNewAddress = ko.observable(false),
+                // Template Chooser For Address
+                templateToUseAddresses = function (address) {
+                    return (address === selectedAddress() ? 'editAddressTemplate' : 'itemAddressTemplate');
+                },
+                //Create Address
+                onCreateNewAddress = function () {
+                    var address = new model.Address();
+                    selectedAddress(address);
+                    isSavingNewAddress(true);
+                    view.showAddressDialog();
+                },
+                // Delete Address
+                onDeleteAddress = function (address) {
+                    if (address.addressId() !== undefined) {
+                        _.each(edittedAddresses(), function (item) {
+                            if (item.addressId() == address.addressId()) {
+                                edittedAddresses.remove(address);
                             }
                         });
-                    },
-                    addressTerritoryFilterSelected = ko.computed(function () {
-                        if (selectedStore() != null && selectedStore() != undefined) {
-                            searchAddress();
-                        }
-                    }),
-                //isSavingNewAddress
-                    isSavingNewAddress = ko.observable(false),
-                // Template Chooser For Address
-                    templateToUseAddresses = function (address) {
-                        return (address === selectedAddress() ? 'editAddressTemplate' : 'itemAddressTemplate');
-                    },
-                //Create Address
-                    onCreateNewAddress = function () {
-                        var address = new model.Address();
-                        selectedAddress(address);
-                        isSavingNewAddress(true);
-                        view.showAddressDialog();
-                    },
-                // Delete Address
-                    onDeleteAddress = function (address) {
-                        if (address.addressId() !== undefined) {
-                            _.each(edittedAddresses(), function (item) {
-                                if (item.addressId() == address.addressId()) {
-                                    edittedAddresses.remove(address);
-                                }
-                            });
-                            deletedAddresses.push(address);
-                        }
-                        selectedStore().addresses.remove(address);
-                        return;
-                    },
-                    onEditAddress = function (address) {
-                        selectedAddress(address);
-                        isSavingNewAddress(false);
-                        view.showAddressDialog();
-                    },
-                    onCloseAddress = function () {
-                        view.hideAddressDialog();
-                        isSavingNewAddress(false);
-                    },
+                        deletedAddresses.push(address);
+                    }
+                    selectedStore().addresses.remove(address);
+                    return;
+                },
+                onEditAddress = function (address) {
+                    selectedAddress(address);
+                    isSavingNewAddress(false);
+                    view.showAddressDialog();
+                },
+                onCloseAddress = function () {
+                    view.hideAddressDialog();
+                    isSavingNewAddress(false);
+                },
                 //Do Before Save Address
-                    doBeforeSaveAddress = function () {
-                        var flag = true;
-                        if (!selectedAddress().isValid()) {
-                            selectedAddress().errors.showAllMessages();
-                            flag = false;
-                        }
-                        return flag;
-                    },
-                    onSaveAddress = function () {
-                        if (doBeforeSaveAddress()) {
-                            if (selectedAddress().addressId() === undefined && isSavingNewAddress() === true) {
-                                selectedStore().addresses.splice(0, 0, selectedAddress());
-                                newAddresses.push(selectedAddress());
-                            } else {
-                                //pushing item in editted Addresses List
-                                if (selectedAddress().addressId() != undefined) {
-                                    var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
+                doBeforeSaveAddress = function () {
+                    var flag = true;
+                    if (!selectedAddress().isValid()) {
+                        selectedAddress().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                onSaveAddress = function () {
+                    if (doBeforeSaveAddress()) {
+                        if (selectedAddress().addressId() === undefined && isSavingNewAddress() === true) {
+                            selectedStore().addresses.splice(0, 0, selectedAddress());
+                            newAddresses.push(selectedAddress());
+                        } else {
+                            //pushing item in editted Addresses List
+                            if (selectedAddress().addressId() != undefined) {
+                                var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
                                         return (selectedAddress().addressId() === item.addressId());
-                                    });
+                                });
 
-                                    if (!match) {
-                                        edittedAddresses.push(selectedAddress());
-                                    }
-
+                                if (!match) {
+                                    edittedAddresses.push(selectedAddress());
                                 }
+
                             }
-                            view.hideAddressDialog();
                         }
-                    },
+                        view.hideAddressDialog();
+                    }
+                },
                 // ***** Address END *****
+                 MultipleImageFilesLoadedCallback = function (file, data) {
+                     selectedCompanyBanner().fileBinary(data);
+                     selectedCompanyBanner().filename(file.name);
+                     selectedCompanyBanner().fileType(data.imageType);
+                 },
+
+                //*****    COMPANY CONTACT      ***************//
+                //Selected Address
+                selectedCompanyContact = ko.observable(),
+                //companyContactFilter
+                companyContactFilter = ko.observable(),
+                contactCompanyTerritoryFilter = ko.observable(),
+                //Deleted Company Contact 
+                deletedCompanyContacts = ko.observableArray([]),
+                edittedCompanyContacts = ko.observableArray([]),
+                newCompanyContacts= ko.observableArray([]),
+                //Company Contact  Pager
+                companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                //Company Contact Search Filter
+                searchCompanyContactFilter = ko.observable(),
+                //Search Company Contact        
+                searchCompanyContact = function () {
+                    dataservice.searchCompanyContact({
+                        SearchFilter: searchCompanyContactFilter(),
+                        CompanyId: selectedStore().companyId(),
+                        TerritoryId: contactCompanyTerritoryFilter(),
+                        PageSize: companyContactPager().pageSize(),
+                        PageNo: companyContactPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+                            selectedStore().users.removeAll();
+                            _.each(data.CompanyContacts, function (companyContactItem) {
+                                var companyContact = new model.CompanyContact.Create(companyContactItem);
+                                selectedStore().users.push(companyContact);
+                            });
+                            _.each(edittedCompanyContacts(), function (item) {
+                                _.each(selectedStore().users(), function (companyContactItem) {
+                                    if (item.contactId() == companyContactItem.contactId()) {
+                                        selectedStore().users.remove(companyContactItem);
+                                    }
+                                });
+                            });
+                            _.each(deletedCompanyContacts(), function (item) {
+                                _.each(selectedStore().users(), function (companyContactItem) {
+                                    if (item.contactId() == companyContactItem.contactId()) {
+                                        selectedStore().users.remove(companyContactItem);
+                                    }
+                                });
+                            });
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Users" + response);
+                        }
+                    });
+                },
+                companyContactFilterSelected = ko.computed(function () {
+                    if (selectedStore() != null && selectedStore() != undefined) {
+                        searchCompanyContact();
+                    }
+                }),
+                //isSavingNewCompanyContact
+                isSavingNewCompanyContact = ko.observable(false),
+                // Template Chooser For CompanyContact
+                templateToUseCompanyContacts = function (companyContact) {
+                    return (companyContact === selectedCompanyContact() ? 'editCompanyContactTemplate' : 'itemCompanyContactTemplate');
+                },
+                //Create CompanyContact
+                onCreateNewCompanyContact = function () {
+                    var user = new model.CompanyContact();
+                    selectedCompanyContact(user);
+                    isSavingNewCompanyContact(true);
+                    view.showCompanyContactDialog();
+                },
+                // Delete CompanyContact
+                onDeleteCompanyContact = function (companyContact) {
+                    if (companyContact.contactId() !== undefined) {
+                        _.each(edittedCompanyContacts(), function (item) {
+                            if (item.contactId() == companyContact.contactId()) {
+                                edittedCompanyContacts.remove(companyContact);
+                            }
+                        });
+                        deletedCompanyContacts.push(companyContact);
+                    }
+                    selectedStore().users.remove(companyContact);
+                    return;
+                },
+                onEditCompanyContact = function (companyContact) {
+                    selectedCompanyContact(companyContact);
+                    isSavingNewCompanyContact(false);
+                    view.showCompanyContactDialog();
+                },
+                onCloseCompanyContact = function () {
+                    view.hideCompanyContactDialog();
+                    isSavingNewCompanyContact(false);
+                },
+                //Do Before Save CompanyContact
+                doBeforeSaveCompanyContact = function () {
+                    var flag = true;
+                    if (!selectedCompanyContact().isValid()) {
+                        selectedCompanyContact().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                onSaveCompanyContact = function () {
+                    if (doBeforeSaveCompanyContact()) {
+                        if (selectedCompanyContact().contactId() === undefined && isSavingNewCompanyContact() === true) {
+                            selectedStore().users.splice(0, 0, selectedCompanyContact());
+                            newCompanyContacts.push(selectedCompanyContact());
+                        } else {
+                            //pushing item in editted CompanyContacts List
+                            if (selectedCompanyContact().contactId() != undefined) {
+                                var match = ko.utils.arrayFirst(edittedCompanyContacts(), function (item) {
+                                    return (selectedCompanyContact().contactId() === item.contactId());
+                                });
+
+                                if (!match) {
+                                    edittedCompanyContacts.push(selectedCompanyContact());
+                                }
+
+                            }
+                        }
+                        view.hideCompanyContactDialog();
+                    }
+                },
+                // ***** CompanyContact END *****
 
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
+            initialize = function (specifiedView) {
+                view = specifiedView;
+                ko.applyBindings(view.viewModel, view.bindingRoot);
             pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                    getStores();
-                    view.initializeForm();
-                };
+                getStores();
+                view.initializeForm();
+            };
 
                 return {
+                    MultipleImageFilesLoadedCallback: MultipleImageFilesLoadedCallback,
                     filteredCompanySetId: filteredCompanySetId,
                     stores: stores,
                     storeImage: storeImage,
@@ -834,6 +977,25 @@ define("stores/stores.viewModel",
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
                     contactCompanyPager: contactCompanyPager,
+                    selectedCompanyContact: selectedCompanyContact,
+                    companyContactFilter: companyContactFilter,
+                    deletedCompanyContacts: deletedCompanyContacts,
+                    edittedCompanyContacts: edittedCompanyContacts, 
+                    newCompanyContacts: newCompanyContacts,
+                    companyContactPager: companyContactPager,
+                    searchCompanyContactFilter: searchCompanyContactFilter,
+                    searchCompanyContact: searchCompanyContact,
+                    companyContactFilterSelected: companyContactFilterSelected,
+                    isSavingNewCompanyContact: isSavingNewCompanyContact,
+                    templateToUseCompanyContacts: templateToUseCompanyContacts,
+                    onCreateNewCompanyContact: onCreateNewCompanyContact,
+                    onDeleteCompanyContact: onDeleteCompanyContact,
+                    onEditCompanyContact: onEditCompanyContact,
+                    onCloseCompanyContact: onCloseCompanyContact,
+                    doBeforeSaveCompanyContact: doBeforeSaveCompanyContact,
+                    onSaveCompanyContact: onSaveCompanyContact,
+                    contactCompanyTerritoriesFilter: contactCompanyTerritoriesFilter,
+                    contactCompanyTerritoryFilter: contactCompanyTerritoryFilter,
                     initialize: initialize
                 };
             })()
