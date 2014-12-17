@@ -10,10 +10,10 @@
    
 
 </head>
-<body>
-    <div class="container body-content">
+<body class="bodycolor">
+    <div class="body-content">
         @RenderBody()
-      
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")
@@ -24,14 +24,15 @@
     @RenderSection("scripts", required: false)
 
     <script type="text/javascript">
-    
+
         $(document).ready(function () {
             $('.bxslider').bxSlider({
-                    auto: true,
-                    speed: 2200
-                }
+                auto: true,
+                speed: 2200
+            }
             );
         });
     </script>
 </body>
+
 </html>

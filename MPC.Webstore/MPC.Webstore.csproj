@@ -397,12 +397,6 @@
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
-    <Folder Include="Views\AllProducts\" />
-    <Folder Include="Views\CategoryHeader\" />
-    <Folder Include="Views\Category\" />
-    <Folder Include="Views\ContactUs\" />
-    <Folder Include="Views\Domain\" />
-    <Folder Include="Views\ForgetPassword\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

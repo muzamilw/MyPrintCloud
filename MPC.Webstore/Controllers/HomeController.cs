@@ -73,11 +73,11 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(pageName))
             {
                 long pageId = pageList.Where(p => p.PageName == pageName).Select(id => id.PageId).FirstOrDefault();
-                return allPageWidgets.Where(widget => widget.PageId == pageId).ToList();
+                return allPageWidgets.Where(widget => widget.PageId == pageId).OrderBy(s => s.Sequence).ToList();
             }
             else
             {
-                return allPageWidgets.Where(widget => widget.PageId == 1).ToList();
+                return allPageWidgets.Where(widget => widget.PageId == 1).OrderBy(s => s.Sequence).ToList();
             }
         }
 

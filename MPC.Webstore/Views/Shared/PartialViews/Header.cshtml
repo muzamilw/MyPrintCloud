@@ -14,7 +14,7 @@
             <div style="float: right; padding-right: 0px; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-12 col-sm-8 cntrightMenu">
 
                 <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
-                    @if (Model.IsCustomer == 3)
+                    @if (Model.IsCustomer != 3)
                     {
                         <a href="/AllProducts" class="iconHover">All Products</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
                         <a id="lnkRequestQuote" style="cursor: pointer;" class="iconHover">Request a Quote</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>

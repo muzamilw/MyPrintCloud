@@ -93,5 +93,11 @@ namespace MPC.Webstore.Controllers
            // return RedirectToAction("Index", "Home");
           //  return View();
         }
+
+        public void updateCache(string name)
+        {
+            _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
+            RedirectToAction("Error", "Home");
+        }
     }
 }

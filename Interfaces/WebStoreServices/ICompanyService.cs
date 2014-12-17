@@ -58,5 +58,7 @@ namespace MPC.Interfaces.WebStoreServices
         string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
+
+        void GetStoreFromCache(long companyId, bool clearcache);
     }
 }
