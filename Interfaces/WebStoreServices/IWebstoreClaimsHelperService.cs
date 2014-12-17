@@ -10,9 +10,9 @@ namespace MPC.Interfaces.WebStoreServices
     public interface IWebstoreClaimsHelperService
     {
         long loginContactID();
-
         long loginContactCompanyID();
         long loginContactRoleID();
         long loginContactTerritoryID();
+        bool isUserLoggedIn();
     }
 }

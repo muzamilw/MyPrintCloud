@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
@@ -81,12 +82,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
-                RaveReviews =  source.RaveReviews != null? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCmykColors = source.CompanyCMYKColors != null? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList():null,
-                CompanyTerritories = source.CompanyTerritories != null? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList(): null,
-                Addresses = source.Addresses !=null? source.Addresses.Select(x => x.CreateFrom()).ToList():null,
+                RaveReviews = source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyCmykColors = source.CompanyCMYKColors != null ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList() : null,
+                Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(),
-                CompanyContacts = source.CompanyContacts != null? source.CompanyContacts.Select(x=> x.CreateFrom()).ToList(): null
+                CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.CreateFrom()).ToList() : null,
+                //CmsPages = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForListView()).ToList() : null
             };
         }
         /// <summary>
@@ -161,7 +163,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                               Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
                               CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList() : null,
                               CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
-                              CompanyContacts = source.CompanyContacts != null? source.CompanyContacts.Select(x => x.Createfrom()).ToList(): null
+                              CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null
                           };
 
             return company;
@@ -230,26 +232,32 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
-        public static ApiModels.CompanyResponse CreateFrom(this DomainResponseModel.CompanyResponse source)
+        public static CompanyResponse CreateFrom(this DomainResponseModel.CompanyResponse source)
         {
-            return new ApiModels.CompanyResponse
+            return new CompanyResponse
                    {
                        Company = source.Company.CreateFrom(),
-                       AddressResponse = new ApiModels.AddressResponse
+                       AddressResponse = new AddressResponse
                                            {
                                                Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
                                                RowCount = source.AddressResponse.RowCount
                                            },
 
-                       CompanyTerritoryResponse = new ApiModels.CompanyTerritoryResponse
+                       CompanyTerritoryResponse = new CompanyTerritoryResponse
                                                   {
                                                       CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
                                                       RowCount = source.CompanyTerritoryResponse.RowCount
                                                   },
-                       CompanyContactResponse = new ApiModels.CompanyContactResponse
+                       CompanyContactResponse = new CompanyContactResponse
                        {
                            CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
                            RowCount = source.CompanyContactResponse.RowCount
+                       },
+
+                       SecondaryPageResponse = new SecondaryPageResponse
+                       {
+                           CmsPages = source.SecondaryPageResponse.CmsPages != null ? source.SecondaryPageResponse.CmsPages.Select(x => x.CreateFromForListView()).ToList() : null,
+                           RowCount = source.SecondaryPageResponse.RowCount
                        }
 
                    };

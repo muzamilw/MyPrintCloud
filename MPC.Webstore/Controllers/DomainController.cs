@@ -51,6 +51,7 @@ namespace MPC.Webstore.Controllers
             if (storeId == 0)
             {
                 Response.Redirect("/Error");
+                
                 //return RedirectToAction("Error", "Home"); //Response.Redirect("Home/Error");
                 //throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
@@ -88,8 +89,15 @@ namespace MPC.Webstore.Controllers
                     RedirectToAction("Error", "Home");
                 }
             }
-            RedirectToAction("Index", "Home");
+            Response.Redirect("/Home/Index");
+           // return RedirectToAction("Index", "Home");
           //  return View();
+        }
+
+        public void updateCache(string name)
+        {
+            _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
+            RedirectToAction("Error", "Home");
         }
     }
 }
