@@ -1,7 +1,5 @@
-﻿@*@model MPC.Webstore.Models.Company
-@{ Layout = null;}*@
-
-<div id="Footer" class="clearBoth">
+﻿
+<div class="clearBoth">
    
     <div id="FooterContainer" class="PDTCWB" >
         <div class="container content_area">
@@ -10,15 +8,15 @@
                     <div class="footer_sub_height">
                         <div class="txtAlignLeft footerLogoContainer col-xs-12 col-sm-2 col-md-3 col-lg-3">
 
-                            <a href='<%=ResolveUrl("~/default.aspx") %>'>
-                                <img ID="imgfooterLogo"  class="footerLogoBranding" />
+                            <a href='/Home/Index'>
+                                <img id="imgfooterLogo" class="footerLogoBranding" src="http://pinkcards.com//StoredImages/CompanyLogo/1_WebSiteLogo.png" />
                             </a>
                         </div>
                         <div class="txtAlignLeft col-md-6 col-sm-6 col-xs-12 col-lg-6 payment_sec NoPadding">
                             <div class="copyTerms">
-                                <label ID="ltrlcopyrite" title="Copyrights 2014. All Rights Reserved."></label>
-                                <a id="hplinkTermsCondition" class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
-                                   href="#">Terms & Conditions</a>
+                                <label>@Resources.MyResource.CopyRight</label>
+                                <a class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
+                                   href="#">@Resources.MyResource.TermsAndConditions</a>
                             </div>
 
                             <div class="powerPrivacy">
