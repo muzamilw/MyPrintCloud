@@ -229,6 +229,11 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<CampaignEmailQueue> CampaignEmailQueues { get; set; }
 
+        /// <summary>
+        /// Products List View DbSet
+        /// </summary>
+        public DbSet<GetProductsListView> GetProductsListViews { get; set; }
+
         #endregion
     }
 }
