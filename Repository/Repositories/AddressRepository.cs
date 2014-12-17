@@ -67,5 +67,10 @@ namespace MPC.Repository.Repositories
                        Addresses = addresses
                    };
         }
+
+        public Address GetDefaultAddressByStoreID(Int64 StoreID)
+        {
+            return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true).FirstOrDefault();
+        }
     }
 }

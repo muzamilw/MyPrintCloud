@@ -16,5 +16,12 @@ namespace MPC.Interfaces.Repository
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
 
         List<ProductCategory> GetParentCategories();
+
+        ProductCategory GetCategoryById(int categoryId);
+
+        List<ProductCategory> GetChildCategories(int categoryId);
+
+        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId);
+        
     }
 }
