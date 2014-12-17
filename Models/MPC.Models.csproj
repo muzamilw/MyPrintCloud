@@ -147,6 +147,7 @@
     <Compile Include="DomainModels\DiscountVoucher.cs" />
     <Compile Include="DomainModels\EmailEvent.cs" />
     <Compile Include="DomainModels\Estimate.cs" />
+    <Compile Include="DomainModels\GetProductsListView.cs" />
     <Compile Include="DomainModels\GlobalLanguage.cs" />
     <Compile Include="DomainModels\Inquiry.cs" />
     <Compile Include="DomainModels\InquiryAttachment.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -238,6 +240,7 @@
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
+    <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />

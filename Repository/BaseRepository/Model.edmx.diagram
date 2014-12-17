@@ -151,6 +151,9 @@
         <AssociationConnector Association="DomainModels.FK_Template_Items" />
         <EntityTypeShape EntityType="DomainModels.GlobalLanguage" Width="1.5" PointX="26.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CampaignEmailQueue" Width="1.5" PointX="27.375" PointY="3.875" />
+        <AssociationConnector Association="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" />
+        <AssociationConnector Association="DomainModels.FK_StockItem_ItemStockOption" />
+        <EntityTypeShape EntityType="DomainModels.GetProductsListView" Width="1.5" PointX="27.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

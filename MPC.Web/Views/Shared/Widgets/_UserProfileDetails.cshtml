@@ -5,11 +5,11 @@
 
 
 <div class="modal fade" id="myContactProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog">
+    <div style="width: 838px;" class="modal-dialog" data-bind="with: $root.selectedCompanyContact">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h1>Profile - Rayan Gossling</h1>
+                <h1>Profile - <span data-bind="text: firstName"></span></h1>
             </div>
             <br />
             <div class="col-lg-12 clearfix">
@@ -37,7 +37,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -47,7 +48,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtEmail">
+                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -56,7 +57,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -66,7 +68,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtFName">
+                                                            <input type="text" class="form-control" id="txtFName" data-bind="value: firstName">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -75,7 +77,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -85,7 +88,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtLName">
+                                                            <input type="text" class="form-control" id="txtLName" data-bind="value: lastName">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -94,7 +97,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -104,7 +108,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtJTitle">
+                                                            <input type="text" class="form-control" id="txtJTitle" data-bind="value:jobTitle">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -113,7 +117,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -123,7 +128,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtCellNo">
+                                                            <input type="text" class="form-control" id="txtCellNo" data-bind="value:mobile">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -132,7 +137,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -142,7 +148,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtDirectL">
+                                                            <input type="text" class="form-control" id="txtDirectL" data-bind="value:homeTel1">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -151,7 +157,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -161,24 +168,18 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtUFax">
+                                                            <input type="text" class="form-control" id="txtUFax" data-bind="value:fAX">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
-
                                                             <div class="bs-example-tooltips tooltip-float-width">
-
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
                                                             </div>
-
-
                                                             <label for="ddUserRole" class="control-label text-right tooltip-float">Role</label>
-
                                                         </div>
-
                                                         <div class="col-lg-7">
                                                             <select class="form-control" id="ddUserRole">
                                                                 <option>Admin </option>
@@ -187,8 +188,6 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
-
                                                 </div>
 
                                                 <div class="col-lg-6">
@@ -197,7 +196,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -224,7 +224,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -234,7 +235,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtPassword">
+                                                            <input type="password" class="form-control" id="txtPassword" data-bind="value: password">
                                                         </div>
 
                                                     </div>
@@ -244,7 +245,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -254,24 +256,19 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtCPassword">
+                                                            <input type="password" class="form-control" id="txtCPassword" >
                                                         </div>
 
                                                     </div>
 
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
-
                                                             <div class="bs-example-tooltips tooltip-float-width">
-
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
                                                             </div>
-
-
                                                             <label for="SecQuesID" class="control-label text-right tooltip-float">Secret Question</label>
-
                                                         </div>
 
                                                         <div class="col-lg-7">
@@ -290,7 +287,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -300,7 +298,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtSecrtAns">
+                                                            <input type="text" class="form-control" id="txtSecrtAns" data-bind="value: secretAnswer">
                                                         </div>
 
                                                     </div>
@@ -318,7 +316,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -328,7 +327,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQName">
+                                                                <input type="text" class="form-control" id="txtQName" data-bind="value: quickFullName">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -337,7 +336,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -347,7 +347,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQJobTitle">
+                                                                <input type="text" class="form-control" id="txtQJobTitle" data-bind="value: quickTitle">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -356,7 +356,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -366,7 +367,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQCompName">
+                                                                <input type="text" class="form-control" id="txtQCompName" data-bind="value: quickCompanyName">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -375,7 +376,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -385,7 +387,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQTele">
+                                                                <input type="text" class="form-control" id="txtQTele" data-bind="value: quickPhone">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -394,7 +396,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -404,7 +407,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQfax">
+                                                                <input type="text" class="form-control" id="txtQfax" data-bind="value: quickFax">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -413,7 +416,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -423,7 +427,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQEmail">
+                                                                <input type="text" class="form-control" id="txtQEmail" data-bind="value: quickEmail">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -432,7 +436,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -442,7 +447,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQWebAdd">
+                                                                <input type="text" class="form-control" id="txtQWebAdd" data-bind="value: quickWebsite">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -454,7 +459,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -464,7 +470,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQAddress">
+                                                                <input type="text" class="form-control" id="txtQAddress" data-bind="value:quickAddress1">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -473,7 +479,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -483,7 +490,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQCompMesg">
+                                                                <input type="text" class="form-control" id="txtQCompMesg" data-bind="value:quickCompMessage">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -492,7 +499,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -502,7 +510,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQMble">
+                                                                <input type="text" class="form-control" id="txtQMble" data-bind="value:quickMobileNumber">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -511,7 +519,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -521,7 +530,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQTwitterId">
+                                                                <input type="text" class="form-control" id="txtQTwitterId" data-bind="value:quickTwitterId">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -530,7 +539,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -540,7 +550,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQFBId">
+                                                                <input type="text" class="form-control" id="txtQFBId" data-bind="value:quickFacebookId">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -549,7 +559,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -559,7 +570,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtLinkedQID">
+                                                                <input type="text" class="form-control" id="txtLinkedQID" data-bind="value:quickLinkedInId">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -568,7 +579,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -578,7 +590,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtQOtherID">
+                                                                <input type="text" class="form-control" id="txtQOtherID" data-bind="value:quickOtherId">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -593,7 +605,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -603,7 +616,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtLinkUrl">
+                                                                <input type="text" class="form-control" id="txtLinkUrl" data-bind="value:linkedinURL">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -612,7 +625,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -622,7 +636,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtSkypId">
+                                                                <input type="text" class="form-control" id="txtSkypId" data-bind="value:skypeId">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -631,7 +645,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -641,7 +656,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtFbID">
+                                                                <input type="text" class="form-control" id="txtFbID" data-bind="value:facebookURL">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -650,7 +665,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -660,7 +676,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtTwitterID">
+                                                                <input type="text" class="form-control" id="txtTwitterID" data-bind="value:twitterURL">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -669,7 +685,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -679,7 +696,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtAddIn1">
+                                                                <input type="text" class="form-control" id="txtAddIn1" data-bind="value:additionalField1">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -688,7 +705,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -698,7 +716,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtAddIn2">
+                                                                <input type="text" class="form-control" id="txtAddIn2" data-bind="value:additionalField2">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -707,7 +725,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -717,7 +736,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtAddIn3">
+                                                                <input type="text" class="form-control" id="txtAddIn3" data-bind="value:additionalField3">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -726,7 +745,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -736,7 +756,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtAddIn4">
+                                                                <input type="text" class="form-control" id="txtAddIn4" data-bind="value:additionalField4">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -745,7 +765,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -755,7 +776,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtAddIn5">
+                                                                <input type="text" class="form-control" id="txtAddIn5" data-bind="value:additionalField5">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -767,7 +788,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -777,7 +799,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtPoBoxAdd">
+                                                                <input type="text" class="form-control" id="txtPoBoxAdd" data-bind="value:pOBoxAddress">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -786,7 +808,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -796,7 +819,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtCorpUnit">
+                                                                <input type="text" class="form-control" id="txtCorpUnit" data-bind="value:corporateUnit">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -805,7 +828,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -815,7 +839,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtOfficeTradName">
+                                                                <input type="text" class="form-control" id="txtOfficeTradName" data-bind="value:officeTradingName">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -824,7 +848,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -834,7 +859,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtBPay">
+                                                                <input type="text" class="form-control" id="txtBPay" data-bind="value: bPayCRN">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -843,7 +868,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -853,7 +879,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtACN">
+                                                                <input type="text" class="form-control" id="txtACN" data-bind="value:aCN">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -862,7 +888,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -872,7 +899,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtContractorName">
+                                                                <input type="text" class="form-control" id="txtContractorName" data-bind="value:contractorName">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -881,7 +908,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -891,7 +919,7 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtABN">
+                                                                <input type="text" class="form-control" id="txtABN" data-bind="value: aBN">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -900,7 +928,8 @@
                                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
                                                                 </div>
 
@@ -910,12 +939,12 @@
                                                             </div>
 
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtNotes">
+                                                                <input type="text" class="form-control" id="txtNotes" data-bind="value: notes">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
                                     </div>
@@ -928,7 +957,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
                                                     </div>
 
@@ -939,7 +969,7 @@
                                                 <div class="col-lg-5">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">$</span>
-                                                        <input type="text" class="form-control" id="txtCreditLimit">
+                                                        <input type="text" class="form-control" id="txtCreditLimit" data-bind="value: creditLimit">
                                                         <span class="input-group-addon">.00</span>
                                                     </div>
                                                 </div>
@@ -959,7 +989,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchNewsLetter" class="control-label text-right tooltip-float">Newsletter Subscription</label>
@@ -967,7 +998,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchNewsLetter" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchNewsLetter" data-bind="checked: isNewsLetterSubscription">
                                                             <label class="onoffswitch-label" for="switchNewsLetter">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -983,7 +1014,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchMailLetter" class="control-label text-right tooltip-float">Mail Subscription</label>
@@ -991,7 +1023,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchMailLetter" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchMailLetter" data-bind="checked: isEmailSubscription">
                                                             <label class="onoffswitch-label" for="switchMailLetter">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1008,7 +1040,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchHasWebAcc" class="control-label text-right tooltip-float">Has Web Access</label>
@@ -1016,7 +1049,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchHasWebAcc" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchHasWebAcc" data-bind="checked: isWebAccess">
                                                             <label class="onoffswitch-label" for="switchHasWebAcc">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1032,7 +1065,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchCanPlaceOrder" class="control-label text-right tooltip-float">Can Place Order</label>
@@ -1040,7 +1074,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceOrder" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceOrder" data-bind="checked: canPlaceDirectOrder">
                                                             <label class="onoffswitch-label" for="switchCanPlaceOrder">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1059,7 +1093,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchCanPayByCC" class="control-label text-right tooltip-float">Can only Pay By Credit Card</label>
@@ -1067,7 +1102,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPayByCC" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPayByCC" data-bind="checked: isPayByPersonalCreditCard">
                                                             <label class="onoffswitch-label" for="switchCanPayByCC">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1082,7 +1117,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchCanPlaceDirectOrder" class="control-label text-right tooltip-float">Can Place Direct Order</label>
@@ -1090,7 +1126,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceDirectOrder" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceDirectOrder" data-bind="checked: canPlaceDirectOrder">
                                                             <label class="onoffswitch-label" for="switchCanPlaceDirectOrder">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1105,7 +1141,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchCanPlaceOrderWOAPP" class="control-label text-right tooltip-float">Can Place Order Without Approval</label>
@@ -1113,7 +1150,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceOrderWOAPP" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceOrderWOAPP" data-bind="checked: canUserPlaceOrderWithoutApproval">
                                                             <label class="onoffswitch-label" for="switchCanPlaceOrderWOAPP">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1128,7 +1165,8 @@
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
                                                         </div>
                                                         <label for="switchCanEditProfile" class="control-label text-right tooltip-float">Can Edit Profile</label>
@@ -1136,7 +1174,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanEditProfile" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanEditProfile" data-bind="checked: canUserEditProfile">
                                                             <label class="onoffswitch-label" for="switchCanEditProfile">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1150,7 +1188,7 @@
 
 
 
-                                      
+
                                     </div>
                                     <div class="tab-pane fade" id="tab-UserAddressInfo">
                                         <div class="col-lg-12">
@@ -1163,7 +1201,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1173,12 +1212,8 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <select class="form-control" id="ddTerritory">
-                                                                <option>All </option>
-                                                                <option>T1</option>
-                                                                <option>T2</option>
-                                                                <option>T3</option>
-                                                            </select>
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>   
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1187,7 +1222,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1210,7 +1246,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1229,7 +1266,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1248,7 +1286,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1267,7 +1306,7 @@
                                                 <div class="col-lg-6">
                                                     <div class="form-group " style="height:35px;">
                                                         <div class="col-lg-5 text-right">
-                                                            
+
                                                         </div>
 
                                                         <div class="col-lg-7">
@@ -1281,7 +1320,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1305,7 +1345,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1324,7 +1365,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1343,7 +1385,8 @@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
 
                                                             </div>
 
@@ -1357,7 +1400,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -1365,10 +1408,10 @@
                                         <div class="col-lg-12">
                                         </div>
                                     </div>
-                                      <div class="modal-footer col-xs-12">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-                                        </div>
+                                    <div class="modal-footer col-xs-12">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -101,7 +101,7 @@ namespace MPC.Repository.BaseRepository
         /// Chart Of Account Db Set
         /// </summary>
         public DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
-        public DbSet<Company> Company { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyType> CompanyTypes { get; set; }
 
         public DbSet<CompanyDomain> CompanyDomains { get; set; }
@@ -228,6 +228,11 @@ namespace MPC.Repository.BaseRepository
         /// Campaign Email Queue DbSet
         /// </summary>
         public DbSet<CampaignEmailQueue> CampaignEmailQueues { get; set; }
+
+        /// <summary>
+        /// Products List View DbSet
+        /// </summary>
+        public DbSet<GetProductsListView> GetProductsListViews { get; set; }
 
         #endregion
     }

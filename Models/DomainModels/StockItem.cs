@@ -374,6 +374,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual ICollection<SectionCostCentreDetail> SectionCostCentreDetails { get; set; }
 
+        /// <summary>
+        /// Item Stock Options
+        /// </summary>
+        public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
+
         #endregion
 
         #region Additional Properties

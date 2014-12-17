@@ -22,6 +22,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly ICompanyBannerRepository companyBannerRepository;
         private readonly IAddressRepository addressRepository;
+        private readonly ICompanyContactRepository companyContactRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -164,21 +165,46 @@ namespace MPC.Implementation.MISServices
         }
         private void UpdateAddressOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
-            //Add New Addresses
-            foreach (var address in companySavingModel.NewAddedAddresses)
+            if (companySavingModel.NewAddedAddresses != null)
             {
-                address.CompanyId = companySavingModel.Company.CompanyId;
-                addressRepository.Add(address);
+                //Add New Addresses
+                foreach (var address in companySavingModel.NewAddedAddresses)
+                {
+                    address.CompanyId = companySavingModel.Company.CompanyId;
+                    addressRepository.Add(address);
+                }
             }
-            //Update addresses
-            foreach (var address in companySavingModel.EdittedAddresses)
+            if (companySavingModel.EdittedAddresses != null)
+                //Update addresses
+                foreach (var address in companySavingModel.EdittedAddresses)
+                {
+                    addressRepository.Update(address);
+                }
+            if (companySavingModel.DeletedAddresses != null)
+                //Delete Addresses
+                foreach (var address in companySavingModel.DeletedAddresses)
+                {
+                    addressRepository.Delete(address);
+                }
+        }
+
+        private void UpdateCompanyContactOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            //Add New companyContacts
+            foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
             {
-                addressRepository.Update(address);
+                //address.CompanyId = companySavingModel.Company.CompanyId;
+                companyContactRepository.Add(companyContact);
             }
-            //Delete Addresses
-            foreach (var address in companySavingModel.DeletedAddresses)
+            //Update companyContacts
+            foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
             {
-                addressRepository.Delete(address);
+                companyContactRepository.Update(companyContact);
+            }
+            //Delete companyContacts
+            foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
+            {
+                companyContactRepository.Delete(companyContact);
             }
         }
 
@@ -187,11 +213,13 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
+            UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
@@ -298,13 +326,54 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
+            if (company.CompanyBannerSets != null)
+                SaveImages(company.CompanyBannerSets);
+        }
+        /// <summary>
+        /// Save Images
+        /// </summary>
+        private void SaveImages(IEnumerable<CompanyBannerSet> companyBannerSets)
+        {
+
+            List<CompanyBanner> companyBannersList = companyBannerRepository.GetAll().ToList();
+
+            foreach (var item in companyBannerSets)
+            {
+                if (item.CompanyBanners != null)
+                    foreach (var img in item.CompanyBanners)
+                    {
+                        if (img.Bytes != null)
+                        {
+                            string base64 = img.Bytes.Substring(img.Bytes.IndexOf(',') + 1);
+                            base64 = base64.Trim('\0');
+                            byte[] data = Convert.FromBase64String(base64);
+
+                            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyBanners");
+                            if (directoryPath != null && !Directory.Exists(directoryPath))
+                            {
+                                Directory.CreateDirectory(directoryPath);
+                            }
+                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "-" + img.FileName;
+                            File.WriteAllBytes(savePath, data);
+
+                            CompanyBanner companyBanner = companyBannersList.FirstOrDefault(x => x.CompanyBannerId == img.CompanyBannerId);
+                            if (companyBanner != null)
+                            {
+                                companyBanner.ImageURL = savePath;
+                            }
+                        }
+                    }
+            }
+
+            companyBannerRepository.SaveChanges();
+
         }
         #endregion
 
         #region Constructor
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
-            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository)
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -313,6 +382,7 @@ namespace MPC.Implementation.MISServices
             this.companyTerritoryRepository = companyTerritoryRepository;
             this.companyBannerRepository = companyBannerRepository;
             this.addressRepository = addressRepository;
+            this.companyContactRepository = companyContactRepository;
         }
         #endregion
 
@@ -329,6 +399,10 @@ namespace MPC.Implementation.MISServices
         public AddressResponse SearchAddresses(AddressRequestModel request)
         {
             return addressRepository.GetAddress(request);
+        }
+        public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
+        {
+            return companyContactRepository.GetCompanyContacts(request);
         }
         public CompanyResponse GetCompanyById(int companyId)
         {
@@ -363,13 +437,12 @@ namespace MPC.Implementation.MISServices
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
             if (companyDbVersion == null)
             {
-                SaveNewCompany(companyModel.Company);
+                return SaveNewCompany(companyModel.Company);
             }
             else
             {
-                UpdateCompany(companyModel, companyDbVersion);
+                return UpdateCompany(companyModel, companyDbVersion);
             }
-            return null;
         }
 
         public long GetOrganisationId()

@@ -281,7 +281,7 @@ namespace MPC.Repository.Repositories
 
 
                     listOfApprovers = (from c in db.CompanyContacts
-                                       join cc in db.Company on brokerid equals cc.CompanyId
+                                       join cc in db.Companies on brokerid equals cc.CompanyId
                                        where (c.ContactRoleId == admin || c.ContactRoleId == Manager) && cc.IsCustomer == (int)CustomerTypes.Broker  && c.CompanyId == brokerid
                                        select c).ToList();
 
@@ -768,7 +768,7 @@ namespace MPC.Repository.Repositories
                 List<CompanyContact> listOfApprovers = new List<CompanyContact>();
                
                 listOfApprovers = (from c in db.CompanyContacts
-                                       join cc in db.Company on Companyid equals cc.CompanyId
+                                       join cc in db.Companies on Companyid equals cc.CompanyId
                                        
                                    where c.ContactRoleId == admin && cc.IsCustomer == (int)CustomerTypes.Corporate && c.CompanyId == Companyid
                                        select c).ToList();
