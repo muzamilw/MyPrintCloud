@@ -40,5 +40,7 @@ namespace MPC.Models.DomainModels
         public Nullable<long> OrganisationId { get; set; }
 
         public virtual Company Company { get; set; }
+
+        public virtual PageCategory PageCategory { get; set; }
     }
 }
