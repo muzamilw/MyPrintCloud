@@ -96,93 +96,91 @@
                 }
                 
                 @*code for product*@
-                <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear" 
-                     visible="false">
-                    <div class="col-md-12 col-lg-12 col-xs-12">
-                        <label ID="lblProductHeader"  class="product_detail_sub_heading custom_color floatleft clear marginBtm10"
-                                   >Select a product below</label>
-                    </div>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                    <div id="cntProductList">
-                       
-                        <asp:Repeater ID="dlTopLevel" runat="server" OnItemDataBound="dlTopLevel_ItemDataBound"
-                                      OnItemCommand="dlTopLevel_ItemCommand">
-                            <itemtemplate>
+                  @if (ViewData["Products"] != null)
+                  { 
+                    <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear">
+                        <div class="col-md-12 col-lg-12 col-xs-12">
+                            <label ID="lblProductHeader"  class="product_detail_sub_heading custom_color floatleft clear marginBtm10"
+                                       >Select a product below</label>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div id="cntProductList">
+                            @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetProductsListView>)
+                            {
                                 <div class="BD_CatProducts rounded_corners">
                                     <div class="pad5">
                                         <div class="LCLB">
 
-                                            <asp:HyperLink ID="hlProductDetail" runat="server">
+                                            <a ID="hlProductDetail">
                                                 <div class="PDTC_CatProd FI_CatProd">
+                                                @{
+                                                string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                                                        if (string.IsNullOrEmpty(AppBasePath))
+                                                        {
+                                                            AppBasePath = string.Empty;
+                                                        }
+                                                        string ThumbPath = AppBasePath + @item.ThumbnailPath;
+                                                          <img ID="imgProduct"  class ="full_img_ThumbnailPath_CatPro" />
 
-                                                    <asp:Image ID="imgProduct" runat="server" CssClass="full_img_ThumbnailPath_CatPro" />
-
-                                                    <asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
+                                                          <asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
                                                                      CommandName="DesignOnline" CommandArgument='' />
+                                                }
                                                 </div>
-                                            </asp:HyperLink>
+                                            </a>
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
-                                            <asp:Label ID="lblProductName" runat="server" Text='<%#Eval("ProductName","{0}") %>'></asp:Label>
+                                            <label ID="lblProductName">@item.ProductName</label>
                                         </div>
                                         <div class="product_detail_image_Pricing">
-                                            <asp:Label ID="lblPrice" runat="server" Text='<%# Eval("MinPrice") %>'></asp:Label>
+                                            <label ID="lblPrice">@item.MinPrice</label>
                                         </div>
-                                        <table id="productPricetbl" class="productPricetbl" runat="server" width="80%" cellpadding="5" cellspacing="0" style="">
+                                        <table id="productPricetbl" class="productPricetbl"  width="80%" cellpadding="5" cellspacing="0" style="">
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
-                                                    runat="server" style="text-align: left;">
+                                                    style="text-align: left;">
                                                     Quantity
                                                 </td>
-                                                <td id="tdStockOpt1" runat="server" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
+                                                <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">
-                                                    <asp:Label ID="lblStockOpt1" runat="server" Text="" />
+                                                    <label ID="lblStockOpt1">@ViewBag.StockLabel</label>
                                                 </td>
                                             </tr>
+                                        @foreach (var matrix in ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>)
+                                        {
                                             <tr>
                                                 <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
 
-                                                    <asp:Label runat="server" ID="spanQuantity"></asp:Label>
+                                                    <label  ID="spanQuantity">@matrix.Quantity</label>
                                                 </td>
-                                                <td id="tdPrice1" runat="server" class="product_detail_item_cell procu_detail_grid_cell"
+                                                <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
                                                     style="text-align: right;">
-                                                    <div id="matrixItemColumn1" runat="server">
+                                                    <div id="matrixItemColumn1">
 
-                                                        <asp:Label ID="lblPrice1" runat="server" />
-                                                        <asp:Label ID="lblDiscountedPrice1" CssClass="custom_colorTS" Visible="false"
-                                                                   runat="server" />
+                                                        <label ID="lblPrice1" >@matrix.Price</label>
+                                                        @if(matrix.isDiscounted == true)
+                                                        { 
+                                                            
+                                                          <label ID="lblDiscountedPrice1" class="custom_colorTS" >@matrix.DiscountPrice</label>
+                                                        }
 
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr id="SecPricetr" runat="server">
-                                                <td id="tdQty2" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
-
-                                                    <asp:Label runat="server" ID="spanQuantity2"></asp:Label>
-                                                </td>
-                                                <td id="tdPrice2" runat="server" class="product_detail_item_cell procu_detail_grid_cell"
-                                                    style="text-align: right;">
-                                                    <div id="matrixItemColumn2" runat="server">
-
-                                                        <asp:Label ID="lblPrice2" runat="server" />
-                                                        <asp:Label ID="lblDiscountedPrice2" CssClass="custom_colorTS" Visible="false"
-                                                                   runat="server" />
-
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                         
+                                         
                                             <tr class="trMoreDetailOfProductLnk">
                                                 <td style="text-align: left;">
                                                     <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
-                                                        <a id="lnkPRoductdetail" runat="server">more...</a>
+                                                        <a id="lnkPRoductdetail">more...</a>
                                                     </p>
                                                 </td>
                                             </tr>
+                                        }
                                         </table>
                                     </div>
-                                    <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6" runat="server">
+                                    <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6" >
                                         <div class="BC_CatProd">
                                             <div class="all_padding3">
                                                 <div class="paddingTop2px">
@@ -190,309 +188,311 @@
                                                 </div>
                                                 FROM
                                                 <br />
-                                                <asp:Label runat="server" ID="lblFromMinPrice" Text='<%# Eval("MinPrice") %>' Font-Bold="true"
-                                                           Font-Size="16px" />
+                                                <label ID="lblFromMinPrice"  style="font-size:16px;" >@item.MinPrice</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <asp:HiddenField ID="hfIds" runat="server" />
-                            </itemtemplate>
-                        </asp:Repeater>
-                    </div>
+                                <input type="hidden" ID="hfIds" />
 
-                    <div id="PopupCorpQuickText" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                        <label ID="lblHeader"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">Select & Edit User Profile</label>
-                        <div id="CancelControl" onclick="hidePopup()" class="MesgBoxBtnsDisplay rounded_corners5">
-                            Close
+
+                            }
+                        
                         </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
-                        <div class="SolidBorderCS">
-                            &nbsp;
-                        </div>
-                        <div class="corpUFcontainer">
-                            <div class="c1UFContainer">
 
-                                <div class="variableItemContainer" id="dropDownContainer">
-                                    <div class="radioBtnCorp">
-                                        <input type="radio" id="btnMyProfile" name="profile" value="My profile" checked="checked" />
-                                        <span>My profile</span>
-                                        <br />
-                                    </div>
-                                    <div class="radioBtnCorp">
-                                        <input type="radio" id="btnOtherProfile" name="profile" value="Other profile" /><span>Other profile</span>
-                                        @*<asp:DropDownList ID="dropBoxSelectUser" runat="server" OnChange="onUserProfileChange();" CssClass="dropBoxSelectUserCorp"></asp:DropDownList>*@
-                                         <select ID="dropBoxSelectUser" OnChange="onUserProfileChange();" class="dropBoxSelectUserCorp"></select>
-                                        <br />
-                                    </div>
-                                    <br />
-                                    <a class="lblShowProfile" style="display: none;">Show Profile <i class="arrow-down"></i></a>
-                                </div>
-                                <div class="profileContainer" id="profileContainer" style="display:block;">
-                                    <div class="variableItemContainer">
-                                        <span>First Name</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtFName"  id="txtFName" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Middle Name</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtMname" id="txtMname" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Last Name</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtLname"  id="txtLname" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Title</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtTitle"  id="txtTitle" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Home Tel 1</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeTel1" id="txtHomeTel1" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Home Tel 2</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeTel2" id="txtHomeTel2" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Home Extension 1</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeExt1" id="txtHomeExt1" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Home Extension 2</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtHomeExt2" id="txtHomeExt2" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Mobile</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtMobile"  id="txtMobile" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Pager</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtPager"  id="txtPager" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Email</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtEmail" id="txtEmail" disabled="disabled" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>FAX</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtFax"  id="txtFax" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Job Title</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtJtitle"  id="txtJtitle" />
-                                    </div>
-
-                                    <div class="variableItemContainer">
-                                        <span>Linkedin URL</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtLinkedInURL"  id="txtLinkedInURL" />
-                                    </div>
-
-                                    <div class="variableItemContainer">
-                                        <span>Skype ID</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtSkypeID"  id="txtSkypeID" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Facebook URL</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtFbID" id="txtFbID" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Twitter URL</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtTwitterURL"  id="txtTwitterURL" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>URL</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtURL"  id="txtURL" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>PO Box Address </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtPOBox"  id="txtPOBox" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Corporate Unit </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtCunit"  id="txtCunit" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Office Trading Name </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtOfcTrading"  id="txtOfcTrading" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Contractor Name </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtContractorName"  id="txtContractorName" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>BPay CRN </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtBpay"  id="txtBpay" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>ABN </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtABN"  id="txtABN" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>ACN </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtACN"  id="txtACN" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Additional Field 1 </span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtAf1" id="txtAf1" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Additional Field 2</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtAf2" id="txtAf2" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Additional Field 3</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtAf3"  id="txtAf3" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Additional Field 4</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtAf4" id="txtAf4" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Additional Field 5</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtAf5"  id="txtAf5" />
-                                    </div>
-                                </div>
-
-
-
+                        <div id="PopupCorpQuickText" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
+                            <label ID="lblHeader"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">Select & Edit User Profile</label>
+                            <div id="CancelControl" onclick="hidePopup()" class="MesgBoxBtnsDisplay rounded_corners5">
+                                Close
                             </div>
-                            <div class="c2UFContainer">
-                                <div class="variablesContainer c2UFVarContainer">
-
-                                    <div class="clearBoth"></div>
-
-
-                                    <label ID="label1"  class =" ufContainerHeading  MesgBoxClass lblPopupCorpHeading">Template Quick Text Info.</label>
-                                    <div class="clearBoth"></div>
-                                    <div class="variableItemContainer">
-                                        <span>Full Name</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQname" id="txtQname" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Title</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQTitle"  id="txtQTitle" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Company Name</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQCompany"  id="txtQCompany" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Address line 1</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtAddress" id="txtAddress" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Telephone / Other</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQtel"  id="txtQtel" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Fax / Other</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQFax"  id="txtQFax" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Email address</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQEmail"  id="txtQEmail" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Website address</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQWebsite" id="txtQWebsite" />
-                                    </div>
-                                    <div class="variableItemContainer">
-                                        <span>Company Message</span>
-                                        <br />
-                                        <input type="text" maxlength="500" class="InputQtxtTS txtQMessage"  id="txtQMessage" />
-                                    </div>
-
-                                </div>
-                                <asp:Button ID="Button1" runat="server" Text="Save" CssClass="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign saveDesinCorpCat" OnClick="Button1_Click" />
-
-                            </div>
-
-                            <div class="c3UFContainer c3UFContainerHeight">
-                                <div class="variablesContainer">
-                                    <img class=" imgDetailCorp" id="imgProductCPanel" style="margin-top: 30px;" />
-                                </div>
-
-                                <button  ID="btnEditThisDesign"  value="Design Now" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnEditDesign" OnClick="btnEditThisDesign_Click" />
-                                <button id="btnOrderNow" value="Generate Proof" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*onclick="btnOrderNow_Click"*@ onclick=" GeneratePreview(); return false;" />
-                            </div>
-                            <div class="clearBoth"></div>
-                        </div>
-                    </div>
-
-                    <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                        <label ID="Label2"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">Proof</label>
-                        <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
-                            Close
-                        </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
-                        <div class="SolidBorderCS">
-                            &nbsp;
-                        </div>
-                        <div>
-                            <iframe class="iframeProofContainer"></iframe>
-                        </div>
-                        <div id="previewProofing">
-                            <div class="divTxtProofing">
-                                <div class="ConfirmPopupProof">
-                                    <label>
-                                        Confirm spelling and details
-                                    </label>
-                                    <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
-                                           type="checkbox" />
-                                    <label for="chkCheckSpelling" style="display: inline;">
-                                    </label>
-                                </div>
-
+                            <div class="clearBoth">
+                                &nbsp;
                             </div>
                             <div class="SolidBorderCS">
-
+                                &nbsp;
                             </div>
-                            <button ID="Button2" value="Next" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*OnClick="Button2_Click"*@ onclick="  return verifySpellings();" />
+                            <div class="corpUFcontainer">
+                                <div class="c1UFContainer">
+
+                                    <div class="variableItemContainer" id="dropDownContainer">
+                                        <div class="radioBtnCorp">
+                                            <input type="radio" id="btnMyProfile" name="profile" value="My profile" checked="checked" />
+                                            <span>My profile</span>
+                                            <br />
+                                        </div>
+                                        <div class="radioBtnCorp">
+                                            <input type="radio" id="btnOtherProfile" name="profile" value="Other profile" /><span>Other profile</span>
+                                            @*<asp:DropDownList ID="dropBoxSelectUser" runat="server" OnChange="onUserProfileChange();" CssClass="dropBoxSelectUserCorp"></asp:DropDownList>*@
+                                             <select ID="dropBoxSelectUser" OnChange="onUserProfileChange();" class="dropBoxSelectUserCorp"></select>
+                                            <br />
+                                        </div>
+                                        <br />
+                                        <a class="lblShowProfile" style="display: none;">Show Profile <i class="arrow-down"></i></a>
+                                    </div>
+                                    <div class="profileContainer" id="profileContainer" style="display:block;">
+                                        <div class="variableItemContainer">
+                                            <span>First Name</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtFName"  id="txtFName" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Middle Name</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtMname" id="txtMname" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Last Name</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtLname"  id="txtLname" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Title</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtTitle"  id="txtTitle" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Home Tel 1</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtHomeTel1" id="txtHomeTel1" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Home Tel 2</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtHomeTel2" id="txtHomeTel2" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Home Extension 1</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtHomeExt1" id="txtHomeExt1" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Home Extension 2</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtHomeExt2" id="txtHomeExt2" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Mobile</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtMobile"  id="txtMobile" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Pager</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtPager"  id="txtPager" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Email</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtEmail" id="txtEmail" disabled="disabled" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>FAX</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtFax"  id="txtFax" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Job Title</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtJtitle"  id="txtJtitle" />
+                                        </div>
+
+                                        <div class="variableItemContainer">
+                                            <span>Linkedin URL</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtLinkedInURL"  id="txtLinkedInURL" />
+                                        </div>
+
+                                        <div class="variableItemContainer">
+                                            <span>Skype ID</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtSkypeID"  id="txtSkypeID" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Facebook URL</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtFbID" id="txtFbID" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Twitter URL</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtTwitterURL"  id="txtTwitterURL" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>URL</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtURL"  id="txtURL" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>PO Box Address </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtPOBox"  id="txtPOBox" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Corporate Unit </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtCunit"  id="txtCunit" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Office Trading Name </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtOfcTrading"  id="txtOfcTrading" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Contractor Name </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtContractorName"  id="txtContractorName" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>BPay CRN </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtBpay"  id="txtBpay" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>ABN </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtABN"  id="txtABN" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>ACN </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtACN"  id="txtACN" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Additional Field 1 </span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtAf1" id="txtAf1" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Additional Field 2</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtAf2" id="txtAf2" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Additional Field 3</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtAf3"  id="txtAf3" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Additional Field 4</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtAf4" id="txtAf4" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Additional Field 5</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtAf5"  id="txtAf5" />
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="c2UFContainer">
+                                    <div class="variablesContainer c2UFVarContainer">
+
+                                        <div class="clearBoth"></div>
+
+
+                                        <label ID="label1"  class =" ufContainerHeading  MesgBoxClass lblPopupCorpHeading">Template Quick Text Info.</label>
+                                        <div class="clearBoth"></div>
+                                        <div class="variableItemContainer">
+                                            <span>Full Name</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQname" id="txtQname" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Title</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQTitle"  id="txtQTitle" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Company Name</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQCompany"  id="txtQCompany" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Address line 1</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtAddress" id="txtAddress" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Telephone / Other</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQtel"  id="txtQtel" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Fax / Other</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQFax"  id="txtQFax" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Email address</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQEmail"  id="txtQEmail" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Website address</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQWebsite" id="txtQWebsite" />
+                                        </div>
+                                        <div class="variableItemContainer">
+                                            <span>Company Message</span>
+                                            <br />
+                                            <input type="text" maxlength="500" class="InputQtxtTS txtQMessage"  id="txtQMessage" />
+                                        </div>
+
+                                    </div>
+                                    <asp:Button ID="Button1" runat="server" Text="Save" CssClass="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign saveDesinCorpCat" OnClick="Button1_Click" />
+
+                                </div>
+
+                                <div class="c3UFContainer c3UFContainerHeight">
+                                    <div class="variablesContainer">
+                                        <img class=" imgDetailCorp" id="imgProductCPanel" style="margin-top: 30px;" />
+                                    </div>
+
+                                    <button  ID="btnEditThisDesign"  value="Design Now" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnEditDesign" OnClick="btnEditThisDesign_Click" />
+                                    <button id="btnOrderNow" value="Generate Proof" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*onclick="btnOrderNow_Click"*@ onclick=" GeneratePreview(); return false;" />
+                                </div>
+                                <div class="clearBoth"></div>
+                            </div>
+                        </div>
+
+                        <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
+                            <label ID="Label2"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">Proof</label>
+                            <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
+                                Close
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                            <div class="SolidBorderCS">
+                                &nbsp;
+                            </div>
+                            <div>
+                                <iframe class="iframeProofContainer"></iframe>
+                            </div>
+                            <div id="previewProofing">
+                                <div class="divTxtProofing">
+                                    <div class="ConfirmPopupProof">
+                                        <label>
+                                            Confirm spelling and details
+                                        </label>
+                                        <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
+                                               type="checkbox" />
+                                        <label for="chkCheckSpelling" style="display: inline;">
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="SolidBorderCS">
+
+                                </div>
+                                <button ID="Button2" value="Next" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*OnClick="Button2_Click"*@ onclick="  return verifySpellings();" />
+                            </div>
                         </div>
                     </div>
-                </div>
+                  }
             </div>
         </div>
     </div>

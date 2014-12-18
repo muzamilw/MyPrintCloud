@@ -103,6 +103,7 @@ namespace MPC.Webstore.Models
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public double? TaxRate { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }

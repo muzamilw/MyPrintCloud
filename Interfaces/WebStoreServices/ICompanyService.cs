@@ -56,5 +56,16 @@ namespace MPC.Interfaces.WebStoreServices
         string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
+
+        List<GetProductsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+
+        ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
+
+        List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
+        string FormatDecimalValueToTwoDecimal(string valueToFormat);
+
+        double CalculateVATOnPrice(double ActualPrice, double TaxValue);
+
+        double CalculateDiscount(double price, double discountPrecentage);
     }
 }

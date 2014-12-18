@@ -293,6 +293,7 @@
     <Compile Include="SessionModels\ContactDTO.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\HeaderController.cs" />
+    <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
