@@ -100,7 +100,7 @@ namespace MPC.Webstore.Controllers
 
                         if(product.IsFinishedGoods == (int)ProductType.TemplateProductWithBanner && product.IsFinishedGoods == (int)ProductType.TemplateProductWithImage)
                         {
-                            if(product.IsPopular == true)// is popular will
+                            if(product.IsPopular == true)// is popular will replace by isuploadImage
                             {
                                 // goto landing page
                                 ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
