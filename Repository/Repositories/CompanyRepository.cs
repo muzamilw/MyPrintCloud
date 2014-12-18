@@ -64,6 +64,8 @@ namespace MPC.Repository.Repositories
             CompanyResponse companyResponse = new CompanyResponse();
             var company = DbSet.Find(companyId);
             companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
+            companyResponse.SecondaryPageResponse.RowCount = company.CmsPages.Count;
+            companyResponse.SecondaryPageResponse.CmsPages = company.CmsPages.Take(5).ToList();
             companyResponse.Company = company;
 
             //companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();

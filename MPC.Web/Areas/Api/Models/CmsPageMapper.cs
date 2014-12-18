@@ -26,8 +26,7 @@ namespace MPC.MIS.Areas.Api.Models
                 {
                     if (item.CmsTag != null)
                     {
-
-                        defaultPageKeyWords = defaultPageKeyWords + "," + item.CmsTag.TagName;
+                        defaultPageKeyWords = defaultPageKeyWords != null ? (defaultPageKeyWords + " , " + item.CmsTag.TagName) : item.CmsTag.TagName;
                     }
                 }
             }

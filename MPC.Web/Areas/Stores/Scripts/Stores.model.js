@@ -304,7 +304,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.CompanyBannerSets = [];
                 result.EdittedAddresses = [];
                 result.DeletedAddresses = [];
-
+                result.NewAddedCmsPages = [];
+                result.EditCmsPages = [];
+                result.DeletedCmsPages = [];
+                result.PageCategories = [];
                 return result;
             },
             // Reset
@@ -1358,7 +1361,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedImageSource, specifiedDefaultPageKeyWords) {
         var self,
             id = ko.observable(specifiedPageId),
-            pageTitle = ko.observable(specifiedPageTitle),
+            pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
             pageKeywords = ko.observable(specifiedPageKeywords),
             metaTitle = ko.observable(specifiedMetaTitle),
             metaDescriptionContent = ko.observable(specifiedMetaDescriptionContent),
@@ -1374,8 +1377,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             // Errors
             errors = ko.validation.group({
-                //companySetId: companySetId,
-                //heading: heading
+                pageTitle: pageTitle,
+
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1428,6 +1431,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             pageHTML: pageHTML,
             imageSrc: imageSrc,
             fileName: fileName,
+            defaultPageKeyWords: defaultPageKeyWords,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1454,6 +1458,56 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ImageSource,
             source.DefaultPageKeyWords
         );
+    };
+
+    // ______________  Page Category   _________________//
+    // ReSharper disable once InconsistentNaming
+    var PageCategory = function (specifiedCategoryId, specifiedCategoryName) {
+        var self,
+            id = ko.observable(specifiedCategoryId),
+            name = ko.observable(specifiedCategoryName).extend({ required: true }),
+            // Errors
+            errors = ko.validation.group({
+                name: name,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.CategoryId = source.id() === undefined ? 0 : source.id();
+                result.CategoryName = source.name() === undefined ? null : source.name();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            name: name,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    PageCategory.Create = function (source) {
+        return new PageCategory(source.CategoryId, source.CategoryName);
     };
 
     //___________  Secondary Page List View ________//
@@ -2194,11 +2248,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CompanyBanner: CompanyBanner,
         CompanyBannerSet: CompanyBannerSet,
         CompanyContact: CompanyContact,
-        StoreListView: StoreListView,
         Role: Role,
-        RegistrationQuestion: RegistrationQuestion
+        RegistrationQuestion: RegistrationQuestion,
         SecondaryPageListView: SecondaryPageListView,
         CMSPage: CMSPage,
+        PageCategory: PageCategory,
     };
 
 });

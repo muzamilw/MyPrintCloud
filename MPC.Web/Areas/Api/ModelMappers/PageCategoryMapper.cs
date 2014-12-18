@@ -23,6 +23,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        public static DomainModels.PageCategory CreateFrom(this PageCategory source)
+        {
+            return new DomainModels.PageCategory
+            {
+
+                CategoryId = source.CategoryId,
+                CategoryName = source.CategoryName
+            };
+        }
         #endregion
 
     }
