@@ -277,6 +277,7 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAddOnCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockOptionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PageCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
@@ -309,6 +310,7 @@
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
+    <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />

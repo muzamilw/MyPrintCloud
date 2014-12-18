@@ -72,11 +72,11 @@ define("stores/stores.view",
               },
                // Show Secondory Page the dialog
                 showSecondoryPageDialog = function () {
-                    $("#secondoryPageAddDialog").modal("show");
+                    $("#secondaryPageAddDialog").modal("show");
                 },
               // Hide Secondory Page the dialog
               hideSecondoryPageDialog = function () {
-                  $("#secondoryPageAddDialog").modal("hide");
+                  $("#secondaryPageAddDialog").modal("hide");
               },
               // Show Secondary Page Category the dialog
                 showSecondaryPageCategoryDialog = function () {

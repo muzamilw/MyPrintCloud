@@ -1339,7 +1339,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             metaCategoryContent = ko.observable(specifiedMetaCategoryContent),
             metaRobotsContent = ko.observable(specifiedMetaRobotsContent),
             metaAuthorContent = ko.observable(specifiedMetaAuthorContent),
-            metaLanguageContent = ko.observable(specified),
+            metaLanguageContent = ko.observable(specifiedMetaLanguageContent),
             metaRevisitAfterContent = ko.observable(specifiedMetaRevisitAfterContent),
             categoryId = ko.observable(specifiedCategoryId),
             pageHTML = ko.observable(specifiedPageHTML),
@@ -1348,7 +1348,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // Errors
             errors = ko.validation.group({
                 //companySetId: companySetId,
-                heading: heading
+                //heading: heading
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1437,7 +1437,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             pageTitle = ko.observable(specifiedPageTitle),
             metaTitle = ko.observable(specifiedMetaTitle),
             isEnabled = ko.observable(specifiedIsEnabled),
-            isDisplay = ko.observable(specifiedIsDisplay),
+            isDisplay = ko.observable(specifiedIsDisplay === null ? false : true),
             categoryName = ko.observable(specifiedCategoryName),
 
             convertToServerData = function () {
