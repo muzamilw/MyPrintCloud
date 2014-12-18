@@ -122,10 +122,10 @@
                                                             AppBasePath = string.Empty;
                                                         }
                                                         string ThumbPath = AppBasePath + @item.ThumbnailPath;
-                                                          <img ID="imgProduct"  class ="full_img_ThumbnailPath_CatPro" />
+                                                          <img ID="imgProduct" src="@ThumbPath" class ="full_img_ThumbnailPath_CatPro" />
 
-                                                          <asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
-                                                                     CommandName="DesignOnline" CommandArgument='' />
+                                                          @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
+                                                                     CommandName="DesignOnline" CommandArgument='' />*@
                                                 }
                                                 </div>
                                             </a>
