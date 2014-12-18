@@ -19,6 +19,18 @@ namespace MPC.MIS.Areas.Api.Models
             {
                 bytes = source.PageBanner != null ? File.ReadAllBytes(source.PageBanner) : null;
             }
+            string defaultPageKeyWords = null;
+            if (source.CmsPageTags != null)
+            {
+                foreach (var item in source.CmsPageTags)
+                {
+                    if (item.CmsTag != null)
+                    {
+
+                        defaultPageKeyWords = defaultPageKeyWords + "," + item.CmsTag.TagName;
+                    }
+                }
+            }
             return new CmsPage
             {
                 PageId = source.PageId,
@@ -33,6 +45,7 @@ namespace MPC.MIS.Areas.Api.Models
                 PageHTML = source.PageHTML,
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
+                DefaultPageKeyWords = defaultPageKeyWords,
                 //Image = bytes
             };
         }

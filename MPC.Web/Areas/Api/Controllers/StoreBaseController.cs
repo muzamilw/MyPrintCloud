@@ -5,7 +5,6 @@ using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.Models.RequestModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -16,6 +15,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         private readonly ICompanyService companyService;
 
         #endregion
+
         #region constructor
 
         public StoreBaseController(ICompanyService companyService)
@@ -23,6 +23,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             this.companyService = companyService;
         }
         #endregion
+
         #region Public
         public CompanyBaseResponse Get(long companyId)
         {
@@ -34,7 +35,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             return new CompanyBaseResponse
                    {
                        SystemUsers = result.SystemUsers.Select(x => x.CreateFrom()),
-                       CompanyTerritories = result.CompanyTerritories.Select(x=> x.CreateFrom())
+                       CompanyTerritories = result.CompanyTerritories.Select(x => x.CreateFrom()),
+                       PageCategories = result.PageCategories.Select(x => x.CreateFromDropDown())
                    };
         }
         #endregion

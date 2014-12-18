@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using StockCategory = MPC.MIS.Areas.Api.Models.StockCategory;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -39,9 +40,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static MIS.Models.StockCategoryDropDown CreateFromDropDown(this MPC.Models.DomainModels.StockCategory source)
+        public static StockCategoryDropDown CreateFromDropDown(this MPC.Models.DomainModels.StockCategory source)
         {
-            return new MIS.Models.StockCategoryDropDown
+            return new StockCategoryDropDown
             {
                 CategoryId = source.CategoryId,
                 Name = source.Name,

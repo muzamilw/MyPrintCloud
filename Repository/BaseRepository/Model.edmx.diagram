@@ -154,6 +154,10 @@
         <AssociationConnector Association="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" />
         <AssociationConnector Association="DomainModels.FK_StockItem_ItemStockOption" />
         <AssociationConnector Association="DomainModels.FK_PageCategory_CmsPage" />
+        <EntityTypeShape EntityType="DomainModels.CmsPageTag" Width="1.5" PointX="9.625" PointY="32.375" />
+        <EntityTypeShape EntityType="DomainModels.CmsTag" Width="1.5" PointX="7.375" PointY="64.375" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPageTags_webcmsPages" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPageTags_webcmsTags" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -229,6 +229,16 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<CampaignEmailQueue> CampaignEmailQueues { get; set; }
 
+        /// <summary>
+        /// Cms Page Tag DbSet
+        /// </summary>
+        public DbSet<CmsPageTag> CmsPageTags { get; set; }
+
+        /// <summary>
+        /// Cms Tag DbSet
+        /// </summary>
+        public DbSet<CmsTag> CmsTags { get; set; }
+
         #endregion
     }
 }

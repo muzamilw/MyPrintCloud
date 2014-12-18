@@ -3,8 +3,8 @@
 }
 
 
-<div class="modal fade" id="secondoryPageAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog">
+<div class="modal fade" id="secondaryPageAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedSecondaryPage">
         <div class="modal-content">
             <div class="modal-header">
             </div>
@@ -53,7 +53,7 @@
                                                         <label for="txtSPTitle" class="control-label text-right tooltip-float">Title</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtSPTitle">
+                                                        <input type="text" class="form-control" id="txtSPTitle" data-bind="value:pageTitle">
                                                     </div>
                                                 </div>
                                                 <div class="form-group ">
@@ -66,13 +66,7 @@
                                                         <label for="ddPageCat" class="control-label text-right tooltip-float">Page Category</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control" id="ddPageCat">
-                                                            <option>Get to know us </option>
-                                                            <option>Help centre</option>
-                                                            <option>Corporate account</option>
-                                                            <option>XXXX</option>
-                                                        </select>
-
+                                                        <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'CategoryName', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId"> </select>
                                                     </div>
                                                     <div class="col-lg-1">
                                                         <div data-bind="click:$root.onAddSecondryPageCategory" class="btn btn-primary">
@@ -125,7 +119,7 @@
 
                                                 <div class="col-lg-5">
 
-                                                    <a data-toggle="modal" href="#myAddressSetModal" class="btn btn-primary pull-right">
+                                                    <a href="#" class="btn btn-primary pull-right">
                                                         Load Defaults
                                                     </a>
 
@@ -148,7 +142,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <textarea class="form-control" id="txtKeywordsList" rows="4"></textarea>
+                                                    <textarea class="form-control" id="txtKeywordsList" rows="4" data-bind="value:pageKeywords"></textarea>
                                                     @*<input type="text" placeholder="Enter recepients" id="exampleInpTo" class="form-control-s2 email-recepients" value="mila@kunis.com,ryan@gosling.com" />*@
                                                 </div>
                                             </div>
@@ -172,7 +166,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" id="txtMetaTitle">
+                                                    <input type="text" class="form-control" id="txtMetaTitle" data-bind="value:metaTitle">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -192,7 +186,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" id="txtSPDesc">
+                                                    <input type="text" class="form-control" id="txtSPDesc" data-bind="value:metaDescriptionContent">
                                                 </div>
                                             </div>
 
@@ -214,7 +208,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" id="txtFName">
+                                                    <input type="text" class="form-control" id="txtFName" data-bind="value:metaCategoryContent">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -234,7 +228,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" id="txtLName">
+                                                    <input type="text" class="form-control" id="txtLName" data-bind="value:metaRobotsContent">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -254,7 +248,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" id="txtJTitle">
+                                                    <input type="text" class="form-control" id="txtJTitle" data-bind="value:metaAuthorContent">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -274,7 +268,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" id="txtJTitle">
+                                                    <input type="text" class="form-control" id="txtJTitle" data-bind="value:metaLanguageContent">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -294,7 +288,7 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" id="txtJTitle">
+                                                    <input type="text" class="form-control" id="txtJTitle" data-bind="value:metaRevisitAfterContent">
                                                 </div>
                                             </div>
                                         </div>
@@ -393,6 +387,6 @@
 @*@Html.Partial("Widgets/_EditSecondaryPageCategories")
     @Html.Partial("Widgets/_MediaGalleryScreen")*@
 
-@section Scripts {
-    <script src="js/ckeditor/ckeditor.js"></script>
-}
+@*@section Scripts {
+        <script src="js/ckeditor/ckeditor.js"></script>
+    }*@
