@@ -261,6 +261,15 @@
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="CmsPageTag">
+          <Key>
+            <PropertyRef Name="PageTagId" />
+          </Key>
+          <Property Name="TagId" Type="bigint" />
+          <Property Name="PageId" Type="bigint" />
+          <Property Name="PageTagId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
         <EntityType Name="CmsSkinPageWidget">
           <Key>
             <PropertyRef Name="PageWidgetId" />
@@ -281,6 +290,16 @@
           <Property Name="PageWidgetId" Type="bigint" />
           <Property Name="ParamName" Type="nvarchar" MaxLength="100" />
           <Property Name="ParamValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CmsTags">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagName" Type="varchar" MaxLength="255" />
+          <Property Name="TagSlug" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="isDisplay" Type="bit" />
         </EntityType>
         <EntityType Name="ColorPallete">
           <Key>
@@ -2311,8 +2330,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="DefaultItemTax" Type="float" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_Company_CmsSkinPageWidget">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
@@ -3143,6 +3160,30 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_webcmsPageTags_webcmsPages">
+          <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="0..1" />
+          <End Role="CmsPageTag" Type="Self.CmsPageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webcmsPageTags_webcmsTags">
+          <End Role="CmsTags" Type="Self.CmsTags" Multiplicity="0..1" />
+          <End Role="CmsPageTag" Type="Self.CmsPageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsTags">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="itemIDfk">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ItemImage" Type="Self.ItemImage" Multiplicity="*" />
@@ -3179,8 +3220,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <EntitySet Name="CategoryTerritory" EntityType="Self.CategoryTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsPage" EntityType="Self.CmsPage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsPageTag" EntityType="Self.CmsPageTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsSkinPageWidget" EntityType="Self.CmsSkinPageWidget" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsSkinPageWidgetParam" EntityType="Self.CmsSkinPageWidgetParam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsTags" EntityType="Self.CmsTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ColorPallete" EntityType="Self.ColorPallete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBanner" EntityType="Self.CompanyBanner" Schema="dbo" store:Type="Tables" />
@@ -3554,6 +3597,14 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             <End Role="Company" EntitySet="Company" />
             <End Role="CmsPage" EntitySet="CmsPage" />
           </AssociationSet>
+          <AssociationSet Name="FK_webcmsPageTags_webcmsPages" Association="Self.FK_webcmsPageTags_webcmsPages">
+            <End Role="CmsPage" EntitySet="CmsPage" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webcmsPageTags_webcmsTags" Association="Self.FK_webcmsPageTags_webcmsTags">
+            <End Role="CmsTags" EntitySet="CmsTags" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTag" />
+          </AssociationSet>
           <AssociationSet Name="itemIDfk" Association="Self.itemIDfk">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemImage" EntitySet="ItemImage" />
@@ -3926,6 +3977,16 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="DomainModels.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategories" />
             <End Role="CmsPage" EntitySet="CmsPages" />
+          </AssociationSet>
+          <EntitySet Name="CmsPageTags" EntityType="DomainModels.CmsPageTag" />
+          <EntitySet Name="CmsTags" EntityType="DomainModels.CmsTag" />
+          <AssociationSet Name="FK_webcmsPageTags_webcmsPages" Association="DomainModels.FK_webcmsPageTags_webcmsPages">
+            <End Role="CmsPage" EntitySet="CmsPages" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webcmsPageTags_webcmsTags" Association="DomainModels.FK_webcmsPageTags_webcmsTags">
+            <End Role="CmsTag" EntitySet="CmsTags" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTags" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -4406,6 +4467,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="CmsPage" ToRole="Company" />
           <NavigationProperty Name="PageCategory" Relationship="DomainModels.FK_PageCategory_CmsPage" FromRole="CmsPage" ToRole="PageCategory" />
+          <NavigationProperty Name="CmsPageTags" Relationship="DomainModels.FK_webcmsPageTags_webcmsPages" FromRole="CmsPage" ToRole="CmsPageTag" />
         </EntityType>
         <EntityType Name="StockCategory">
           <Key>
@@ -7225,6 +7287,52 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CmsPageTag">
+          <Key>
+            <PropertyRef Name="PageTagId" />
+          </Key>
+          <Property Name="TagId" Type="Int64" />
+          <Property Name="PageId" Type="Int64" />
+          <Property Name="PageTagId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="CmsPage" Relationship="DomainModels.FK_webcmsPageTags_webcmsPages" FromRole="CmsPageTag" ToRole="CmsPage" />
+          <NavigationProperty Name="CmsTag" Relationship="DomainModels.FK_webcmsPageTags_webcmsTags" FromRole="CmsPageTag" ToRole="CmsTag" />
+        </EntityType>
+        <EntityType Name="CmsTag">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TagSlug" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsDisplay" Type="Boolean" />
+          <NavigationProperty Name="CmsPageTags" Relationship="DomainModels.FK_webcmsPageTags_webcmsTags" FromRole="CmsTag" ToRole="CmsPageTag" />
+        </EntityType>
+        <Association Name="FK_webcmsPageTags_webcmsPages">
+          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsPageTag" Role="CmsPageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webcmsPageTags_webcmsTags">
+          <End Type="DomainModels.CmsTag" Role="CmsTag" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsPageTag" Role="CmsPageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsTag">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9612,6 +9720,27 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
                 <ScalarProperty Name="Cc" ColumnName="Cc" />
                 <ScalarProperty Name="To" ColumnName="To" />
                 <ScalarProperty Name="EmailQueueId" ColumnName="EmailQueueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CmsPageTags">
+            <EntityTypeMapping TypeName="DomainModels.CmsPageTag">
+              <MappingFragment StoreEntitySet="CmsPageTag">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PageTagId" ColumnName="PageTagId" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CmsTags">
+            <EntityTypeMapping TypeName="DomainModels.CmsTag">
+              <MappingFragment StoreEntitySet="CmsTags">
+                <ScalarProperty Name="IsDisplay" ColumnName="isDisplay" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TagSlug" ColumnName="TagSlug" />
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
