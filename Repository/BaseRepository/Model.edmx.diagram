@@ -26,8 +26,10 @@
         <AssociationConnector Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" />
         <AssociationConnector Association="DomainModels.FK_CompanyBanner_CompanySet" />
         <EntityTypeShape EntityType="DomainModels.CategoryTerritory" Width="1.5" PointX="9.25" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.CmsPage" Width="1.5" PointX="4.375" PointY="16.625" />
         <EntityTypeShape EntityType="DomainModels.StockCategory" Width="1.5" PointX="11.125" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.StockSubCategory" Width="1.5" PointX="13.375" PointY="0.75" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" />
         <AssociationConnector Association="DomainModels.FK_StockCategory_StockSubCategory" />
         <EntityTypeShape EntityType="DomainModels.StockCostAndPrice" Width="1.5" PointX="17.875" PointY="6.375" />
         <EntityTypeShape EntityType="DomainModels.StockItem" Width="1.5" PointX="15.625" PointY="0.75" />
@@ -151,10 +153,11 @@
         <EntityTypeShape EntityType="DomainModels.CampaignEmailQueue" Width="1.5" PointX="27.375" PointY="3.875" />
         <AssociationConnector Association="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" />
         <AssociationConnector Association="DomainModels.FK_StockItem_ItemStockOption" />
-        <EntityTypeShape EntityType="DomainModels.GetProductsListView" Width="1.5" PointX="27.375" PointY="9.75" />
-        <EntityTypeShape EntityType="DomainModels.CmsPage" Width="1.5" PointX="13.875" PointY="3.375" />
         <AssociationConnector Association="DomainModels.FK_PageCategory_CmsPage" />
-        <AssociationConnector Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" />
+        <EntityTypeShape EntityType="DomainModels.CmsPageTag" Width="1.5" PointX="9.625" PointY="32.375" />
+        <EntityTypeShape EntityType="DomainModels.CmsTag" Width="1.5" PointX="7.375" PointY="64.375" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPageTags_webcmsPages" />
+        <AssociationConnector Association="DomainModels.FK_webcmsPageTags_webcmsTags" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

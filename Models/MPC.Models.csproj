@@ -130,8 +130,10 @@
     <Compile Include="DomainModels\CampaignEmailVariable.cs" />
     <Compile Include="DomainModels\CampaignImage.cs" />
     <Compile Include="DomainModels\CmsPage.cs" />
+    <Compile Include="DomainModels\CmsPageTag.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidget.cs" />
     <Compile Include="DomainModels\CmsSkinPageWidgetParam.cs" />
+    <Compile Include="DomainModels\CmsTag.cs" />
     <Compile Include="DomainModels\ColorPallete.cs" />
     <Compile Include="DomainModels\CompanyBanner.cs" />
     <Compile Include="DomainModels\CompanyBannerSet.cs" />
@@ -147,7 +149,6 @@
     <Compile Include="DomainModels\DiscountVoucher.cs" />
     <Compile Include="DomainModels\EmailEvent.cs" />
     <Compile Include="DomainModels\Estimate.cs" />
-    <Compile Include="DomainModels\GetProductsListView.cs" />
     <Compile Include="DomainModels\GlobalLanguage.cs" />
     <Compile Include="DomainModels\Inquiry.cs" />
     <Compile Include="DomainModels\InquiryAttachment.cs" />

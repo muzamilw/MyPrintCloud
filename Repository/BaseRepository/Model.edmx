@@ -261,6 +261,15 @@
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="CmsPageTag">
+          <Key>
+            <PropertyRef Name="PageTagId" />
+          </Key>
+          <Property Name="TagId" Type="bigint" />
+          <Property Name="PageId" Type="bigint" />
+          <Property Name="PageTagId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
         <EntityType Name="CmsSkinPageWidget">
           <Key>
             <PropertyRef Name="PageWidgetId" />
@@ -281,6 +290,16 @@
           <Property Name="PageWidgetId" Type="bigint" />
           <Property Name="ParamName" Type="nvarchar" MaxLength="100" />
           <Property Name="ParamValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CmsTags">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagName" Type="varchar" MaxLength="255" />
+          <Property Name="TagSlug" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="isDisplay" Type="bit" />
         </EntityType>
         <EntityType Name="ColorPallete">
           <Key>
@@ -2306,41 +2325,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsArchived" Type="bit" />
           <Property Name="SortOrder" Type="int" />
           <Property Name="OrganisationId" Type="bigint" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_GetProductsList">
-          <Key>
-            <PropertyRef Name="ItemID" />
-            <PropertyRef Name="MinPrice" />
-          </Key>
-          <Property Name="ItemID" Type="bigint" Nullable="false" />
-          <Property Name="EstimateID" Type="bigint" />
-          <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
-          <Property Name="ProductCategoryName" Type="varchar" MaxLength="50" />
-          <Property Name="ProductCategoryID" Type="bigint" />
-          <Property Name="ParentCategoryID" Type="int" />
-          <Property Name="MinPrice" Type="float" Nullable="false" />
-          <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
-          <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="1000" />
-          <Property Name="IconPath" Type="nvarchar" MaxLength="100" />
-          <Property Name="IsEnabled" Type="bit" />
-          <Property Name="IsSpecialItem" Type="bit" />
-          <Property Name="IsPopular" Type="bit" />
-          <Property Name="IsFeatured" Type="bit" />
-          <Property Name="IsPromotional" Type="bit" />
-          <Property Name="IsPublished" Type="bit" />
-          <Property Name="IsFinishedGoods" Type="int" />
-          <Property Name="ProductSpecification" Type="varchar(max)" />
-          <Property Name="CompleteSpecification" Type="varchar(max)" />
-          <Property Name="TipsAndHints" Type="text" />
-          <Property Name="IsArchived" Type="bit" />
-          <Property Name="InvoiceID" Type="bigint" />
-          <Property Name="TemplateID" Type="int" />
-          <Property Name="SortOrder" Type="int" />
-          <Property Name="isMarketingBrief" Type="bit" />
           <Property Name="WebDescription" Type="varchar(max)" />
-          <Property Name="isQtyRanged" Type="bit" />
           <Property Name="PriceDiscountPercentage" Type="int" />
           <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="DefaultItemTax" Type="float" />
@@ -3175,6 +3160,30 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_webcmsPageTags_webcmsPages">
+          <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="0..1" />
+          <End Role="CmsPageTag" Type="Self.CmsPageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webcmsPageTags_webcmsTags">
+          <End Role="CmsTags" Type="Self.CmsTags" Multiplicity="0..1" />
+          <End Role="CmsPageTag" Type="Self.CmsPageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsTags">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="itemIDfk">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ItemImage" Type="Self.ItemImage" Multiplicity="*" />
@@ -3211,8 +3220,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <EntitySet Name="CategoryTerritory" EntityType="Self.CategoryTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsPage" EntityType="Self.CmsPage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsPageTag" EntityType="Self.CmsPageTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsSkinPageWidget" EntityType="Self.CmsSkinPageWidget" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsSkinPageWidgetParam" EntityType="Self.CmsSkinPageWidgetParam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsTags" EntityType="Self.CmsTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ColorPallete" EntityType="Self.ColorPallete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyBanner" EntityType="Self.CompanyBanner" Schema="dbo" store:Type="Tables" />
@@ -3307,42 +3318,12 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
     [GetItemsListView].[CompleteSpecification] AS [CompleteSpecification], 
     [GetItemsListView].[IsArchived] AS [IsArchived], 
     [GetItemsListView].[SortOrder] AS [SortOrder], 
-    [GetItemsListView].[OrganisationId] AS [OrganisationId]
+    [GetItemsListView].[OrganisationId] AS [OrganisationId], 
+    [GetItemsListView].[WebDescription] AS [WebDescription], 
+    [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
+    [GetItemsListView].[isTemplateDesignMode] AS [isTemplateDesignMode], 
+    [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax]
     FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_GetProductsList" EntityType="Self.vw_GetProductsList" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_GetProductsList].[ItemID] AS [ItemID], 
-    [vw_GetProductsList].[EstimateID] AS [EstimateID], 
-    [vw_GetProductsList].[ProductName] AS [ProductName], 
-    [vw_GetProductsList].[ProductCategoryName] AS [ProductCategoryName], 
-    [vw_GetProductsList].[ProductCategoryID] AS [ProductCategoryID], 
-    [vw_GetProductsList].[ParentCategoryID] AS [ParentCategoryID], 
-    [vw_GetProductsList].[MinPrice] AS [MinPrice], 
-    [vw_GetProductsList].[ImagePath] AS [ImagePath], 
-    [vw_GetProductsList].[ThumbnailPath] AS [ThumbnailPath], 
-    [vw_GetProductsList].[IconPath] AS [IconPath], 
-    [vw_GetProductsList].[IsEnabled] AS [IsEnabled], 
-    [vw_GetProductsList].[IsSpecialItem] AS [IsSpecialItem], 
-    [vw_GetProductsList].[IsPopular] AS [IsPopular], 
-    [vw_GetProductsList].[IsFeatured] AS [IsFeatured], 
-    [vw_GetProductsList].[IsPromotional] AS [IsPromotional], 
-    [vw_GetProductsList].[IsPublished] AS [IsPublished], 
-    [vw_GetProductsList].[IsFinishedGoods] AS [IsFinishedGoods], 
-    [vw_GetProductsList].[ProductSpecification] AS [ProductSpecification], 
-    [vw_GetProductsList].[CompleteSpecification] AS [CompleteSpecification], 
-    [vw_GetProductsList].[TipsAndHints] AS [TipsAndHints], 
-    [vw_GetProductsList].[IsArchived] AS [IsArchived], 
-    [vw_GetProductsList].[InvoiceID] AS [InvoiceID], 
-    [vw_GetProductsList].[TemplateID] AS [TemplateID], 
-    [vw_GetProductsList].[SortOrder] AS [SortOrder], 
-    [vw_GetProductsList].[isMarketingBrief] AS [isMarketingBrief], 
-    [vw_GetProductsList].[WebDescription] AS [WebDescription], 
-    [vw_GetProductsList].[isQtyRanged] AS [isQtyRanged], 
-    [vw_GetProductsList].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
-    [vw_GetProductsList].[isTemplateDesignMode] AS [isTemplateDesignMode], 
-    [vw_GetProductsList].[DefaultItemTax] AS [DefaultItemTax]
-    FROM [dbo].[vw_GetProductsList] AS [vw_GetProductsList]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
             <End Role="Company" EntitySet="Company" />
@@ -3616,6 +3597,14 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             <End Role="Company" EntitySet="Company" />
             <End Role="CmsPage" EntitySet="CmsPage" />
           </AssociationSet>
+          <AssociationSet Name="FK_webcmsPageTags_webcmsPages" Association="Self.FK_webcmsPageTags_webcmsPages">
+            <End Role="CmsPage" EntitySet="CmsPage" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webcmsPageTags_webcmsTags" Association="Self.FK_webcmsPageTags_webcmsTags">
+            <End Role="CmsTags" EntitySet="CmsTags" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTag" />
+          </AssociationSet>
           <AssociationSet Name="itemIDfk" Association="Self.itemIDfk">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemImage" EntitySet="ItemImage" />
@@ -3675,8 +3664,13 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             <End Role="CompanyBanner" EntitySet="CompanyBanners" />
           </AssociationSet>
           <EntitySet Name="CategoryTerritories" EntityType="DomainModels.CategoryTerritory" />
+          <EntitySet Name="CmsPages" EntityType="DomainModels.CmsPage" />
           <EntitySet Name="StockCategories" EntityType="DomainModels.StockCategory" />
           <EntitySet Name="StockSubCategories" EntityType="DomainModels.StockSubCategory" />
+          <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CmsPage" EntitySet="CmsPages" />
+          </AssociationSet>
           <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="DomainModels.FK_StockCategory_StockSubCategory">
             <End Role="StockCategory" EntitySet="StockCategories" />
             <End Role="StockSubCategory" EntitySet="StockSubCategories" />
@@ -3980,15 +3974,19 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             <End Role="StockItem" EntitySet="StockItems" />
             <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
           </AssociationSet>
-          <EntitySet Name="GetProductsListViews" EntityType="DomainModels.GetProductsListView" />
-          <EntitySet Name="CmsPages" EntityType="DomainModels.CmsPage" />
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="DomainModels.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategories" />
             <End Role="CmsPage" EntitySet="CmsPages" />
           </AssociationSet>
-          <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="DomainModels.FK_webcmsPages_tbl_cmsPageCategory">
-            <End Role="Company" EntitySet="Companies" />
+          <EntitySet Name="CmsPageTags" EntityType="DomainModels.CmsPageTag" />
+          <EntitySet Name="CmsTags" EntityType="DomainModels.CmsTag" />
+          <AssociationSet Name="FK_webcmsPageTags_webcmsPages" Association="DomainModels.FK_webcmsPageTags_webcmsPages">
             <End Role="CmsPage" EntitySet="CmsPages" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_webcmsPageTags_webcmsTags" Association="DomainModels.FK_webcmsPageTags_webcmsTags">
+            <End Role="CmsTag" EntitySet="CmsTags" />
+            <End Role="CmsPageTag" EntitySet="CmsPageTags" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -4094,6 +4092,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <NavigationProperty Name="CompanyDomains" Relationship="DomainModels.FK_CompanyDomain_Company" FromRole="Company" ToRole="CompanyDomain" />
           <NavigationProperty Name="CompanyBannerSets" Relationship="DomainModels.FK_CompanySet_Company" FromRole="Company" ToRole="CompanyBannerSet" />
           <NavigationProperty Name="ProductCategories" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="Company" ToRole="ProductCategory" />
+          <NavigationProperty Name="CmsPages" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="Company" ToRole="CmsPage" />
           <Property Name="TaxRate" Type="Double" />
           <Property Name="IsDisplayDiscountVoucherCode" Type="Boolean" />
           <Property Name="IsDisplayCorporateBinding" Type="Boolean" />
@@ -4106,7 +4105,6 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_contactcompanies" FromRole="Company" ToRole="Address" />
           <Property Name="MapImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="PickupAddressId" Type="Int64" />
-          <NavigationProperty Name="CmsPages" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="Company" ToRole="CmsPage" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -4433,6 +4431,44 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <Property Name="TerritoryId" Type="Int64" />
           <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
+        <EntityType Name="CmsPage">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PageTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MenuTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PageRelativePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="Meta_KeywordContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_DescriptionContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_HiddenDescriptionContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_CategoryContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_RobotsContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Meta_AuthorContent" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_DateContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_LanguageContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_RevisitAfterContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Meta_Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="PageHTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="isUserDefined" Type="Boolean" />
+          <Property Name="CategoryId" Type="Int64" />
+          <Property Name="isPromotionalOffer" Type="Boolean" />
+          <Property Name="isSepecialOffer" Type="Boolean" />
+          <Property Name="isMPCAdd" Type="Boolean" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="PageBanner" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PageKeywords" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="isEnabled" Type="Boolean" />
+          <Property Name="isDisplay" Type="Boolean" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="CmsPage" ToRole="Company" />
+          <NavigationProperty Name="PageCategory" Relationship="DomainModels.FK_PageCategory_CmsPage" FromRole="CmsPage" ToRole="PageCategory" />
+          <NavigationProperty Name="CmsPageTags" Relationship="DomainModels.FK_webcmsPageTags_webcmsPages" FromRole="CmsPage" ToRole="CmsPageTag" />
+        </EntityType>
         <EntityType Name="StockCategory">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -4473,6 +4509,19 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <NavigationProperty Name="StockCategory" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockSubCategory" ToRole="StockCategory" />
           <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" FromRole="StockSubCategory" ToRole="StockItem" />
         </EntityType>
+
+        <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CmsPage">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StockCategory_StockSubCategory">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="1" />
           <End Type="DomainModels.StockSubCategory" Role="StockSubCategory" Multiplicity="*" />
@@ -6813,6 +6862,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <Property Name="SortOrder" Type="Int32" />
           <Property Name="IsQtyRanged" Type="Boolean" />
           <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PriceDiscountPercentage" Type="Int32" />
+          <Property Name="IsTemplateDesignMode" Type="Boolean" />
+          <Property Name="DefaultItemTax" Type="Double" />
         </EntityType>
         <Association Name="FK_CompanyCMYKColor_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -7222,79 +7275,6 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GetProductsListView">
-          <Key>
-            <PropertyRef Name="ItemId" />
-            <PropertyRef Name="MinPrice" />
-          </Key>
-          <Property Name="ItemId" Type="Int64" Nullable="false" />
-          <Property Name="EstimateId" Type="Int64" />
-          <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ProductCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductCategoryID" Type="Int64" />
-          <Property Name="ParentCategoryId" Type="Int32" />
-          <Property Name="MinPrice" Type="Double" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="ThumbnailPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IconPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsEnabled" Type="Boolean" />
-          <Property Name="IsSpecialItem" Type="Boolean" />
-          <Property Name="IsPopular" Type="Boolean" />
-          <Property Name="IsFeatured" Type="Boolean" />
-          <Property Name="IsPromotional" Type="Boolean" />
-          <Property Name="IsPublished" Type="Boolean" />
-          <Property Name="IsFinishedGoods" Type="Int32" />
-          <Property Name="ProductSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CompleteSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TipsAndHints" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsArchived" Type="Boolean" />
-          <Property Name="InvoiceId" Type="Int64" />
-          <Property Name="TemplateId" Type="Int32" />
-          <Property Name="SortOrder" Type="Int32" />
-          <Property Name="IsMarketingBrief" Type="Boolean" />
-          <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsQtyRanged" Type="Boolean" />
-          <Property Name="PriceDiscountPercentage" Type="Int32" />
-          <Property Name="IsTemplateDesignMode" Type="Boolean" />
-          <Property Name="DefaultItemTax" Type="Double" />
-        </EntityType>
-        <EntityType Name="CmsPage">
-          <Key>
-            <PropertyRef Name="PageId" />
-          </Key>
-          <Property Name="PageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PageTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="MenuTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PageRelativePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SortOrder" Type="Int32" />
-          <Property Name="Meta_KeywordContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Meta_DescriptionContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Meta_HiddenDescriptionContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Meta_CategoryContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Meta_RobotsContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Meta_AuthorContent" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Meta_DateContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Meta_LanguageContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Meta_RevisitAfterContent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Meta_Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="PageHTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="isUserDefined" Type="Boolean" />
-          <Property Name="CategoryId" Type="Int64" />
-          <Property Name="isPromotionalOffer" Type="Boolean" />
-          <Property Name="isSepecialOffer" Type="Boolean" />
-          <Property Name="isMPCAdd" Type="Boolean" />
-          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="PageBanner" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PageKeywords" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="isEnabled" Type="Boolean" />
-          <Property Name="isDisplay" Type="Boolean" />
-          <Property Name="CompanyId" Type="Int64" />
-          <Property Name="OrganisationId" Type="Int64" />
-          <NavigationProperty Name="PageCategory" Relationship="DomainModels.FK_PageCategory_CmsPage" FromRole="CmsPage" ToRole="PageCategory" />
-          <NavigationProperty Name="Company" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="CmsPage" ToRole="Company" />
-        </EntityType>
         <Association Name="FK_PageCategory_CmsPage">
           <End Type="DomainModels.PageCategory" Role="PageCategory" Multiplicity="0..1" />
           <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="*" />
@@ -7307,15 +7287,49 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
-          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
-          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="*" />
+        <EntityType Name="CmsPageTag">
+          <Key>
+            <PropertyRef Name="PageTagId" />
+          </Key>
+          <Property Name="TagId" Type="Int64" />
+          <Property Name="PageId" Type="Int64" />
+          <Property Name="PageTagId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="CmsPage" Relationship="DomainModels.FK_webcmsPageTags_webcmsPages" FromRole="CmsPageTag" ToRole="CmsPage" />
+          <NavigationProperty Name="CmsTag" Relationship="DomainModels.FK_webcmsPageTags_webcmsTags" FromRole="CmsPageTag" ToRole="CmsTag" />
+        </EntityType>
+        <EntityType Name="CmsTag">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TagSlug" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsDisplay" Type="Boolean" />
+          <NavigationProperty Name="CmsPageTags" Relationship="DomainModels.FK_webcmsPageTags_webcmsTags" FromRole="CmsTag" ToRole="CmsPageTag" />
+        </EntityType>
+        <Association Name="FK_webcmsPageTags_webcmsPages">
+          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsPageTag" Role="CmsPageTag" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
             </Principal>
-            <Dependent Role="CmsPage">
-              <PropertyRef Name="CompanyId" />
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_webcmsPageTags_webcmsTags">
+          <End Type="DomainModels.CmsTag" Role="CmsTag" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsPageTag" Role="CmsPageTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsTag">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="CmsPageTag">
+              <PropertyRef Name="TagId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7692,6 +7706,44 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
               </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+
+
+          <EntitySetMapping Name="CmsPages">
+            <EntityTypeMapping TypeName="DomainModels.CmsPage">
+              <MappingFragment StoreEntitySet="CmsPage">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="isDisplay" ColumnName="isDisplay" />
+                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
+                <ScalarProperty Name="PageKeywords" ColumnName="PageKeywords" />
+                <ScalarProperty Name="PageBanner" ColumnName="PageBanner" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="isMPCAdd" ColumnName="isMPCAdd" />
+                <ScalarProperty Name="isSepecialOffer" ColumnName="isSepecialOffer" />
+                <ScalarProperty Name="isPromotionalOffer" ColumnName="isPromotionalOffer" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="isUserDefined" ColumnName="isUserDefined" />
+                <ScalarProperty Name="PageHTML" ColumnName="PageHTML" />
+                <ScalarProperty Name="Meta_Title" ColumnName="Meta_Title" />
+                <ScalarProperty Name="Meta_RevisitAfterContent" ColumnName="Meta_RevisitAfterContent" />
+                <ScalarProperty Name="Meta_LanguageContent" ColumnName="Meta_LanguageContent" />
+                <ScalarProperty Name="Meta_DateContent" ColumnName="Meta_DateContent" />
+                <ScalarProperty Name="Meta_AuthorContent" ColumnName="Meta_AuthorContent" />
+                <ScalarProperty Name="Meta_RobotsContent" ColumnName="Meta_RobotsContent" />
+                <ScalarProperty Name="Meta_CategoryContent" ColumnName="Meta_CategoryContent" />
+                <ScalarProperty Name="Meta_HiddenDescriptionContent" ColumnName="Meta_HiddenDescriptionContent" />
+                <ScalarProperty Name="Meta_DescriptionContent" ColumnName="Meta_DescriptionContent" />
+                <ScalarProperty Name="Meta_KeywordContent" ColumnName="Meta_KeywordContent" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="PageRelativePath" ColumnName="PageRelativePath" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="MenuTitle" ColumnName="MenuTitle" />
+                <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StockCostAndPrices">
@@ -9376,6 +9428,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
+                <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
+                <ScalarProperty Name="IsTemplateDesignMode" ColumnName="isTemplateDesignMode" />
+                <ScalarProperty Name="PriceDiscountPercentage" ColumnName="PriceDiscountPercentage" />
+                <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsQtyRanged" ColumnName="isQtyRanged" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
@@ -9667,75 +9723,24 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GetProductsListViews">
-            <EntityTypeMapping TypeName="DomainModels.GetProductsListView">
-              <MappingFragment StoreEntitySet="vw_GetProductsList">
-                <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
-                <ScalarProperty Name="IsTemplateDesignMode" ColumnName="isTemplateDesignMode" />
-                <ScalarProperty Name="PriceDiscountPercentage" ColumnName="PriceDiscountPercentage" />
-                <ScalarProperty Name="IsQtyRanged" ColumnName="isQtyRanged" />
-                <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
-                <ScalarProperty Name="IsMarketingBrief" ColumnName="isMarketingBrief" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="TemplateId" ColumnName="TemplateID" />
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceID" />
-                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
-                <ScalarProperty Name="TipsAndHints" ColumnName="TipsAndHints" />
-                <ScalarProperty Name="CompleteSpecification" ColumnName="CompleteSpecification" />
-                <ScalarProperty Name="ProductSpecification" ColumnName="ProductSpecification" />
-                <ScalarProperty Name="IsFinishedGoods" ColumnName="IsFinishedGoods" />
-                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
-                <ScalarProperty Name="IsPromotional" ColumnName="IsPromotional" />
-                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
-                <ScalarProperty Name="IsPopular" ColumnName="IsPopular" />
-                <ScalarProperty Name="IsSpecialItem" ColumnName="IsSpecialItem" />
-                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-                <ScalarProperty Name="IconPath" ColumnName="IconPath" />
-                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
-                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryID" />
-                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
-                <ScalarProperty Name="ProductCategoryName" ColumnName="ProductCategoryName" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="EstimateId" ColumnName="EstimateID" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemID" />
+          <EntitySetMapping Name="CmsPageTags">
+            <EntityTypeMapping TypeName="DomainModels.CmsPageTag">
+              <MappingFragment StoreEntitySet="CmsPageTag">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PageTagId" ColumnName="PageTagId" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CmsPages">
-            <EntityTypeMapping TypeName="DomainModels.CmsPage">
-              <MappingFragment StoreEntitySet="CmsPage">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="isDisplay" ColumnName="isDisplay" />
-                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
-                <ScalarProperty Name="PageKeywords" ColumnName="PageKeywords" />
-                <ScalarProperty Name="PageBanner" ColumnName="PageBanner" />
-                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
-                <ScalarProperty Name="isMPCAdd" ColumnName="isMPCAdd" />
-                <ScalarProperty Name="isSepecialOffer" ColumnName="isSepecialOffer" />
-                <ScalarProperty Name="isPromotionalOffer" ColumnName="isPromotionalOffer" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="isUserDefined" ColumnName="isUserDefined" />
-                <ScalarProperty Name="PageHTML" ColumnName="PageHTML" />
-                <ScalarProperty Name="Meta_Title" ColumnName="Meta_Title" />
-                <ScalarProperty Name="Meta_RevisitAfterContent" ColumnName="Meta_RevisitAfterContent" />
-                <ScalarProperty Name="Meta_LanguageContent" ColumnName="Meta_LanguageContent" />
-                <ScalarProperty Name="Meta_DateContent" ColumnName="Meta_DateContent" />
-                <ScalarProperty Name="Meta_AuthorContent" ColumnName="Meta_AuthorContent" />
-                <ScalarProperty Name="Meta_RobotsContent" ColumnName="Meta_RobotsContent" />
-                <ScalarProperty Name="Meta_CategoryContent" ColumnName="Meta_CategoryContent" />
-                <ScalarProperty Name="Meta_HiddenDescriptionContent" ColumnName="Meta_HiddenDescriptionContent" />
-                <ScalarProperty Name="Meta_DescriptionContent" ColumnName="Meta_DescriptionContent" />
-                <ScalarProperty Name="Meta_KeywordContent" ColumnName="Meta_KeywordContent" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="PageRelativePath" ColumnName="PageRelativePath" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="MenuTitle" ColumnName="MenuTitle" />
-                <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
-                <ScalarProperty Name="PageName" ColumnName="PageName" />
-                <ScalarProperty Name="PageId" ColumnName="PageId" />
+          <EntitySetMapping Name="CmsTags">
+            <EntityTypeMapping TypeName="DomainModels.CmsTag">
+              <MappingFragment StoreEntitySet="CmsTags">
+                <ScalarProperty Name="IsDisplay" ColumnName="isDisplay" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TagSlug" ColumnName="TagSlug" />
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

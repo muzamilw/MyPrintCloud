@@ -230,9 +230,14 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CampaignEmailQueue> CampaignEmailQueues { get; set; }
 
         /// <summary>
-        /// Products List View DbSet
+        /// Cms Page Tag DbSet
         /// </summary>
-        public DbSet<GetProductsListView> GetProductsListViews { get; set; }
+        public DbSet<CmsPageTag> CmsPageTags { get; set; }
+
+        /// <summary>
+        /// Cms Tag DbSet
+        /// </summary>
+        public DbSet<CmsTag> CmsTags { get; set; }
 
         #endregion
     }

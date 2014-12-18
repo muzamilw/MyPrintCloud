@@ -47,13 +47,19 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual PageCategory PageCategory { get; set; }
 
-        #endregion
-        //#region Additional Properties
-        //[NotMapped]
-        //public string FileName { get; set; }
+        /// <summary>
+        /// Cms Page Tags
+        /// </summary>
+        public virtual ICollection<CmsPageTag> CmsPageTags { get; set; }
 
-        //[NotMapped]
-        //public byte[] Image { get; set; }
-        //#endregion
+        #endregion
+
+        #region Additional Properties
+        [NotMapped]
+        public string FileName { get; set; }
+
+        [NotMapped]
+        public byte[] Image { get; set; }
+        #endregion
     }
 }
