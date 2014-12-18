@@ -153,7 +153,6 @@
         <EntityTypeShape EntityType="DomainModels.CampaignEmailQueue" Width="1.5" PointX="27.375" PointY="3.875" />
         <AssociationConnector Association="DomainModels.FK_ItemStockOption_ItemAddonCostCentre" />
         <AssociationConnector Association="DomainModels.FK_StockItem_ItemStockOption" />
-        <EntityTypeShape EntityType="DomainModels.GetProductsListView" Width="1.5" PointX="27.375" PointY="9.75" />
         <AssociationConnector Association="DomainModels.FK_PageCategory_CmsPage" />
       </Diagram>
     </edmx:Diagrams>

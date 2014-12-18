@@ -357,7 +357,7 @@ namespace MPC.Implementation.WebStoreServices
             return _addressRepository.GetDefaultAddressByStoreID(StoreID);
         }
 
-        public List<GetProductsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
         {
             return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
         }

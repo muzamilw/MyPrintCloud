@@ -92,10 +92,11 @@ namespace MPC.Repository.Repositories
 
             return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
         }
-        public List<GetProductsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
         {
+
+            List<GetItemsListView> recordds = db.GetItemsListViews.Where(g => g.ProductCategoryId == ProductCategoryID && g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
             
-            List<GetProductsListView> recordds = db.GetProductsListViews.Where(g => g.ProductCategoryId == ProductCategoryID && g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
             recordds = recordds.OrderBy(s => s.SortOrder).ToList();
             return recordds;
         }

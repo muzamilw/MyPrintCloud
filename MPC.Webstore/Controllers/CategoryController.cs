@@ -93,13 +93,38 @@ namespace MPC.Webstore.Controllers
               //  pnlAllProductTopLevel.Visible = true;
                 if (productList != null && productList.Count > 0)
                 {
+                    
                     foreach (var product in productList)
                     {
+                        // for print products
+
+                        if(product.IsFinishedGoods == (int)ProductType.TemplateProductWithBanner && product.IsFinishedGoods == (int)ProductType.TemplateProductWithImage)
+                        {
+                            if(product.IsPopular == true)// is popular will
+                            {
+                                // goto landing page
+                                ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
+                            }
+                            else
+                            {
+                                // clone Item
+                            }
+                        }
+                        else if (product.IsFinishedGoods == (int)ProductType.FinishedGoodWithBanner && product.IsFinishedGoods == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
+                        {
+                            ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
+                            // goto landing page
+                        }
+
                         ItemStockOption optSeq1 = _myCompanyService.GetFirstStockOptByItemID((int)product.ItemId, 0);
-                        ViewBag.StockLabel = optSeq1.StockLabel;
+                        if (optSeq1 != null)
+                            ViewBag.StockLabel = optSeq1.StockLabel;
+                        else
+                            ViewBag.StockLabel = "N/A";
 
 
                         List<ItemPriceMatrix> matrixlist = _myCompanyService.GetPriceMatrixByItemID((int)product.ItemId);
+                      
                         if (matrixlist.Count > 0 && matrixlist.Count == 1)
                         {
                             if (product.IsQtyRanged == true)

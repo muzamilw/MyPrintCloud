@@ -1,6 +1,8 @@
 ﻿@model MPC.Models.DomainModels.ProductCategory
 @using System.Text.RegularExpressions;
 @using System.Web.Configuration;
+@using MPC.Models.Common;
+@using MPC.Webstore.Common;
 
 @section metatags
 {
@@ -64,7 +66,7 @@
                                     Regex reg = new Regex("[\\s;\\/:*?\"<>|&']", RegexOptions.IgnoreCase);
                                     string categoryName = reg.Replace(cat.CategoryName, "-");
 
-                                    <a id="hlCategory" href="Category/@categoryName/@cat.ProductCategoryId">
+                                    <a id="hlCategory" href="/Category/@categoryName/@cat.ProductCategoryId">
                                         <div class="PDTC_CAT FI_CAT">
                                             @{
                                                 string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
@@ -107,23 +109,25 @@
                             &nbsp;
                         </div>
                         <div id="cntProductList">
-                            @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetProductsListView>)
+                            @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetItemsListView>)
                             {
                                 <div class="BD_CatProducts rounded_corners">
                                     <div class="pad5">
                                         <div class="LCLB">
 
-                                            <a ID="hlProductDetail">
+                                            <a ID="hlProductDetail" href="@ViewBag.ProductOptionURL">
                                                 <div class="PDTC_CatProd FI_CatProd">
                                                 @{
+                                                  
                                                 string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
                                                         if (string.IsNullOrEmpty(AppBasePath))
                                                         {
                                                             AppBasePath = string.Empty;
                                                         }
                                                         string ThumbPath = AppBasePath + @item.ThumbnailPath;
-                                                          <img ID="imgProduct" src="@ThumbPath" class ="full_img_ThumbnailPath_CatPro" />
+                                                          <img ID="imgProduct" src="@ThumbPath"  class ="full_img_ThumbnailPath_CatPro" />
 
+                                                          
                                                           @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
                                                                      CommandName="DesignOnline" CommandArgument='' />*@
                                                 }
@@ -147,7 +151,9 @@
                                                     <label ID="lblStockOpt1">@ViewBag.StockLabel</label>
                                                 </td>
                                             </tr>
-                                        @foreach (var matrix in ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>)
+                                 @if (ViewData["PriceMatrix"] != null)
+                                 { 
+                                        foreach (var matrix in ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>)
                                         {
                                             <tr>
                                                 <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
@@ -178,6 +184,7 @@
                                                 </td>
                                             </tr>
                                         }
+                                 }
                                         </table>
                                     </div>
                                     <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6" >
