@@ -44,6 +44,11 @@ namespace MPC.Models.DomainModels
         public int? ParentCategoryId { get; set; }
         public double MinPrice { get; set; }
         public bool? IsSpecialItem { get; set; }
+        public string WebDescription { get; set; }
+        public int? PriceDiscountPercentage { get; set; }
+        public bool? IsTemplateDesignMode { get; set; }
+        public double? DefaultItemTax { get; set; }
+
         #endregion
     }
 }

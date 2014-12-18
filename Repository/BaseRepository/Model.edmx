@@ -2306,45 +2306,13 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsArchived" Type="bit" />
           <Property Name="SortOrder" Type="int" />
           <Property Name="OrganisationId" Type="bigint" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_GetProductsList">
-          <Key>
-            <PropertyRef Name="ItemID" />
-            <PropertyRef Name="MinPrice" />
-          </Key>
-          <Property Name="ItemID" Type="bigint" Nullable="false" />
-          <Property Name="EstimateID" Type="bigint" />
-          <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
-          <Property Name="ProductCategoryName" Type="varchar" MaxLength="50" />
-          <Property Name="ProductCategoryID" Type="bigint" />
-          <Property Name="ParentCategoryID" Type="int" />
-          <Property Name="MinPrice" Type="float" Nullable="false" />
-          <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
-          <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="1000" />
-          <Property Name="IconPath" Type="nvarchar" MaxLength="100" />
-          <Property Name="IsEnabled" Type="bit" />
-          <Property Name="IsSpecialItem" Type="bit" />
-          <Property Name="IsPopular" Type="bit" />
-          <Property Name="IsFeatured" Type="bit" />
-          <Property Name="IsPromotional" Type="bit" />
-          <Property Name="IsPublished" Type="bit" />
-          <Property Name="IsFinishedGoods" Type="int" />
-          <Property Name="ProductSpecification" Type="varchar(max)" />
-          <Property Name="CompleteSpecification" Type="varchar(max)" />
-          <Property Name="TipsAndHints" Type="text" />
-          <Property Name="IsArchived" Type="bit" />
-          <Property Name="InvoiceID" Type="bigint" />
-          <Property Name="TemplateID" Type="int" />
-          <Property Name="SortOrder" Type="int" />
-          <Property Name="isMarketingBrief" Type="bit" />
           <Property Name="WebDescription" Type="varchar(max)" />
-          <Property Name="isQtyRanged" Type="bit" />
           <Property Name="PriceDiscountPercentage" Type="int" />
           <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="DefaultItemTax" Type="float" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_Company_CmsSkinPageWidget">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
@@ -3307,42 +3275,12 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
     [GetItemsListView].[CompleteSpecification] AS [CompleteSpecification], 
     [GetItemsListView].[IsArchived] AS [IsArchived], 
     [GetItemsListView].[SortOrder] AS [SortOrder], 
-    [GetItemsListView].[OrganisationId] AS [OrganisationId]
+    [GetItemsListView].[OrganisationId] AS [OrganisationId], 
+    [GetItemsListView].[WebDescription] AS [WebDescription], 
+    [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
+    [GetItemsListView].[isTemplateDesignMode] AS [isTemplateDesignMode], 
+    [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax]
     FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_GetProductsList" EntityType="Self.vw_GetProductsList" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_GetProductsList].[ItemID] AS [ItemID], 
-    [vw_GetProductsList].[EstimateID] AS [EstimateID], 
-    [vw_GetProductsList].[ProductName] AS [ProductName], 
-    [vw_GetProductsList].[ProductCategoryName] AS [ProductCategoryName], 
-    [vw_GetProductsList].[ProductCategoryID] AS [ProductCategoryID], 
-    [vw_GetProductsList].[ParentCategoryID] AS [ParentCategoryID], 
-    [vw_GetProductsList].[MinPrice] AS [MinPrice], 
-    [vw_GetProductsList].[ImagePath] AS [ImagePath], 
-    [vw_GetProductsList].[ThumbnailPath] AS [ThumbnailPath], 
-    [vw_GetProductsList].[IconPath] AS [IconPath], 
-    [vw_GetProductsList].[IsEnabled] AS [IsEnabled], 
-    [vw_GetProductsList].[IsSpecialItem] AS [IsSpecialItem], 
-    [vw_GetProductsList].[IsPopular] AS [IsPopular], 
-    [vw_GetProductsList].[IsFeatured] AS [IsFeatured], 
-    [vw_GetProductsList].[IsPromotional] AS [IsPromotional], 
-    [vw_GetProductsList].[IsPublished] AS [IsPublished], 
-    [vw_GetProductsList].[IsFinishedGoods] AS [IsFinishedGoods], 
-    [vw_GetProductsList].[ProductSpecification] AS [ProductSpecification], 
-    [vw_GetProductsList].[CompleteSpecification] AS [CompleteSpecification], 
-    [vw_GetProductsList].[TipsAndHints] AS [TipsAndHints], 
-    [vw_GetProductsList].[IsArchived] AS [IsArchived], 
-    [vw_GetProductsList].[InvoiceID] AS [InvoiceID], 
-    [vw_GetProductsList].[TemplateID] AS [TemplateID], 
-    [vw_GetProductsList].[SortOrder] AS [SortOrder], 
-    [vw_GetProductsList].[isMarketingBrief] AS [isMarketingBrief], 
-    [vw_GetProductsList].[WebDescription] AS [WebDescription], 
-    [vw_GetProductsList].[isQtyRanged] AS [isQtyRanged], 
-    [vw_GetProductsList].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
-    [vw_GetProductsList].[isTemplateDesignMode] AS [isTemplateDesignMode], 
-    [vw_GetProductsList].[DefaultItemTax] AS [DefaultItemTax]
-    FROM [dbo].[vw_GetProductsList] AS [vw_GetProductsList]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
             <End Role="Company" EntitySet="Company" />
@@ -3985,7 +3923,6 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             <End Role="StockItem" EntitySet="StockItems" />
             <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
           </AssociationSet>
-          <EntitySet Name="GetProductsListViews" EntityType="DomainModels.GetProductsListView" />
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="DomainModels.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategories" />
             <End Role="CmsPage" EntitySet="CmsPages" />
@@ -6863,6 +6800,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <Property Name="SortOrder" Type="Int32" />
           <Property Name="IsQtyRanged" Type="Boolean" />
           <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PriceDiscountPercentage" Type="Int32" />
+          <Property Name="IsTemplateDesignMode" Type="Boolean" />
+          <Property Name="DefaultItemTax" Type="Double" />
         </EntityType>
         <Association Name="FK_CompanyCMYKColor_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -7272,42 +7213,6 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GetProductsListView">
-          <Key>
-            <PropertyRef Name="ItemId" />
-            <PropertyRef Name="MinPrice" />
-          </Key>
-          <Property Name="ItemId" Type="Int64" Nullable="false" />
-          <Property Name="EstimateId" Type="Int64" />
-          <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ProductCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductCategoryID" Type="Int64" />
-          <Property Name="ParentCategoryId" Type="Int32" />
-          <Property Name="MinPrice" Type="Double" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="ThumbnailPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IconPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsEnabled" Type="Boolean" />
-          <Property Name="IsSpecialItem" Type="Boolean" />
-          <Property Name="IsPopular" Type="Boolean" />
-          <Property Name="IsFeatured" Type="Boolean" />
-          <Property Name="IsPromotional" Type="Boolean" />
-          <Property Name="IsPublished" Type="Boolean" />
-          <Property Name="IsFinishedGoods" Type="Int32" />
-          <Property Name="ProductSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CompleteSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TipsAndHints" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsArchived" Type="Boolean" />
-          <Property Name="InvoiceId" Type="Int64" />
-          <Property Name="TemplateId" Type="Int32" />
-          <Property Name="SortOrder" Type="Int32" />
-          <Property Name="IsMarketingBrief" Type="Boolean" />
-          <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsQtyRanged" Type="Boolean" />
-          <Property Name="PriceDiscountPercentage" Type="Int32" />
-          <Property Name="IsTemplateDesignMode" Type="Boolean" />
-          <Property Name="DefaultItemTax" Type="Double" />
-        </EntityType>
         <Association Name="FK_PageCategory_CmsPage">
           <End Type="DomainModels.PageCategory" Role="PageCategory" Multiplicity="0..1" />
           <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="*" />
@@ -9415,6 +9320,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
+                <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
+                <ScalarProperty Name="IsTemplateDesignMode" ColumnName="isTemplateDesignMode" />
+                <ScalarProperty Name="PriceDiscountPercentage" ColumnName="PriceDiscountPercentage" />
+                <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsQtyRanged" ColumnName="isQtyRanged" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
@@ -9703,42 +9612,6 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
                 <ScalarProperty Name="Cc" ColumnName="Cc" />
                 <ScalarProperty Name="To" ColumnName="To" />
                 <ScalarProperty Name="EmailQueueId" ColumnName="EmailQueueId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GetProductsListViews">
-            <EntityTypeMapping TypeName="DomainModels.GetProductsListView">
-              <MappingFragment StoreEntitySet="vw_GetProductsList">
-                <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
-                <ScalarProperty Name="IsTemplateDesignMode" ColumnName="isTemplateDesignMode" />
-                <ScalarProperty Name="PriceDiscountPercentage" ColumnName="PriceDiscountPercentage" />
-                <ScalarProperty Name="IsQtyRanged" ColumnName="isQtyRanged" />
-                <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
-                <ScalarProperty Name="IsMarketingBrief" ColumnName="isMarketingBrief" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="TemplateId" ColumnName="TemplateID" />
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceID" />
-                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
-                <ScalarProperty Name="TipsAndHints" ColumnName="TipsAndHints" />
-                <ScalarProperty Name="CompleteSpecification" ColumnName="CompleteSpecification" />
-                <ScalarProperty Name="ProductSpecification" ColumnName="ProductSpecification" />
-                <ScalarProperty Name="IsFinishedGoods" ColumnName="IsFinishedGoods" />
-                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
-                <ScalarProperty Name="IsPromotional" ColumnName="IsPromotional" />
-                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
-                <ScalarProperty Name="IsPopular" ColumnName="IsPopular" />
-                <ScalarProperty Name="IsSpecialItem" ColumnName="IsSpecialItem" />
-                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-                <ScalarProperty Name="IconPath" ColumnName="IconPath" />
-                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
-                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryID" />
-                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
-                <ScalarProperty Name="ProductCategoryName" ColumnName="ProductCategoryName" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="EstimateId" ColumnName="EstimateID" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
