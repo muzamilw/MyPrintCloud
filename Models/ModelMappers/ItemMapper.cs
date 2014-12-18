@@ -485,7 +485,7 @@ namespace MPC.Models.ModelMappers
         {
             target.ProductCode = source.ProductCode;
             target.ProductName = source.ProductName;
-            target.IsFinishedGoods = source.IsFinishedGoods;
+            target.ProductType = source.ProductType;
             target.IsArchived = source.IsArchived;
             target.IsPublished = source.IsPublished;
             target.IsFeatured = source.IsFeatured;

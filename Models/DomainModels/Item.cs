@@ -312,7 +312,6 @@ namespace MPC.Models.DomainModels
         public DateTime? JobActualCompletionDateTime { get; set; }
         public bool? IsJobCostingDone { get; set; }
         public string ProductName { get; set; }
-        public long? ProductCategoryId { get; set; }
         public string ImagePath { get; set; }
         public string ThumbnailPath { get; set; }
         public string ProductSpecification { get; set; }
@@ -341,7 +340,7 @@ namespace MPC.Models.DomainModels
         public DateTime? JobCardLastPrintedDate { get; set; }
         public int? EstimateProductionTime { get; set; }
         public int? SortOrder { get; set; }
-        public int? IsFinishedGoods { get; set; }
+        public int? ProductType { get; set; }
         public string LayoutGridContent { get; set; }
         public string HowToVideoContent { get; set; }
         public string File1 { get; set; }
