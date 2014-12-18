@@ -918,6 +918,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             reset: reset,
             convertToServerData: convertToServerData
         };
+    },
+
+    // Stock Item Entity        
+    StockItem = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            category: specifiedCategoryName,
+            location: specifiedLocation,
+            weight: specifiedWeight
+        }
+    },
+        
+    // Cost Centre Entity        
+    CostCentre = function (specifiedId, specifiedName, specifiedType) {
+        // ReSharper restore InconsistentNaming
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            type: specifiedType
+        }
     };
 
     // Item Vdp Price Factory
@@ -1072,6 +1093,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return item;
     }
 
+    // Stock Item Factory
+    StockItem.Create = function(source) {
+        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight);
+    }
+
+    // Cost Centre Factory
+    CostCentre.Create = function (source) {
+        return new CostCentre(source.CostCentreId, source.Name, source.TypeName);
+    }
+
     return {
         // Item Constructor
         Item: Item,
@@ -1088,6 +1119,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Item Stock Option Constructor
         ItemStockOption: ItemStockOption,
         // Item Addon CostCentre Constructor
-        ItemAddonCostCentre: ItemAddonCostCentre
+        ItemAddonCostCentre: ItemAddonCostCentre,
+        // Stock Item Constructor
+        StockItem: StockItem,
+        // Cost Centre Constructor
+        CostCentre: CostCentre
     };
 });

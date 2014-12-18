@@ -81,6 +81,7 @@
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\IItemAddOnCostCentreRepository.cs" />
     <Compile Include="Repository\IItemStockOptionRepository.cs" />
+    <Compile Include="Repository\ICostCentreRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\ITemplatePageRepository.cs" />
     <Compile Include="Repository\ITemplateRepository.cs" />

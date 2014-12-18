@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -87,6 +86,34 @@ namespace MPC.Repository.Repositories
                    .ToList();
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };
         }
+
+        /// <summary>
+        /// Get Items For Product
+        /// </summary>
+        public InventorySearchResponse GetStockItemsForProduct(StockItemRequestModel request)
+        {
+            int fromRow = (request.PageNo) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<StockItem, bool>> query =
+                stockItem =>
+                    (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) && 
+                    stockItem.OrganisationId == OrganisationId;
+
+            IEnumerable<StockItem> stockItems = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderBy(stockItemOrderByClause[request.StockItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(stockItemOrderByClause[request.StockItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+
+            return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };
+        }
+
         #endregion
     }
 }

@@ -142,6 +142,7 @@
     <Compile Include="DomainModels\CompanyCostCentre.cs" />
     <Compile Include="DomainModels\CompanyTerritory.cs" />
     <Compile Include="DomainModels\CostCentre.cs" />
+    <Compile Include="DomainModels\CostCentreType.cs" />
     <Compile Include="DomainModels\Country.cs" />
     <Compile Include="DomainModels\Currency.cs" />
     <Compile Include="DomainModels\DeliveryNote.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
+    <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
@@ -245,6 +247,7 @@
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
+    <Compile Include="ResponseModels\ItemBaseResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />

@@ -72,18 +72,6 @@
             $('.slider-minmax').val(100, true);
         });
 
-        function AddNew() {
-
-            var currentRec = parseInt($('#hfNoOfRec').val());
-            var numOfRec = currentRec + 1;
-            $('#hfNoOfRec').val(numOfRec);
-            ShowGUI();
-            if (numOfRec > 1) {
-
-                $('#DivRemove').css('display', 'block');
-            }
-        }
-
         function HideTempDesginerControl(RadioID) {
 
             if (RadioID == "1") {
@@ -95,67 +83,6 @@
             else if (RadioID == "3") {
                 $('#LinkDesign').css('display', 'block');
             }
-
-        }
-        function Remove() {
-            //Remove the view and Show the add new button
-            var numofRec = parseInt($('#hfNoOfRec').val());
-
-            $("#stockMainDiv #" + numofRec + "").css('display', 'none');
-
-            //  $('#' + recNo).css('display', 'none');
-            // $('#divAddNew').css('display', 'block');
-            $('#hfNoOfRec').val((numofRec - 1));
-            //if (numofRec == 2) {
-
-            //    $('#DivRemove').css('display', 'none');
-            //}
-            if (numofRec == 11) {
-                $('#Add10').css('display', '');
-                $('#Remove10').css('display', '');
-            }
-            if (numofRec == 10) {
-                $('#Add9').css('display', '');
-                $('#Remove9').css('display', '');
-            }
-            if (numofRec == 9) {
-                $('#Add8').css('display', '');
-                $('#Remove8').css('display', '');
-            }
-            if (numofRec == 8) {
-                $('#Add7').css('display', '');
-                $('#Remove7').css('display', '');
-            }
-            if (numofRec == 7) {
-                $('#Add6').css('display', '');
-                $('#Remove6').css('display', '');
-            }
-            if (numofRec == 6) {
-                $('#Add5').css('display', '');
-                $('#Remove5').css('display', '');
-            }
-            if (numofRec == 5) {
-                $('#Add4').css('display', '');
-                $('#Remove4').css('display', '');
-            }
-            if (numofRec == 4) {
-                $('#Add3').css('display', '');
-                $('#Remove3').css('display', '');
-            }
-            if (numofRec == 3) {
-                $('#Add2').css('display', '');
-                $('#Remove2').css('display', '');
-            }
-            if (numofRec == 2) {
-                $('#Add1').css('display', '');
-
-            }
-            //if (numofRec == 1) {
-            //    $('#Add8').css('display', 'block');
-            //    $('#Remove8').css('display', 'block');
-            //}
-
-
 
         }
 
@@ -180,68 +107,6 @@
             else {
 
                 $('#externalDiv').css('display', 'block');
-            }
-
-        }
-        function ShowGUI() {
-            var numofRec = $('#hfNoOfRec').val();
-
-            if (numofRec >= 1) {
-
-                $('#1').css('display', 'block');
-            }
-            if (numofRec >= 2) {
-                $('#2').css('display', 'block');
-                $('#Add1').css('display', 'none');
-                $('#Remove1').css('display', 'none');
-            }
-            if (numofRec >= 3) {
-                $('#3').css('display', 'block');
-                $('#Add2').css('display', 'none');
-                $('#Remove2').css('display', 'none');
-            }
-            if (numofRec >= 4) {
-                $('#4').css('display', 'block');
-                $('#Add3').css('display', 'none');
-                $('#Remove3').css('display', 'none');
-            }
-            if (numofRec >= 5) {
-                $('#5').css('display', 'block');
-                $('#Add4').css('display', 'none');
-                $('#Remove4').css('display', 'none');
-            }
-            if (numofRec >= 6) {
-                $('#6').css('display', 'block');
-                $('#Add5').css('display', 'none');
-                $('#Remove5').css('display', 'none');
-            }
-            if (numofRec >= 7) {
-                $('#7').css('display', 'block');
-                $('#Add6').css('display', 'none');
-                $('#Remove6').css('display', 'none');
-            }
-            if (numofRec >= 8) {
-                $('#8').css('display', 'block');
-                $('#Add7').css('display', 'none');
-                $('#Remove7').css('display', 'none');
-            }
-            if (numofRec >= 9) {
-                $('#9').css('display', 'block');
-                $('#Add8').css('display', 'none');
-                $('#Remove8').css('display', 'none');
-            }
-            if (numofRec >= 10) {
-                $('#10').css('display', 'block');
-                $('#Add9').css('display', 'none');
-                $('#Remove9').css('display', 'none');
-            }
-            if (numofRec >= 11) {
-                $('#11').css('display', 'block');
-                //$('#divAddNew').css('display', 'none');
-                $('#Add10').css('display', 'none');
-                $('#Remove10').css('display', 'none');
-                $('#Add11').css('display', 'none');
-                $('#Remove11').css('margin-left', '7%');
             }
 
         }

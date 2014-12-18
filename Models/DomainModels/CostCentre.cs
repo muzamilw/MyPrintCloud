@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
@@ -135,6 +132,7 @@ namespace MPC.Models.DomainModels
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
 
+        public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual ICollection<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }
     }
