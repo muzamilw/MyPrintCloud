@@ -101,6 +101,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public long? BussinessAddressId { get; set; }
         public List<RaveReview> RaveReviews{ get; set; }
         public List<CompanyCMYKColor> CompanyCmykColors{ get; set; }
         public ICollection<CompanyTerritory> CompanyTerritories { get; set; }

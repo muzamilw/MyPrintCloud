@@ -72,6 +72,7 @@
     <Compile Include="Repository\ICompanyCMYKColorRepository.cs" />
     <Compile Include="Repository\IAddressRepository.cs" />
     <Compile Include="Repository\ICompanyContactRepository.cs" />
+    <Compile Include="Repository\ICompanyContactRoleRepository.cs" />
     <Compile Include="Repository\ICompanyTerritoryRepository.cs" />
     <Compile Include="Repository\ICompanyTypeRepository.cs" />
     <Compile Include="Repository\ICurrencyRepository.cs" />

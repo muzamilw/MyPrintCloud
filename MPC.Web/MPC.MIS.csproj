@@ -271,6 +271,7 @@
     </Compile>
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyContactRoleMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyListViewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
@@ -301,6 +302,7 @@
     <Compile Include="Areas\Api\Models\CompanyCMYKColor.cs" />
     <Compile Include="Areas\Api\Models\CompanyContact.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactResponse.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactRole.cs" />
     <Compile Include="Areas\Api\Models\CompanyListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />

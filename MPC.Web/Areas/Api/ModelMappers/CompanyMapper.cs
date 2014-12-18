@@ -10,6 +10,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     public static class CompanyMapper
     {
         #region Public
+
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
@@ -82,89 +83,109 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
-                RaveReviews = source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCmykColors = source.CompanyCMYKColors != null ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList() : null,
+                RaveReviews =
+                    source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyCmykColors =
+                    source.CompanyCMYKColors != null
+                        ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
+                        : null,
+                CompanyTerritories =
+                    source.CompanyTerritories != null
+                        ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList()
+                        : null,
                 Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(),
-                CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyContacts =
+                    source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.CreateFrom()).ToList() : null,
                 //CmsPages = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForListView()).ToList() : null
             };
         }
+
         /// <summary>
         /// Crete From Web Model
         /// </summary>
         public static DomainModels.Company CreateFrom(this ApiModels.Company source)
         {
             var company = new DomainModels.Company
-                          {
-                              CompanyId = source.CompanyId,
-                              Name = source.Name,
-                              //Image = source.Image,
-                              AccountNumber = source.AccountNumber,
-                              URL = source.URL,
-                              CreditReference = source.CreditReference,
-                              CreditLimit = source.CreditLimit,
-                              Terms = source.Terms,
-                              TypeId = 52,
-                              DefaultNominalCode = source.DefaultNominalCode,
-                              DefaultMarkUpId = source.DefaultMarkUpId,
-                              AccountOpenDate = source.AccountOpenDate,
-                              AccountManagerId = source.AccountManagerId,
-                              Status = source.Status,
-                              IsCustomer = source.IsCustomer,
-                              Notes = source.Notes,
-                              IsDisabled = source.IsDisabled,
-                              AccountBalance = source.AccountBalance,
-                              CreationDate = source.CreationDate,
-                              VATRegNumber = source.VATRegNumber,
-                              VATRegReference = source.VATRegReference,
-                              FlagId = source.FlagId,
-                              PhoneNo = source.PhoneNo,
-                              IsGeneral = source.IsGeneral,
-                              WebAccessCode = source.WebAccessCode,
-                              isArchived = source.isArchived,
-                              PayByPersonalCredeitCard = source.PayByPersonalCredeitCard,
-                              PONumberRequired = source.PONumberRequired,
-                              ShowPrices = source.ShowPrices,
-                              isDisplayBanners = source.isDisplayBanners,
-                              isDisplayMenuBar = source.isDisplayMenuBar,
-                              isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
-                              isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
-                              isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
-                              isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
-                              isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
-                              isDisplaySiteFooter = source.isDisplaySiteFooter,
-                              isDisplaySiteHeader = source.isDisplaySiteHeader,
-                              RedirectWebstoreURL = source.RedirectWebstoreURL,
-                              isShowGoogleMap = source.isShowGoogleMap,
-                              isTextWatermark = source.isTextWatermark,
-                              WatermarkText = source.WatermarkText,
-                              facebookAppId = source.facebookAppId,
-                              facebookAppKey = source.facebookAppKey,
-                              twitterAppId = source.twitterAppId,
-                              twitterAppKey = source.twitterAppKey,
-                              isStoreModePrivate = source.isStoreModePrivate,
-                              TaxPercentageId = source.TaxPercentageId,
-                              canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
-                              CanUserEditProfile = source.CanUserEditProfile,
-                              SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
-                              SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
-                              ProductionManagerId1 = source.ProductionManagerId1,
-                              ProductionManagerId2 = source.ProductionManagerId2,
-                              StockNotificationManagerId1 = source.StockNotificationManagerId1,
-                              StockNotificationManagerId2 = source.StockNotificationManagerId2,
-                              IsDeliveryTaxAble = source.IsDeliveryTaxAble,
-                              IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                              DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
-                              CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
-                              RaveReviews = source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
-                              CompanyCMYKColors = source.CompanyCmykColors != null ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList() : null,
-                              Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
-                              CompanyTerritories = source.CompanyTerritories != null ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList() : null,
-                              CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
-                              CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null
-                          };
+            {
+                CompanyId = source.CompanyId,
+                Name = source.Name,
+                //Image = source.Image,
+                AccountNumber = source.AccountNumber,
+                URL = source.URL,
+                CreditReference = source.CreditReference,
+                CreditLimit = source.CreditLimit,
+                Terms = source.Terms,
+                TypeId = 52,
+                DefaultNominalCode = source.DefaultNominalCode,
+                DefaultMarkUpId = source.DefaultMarkUpId,
+                AccountOpenDate = source.AccountOpenDate,
+                AccountManagerId = source.AccountManagerId,
+                Status = source.Status,
+                IsCustomer = source.IsCustomer,
+                Notes = source.Notes,
+                IsDisabled = source.IsDisabled,
+                AccountBalance = source.AccountBalance,
+                CreationDate = source.CreationDate,
+                VATRegNumber = source.VATRegNumber,
+                VATRegReference = source.VATRegReference,
+                FlagId = source.FlagId,
+                PhoneNo = source.PhoneNo,
+                IsGeneral = source.IsGeneral,
+                WebAccessCode = source.WebAccessCode,
+                isArchived = source.isArchived,
+                PayByPersonalCredeitCard = source.PayByPersonalCredeitCard,
+                PONumberRequired = source.PONumberRequired,
+                ShowPrices = source.ShowPrices,
+                isDisplayBanners = source.isDisplayBanners,
+                isDisplayMenuBar = source.isDisplayMenuBar,
+                isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
+                isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
+                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
+                isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
+                isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
+                isDisplaySiteFooter = source.isDisplaySiteFooter,
+                isDisplaySiteHeader = source.isDisplaySiteHeader,
+                RedirectWebstoreURL = source.RedirectWebstoreURL,
+                isShowGoogleMap = source.isShowGoogleMap,
+                isTextWatermark = source.isTextWatermark,
+                WatermarkText = source.WatermarkText,
+                facebookAppId = source.facebookAppId,
+                facebookAppKey = source.facebookAppKey,
+                twitterAppId = source.twitterAppId,
+                twitterAppKey = source.twitterAppKey,
+                isStoreModePrivate = source.isStoreModePrivate,
+                TaxPercentageId = source.TaxPercentageId,
+                canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
+                CanUserEditProfile = source.CanUserEditProfile,
+                SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
+                SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
+                ProductionManagerId1 = source.ProductionManagerId1,
+                ProductionManagerId2 = source.ProductionManagerId2,
+                StockNotificationManagerId1 = source.StockNotificationManagerId1,
+                StockNotificationManagerId2 = source.StockNotificationManagerId2,
+                IsDeliveryTaxAble = source.IsDeliveryTaxAble,
+                IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
+                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
+                CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                RaveReviews =
+                    source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyCMYKColors =
+                    source.CompanyCmykColors != null
+                        ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList()
+                        : null,
+                Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyTerritories =
+                    source.CompanyTerritories != null
+                        ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList()
+                        : null,
+                CompanyBannerSets =
+                    source.CompanyBannerSets != null
+                        ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList()
+                        : null,
+                CompanyContacts =
+                    source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null
+            };
 
             return company;
         }
@@ -227,42 +248,49 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
-                Addresses = source.Addresses != null ? source.Addresses.Select(add => add.CreateFromSupplier()).ToList() : null,
-                CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(c => c.CreateFromSupplier()).ToList() : null,
+                Addresses =
+                    source.Addresses != null ? source.Addresses.Select(add => add.CreateFromSupplier()).ToList() : null,
+                CompanyContacts =
+                    source.CompanyContacts != null
+                        ? source.CompanyContacts.Select(c => c.CreateFromSupplier()).ToList()
+                        : null,
             };
         }
 
         public static CompanyResponse CreateFrom(this DomainResponseModel.CompanyResponse source)
         {
             return new CompanyResponse
-                   {
-                       Company = source.Company.CreateFrom(),
-                       AddressResponse = new AddressResponse
-                                           {
-                                               Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
-                                               RowCount = source.AddressResponse.RowCount
-                                           },
+            {
+                Company = source.Company.CreateFrom(),
+                //AddressResponse = new ApiModels.AddressResponse
+                //                    {
+                //                        Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
+                //                        RowCount = source.AddressResponse.RowCount
+                //                    },
 
-                       CompanyTerritoryResponse = new CompanyTerritoryResponse
-                                                  {
-                                                      CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
-                                                      RowCount = source.CompanyTerritoryResponse.RowCount
-                                                  },
-                       CompanyContactResponse = new CompanyContactResponse
-                       {
-                           CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
-                           RowCount = source.CompanyContactResponse.RowCount
-                       },
+                //CompanyTerritoryResponse = new ApiModels.CompanyTerritoryResponse
+                //                           {
+                //                               CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
+                //                               RowCount = source.CompanyTerritoryResponse.RowCount
+                //                           },
+                //CompanyContactResponse = new ApiModels.CompanyContactResponse
+                //{
+                //    CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
+                //    RowCount = source.CompanyContactResponse.RowCount
+                //}
 
-                       SecondaryPageResponse = new SecondaryPageResponse
-                       {
-                           CmsPages = source.SecondaryPageResponse.CmsPages != null ? source.SecondaryPageResponse.CmsPages.Select(x => x.CreateFromForListView()).ToList() : null,
-                           RowCount = source.SecondaryPageResponse.RowCount
-                       }
+                SecondaryPageResponse = new SecondaryPageResponse
+                {
+                    CmsPages =
+                        source.SecondaryPageResponse.CmsPages != null
+                            ? source.SecondaryPageResponse.CmsPages.Select(x => x.CreateFromForListView()).ToList()
+                            : null,
+                    RowCount = source.SecondaryPageResponse.RowCount
 
-                   };
+                }
+            };
+
+            #endregion
         }
-
-        #endregion
     }
 }

@@ -63,18 +63,18 @@ namespace MPC.Repository.Repositories
         {
             CompanyResponse companyResponse = new CompanyResponse();
             var company = DbSet.Find(companyId);
-            companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
-            companyResponse.AddressResponse = new AddressResponse();
-            companyResponse.CompanyContactResponse = new CompanyContactResponse();
             companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
             companyResponse.Company = company;
-            companyResponse.CompanyTerritoryResponse.RowCount = company.CompanyTerritories.Count();
-            companyResponse.AddressResponse.RowCount = company.Addresses.Count();
-            companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
-            companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
-            companyResponse.CompanyContactResponse.CompanyContacts = company.CompanyContacts.Take(5).ToList();
-            companyResponse.SecondaryPageResponse.RowCount = company.CmsPages.Count;
-            companyResponse.SecondaryPageResponse.CmsPages = company.CmsPages.Take(5).ToList();
+
+            //companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
+            //companyResponse.AddressResponse = new AddressResponse();
+            //companyResponse.CompanyContactResponse = new CompanyContactResponse();
+            //companyResponse.CompanyTerritoryResponse.RowCount = company.CompanyTerritories.Count();
+            //companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
+            //companyResponse.AddressResponse.RowCount = company.Addresses.Count();
+            //companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
+            //companyResponse.CompanyContactResponse.CompanyContacts = company.CompanyContacts.Take(5).ToList();
+            //companyResponse.CompanyContactResponse.RowCount = company.CompanyContacts.Count;
             return companyResponse;
         }
 

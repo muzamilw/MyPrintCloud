@@ -10,6 +10,7 @@ namespace MPC.Interfaces.Repository
         Models.ResponseModels.AddressResponse GetAddress(Models.RequestModels.AddressRequestModel request);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
+        IEnumerable<Address> GetAllDefaultAddressByStoreID(Int64 StoreID);
 
     }
 }
