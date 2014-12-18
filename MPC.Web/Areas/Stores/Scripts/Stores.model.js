@@ -2194,9 +2194,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CompanyBanner: CompanyBanner,
         CompanyBannerSet: CompanyBannerSet,
         CompanyContact: CompanyContact,
-        StoreListView: StoreListView,
         Role: Role,
-        RegistrationQuestion: RegistrationQuestion
+        RegistrationQuestion: RegistrationQuestion,
         SecondaryPageListView: SecondaryPageListView,
         CMSPage: CMSPage,
     };
