@@ -1329,7 +1329,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource) {
+        specifiedImageSource, specifiedDefaultPageKeyWords) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle),
@@ -1345,6 +1345,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             pageHTML = ko.observable(specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(),
+            defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             // Errors
             errors = ko.validation.group({
                 //companySetId: companySetId,
@@ -1424,7 +1425,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.Meta_RevisitAfterContent,
             source.CategoryId,
             source.PageHTML,
-            source.ImageSource
+            source.ImageSource,
+            source.DefaultPageKeyWords
         );
     };
 

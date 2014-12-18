@@ -21,6 +21,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? CategoryId { get; set; }
         public string PageHTML { get; set; }
         public string FileName { get; set; }
+        public string DefaultPageKeyWords { get; set; }
         public byte[] Image { get; set; }
         /// <summary>
         /// Image Source
