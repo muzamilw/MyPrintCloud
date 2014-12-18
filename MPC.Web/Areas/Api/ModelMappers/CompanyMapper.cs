@@ -235,22 +235,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new ApiModels.CompanyResponse
                    {
                        Company = source.Company.CreateFrom(),
-                       AddressResponse = new ApiModels.AddressResponse
-                                           {
-                                               Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
-                                               RowCount = source.AddressResponse.RowCount
-                                           },
+                       //AddressResponse = new ApiModels.AddressResponse
+                       //                    {
+                       //                        Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
+                       //                        RowCount = source.AddressResponse.RowCount
+                       //                    },
 
-                       CompanyTerritoryResponse = new ApiModels.CompanyTerritoryResponse
-                                                  {
-                                                      CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
-                                                      RowCount = source.CompanyTerritoryResponse.RowCount
-                                                  },
-                       CompanyContactResponse = new ApiModels.CompanyContactResponse
-                       {
-                           CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
-                           RowCount = source.CompanyContactResponse.RowCount
-                       }
+                       //CompanyTerritoryResponse = new ApiModels.CompanyTerritoryResponse
+                       //                           {
+                       //                               CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
+                       //                               RowCount = source.CompanyTerritoryResponse.RowCount
+                       //                           },
+                       //CompanyContactResponse = new ApiModels.CompanyContactResponse
+                       //{
+                       //    CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
+                       //    RowCount = source.CompanyContactResponse.RowCount
+                       //}
 
                    };
         }

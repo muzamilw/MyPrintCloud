@@ -92,18 +92,19 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.IsCustomer
             );
 
-        if (source.IsCustomer == 0) {
-            store.type("Supplier");
-        }
-        else if (source.IsCustomer == 1) {
+        //if (source.IsCustomer == 0) {
+        //    store.type("Supplier");
+        //}
+        if (source.IsCustomer == 1) {
             store.type("Retail Customer");
         }
-        else if (source.IsCustomer == 2) {
-            store.type("Prospect");
-        }
+            //else if (source.IsCustomer == 2) {
+            //    store.type("Prospect");
+            //}
         else if (source.IsCustomer == 3) {
             store.type("Corporate");
         }
+
         return store;
     };
 
@@ -147,7 +148,31 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             stockNotificationManagerId1 = ko.observable(specifiedStockNotificationManagerId1),
             stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),
             companyType = ko.observable(),
-            type = ko.observable(),
+            //type = ko.observable(),
+            type = ko.observable(specifiedIsCustomer !== undefined && specifiedIsCustomer != null ? (specifiedIsCustomer === 1 ? 1 : specifiedIsCustomer) : undefined),
+            customerTypeCheck = ko.computed({
+                read: function () {
+                    //        if (type() !== undefined ) {
+                    //            debugger;
+                    //            if (type() == '1') {
+                    //                debugger;
+                    //            }
+                    //        }
+                    //        //if (isFinishedGoods() === 0) {
+                    //        //    return '3';
+                    //        }
+                    //        //return '' + isFinishedGoods();
+                },
+                write: function (value) {
+                    //        debugger;
+                    //        //var finishedGoods = parseInt(value);
+                    //        //if (finishedGoods === isFinishedGoods()) {
+                    //        //    return;
+                    //        //}
+
+                    //        //isFinishedGoods(finishedGoods);
+                }
+            }),
             isDisplayBanners = ko.observable(specifiedisDisplayBanners),
             raveReviews = ko.observableArray([]),
             companyTerritories = ko.observableArray([]),
@@ -276,7 +301,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.CompanyBannerSets = [];
                 result.EdittedAddresses = [];
                 result.DeletedAddresses = [];
-                
+
                 return result;
             },
             // Reset
@@ -327,6 +352,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
+            customerTypeCheck: customerTypeCheck,
             reset: reset
         };
         return self;
@@ -362,7 +388,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.stockNotificationManagerId1,
             source.stockNotificationManagerId2
             );
-        result.companyType(CompanyType.CreateFromClientModel(source.companyType));
+        //result.companyType(CompanyType.CreateFromClientModel(source.companyType));
         _.each(source.raveReviews, function (item) {
             result.raveReviews.push(RaveReview.CreateFromClientModel(item));
         });
@@ -414,18 +440,19 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             );
 
         store.companyType(CompanyType.Create(source.CompanyType));
-        if (source.IsCustomer == 0) {
-            store.type("Supplier");
-        }
-        else if (source.IsCustomer == 1) {
-            store.type("Retail Customer");
-        }
-        else if (source.IsCustomer == 2) {
-            store.type("Prospect");
-        }
-        else if (source.IsCustomer == 3) {
-            store.type("Corporate");//companyTerritories
-        }
+        //if (source.IsCustomer == 0) {
+        //    store.type("Supplier");
+        //}
+        // if (source.IsCustomer == 1) {
+        //    store.type("1");
+        //}
+        //else if (source.IsCustomer == 2) {
+        //    store.type("Prospect");
+        //}
+        //else if (source.IsCustomer == 3) {
+        //    store.type("3");
+        //}
+        //isFinishedGoods = ko.observable(specifiedIsFinishedGoods !== undefined && specifiedIsFinishedGoods != null ?(specifiedIsFinishedGoods === 0 ? 0 : specifiedIsFinishedGoods) : undefined),
         _.each(source.RaveReviews, function (item) {
             store.raveReviews.push(RaveReview.Create(item));
         });
@@ -1030,36 +1057,36 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 }),
                 //Convert To Server
                 convertToServerData = function (source) {
-                    var result = {};
-                    result.AddressId = source.addressId();
-                    result.CompanyId = source.companyId();
-                    result.AddressName = source.addressName();
-                    result.Address1 = source.address1();
-                    result.Address2 = source.address2();
-                    result.Address3 = source.address3();
-                    result.City = source.city();
-                    result.State = source.state();
-                    result.Country = source.Ccuntry();
-                    result.PostCode = source.postCode();
-                    result.Fax = source.fax();
-                    result.URL = source.uRL();
-                    result.Tel1 = source.tel1();
-                    result.Tel2 = source.tel2();
-                    result.Extension1 = source.extension1();
-                    result.Extension2 = source.extension2();
-                    result.Reference = source.reference();
-                    result.FAO = source.fAO();
-                    result.IsDefaultAddress = source.isDefaultAddress();
-                    result.IsDefaultShippingAddress = source.isDefaultShippingAddress();
-                    result.isArchived = source.isArchived();
-                    result.TerritoryId = source.territoryId();
-                    result.GeoLatitude = source.geoLatitude();
-                    result.GeoLongitude = source.geoLongitude();
-                    result.isPrivate = source.isPrivate();
-                    result.isDefaultTerrorityBilling = source.isDefaultTerrorityBilling();
-                    result.isDefaultTerrorityShipping = source.isDefaultTerrorityShipping();
-                    result.OrganisationId = source.organisationId();
-                    return result;
+                    return {
+                        AddressId: addressId(),
+                        CompanyId: companyId(),
+                        AddressName: addressName(),
+                        Address1: address1(),
+                        Address2: address2(),
+                        Address3: address3(),
+                        City: city(),
+                        State: state(),
+                        Country: country(),
+                        PostCode: postCode(),
+                        Fax: fax(),
+                        URL: uRL(),
+                        Tel1: tel1(),
+                        Tel2: tel2(),
+                        Extension1: extension1(),
+                        Extension2: extension2(),
+                        Reference: reference(),
+                        FAO: fAO(),
+                        IsDefaultAddress: isDefaultAddress(),
+                        IsDefaultShippingAddress: isDefaultShippingAddress(),
+                        isArchived: isArchived(),
+                        TerritoryId: territoryId(),
+                        GeoLatitude: geoLatitude(),
+                        GeoLongitude: geoLongitude(),
+                        isPrivate: isPrivate(),
+                        isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
+                        isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
+                        OrganisationId: organisationId()
+                    };
                 },
                 // Reset
                 reset = function () {
@@ -1336,9 +1363,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId) {
         var self,
-             contactId = ko.observable(specifiedContactId),
+                       contactId = ko.observable(specifiedContactId),
                        addressId = ko.observable(specifiedAddressId),
                        companyId = ko.observable(specifiedCompanyId),
                        firstName = ko.observable(specifiedFirstName),
@@ -1421,6 +1448,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                        canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
                        canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
                        organisationId = ko.observable(specifiedOrganisationId),
+                       bussinessAddressId = ko.observable(specifiedBussinessAddressId),
+
                        // Errors
             errors = ko.validation.group({
 
@@ -1514,7 +1543,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
                 canUserEditProfile: canUserEditProfile,
                 canPlaceDirectOrder: canPlaceDirectOrder,
-                organisationId: organisationId
+                organisationId: organisationId,
+                bussinessAddressId: bussinessAddressId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1606,6 +1636,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     CanUserEditProfile: canUserEditProfile(),
                     canPlaceDirectOrder: canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
+                    BussinessAddressId: bussinessAddressId()
                 };
             },
             // Reset
@@ -1696,6 +1727,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile: canUserEditProfile,
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
+            bussinessAddressId: bussinessAddressId,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1789,7 +1821,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.canUserPlaceOrderWithoutApproval,
             source.canUserEditProfile,
             source.canPlaceDirectOrder,
-            source.organisationId
+            source.organisationId,
+            source.BussinessAddressId
         );
     };
     CompanyContact.Create = function (source) {
@@ -1876,9 +1909,137 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.canUserPlaceOrderWithoutApproval,
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
-            source.OrganisationId
+            source.OrganisationId,
+            source.BussinessAddressId
         );
         return companyContact;
+    };
+
+    //// __________________  R O L E   _____-_________________//
+    // ReSharper disable once InconsistentNaming
+    var Role = function (specifiedRoleId, specifiedRoleName) {
+
+        var self,
+            roleId = ko.observable(specifiedRoleId),
+            roleName = ko.observable(specifiedRoleName),            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                roleId: roleId,
+                roleName: roleName,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    RoleId: roleId(),
+                    RoleName: roleName()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            roleId: roleId,
+            roleName: roleName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    Role.CreateFromClientModel = function (source) {
+        return new roleName(
+            source.roleId,
+            source.rolesName
+            );
+    };
+    Role.Create = function (source) {
+        var role = new Role(
+            source.ContactRoleId,
+            source.ContactRoleName
+            );
+        return role;
+    };
+
+
+    //// __________________  R E G I S  T R A T I O N   Q U E S T I O N  ______________________//
+    // ReSharper disable once InconsistentNaming
+    var RegistrationQuestion = function (specifiedQuestionId, specifiedQuestion) {
+
+        var self,
+            questionId = ko.observable(specifiedQuestionId),
+            question = ko.observable(specifiedQuestion),            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                questionId: questionId,
+                question: question,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    QuestionId: questionId(),
+                    Question: question()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            questionId: questionId,
+            question: question,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    RegistrationQuestion.CreateFromClientModel = function (source) {
+        return new RegistrationQuestion(
+            source.questionId,
+            source.question
+            );
+    };
+    RegistrationQuestion.Create = function (source) {
+        var registrationQuestion = new RegistrationQuestion(
+            source.QuestionId,
+            source.Question
+            );
+        return registrationQuestion;
     };
     return {
         StoreListView: StoreListView,
@@ -1892,7 +2053,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         Address: Address,
         CompanyBanner: CompanyBanner,
         CompanyBannerSet: CompanyBannerSet,
-        CompanyContact: CompanyContact
+        CompanyContact: CompanyContact,
+        Role: Role,
+        RegistrationQuestion: RegistrationQuestion
     };
 
 });

@@ -34,7 +34,10 @@ namespace MPC.MIS.Areas.Api.Controllers
             return new CompanyBaseResponse
                    {
                        SystemUsers = result.SystemUsers.Select(x => x.CreateFrom()),
-                       CompanyTerritories = result.CompanyTerritories.Select(x=> x.CreateFrom())
+                       CompanyTerritories = result.CompanyTerritories.Select(x => x.CreateFrom()),
+                       CompanyContactRoles = result.CompanyContactRoles.Select(x => x.CreateFrom()),
+                       RegistrationQuestions = result.RegistrationQuestions.Select(x=> x.CreateFromDropDown()),
+                       Addresses = result.Addresses.Select(x=> x.CreateFrom())
                    };
         }
         #endregion

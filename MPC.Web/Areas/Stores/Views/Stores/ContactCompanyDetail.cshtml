@@ -95,18 +95,24 @@
 
                                                 <div class="col-lg-6">
 
-                                                    <div class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-primary" data-bind="css: { active: (type() == 'Supplier')}"><input type="radio" name="options" id="option1" value="Supplier">Supplier</label>
-                                                        <label class="btn btn-primary" data-bind="css: { active: (type() == 'Retail Customer')}"><input type="radio" name="options" id="option2" value="Retail Customer">Retail</label>
-                                                        <label class="btn btn-primary" data-bind="css: { active: (type() == 'Prospect')}"><input type="radio" name="options" id="option3" value="Prospect">Prospect</label>
-                                                        <label class="btn btn-primary" data-bind="css: { active: (type() == 'Corporate')}"><input type="radio" name="options" id="option4" value="Corporate">Corporate</label>
+                                                    @*<div class="btn-group" data-toggle="buttons">*@
+                                                    @*<label class="btn btn-primary" data-bind="css: { active: (type() == 'Supplier')}"><input type="radio" name="options" id="option1" value="Supplier">Supplier</label>*@
+                                                    @*<label class="btn btn-primary" data-bind="css: { active: (customerTypeCheck() == '1')}"><input type="radio" name="options" id="option2" value="1" data-bind="checked: customerTypeCheck">Retail</label>*@
+                                                    @*<label class="btn btn-primary" data-bind="css: { active: (type() == 'Prospect')}"><input type="radio" name="options" id="option3" value="Prospect">Prospect</label>*@
+                                                    @*<label class="btn btn-primary" data-bind="css: { active: (customerTypeCheck() == '3')}"><input type="radio" name="options" id="option4" value="3" data-bind="checked: customerTypeCheck">Corporate</label>*@
 
+                                                    @*</div>*@
+                                                    <div >
+                                                        
+                                                        <div><input type="radio" name="1" value="1" data-bind="checked: customerTypeCheck()" /> Retail</div>
+                                                        <div><input type="radio" name="1" value="3" data-bind="checked: customerTypeCheck()" /> Corporate</div>
+                                                       
                                                     </div>
                                                     <span class="help-block text-right">The store type determines how a store is accessed.</span>
                                                 </div>
 
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" data-bind="visible: type() == 'Corporate' || type() == 3">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
@@ -123,7 +129,7 @@
                                                     <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
@@ -139,7 +145,7 @@
                                                     <textarea id="WebUrl" class="form-control" data-bind="value: url"></textarea>
                                                     <span class="help-block text-right">You can have multiple domains point to your store enter each domain in new line.</span>
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
 
@@ -664,7 +670,7 @@
                                                 <div class="filter-block">
                                                     <div class="form-group filter-block pull-left col-xs-4">
 
-                                                        <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.addressTerritoryFilter"></select>   
+                                                        <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.addressTerritoryFilter"></select>
                                                     </div>
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
@@ -672,7 +678,7 @@
                                                             <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
                                                         </div>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
-                                                            <i class="fa fa-plus-circle fa-lg" ></i>&nbsp;Add Address
+                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Address
                                                         </a>
                                                     </div>
                                                 </div>
@@ -710,7 +716,7 @@
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block form-group pull-left col-xs-4">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.contactCompanyTerritoryFilter"></select>   
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.contactCompanyTerritoryFilter"></select>
                                                 </div>
                                                 <div class="filter-block pull-right">
                                                     <div class="form-group pull-left">
@@ -2940,7 +2946,7 @@
                 </td>
             </tr>
         </script>
- 
+
         <script id="actionsAddressTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditAddress">
                 <span class="fa-stack">
@@ -2961,14 +2967,25 @@
                 <td data-bind="text: city"></td>
                 <td data-bind="text: territoryId"></td>
                 <td data-bind="text: isDefaultTerrorityBilling() == true ? 'Yes' : 'No' "></td>
-                <td data-bind="text: isDefaultAddress() == true ? 'Yes' : 'No' "></td>
+                    
+                <!--ko if: isDefaultAddress() == true --> 
+                <td class="type">
+                    <span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
+                </td>
+                <!-- /ko -->
+                <!--ko if: isDefaultAddress != true-->
+                <td class="type">
+                    <span data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
+                </td>
+                <!-- /ko -->
+                @*<td data-bind="text: isDefaultAddress() == true ? 'Yes' : 'No' "></td>*@
                 <td id="actionColumn" class="text-right">
                     <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
                 </td>
             </tr>
         </script>
-        
+
         <script id="actionsCompanyContactTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditCompanyContact">
                 <span class="fa-stack">
@@ -3003,8 +3020,8 @@
                         <span class="label label-danger">User</span>
                     </div>
                 </td>
-                @*<td data-bind="text: firstName "></td>  
-                <td data-bind="text: contactRoleId"></td>*@
+                @*<td data-bind="text: firstName "></td>
+                    <td data-bind="text: contactRoleId"></td>*@
                 <td data-bind="text: isWebAccess"></td>
                 <td data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No' "></td>
                 <td data-bind="text: canUserPlaceOrderWithoutApproval() == true ? 'Yes' : 'No' "></td>

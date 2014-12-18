@@ -90,5 +90,6 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? CanUserEditProfile { get; set; }
         public bool? canPlaceDirectOrder { get; set; }
         public long? OrganisationId { get; set; }
+        public long? BussinessAddressId { get; set; }
     }
 }

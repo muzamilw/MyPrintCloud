@@ -23,6 +23,8 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyBannerRepository companyBannerRepository;
         private readonly IAddressRepository addressRepository;
         private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICompanyContactRoleRepository companyContactRoleRepository;
+        private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -159,7 +161,8 @@ namespace MPC.Implementation.MISServices
                 //Delete Company Territories
                 foreach (var companyTerritory in companySavingModel.DeletedCompanyTerritories)
                 {
-                    companyTerritoryRepository.Delete(companyTerritory);
+                    var companyTerritoryToDelete = companyTerritoryRepository.Find(companyTerritory.TerritoryId);
+                    companyTerritoryRepository.Delete(companyTerritoryToDelete);
                 }
             }
         }
@@ -184,7 +187,8 @@ namespace MPC.Implementation.MISServices
                 //Delete Addresses
                 foreach (var address in companySavingModel.DeletedAddresses)
                 {
-                    addressRepository.Delete(address);
+                    var addressToDelete = addressRepository.Find(address.AddressId);
+                    addressRepository.Delete(addressToDelete);
                 }
         }
 
@@ -212,7 +216,8 @@ namespace MPC.Implementation.MISServices
                 //Delete companyContacts
                 foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
                 {
-                    companyContactRepository.Delete(companyContact);
+                    var companyContactTodelete = companyContactRepository.Find(companyContact.ContactId);
+                    companyContactRepository.Delete(companyContactTodelete);
                 }
             }
         }
@@ -382,7 +387,8 @@ namespace MPC.Implementation.MISServices
         #region Constructor
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
-            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository)
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository,
+            ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -392,6 +398,8 @@ namespace MPC.Implementation.MISServices
             this.companyBannerRepository = companyBannerRepository;
             this.addressRepository = addressRepository;
             this.companyContactRepository = companyContactRepository;
+            this.companyContactRoleRepository = companyContactRoleRepository;
+            this.registrationQuestionRepository = registrationQuestionRepository;
         }
         #endregion
 
@@ -418,12 +426,15 @@ namespace MPC.Implementation.MISServices
             return companyRepository.GetCompanyById(companyId);
         }
 
-        public CompanyBaseResponse GetBaseData(long clubId)
+        public CompanyBaseResponse GetBaseData(long storeId)
         {
             return new CompanyBaseResponse
                    {
                        SystemUsers = systemUserRepository.GetAll(),
-                       CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(clubId)
+                       CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
+                       CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                       RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId)
                    };
         }
         public void SaveFile(string filePath, long companyId)
@@ -457,6 +468,41 @@ namespace MPC.Implementation.MISServices
         public long GetOrganisationId()
         {
             return companyRepository.OrganisationId;
+        }
+
+        public void UpdateAddressesOnCompanyContactUpdation(CompanySavingModel model)
+        {
+            var allCompanyAddresses = addressRepository.GetAllDefaultAddressByStoreID(model.Company.CompanyId);
+            foreach (var companyContact in model.EdittedCompanyContacts)
+            {
+                if (companyContact.ShippingAddressId != null)
+                {
+                    foreach (var address in allCompanyAddresses)
+                    {
+                        if (address.TerritoryId == companyContact.TerritoryId )
+                        {
+                            address.IsDefaultShippingAddress = false;
+                        }
+                    }
+                }
+                var addressToUpdate = addressRepository.Find(companyContact.AddressId);
+                addressToUpdate.IsDefaultShippingAddress = true;
+            }
+            foreach (var companyContact in model.NewAddedCompanyContacts)
+            {
+                if (companyContact.ShippingAddressId != null)
+                {
+                    foreach (var address in allCompanyAddresses)
+                    {
+                        if (address.TerritoryId == companyContact.TerritoryId)
+                        {
+                            address.IsDefaultShippingAddress = false;
+                        }
+                    }
+                }
+                var addressToUpdate = addressRepository.Find(companyContact.AddressId);
+                addressToUpdate.IsDefaultShippingAddress = true;
+            }
         }
 
         #endregion

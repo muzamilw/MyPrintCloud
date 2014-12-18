@@ -181,11 +181,7 @@
                                                             <label for="ddUserRole" class="control-label text-right tooltip-float">Role</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <select class="form-control" id="ddUserRole">
-                                                                <option>Admin </option>
-                                                                <option>Manager</option>
-                                                                <option>User</option>
-                                                            </select>
+                                                            <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>   
                                                         </div>
                                                     </div>
                                                 </div>
@@ -272,12 +268,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <select class="form-control" id="SecQuesID">
-                                                                <option>Q1 </option>
-                                                                <option>Q1</option>
-                                                                <option>Q2</option>
-                                                                <option>Q3</option>
-                                                            </select>
+                                                            <select class="form-control col-lg-4" data-bind="options:$root.registrationQuestions,optionsText:'question',optionsValue:'questionId', value: secretQuestion"></select>   
                                                         </div>
 
                                                     </div>
@@ -1228,36 +1219,26 @@
                                                             </div>
 
 
-                                                            <label for="ddbussinessAddress" class="control-label text-right tooltip-float">Business Address</label>
+                                                            <label for="ddbussinessAddress" class="control-label text-right tooltip-float">Bussiness Address</label>
 
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <select class="form-control" id="ddbussinessAddress">
-                                                                <option>Main Address </option>
-                                                                <option>West territory Address</option>
-                                                                <option>Address3</option>
-                                                            </select>
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedBussinessAddressId"></select>   
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
-
                                                             <div class="bs-example-tooltips tooltip-float-width">
-
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
-
                                                             </div>
-
-
                                                             <label for="txtBAredd" class="control-label text-right tooltip-float">Address</label>
-
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAredd">
+                                                            <input type="text" class="form-control" id="txtBAredd" disabled="disabled" data-bind="value: $root.selectedBussinessAddressId() != undefined ? $root.selectedBussinessAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1277,7 +1258,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAddCity">
+                                                            <input type="text" class="form-control" id="txtBAddCity" disabled="disabled" data-bind="value: $root.selectedBussinessAddressId() != undefined ? $root.selectedBussinessAddress().city():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1297,12 +1278,10 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAddState">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddressId() != undefined ? $root.selectedBussinessAddress().state():''">
                                                         </div>
                                                     </div>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="form-group " style="height:35px;">
                                                         <div class="col-lg-5 text-right">
@@ -1329,14 +1308,8 @@
                                                             <label for="ddshippingAddress" class="control-label text-right tooltip-float">Shipping Address</label>
 
                                                         </div>
-
                                                         <div class="col-lg-7">
-                                                            <select class="form-control" id="ddshippingAddress">
-                                                                <option>Main Shipping address </option>
-                                                                <option>address2</option>
-                                                                <option>address3</option>
-                                                                <option>address4</option>
-                                                            </select>
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.shippingAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedShippingAddressId"></select>   
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1356,7 +1329,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShipAddDetail">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1376,7 +1349,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddCity">
+                                                            <input type="text" class="form-control" id="txtShippAddCity" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().city():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1396,7 +1369,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddState">
+                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().state():''">
                                                         </div>
                                                     </div>
                                                 </div>
