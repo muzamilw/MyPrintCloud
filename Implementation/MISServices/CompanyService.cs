@@ -25,6 +25,8 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyContactRepository companyContactRepository;
         private readonly ICompanyContactRoleRepository companyContactRoleRepository;
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
+        private readonly ICmsPageRepository cmsPageRepository;
+        private readonly IPageCategoryRepository pageCategoryRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -388,7 +390,9 @@ namespace MPC.Implementation.MISServices
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
             ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository,
-            ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository)
+            ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
+            , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
+             IPageCategoryRepository pageCategoryRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -400,6 +404,8 @@ namespace MPC.Implementation.MISServices
             this.companyContactRepository = companyContactRepository;
             this.companyContactRoleRepository = companyContactRoleRepository;
             this.registrationQuestionRepository = registrationQuestionRepository;
+            this.cmsPageRepository = cmsPageRepository;
+            this.pageCategoryRepository = pageCategoryRepository;
         }
         #endregion
 
@@ -421,6 +427,22 @@ namespace MPC.Implementation.MISServices
         {
             return companyContactRepository.GetCompanyContacts(request);
         }
+
+        /// <summary>
+        /// Get CMS Pages
+        /// </summary>
+        public SecondaryPageResponse GetCMSPages(SecondaryPageRequestModel request)
+        {
+            return cmsPageRepository.GetCMSPages(request);
+        }
+
+        /// <summary>
+        /// Get Cms Page By Id
+        /// </summary>
+        public CmsPage GetCmsPageById(long pageId)
+        {
+            return cmsPageRepository.Find(pageId);
+        }
         public CompanyResponse GetCompanyById(int companyId)
         {
             return companyRepository.GetCompanyById(companyId);
@@ -433,6 +455,7 @@ namespace MPC.Implementation.MISServices
                        SystemUsers = systemUserRepository.GetAll(),
                        CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                       PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories()
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId)
                    };

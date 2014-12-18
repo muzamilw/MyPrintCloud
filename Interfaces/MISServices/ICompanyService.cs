@@ -20,5 +20,15 @@ namespace MPC.Interfaces.MISServices
         Company SaveCompany(CompanySavingModel company);
         long GetOrganisationId();
 
+        /// <summary>
+        /// Get CMS Pages
+        /// </summary>
+        SecondaryPageResponse GetCMSPages(SecondaryPageRequestModel request);
+
+        /// <summary>
+        /// Get Cms Page By Id
+        /// </summary>
+        CmsPage GetCmsPageById(long pageId);
+
     }
 }

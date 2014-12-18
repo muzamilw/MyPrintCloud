@@ -92,7 +92,32 @@ namespace MPC.Repository.Repositories
 
             return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
         }
+        public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        {
 
+            List<GetItemsListView> recordds = db.GetItemsListViews.Where(g => g.ProductCategoryId == ProductCategoryID && g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
+            
+            recordds = recordds.OrderBy(s => s.SortOrder).ToList();
+            return recordds;
+        }
+
+        public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        {
+                if (CompanyId > 0)
+                {
+                    return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
+                }
+                else
+                {
+                    return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1).FirstOrDefault();
+                }
+        }
+
+        public List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId)
+        {
+         
+                return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).Take(2).ToList();
+        }
         #endregion
     }
 }

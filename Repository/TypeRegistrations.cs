@@ -61,6 +61,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IUserManagerRepository, UserManagerRepository>();
             unityContainer.RegisterType<IOrderRepository, OrderRepository>();
             unityContainer.RegisterType<ICompanyContactRoleRepository, CompanyContactRoleRepository>();
+            unityContainer.RegisterType<IItemStockOptionRepository, ItemStockOptionRepository>();
+            unityContainer.RegisterType<IItemAddOnCostCentreRepository, ItemAddonCostCentreRepository>();
         }
     }
 }

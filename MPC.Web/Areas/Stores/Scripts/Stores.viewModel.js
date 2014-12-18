@@ -32,6 +32,8 @@ define("stores/stores.viewModel",
                 filteredCompanyBanners = ko.observableArray([]),
                 //Company Banner Set List
                 companyBannerSetList = ko.observableArray([]),
+                //Page Categories
+                pageCategories = ko.observableArray([]),
                 //Is Loading stores
                 isLoadingStores = ko.observable(false),
                 //Is Editorial View Visible
@@ -235,6 +237,12 @@ define("stores/stores.viewModel",
                                 contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                                 
 
+                                //Seconday Page List And Pager
+                                secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().secondaryPages, getSecondoryPages));
+                                secondaryPagePager().totalCount(data.SecondaryPageResponse.RowCount);
+                                _.each(data.SecondaryPageResponse.CmsPages, function (item) {
+                                    selectedStore().secondaryPages.push(model.SecondaryPageListView.Create(item));
+                                });
                                 storeImage(data.ImageSource);
                                 companyBannerSetList.removeAll();
                                 companyBanners.removeAll();
@@ -305,7 +313,9 @@ define("stores/stores.viewModel",
                                     var address = new model.Address.Create(item);
                                     allCompanyAddressesList.push(address);
                                 });
-                                
+
+                                ko.utils.arrayPushAll(pageCategories(), data.PageCategories);
+                                pageCategories.valueHasMutated();
                             }
                             isLoadingStores(false);
                         },
@@ -734,6 +744,8 @@ define("stores/stores.viewModel",
                 addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
                  contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                //Secondary Page Pager
+                secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
                 searchAddressFilter = ko.observable(),
                 //Search Address
@@ -742,8 +754,8 @@ define("stores/stores.viewModel",
                         SearchFilter: searchAddressFilter(),
                         CompanyId: selectedStore().companyId(),
                         TerritoryId: addressTerritoryFilter(),
-                            PageSize: addressPager().pageSize(),
-                            PageNo: addressPager().currentPage(),
+                        PageSize: addressPager().pageSize(),
+                        PageNo: addressPager().currentPage(),
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     }, {
@@ -776,7 +788,7 @@ define("stores/stores.viewModel",
                 },
                 addressTerritoryFilterSelected = ko.computed(function () {
                     if (selectedStore() != null && selectedStore() != undefined) {
-                            searchAddress();
+                        searchAddress();
                     }
                 }),
                 //isSavingNewAddress
@@ -832,7 +844,7 @@ define("stores/stores.viewModel",
                             //pushing item in editted Addresses List
                             if (selectedAddress().addressId() != undefined) {
                                 var match = ko.utils.arrayFirst(edittedAddresses(), function (item) {
-                                        return (selectedAddress().addressId() === item.addressId());
+                                    return (selectedAddress().addressId() === item.addressId());
                                 });
 
                                 if (!match) {
@@ -845,6 +857,68 @@ define("stores/stores.viewModel",
                     }
                 },
                 // ***** Address END *****
+
+                //***** Secondry Page *****
+
+                //Add Secondry Page
+                selectedSecondaryPage = ko.observable(),
+                onAddSecondaryPage = function () {
+                    selectedSecondaryPage(model.CMSPage());
+                    view.showSecondoryPageDialog();
+                },
+                //Add Secondry Page Category
+                onAddSecondryPageCategory = function () {
+                    view.showSecondaryPageCategoryDialog();
+                },
+                //Get Secondory Pages
+                getSecondoryPages = function () {
+                    dataservice.getSecondaryPages({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: secondaryPagePager().pageSize(),
+                        PageNo: secondaryPagePager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+                            selectedStore().secondaryPages.removeAll();
+                            _.each(data.CmsPages, function (cmsPage) {
+                                selectedStore().secondaryPages.push(model.SecondaryPageListView.Create(cmsPage));
+                            });
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Secondary Pages" + response);
+                        }
+                    });
+                },
+               //Edit Secondary Page
+                onEditSecondaryPage = function (secondaryPage) {
+                    dataservice.getSecondryPageById({
+                        id: secondaryPage.pageId(),
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                selectedSecondaryPage(model.CMSPage.Create(data));
+                                view.showSecondoryPageDialog();
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to load Secondary Page Detail . Error: ");
+                        }
+                    });
+                },
+                //Delete Secondary Page
+                onDeleteSecondaryPage = function (secondaryPage) {
+                    if (!secondaryPage.pageId()) {
+                        //companyBanners.remove(secondaryPage);
+                        return;
+                    }
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        //filteredCompanyBanners.remove(secondaryPage);
+                    });
+                    confirmation.show();
+                },
+                //***** Secondy Page End
                  MultipleImageFilesLoadedCallback = function (file, data) {
                      selectedCompanyBanner().fileBinary(data);
                      selectedCompanyBanner().filename(file.name);
@@ -859,7 +933,7 @@ define("stores/stores.viewModel",
                 //Deleted Company Contact 
                 deletedCompanyContacts = ko.observableArray([]), 
                 edittedCompanyContacts = ko.observableArray([]),
-                newCompanyContacts= ko.observableArray([]),
+                newCompanyContacts = ko.observableArray([]),
                 //Company Contact  Pager
                 companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Company Contact Search Filter
@@ -991,7 +1065,7 @@ define("stores/stores.viewModel",
             initialize = function (specifiedView) {
                 view = specifiedView;
                 ko.applyBindings(view.viewModel, view.bindingRoot);
-            pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
                 getStores();
                 view.initializeForm();
             };
@@ -1089,6 +1163,8 @@ define("stores/stores.viewModel",
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
                     contactCompanyPager: contactCompanyPager,
+                    onAddSecondaryPage: onAddSecondaryPage,
+                    onAddSecondryPageCategory: onAddSecondryPageCategory,
                     selectedCompanyContact: selectedCompanyContact,
                     companyContactFilter: companyContactFilter,
                     deletedCompanyContacts: deletedCompanyContacts,
@@ -1113,6 +1189,11 @@ define("stores/stores.viewModel",
                     registrationQuestions: registrationQuestions,
                     roles: roles,
                     customerType: customerType,
+                    secondaryPagePager: secondaryPagePager,
+                    selectedSecondaryPage: selectedSecondaryPage,
+                    onEditSecondaryPage: onEditSecondaryPage,
+                    onDeleteSecondaryPage: onDeleteSecondaryPage,
+                    pageCategories: pageCategories,
                     allCompanyAddressesList: allCompanyAddressesList,
                     shippingAddresses:shippingAddresses,
                     bussinessAddresses: bussinessAddresses,

@@ -69,7 +69,24 @@ define("stores/stores.view",
               // Hide  Add Banner Set the dialog
               hideSetBannerDialog = function () {
                   $("#mybannerSetModal").modal("hide");
+              },
+               // Show Secondory Page the dialog
+                showSecondoryPageDialog = function () {
+                    $("#secondaryPageAddDialog").modal("show");
+                },
+              // Hide Secondory Page the dialog
+              hideSecondoryPageDialog = function () {
+                  $("#secondaryPageAddDialog").modal("hide");
+              },
+              // Show Secondary Page Category the dialog
+                showSecondaryPageCategoryDialog = function () {
+                    $("#mySecondaryPageCategoryModal").modal("show");
+                },
+              // Hide Secondary Page Category the dialog
+              hideSecondaryPageCategoryDialog = function () {
+                  $("#mySecondaryPageCategoryModal").modal("hide");
               };
+
             initializeForm = function () {
                 // Initialize Forms - For File Upload
                 $("#fileUploadForm").ajaxForm({
@@ -103,8 +120,12 @@ define("stores/stores.view",
                 showSetBannerDialog: showSetBannerDialog,
                 showAddressDialog: showAddressDialog,
                 hideAddressDialog: hideAddressDialog,
+                showSecondoryPageDialog: showSecondoryPageDialog,
+                hideSecondoryPageDialog: hideSecondoryPageDialog,
                 showCompanyContactDialog: showCompanyContactDialog,
                 hideCompanyContactDialog: hideCompanyContactDialog,
+                showSecondaryPageCategoryDialog: showSecondaryPageCategoryDialog,
+                hideSecondaryPageCategoryDialog: hideSecondaryPageCategoryDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Models.DomainModels;
@@ -19,13 +18,13 @@ namespace MPC.Repository.Repositories
         {
             get
             {
-                return db.CompanyBanner;
+                return db.CompanyBanners;
             }
         }
      
         public List<CompanyBanner> GetCompanyBannersById(long companyId)
         {
-            var companyBanners = from banner in db.CompanyBanner
+            var companyBanners = from banner in db.CompanyBanners
                                  join companyBannerSet in db.CompanyBannerSets on banner.CompanySetId equals companyBannerSet.CompanySetId
                                  where companyBannerSet.CompanyId == companyId //&& companyBannerSet.OrganisationId == organisationId
                                  select banner;

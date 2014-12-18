@@ -62,7 +62,8 @@ namespace MPC.Repository.Repositories
         public CompanyResponse GetCompanyById(long companyId)
         {
             CompanyResponse companyResponse = new CompanyResponse();
-            var company = db.Companies.FirstOrDefault(c => c.CompanyId == companyId && c.OrganisationId == OrganisationId);
+            var company = DbSet.Find(companyId);
+            companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
             companyResponse.Company = company;
 
             //companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
@@ -76,6 +77,7 @@ namespace MPC.Repository.Repositories
             //companyResponse.CompanyContactResponse.RowCount = company.CompanyContacts.Count;
             return companyResponse;
         }
+
         /// <summary>
         /// Get Companies list for Companies List View
         /// </summary>

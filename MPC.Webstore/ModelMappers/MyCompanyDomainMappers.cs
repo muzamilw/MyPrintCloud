@@ -72,6 +72,15 @@ namespace MPC.Webstore.ModelMappers
               
             };
         }
+
+        public static ApiResponse.MyCompanyDomainBaseResponse CreateFromCurrency(this DomainResponse.MyCompanyDomainBaseReponse source)
+        {
+            return new ApiResponse.MyCompanyDomainBaseResponse
+            {
+                Currency = source.Currency
+              
+            };
+        }
         #endregion
     }
     

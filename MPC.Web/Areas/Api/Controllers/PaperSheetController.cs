@@ -9,7 +9,6 @@ using MPC.MIS.Areas.Api.Models;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
-using MPC.MIS.Models;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {

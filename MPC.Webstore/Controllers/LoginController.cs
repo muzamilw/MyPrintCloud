@@ -13,7 +13,10 @@ using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.Models;
 using MPC.Webstore.SessionModels;
+using MPC.Webstore.ModelMappers;
+using MPC.Webstore.ResponseModels;
 using System.Runtime;
+using MPC.Models.Common;
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
@@ -55,6 +58,17 @@ namespace MPC.Webstore.Controllers
         // GET: Login
         public ActionResult Index(string FirstName, string LastName, string Email)
         {
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+
+            if ((baseResponse.Company.IsCustomer == (int)CustomerTypes.Corporate && baseResponse.Company.isAllowRegistrationFromWeb == true) || (baseResponse.Company.IsCustomer == 1))
+            {
+                ViewBag.AllowRegisteration = 1;
+            }
+            else
+            {
+                ViewBag.AllowRegisteration = 1;
+            }
+
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
@@ -99,7 +113,18 @@ namespace MPC.Webstore.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _myCompanyService.GetContactUser(model.Email, model.Password);
+                CompanyContact user =  null;
+                 MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+
+                 if ((baseResponse.Company.IsCustomer == (int)CustomerTypes.Corporate))
+                 {
+                     user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
+                 }
+                 else
+                 {
+                     user = _myCompanyService.GetUserByEmailAndPassword(model.Email, model.Password);
+                 }
+                
 
                 if (user != null)
                 {
@@ -122,12 +147,17 @@ namespace MPC.Webstore.Controllers
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
-                ModelState.AddModelError("", "Account is archived.");
+                ModelState.AddModelError("", "Your account is archived.");
                 return View("PartialViews/Login");
             }
             if (user.Company.IsDisabled == 1)
             {
                 ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
+                return View("PartialViews/Login");
+            }
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
+            {
+                ModelState.AddModelError("", "Your account does not have the web access enabled. Please contact your Order Manager.");
                 return View("PartialViews/Login");
             }
             else
@@ -142,6 +172,11 @@ namespace MPC.Webstore.Controllers
                 Thread.CurrentPrincipal = HttpContext.User;
                 AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
 
+                UserCookieManager.ContactFirstName = user.FirstName;
+                UserCookieManager.ContactLastName = user.LastName;
+                UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
+                UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
+
                 RedirectToLocal(ReturnUrl);
                 return null;
             }
@@ -153,7 +188,8 @@ namespace MPC.Webstore.Controllers
             {
                 ControllerContext.HttpContext.Response.Redirect(returnUrl);
             }
-            ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
+            ControllerContext.HttpContext.Response.Redirect("/Home/Index");
+           // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }
     }

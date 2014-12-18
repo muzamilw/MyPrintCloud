@@ -33,5 +33,18 @@ namespace MPC.Implementation.WebStoreServices
             IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
             return roles.Select(role => role.ContactTerritoryId).FirstOrDefault();
         }
+        public bool isUserLoggedIn()
+        {
+            IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
+            long contactId = roles.Select(role => role.ContactId).FirstOrDefault();
+            if (contactId > 0)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
     }
 }

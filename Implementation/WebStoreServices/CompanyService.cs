@@ -10,6 +10,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
 using MPC.Models.Common;
+using System.Globalization;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -34,7 +35,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IOrganisationRepository _organisationRepository;
         private readonly ISystemUserRepository _systemUserRepository;
         private readonly ICampaignRepository _campaignRepository;
-
+        private readonly IItemRepository _itemRepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -49,7 +50,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -62,6 +63,8 @@ namespace MPC.Implementation.WebStoreServices
             this._globalLanguageRepository = globalLanguageRepository;
             this._organisationRepository = organisationRepository;
             this._systemUserRepository = systemUserRepository;
+            this._itemRepository = itemRepository;
+            this._addressRepository = addressRepository;
         }
 
         #endregion
@@ -152,6 +155,51 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
+        public void GetStoreFromCache(long companyId, bool clearcache)
+        {
+
+
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            CacheItemPolicy policy = null;
+
+            MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
+
+            policy = new CacheItemPolicy();
+            policy.Priority = CacheItemPriority.NotRemovable;
+            policy.SlidingExpiration =
+                TimeSpan.FromMinutes(5);
+            policy.RemovedCallback = null;
+
+            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
+            responseObject = null;
+            stores = null;
+            if (stores == null)
+            {
+                stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+
+
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+
+                Company oCompany = GetCompanyByCompanyID(companyId);
+
+                CacheEntryRemovedCallback callback = null;
+
+                MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+                oStore.Company = oCompany;
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
+                oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
+                oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
+                oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+
+                stores.Add(oCompany.CompanyId, oStore);
+                cache.Set(CacheKeyName, stores, policy);
+            }
+        }
+
         public long GetStoreIdFromDomain(string domain)
         {
             return _CompanyRepository.GetStoreIdFromDomain(domain);
@@ -159,7 +207,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
         {
-            return _productCategoryRepository.GetParentCategoriesByTerritory(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
@@ -167,7 +215,7 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyRepository.SearchCompanies(request);
         }
 
-        public CompanyContact GetContactUser(string email, string password)
+        public CompanyContact GetUserByEmailAndPassword(string email, string password)
         {
             return _CompanyContactRepository.GetContactUser(email, password);
         }
@@ -252,9 +300,18 @@ namespace MPC.Implementation.WebStoreServices
             return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
         }
 
-        public List<ProductCategory> GetParentCategories()
+        public List<ProductCategory> GetStoreParentCategories(long companyId)
         {
-            return _productCategoryRepository.GetParentCategories();
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+        }
+        public List<ProductCategory> GetAllCategories(long companyId) 
+        {
+            return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
+        }
+
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId) 
+        {
+            return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
         }
 
         public ProductCategory GetCategoryById(int categoryId)
@@ -299,6 +356,46 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _addressRepository.GetDefaultAddressByStoreID(StoreID);
         }
+
+        public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        {
+            return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
+        }
+
+        public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        {
+            return _itemRepository.GetFirstStockOptByItemID(ItemId, CompanyId);
+        }
+
+        public List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId)
+        {
+            return _itemRepository.GetPriceMatrixByItemID(ItemId);
+        }
+
+        public string FormatDecimalValueToTwoDecimal(string valueToFormat)
+        {
+            if (!string.IsNullOrEmpty(valueToFormat))
+            {
+                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+            }
+            else
+            {
+                return "";
+            }
+
+        }
+        public double CalculateVATOnPrice(double ActualPrice, double TaxValue)
+        {
+            double Price = ActualPrice + ((ActualPrice * TaxValue) / 100);
+            return Price;
+        }
+
+        public double CalculateDiscount(double price, double discountPrecentage)
+        {
+            return (price - (price * (discountPrecentage / 100)));
+        }
+
+
         #endregion
     }
 

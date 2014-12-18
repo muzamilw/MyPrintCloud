@@ -26,5 +26,6 @@ namespace MPC.Interfaces.Repository
 
         void UpdateUserPassword(int userId, string pass);
 
+        CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId);
     }
 }

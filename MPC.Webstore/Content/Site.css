@@ -65,7 +65,7 @@ html, body
 .bodycolor
 {
     background-color: #ffffff !important;
-    background-image: url('/StoredImages/CompanyLogo/2_background.jpg') !important;
+    background-image: url('http://yolkpm.myprintcloud.com/StoredImages/CompanyLogo/2_background.jpg') !important;
     background-repeat: no-repeat;
 }
 .body-content {
@@ -467,7 +467,7 @@ ul.nav li.selectedLava a
 
 .spclColor
 {
-    background-color: rgb(0,0,0);
+    background-color: #000000 !important;
 }
 
 .match_set_padding
@@ -550,7 +550,6 @@ ul.nav li.selectedLava a
 
 .TopMenuH60W100Px
 {
-    display: none;
     width: 100%;
     margin: auto;
     height: 40px;
@@ -8155,7 +8154,7 @@ div.wrapper
     height: 30px;
     margin-left: -5px;
     margin-right: -5px;
-    display: none;
+   
 }
 
 
@@ -14744,7 +14743,7 @@ ul.LogBar li a
     {
         border-bottom: 0px solid #eaeaea;
         border-top: 0px solid #eaeaea;
-        background-color: white;
+        background-color: #0070AF !important;
         -moz-border-top-right-radius: 0px !important;
         -webkit-border-top-right-radius: 0px !important;
         -khtml-border-top-right-radius: 0px !important;
@@ -16788,7 +16787,7 @@ ul.LogBar li a
     {
         border-bottom: 0px solid #eaeaea;
         border-top: 0px solid #eaeaea;
-        background-color: white;
+        background-color: #0070AF !important;
         -moz-border-top-right-radius: 0px !important;
         -webkit-border-top-right-radius: 0px !important;
         -khtml-border-top-right-radius: 0px !important;
@@ -18499,7 +18498,7 @@ ul.LogBar li a
     {
         border-bottom: 0px solid #eaeaea;
         border-top: 0px solid #eaeaea;
-        background-color: white;
+        background-color: #0070AF !important;
         -moz-border-top-right-radius: 0px !important;
         -webkit-border-top-right-radius: 0px !important;
         -khtml-border-top-right-radius: 0px !important;
@@ -19613,7 +19612,7 @@ ul.LogBar li a
     {
         border-bottom: 0px solid #eaeaea;
         border-top: 0px solid #eaeaea;
-        background-color: white;
+        background-color: #0070AF !important;
         -moz-border-top-right-radius: 5px !important;
         -webkit-border-top-right-radius: 5px !important;
         -khtml-border-top-right-radius: 5px !important;
@@ -21183,7 +21182,7 @@ ul.LogBar li a
     {
         border-bottom: 0px solid #eaeaea;
         border-top: 0px solid #eaeaea;
-        background-color: white;
+        background-color: #0070AF !important;
         -moz-border-top-right-radius: 5px !important;
         -webkit-border-top-right-radius: 5px !important;
         -khtml-border-top-right-radius: 5px !important;
@@ -23122,7 +23121,7 @@ ul.LogBar li a
     {
         border-bottom: 0px solid #eaeaea;
         border-top: 0px solid #eaeaea;
-        background-color: white;
+        background-color: #0070AF !important;
         -moz-border-top-right-radius: 5px !important;
         -webkit-border-top-right-radius: 5px !important;
         -khtml-border-top-right-radius: 5px !important;
@@ -23984,7 +23983,7 @@ ul.LogBar li a
 
     .hyPrivacyP
     {
-        margin-left: 152px !important;
+        margin-left: 0px !important;
     }
 
     .hyperTermCond
