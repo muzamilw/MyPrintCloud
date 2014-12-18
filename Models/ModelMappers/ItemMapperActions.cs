@@ -55,6 +55,26 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Func<Template> CreateTemplate { get; set; }
 
+        /// <summary>
+        /// Action to create a Item Stock Option
+        /// </summary>
+        public Func<ItemStockOption> CreateItemStockOption { get; set; }
+
+        /// <summary>
+        /// Action to delete a Item Stock Option
+        /// </summary>
+        public Action<ItemStockOption> DeleteItemStockOption { get; set; }
+
+        /// <summary>
+        /// Action to create a Item Addon Cost Centre
+        /// </summary>
+        public Func<ItemAddonCostCentre> CreateItemAddonCostCentre { get; set; }
+
+        /// <summary>
+        /// Action to delete a Item Addon Cost Centre
+        /// </summary>
+        public Action<ItemAddonCostCentre> DeleteItemAddonCostCentre { get; set; }
+
         #endregion
     }
 }

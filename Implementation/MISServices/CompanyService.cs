@@ -23,6 +23,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyBannerRepository companyBannerRepository;
         private readonly IAddressRepository addressRepository;
         private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICmsPageRepository cmsPageRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -373,7 +374,8 @@ namespace MPC.Implementation.MISServices
         #region Constructor
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
-            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository)
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository
+            , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -383,6 +385,7 @@ namespace MPC.Implementation.MISServices
             this.companyBannerRepository = companyBannerRepository;
             this.addressRepository = addressRepository;
             this.companyContactRepository = companyContactRepository;
+            this.cmsPageRepository = cmsPageRepository;
         }
         #endregion
 
@@ -403,6 +406,22 @@ namespace MPC.Implementation.MISServices
         public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
         {
             return companyContactRepository.GetCompanyContacts(request);
+        }
+
+        /// <summary>
+        /// Get CMS Pages
+        /// </summary>
+        public SecondaryPageResponse GetCMSPages(SecondaryPageRequestModel request)
+        {
+            return cmsPageRepository.GetCMSPages(request);
+        }
+
+        /// <summary>
+        /// Get Cms Page By Id
+        /// </summary>
+        public CmsPage GetCmsPageById(long pageId)
+        {
+            return cmsPageRepository.Find(pageId);
         }
         public CompanyResponse GetCompanyById(int companyId)
         {

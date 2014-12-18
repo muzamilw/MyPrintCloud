@@ -134,6 +134,7 @@ namespace MPC.MIS.Areas.Api.Models
         public List<Address> Addresses { get; set; }
         public List<CompanyContact> CompanyContacts { get; set; }
         public List<CompanyBannerSet> CompanyBannerSets { get; set; }
+        public List<CmsPageForListView> CmsPages { get; set; }
 
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }

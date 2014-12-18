@@ -331,6 +331,154 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// True if the ItemStockOption is new
+        /// </summary>
+        private static bool IsNewItemStockOption(ItemStockOption sourceItemStockOption)
+        {
+            return sourceItemStockOption.ItemStockOptionId == 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemStockOptions
+        /// </summary>
+        private static void InitializeItemStockOptions(Item item)
+        {
+            if (item.ItemStockOptions == null)
+            {
+                item.ItemStockOptions = new List<ItemStockOption>();
+            }
+        }
+
+        /// <summary>
+        /// Initialize target ItemAddonCostCentres
+        /// </summary>
+        private static void InitializeItemAddonCostCentres(ItemStockOption itemStockOption)
+        {
+            if (itemStockOption.ItemAddonCostCentres == null)
+            {
+                itemStockOption.ItemAddonCostCentres = new List<ItemAddonCostCentre>();
+            }
+        }
+
+        /// <summary>
+        /// True if the ItemAddonCostCentre is new
+        /// </summary>
+        private static bool IsNewItemAddonCostCentre(ItemAddonCostCentre source)
+        {
+            return source.ProductAddOnId <= 0;
+        }
+
+        /// <summary>
+        /// Update or add Item Addon Cost Centres
+        /// </summary>
+        private static void UpdateOrAddItemAddonCostCentres(ItemStockOption source, ItemStockOption target, ItemMapperActions actions)
+        {
+            foreach (ItemAddonCostCentre sourceLine in source.ItemAddonCostCentres.ToList())
+            {
+                UpdateOrAddItemAddonCostCentre(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Stock Options
+        /// </summary>
+        private static void UpdateOrAddItemAddonCostCentre(ItemAddonCostCentre source, ItemStockOption target, ItemMapperActions actions)
+        {
+            ItemAddonCostCentre targetLine;
+            if (IsNewItemAddonCostCentre(source))
+            {
+                targetLine = actions.CreateItemAddonCostCentre();
+                target.ItemAddonCostCentres.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemAddonCostCentres.FirstOrDefault(so => so.ProductAddOnId == source.ProductAddOnId);
+            }
+
+            source.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete Item Addon Cost Centres no longer needed
+        /// </summary>
+        private static void DeleteItemAddonCostCentres(ItemStockOption source, ItemStockOption target, ItemMapperActions actions)
+        {
+            List<ItemAddonCostCentre> linesToBeRemoved = target.ItemAddonCostCentres.Where(
+                so => !IsNewItemAddonCostCentre(so) && source.ItemAddonCostCentres.All(sourceItemAddonCostCentre => sourceItemAddonCostCentre.ProductAddOnId != 
+                    so.ProductAddOnId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemAddonCostCentres.Remove(line);
+                actions.DeleteItemAddonCostCentre(line);
+            });
+        }
+
+        /// <summary>
+        /// Update or add Item Stock Options
+        /// </summary>
+        private static void UpdateOrAddItemStockOptions(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemStockOption sourceLine in source.ItemStockOptions.ToList())
+            {
+                UpdateOrAddItemStockOption(sourceLine, target, actions);
+            }
+        }
+        
+        /// <summary>
+        /// Update target Stock Options
+        /// </summary>
+        private static void UpdateOrAddItemStockOption(ItemStockOption source, Item target, ItemMapperActions actions)
+        {
+            ItemStockOption targetLine;
+            if (IsNewItemStockOption(source))
+            {
+                targetLine = actions.CreateItemStockOption();
+                target.ItemStockOptions.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemStockOptions.FirstOrDefault(so => so.ItemStockOptionId == source.ItemStockOptionId);
+            }
+
+            source.UpdateTo(targetLine);
+
+            // Update Item Addon Cost Centres
+            // Initialize addon cost centres
+            InitializeItemAddonCostCentres(source);
+            InitializeItemAddonCostCentres(targetLine);
+            UpdateOrAddItemAddonCostCentres(source, targetLine, actions);
+            DeleteItemAddonCostCentres(source, targetLine, actions);
+        }
+
+        /// <summary>
+        /// Delete RelatedItems no longer needed
+        /// </summary>
+        private static void DeleteItemStockOptions(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemStockOption> linesToBeRemoved = target.ItemStockOptions.Where(
+                so => !IsNewItemStockOption(so) && source.ItemStockOptions.All(sourceItemStockOption => sourceItemStockOption.ItemStockOptionId != so.ItemStockOptionId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemStockOptions.Remove(line);
+                actions.DeleteItemStockOption(line);
+            });
+        }
+
+        /// <summary>
+        /// Update RelatedItems
+        /// </summary>
+        private static void UpdateItemStockOptions(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemStockOptions(source);
+            InitializeItemStockOptions(target);
+
+            UpdateOrAddItemStockOptions(source, target, actions);
+            DeleteItemStockOptions(source, target, actions);
+        }
+        
+        /// <summary>
         /// Update the header
         /// </summary>
         private static void UpdateHeader(Item source, Item target)
@@ -430,6 +578,7 @@ namespace MPC.Models.ModelMappers
             UpdateItemVideos(source, target, actions);
             UpdateItemRelatedItems(source, target, actions);
             UpdateTemplate(source, target, actions);
+            UpdateItemStockOptions(source, target, actions);
         }
 
         #endregion

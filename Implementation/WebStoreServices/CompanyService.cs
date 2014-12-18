@@ -154,6 +154,51 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
+        public void GetStoreFromCache(long companyId, bool clearcache)
+        {
+
+
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            CacheItemPolicy policy = null;
+
+            MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
+
+            policy = new CacheItemPolicy();
+            policy.Priority = CacheItemPriority.NotRemovable;
+            policy.SlidingExpiration =
+                TimeSpan.FromMinutes(5);
+            policy.RemovedCallback = null;
+
+            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
+            responseObject = null;
+            stores = null;
+            if (stores == null)
+            {
+                stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+
+
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+
+                Company oCompany = GetCompanyByCompanyID(companyId);
+
+                CacheEntryRemovedCallback callback = null;
+
+                MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+                oStore.Company = oCompany;
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
+                oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
+                oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
+                oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+
+                stores.Add(oCompany.CompanyId, oStore);
+                cache.Set(CacheKeyName, stores, policy);
+            }
+        }
+
         public long GetStoreIdFromDomain(string domain)
         {
             return _CompanyRepository.GetStoreIdFromDomain(domain);
@@ -161,7 +206,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
         {
-            return _productCategoryRepository.GetParentCategoriesByTerritory(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
@@ -169,7 +214,7 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyRepository.SearchCompanies(request);
         }
 
-        public CompanyContact GetContactUser(string email, string password)
+        public CompanyContact GetUserByEmailAndPassword(string email, string password)
         {
             return _CompanyContactRepository.GetContactUser(email, password);
         }
@@ -254,9 +299,18 @@ namespace MPC.Implementation.WebStoreServices
             return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
         }
 
-        public List<ProductCategory> GetParentCategories()
+        public List<ProductCategory> GetStoreParentCategories(long companyId)
         {
-            return _productCategoryRepository.GetParentCategories();
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+        }
+        public List<ProductCategory> GetAllCategories(long companyId) 
+        {
+            return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
+        }
+
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId) 
+        {
+            return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
         }
 
         public ProductCategory GetCategoryById(int categoryId)

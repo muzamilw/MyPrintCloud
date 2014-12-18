@@ -39,6 +39,7 @@
           <Property Name="isDefaultTerrorityBilling" Type="bit" />
           <Property Name="isDefaultTerrorityShipping" Type="bit" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="DisplayOnContactUs" Type="bit" />
         </EntityType>
         <EntityType Name="Campaign">
           <Key>
@@ -401,6 +402,7 @@
           <Property Name="IsDisplayDiscountVoucherCode" Type="bit" />
           <Property Name="IsDisplayCorporateBinding" Type="bit" />
           <Property Name="MapImageURL" Type="varchar" MaxLength="200" />
+          <Property Name="PickupAddressId" Type="bigint" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -2487,6 +2489,18 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PageCategory_CmsPage">
+          <End Role="PageCategory" Type="Self.PageCategory" Multiplicity="0..1" />
+          <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="CmsPage">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Products_tbl_ProductCategory">
           <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
           <End Role="Template" Type="Self.Template" Multiplicity="*" />
@@ -3378,6 +3392,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
           </AssociationSet>
+          <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
+            <End Role="PageCategory" EntitySet="PageCategory" />
+            <End Role="CmsPage" EntitySet="CmsPage" />
+          </AssociationSet>
           <AssociationSet Name="FK_Products_tbl_ProductCategory" Association="Self.FK_Products_tbl_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="Template" EntitySet="Template" />
@@ -3968,6 +3986,10 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
             <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
           </AssociationSet>
           <EntitySet Name="GetProductsListViews" EntityType="DomainModels.GetProductsListView" />
+          <AssociationSet Name="FK_PageCategory_CmsPage" Association="DomainModels.FK_PageCategory_CmsPage">
+            <End Role="PageCategory" EntitySet="PageCategories" />
+            <End Role="CmsPage" EntitySet="CmsPages" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4084,6 +4106,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <NavigationProperty Name="CompanyCMYKColors" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="Company" ToRole="CompanyCMYKColor" />
           <NavigationProperty Name="Addresses" Relationship="DomainModels.FK_tbl_addresses_tbl_contactcompanies" FromRole="Company" ToRole="Address" />
           <Property Name="MapImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddressId" Type="Int64" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -4445,6 +4468,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="CmsPage" ToRole="Company" />
+          <NavigationProperty Name="PageCategory" Relationship="DomainModels.FK_PageCategory_CmsPage" FromRole="CmsPage" ToRole="PageCategory" />
         </EntityType>
         <EntityType Name="StockCategory">
           <Key>
@@ -4645,6 +4669,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           </Key>
           <Property Name="CategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CmsPages" Relationship="DomainModels.FK_PageCategory_CmsPage" FromRole="PageCategory" ToRole="CmsPage" />
         </EntityType>
         <EntityType Name="Section">
           <Key>
@@ -7011,6 +7036,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_addresses_tbl_contactcompanies" FromRole="Address" ToRole="Company" />
           <NavigationProperty Name="CompanyTerritory" Relationship="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" FromRole="Address" ToRole="CompanyTerritory" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="Address" ToRole="CompanyContact" />
+          <Property Name="DisplayOnContactUs" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tbl_addresses_tbl_contactcompanies">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -7282,6 +7308,18 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <Property Name="IsTemplateDesignMode" Type="Boolean" />
           <Property Name="DefaultItemTax" Type="Double" />
         </EntityType>
+        <Association Name="FK_PageCategory_CmsPage">
+          <End Type="DomainModels.PageCategory" Role="PageCategory" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PageCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="CmsPage">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7291,6 +7329,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="PickupAddressId" ColumnName="PickupAddressId" />
                 <ScalarProperty Name="MapImageUrl" ColumnName="MapImageURL" />
                 <ScalarProperty Name="IsDisplayCorporateBinding" ColumnName="IsDisplayCorporateBinding" />
                 <ScalarProperty Name="IsDisplayDiscountVoucherCode" ColumnName="IsDisplayDiscountVoucherCode" />
@@ -9494,6 +9533,7 @@ warning 6002: The table/view 'MPC.dbo.vw_GetProductsList' does not have a primar
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="DomainModels.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="DisplayOnContactUs" ColumnName="DisplayOnContactUs" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="isDefaultTerrorityShipping" ColumnName="isDefaultTerrorityShipping" />
                 <ScalarProperty Name="isDefaultTerrorityBilling" ColumnName="isDefaultTerrorityBilling" />

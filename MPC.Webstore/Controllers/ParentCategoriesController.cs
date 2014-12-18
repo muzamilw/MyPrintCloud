@@ -56,9 +56,9 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                lstParentCategories = _myCompanyService.GetParentCategories();
+                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId);
             }
-          //  var model = _myCompanyService.GetCompanyParentCategoriesById(UserCookieManager.StoreId);
+
             return PartialView("PartialViews/ParentCategories", lstParentCategories);
         }
     }

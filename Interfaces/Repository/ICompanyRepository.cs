@@ -19,11 +19,14 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         SupplierSearchResponseForInventory GetSuppliersForInventories(SupplierRequestModelForInventory request);
 
-        
-
+        /// <summary>
+        /// Get Store By Id
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
         Company GetStoreById(long companyId);
 
 
-
+        
     }
 }

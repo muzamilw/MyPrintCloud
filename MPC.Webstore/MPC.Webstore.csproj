@@ -255,6 +255,7 @@
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
@@ -385,6 +386,7 @@
     <Content Include="Views\Shared\PartialViews\ContactUs.cshtml" />
     <Content Include="Views\Shared\PartialViews\AllProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\Category.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CategoryHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -396,11 +398,6 @@
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
-    <Folder Include="Views\AllProducts\" />
-    <Folder Include="Views\Category\" />
-    <Folder Include="Views\ContactUs\" />
-    <Folder Include="Views\Domain\" />
-    <Folder Include="Views\ForgetPassword\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

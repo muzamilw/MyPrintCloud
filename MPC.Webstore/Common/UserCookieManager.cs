@@ -27,16 +27,15 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["StorId"] != null)
+                if (HttpContext.Current.Response.Cookies["StorId"] != null)
                 {
-                    HttpContext.Current.Request.Cookies["StorId"].Value = value.ToString();
+                    HttpContext.Current.Response.Cookies.Remove("StorId");
+
                 }
-                else
-                {
-                    HttpCookie storeIdCookie = null;
-                    storeIdCookie = new HttpCookie("StorId", value.ToString());
-                    HttpContext.Current.Response.Cookies.Add(storeIdCookie);
-                }
+
+                HttpCookie storeIdCookie = null;
+                storeIdCookie = new HttpCookie("StorId", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(storeIdCookie);
             }
         }
 
@@ -56,16 +55,15 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["FirstName"] != null)
+                if (HttpContext.Current.Response.Cookies["FirstName"] != null)
                 {
-                    HttpContext.Current.Request.Cookies["FirstName"].Value = value.ToString();
+                    HttpContext.Current.Response.Cookies.Remove("FirstName");
+
                 }
-                else
-                {
-                    HttpCookie contactFirstNameCookie = null;
-                    contactFirstNameCookie = new HttpCookie("FirstName", value.ToString());
-                    HttpContext.Current.Response.Cookies.Add(contactFirstNameCookie);
-                }
+                HttpCookie contactFirstNameCookie = null;
+                contactFirstNameCookie = new HttpCookie("FirstName", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(contactFirstNameCookie);
+
             }
         }
 
@@ -91,38 +89,42 @@ namespace MPC.Webstore.Common
                 }
                 else
                 {
+                    if (HttpContext.Current.Response.Cookies["LastName"] != null)
+                    {
+                        HttpContext.Current.Response.Cookies.Remove("LastName");
+
+                    }
                     HttpCookie contactLastNameCookie = null;
                     contactLastNameCookie = new HttpCookie("LastName", value.ToString());
                     HttpContext.Current.Response.Cookies.Add(contactLastNameCookie);
                 }
             }
         }
-        public static string ContactCanEditProfile
+        public static bool ContactCanEditProfile
         {
             get
             {
                 if (HttpContext.Current.Request.Cookies["CanEditProfile"] != null)
                 {
-                    return (HttpContext.Current.Request.Cookies["CanEditProfile"].Value);
+                    return Convert.ToBoolean((HttpContext.Current.Request.Cookies["CanEditProfile"].Value));
                 }
                 else
                 {
-                    return "";
+                    return false;
                 }
 
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["CanEditProfile"] != null)
+                if (HttpContext.Current.Response.Cookies["CanEditProfile"] != null)
                 {
-                    HttpContext.Current.Request.Cookies["CanEditProfile"].Value = value.ToString();
+                    HttpContext.Current.Response.Cookies.Remove("CanEditProfile");
+
                 }
-                else
-                {
-                    HttpCookie contactCanEditProfile = null;
-                    contactCanEditProfile = new HttpCookie("CanEditProfile", value.ToString());
-                    HttpContext.Current.Response.Cookies.Add(contactCanEditProfile);
-                }
+                HttpCookie contactCanEditProfile = null;
+                contactCanEditProfile = new HttpCookie("CanEditProfile", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(contactCanEditProfile);
+
             }
         }
         public static bool ShowPriceOnWebstore
@@ -135,22 +137,22 @@ namespace MPC.Webstore.Common
                 }
                 else
                 {
-                    return false;
+                    return true;
                 }
 
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["ShowPrice"] != null)
+                if (HttpContext.Current.Response.Cookies["ShowPrice"] != null)
                 {
-                    HttpContext.Current.Request.Cookies["ShowPrice"].Value = value.ToString();
+                    HttpContext.Current.Response.Cookies.Remove("ShowPrice");
+
                 }
-                else
-                {
-                    HttpCookie showPriceOnWebstore = null;
-                    showPriceOnWebstore = new HttpCookie("ShowPrice", value.ToString());
-                    HttpContext.Current.Response.Cookies.Add(showPriceOnWebstore);
-                }
+
+                HttpCookie showPriceOnWebstore = null;
+                showPriceOnWebstore = new HttpCookie("ShowPrice", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(showPriceOnWebstore);
+
             }
         }
 
@@ -170,6 +172,12 @@ namespace MPC.Webstore.Common
             }
             set
             {
+                if (HttpContext.Current.Response.Cookies["StoreMode"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("StoreMode");
+
+                }
+
                 HttpCookie storeIdCookie = null;
                 storeIdCookie = new HttpCookie("StoreMode", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(storeIdCookie);

@@ -70,11 +70,56 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copyrights 2014. All Rights Reserved..
+        /// </summary>
+        internal static string CopyRight {
+            get {
+                return ResourceManager.GetString("CopyRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your new password is sent to given e-mail address. Please check your email.
         /// </summary>
         internal static string ForgotPasswordSuccessfull {
             get {
                 return ResourceManager.GetString("ForgotPasswordSuccessfull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign out.
+        /// </summary>
+        internal static string LogOut {
+            get {
+                return ResourceManager.GetString("LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shopping Cart.
+        /// </summary>
+        internal static string ShoppingCart {
+            get {
+                return ResourceManager.GetString("ShoppingCart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SignIn / Register.
+        /// </summary>
+        internal static string SignInRegister {
+            get {
+                return ResourceManager.GetString("SignInRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms &amp; Conditions.
+        /// </summary>
+        internal static string TermsAndConditions {
+            get {
+                return ResourceManager.GetString("TermsAndConditions", resourceCulture);
             }
         }
     }

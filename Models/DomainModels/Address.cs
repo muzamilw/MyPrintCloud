@@ -42,6 +42,8 @@ namespace MPC.Models.DomainModels
         public Nullable<bool> isDefaultTerrorityShipping { get; set; }
         public Nullable<long> OrganisationId { get; set; }
 
+        public bool? DisplayOnContactUs { get; set; }
+
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
 

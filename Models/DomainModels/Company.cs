@@ -112,6 +112,8 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public string MapImageUrl { get; set; }
 
+        public long? PickupAddressId { get; set; }
+
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
         public virtual ICollection<CompanyCMYKColor> CompanyCMYKColors { get; set; }
@@ -126,7 +128,5 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<CompanyTerritory> CompanyTerritories { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
-        //public virtual ICollection<tbl_PC_PostCodesBrokers> tbl_PC_PostCodesBrokers { get; set; }
-        //public virtual ICollection<ProductCategory> ProductCategories { get; set; }
     }
 }

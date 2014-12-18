@@ -664,7 +664,7 @@
                                                 <div class="filter-block">
                                                     <div class="form-group filter-block pull-left col-xs-4">
 
-                                                        <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.addressTerritoryFilter"></select>   
+                                                        <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.addressTerritoryFilter"></select>
                                                     </div>
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
@@ -672,7 +672,7 @@
                                                             <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
                                                         </div>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
-                                                            <i class="fa fa-plus-circle fa-lg" ></i>&nbsp;Add Address
+                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Address
                                                         </a>
                                                     </div>
                                                 </div>
@@ -710,7 +710,7 @@
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block form-group pull-left col-xs-4">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.contactCompanyTerritoryFilter"></select>   
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.contactCompanyTerritoryFilter"></select>
                                                 </div>
                                                 <div class="filter-block pull-right">
                                                     <div class="form-group pull-left">
@@ -1420,9 +1420,9 @@
                                                 </div>
 
                                             </div>
-                                            <a href="~/CRM/AddBanner" style="margin-right:17px;" class="btn btn-primary pull-right">
+                                            <div data-bind="click:$root.onAddSecondryPage" style="margin-right:17px;" class="btn btn-primary pull-right">
                                                 <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Secondary Page
-                                            </a>
+                                            </div>
                                             <div class="main-box-body clearfix">
                                                 <div class="table-responsive">
                                                     <table class="table user-list">
@@ -1436,187 +1436,8 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <img src="~/Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
-                                                                    <a href="/CRM/AddEditSecondaryPage" class="user-link">Broker Page</a>
-                                                                    <span class="user-subhead">Broker meta title</span>
-                                                                </td>
-                                                                <td>
-                                                                    Corporate Accounts
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <span class="label label-default">Inactive</span>
-                                                                </td>
-                                                                <td>
-                                                                    Yes
-                                                                </td>
-                                                                <td style="width: 20%;">
-                                                                    <a href="#" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="~/CRM/AddEditSecondaryPage" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <img src="~/Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
-                                                                    <a href="/CRM/AddEditSecondaryPage" class="user-link">Get to know broker products</a>
-                                                                    <span class="user-subhead">Get to know broker products meta title</span>
-                                                                </td>
-                                                                <td>
-                                                                    Get to Know Us
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <span class="label label-success">Active</span>
-                                                                </td>
-                                                                <td>
-                                                                    No
-                                                                </td>
-                                                                <td style="width: 20%;">
-                                                                    <a href="#" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="~/CRM/AddEditSecondaryPage" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <img src="~/Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
-                                                                    <a href="#" class="user-link">Need Help</a>
-                                                                    <span class="user-subhead">Need Help Meta Title</span>
-                                                                </td>
-                                                                <td>
-                                                                    Help Center
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <span class="label label-success">Active</span>
-                                                                </td>
-                                                                <td>
-                                                                    Yes
-                                                                </td>
-                                                                <td style="width: 20%;">
-                                                                    <a href="#" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="~/CRM/AddEditSecondaryPage" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <img src="~/Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
-                                                                    <a href="#" class="user-link">Corporate Cothers</a>
-                                                                    <span class="user-subhead">Corporate Cothers</span>
-                                                                </td>
-                                                                <td>
-                                                                    Corporate Accounts
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <span class="label label-success">Active</span>
-                                                                </td>
-                                                                <td>
-                                                                    Yes
-                                                                </td>
-                                                                <td style="width: 20%;">
-                                                                    <a href="#" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="~/CRM/AddEditSecondaryPage" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <img src="~/Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
-                                                                    <a href="#" class="user-link">How to Order</a>
-                                                                    <span class="user-subhead">How to Order - Pink Cards</span>
-                                                                </td>
-                                                                <td>
-                                                                    Help Center
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <span class="label label-success">Active</span>
-                                                                </td>
-                                                                <td>
-                                                                    No
-                                                                </td>
-                                                                <td style="width: 20%;">
-                                                                    <a href="#" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="~/CRM/AddEditSecondaryPage" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-
+                                                            <!-- ko template: { name: 'secondaryPageItemTemplate' , foreach: $root.selectedStore().secondaryPages } -->
+                                                            <!-- /ko -->
                                                         </tbody>
                                                     </table>
 
@@ -1625,13 +1446,9 @@
                                             </div>
                                             <div id="pagerDiv">
                                                 <ul class="pagination pull-right">
-                                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                                    <li><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li><a href="#">4</a></li>
-                                                    <li><a href="#">5</a></li>
-                                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                                                    <!-- ko with: $root.secondaryPagePager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -2995,7 +2812,46 @@
                 </td>
             </tr>
         </script>
- 
+        <script id="secondaryPageItemTemplate" type="text/html">
+            <tr data-bind="click: $root.selectedSecondaryPage">
+                <td>
+                    <img src="~/Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
+                    <a href="/CRM/AddEditSecondaryPage" class="user-link">Broker Page</a>
+                    <span class="user-subhead">Broker meta title</span>
+                </td>
+                <td>
+                    Corporate Accounts
+                </td>
+                <td class="text-center">
+                    <span class="label label-default">Inactive</span>
+                </td>
+                <td>
+                    Yes
+                </td>
+                <td style="width: 20%;">
+                    <a href="#" class="table-link">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                    <a href="~/CRM/AddEditSecondaryPage" class="table-link">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                    <a href="#" class="table-link danger">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+
+        </script>
+
         <script id="actionsAddressTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditAddress">
                 <span class="fa-stack">
@@ -3023,7 +2879,7 @@
                 </td>
             </tr>
         </script>
-        
+
         <script id="actionsCompanyContactTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditCompanyContact">
                 <span class="fa-stack">
@@ -3058,8 +2914,8 @@
                         <span class="label label-danger">User</span>
                     </div>
                 </td>
-                @*<td data-bind="text: firstName "></td>  
-                <td data-bind="text: contactRoleId"></td>*@
+                @*<td data-bind="text: firstName "></td>
+                    <td data-bind="text: contactRoleId"></td>*@
                 <td data-bind="text: isWebAccess"></td>
                 <td data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No' "></td>
                 <td data-bind="text: canUserPlaceOrderWithoutApproval() == true ? 'Yes' : 'No' "></td>
@@ -3088,6 +2944,8 @@
 @Html.Partial("Widgets/_AddEditTerritory")
 @Html.Partial("~/Areas/Stores/Views/Stores/_EditBanner.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/AddEditSecondaryPage.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Shared/_EditSecondaryPageCategories.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("Widgets/_AddEditPaymentGateway")
@@ -3100,12 +2958,12 @@
 
     <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
-    <link href="~/Content/colorpicker.css" rel="stylesheet" />
-    <script src="~/Scripts/Ace/ace.js"></script>
+    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />*@
+    @*<script src="~/Scripts/Ace/ace.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
     <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
     <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>
-    <script src="~/Scripts/Ace/colorpicker.js"></script>
+    @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     <script src="~/Scripts/jquery.form.js"></script>
@@ -3232,96 +3090,96 @@
             $("#WaterMarkImageUploadCnt").css("display", "none");
             $("#txtWaterMArk").css("display", "block");
         }
-        $('#colorPick1').ColorPicker({
-            color: '',
-            onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                return false;
-            },
-            onChange: function (hsb, hex, rgb) {
-                $("#colorPick1").css("background-color", "#" + hex);
-                $("#colorPick1").text('#' + hex);
-            }
-        });
-        $('#colorPick2').ColorPicker({
-            color: '',
-            onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                return false;
-            },
-            onChange: function (hsb, hex, rgb) {
-                $("#colorPick2").css("background-color", "#" + hex);
-                $("#colorPick2").text('#' + hex);
-            }
-        });
-        $('#colorPick3').ColorPicker({
-            color: '',
-            onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                return false;
-            },
-            onChange: function (hsb, hex, rgb) {
-                $("#colorPick3").css("background-color", "#" + hex);
-                $("#colorPick3").text('#' + hex);
-            }
-        });
-        $('#colorPick4').ColorPicker({
-            color: '',
-            onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                return false;
-            },
-            onChange: function (hsb, hex, rgb) {
-                $("#colorPick4").css("background-color", "#" + hex);
-                $("#colorPick4").text('#' + hex);
-            }
-        });
-        $('#colorPick5').ColorPicker({
-            color: '',
-            onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                return false;
-            },
-            onChange: function (hsb, hex, rgb) {
-                $("#colorPick5").css("background-color", "#" + hex);
-                $("#colorPick5").text('#' + hex);
-            }
-        });
-        $('#colorPick6').ColorPicker({
-            color: '',
-            onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                return false;
-            },
-            onChange: function (hsb, hex, rgb) {
-                $("#colorPick6").css("background-color", "#" + hex);
-                $("#colorPick6").text('#' + hex);
-            }
-        });
+        //$('#colorPick1').ColorPicker({
+        //    color: '',
+        //    onShow: function (colpkr) {
+        //        $(colpkr).fadeIn(500);
+        //        return false;
+        //    },
+        //    onHide: function (colpkr) {
+        //        $(colpkr).fadeOut(500);
+        //        return false;
+        //    },
+        //    onChange: function (hsb, hex, rgb) {
+        //        $("#colorPick1").css("background-color", "#" + hex);
+        //        $("#colorPick1").text('#' + hex);
+        //    }
+        //});
+        //$('#colorPick2').ColorPicker({
+        //    color: '',
+        //    onShow: function (colpkr) {
+        //        $(colpkr).fadeIn(500);
+        //        return false;
+        //    },
+        //    onHide: function (colpkr) {
+        //        $(colpkr).fadeOut(500);
+        //        return false;
+        //    },
+        //    onChange: function (hsb, hex, rgb) {
+        //        $("#colorPick2").css("background-color", "#" + hex);
+        //        $("#colorPick2").text('#' + hex);
+        //    }
+        //});
+        //$('#colorPick3').ColorPicker({
+        //    color: '',
+        //    onShow: function (colpkr) {
+        //        $(colpkr).fadeIn(500);
+        //        return false;
+        //    },
+        //    onHide: function (colpkr) {
+        //        $(colpkr).fadeOut(500);
+        //        return false;
+        //    },
+        //    onChange: function (hsb, hex, rgb) {
+        //        $("#colorPick3").css("background-color", "#" + hex);
+        //        $("#colorPick3").text('#' + hex);
+        //    }
+        //});
+        //$('#colorPick4').ColorPicker({
+        //    color: '',
+        //    onShow: function (colpkr) {
+        //        $(colpkr).fadeIn(500);
+        //        return false;
+        //    },
+        //    onHide: function (colpkr) {
+        //        $(colpkr).fadeOut(500);
+        //        return false;
+        //    },
+        //    onChange: function (hsb, hex, rgb) {
+        //        $("#colorPick4").css("background-color", "#" + hex);
+        //        $("#colorPick4").text('#' + hex);
+        //    }
+        //});
+        //$('#colorPick5').ColorPicker({
+        //    color: '',
+        //    onShow: function (colpkr) {
+        //        $(colpkr).fadeIn(500);
+        //        return false;
+        //    },
+        //    onHide: function (colpkr) {
+        //        $(colpkr).fadeOut(500);
+        //        return false;
+        //    },
+        //    onChange: function (hsb, hex, rgb) {
+        //        $("#colorPick5").css("background-color", "#" + hex);
+        //        $("#colorPick5").text('#' + hex);
+        //    }
+        //});
+        //$('#colorPick6').ColorPicker({
+        //    color: '',
+        //    onShow: function (colpkr) {
+        //        $(colpkr).fadeIn(500);
+        //        return false;
+        //    },
+        //    onHide: function (colpkr) {
+        //        $(colpkr).fadeOut(500);
+        //        return false;
+        //    },
+        //    onChange: function (hsb, hex, rgb) {
+        //        $("#colorPick6").css("background-color", "#" + hex);
+        //        $("#colorPick6").text('#' + hex);
+        //    }
+        //});
     </script>
     <script>
 

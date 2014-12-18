@@ -213,6 +213,8 @@
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
+    <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
+    <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
@@ -234,6 +236,7 @@
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
+    <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
@@ -249,6 +252,7 @@
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
+    <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="ResponseModels\SupplierBaseResponse.cs" />
     <Compile Include="ResponseModels\SupplierSearchResponseForInventory.cs" />

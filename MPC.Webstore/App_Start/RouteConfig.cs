@@ -20,6 +20,11 @@ namespace MPC.Webstore
                new { controller = "Home", action = "Error", id = UrlParameter.Optional }
            );
 
+            routes.MapRoute("clear"
+                 , "clear/{name}"
+                 , new { controller = "Domain", action = "updateCache", name = "" });
+
+
             routes.MapRoute("store"
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });

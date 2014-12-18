@@ -470,6 +470,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         public Template Template { get; set; }
 
+        public IEnumerable<ItemStockOption> ItemStockOptions { get; set; }
+
         #endregion
     }
 }
