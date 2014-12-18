@@ -37,7 +37,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                        SystemUsers = result.SystemUsers.Select(x => x.CreateFrom()),
                        CompanyTerritories = result.CompanyTerritories.Select(x => x.CreateFrom()),
                        CompanyContactRoles = result.CompanyContactRoles.Select(x => x.CreateFrom()),
-                       PageCategories = result.PageCategories.Select(x => x.CreateFromDropDown())
+                       PageCategories = result.PageCategories.Select(x => x.CreateFromDropDown()),
                        RegistrationQuestions = result.RegistrationQuestions.Select(x=> x.CreateFromDropDown()),
                        Addresses = result.Addresses.Select(x=> x.CreateFrom())
                    };

@@ -389,7 +389,7 @@ namespace MPC.Implementation.MISServices
         #region Constructor
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
-            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository, ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository,
+            ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
              IPageCategoryRepository pageCategoryRepository)
@@ -455,7 +455,7 @@ namespace MPC.Implementation.MISServices
                        SystemUsers = systemUserRepository.GetAll(),
                        CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
-                       PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories()
+                       PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId)
                    };
