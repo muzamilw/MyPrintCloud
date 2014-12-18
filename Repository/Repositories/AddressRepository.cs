@@ -72,5 +72,9 @@ namespace MPC.Repository.Repositories
         {
             return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true).FirstOrDefault();
         }
+        public IEnumerable<Address> GetAllDefaultAddressByStoreID(Int64 StoreID)
+        {
+            return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
+        }
     }
 }

@@ -9,8 +9,6 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Stores.Controllers
 {
-    //[SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
-
     public class StoresController : Controller
     {
         #region Private
@@ -39,7 +37,7 @@ namespace MPC.MIS.Areas.Stores.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase file, long companyId)//, long organizationId
+        public ActionResult Index(HttpPostedFileBase file, long companyId)
         {
             if (file != null && file.InputStream != null)
             {

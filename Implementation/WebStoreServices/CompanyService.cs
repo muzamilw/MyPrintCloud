@@ -10,6 +10,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System;
 using MPC.Models.Common;
+using System.Globalization;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -34,7 +35,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IOrganisationRepository _organisationRepository;
         private readonly ISystemUserRepository _systemUserRepository;
         private readonly ICampaignRepository _campaignRepository;
-
+        private readonly IItemRepository _itemRepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -49,7 +50,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -62,6 +63,8 @@ namespace MPC.Implementation.WebStoreServices
             this._globalLanguageRepository = globalLanguageRepository;
             this._organisationRepository = organisationRepository;
             this._systemUserRepository = systemUserRepository;
+            this._itemRepository = itemRepository;
+            this._addressRepository = addressRepository;
         }
 
         #endregion
@@ -353,6 +356,46 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _addressRepository.GetDefaultAddressByStoreID(StoreID);
         }
+
+        public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        {
+            return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
+        }
+
+        public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        {
+            return _itemRepository.GetFirstStockOptByItemID(ItemId, CompanyId);
+        }
+
+        public List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId)
+        {
+            return _itemRepository.GetPriceMatrixByItemID(ItemId);
+        }
+
+        public string FormatDecimalValueToTwoDecimal(string valueToFormat)
+        {
+            if (!string.IsNullOrEmpty(valueToFormat))
+            {
+                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+            }
+            else
+            {
+                return "";
+            }
+
+        }
+        public double CalculateVATOnPrice(double ActualPrice, double TaxValue)
+        {
+            double Price = ActualPrice + ((ActualPrice * TaxValue) / 100);
+            return Price;
+        }
+
+        public double CalculateDiscount(double price, double discountPrecentage)
+        {
+            return (price - (price * (discountPrecentage / 100)));
+        }
+
+
         #endregion
     }
 

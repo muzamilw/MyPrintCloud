@@ -105,4 +105,13 @@ namespace MPC.Models.Common
     {
         Delivery = 2
     }
+    public enum ProductType
+    {
+        FinishedGoodWithImageRotator = 1,
+        TemplateProductWithImage = 2,
+        TemplateProductWithBanner = 3,
+        FinishedGoodWithBanner = 4,
+        InventoryItem = 5
+    }
+
 }

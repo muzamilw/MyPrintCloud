@@ -1265,7 +1265,6 @@
           <Property Name="JobActualCompletionDateTime" Type="datetime" />
           <Property Name="IsJobCostingDone" Type="bit" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
-          <Property Name="ProductCategoryId" Type="bigint" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
           <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="1000" />
           <Property Name="ProductSpecification" Type="varchar(max)" />
@@ -1294,7 +1293,7 @@
           <Property Name="JobCardLastPrintedDate" Type="datetime" />
           <Property Name="EstimateProductionTime" Type="int" />
           <Property Name="SortOrder" Type="int" />
-          <Property Name="IsFinishedGoods" Type="int" />
+          <Property Name="ProductType" Type="int" />
           <Property Name="LayoutGridContent" Type="ntext" />
           <Property Name="HowToVideoContent" Type="ntext" />
           <Property Name="file1" Type="varchar" MaxLength="200" />
@@ -2300,15 +2299,13 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <PropertyRef Name="ItemId" />
             <PropertyRef Name="MinPrice" />
           </Key>
-          <Property Name="ItemId" Type="bigint" Nullable="false" />
+          <Property Name="ItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemCode" Type="varchar" MaxLength="50" />
           <Property Name="isQtyRanged" Type="bit" />
           <Property Name="EstimateId" Type="bigint" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
           <Property Name="ProductCode" Type="varchar" MaxLength="50" />
-          <Property Name="ProductCategoryName" Type="varchar" MaxLength="50" />
-          <Property Name="ProductCategoryId" Type="bigint" />
-          <Property Name="ParentCategoryId" Type="int" />
+          <Property Name="ProductCategoryName" Type="nvarchar(max)" />
           <Property Name="MinPrice" Type="float" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
           <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="1000" />
@@ -2319,7 +2316,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsFeatured" Type="bit" />
           <Property Name="IsPromotional" Type="bit" />
           <Property Name="IsPublished" Type="bit" />
-          <Property Name="IsFinishedGoods" Type="int" />
+          <Property Name="ProductType" Type="int" />
           <Property Name="ProductSpecification" Type="varchar(max)" />
           <Property Name="CompleteSpecification" Type="varchar(max)" />
           <Property Name="IsArchived" Type="bit" />
@@ -2329,6 +2326,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="PriceDiscountPercentage" Type="int" />
           <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="DefaultItemTax" Type="float" />
+          <Property Name="isUploadImage" Type="bit" />
         </EntityType>
         <Association Name="FK_Company_CmsSkinPageWidget">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
@@ -3301,8 +3299,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
     [GetItemsListView].[ProductName] AS [ProductName], 
     [GetItemsListView].[ProductCode] AS [ProductCode], 
     [GetItemsListView].[ProductCategoryName] AS [ProductCategoryName], 
-    [GetItemsListView].[ProductCategoryId] AS [ProductCategoryId], 
-    [GetItemsListView].[ParentCategoryId] AS [ParentCategoryId], 
     [GetItemsListView].[MinPrice] AS [MinPrice], 
     [GetItemsListView].[ImagePath] AS [ImagePath], 
     [GetItemsListView].[ThumbnailPath] AS [ThumbnailPath], 
@@ -3313,7 +3309,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
     [GetItemsListView].[IsFeatured] AS [IsFeatured], 
     [GetItemsListView].[IsPromotional] AS [IsPromotional], 
     [GetItemsListView].[IsPublished] AS [IsPublished], 
-    [GetItemsListView].[IsFinishedGoods] AS [IsFinishedGoods], 
+    [GetItemsListView].[ProductType] AS [ProductType], 
     [GetItemsListView].[ProductSpecification] AS [ProductSpecification], 
     [GetItemsListView].[CompleteSpecification] AS [CompleteSpecification], 
     [GetItemsListView].[IsArchived] AS [IsArchived], 
@@ -3322,7 +3318,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
     [GetItemsListView].[WebDescription] AS [WebDescription], 
     [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
     [GetItemsListView].[isTemplateDesignMode] AS [isTemplateDesignMode], 
-    [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax]
+    [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax], 
+    [GetItemsListView].[isUploadImage] AS [isUploadImage]
     FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Company_CmsSkinPageWidget" Association="Self.FK_Company_CmsSkinPageWidget">
@@ -5285,7 +5282,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="JobActualCompletionDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsJobCostingDone" Type="Boolean" />
           <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ProductCategoryId" Type="Int64" />
           <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ThumbnailPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ProductSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -5314,7 +5310,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="JobCardLastPrintedDate" Type="DateTime" Precision="3" />
           <Property Name="EstimateProductionTime" Type="Int32" />
           <Property Name="SortOrder" Type="Int32" />
-          <Property Name="IsFinishedGoods" Type="Int32" />
           <Property Name="LayoutGridContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HowToVideoContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="File1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -5363,6 +5358,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="DeliveryNoteDetails" Relationship="DomainModels.FK_tbl_deliverynote_details_tbl_items" FromRole="Item" ToRole="DeliveryNoteDetail" />
           <NavigationProperty Name="ItemVideos" Relationship="DomainModels.FK_ItemVideo_Items" FromRole="Item" ToRole="ItemVideo" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_Template_Items" FromRole="Item" ToRole="Template" />
+          <Property Name="ProductType" Type="Int32" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -6842,9 +6838,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="EstimateId" Type="Int64" />
           <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductCategoryId" Type="Int64" />
-          <Property Name="ParentCategoryId" Type="Int32" />
+          <Property Name="ProductCategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MinPrice" Type="Double" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ThumbnailPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -6855,7 +6849,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsFeatured" Type="Boolean" />
           <Property Name="IsPromotional" Type="Boolean" />
           <Property Name="IsPublished" Type="Boolean" />
-          <Property Name="IsFinishedGoods" Type="Int32" />
           <Property Name="ProductSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CompleteSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
@@ -6866,6 +6859,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="PriceDiscountPercentage" Type="Int32" />
           <Property Name="IsTemplateDesignMode" Type="Boolean" />
           <Property Name="DefaultItemTax" Type="Double" />
+          <Property Name="ProductType" Type="Int32" />
+          <Property Name="IsUploadImage" Type="Boolean" />
         </EntityType>
         <Association Name="FK_CompanyCMYKColor_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -8238,6 +8233,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="IsVdpProduct" ColumnName="IsVDPProduct" />
                 <ScalarProperty Name="PackagingWeight" ColumnName="PackagingWeight" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
@@ -8270,7 +8266,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="File1" ColumnName="file1" />
                 <ScalarProperty Name="HowToVideoContent" ColumnName="HowToVideoContent" />
                 <ScalarProperty Name="LayoutGridContent" ColumnName="LayoutGridContent" />
-                <ScalarProperty Name="IsFinishedGoods" ColumnName="IsFinishedGoods" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="EstimateProductionTime" ColumnName="EstimateProductionTime" />
                 <ScalarProperty Name="JobCardLastPrintedDate" ColumnName="JobCardLastPrintedDate" />
@@ -8299,7 +8294,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="ProductSpecification" ColumnName="ProductSpecification" />
                 <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="IsJobCostingDone" ColumnName="IsJobCostingDone" />
                 <ScalarProperty Name="JobActualCompletionDateTime" ColumnName="JobActualCompletionDateTime" />
@@ -9428,6 +9422,8 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
+                <ScalarProperty Name="IsUploadImage" ColumnName="isUploadImage" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
                 <ScalarProperty Name="IsTemplateDesignMode" ColumnName="isTemplateDesignMode" />
                 <ScalarProperty Name="PriceDiscountPercentage" ColumnName="PriceDiscountPercentage" />
@@ -9438,7 +9434,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
                 <ScalarProperty Name="CompleteSpecification" ColumnName="CompleteSpecification" />
                 <ScalarProperty Name="ProductSpecification" ColumnName="ProductSpecification" />
-                <ScalarProperty Name="IsFinishedGoods" ColumnName="IsFinishedGoods" />
                 <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
                 <ScalarProperty Name="IsPromotional" ColumnName="IsPromotional" />
                 <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
@@ -9449,8 +9444,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
-                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
-                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="ProductCategoryName" ColumnName="ProductCategoryName" />
                 <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />

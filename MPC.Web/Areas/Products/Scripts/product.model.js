@@ -319,7 +319,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsVdpProduct: isVdpProduct(),
                     IsStockControl: isStockControl(),
                     SortOrder: sortOrder(),
-                    IsFinishedGoods: isFinishedGoodsUi() === '3' ? 0 : parseInt(isFinishedGoodsUi()),
+                    ProductType: isFinishedGoodsUi() === '3' ? 0 : parseInt(isFinishedGoodsUi()),
                     XeroAccessCode: xeroAccessCode(),
                     WebDescription: webDescription(),
                     ProductSpecification: productSpecification(),
@@ -1001,7 +1001,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Factory
     Item.Create = function (source, callbacks) {
         var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
-            source.IsArchived, source.IsPublished, source.ProductCategoryName, source.IsEnabled, source.IsFeatured, source.IsFinishedGoods, source.SortOrder,
+            source.IsArchived, source.IsPublished, source.ProductCategoryName, source.IsEnabled, source.IsFeatured, source.ProductType, source.SortOrder,
             source.IsStockControl, source.IsVdpProduct, source.XeroAccessCode, source.WebDescription, source.ProductSpecification, source.TipsAndHints,
             source.MetaTitle, source.MetaDescription, source.MetaKeywords, source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
