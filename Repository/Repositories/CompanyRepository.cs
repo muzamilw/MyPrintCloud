@@ -73,15 +73,9 @@ namespace MPC.Repository.Repositories
             companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
             companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
             companyResponse.CompanyContactResponse.CompanyContacts = company.CompanyContacts.Take(5).ToList();
-            //LoadProperties(company);
             companyResponse.SecondaryPageResponse.RowCount = company.CmsPages.Count;
             companyResponse.SecondaryPageResponse.CmsPages = company.CmsPages.Take(5).ToList();
             return companyResponse;
-        }
-
-        private void LoadProperties(Company company)
-        {
-            LoadProperty(company, () => company.CmsPages, true);
         }
 
         /// <summary>

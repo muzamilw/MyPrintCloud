@@ -1329,7 +1329,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource) {
+        specifiedImageSource, specifiedDefaultPageKeyWords) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle),
@@ -1339,16 +1339,17 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             metaCategoryContent = ko.observable(specifiedMetaCategoryContent),
             metaRobotsContent = ko.observable(specifiedMetaRobotsContent),
             metaAuthorContent = ko.observable(specifiedMetaAuthorContent),
-            metaLanguageContent = ko.observable(specified),
+            metaLanguageContent = ko.observable(specifiedMetaLanguageContent),
             metaRevisitAfterContent = ko.observable(specifiedMetaRevisitAfterContent),
             categoryId = ko.observable(specifiedCategoryId),
             pageHTML = ko.observable(specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(),
+            defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             // Errors
             errors = ko.validation.group({
                 //companySetId: companySetId,
-                heading: heading
+                //heading: heading
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1424,7 +1425,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.Meta_RevisitAfterContent,
             source.CategoryId,
             source.PageHTML,
-            source.ImageSource
+            source.ImageSource,
+            source.DefaultPageKeyWords
         );
     };
 
@@ -1437,7 +1439,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             pageTitle = ko.observable(specifiedPageTitle),
             metaTitle = ko.observable(specifiedMetaTitle),
             isEnabled = ko.observable(specifiedIsEnabled),
-            isDisplay = ko.observable(specifiedIsDisplay),
+            isDisplay = ko.observable(specifiedIsDisplay === null ? false : true),
             categoryName = ko.observable(specifiedCategoryName),
 
             convertToServerData = function () {

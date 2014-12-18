@@ -26,6 +26,8 @@ define("stores/stores.viewModel",
                 filteredCompanyBanners = ko.observableArray([]),
                 //Company Banner Set List
                 companyBannerSetList = ko.observableArray([]),
+                //Page Categories
+                pageCategories = ko.observableArray([]),
                 //Is Loading stores
                 isLoadingStores = ko.observable(false),
                 //Is Editorial View Visible
@@ -200,6 +202,7 @@ define("stores/stores.viewModel",
                                 contactCompanyPager().totalCount(data.CompanyContactResponse.RowCount);
                                 //contactCompanyPager().totalCount(data.CompanyTerritoryResponse.RowCount);
                                 //contactCompanyPager().totalCount(data.AddressResponse.RowCount);
+
                                 //Seconday Page List And Pager
                                 secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().secondaryPages, getSecondoryPages));
                                 secondaryPagePager().totalCount(data.SecondaryPageResponse.RowCount);
@@ -266,6 +269,9 @@ define("stores/stores.viewModel",
                                     var territory = new model.CompanyTerritory.Create(item);
                                     contactCompanyTerritoriesFilter.push(territory);
                                 });
+
+                                ko.utils.arrayPushAll(pageCategories(), data.PageCategories);
+                                pageCategories.valueHasMutated();
                             }
                             isLoadingStores(false);
                         },
@@ -757,7 +763,8 @@ define("stores/stores.viewModel",
 
                 //Add Secondry Page
                 selectedSecondaryPage = ko.observable(),
-                onAddSecondryPage = function () {
+                onAddSecondaryPage = function () {
+                    selectedSecondaryPage(model.CMSPage());
                     view.showSecondoryPageDialog();
                 },
                 //Add Secondry Page Category
@@ -787,7 +794,7 @@ define("stores/stores.viewModel",
                //Edit Secondary Page
                 onEditSecondaryPage = function (secondaryPage) {
                     dataservice.getSecondryPageById({
-                        id: secondaryPage.id(),
+                        id: secondaryPage.pageId(),
                     }, {
                         success: function (data) {
                             if (data != null) {
@@ -802,7 +809,7 @@ define("stores/stores.viewModel",
                 },
                 //Delete Secondary Page
                 onDeleteSecondaryPage = function (secondaryPage) {
-                    if (!secondaryPage.id()) {
+                    if (!secondaryPage.pageId()) {
                         //companyBanners.remove(secondaryPage);
                         return;
                     }
@@ -1045,7 +1052,7 @@ define("stores/stores.viewModel",
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
                     contactCompanyPager: contactCompanyPager,
-                    onAddSecondryPage: onAddSecondryPage,
+                    onAddSecondaryPage: onAddSecondaryPage,
                     onAddSecondryPageCategory: onAddSecondryPageCategory,
                     selectedCompanyContact: selectedCompanyContact,
                     companyContactFilter: companyContactFilter,
@@ -1070,6 +1077,7 @@ define("stores/stores.viewModel",
                     selectedSecondaryPage: selectedSecondaryPage,
                     onEditSecondaryPage: onEditSecondaryPage,
                     onDeleteSecondaryPage: onDeleteSecondaryPage,
+                    pageCategories: pageCategories,
                     initialize: initialize
                 };
             })()

@@ -1,18 +1,19 @@
 ﻿namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// Stock Category DropDown
+    /// Page Category DropDown
     /// </summary>
-    public class StockCategoryDropDown
+    public class PageCategoryDropDown
     {
+
         /// <summary>
-        /// Category Id
+        /// ID
         /// </summary>
         public long CategoryId { get; set; }
 
         /// <summary>
         /// Name
         /// </summary>
-        public string Name { get; set; }
+        public string CategoryName { get; set; }
     }
 }

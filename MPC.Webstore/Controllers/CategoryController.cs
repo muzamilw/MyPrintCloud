@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
+using MPC.Webstore.ViewModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -42,13 +43,28 @@ namespace MPC.Webstore.Controllers
         // GET: Category
         public ActionResult Index(string name,string id)
         {
+            List<ProductPriceMatrixViewModel> ProductPriceMatrix = new List<ProductPriceMatrixViewModel>();
+            string StockLabel = string.Empty;
+            string Quantity = string.Empty;
+            string Price = string.Empty;
+            string DPrice = string.Empty;
+            bool isDiscounted = false;
+            double TaxRate = 0;
+            bool includeVAT = false;
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+
+
+            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+            includeVAT = baseResponse.Company.isIncludeVAT ?? false;
+            TaxRate = baseResponse.Company.TaxRate ?? 0;
+          
             int CategoryID = Convert.ToInt32(id);
             ProductCategory Category = _myCompanyService.GetCategoryById(CategoryID);
 
             if (Category != null)
             {
 
-               SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle);
+               SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle,baseResponse);
 
                 List<ProductCategory> subCategoryList = new List<ProductCategory>();
 
@@ -71,20 +87,203 @@ namespace MPC.Webstore.Controllers
 
                 BindCategoryData(subCategoryList);
 
-                //var productList = null; // pMgr.GetRetailOrCorpPublishedProducts(CategoryID);
+                var productList =  _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
 
 
-                //pnlAllProductTopLevel.Visible = true;
+              //  pnlAllProductTopLevel.Visible = true;
+                if (productList != null && productList.Count > 0)
+                {
+                    
+                    foreach (var product in productList)
+                    {
+                        // for print products
 
-                //if (productList.Count == 1 && subCategoryList.Count == 0 && UserCookieManager.StoreMode != (int)StoreMode.Corp)
-                //{
+                        if(product.IsFinishedGoods == (int)ProductType.TemplateProductWithBanner && product.IsFinishedGoods == (int)ProductType.TemplateProductWithImage)
+                        {
+                            if(product.IsPopular == true)// is popular will replace by isuploadImage
+                            {
+                                // goto landing page
+                                ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
+                            }
+                            else
+                            {
+                                // clone Item
+                            }
+                        }
+                        else if (product.IsFinishedGoods == (int)ProductType.FinishedGoodWithBanner && product.IsFinishedGoods == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
+                        {
+                            ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
+                            // goto landing page
+                        }
 
-                //}
-                //else if (productList.Count >= 1)
-                //{
-                //    productList = productList.OrderBy(g => g.SortOrder);
-                //    ViewData["Products"] = productList;
-                //}
+                        ItemStockOption optSeq1 = _myCompanyService.GetFirstStockOptByItemID((int)product.ItemId, 0);
+                        if (optSeq1 != null)
+                            ViewBag.StockLabel = optSeq1.StockLabel;
+                        else
+                            ViewBag.StockLabel = "N/A";
+
+
+                        List<ItemPriceMatrix> matrixlist = _myCompanyService.GetPriceMatrixByItemID((int)product.ItemId);
+                      
+                        if (matrixlist.Count > 0 && matrixlist.Count == 1)
+                        {
+                            if (product.IsQtyRanged == true)
+                            {
+                                Quantity = matrixlist[0].QtyRangeFrom + " - " + matrixlist[0].QtyRangeTo;
+                            }
+                            else
+                            {
+                                Quantity = matrixlist[0].Quantity + "";
+                            }
+                            if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                            {
+
+                                if (includeVAT)
+                                {
+                                    if (product.DefaultItemTax != null)
+                                    {
+                                        Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax)))); 
+                                    }
+                                    else
+                                    {
+                                        Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate))); 
+                                       
+                                    }
+
+
+                                }
+                                else
+                                {
+
+                                    Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+
+                                }
+                            }
+                            else
+                            {// corp
+                                if (includeVAT)
+                                {
+                                    Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate))); 
+
+                                }
+                                else
+                                {
+                                    Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+
+                                }
+                                if (matrixlist[0].IsDiscounted == true)
+                                {
+                                    isDiscounted = true;
+                                    //lblPrice1.CssClass = "strikeThrough"; /* hellow
+                                    //lblDiscountedPrice1.Visible = true;
+                                    DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
+                                    // lblDiscountedPrice1.Text = this.GetCompanySiteWithCurrencySymbol.GenSettingsCurrencySymbol + Utils.FormatDecimalValueToTwoDecimal(ProductManager.CalculateDiscount(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
+                                }
+                                else
+                                    isDiscounted = false;
+                            }
+                               
+                                //lblPrice1.Text = this.GetCompanySiteWithCurrencySymbol.GenSettingsCurrencySymbol + lblPrice1.Text;
+                                //lblPrice2.Text = this.GetCompanySiteWithCurrencySymbol.GenSettingsCurrencySymbol + lblPrice2.Text;
+
+                                ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
+                                ppm.Quantity = Quantity;
+                               
+                                ppm.Price = Price;
+                                ppm.DiscountPrice = DPrice;
+                                ppm.isDiscounted = isDiscounted;
+                                ProductPriceMatrix.Add(ppm);
+
+                                ViewData["PriceMatrix"] = ProductPriceMatrix;
+
+                        }
+                        else if (matrixlist.Count > 0)
+                        {
+                            foreach(var matrix in matrixlist)
+                            {
+                               if(product.IsQtyRanged ?? false)
+                               {
+                                   Quantity = matrix.QtyRangeFrom + " - " + matrix.QtyRangeTo;
+                                   
+                               }
+                               else
+                               {
+                                   Quantity = matrix.Quantity + "";
+                               }
+                               if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                               {
+                                   if (includeVAT)
+                                   {
+                                       if (product.DefaultItemTax != null)
+                                       {
+                                           Price = _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                       }
+                                       else
+                                       {
+                                           Price = _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                       }
+                                   }
+                                   else
+                                   {
+                                       Price = _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                   }
+                               }
+                               else
+                               {
+                                    if (includeVAT)
+                                    {
+
+                                        Price = _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                        
+                                    }
+                                    else
+                                    {
+                                        Price = _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                        
+                                    }
+                               }
+                               if (matrix.IsDiscounted == true)
+                               {
+                                   isDiscounted = true;
+                                   //lblPrice1.CssClass = "strikeThrough"; /* hellow */
+                                   //lblDiscountedPrice1.Visible = true;
+                                   DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(Price), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
+
+                               }
+                               else
+                                   isDiscounted = false;
+                              
+
+                               //if (matrixlist[1].PricePaperType1 > 0)
+                               //{
+                               //    SecPricetr.Visible = true;
+                               //}
+                               //else
+                               //{
+                               //    SecPricetr.Visible = false;
+                               //}
+                               Price = baseResponseCurrency.Currency + Price;
+
+                               ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
+                               ppm.Quantity = Quantity;
+                             
+                               ppm.Price = Price;
+                               ppm.DiscountPrice = DPrice;
+                               ppm.isDiscounted = isDiscounted;
+                               ProductPriceMatrix.Add(ppm);
+
+                               ViewData["PriceMatrix"] = ProductPriceMatrix;
+
+                            }
+  
+                        }
+                      
+
+                    }
+                }
+
+                 ViewData["Products"] = productList;
+              
             }
             else
             {
@@ -94,11 +293,11 @@ namespace MPC.Webstore.Controllers
             return View("PartialViews/Category",Category);
         }
 
-        private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title)
+        private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
         {
 
             Address DefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.StoreId);
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+          
             string[] MetaTags  = _myCompanyService.CreatePageMetaTags(Title, CatDes, Keywords, StoreMode.Retail, baseResponse.Company.Name, DefaultAddress);
 
             ViewBag.MetaTitle = MetaTags[0];
@@ -111,19 +310,14 @@ namespace MPC.Webstore.Controllers
             {
                 if (productCatList.Count > 0)
                 {
-                    //pnlCatList.Visible = true;
-                    //lblCategoryHeader.Visible = true;
+                   
                     productCatList = productCatList.OrderBy(c => c.DisplayOrder).ToList();
                    
                 }
-                else
-                {
-                  //  pnlCatList.Visible = false;
-                }
+               
             }
             ViewData["ProductCategory"] = productCatList;
         }
-
-
+       
     }
 }

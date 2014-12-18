@@ -59,7 +59,8 @@ namespace MPC.Webstore.ModelMappers
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 WebMasterTag = source.WebMasterTag,
-                WebAnalyticCode = source.WebAnalyticCode
+                WebAnalyticCode = source.WebAnalyticCode,
+                TaxRate = source.TaxRate
             };
         }
 
@@ -115,7 +116,8 @@ namespace MPC.Webstore.ModelMappers
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 WebMasterTag = source.WebMasterTag,
-                WebAnalyticCode = source.WebAnalyticCode
+                WebAnalyticCode = source.WebAnalyticCode,
+                TaxRate = source.TaxRate
             };
         }
 

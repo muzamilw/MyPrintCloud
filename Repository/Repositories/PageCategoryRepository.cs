@@ -29,9 +29,13 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        /// <summary>
+        /// Get Cms Secondary Page Categories
+        /// </summary>
+        /// <returns></returns>
         public List<PageCategory> GetCmsSecondaryPageCategories()
         {
-            return db.PageCategories.ToList();
+            return DbSet.ToList();
         }
     }
 }

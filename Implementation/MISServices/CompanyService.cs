@@ -24,6 +24,7 @@ namespace MPC.Implementation.MISServices
         private readonly IAddressRepository addressRepository;
         private readonly ICompanyContactRepository companyContactRepository;
         private readonly ICmsPageRepository cmsPageRepository;
+        private readonly IPageCategoryRepository pageCategoryRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -375,7 +376,8 @@ namespace MPC.Implementation.MISServices
 
         public CompanyService(ICompanyRepository companyRepository, ISystemUserRepository systemUserRepository, IRaveReviewRepository raveReviewRepository,
             ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository
-            , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository)
+            , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
+             IPageCategoryRepository pageCategoryRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -386,6 +388,7 @@ namespace MPC.Implementation.MISServices
             this.addressRepository = addressRepository;
             this.companyContactRepository = companyContactRepository;
             this.cmsPageRepository = cmsPageRepository;
+            this.pageCategoryRepository = pageCategoryRepository;
         }
         #endregion
 
@@ -433,7 +436,8 @@ namespace MPC.Implementation.MISServices
             return new CompanyBaseResponse
                    {
                        SystemUsers = systemUserRepository.GetAll(),
-                       CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(clubId)
+                       CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(clubId),
+                       PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories()
                    };
         }
         public void SaveFile(string filePath, long companyId)
