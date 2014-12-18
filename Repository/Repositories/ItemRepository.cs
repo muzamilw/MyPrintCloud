@@ -94,8 +94,8 @@ namespace MPC.Repository.Repositories
         }
         public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
         {
-
-            List<GetItemsListView> recordds = db.GetItemsListViews.Where(g => g.ProductCategoryId == ProductCategoryID && g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
+            //g.ProductCategoryId == ProductCategoryID , ProductCategoryId is no more in Items
+            List<GetItemsListView> recordds = db.GetItemsListViews.Where(g => g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
             
             recordds = recordds.OrderBy(s => s.SortOrder).ToList();
             return recordds;

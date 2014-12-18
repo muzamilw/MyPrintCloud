@@ -98,7 +98,7 @@ namespace MPC.Webstore.Controllers
                     {
                         // for print products
 
-                        if(product.IsFinishedGoods == (int)ProductType.TemplateProductWithBanner && product.IsFinishedGoods == (int)ProductType.TemplateProductWithImage)
+                        if (product.ProductType == (int)ProductType.TemplateProductWithBanner && product.ProductType == (int)ProductType.TemplateProductWithImage)
                         {
                             if(product.IsPopular == true)// is popular will replace by isuploadImage
                             {
@@ -110,7 +110,7 @@ namespace MPC.Webstore.Controllers
                                 // clone Item
                             }
                         }
-                        else if (product.IsFinishedGoods == (int)ProductType.FinishedGoodWithBanner && product.IsFinishedGoods == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
+                        else if (product.ProductType == (int)ProductType.FinishedGoodWithBanner && product.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
                         {
                             ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
                             // goto landing page
