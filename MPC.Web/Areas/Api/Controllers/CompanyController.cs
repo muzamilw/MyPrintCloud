@@ -79,8 +79,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.EdittedCompanyTerritories = company.EdittedCompanyTerritories != null ? company.EdittedCompanyTerritories.Select(x => x.CreateFrom()) : null;
             companySavingModel.DeletedCompanyTerritories = company.DeletedCompanyTerritories != null ? company.DeletedCompanyTerritories.Select(x => x.CreateFrom()) : null;
             companySavingModel.NewAddedAddresses = company.NewAddedAddresses != null ? company.NewAddedAddresses.Select(x => x.CreateFrom()) : null;
-            companySavingModel.EdittedAddresses = company.EdittedAddresses != null? company.EdittedAddresses.Select(x => x.CreateFrom()): null;
-            companySavingModel.DeletedAddresses = company.DeletedAddresses != null? company.DeletedAddresses.Select(x => x.CreateFrom()): null;
+            companySavingModel.EdittedAddresses = company.EdittedAddresses != null ? company.EdittedAddresses.Select(x => x.CreateFrom()) : null;
+            companySavingModel.DeletedAddresses = company.DeletedAddresses != null ? company.DeletedAddresses.Select(x => x.CreateFrom()) : null;
             companySavingModel.NewAddedCompanyContacts = company.NewAddedCompanyContacts != null
                 ? company.NewAddedCompanyContacts.Select(x => x.Createfrom())
                 : null;
@@ -90,6 +90,12 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.DeletedCompanyContacts = company.DeletedCompanyContacts != null
                 ? company.DeletedCompanyContacts.Select(x => x.Createfrom())
                 : null;
+
+            companySavingModel.NewAddedCmsPages = company.NewAddedCmsPages != null ? company.NewAddedCmsPages.Select(x => x.CreateFrom()).ToList() : null;
+            companySavingModel.EditCmsPages = company.EditCmsPages != null ? company.EditCmsPages.Select(x => x.CreateFrom()).ToList() : null;
+            companySavingModel.DeletedCmsPages = company.DeletedCmsPages != null ? company.DeletedCmsPages.Select(x => x.CreateFrom()).ToList() : null;
+            companySavingModel.PageCategories = company.PageCategories != null ? company.PageCategories.Select(x => x.CreateFrom()).ToList() : null;
+
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
 

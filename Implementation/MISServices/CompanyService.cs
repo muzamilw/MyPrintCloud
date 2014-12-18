@@ -222,9 +222,80 @@ namespace MPC.Implementation.MISServices
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
+            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
+        }
+
+        //Update Secondary Pages
+        private void UpdateSecondaryPagesCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            IEnumerable<PageCategory> pageCategoriesDbVersion = pageCategoryRepository.GetAll();
+            if (companySavingModel.NewAddedCmsPages != null)
+            {
+                foreach (var item in companySavingModel.NewAddedCmsPages)
+                {
+                    item.PageId = 0;
+                    item.CompanyId = companySavingModel.Company.CompanyId;
+                    item.OrganisationId = companyRepository.OrganisationId;
+                    companyDbVersion.CmsPages.Add(item);
+                }
+            }
+            //Edited List
+            if (companySavingModel.EditCmsPages != null)
+            {
+                foreach (var item in companySavingModel.EditCmsPages)
+                {
+                    foreach (var dbItem in companyDbVersion.CmsPages)
+                    {
+                        if (item.PageId == dbItem.PageId)
+                        {
+                            dbItem.CategoryId = item.CategoryId;
+                            dbItem.Meta_AuthorContent = item.Meta_AuthorContent;
+                            dbItem.Meta_CategoryContent = item.Meta_CategoryContent;
+                            dbItem.Meta_DescriptionContent = item.Meta_DescriptionContent;
+                            dbItem.Meta_LanguageContent = item.Meta_LanguageContent;
+                            dbItem.Meta_RevisitAfterContent = item.Meta_RevisitAfterContent;
+                            dbItem.Meta_RobotsContent = item.Meta_RobotsContent;
+                            dbItem.Meta_Title = item.Meta_Title;
+                            dbItem.PageHTML = item.PageHTML;
+                            dbItem.PageKeywords = item.PageKeywords;
+                            dbItem.PageTitle = item.PageTitle;
+
+                        }
+                    }
+
+                }
+            }
+            //Delete List
+            if (companySavingModel.DeletedCmsPages != null)
+            {
+                foreach (var item in companySavingModel.DeletedCmsPages)
+                {
+                    cmsPageRepository.Delete(cmsPageRepository.Find(item.PageId));
+                    cmsPageRepository.SaveChanges();
+                }
+            }
+            companyRepository.SaveChanges();
+
+            //Update Page Category List Items
+            if (companySavingModel.PageCategories != null)
+            {
+                foreach (var item in companySavingModel.PageCategories)
+                {
+                    foreach (var dbItem in pageCategoriesDbVersion)
+                    {
+                        if (item.CategoryId == dbItem.CategoryId)
+                        {
+                            dbItem.CategoryName = item.CategoryName;
+                        }
+                    }
+                }
+                pageCategoryRepository.SaveChanges();
+            }
+
+
         }
 
         /// <summary>

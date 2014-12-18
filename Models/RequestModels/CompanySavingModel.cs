@@ -15,5 +15,10 @@ namespace MPC.Models.RequestModels
         public IEnumerable<CompanyContact> NewAddedCompanyContacts { get; set; }
         public IEnumerable<CompanyContact> EdittedCompanyContacts { get; set; }
         public IEnumerable<CompanyContact> DeletedCompanyContacts { get; set; }
+
+        public List<CmsPage> NewAddedCmsPages { get; set; }
+        public List<CmsPage> EditCmsPages { get; set; }
+        public List<CmsPage> DeletedCmsPages { get; set; }
+        public List<PageCategory> PageCategories { get; set; }
     }
 }
