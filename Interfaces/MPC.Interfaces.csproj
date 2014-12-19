@@ -129,6 +129,7 @@
     <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
+    <Compile Include="WebStoreServices\IItemService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\IUserManagerService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsSecurityService.cs" />
