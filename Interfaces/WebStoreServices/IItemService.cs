@@ -8,6 +8,6 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IItemService
     {
-        T Clone<T>(T source);
+        
     }
 }
