@@ -160,12 +160,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             activeStockOption = ko.observable(),
             // choose stock item
             chooseStockItem  = function(stockOption) {
-                if (activeStockOption() !== stockOption) {
-                    activeStockOption(stockOption);
-                }
+                selectItemStockOption(stockOption);
 
                 if (callbacks && typeof callbacks.onChooseStockItem === "function") {
                     callbacks.onChooseStockItem();
+                }
+            },
+            // Select Item Stock Option
+            selectItemStockOption = function(stockOption) {
+                if (activeStockOption() !== stockOption) {
+                    activeStockOption(stockOption);
                 }
             },
             // On Select Stock Item
@@ -225,6 +229,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Remove Item Stock Option
             removeItemStockOption = function (itemStockOption) {
                 itemStockOptions.remove(itemStockOption);
+            },
+            // On Add Item Cost Centre
+            onAddItemCostCentre = function(itemStockOption) {
+                selectItemStockOption(itemStockOption);
+                activeStockOption().onAddItemAddonCostCentre();
+            },
+            // On Edit Item Cost Centre
+            onEditItemCostCentre = function (itemStockOption) {
+                selectItemStockOption(itemStockOption);
+                activeStockOption().onEditItemAddonCostCentre();
             },
             // Errors
             errors = ko.validation.group({
@@ -806,9 +820,41 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemId = ko.observable(specifiedItemId || undefined),
             // Item Addon Cost Centers
             itemAddonCostCentres = ko.observableArray([]),
+            // Active Video Item
+            activeItemAddonCostCentre = ko.observable(),
+            // Added ItemAddonCostCentre Counter
+            itemAddonCostCentreCounter = -1,
+            // On Add ItemAddonCostCentre
+            onAddItemAddonCostCentre = function () {
+                activeItemAddonCostCentre(model.ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }));
+
+                if (callbacks && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
+                    callbacks.onUpdateItemAddonCostCentre();
+                }
+            },
+            onEditItemAddonCostCentre = function (itemAddonCostCentre) {
+                activeItemAddonCostCentre(itemAddonCostCentre);
+
+                if (callbacks && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
+                    callbacks.onUpdateItemAddonCostCentre();
+                }
+            },
+            // Save ItemAddonCostCentre
+            saveItemAddonCostCentre = function () {
+                if (activeItemAddonCostCentre().id() === 0) { // Add
+                    activeItemAddonCostCentre().id(itemAddonCostCentreCounter);
+                    addItemAddonCostCentre(activeItemAddonCostCentre());
+                    itemAddonCostCentreCounter -= 1;
+                    return;
+                }
+
+                if (callbacks && typeof callbacks.onSaveItemAddonCostCentre === "function") {
+                    callbacks.onSaveItemAddonCostCentre();
+                }
+            },
             // Add Item Addon Cost Center
-            addItemAddonCostCentre = function () {
-                itemAddonCostCentres.push(ItemAddonCostCentre.Create({ ItemStockOptionId: id() }));
+            addItemAddonCostCentre = function (itemAddonCostCentre) {
+                itemAddonCostCentres.splice(0, 0, itemAddonCostCentre);
             },
             // Remove ItemAddon Cost Centre
             removeItemAddonCostCentre = function (itemAddonCostCentre) {
@@ -878,6 +924,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemAddonCostCentres: itemAddonCostCentres,
             addItemAddonCostCentre: addItemAddonCostCentre,
             removeItemAddonCostCentre: removeItemAddonCostCentre,
+            onAddItemAddonCostCentre: onAddItemAddonCostCentre,
+            onEditItemAddonCostCentre: onEditItemAddonCostCentre,
+            saveItemAddonCostCentre: saveItemAddonCostCentre,
             selectStock: selectStock,
             errors: errors,
             isValid: isValid,
