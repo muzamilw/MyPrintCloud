@@ -22,6 +22,29 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         private readonly ICompanyService companyService;
 
+        private bool validateBaseChecks(Company company)
+        {
+            ////1- New saving company should have 1 address and 1 user
+            ////2- if company is editting then company should have a 1 address and 1 user in database after saving
+            ////1
+            //if (company.CompanyId == 0)
+            //{
+            //    if (company.NewAddedAddresses.Count == 0 || company.NewAddedCompanyContacts.Count == 0)
+            //    {
+            //        return false;
+            //    }
+            //}
+            //else if (company.CompanyId > 0)
+            //{
+            //    var companyToBeUpdated = companyService.GetCompanyById(company.CompanyId);
+            //    if (companyToBeUpdated != null &&  companyToBeUpdated.AddressResponse.RowCount+(company.NewAddedAddresses.Count - company.DeletedAddresses.Count) > 1)
+            //    {
+                    
+            //    }
+            //}
+            return false;
+        }
+
         #endregion
 
         #region Constructor
