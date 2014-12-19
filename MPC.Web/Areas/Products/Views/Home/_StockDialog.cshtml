@@ -10,7 +10,7 @@
                     <header class="main-box-header clearfix">
                         <div class="filter-block pull-right">
                             <div class="form-group pull-left">
-                                <input type="text" class="form-control" data-bind="value: stockFilter" placeholder="Search...">
+                                <input type="text" class="form-control" data-bind="value: $root.stockDialogFilter" placeholder="Search...">
                                 <i class="fa fa-search search-icon"></i>
                             </div>
                         </div>
@@ -27,14 +27,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- ko template: { name: 'stockDialogItemTemplate', foreach: stockItems } -->
+                                    <!-- ko template: { name: 'stockDialogItemTemplate', foreach: $root.stockItems } -->
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <footer class="main-box-header pull-right">
                         <div id="pagerDiv">
-                            <!-- ko with: stockDialogPager -->
+                            <!-- ko with: $root.stockDialogPager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                             <!-- /ko -->
                         </div>

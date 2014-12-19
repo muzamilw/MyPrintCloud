@@ -124,6 +124,7 @@
     <Compile Include="Common\SectionIds.cs" />
     <Compile Include="Common\SecurityRoles.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
+    <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\Campaign.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="DomainModels\DiscountVoucher.cs" />
     <Compile Include="DomainModels\EmailEvent.cs" />
     <Compile Include="DomainModels\Estimate.cs" />
+    <Compile Include="DomainModels\FieldVariable.cs" />
     <Compile Include="DomainModels\GlobalLanguage.cs" />
     <Compile Include="DomainModels\Inquiry.cs" />
     <Compile Include="DomainModels\InquiryAttachment.cs" />
@@ -204,7 +206,11 @@
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\ChartOfAccount.cs" />
     <Compile Include="DomainModels\Template.cs" />
+    <Compile Include="DomainModels\TemplateBackgroundImage.cs" />
+    <Compile Include="DomainModels\TemplateObject.cs" />
     <Compile Include="DomainModels\TemplatePage.cs" />
+    <Compile Include="DomainModels\TemplateVariable.cs" />
+    <Compile Include="DomainModels\VariableSection.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
     <Compile Include="LanguageResources.Designer.cs">

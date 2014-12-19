@@ -79,6 +79,7 @@
     <Reference Include="System.Data.Entity">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http">
       <Private>True</Private>
     </Reference>

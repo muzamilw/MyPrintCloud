@@ -12,7 +12,6 @@ namespace MPC.Models.DomainModels
         public string Code { get; set; }
         public string ProductName { get; set; }
         public string Description { get; set; }
-        public long? ProductCategoryId { get; set; }
         public string LowResPDFTemplates { get; set; }
         public string BackgroundArtwork { get; set; }
         public string Side2LowResPDFTemplates { get; set; }
@@ -65,10 +64,10 @@ namespace MPC.Models.DomainModels
         public bool? isSpotTemplate { get; set; }
         public bool? isCreatedManual { get; set; }
         public bool? isEditorChoice { get; set; }
-
-        public virtual ProductCategory ProductCategory { get; set; }
         public virtual ICollection<TemplatePage> TemplatePages { get; set; }
         public virtual ICollection<Item> Items { get; set; }
+        public virtual ICollection<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }
+        public virtual ICollection<TemplateObject> TemplateObjects { get; set; }
     }
 
 }
