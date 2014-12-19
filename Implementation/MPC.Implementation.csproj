@@ -147,6 +147,7 @@
     <Compile Include="WebStoreServices\CompanyService.cs" />
     <Compile Include="MISServices\MyOrganizationService.cs" />
     <Compile Include="WebStoreServices\CompanyBannerService.cs" />
+    <Compile Include="WebStoreServices\ItemService.cs" />
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />

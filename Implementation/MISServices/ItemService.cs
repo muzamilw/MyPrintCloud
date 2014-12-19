@@ -31,6 +31,8 @@ namespace MPC.Implementation.MISServices
         private readonly ITemplateRepository templateRepository;
         private readonly IItemStockOptionRepository itemStockOptionRepository;
         private readonly IItemAddOnCostCentreRepository itemAddOnCostCentreRepository;
+        private readonly ICostCentreRepository costCentreRepository;
+        private readonly IStockItemRepository stockItemRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -160,7 +162,7 @@ namespace MPC.Implementation.MISServices
         public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
             IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository, 
             ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
-            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository)
+            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository)
         {
             if (itemRepository == null)
             {
@@ -202,6 +204,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemAddOnCostCentreRepository");
             }
+            if (costCentreRepository == null)
+            {
+                throw new ArgumentNullException("costCentreRepository");
+            }
+            if (stockItemRepository == null)
+            {
+                throw new ArgumentNullException("stockItemRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -213,6 +223,8 @@ namespace MPC.Implementation.MISServices
             this.templateRepository = templateRepository;
             this.itemStockOptionRepository = itemStockOptionRepository;
             this.itemAddOnCostCentreRepository = itemAddOnCostCentreRepository;
+            this.costCentreRepository = costCentreRepository;
+            this.stockItemRepository = stockItemRepository;
         }
 
         #endregion
@@ -363,6 +375,27 @@ namespace MPC.Implementation.MISServices
 
             // Save Changes
             itemRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Get Base Data
+        /// </summary>
+        /// <returns></returns>
+        public ItemBaseResponse GetBaseData()
+        {
+            return new ItemBaseResponse
+            {
+                CostCentres = costCentreRepository.GetAllNonSystemCostCentres()
+            };
+        }
+        
+        /// <summary>
+        /// Get Stock Items
+        /// Used in Products - Stock Item Selection
+        /// </summary>
+        public InventorySearchResponse GetStockItems(StockItemRequestModel request)
+        {
+            return stockItemRepository.GetStockItemsForProduct(request);
         }
 
         #endregion

@@ -726,6 +726,16 @@
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="CostCentreType">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsSystem" Type="smallint" Nullable="false" />
+          <Property Name="IsExternal" Type="smallint" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="CountryID" />
@@ -2678,6 +2688,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_costcentres_tbl_costcentretypes">
+          <End Role="CostCentreType" Type="Self.CostCentreType" Multiplicity="1" />
+          <End Role="CostCentre" Type="Self.CostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentreType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="CostCentre">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_CustomerTerritory_tbl_contactcompanies">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CompanyTerritory" Type="Self.CompanyTerritory" Multiplicity="*" />
@@ -3234,6 +3256,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="CompanyTerritory" EntityType="Self.CompanyTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyType" EntityType="Self.CompanyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentre" EntityType="Self.CostCentre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreType" EntityType="Self.CostCentreType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryNote" EntityType="Self.DeliveryNote" Schema="dbo" store:Type="Tables" />
@@ -3437,6 +3460,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_contacts_tbl_Registration_Questions" Association="Self.FK_tbl_contacts_tbl_Registration_Questions">
             <End Role="RegistrationQuestion" EntitySet="RegistrationQuestion" />
             <End Role="CompanyContact" EntitySet="CompanyContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_costcentres_tbl_costcentretypes" Association="Self.FK_tbl_costcentres_tbl_costcentretypes">
+            <End Role="CostCentreType" EntitySet="CostCentreType" />
+            <End Role="CostCentre" EntitySet="CostCentre" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_CustomerTerritory_tbl_contactcompanies" Association="Self.FK_tbl_CustomerTerritory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
@@ -3984,6 +4011,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_webcmsPageTags_webcmsTags" Association="DomainModels.FK_webcmsPageTags_webcmsTags">
             <End Role="CmsTag" EntitySet="CmsTags" />
             <End Role="CmsPageTag" EntitySet="CmsPageTags" />
+          </AssociationSet>
+          <EntitySet Name="CostCentreTypes" EntityType="DomainModels.CostCentreType" />
+          <AssociationSet Name="FK_tbl_costcentres_tbl_costcentretypes" Association="DomainModels.FK_tbl_costcentres_tbl_costcentretypes">
+            <End Role="CostCentreType" EntitySet="CostCentreTypes" />
+            <End Role="CostCentre" EntitySet="CostCentres" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -5046,6 +5078,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" FromRole="CostCentre" ToRole="SectionCostcentre" />
           <NavigationProperty Name="ItemAddonCostCentres" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="CostCentre" ToRole="ItemAddonCostCentre" />
+          <NavigationProperty Name="CostCentreType" Relationship="DomainModels.FK_tbl_costcentres_tbl_costcentretypes" FromRole="CostCentre" ToRole="CostCentreType" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -7325,6 +7358,29 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="CmsPageTag">
               <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CostCentreType">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsSystem" Type="Int16" Nullable="false" />
+          <Property Name="IsExternal" Type="Int16" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <NavigationProperty Name="CostCentres" Relationship="DomainModels.FK_tbl_costcentres_tbl_costcentretypes" FromRole="CostCentreType" ToRole="CostCentre" />
+        </EntityType>
+        <Association Name="FK_tbl_costcentres_tbl_costcentretypes">
+          <End Type="DomainModels.CostCentreType" Role="CostCentreType" Multiplicity="1" />
+          <End Type="DomainModels.CostCentre" Role="CostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentreType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="CostCentre">
+              <PropertyRef Name="Type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9734,6 +9790,17 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="TagSlug" ColumnName="TagSlug" />
                 <ScalarProperty Name="TagName" ColumnName="TagName" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCentreTypes">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreType">
+              <MappingFragment StoreEntitySet="CostCentreType">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsExternal" ColumnName="IsExternal" />
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

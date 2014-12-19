@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using System.Collections.Generic;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -39,5 +40,16 @@ namespace MPC.Interfaces.MISServices
         /// Archive Product
         /// </summary>
         void ArchiveProduct(long itemId);
+
+        /// <summary>
+        /// Get Base Data
+        /// </summary>
+        ItemBaseResponse GetBaseData();
+
+        /// <summary>
+        /// Get Stock Items for Stock Selection Dialog
+        /// Used in Products
+        /// </summary>
+        InventorySearchResponse GetStockItems(StockItemRequestModel request);
     }
 }
