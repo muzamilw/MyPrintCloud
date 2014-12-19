@@ -5,7 +5,7 @@
 @section leftmenue {
 
 }
-<div class="row" id="inventoryCategoriesBinding" >
+<div class="row" id="inventoryCategoriesBinding">
     <div class="col-lg-12" data-bind="visible: !$root.isStockCategoryEditorVisible()">
         <div class="row">
             <div class="col-lg-12">
@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-lg-12" data-bind="visible: $root.isStockCategoryEditorVisible(), with: $root.selectedStockCategory">
         <div class="row">
             <div class="col-lg-12">
@@ -67,7 +67,7 @@
                     <div class="pull-right top-page-ui">
                         <a data-toggle="modal" data-bind="click: $root.saveStockCategory" class=" btn btn-primary">
                             <i class="fa fa-plus-circle fa-lg"></i>Save
-                        </a> 
+                        </a>
                         <a data-toggle="modal" data-bind="click: $root.closeEditDialog" class=" btn btn-primary">
                             <i class="fa fa-plus-circle fa-lg"></i>Close
                         </a>
@@ -148,9 +148,9 @@
                                 @*<h2>Sub Categories</h2>*@
                                 <div class="filter-block pull-right">
                                     @*<div class="form-group pull-left">
-                                        <input type="text" class="form-control" placeholder="Search...">
-                                        <i class="fa fa-search search-icon"></i>
-                                    </div>*@
+                                            <input type="text" class="form-control" placeholder="Search...">
+                                            <i class="fa fa-search search-icon"></i>
+                                        </div>*@
                                     <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewStockSubCategory">
                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Sub Category
                                     </a>
@@ -181,7 +181,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <script id="actionsTemplate" type="text/html">
         <a class="table-link" data-bind="click : $root.onEditItem">
@@ -207,7 +207,7 @@
             </td>
         </tr>
     </script>
-    
+
     <script id="editActionStockSubCategoryTemplate" type="text/html">
         <a href="#" class="table-link" data-bind="click: $root.selectSubCategory, css: { selectedRow: $data === $root.selectedStockSubCategory() }">
             <span class="fa-stack">

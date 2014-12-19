@@ -47,6 +47,22 @@ define("product/product.view",
                 hideRelatedItemDialog = function () {
                     $("#relatedProductDialog").modal("hide");
                 },
+                // Show StockItem the dialog
+                showStockItemDialog = function () {
+                    $("#stockDialog").modal("show");
+                },
+                // Hide StockItem the dialog
+                hideStockItemDialog = function () {
+                    $("#stockDialog").modal("hide");
+                },
+                // Show ItemAddonCostCentre the dialog
+                showItemAddonCostCentreDialog = function () {
+                    $("#itemAddonCostCentreDialog").modal("show");
+                },
+                // Hide ItemAddonCostCentre the dialog
+                hideItemAddonCostCentreDialog = function () {
+                    $("#itemAddonCostCentreDialog").modal("hide");
+                },
                 // Initiate Dropzone events 
                 initiateDropzoneEvents = function (element, itemId, itemImageType, imageCaption, filePath) {
 
@@ -159,6 +175,10 @@ define("product/product.view",
                 hideVideoDialog: hideVideoDialog,
                 showRelatedItemDialog: showRelatedItemDialog,
                 hideRelatedItemDialog: hideRelatedItemDialog,
+                showStockItemDialog: showStockItemDialog,
+                hideStockItemDialog: hideStockItemDialog,
+                showItemAddonCostCentreDialog: showItemAddonCostCentreDialog,
+                hideItemAddonCostCentreDialog: hideItemAddonCostCentreDialog,
                 initializeDropZones: initializeDropZones
             };
         })(productViewModel);
