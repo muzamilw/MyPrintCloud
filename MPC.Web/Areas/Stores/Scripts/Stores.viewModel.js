@@ -18,16 +18,16 @@ define("stores/stores.viewModel",
                     //system Users
                     systemUsers = ko.observableArray([]),
                     //Tab User And Addressed, Addresses Section Company Territories Filter
-                addressCompanyTerritoriesFilter = ko.observableArray([]),
-                contactCompanyTerritoriesFilter = ko.observableArray([]),
-                //Addresses to be used in store users shipping and billing address
-                allCompanyAddressesList = ko.observableArray([]),
+                    addressCompanyTerritoriesFilter = ko.observableArray([]),
+                    contactCompanyTerritoriesFilter = ko.observableArray([]),
+                    //Addresses to be used in store users shipping and billing address
+                    allCompanyAddressesList = ko.observableArray([]),
                     //Company Banners
                     companyBanners = ko.observableArray([]),
-                //Roles
-                roles = ko.observableArray([]),
-                //RegistrationQuestions
-                registrationQuestions = ko.observableArray([]),
+                    //Roles
+                    roles = ko.observableArray([]),
+                    //RegistrationQuestions
+                    registrationQuestions = ko.observableArray([]),
                     //Filetered Company Bannens List
                     filteredCompanyBanners = ko.observableArray([]),
                     //Company Banner Set List
@@ -67,7 +67,7 @@ define("stores/stores.viewModel",
                         }
                     }),
                     //Selected Address
-                selectedCompanyContact = ko.observable(),
+                    selectedCompanyContact = ko.observable(),
                     //Make Edittable
                     makeEditable = ko.observable(false),
                     //Create New Store
@@ -138,111 +138,108 @@ define("stores/stores.viewModel",
                         //1- New saving company should have 1 address and 1 user
                         //2- if company is editting then company should have a 1 address and 1 user in database after saving
                         //1
-                        if ( !(addressPager().totalCount() + (newAddresses().length - deletedAddresses().length) > 1)) {
+                        if (!(addressPager().totalCount() + (newAddresses().length - deletedAddresses().length) > 1)) {
                             toastr.error("There Should be Atleast One Address to save this Store");
                             flag = false;
                         }
-                        if ( !(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length))) {
+                        if (!(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length))) {
                             toastr.error("There Should be Atleast One User to save this Store");
                             flag = false;
                         }
                         return flag;
                     },
-
                     //Save Store
                     saveStore = function (item) {
-                    if (doBeforeSave()) {
-                     
-                        var storeToSave = model.Store().convertToServerData(selectedStore());
+                        if (doBeforeSave()) {
 
-                        _.each(newCompanyTerritories(), function (territory) {
-                            storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
-                        });
-                        _.each(edittedCompanyTerritories(), function (territory) {
-                            storeToSave.EdittedCompanyTerritories.push(territory.convertToServerData());
-                        });
-                        _.each(deletedCompanyTerritories(), function (territory) {
-                            storeToSave.DeletedCompanyTerritories.push(territory.convertToServerData());
-                        });
+                            var storeToSave = model.Store().convertToServerData(selectedStore());
 
-                        //Secondary Pages
-                        _.each(newAddedSecondaryPage(), function (sPage) {
-                            storeToSave.NewAddedCmsPages.push(sPage.convertToServerData(sPage));
-                        });
-                        _.each(editedSecondaryPage(), function (sPage) {
-                            storeToSave.EditCmsPages.push(sPage.convertToServerData(sPage));
-                        });
-                        _.each(deletedSecondaryPage(), function (sPage) {
-                            storeToSave.DeletedCmsPages.push(sPage.convertToServerData(sPage));
-                        });
-                        //Page category
-                        _.each(pageCategories(), function (pageCategory) {
-                            storeToSave.PageCategories.push(pageCategory.convertToServerData(pageCategory));
-                        });
-                        _.each(companyBannerSetList(), function (bannerSet) {
-                            var bannerSetServer = bannerSet.convertToServerData(bannerSet);
-                            var banners = [];
-                            _.each(companyBanners(), function (banner) {
-                                if (banner.companySetId() === bannerSetServer.CompanySetId) {
-                                    banners.push(banner.convertToServerData(banner));
-                                }
+                            _.each(newCompanyTerritories(), function (territory) {
+                                storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
                             });
-                            ko.utils.arrayPushAll(bannerSetServer.CompanyBanners, banners);
-                            storeToSave.CompanyBannerSets.push(bannerSetServer);
-                            //storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
-                        });
-                        //Addresses
-                        _.each(newAddresses(), function (address) {
-                            storeToSave.NewAddedAddresses.push(address.convertToServerData());
-                        });
-                        _.each(edittedAddresses(), function (address) {
-                            storeToSave.EdittedAddresses.push(address.convertToServerData());
-                        });
-                        _.each(deletedAddresses(), function (address) {
-                            storeToSave.DeletedAddresses.push(address.convertToServerData());
-                        });
-                        //Company Contacts
-                        _.each(newCompanyContacts(), function (companyContact) {
-                            storeToSave.NewAddedCompanyContacts.push(companyContact.convertToServerData());
-                        });
-                        _.each(edittedCompanyContacts(), function (companyContact) {
-                            storeToSave.EdittedCompanyContacts.push(companyContact.convertToServerData());
-                        });
-                        _.each(deletedCompanyContacts(), function (companyContact) {
-                            storeToSave.DeletedCompanyContacts.push(companyContact.convertToServerData());
-                        });
-                        dataservice.saveStore(
-                            storeToSave, {
-                                success: function (data) {
-                                    //new store adding
-                                    if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
-                                        selectedStore().companyId(data.CompanyId);
-                                        stores.splice(0, 0, selectedStore());
+                            _.each(edittedCompanyTerritories(), function (territory) {
+                                storeToSave.EdittedCompanyTerritories.push(territory.convertToServerData());
+                            });
+                            _.each(deletedCompanyTerritories(), function (territory) {
+                                storeToSave.DeletedCompanyTerritories.push(territory.convertToServerData());
+                            });
+
+                            //Secondary Pages
+                            _.each(newAddedSecondaryPage(), function (sPage) {
+                                storeToSave.NewAddedCmsPages.push(sPage.convertToServerData(sPage));
+                            });
+                            _.each(editedSecondaryPage(), function (sPage) {
+                                storeToSave.EditCmsPages.push(sPage.convertToServerData(sPage));
+                            });
+                            _.each(deletedSecondaryPage(), function (sPage) {
+                                storeToSave.DeletedCmsPages.push(sPage.convertToServerData(sPage));
+                            });
+                            //Page category
+                            _.each(pageCategories(), function (pageCategory) {
+                                storeToSave.PageCategories.push(pageCategory.convertToServerData(pageCategory));
+                            });
+                            _.each(companyBannerSetList(), function (bannerSet) {
+                                var bannerSetServer = bannerSet.convertToServerData(bannerSet);
+                                var banners = [];
+                                _.each(companyBanners(), function (banner) {
+                                    if (banner.companySetId() === bannerSetServer.CompanySetId) {
+                                        banners.push(banner.convertToServerData(banner));
                                     }
-                                    //selectedStore().storeId(data.StoreId);
-                                    isStoreEditorVisible(false);
-                                    isEditorVisible(false);
-                                    toastr.success("Successfully save.");
-                                    resetObservableArrays();
-                                    newAddedSecondaryPage.removeAll();
-                                    editedSecondaryPage.removeAll();
-                                    deletedSecondaryPage.removeAll();
-                                },
-                                error: function (response) {
-                                    toastr.error("Failed to Update . Error: " + response);
-                                    isStoreEditorVisible(false);
-                                }
+                                });
+                                ko.utils.arrayPushAll(bannerSetServer.CompanyBanners, banners);
+                                storeToSave.CompanyBannerSets.push(bannerSetServer);
+                                //storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
                             });
-                    }
+                            //Addresses
+                            _.each(newAddresses(), function (address) {
+                                storeToSave.NewAddedAddresses.push(address.convertToServerData());
+                            });
+                            _.each(edittedAddresses(), function (address) {
+                                storeToSave.EdittedAddresses.push(address.convertToServerData());
+                            });
+                            _.each(deletedAddresses(), function (address) {
+                                storeToSave.DeletedAddresses.push(address.convertToServerData());
+                            });
+                            //Company Contacts
+                            _.each(newCompanyContacts(), function (companyContact) {
+                                storeToSave.NewAddedCompanyContacts.push(companyContact.convertToServerData());
+                            });
+                            _.each(edittedCompanyContacts(), function (companyContact) {
+                                storeToSave.EdittedCompanyContacts.push(companyContact.convertToServerData());
+                            });
+                            _.each(deletedCompanyContacts(), function (companyContact) {
+                                storeToSave.DeletedCompanyContacts.push(companyContact.convertToServerData());
+                            });
+                            dataservice.saveStore(
+                                storeToSave, {
+                                    success: function (data) {
+                                        //new store adding
+                                        if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
+                                            selectedStore().companyId(data.CompanyId);
+                                            stores.splice(0, 0, selectedStore());
+                                        }
+                                        //selectedStore().storeId(data.StoreId);
+                                        isStoreEditorVisible(false);
+                                        isEditorVisible(false);
+                                        toastr.success("Successfully save.");
+                                        resetObservableArrays();
+                                        newAddedSecondaryPage.removeAll();
+                                        editedSecondaryPage.removeAll();
+                                        deletedSecondaryPage.removeAll();
+                                    },
+                                    error: function (response) {
+                                        toastr.error("Failed to Update . Error: " + response);
+                                        isStoreEditorVisible(false);
+                                    }
+                                });
+                        }
                     },
                     //Open Store Dialog
                     openEditDialog = function () {
-
                         isEditorVisible(true);
                         getStoreForEditting();
                         view.initializeForm();
                         getBaseData();
-
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
@@ -298,7 +295,6 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
-
                     //Close Store Dialog
                     closeEditDialog = function () {
                         if (selectedStore() != undefined) {
@@ -322,6 +318,14 @@ define("stores/stores.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
+                                    systemUsers.removeAll();
+                                    addressCompanyTerritoriesFilter.removeAll();
+                                    contactCompanyTerritoriesFilter.removeAll();
+                                    addressTerritoryList.removeAll();
+                                    roles.removeAll();
+                                    registrationQuestions.removeAll();
+                                    allCompanyAddressesList.removeAll();
+                                    pageCategories.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
@@ -424,7 +428,7 @@ define("stores/stores.viewModel",
                     edittedCompanyTerritories = ko.observableArray([]),
                     newCompanyTerritories = ko.observableArray([]),
                     //Company Territory Pager
-                companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //CompanyTerritory Search Filter
                     searchCompanyTerritoryFilter = ko.observable(),
                     //Search Company Territory
@@ -713,33 +717,33 @@ define("stores/stores.viewModel",
                     selectedAddress = ko.observable(),
                     //SelectedAddressTerritoryFilter
                     addressTerritoryFilter = ko.observable(),
-                //List for Address Territory
-                addressTerritoryList = ko.observableArray([]),
+                    //List for Address Territory
+                    addressTerritoryList = ko.observableArray([]),
                     //Deleted Address
                     deletedAddresses = ko.observableArray([]),
                     edittedAddresses = ko.observableArray([]),
                     newAddresses = ko.observableArray([]),
-                shippingAddresses = ko.observableArray([]),
-                bussinessAddresses = ko.observableArray([]),
+                    shippingAddresses = ko.observableArray([]),
+                    bussinessAddresses = ko.observableArray([]),
                     selectedBussinessAddress = ko.observable(),
                     selectedShippingAddress = ko.observable(),
                     selectedBussinessAddressId = ko.observable(),
                     selectedShippingAddressId = ko.observable(),
-                //Populate addresses lists
-                populateAddressesList = ko.computed(function () {
-                    if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
-                        shippingAddresses.removeAll();
-                        bussinessAddresses.removeAll();
-                        _.each(allCompanyAddressesList(), function (item) {
-                            if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
-                                shippingAddresses.push(item);
-                            }
-                            if (item.isDefaultTerrorityBilling() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
-                                bussinessAddresses.push(item);
-                            }
-                        });
-                    }
-                }),
+                    //Populate addresses lists
+                    populateAddressesList = ko.computed(function () {
+                        if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
+                            shippingAddresses.removeAll();
+                            bussinessAddresses.removeAll();
+                            _.each(allCompanyAddressesList(), function (item) {
+                                if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
+                                    shippingAddresses.push(item);
+                                }
+                                if (item.isDefaultTerrorityBilling() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
+                                    bussinessAddresses.push(item);
+                                }
+                            });
+                        }
+                    }),
                     selectBussinessAddress = ko.computed(function () {
                         if (selectedBussinessAddressId() != undefined) {
                             _.each(allCompanyAddressesList(), function (item) {
@@ -775,7 +779,7 @@ define("stores/stores.viewModel",
                     //Address Pager
                     addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Contact Company Pager
-                 contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Secondary Page Pager
                     secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Address Search Filter
@@ -1121,7 +1125,7 @@ define("stores/stores.viewModel",
                 //Deleted Company Contact 
                 deletedCompanyContacts = ko.observableArray([]),
                 edittedCompanyContacts = ko.observableArray([]),
-                newCompanyContacts = ko.observableArray([]), 
+                newCompanyContacts = ko.observableArray([]),
                 //Company Contact  Pager
                 companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Company Contact Search Filter
