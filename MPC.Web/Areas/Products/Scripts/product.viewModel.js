@@ -224,6 +224,14 @@ define("product/product.viewModel",
                     closeStockItemDialog = function () {
                         view.hideStockItemDialog();
                     },
+                    // Open Item Addon Cost Centre Dialog
+                    openItemAddonCostCentreDialog = function () {
+                        view.showItemAddonCostCentreDialog();
+                    },
+                    // Close Item Addon Cost Centre Dialog
+                    closeItemAddonCostCentreDialog = function () {
+                        view.hideItemAddonCostCentreDialog();
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -538,7 +546,9 @@ define("product/product.viewModel",
                     searchStockItems: searchStockItems,
                     resetStockItems: resetStockItems,
                     openStockItemDialog: openStockItemDialog,
-                    closeStockItemDialog: closeStockItemDialog
+                    closeStockItemDialog: closeStockItemDialog,
+                    openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
+                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog
                     // Utility Methods
 
                 };

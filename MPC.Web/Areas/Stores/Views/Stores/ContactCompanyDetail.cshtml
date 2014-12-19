@@ -94,58 +94,64 @@
                                                 </div>
 
                                                 <div class="col-lg-6">
+                                                    @*<div class="btn-group" data-toggle="buttons">
+                                                        <label class="btn btn-primary">
+                                                            <input type="radio" name="options" id="option1">
+                                                            Corporate
+                                                        </label>
+                                                        <label class="btn btn-primary">
+                                                            <input type="radio" name="options" id="option2">
+                                                            Retail
+                                                        </label>
 
-                                                    @*<div class="btn-group" data-toggle="buttons">*@
-                                                    @*<label class="btn btn-primary" data-bind="css: { active: (type() == 'Supplier')}"><input type="radio" name="options" id="option1" value="Supplier">Supplier</label>*@
-                                                    @*<label class="btn btn-primary" data-bind="css: { active: (customerTypeCheck() == '1')}"><input type="radio" name="options" id="option2" value="1" data-bind="checked: customerTypeCheck">Retail</label>*@
-                                                    @*<label class="btn btn-primary" data-bind="css: { active: (type() == 'Prospect')}"><input type="radio" name="options" id="option3" value="Prospect">Prospect</label>*@
-                                                    @*<label class="btn btn-primary" data-bind="css: { active: (customerTypeCheck() == '3')}"><input type="radio" name="options" id="option4" value="3" data-bind="checked: customerTypeCheck">Corporate</label>*@
-
-                                                    @*</div>*@
-                                                    <div>
-
-                                                        <div><input type="radio" name="1" value="1" data-bind="checked: customerTypeCheck()" /> Retail</div>
-                                                        <div><input type="radio" name="1" value="3" data-bind="checked: customerTypeCheck()" /> Corporate</div>
-
+                                                    </div>*@
+                                                    <div class="btn-group" data-toggle="buttons">
+                                                        <label data-bind="css: { active: (type() == 1)}, click: function () { type(1); }, clickBubble: false" class="btn btn-primary">
+                                                            Retail
+                                                        </label>
+                                                        <label data-bind="css: { active: (type() == 3)}, click: function () { type(3); }, clickBubble: false" class="btn btn-primary">
+                                                            Corporate
+                                                        </label>
                                                     </div>
-                                                    <span class="help-block text-right">The store type determines how a store is accessed.</span>
-                                                </div>
+                                                    
+            <span class="help-block text-right">The store type determines how a store is accessed.</span>
+        </div>
 
-                                            </div>
-                                            <div class="form-group" data-bind="visible: type() == 'Corporate' || type() == 3">
-                                                <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
+    </div>
+    <div class="form-group" data-bind="visible: type() == 'Corporate' || type() == 3">
+        <div class="col-lg-3 text-right">
+            <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                </a>
 
-                                                    </div>
-                                                    <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
+            </div>
+            <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
 
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode">
-                                                    <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
-                                                </div>
-                                            </div>
-                                            @*<div class="form-group">
-                                                    <div class="col-lg-3 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
+        </div>
+        <div class="col-lg-6">
+            <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode">
+            <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
+        </div>
+    </div>
+    @*<div class="form-group">
+        <div class="col-lg-3 text-right">
+            <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
+                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
+                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                </a>
 
-                                                        </div>
-                                                        <label for="txtWebsiteURL" class="control-label text-right tooltip-float">Website Domain(s)</label>
+            </div>
+            <label for="txtWebsiteURL" class="control-label text-right tooltip-float">Website Domain(s)</label>
 
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea id="WebUrl" class="form-control" data-bind="value: url"></textarea>
-                                                        <span class="help-block text-right">You can have multiple domains point to your store enter each domain in new line.</span>
-                                                    </div>
-                                                </div>*@
+        </div>
+        <div class="col-lg-6">
+            <textarea id="WebUrl" class="form-control" data-bind="value: url"></textarea>
+            <span class="help-block text-right">You can have multiple domains point to your store enter each domain in new line.</span>
+        </div>
+    </div>*@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
 

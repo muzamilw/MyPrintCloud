@@ -98,6 +98,15 @@ define("inventoryCategory/inventoryCategory.viewModel",
                             selectedStockCategory().errors.showAllMessages();
                             flag = false;
                         }
+                        if (selectedStockCategory().stockSubCategories().length > 0) {
+                            _.each(selectedStockCategory().stockSubCategories(), function (item) {
+                                if (!item.isValid()) {
+                                    item.errors.showAllMessages();
+                                    flag = false;
+                                }
+                            });
+                        }
+                        
                         return flag;
                     },
                     //Save Stock Category
