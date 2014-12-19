@@ -60,12 +60,6 @@ define("stores/stores.viewModel",
                     templateToUse = function (store) {
                         return (store === selectedStore() ? 'editStoreTemplate' : 'itemStoreTemplate');
                     },
-                    //Computed call for  customer type
-                    customerType = ko.computed(function () {
-                        if (selectedStore() != undefined && selectedStore().type() != undefined) {
-                            //debugger;
-                        }
-                    }),
                     //Selected Address
                     selectedCompanyContact = ko.observable(),
                     //Make Edittable
@@ -823,7 +817,7 @@ define("stores/stores.viewModel",
                         });
                     },
                     addressTerritoryFilterSelected = ko.computed(function () {
-                        if (selectedStore() != null && selectedStore() != undefined) {
+                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
                             searchAddress();
                         }
                     }),
@@ -1169,7 +1163,7 @@ define("stores/stores.viewModel",
                     });
                 },
                 companyContactFilterSelected = ko.computed(function () {
-                    if (selectedStore() != null && selectedStore() != undefined) {
+                    if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
                         searchCompanyContact();
                     }
                 }),
@@ -1381,7 +1375,6 @@ define("stores/stores.viewModel",
                     resetObservableArrays: resetObservableArrays,
                     registrationQuestions: registrationQuestions,
                     roles: roles,
-                    customerType: customerType,
                     secondaryPagePager: secondaryPagePager,
                     selectedSecondaryPage: selectedSecondaryPage,
                     onEditSecondaryPage: onEditSecondaryPage,
