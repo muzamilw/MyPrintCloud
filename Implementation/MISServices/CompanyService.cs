@@ -40,7 +40,7 @@ namespace MPC.Implementation.MISServices
         private Company UpdateRaveReviewsOfUpdatingCompany(Company company)
         {
             var companyDbVersion = companyRepository.Find(company.CompanyId);
-            #region Sub Stock Categories Items
+            #region Rave Reviews
             //Add  rave reviews
             if (company.RaveReviews != null)
             {
