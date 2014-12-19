@@ -920,6 +920,20 @@
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="FieldVariable">
+          <Key>
+            <PropertyRef Name="VariableId" />
+          </Key>
+          <Property Name="VariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VariableName" Type="varchar" MaxLength="200" />
+          <Property Name="RefTableName" Type="varchar" MaxLength="200" />
+          <Property Name="CriteriaFieldName" Type="varchar" MaxLength="200" />
+          <Property Name="VariableSectionId" Type="int" />
+          <Property Name="VariableTag" Type="varchar" MaxLength="200" />
+          <Property Name="SortOrder" Type="int" />
+          <Property Name="KeyField" Type="varchar" MaxLength="100" />
+          <Property Name="VariableType" Type="int" />
+        </EntityType>
         <EntityType Name="GlobalLanguage">
           <Key>
             <PropertyRef Name="LanguageId" />
@@ -2208,7 +2222,6 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="255" />
           <Property Name="Description" Type="text" />
-          <Property Name="ProductCategoryId" Type="bigint" />
           <Property Name="LowResPDFTemplates" Type="text" />
           <Property Name="BackgroundArtwork" Type="text" />
           <Property Name="Side2LowResPDFTemplates" Type="text" />
@@ -2262,6 +2275,98 @@
           <Property Name="isCreatedManual" Type="bit" />
           <Property Name="isEditorChoice" Type="bit" />
         </EntityType>
+        <EntityType Name="TemplateBackgroundImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="ImageName" Type="varchar" MaxLength="300" />
+          <Property Name="Name" Type="varchar" MaxLength="300" />
+          <Property Name="flgPhotobook" Type="bit" />
+          <Property Name="flgCover" Type="bit" />
+          <Property Name="BackgroundImageAbsolutePath" Type="nvarchar" MaxLength="500" />
+          <Property Name="BackgroundImageRelativePath" Type="nvarchar" MaxLength="500" />
+          <Property Name="ImageType" Type="int" />
+          <Property Name="ImageWidth" Type="int" />
+          <Property Name="ImageHeight" Type="int" />
+          <Property Name="ImageTitle" Type="nvarchar(max)" />
+          <Property Name="ImageDescription" Type="nvarchar(max)" />
+          <Property Name="ImageKeywords" Type="nvarchar(max)" />
+          <Property Name="UploadedFrom" Type="int" />
+          <Property Name="ContactCompanyId" Type="int" />
+          <Property Name="ContactId" Type="int" />
+        </EntityType>
+        <EntityType Name="TemplateObject">
+          <Key>
+            <PropertyRef Name="ObjectId" />
+          </Key>
+          <Property Name="ObjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ObjectType" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsEditable" Type="bit" />
+          <Property Name="IsHidden" Type="bit" />
+          <Property Name="IsMandatory" Type="bit" />
+          <Property Name="PositionX" Type="float" />
+          <Property Name="PositionY" Type="float" />
+          <Property Name="MaxHeight" Type="float" />
+          <Property Name="MaxWidth" Type="float" />
+          <Property Name="MaxCharacters" Type="float" />
+          <Property Name="RotationAngle" Type="float" />
+          <Property Name="IsFontCustom" Type="bit" />
+          <Property Name="IsFontNamePrivate" Type="bit" />
+          <Property Name="FontName" Type="varchar" MaxLength="200" />
+          <Property Name="FontSize" Type="float" />
+          <Property Name="FontStyleId" Type="int" />
+          <Property Name="IsBold" Type="bit" />
+          <Property Name="IsItalic" Type="bit" />
+          <Property Name="Allignment" Type="int" />
+          <Property Name="VAllignment" Type="int" />
+          <Property Name="Indent" Type="float" />
+          <Property Name="IsUnderlinedText" Type="bit" />
+          <Property Name="ColorType" Type="int" />
+          <Property Name="ColorStyleId" Type="int" />
+          <Property Name="PalleteId" Type="int" />
+          <Property Name="ColorName" Type="varchar" MaxLength="50" />
+          <Property Name="ColorC" Type="int" />
+          <Property Name="ColorM" Type="int" />
+          <Property Name="ColorY" Type="int" />
+          <Property Name="ColorK" Type="int" />
+          <Property Name="Tint" Type="int" />
+          <Property Name="IsSpotColor" Type="bit" />
+          <Property Name="SpotColorName" Type="varchar" MaxLength="150" />
+          <Property Name="ContentString" Type="nvarchar(max)" />
+          <Property Name="ContentCaseType" Type="int" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="DisplayOrderPdf" Type="int" />
+          <Property Name="DisplayOrderTxtControl" Type="int" />
+          <Property Name="IsRequireNumericValue" Type="bit" />
+          <Property Name="RColor" Type="int" />
+          <Property Name="GColor" Type="int" />
+          <Property Name="BColor" Type="int" />
+          <Property Name="isSide2Object" Type="bit" />
+          <Property Name="LineSpacing" Type="float" />
+          <Property Name="ProductPageId" Type="int" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="CircleRadiusX" Type="float" />
+          <Property Name="Opacity" Type="float" />
+          <Property Name="IsNewLine" Type="bit" />
+          <Property Name="TCtlName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExField1" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExField2" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsPositionLocked" Type="bit" />
+          <Property Name="ColorHex" Type="nvarchar" MaxLength="9" />
+          <Property Name="CircleRadiusY" Type="float" />
+          <Property Name="IsTextEditable" Type="bit" />
+          <Property Name="QuickTextOrder" Type="int" />
+          <Property Name="IsQuickText" Type="bit" />
+          <Property Name="CharSpacing" Type="float" />
+          <Property Name="watermarkText" Type="nvarchar" MaxLength="255" />
+          <Property Name="textStyles" Type="nvarchar(max)" />
+          <Property Name="AutoShrinkText" Type="bit" />
+          <Property Name="IsOverlayObject" Type="bit" />
+          <Property Name="ClippedInfo" Type="xml" />
+        </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
             <PropertyRef Name="ProductPageId" />
@@ -2282,6 +2387,22 @@
           <Property Name="hasOverlayObjects" Type="bit" />
           <Property Name="Width" Type="float" />
           <Property Name="Height" Type="float" />
+        </EntityType>
+        <EntityType Name="TemplateVariable">
+          <Key>
+            <PropertyRef Name="ProductVariableId" />
+          </Key>
+          <Property Name="ProductVariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateId" Type="int" />
+          <Property Name="VariableId" Type="int" />
+        </EntityType>
+        <EntityType Name="VariableSection">
+          <Key>
+            <PropertyRef Name="VariableSectionId" />
+          </Key>
+          <Property Name="VariableSectionId" Type="bigint" Nullable="false" />
+          <Property Name="SectionName" Type="varchar" MaxLength="200" />
+          <Property Name="SectionDescription" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="WeightUnit">
           <Key>
@@ -2482,6 +2603,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Objects_Products">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplateObject" Type="Self.TemplateObject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateObject">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PageCategory_CmsPage">
           <End Role="PageCategory" Type="Self.PageCategory" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -2494,15 +2627,15 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Products_tbl_ProductCategory">
-          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
-          <End Role="Template" Type="Self.Template" Multiplicity="*" />
+        <Association Name="FK_ProductBackgroundImages_Products">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ProductCategory">
-              <PropertyRef Name="ProductCategoryId" />
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
             </Principal>
-            <Dependent Role="Template">
-              <PropertyRef Name="ProductCategoryId" />
+            <Dependent Role="TemplateBackgroundImage">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3231,6 +3364,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
         <Function Name="funGetMiniumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="ItemID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_cloneTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
@@ -3264,6 +3398,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="DiscountVoucher" EntityType="Self.DiscountVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailEvent" EntityType="Self.EmailEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FieldVariable" EntityType="Self.FieldVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
@@ -3310,7 +3445,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="SystemEmail" EntityType="Self.SystemEmail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateBackgroundImage" EntityType="Self.TemplateBackgroundImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateObject" EntityType="Self.TemplateObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplatePage" EntityType="Self.TemplatePage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateVariable" EntityType="Self.TemplateVariable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
@@ -3393,13 +3532,17 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
           </AssociationSet>
+          <AssociationSet Name="FK_Objects_Products" Association="Self.FK_Objects_Products">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplateObject" EntitySet="TemplateObject" />
+          </AssociationSet>
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategory" />
             <End Role="CmsPage" EntitySet="CmsPage" />
           </AssociationSet>
-          <AssociationSet Name="FK_Products_tbl_ProductCategory" Association="Self.FK_Products_tbl_ProductCategory">
-            <End Role="ProductCategory" EntitySet="ProductCategory" />
+          <AssociationSet Name="FK_ProductBackgroundImages_Products" Association="Self.FK_ProductBackgroundImages_Products">
             <End Role="Template" EntitySet="Template" />
+            <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
           </AssociationSet>
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
@@ -3976,10 +4119,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="ColorPalletes" EntityType="DomainModels.ColorPallete" />
           <EntitySet Name="Templates" EntityType="DomainModels.Template" />
           <EntitySet Name="TemplatePages" EntityType="DomainModels.TemplatePage" />
-          <AssociationSet Name="FK_Products_tbl_ProductCategory" Association="DomainModels.FK_Products_tbl_ProductCategory">
-            <End Role="ProductCategory" EntitySet="ProductCategories" />
-            <End Role="Template" EntitySet="Templates" />
-          </AssociationSet>
           <AssociationSet Name="FK_Templates_TemplatePages" Association="DomainModels.FK_Templates_TemplatePages">
             <End Role="Template" EntitySet="Templates" />
             <End Role="TemplatePage" EntitySet="TemplatePages" />
@@ -4016,6 +4155,20 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_tbl_costcentres_tbl_costcentretypes" Association="DomainModels.FK_tbl_costcentres_tbl_costcentretypes">
             <End Role="CostCentreType" EntitySet="CostCentreTypes" />
             <End Role="CostCentre" EntitySet="CostCentres" />
+          </AssociationSet>
+          <EntitySet Name="FieldVariables" EntityType="DomainModels.FieldVariable" />
+          <EntitySet Name="TemplateVariables" EntityType="DomainModels.TemplateVariable" />
+          <EntitySet Name="VariableSections" EntityType="DomainModels.VariableSection" />
+          <FunctionImport Name="sp_cloneTemplate" />
+          <EntitySet Name="TemplateBackgroundImages" EntityType="DomainModels.TemplateBackgroundImage" />
+          <EntitySet Name="TemplateObjects" EntityType="DomainModels.TemplateObject" />
+          <AssociationSet Name="FK_Objects_Products" Association="DomainModels.FK_Objects_Products">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="TemplateObject" EntitySet="TemplateObjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductBackgroundImages_Products" Association="DomainModels.FK_ProductBackgroundImages_Products">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImages" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -4342,7 +4495,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="IsShowProductDescription" Type="Boolean" />
           <Property Name="IsShowProductShortDescription" Type="Boolean" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
-          <NavigationProperty Name="Templates" Relationship="DomainModels.FK_Products_tbl_ProductCategory" FromRole="ProductCategory" ToRole="Template" />
           </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -7130,7 +7282,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ProductCategoryId" Type="Int64" />
           <Property Name="LowResPDFTemplates" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="BackgroundArtwork" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Side2LowResPDFTemplates" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -7183,9 +7334,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="isSpotTemplate" Type="Boolean" />
           <Property Name="isCreatedManual" Type="Boolean" />
           <Property Name="isEditorChoice" Type="Boolean" />
-          <NavigationProperty Name="ProductCategory" Relationship="DomainModels.FK_Products_tbl_ProductCategory" FromRole="Template" ToRole="ProductCategory" />
           <NavigationProperty Name="TemplatePages" Relationship="DomainModels.FK_Templates_TemplatePages" FromRole="Template" ToRole="TemplatePage" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Template_Items" FromRole="Template" ToRole="Item" />
+          <NavigationProperty Name="TemplateObjects" Relationship="DomainModels.FK_Objects_Products" FromRole="Template" ToRole="TemplateObject" />
+          <NavigationProperty Name="TemplateBackgroundImages" Relationship="DomainModels.FK_ProductBackgroundImages_Products" FromRole="Template" ToRole="TemplateBackgroundImage" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -7209,18 +7361,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="Width" Type="Double" />
           <Property Name="Height" Type="Double" />
         </EntityType>
-        <Association Name="FK_Products_tbl_ProductCategory">
-          <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-          <End Type="DomainModels.Template" Role="Template" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductCategory">
-              <PropertyRef Name="ProductCategoryId" />
-            </Principal>
-            <Dependent Role="Template">
-              <PropertyRef Name="ProductCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Templates_TemplatePages">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
           <End Type="DomainModels.TemplatePage" Role="TemplatePage" Multiplicity="*" />
@@ -7381,6 +7521,154 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="CostCentre">
               <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FieldVariable">
+          <Key>
+            <PropertyRef Name="VariableId" />
+          </Key>
+          <Property Name="VariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VariableName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RefTableName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CriteriaFieldName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VariableSectionId" Type="Int32" />
+          <Property Name="VariableTag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="KeyField" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VariableType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TemplateVariable">
+          <Key>
+            <PropertyRef Name="ProductVariableId" />
+          </Key>
+          <Property Name="ProductVariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateId" Type="Int32" />
+          <Property Name="VariableId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="VariableSection">
+          <Key>
+            <PropertyRef Name="VariableSectionId" />
+          </Key>
+          <Property Name="VariableSectionId" Type="Int64" Nullable="false" />
+          <Property Name="SectionName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SectionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TemplateBackgroundImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="ImageName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="flgPhotobook" Type="Boolean" />
+          <Property Name="flgCover" Type="Boolean" />
+          <Property Name="BackgroundImageAbsolutePath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BackgroundImageRelativePath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ImageType" Type="Int32" />
+          <Property Name="ImageWidth" Type="Int32" />
+          <Property Name="ImageHeight" Type="Int32" />
+          <Property Name="ImageTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UploadedFrom" Type="Int32" />
+          <Property Name="ContactCompanyId" Type="Int32" />
+          <Property Name="ContactId" Type="Int32" />
+          <NavigationProperty Name="Template" Relationship="DomainModels.FK_ProductBackgroundImages_Products" FromRole="TemplateBackgroundImage" ToRole="Template" />
+        </EntityType>
+        <EntityType Name="TemplateObject">
+          <Key>
+            <PropertyRef Name="ObjectId" />
+          </Key>
+          <Property Name="ObjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ObjectType" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsEditable" Type="Boolean" />
+          <Property Name="IsHidden" Type="Boolean" />
+          <Property Name="IsMandatory" Type="Boolean" />
+          <Property Name="PositionX" Type="Double" />
+          <Property Name="PositionY" Type="Double" />
+          <Property Name="MaxHeight" Type="Double" />
+          <Property Name="MaxWidth" Type="Double" />
+          <Property Name="MaxCharacters" Type="Double" />
+          <Property Name="RotationAngle" Type="Double" />
+          <Property Name="IsFontCustom" Type="Boolean" />
+          <Property Name="IsFontNamePrivate" Type="Boolean" />
+          <Property Name="FontName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FontSize" Type="Double" />
+          <Property Name="FontStyleId" Type="Int32" />
+          <Property Name="IsBold" Type="Boolean" />
+          <Property Name="IsItalic" Type="Boolean" />
+          <Property Name="Allignment" Type="Int32" />
+          <Property Name="VAllignment" Type="Int32" />
+          <Property Name="Indent" Type="Double" />
+          <Property Name="IsUnderlinedText" Type="Boolean" />
+          <Property Name="ColorType" Type="Int32" />
+          <Property Name="ColorStyleId" Type="Int32" />
+          <Property Name="PalleteId" Type="Int32" />
+          <Property Name="ColorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ColorC" Type="Int32" />
+          <Property Name="ColorM" Type="Int32" />
+          <Property Name="ColorY" Type="Int32" />
+          <Property Name="ColorK" Type="Int32" />
+          <Property Name="Tint" Type="Int32" />
+          <Property Name="IsSpotColor" Type="Boolean" />
+          <Property Name="SpotColorName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ContentString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContentCaseType" Type="Int32" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="DisplayOrderPdf" Type="Int32" />
+          <Property Name="DisplayOrderTxtControl" Type="Int32" />
+          <Property Name="IsRequireNumericValue" Type="Boolean" />
+          <Property Name="RColor" Type="Int32" />
+          <Property Name="GColor" Type="Int32" />
+          <Property Name="BColor" Type="Int32" />
+          <Property Name="isSide2Object" Type="Boolean" />
+          <Property Name="LineSpacing" Type="Double" />
+          <Property Name="ProductPageId" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="CircleRadiusX" Type="Double" />
+          <Property Name="Opacity" Type="Double" />
+          <Property Name="IsNewLine" Type="Boolean" />
+          <Property Name="TCtlName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExField1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExField2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsPositionLocked" Type="Boolean" />
+          <Property Name="ColorHex" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="CircleRadiusY" Type="Double" />
+          <Property Name="IsTextEditable" Type="Boolean" />
+          <Property Name="QuickTextOrder" Type="Int32" />
+          <Property Name="IsQuickText" Type="Boolean" />
+          <Property Name="CharSpacing" Type="Double" />
+          <Property Name="watermarkText" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="textStyles" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AutoShrinkText" Type="Boolean" />
+          <Property Name="IsOverlayObject" Type="Boolean" />
+          <Property Name="ClippedInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Template" Relationship="DomainModels.FK_Objects_Products" FromRole="TemplateObject" ToRole="Template" />
+        </EntityType>
+        <Association Name="FK_Objects_Products">
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="DomainModels.TemplateObject" Role="TemplateObject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateObject">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductBackgroundImages_Products">
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="DomainModels.TemplateBackgroundImage" Role="TemplateBackgroundImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateBackgroundImage">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9706,7 +9994,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="Side2LowResPDFTemplates" ColumnName="Side2LowResPDFTemplates" />
                 <ScalarProperty Name="BackgroundArtwork" ColumnName="BackgroundArtwork" />
                 <ScalarProperty Name="LowResPDFTemplates" ColumnName="LowResPDFTemplates" />
-                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -9801,6 +10088,134 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
                 <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FieldVariables">
+            <EntityTypeMapping TypeName="DomainModels.FieldVariable">
+              <MappingFragment StoreEntitySet="FieldVariable">
+                <ScalarProperty Name="VariableType" ColumnName="VariableType" />
+                <ScalarProperty Name="KeyField" ColumnName="KeyField" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="VariableTag" ColumnName="VariableTag" />
+                <ScalarProperty Name="VariableSectionId" ColumnName="VariableSectionId" />
+                <ScalarProperty Name="CriteriaFieldName" ColumnName="CriteriaFieldName" />
+                <ScalarProperty Name="RefTableName" ColumnName="RefTableName" />
+                <ScalarProperty Name="VariableName" ColumnName="VariableName" />
+                <ScalarProperty Name="VariableId" ColumnName="VariableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateVariables">
+            <EntityTypeMapping TypeName="DomainModels.TemplateVariable">
+              <MappingFragment StoreEntitySet="TemplateVariable">
+                <ScalarProperty Name="VariableId" ColumnName="VariableId" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="ProductVariableId" ColumnName="ProductVariableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VariableSections">
+            <EntityTypeMapping TypeName="DomainModels.VariableSection">
+              <MappingFragment StoreEntitySet="VariableSection">
+                <ScalarProperty Name="SectionDescription" ColumnName="SectionDescription" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="VariableSectionId" ColumnName="VariableSectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_cloneTemplate" FunctionName="DomainModels.Store.sp_cloneTemplate" />
+          <EntitySetMapping Name="TemplateBackgroundImages">
+            <EntityTypeMapping TypeName="DomainModels.TemplateBackgroundImage">
+              <MappingFragment StoreEntitySet="TemplateBackgroundImage">
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="UploadedFrom" ColumnName="UploadedFrom" />
+                <ScalarProperty Name="ImageKeywords" ColumnName="ImageKeywords" />
+                <ScalarProperty Name="ImageDescription" ColumnName="ImageDescription" />
+                <ScalarProperty Name="ImageTitle" ColumnName="ImageTitle" />
+                <ScalarProperty Name="ImageHeight" ColumnName="ImageHeight" />
+                <ScalarProperty Name="ImageWidth" ColumnName="ImageWidth" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="BackgroundImageRelativePath" ColumnName="BackgroundImageRelativePath" />
+                <ScalarProperty Name="BackgroundImageAbsolutePath" ColumnName="BackgroundImageAbsolutePath" />
+                <ScalarProperty Name="flgCover" ColumnName="flgCover" />
+                <ScalarProperty Name="flgPhotobook" ColumnName="flgPhotobook" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateObjects">
+            <EntityTypeMapping TypeName="DomainModels.TemplateObject">
+              <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="ClippedInfo" ColumnName="ClippedInfo" />
+                <ScalarProperty Name="IsOverlayObject" ColumnName="IsOverlayObject" />
+                <ScalarProperty Name="AutoShrinkText" ColumnName="AutoShrinkText" />
+                <ScalarProperty Name="textStyles" ColumnName="textStyles" />
+                <ScalarProperty Name="watermarkText" ColumnName="watermarkText" />
+                <ScalarProperty Name="CharSpacing" ColumnName="CharSpacing" />
+                <ScalarProperty Name="IsQuickText" ColumnName="IsQuickText" />
+                <ScalarProperty Name="QuickTextOrder" ColumnName="QuickTextOrder" />
+                <ScalarProperty Name="IsTextEditable" ColumnName="IsTextEditable" />
+                <ScalarProperty Name="CircleRadiusY" ColumnName="CircleRadiusY" />
+                <ScalarProperty Name="ColorHex" ColumnName="ColorHex" />
+                <ScalarProperty Name="IsPositionLocked" ColumnName="IsPositionLocked" />
+                <ScalarProperty Name="ExField2" ColumnName="ExField2" />
+                <ScalarProperty Name="ExField1" ColumnName="ExField1" />
+                <ScalarProperty Name="TCtlName" ColumnName="TCtlName" />
+                <ScalarProperty Name="IsNewLine" ColumnName="IsNewLine" />
+                <ScalarProperty Name="Opacity" ColumnName="Opacity" />
+                <ScalarProperty Name="CircleRadiusX" ColumnName="CircleRadiusX" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ProductPageId" ColumnName="ProductPageId" />
+                <ScalarProperty Name="LineSpacing" ColumnName="LineSpacing" />
+                <ScalarProperty Name="isSide2Object" ColumnName="isSide2Object" />
+                <ScalarProperty Name="BColor" ColumnName="BColor" />
+                <ScalarProperty Name="GColor" ColumnName="GColor" />
+                <ScalarProperty Name="RColor" ColumnName="RColor" />
+                <ScalarProperty Name="IsRequireNumericValue" ColumnName="IsRequireNumericValue" />
+                <ScalarProperty Name="DisplayOrderTxtControl" ColumnName="DisplayOrderTxtControl" />
+                <ScalarProperty Name="DisplayOrderPdf" ColumnName="DisplayOrderPdf" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ContentCaseType" ColumnName="ContentCaseType" />
+                <ScalarProperty Name="ContentString" ColumnName="ContentString" />
+                <ScalarProperty Name="SpotColorName" ColumnName="SpotColorName" />
+                <ScalarProperty Name="IsSpotColor" ColumnName="IsSpotColor" />
+                <ScalarProperty Name="Tint" ColumnName="Tint" />
+                <ScalarProperty Name="ColorK" ColumnName="ColorK" />
+                <ScalarProperty Name="ColorY" ColumnName="ColorY" />
+                <ScalarProperty Name="ColorM" ColumnName="ColorM" />
+                <ScalarProperty Name="ColorC" ColumnName="ColorC" />
+                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
+                <ScalarProperty Name="PalleteId" ColumnName="PalleteId" />
+                <ScalarProperty Name="ColorStyleId" ColumnName="ColorStyleId" />
+                <ScalarProperty Name="ColorType" ColumnName="ColorType" />
+                <ScalarProperty Name="IsUnderlinedText" ColumnName="IsUnderlinedText" />
+                <ScalarProperty Name="Indent" ColumnName="Indent" />
+                <ScalarProperty Name="VAllignment" ColumnName="VAllignment" />
+                <ScalarProperty Name="Allignment" ColumnName="Allignment" />
+                <ScalarProperty Name="IsItalic" ColumnName="IsItalic" />
+                <ScalarProperty Name="IsBold" ColumnName="IsBold" />
+                <ScalarProperty Name="FontStyleId" ColumnName="FontStyleId" />
+                <ScalarProperty Name="FontSize" ColumnName="FontSize" />
+                <ScalarProperty Name="FontName" ColumnName="FontName" />
+                <ScalarProperty Name="IsFontNamePrivate" ColumnName="IsFontNamePrivate" />
+                <ScalarProperty Name="IsFontCustom" ColumnName="IsFontCustom" />
+                <ScalarProperty Name="RotationAngle" ColumnName="RotationAngle" />
+                <ScalarProperty Name="MaxCharacters" ColumnName="MaxCharacters" />
+                <ScalarProperty Name="MaxWidth" ColumnName="MaxWidth" />
+                <ScalarProperty Name="MaxHeight" ColumnName="MaxHeight" />
+                <ScalarProperty Name="PositionY" ColumnName="PositionY" />
+                <ScalarProperty Name="PositionX" ColumnName="PositionX" />
+                <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
+                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
+                <ScalarProperty Name="IsEditable" ColumnName="IsEditable" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
