@@ -68,6 +68,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
                 ItemWeight = source.ItemWeight,
+                ItemDescription = source.ItemDescription,
                 CategoryName = source.StockCategory != null ? source.StockCategory.Name : string.Empty,
                 FullCategoryName = (source.StockCategory != null ? source.StockCategory.Name : string.Empty) + (source.StockSubCategory != null ? "  ( " + source.StockSubCategory.Name + " )" : string.Empty),
                 SubCategoryName = source.StockSubCategory != null ? source.StockSubCategory.Name : string.Empty,

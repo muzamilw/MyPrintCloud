@@ -218,6 +218,7 @@ define("product/product.viewModel",
                     // Open Stock Item Dialog
                     openStockItemDialog = function () {
                         view.showStockItemDialog();
+                        searchStockItems();
                     },
                     // Close Stock Item Dialog
                     closeStockItemDialog = function () {

@@ -156,6 +156,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             template = ko.observable(Template.Create({})),
             // Item Stock options
             itemStockOptions = ko.observableArray([]),
+            // Active Stock Option
+            activeStockOption = ko.observable(),
+            // choose stock item
+            chooseStockItem  = function(stockOption) {
+                if (activeStockOption() !== stockOption) {
+                    activeStockOption(stockOption);
+                }
+
+                if (callbacks && typeof callbacks.onChooseStockItem === "function") {
+                    callbacks.onChooseStockItem();
+                }
+            },
+            // On Select Stock Item
+            onSelectStockItem = function(stockItem) {
+                activeStockOption().selectStockItem(stockItem);
+                activeStockOption(undefined);
+            },
             // Can Add Item Vdp Price
             canAddItemVdpPrice = ko.computed(function () {
                 return itemVdpPrices.length < 15;
@@ -429,6 +446,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStockOptions: itemStockOptions,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
+            chooseStockItem: chooseStockItem,
+            activeStockOption: activeStockOption,
+            onSelectStockItem: onSelectStockItem,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -794,6 +814,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemAddonCostCentre = function (itemAddonCostCentre) {
                 itemAddonCostCentres.remove(itemAddonCostCentre);
             },
+            // Select Stock Item
+            selectStock = function(stockItem) {
+                if (stockItemId() === stockItem.id) {
+                    return;
+                }
+
+                stockItemId(stockItem.id);
+                stockItemName(stockItem.name);
+                stockItemDescription(stockItem.description);
+            },
             // Errors
             errors = ko.validation.group({
             }),
@@ -848,6 +878,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemAddonCostCentres: itemAddonCostCentres,
             addItemAddonCostCentre: addItemAddonCostCentre,
             removeItemAddonCostCentre: removeItemAddonCostCentre,
+            selectStock: selectStock,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -921,13 +952,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Stock Item Entity        
-    StockItem = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight) {
+    StockItem = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
         return {
             id: specifiedId,
             name: specifiedName,
             category: specifiedCategoryName,
             location: specifiedLocation,
-            weight: specifiedWeight
+            weight: specifiedWeight,
+            description: specifiedDescription
         }
     },
         
@@ -1095,7 +1127,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Stock Item Factory
     StockItem.Create = function(source) {
-        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight);
+        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
     }
 
     // Cost Centre Factory
