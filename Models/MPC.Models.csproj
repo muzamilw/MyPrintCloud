@@ -124,6 +124,7 @@
     <Compile Include="Common\SectionIds.cs" />
     <Compile Include="Common\SecurityRoles.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
+    <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\Campaign.cs" />

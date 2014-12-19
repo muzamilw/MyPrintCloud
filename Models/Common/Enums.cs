@@ -114,4 +114,9 @@ namespace MPC.Models.Common
         InventoryItem = 5
     }
 
+    public enum ItemStatuses
+    {
+        ShoppingCart = 3,
+        NotProgressedToJob = 17
+    }
 }
