@@ -135,9 +135,17 @@ define("stores/stores.viewModel",
                             selectedStore().errors.showAllMessages();
                             flag = false;
                         }
-                    //if (flag && ) {
-                        
-                    //}
+                        //1- New saving company should have 1 address and 1 user
+                        //2- if company is editting then company should have a 1 address and 1 user in database after saving
+                        //1
+                        if ( !(addressPager().totalCount() + (newAddresses().length - deletedAddresses().length) > 1)) {
+                            toastr.error("There Should be Atleast One Address to save this Store");
+                            flag = false;
+                        }
+                        if ( !(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length))) {
+                            toastr.error("There Should be Atleast One User to save this Store");
+                            flag = false;
+                        }
                         return flag;
                     },
 
@@ -1113,7 +1121,7 @@ define("stores/stores.viewModel",
                 //Deleted Company Contact 
                 deletedCompanyContacts = ko.observableArray([]),
                 edittedCompanyContacts = ko.observableArray([]),
-                newCompanyContacts = ko.observableArray([]),
+                newCompanyContacts = ko.observableArray([]), 
                 //Company Contact  Pager
                 companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Company Contact Search Filter
