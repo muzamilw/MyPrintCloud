@@ -12,7 +12,7 @@ define("inventory/inventory.dataservice", function () {
                 if (!isInitialized) {
 
                     // Define request to get Stock Items
-                    amplify.request.define('getInventories', 'ajax', {
+                    amplify.request.define('getInventoriesList', 'ajax', {
                         url: ist.siteUrl + '/Api/Inventory',
                         dataType: 'json',
                         type: 'GET'
@@ -49,10 +49,10 @@ define("inventory/inventory.dataservice", function () {
             },
 
             // get Stock items
-            getInventories = function (params, callbacks) {
+            getInventoriesList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getInventories',
+                    resourceId: 'getInventoriesList',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -100,7 +100,7 @@ define("inventory/inventory.dataservice", function () {
             };
 
         return {
-            getInventories: getInventories,
+            getInventoriesList: getInventoriesList,
             getInventoryBase: getInventoryBase,
             deleteInventory: deleteInventory,
             saveInventory: saveInventory,
