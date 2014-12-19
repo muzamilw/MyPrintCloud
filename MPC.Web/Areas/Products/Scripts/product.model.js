@@ -156,6 +156,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             template = ko.observable(Template.Create({})),
             // Item Stock options
             itemStockOptions = ko.observableArray([]),
+            // Active Stock Option
+            activeStockOption = ko.observable(),
+            // choose stock item
+            chooseStockItem  = function(stockOption) {
+                selectItemStockOption(stockOption);
+
+                if (callbacks && typeof callbacks.onChooseStockItem === "function") {
+                    callbacks.onChooseStockItem();
+                }
+            },
+            // Select Item Stock Option
+            selectItemStockOption = function(stockOption) {
+                if (activeStockOption() !== stockOption) {
+                    activeStockOption(stockOption);
+                }
+            },
+            // On Select Stock Item
+            onSelectStockItem = function(stockItem) {
+                activeStockOption().selectStockItem(stockItem);
+                activeStockOption(undefined);
+            },
             // Can Add Item Vdp Price
             canAddItemVdpPrice = ko.computed(function () {
                 return itemVdpPrices.length < 15;
@@ -208,6 +229,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Remove Item Stock Option
             removeItemStockOption = function (itemStockOption) {
                 itemStockOptions.remove(itemStockOption);
+            },
+            // On Add Item Cost Centre
+            onAddItemCostCentre = function(itemStockOption) {
+                selectItemStockOption(itemStockOption);
+                activeStockOption().onAddItemAddonCostCentre();
+            },
+            // On Edit Item Cost Centre
+            onEditItemCostCentre = function (itemStockOption) {
+                selectItemStockOption(itemStockOption);
+                activeStockOption().onEditItemAddonCostCentre();
             },
             // Errors
             errors = ko.validation.group({
@@ -429,6 +460,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStockOptions: itemStockOptions,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
+            chooseStockItem: chooseStockItem,
+            activeStockOption: activeStockOption,
+            onSelectStockItem: onSelectStockItem,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -786,13 +820,55 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemId = ko.observable(specifiedItemId || undefined),
             // Item Addon Cost Centers
             itemAddonCostCentres = ko.observableArray([]),
+            // Active Video Item
+            activeItemAddonCostCentre = ko.observable(),
+            // Added ItemAddonCostCentre Counter
+            itemAddonCostCentreCounter = -1,
+            // On Add ItemAddonCostCentre
+            onAddItemAddonCostCentre = function () {
+                activeItemAddonCostCentre(model.ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }));
+
+                if (callbacks && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
+                    callbacks.onUpdateItemAddonCostCentre();
+                }
+            },
+            onEditItemAddonCostCentre = function (itemAddonCostCentre) {
+                activeItemAddonCostCentre(itemAddonCostCentre);
+
+                if (callbacks && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
+                    callbacks.onUpdateItemAddonCostCentre();
+                }
+            },
+            // Save ItemAddonCostCentre
+            saveItemAddonCostCentre = function () {
+                if (activeItemAddonCostCentre().id() === 0) { // Add
+                    activeItemAddonCostCentre().id(itemAddonCostCentreCounter);
+                    addItemAddonCostCentre(activeItemAddonCostCentre());
+                    itemAddonCostCentreCounter -= 1;
+                    return;
+                }
+
+                if (callbacks && typeof callbacks.onSaveItemAddonCostCentre === "function") {
+                    callbacks.onSaveItemAddonCostCentre();
+                }
+            },
             // Add Item Addon Cost Center
-            addItemAddonCostCentre = function () {
-                itemAddonCostCentres.push(ItemAddonCostCentre.Create({ ItemStockOptionId: id() }));
+            addItemAddonCostCentre = function (itemAddonCostCentre) {
+                itemAddonCostCentres.splice(0, 0, itemAddonCostCentre);
             },
             // Remove ItemAddon Cost Centre
             removeItemAddonCostCentre = function (itemAddonCostCentre) {
                 itemAddonCostCentres.remove(itemAddonCostCentre);
+            },
+            // Select Stock Item
+            selectStock = function(stockItem) {
+                if (stockItemId() === stockItem.id) {
+                    return;
+                }
+
+                stockItemId(stockItem.id);
+                stockItemName(stockItem.name);
+                stockItemDescription(stockItem.description);
             },
             // Errors
             errors = ko.validation.group({
@@ -848,6 +924,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemAddonCostCentres: itemAddonCostCentres,
             addItemAddonCostCentre: addItemAddonCostCentre,
             removeItemAddonCostCentre: removeItemAddonCostCentre,
+            onAddItemAddonCostCentre: onAddItemAddonCostCentre,
+            onEditItemAddonCostCentre: onEditItemAddonCostCentre,
+            saveItemAddonCostCentre: saveItemAddonCostCentre,
+            selectStock: selectStock,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -921,13 +1001,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Stock Item Entity        
-    StockItem = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight) {
+    StockItem = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
         return {
             id: specifiedId,
             name: specifiedName,
             category: specifiedCategoryName,
             location: specifiedLocation,
-            weight: specifiedWeight
+            weight: specifiedWeight,
+            description: specifiedDescription
         }
     },
         
@@ -1095,7 +1176,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Stock Item Factory
     StockItem.Create = function(source) {
-        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight);
+        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
     }
 
     // Cost Centre Factory

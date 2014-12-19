@@ -135,11 +135,24 @@ define("stores/stores.viewModel",
                             selectedStore().errors.showAllMessages();
                             flag = false;
                         }
+                        //1- New saving company should have 1 address and 1 user
+                        //2- if company is editting then company should have a 1 address and 1 user in database after saving
+                        //1
+                        if ( !(addressPager().totalCount() + (newAddresses().length - deletedAddresses().length) > 1)) {
+                            toastr.error("There Should be Atleast One Address to save this Store");
+                            flag = false;
+                        }
+                        if ( !(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length))) {
+                            toastr.error("There Should be Atleast One User to save this Store");
+                            flag = false;
+                        }
                         return flag;
                     },
 
                     //Save Store
                     saveStore = function (item) {
+                    if (doBeforeSave()) {
+                     
                         var storeToSave = model.Store().convertToServerData(selectedStore());
 
                         _.each(newCompanyTerritories(), function (territory) {
@@ -220,6 +233,7 @@ define("stores/stores.viewModel",
                                     isStoreEditorVisible(false);
                                 }
                             });
+                    }
                     },
                     //Open Store Dialog
                     openEditDialog = function () {
@@ -714,6 +728,8 @@ define("stores/stores.viewModel",
                 //Populate addresses lists
                 populateAddressesList = ko.computed(function () {
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
+                        shippingAddresses.removeAll();
+                        bussinessAddresses.removeAll();
                         _.each(allCompanyAddressesList(), function (item) {
                             if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
                                 shippingAddresses.push(item);
@@ -973,11 +989,11 @@ define("stores/stores.viewModel",
                 //Save Secondary Page
                 onSaveSecondaryPage = function (sPage) {
                     if (doBeforeSaveSecondaryPage()) {
-                        //Newly added Edit 
+                        //Newly Added, Edit 
                         if (sPage.id() < 0) {
                             _.each(newAddedSecondaryPage(), function (item) {
                                 if (item.id() == sPage.id()) {
-                                    secondaryPageCopier(item, sPage);
+                                    editedSecondaryPage.remove(item);
                                 }
                             });
                             _.each(selectedStore().secondaryPages(), function (item) {
@@ -985,12 +1001,13 @@ define("stores/stores.viewModel",
                                     secondaryPageCopierForListView(item, sPage);
                                 }
                             });
+                            editedSecondaryPage.push(sPage);
                         }
                             //Old Secondary Page Edited that is saved in db already
                         else if (sPage.id() > 0) {
                             _.each(editedSecondaryPage(), function (item) {
                                 if (item.id() == sPage.id()) {
-                                    secondaryPageCopier(item, sPage);
+                                    editedSecondaryPage.remove(item);
                                 }
                             });
                             _.each(selectedStore().secondaryPages(), function (item) {
@@ -998,6 +1015,7 @@ define("stores/stores.viewModel",
                                     secondaryPageCopierForListView(item, sPage);
                                 }
                             });
+                            editedSecondaryPage.push(sPage);
                         }
                             //New Secondary PAge Added
                         else if (sPage.id() === undefined) {
@@ -1091,7 +1109,10 @@ define("stores/stores.viewModel",
                      selectedCompanyBanner().filename(file.name);
                      selectedCompanyBanner().fileType(data.imageType);
                  },
-
+                  SecondaryImageFileLoadedCallback = function (file, data) {
+                      selectedSecondaryPage().imageSrc(data);
+                      selectedSecondaryPage().fileName(file.name);
+                  },
                 //*****    COMPANY CONTACT      ***************//
 
                 //companyContactFilter
@@ -1100,7 +1121,7 @@ define("stores/stores.viewModel",
                 //Deleted Company Contact 
                 deletedCompanyContacts = ko.observableArray([]),
                 edittedCompanyContacts = ko.observableArray([]),
-                newCompanyContacts = ko.observableArray([]),
+                newCompanyContacts = ko.observableArray([]), 
                 //Company Contact  Pager
                 companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Company Contact Search Filter
@@ -1239,6 +1260,7 @@ define("stores/stores.viewModel",
 
                 return {
                     MultipleImageFilesLoadedCallback: MultipleImageFilesLoadedCallback,
+                    SecondaryImageFileLoadedCallback: SecondaryImageFileLoadedCallback,
                     filteredCompanySetId: filteredCompanySetId,
                     stores: stores,
                     storeImage: storeImage,

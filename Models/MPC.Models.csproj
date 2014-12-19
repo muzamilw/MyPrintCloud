@@ -152,6 +152,7 @@
     <Compile Include="DomainModels\DiscountVoucher.cs" />
     <Compile Include="DomainModels\EmailEvent.cs" />
     <Compile Include="DomainModels\Estimate.cs" />
+    <Compile Include="DomainModels\FieldVariable.cs" />
     <Compile Include="DomainModels\GlobalLanguage.cs" />
     <Compile Include="DomainModels\Inquiry.cs" />
     <Compile Include="DomainModels\InquiryAttachment.cs" />
@@ -205,7 +206,11 @@
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\ChartOfAccount.cs" />
     <Compile Include="DomainModels\Template.cs" />
+    <Compile Include="DomainModels\TemplateBackgroundImage.cs" />
+    <Compile Include="DomainModels\TemplateObject.cs" />
     <Compile Include="DomainModels\TemplatePage.cs" />
+    <Compile Include="DomainModels\TemplateVariable.cs" />
+    <Compile Include="DomainModels\VariableSection.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
     <Compile Include="LanguageResources.Designer.cs">
@@ -256,6 +261,7 @@
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
+    <Compile Include="ResponseModels\PaperSheetResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />

@@ -244,6 +244,39 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<CostCentreType> CostCentreTypes { get; set; }
 
+        /// <summary>
+        /// Field Variable DbSet
+        /// </summary>
+        public DbSet<FieldVariable> FieldVariables { get; set; }
+
+        /// <summary>
+        /// Template Variable DbSet
+        /// </summary>
+        public DbSet<TemplateVariable> TemplateVariables { get; set; }
+
+        /// <summary>
+        /// Variable Section DbSet
+        /// </summary>
+        public DbSet<VariableSection> VariableSections { get; set; }
+
+        /// <summary>
+        /// Template Background Image DbSet
+        /// </summary>
+        public DbSet<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }
+
+        /// <summary>
+        /// Template Object DbSet
+        /// </summary>
+        public DbSet<TemplateObject> TemplateObjects { get; set; }
+
+        /// <summary>
+        /// Clone Template Stored Procedure
+        /// </summary>
+        public int sp_cloneTemplate()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.sp_cloneTemplate");
+        }
+
         #endregion
     }
 }

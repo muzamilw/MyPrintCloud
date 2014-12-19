@@ -40,7 +40,7 @@ namespace MPC.Implementation.MISServices
         private Company UpdateRaveReviewsOfUpdatingCompany(Company company)
         {
             var companyDbVersion = companyRepository.Find(company.CompanyId);
-            #region Sub Stock Categories Items
+            #region Rave Reviews
             //Add  rave reviews
             if (company.RaveReviews != null)
             {
@@ -253,6 +253,7 @@ namespace MPC.Implementation.MISServices
                     item.PageId = 0;
                     item.CompanyId = companySavingModel.Company.CompanyId;
                     item.OrganisationId = companyRepository.OrganisationId;
+                    item.PageBanner = SaveCmsPageImage(item);
                     companyDbVersion.CmsPages.Add(item);
                 }
             }
@@ -276,10 +277,14 @@ namespace MPC.Implementation.MISServices
                             dbItem.PageHTML = item.PageHTML;
                             dbItem.PageKeywords = item.PageKeywords;
                             dbItem.PageTitle = item.PageTitle;
-
+                            if (File.Exists(dbItem.PageBanner))
+                            {
+                                //If already image exist
+                                File.Delete(dbItem.PageBanner);
+                            }
+                            dbItem.PageBanner = SaveCmsPageImage(item);
                         }
                     }
-
                 }
             }
             //Delete List
@@ -308,8 +313,6 @@ namespace MPC.Implementation.MISServices
                 }
                 pageCategoryRepository.SaveChanges();
             }
-
-
         }
 
         /// <summary>
@@ -414,14 +417,13 @@ namespace MPC.Implementation.MISServices
                 }
             }
             if (company.CompanyBannerSets != null)
-                SaveImages(company.CompanyBannerSets);
+                SaveCompanyBannerImages(company.CompanyBannerSets);
         }
         /// <summary>
         /// Save Images
         /// </summary>
-        private void SaveImages(IEnumerable<CompanyBannerSet> companyBannerSets)
+        private void SaveCompanyBannerImages(IEnumerable<CompanyBannerSet> companyBannerSets)
         {
-
             List<CompanyBanner> companyBannersList = companyBannerRepository.GetAll().ToList();
 
             foreach (var item in companyBannerSets)
@@ -440,7 +442,7 @@ namespace MPC.Implementation.MISServices
                             {
                                 Directory.CreateDirectory(directoryPath);
                             }
-                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "-" + img.FileName;
+                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "_" + img.FileName;
                             File.WriteAllBytes(savePath, data);
 
                             CompanyBanner companyBanner = companyBannersList.FirstOrDefault(x => x.CompanyBannerId == img.CompanyBannerId);
@@ -453,6 +455,27 @@ namespace MPC.Implementation.MISServices
             }
 
             companyBannerRepository.SaveChanges();
+
+        }
+
+        /// <summary>
+        /// Save Images for CMS Page
+        /// </summary>
+        private string SaveCmsPageImage(CmsPage cmsPage)
+        {
+            string base64 = cmsPage.Bytes.Substring(cmsPage.Bytes.IndexOf(',') + 1);
+            base64 = base64.Trim('\0');
+            byte[] data = Convert.FromBase64String(base64);
+
+            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CMSPages");
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            Guid newGuid = Guid.NewGuid();
+            string savePath = directoryPath + "\\" + newGuid + "_" + cmsPage.FileName;
+            File.WriteAllBytes(savePath, data);
+            return savePath;
 
         }
         #endregion
@@ -514,7 +537,7 @@ namespace MPC.Implementation.MISServices
         {
             return cmsPageRepository.Find(pageId);
         }
-        public CompanyResponse GetCompanyById(int companyId)
+        public CompanyResponse GetCompanyById(long companyId)
         {
             return companyRepository.GetCompanyById(companyId);
         }
@@ -573,7 +596,7 @@ namespace MPC.Implementation.MISServices
                 {
                     foreach (var address in allCompanyAddresses)
                     {
-                        if (address.TerritoryId == companyContact.TerritoryId )
+                        if (address.TerritoryId == companyContact.TerritoryId)
                         {
                             address.IsDefaultShippingAddress = false;
                         }

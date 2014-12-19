@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -11,7 +12,7 @@ namespace MPC.Interfaces.MISServices
         /// Get All Paper Sheets
         /// </summary>
         /// <returns></returns>
-        IEnumerable<PaperSize> GetAll(PaperSheetRequestModel request);
+        PaperSheetResponse GetAll(PaperSheetRequestModel request);
         
         /// <summary>
         /// Add New paper Sheet

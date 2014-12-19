@@ -10,6 +10,7 @@ using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 
 namespace MPC.Repository.Repositories
@@ -58,7 +59,7 @@ namespace MPC.Repository.Repositories
         /// <param name="request"></param>
         /// <param name="rowCount"></param>
         /// <returns></returns>
-        public IEnumerable<PaperSize> SearchPaperSheet(PaperSheetRequestModel request, out int rowCount)
+        public PaperSheetResponse SearchPaperSheet(PaperSheetRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
@@ -66,8 +67,8 @@ namespace MPC.Repository.Repositories
                 paperSize =>
                     (string.IsNullOrEmpty(request.SearchString));
 
-            rowCount = DbSet.Count(query);
-            return request.IsAsc
+            var rowCount = DbSet.Count(query);
+            var paperSheets= request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(cityOrderByClause[request.PaperSheetOrderBy])
                     .Skip(fromRow)
@@ -78,6 +79,12 @@ namespace MPC.Repository.Repositories
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
+            PaperSheetResponse paperSheetResponse = new PaperSheetResponse
+            {
+                PaperSizes = paperSheets,
+                RowCount = rowCount
+            };
+            return paperSheetResponse;
         }
         #endregion
     }

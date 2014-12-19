@@ -23,6 +23,11 @@ namespace MPC.MIS.Areas.Api.Models
         public int? ItemWeight { get; set; }
 
         /// <summary>
+        /// Item Description
+        /// </summary>
+        public string ItemDescription { get; set; }
+
+        /// <summary>
         /// Weight Unit Name
         /// </summary>
         public string WeightUnitName { get; set; }
