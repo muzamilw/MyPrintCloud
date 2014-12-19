@@ -402,8 +402,8 @@
 <script id="itemCostTemplate" type="text/html">
     <tr data-bind="if: (costOrPriceIdentifier() == 0), click: $root.selectCostItem, css: { selectedRow: $data === $root.selectedCostItem() }">
         <td>$<span data-bind="text: costPrice"></span></td>
-        <td data-bind="dateString: formattedFromDate"></td>
-        <td data-bind="dateString: formattedToDate"></td>
+        <td data-bind="dateString: fromDate"></td>
+        <td data-bind="dateString: toDate"></td>
         <td>$<span data-bind="text: packCostPrice"></span></td>
         <td>
             <!-- ko template: { name: 'deleteActionCostItemTemplate' } -->

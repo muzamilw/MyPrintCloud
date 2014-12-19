@@ -278,7 +278,7 @@
             // Formatted From Date
              formattedFromDate = ko.computed({
                  read: function () {
-                     return fromDate() !== undefined ? moment(specifiedFromDate, ist.utcFormat).toDate() : undefined;
+                     return fromDate() !== undefined ? moment(fromDate(), ist.datePattern).toDate() : undefined;
                  }
              }),
              // Formatted To Date
