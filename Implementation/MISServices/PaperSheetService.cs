@@ -3,6 +3,7 @@ using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.MISServices
 {
@@ -29,10 +30,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public IEnumerable<PaperSize> GetAll(PaperSheetRequestModel request)
+        public PaperSheetResponse GetAll(PaperSheetRequestModel request)
         {
-            int rowCount;
-            return paperSheetRepository.SearchPaperSheet(request, out rowCount);
+            return paperSheetRepository.SearchPaperSheet(request);
         }
         /// <summary>
         /// Add Paper Sheet
