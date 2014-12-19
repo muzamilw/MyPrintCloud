@@ -32,9 +32,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <input type="file" id="image_files" multiple
-                               data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />
-
+                        <input type="file" id="image_files" multiple data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                         <div class="control-group">
                             <div class="controls">
                                 <img style="min-height: 200px; width: 250px;" data-bind="attr: { src: fileBinary }" />

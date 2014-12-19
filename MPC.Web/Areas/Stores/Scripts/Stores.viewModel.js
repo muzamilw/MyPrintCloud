@@ -973,11 +973,11 @@ define("stores/stores.viewModel",
                 //Save Secondary Page
                 onSaveSecondaryPage = function (sPage) {
                     if (doBeforeSaveSecondaryPage()) {
-                        //Newly added Edit 
+                        //Newly Added, Edit 
                         if (sPage.id() < 0) {
                             _.each(newAddedSecondaryPage(), function (item) {
                                 if (item.id() == sPage.id()) {
-                                    secondaryPageCopier(item, sPage);
+                                    editedSecondaryPage.remove(item);
                                 }
                             });
                             _.each(selectedStore().secondaryPages(), function (item) {
@@ -985,12 +985,13 @@ define("stores/stores.viewModel",
                                     secondaryPageCopierForListView(item, sPage);
                                 }
                             });
+                            editedSecondaryPage.push(sPage);
                         }
                             //Old Secondary Page Edited that is saved in db already
                         else if (sPage.id() > 0) {
                             _.each(editedSecondaryPage(), function (item) {
                                 if (item.id() == sPage.id()) {
-                                    secondaryPageCopier(item, sPage);
+                                    editedSecondaryPage.remove(item);
                                 }
                             });
                             _.each(selectedStore().secondaryPages(), function (item) {
@@ -998,6 +999,7 @@ define("stores/stores.viewModel",
                                     secondaryPageCopierForListView(item, sPage);
                                 }
                             });
+                            editedSecondaryPage.push(sPage);
                         }
                             //New Secondary PAge Added
                         else if (sPage.id() === undefined) {
@@ -1091,7 +1093,10 @@ define("stores/stores.viewModel",
                      selectedCompanyBanner().filename(file.name);
                      selectedCompanyBanner().fileType(data.imageType);
                  },
-
+                  SecondaryImageFileLoadedCallback = function (file, data) {
+                      selectedSecondaryPage().imageSrc(data);
+                      selectedSecondaryPage().fileName(file.name);
+                  },
                 //*****    COMPANY CONTACT      ***************//
 
                 //companyContactFilter
@@ -1239,6 +1244,7 @@ define("stores/stores.viewModel",
 
                 return {
                     MultipleImageFilesLoadedCallback: MultipleImageFilesLoadedCallback,
+                    SecondaryImageFileLoadedCallback: SecondaryImageFileLoadedCallback,
                     filteredCompanySetId: filteredCompanySetId,
                     stores: stores,
                     storeImage: storeImage,

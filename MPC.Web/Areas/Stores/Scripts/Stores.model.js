@@ -1409,7 +1409,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.CategoryId = source.categoryId() === undefined ? null : source.categoryId();
                 result.PageHTML = source.pageHTML() === undefined ? null : source.pageHTML();
                 result.FileName = source.fileName() === undefined ? null : source.fileName();
-                result.Image = source.imageSrc() === undefined ? null : source.imageSrc();
+                result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
                 return result;
             },
             // Reset
