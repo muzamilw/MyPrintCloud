@@ -135,9 +135,9 @@ define("stores/stores.viewModel",
                             selectedStore().errors.showAllMessages();
                             flag = false;
                         }
-                    if (flag && ) {
+                    //if (flag && ) {
                         
-                    }
+                    //}
                         return flag;
                     },
 
