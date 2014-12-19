@@ -135,11 +135,16 @@ define("stores/stores.viewModel",
                             selectedStore().errors.showAllMessages();
                             flag = false;
                         }
+                    //if (flag && ) {
+                        
+                    //}
                         return flag;
                     },
 
                     //Save Store
                     saveStore = function (item) {
+                    if (doBeforeSave()) {
+                     
                         var storeToSave = model.Store().convertToServerData(selectedStore());
 
                         _.each(newCompanyTerritories(), function (territory) {
@@ -220,6 +225,7 @@ define("stores/stores.viewModel",
                                     isStoreEditorVisible(false);
                                 }
                             });
+                    }
                     },
                     //Open Store Dialog
                     openEditDialog = function () {
@@ -714,6 +720,8 @@ define("stores/stores.viewModel",
                 //Populate addresses lists
                 populateAddressesList = ko.computed(function () {
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
+                        shippingAddresses.removeAll();
+                        bussinessAddresses.removeAll();
                         _.each(allCompanyAddressesList(), function (item) {
                             if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
                                 shippingAddresses.push(item);

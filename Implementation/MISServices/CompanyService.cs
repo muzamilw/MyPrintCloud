@@ -537,7 +537,7 @@ namespace MPC.Implementation.MISServices
         {
             return cmsPageRepository.Find(pageId);
         }
-        public CompanyResponse GetCompanyById(int companyId)
+        public CompanyResponse GetCompanyById(long companyId)
         {
             return companyRepository.GetCompanyById(companyId);
         }

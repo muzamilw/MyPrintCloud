@@ -117,9 +117,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners
     ) {
-        var
-            self,
-            companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
+        var self,
+            companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName),
             status = ko.observable(specifiedStatus),
             image = ko.observable(specifiedImage),
@@ -133,7 +132,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             notes = ko.observable(specifiedNotes),
             webMasterTag = ko.observable(specifiedWebMasterTag),
             webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
-            webAccessCode = ko.observable(specifiedWebAccessCode),
+            type = ko.observable(),
+            webAccessCode = ko.observable(specifiedWebAccessCode).extend({
+                required: {
+                    onlyIf: function() {
+                        return type() == 3;
+                    }
+                }
+            }),
             twitterUrl = ko.observable(specifiedTwitterUrl),
             facebookUrl = ko.observable(specifiedFacebookUrl),
             linkedinUrl = ko.observable(specifiedLinkedinUrl),
@@ -149,30 +155,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),
             companyType = ko.observable(),
             //type = ko.observable(),
-            type = ko.observable(specifiedIsCustomer !== undefined && specifiedIsCustomer != null ? (specifiedIsCustomer === 1 ? 1 : specifiedIsCustomer) : undefined),
-            customerTypeCheck = ko.computed({
-                read: function () {
-                    //        if (type() !== undefined ) {
-                    //            debugger;
-                    //            if (type() == '1') {
-                    //                debugger;
-                    //            }
-                    //        }
-                    //        //if (isFinishedGoods() === 0) {
-                    //        //    return '3';
-                    //        }
-                    //        //return '' + isFinishedGoods();
-                },
-                write: function (value) {
-                    //        debugger;
-                    //        //var finishedGoods = parseInt(value);
-                    //        //if (finishedGoods === isFinishedGoods()) {
-                    //        //    return;
-                    //        //}
-
-                    //        //isFinishedGoods(finishedGoods);
-                }
-            }),
             isDisplayBanners = ko.observable(specifiedisDisplayBanners),
             raveReviews = ko.observableArray([]),
             companyTerritories = ko.observableArray([]),
@@ -192,6 +174,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             errors = ko.validation.group({
                 companyId: companyId,
                 name: name,
+                webAccessCode: webAccessCode,
                 url: url,
             }),
             // Is Valid 
@@ -359,7 +342,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
-            customerTypeCheck: customerTypeCheck,
             reset: reset
         };
         return self;
@@ -450,15 +432,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
-        // if (source.IsCustomer == 1) {
-        //    store.type("1");
-        //}
+         if (source.IsCustomer == 1) {
+            store.type("1");
+        }
         //else if (source.IsCustomer == 2) {
         //    store.type("Prospect");
         //}
-        //else if (source.IsCustomer == 3) {
-        //    store.type("3");
-        //}
+        else if (source.IsCustomer == 3) {
+            store.type("3");
+        }
         //isFinishedGoods = ko.observable(specifiedIsFinishedGoods !== undefined && specifiedIsFinishedGoods != null ?(specifiedIsFinishedGoods === 0 ? 0 : specifiedIsFinishedGoods) : undefined),
         _.each(source.RaveReviews, function (item) {
             store.raveReviews.push(RaveReview.Create(item));

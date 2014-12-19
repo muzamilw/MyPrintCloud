@@ -205,14 +205,18 @@
         var
             self,
             subCategoryId = ko.observable(specifiedSubCategoryId),
-            code = ko.observable(specifiedCode),//.extend({ required: true })
+            code = ko.observable(specifiedCode).extend({
+                required: true,
+                //minLength: { params: 0, message: "My Number is too short."},
+                maxLength: { params: 5, message: "Code must be between 0-5 characters " }
+            }),
             name = ko.observable(specifiedName).extend({ required: true }),
             description = ko.observable(specifiedDescription),
             fixed = ko.observable(specifiedFixed),
             categoryId = ko.observable(specifiedCategoryId),
          // Errors
          errors = ko.validation.group({
-             // code: code,
+             code: code,
              name: name
          }),
             // Is Valid 
