@@ -1064,36 +1064,36 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             }),
             //Convert To Server
             convertToServerData = function (source) {
-                    return {
-                        AddressId: addressId(),
-                        CompanyId: companyId(),
-                        AddressName: addressName(),
-                        Address1: address1(),
-                        Address2: address2(),
-                        Address3: address3(),
-                        City: city(),
-                        State: state(),
-                        Country: country(),
-                        PostCode: postCode(),
-                        Fax: fax(),
-                        URL: uRL(),
-                        Tel1: tel1(),
-                        Tel2: tel2(),
-                        Extension1: extension1(),
-                        Extension2: extension2(),
-                        Reference: reference(),
-                        FAO: fAO(),
-                        IsDefaultAddress: isDefaultAddress(),
-                        IsDefaultShippingAddress: isDefaultShippingAddress(),
-                        isArchived: isArchived(),
-                        TerritoryId: territoryId(),
-                        GeoLatitude: geoLatitude(),
-                        GeoLongitude: geoLongitude(),
-                        isPrivate: isPrivate(),
-                        isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
-                        isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
-                        OrganisationId: organisationId()
-                    };
+                return {
+                    AddressId: addressId(),
+                    CompanyId: companyId(),
+                    AddressName: addressName(),
+                    Address1: address1(),
+                    Address2: address2(),
+                    Address3: address3(),
+                    City: city(),
+                    State: state(),
+                    Country: country(),
+                    PostCode: postCode(),
+                    Fax: fax(),
+                    URL: uRL(),
+                    Tel1: tel1(),
+                    Tel2: tel2(),
+                    Extension1: extension1(),
+                    Extension2: extension2(),
+                    Reference: reference(),
+                    FAO: fAO(),
+                    IsDefaultAddress: isDefaultAddress(),
+                    IsDefaultShippingAddress: isDefaultShippingAddress(),
+                    isArchived: isArchived(),
+                    TerritoryId: territoryId(),
+                    GeoLatitude: geoLatitude(),
+                    GeoLongitude: geoLongitude(),
+                    isPrivate: isPrivate(),
+                    isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
+                    isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
+                    OrganisationId: organisationId()
+                };
             },
             // Reset
             reset = function () {
@@ -1358,7 +1358,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -1373,7 +1373,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             categoryId = ko.observable(specifiedCategoryId),
             pageHTML = ko.observable(specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
-            fileName = ko.observable(),
+            fileName = ko.observable(specifiedFileName),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             // Errors
             errors = ko.validation.group({
@@ -1456,7 +1456,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CategoryId,
             source.PageHTML,
             source.ImageSource,
-            source.DefaultPageKeyWords
+            source.DefaultPageKeyWords,
+            source.FileName
+
         );
     };
 
