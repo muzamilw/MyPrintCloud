@@ -63,6 +63,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICompanyContactRoleRepository, CompanyContactRoleRepository>();
             unityContainer.RegisterType<IItemStockOptionRepository, ItemStockOptionRepository>();
             unityContainer.RegisterType<IItemAddOnCostCentreRepository, ItemAddonCostCentreRepository>();
+            unityContainer.RegisterType<ICostCentreRepository, CostCentreRepository>();
         }
     }
 }

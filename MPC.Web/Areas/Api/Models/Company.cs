@@ -102,8 +102,8 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
-        public List<RaveReview> RaveReviews{ get; set; }
-        public List<CompanyCMYKColor> CompanyCmykColors{ get; set; }
+        public List<RaveReview> RaveReviews { get; set; }
+        public List<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public ICollection<CompanyTerritory> CompanyTerritories { get; set; }
         public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }// Maintaining List for POST call to determine new Added List Of Territories
         public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }
@@ -135,6 +135,12 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CompanyContact> CompanyContacts { get; set; }
         public List<CompanyBannerSet> CompanyBannerSets { get; set; }
         public List<CmsPageForListView> CmsPages { get; set; }
+
+        public List<CmsPage> NewAddedCmsPages { get; set; }
+        public List<CmsPage> EditCmsPages { get; set; }
+        public List<CmsPage> DeletedCmsPages { get; set; }
+        public List<PageCategory> PageCategories { get; set; }
+
 
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }

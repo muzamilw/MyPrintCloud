@@ -22,6 +22,15 @@ namespace MPC.MIS.Areas.Api.Models
         public string PageHTML { get; set; }
         public string FileName { get; set; }
         public string DefaultPageKeyWords { get; set; }
+
+        /// <summary>
+        /// File Bytes
+        /// </summary>
+        public string Bytes { get; set; }
+
+        /// <summary>
+        /// Image 
+        /// </summary>
         public byte[] Image { get; set; }
         /// <summary>
         /// Image Source

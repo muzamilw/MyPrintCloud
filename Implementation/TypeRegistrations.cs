@@ -34,7 +34,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IClaimsSecurityService, ClaimsSecurityService>();
             unityContainer.RegisterType<IInventoryService, InventoryService>();
             unityContainer.RegisterType<IStockCategoryService, StockCategoryService>();
-            unityContainer.RegisterType<IItemService, ItemService>();
+            unityContainer.RegisterType<MISInterfaces.IItemService, MISServices.ItemService>();
             unityContainer.RegisterType<MISInterfaces.ICompanyService, MISImplementation.CompanyService>();
             unityContainer.RegisterType<IWebstoreClaimsSecurityService, WebstoreClaimsSecurityService>();
             unityContainer.RegisterType<IWebstoreClaimsHelperService, WebstoreClaimsHelperService>();

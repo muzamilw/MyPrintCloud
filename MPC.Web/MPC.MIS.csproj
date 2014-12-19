@@ -251,8 +251,10 @@
     <Compile Include="Areas\Api\Controllers\CompanyContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\StockItemsController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryController.cs" />
     <Compile Include="Areas\Api\Controllers\MyOrganizationBaseController.cs" />
@@ -278,6 +280,8 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAddOnCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockOptionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemBaseResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PageCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplatePageMapper.cs" />
@@ -306,12 +310,15 @@
     <Compile Include="Areas\Api\Models\CompanyListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
+    <Compile Include="Areas\Api\Models\CostCentre.cs" />
+    <Compile Include="Areas\Api\Models\ItemBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
+    <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
@@ -1144,6 +1151,8 @@
     <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\AddEditSecondaryPage.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_EditSecondaryPageCategories.cshtml" />
+    <Content Include="Areas\Products\Views\Home\_StockDialog.cshtml" />
+    <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />

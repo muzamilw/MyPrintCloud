@@ -16,6 +16,10 @@ define("product/product.viewModel",
                     productsToRelate = ko.observableArray([]),
                     // Error List
                     errorList = ko.observableArray([]),
+                    // Stock Items
+                    stockItems = ko.observableArray([]),
+                    // Cost Centres
+                    costCentres = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
@@ -52,6 +56,8 @@ define("product/product.viewModel",
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
                     // Pagination For Item Relater Dialog
                     itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
+                    // Pagination For Stock Item Dialog
+                    stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
                     // Current Page - Editable
                     currentPageCustom = ko.computed({
                         read: function () {
@@ -80,6 +86,8 @@ define("product/product.viewModel",
                     },
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
+                    // Stock Dialog Filter
+                    stockDialogFilter = ko.observable(),
                     // #region Utility Functions
                     toggleView = function (data, e) {
                         view.changeView(e);
@@ -195,6 +203,27 @@ define("product/product.viewModel",
                     selectJobDescription = function (jobDescription, e) {
                         selectedJobDescription(e.currentTarget.id);
                     },
+                    // Search Stock Items
+                    searchStockItems = function () {
+                        stockDialogPager().reset();
+                        getStockItems();
+                    },
+                    // Reset Stock Items
+                    resetStockItems = function () {
+                        // Reset Text 
+                        stockDialogFilter(undefined);
+                        // Filter Record
+                        searchStockItems();
+                    },
+                    // Open Stock Item Dialog
+                    openStockItemDialog = function () {
+                        view.showStockItemDialog();
+                        searchStockItems();
+                    },
+                    // Close Stock Item Dialog
+                    closeStockItemDialog = function () {
+                        view.hideStockItemDialog();
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -203,6 +232,11 @@ define("product/product.viewModel",
                         pager(new pagination.Pagination({ PageSize: 5 }, products, getItems));
 
                         itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate)),
+
+                        stockDialogPager(new pagination.Pagination({ PageSize: 5 }, stockItems, getStockItems)),
+
+                        // Get Base Data
+                        getBaseData();
 
                         // Get Items
                         getItems();
@@ -234,6 +268,17 @@ define("product/product.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(productsToRelate(), itemsList);
                         productsToRelate.valueHasMutated();
+                    },
+                    // Map Stock Items 
+                    mapStockItems = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.StockItem.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(stockItems(), itemsList);
+                        stockItems.valueHasMutated();
                     },
                     // Filter Products to Relate
                     filterProductsToRelate = function () {
@@ -286,6 +331,31 @@ define("product/product.viewModel",
                             return item.id() === id;
                         });
                     },
+                    // Map Cost Centres
+                    mapCostCentres = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.CostCentre.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(costCentres(), itemsList);
+                        costCentres.valueHasMutated();
+                    },
+                    // Get Base Data
+                    getBaseData = function () {
+                        dataservice.getBaseData({
+                            success: function (data) {
+                                costCentres.removeAll();
+                                if (data) {
+                                    mapCostCentres(data.Items);
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load base data" + response);
+                            }
+                        });
+                    },
                     // Save Product
                     saveProduct = function (callback) {
                         dataservice.saveItem(selectedProduct().convertToServerData(), {
@@ -330,6 +400,25 @@ define("product/product.viewModel",
                             },
                             error: function (response) {
                                 toastr.error("Failed to archive Product. Error: " + response);
+                            }
+                        });
+                    },
+                    // Get Stock Items
+                    getStockItems = function () {
+                        dataservice.getStockItems({
+                            SearchString: stockDialogFilter(),
+                            PageSize: stockDialogPager().pageSize(),
+                            PageNo: stockDialogPager().currentPage()
+                        }, {
+                            success: function (data) {
+                                stockItems.removeAll();
+                                if (data && data.TotalCount > 0) {
+                                    stockDialogPager().totalCount(data.TotalCount);
+                                    mapStockItems(data.Items);
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load stock items" + response);
                             }
                         });
                     },
@@ -422,6 +511,10 @@ define("product/product.viewModel",
                     productsToRelate: productsToRelate,
                     selectedJobDescription: selectedJobDescription,
                     itemFileTypes: itemFileTypes,
+                    stockDialogPager: stockDialogPager,
+                    stockDialogFilter: stockDialogFilter,
+                    stockItems: stockItems,
+                    costCentres: costCentres,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -441,7 +534,11 @@ define("product/product.viewModel",
                     onEditVideo: onEditVideo,
                     onAddRelatedItem: onAddRelatedItem,
                     saveVideo: saveVideo,
-                    selectJobDescription: selectJobDescription
+                    selectJobDescription: selectJobDescription,
+                    searchStockItems: searchStockItems,
+                    resetStockItems: resetStockItems,
+                    openStockItemDialog: openStockItemDialog,
+                    closeStockItemDialog: closeStockItemDialog
                     // Utility Methods
 
                 };

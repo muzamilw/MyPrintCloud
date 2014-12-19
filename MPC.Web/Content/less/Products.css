@@ -15,3 +15,9 @@
 #productBinding .filter-block .form-group {
   margin-bottom: 0;
 }
+#productBinding #stockDialog #stockDialogMainContainer {
+  width: 838px;
+}
+#productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
+  width: 838px;
+}

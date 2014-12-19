@@ -236,9 +236,83 @@ namespace MPC.Implementation.MISServices
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
+            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
+        }
+
+        //Update Secondary Pages
+        private void UpdateSecondaryPagesCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            IEnumerable<PageCategory> pageCategoriesDbVersion = pageCategoryRepository.GetAll();
+            if (companySavingModel.NewAddedCmsPages != null)
+            {
+                foreach (var item in companySavingModel.NewAddedCmsPages)
+                {
+                    item.PageId = 0;
+                    item.CompanyId = companySavingModel.Company.CompanyId;
+                    item.OrganisationId = companyRepository.OrganisationId;
+                    item.PageBanner = SaveCmsPageImage(item);
+                    companyDbVersion.CmsPages.Add(item);
+                }
+            }
+            //Edited List
+            if (companySavingModel.EditCmsPages != null)
+            {
+                foreach (var item in companySavingModel.EditCmsPages)
+                {
+                    foreach (var dbItem in companyDbVersion.CmsPages)
+                    {
+                        if (item.PageId == dbItem.PageId)
+                        {
+                            dbItem.CategoryId = item.CategoryId;
+                            dbItem.Meta_AuthorContent = item.Meta_AuthorContent;
+                            dbItem.Meta_CategoryContent = item.Meta_CategoryContent;
+                            dbItem.Meta_DescriptionContent = item.Meta_DescriptionContent;
+                            dbItem.Meta_LanguageContent = item.Meta_LanguageContent;
+                            dbItem.Meta_RevisitAfterContent = item.Meta_RevisitAfterContent;
+                            dbItem.Meta_RobotsContent = item.Meta_RobotsContent;
+                            dbItem.Meta_Title = item.Meta_Title;
+                            dbItem.PageHTML = item.PageHTML;
+                            dbItem.PageKeywords = item.PageKeywords;
+                            dbItem.PageTitle = item.PageTitle;
+                            if (File.Exists(dbItem.PageBanner))
+                            {
+                                //If already image exist
+                                File.Delete(dbItem.PageBanner);
+                            }
+                            dbItem.PageBanner = SaveCmsPageImage(item);
+                        }
+                    }
+                }
+            }
+            //Delete List
+            if (companySavingModel.DeletedCmsPages != null)
+            {
+                foreach (var item in companySavingModel.DeletedCmsPages)
+                {
+                    cmsPageRepository.Delete(cmsPageRepository.Find(item.PageId));
+                    cmsPageRepository.SaveChanges();
+                }
+            }
+            companyRepository.SaveChanges();
+
+            //Update Page Category List Items
+            if (companySavingModel.PageCategories != null)
+            {
+                foreach (var item in companySavingModel.PageCategories)
+                {
+                    foreach (var dbItem in pageCategoriesDbVersion)
+                    {
+                        if (item.CategoryId == dbItem.CategoryId)
+                        {
+                            dbItem.CategoryName = item.CategoryName;
+                        }
+                    }
+                }
+                pageCategoryRepository.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -343,14 +417,13 @@ namespace MPC.Implementation.MISServices
                 }
             }
             if (company.CompanyBannerSets != null)
-                SaveImages(company.CompanyBannerSets);
+                SaveCompanyBannerImages(company.CompanyBannerSets);
         }
         /// <summary>
         /// Save Images
         /// </summary>
-        private void SaveImages(IEnumerable<CompanyBannerSet> companyBannerSets)
+        private void SaveCompanyBannerImages(IEnumerable<CompanyBannerSet> companyBannerSets)
         {
-
             List<CompanyBanner> companyBannersList = companyBannerRepository.GetAll().ToList();
 
             foreach (var item in companyBannerSets)
@@ -369,7 +442,7 @@ namespace MPC.Implementation.MISServices
                             {
                                 Directory.CreateDirectory(directoryPath);
                             }
-                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "-" + img.FileName;
+                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "_" + img.FileName;
                             File.WriteAllBytes(savePath, data);
 
                             CompanyBanner companyBanner = companyBannersList.FirstOrDefault(x => x.CompanyBannerId == img.CompanyBannerId);
@@ -382,6 +455,27 @@ namespace MPC.Implementation.MISServices
             }
 
             companyBannerRepository.SaveChanges();
+
+        }
+
+        /// <summary>
+        /// Save Images for CMS Page
+        /// </summary>
+        private string SaveCmsPageImage(CmsPage cmsPage)
+        {
+            string base64 = cmsPage.Bytes.Substring(cmsPage.Bytes.IndexOf(',') + 1);
+            base64 = base64.Trim('\0');
+            byte[] data = Convert.FromBase64String(base64);
+
+            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CMSPages");
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            Guid newGuid = Guid.NewGuid();
+            string savePath = directoryPath + "\\" + newGuid + "_" + cmsPage.FileName;
+            File.WriteAllBytes(savePath, data);
+            return savePath;
 
         }
         #endregion
@@ -502,7 +596,7 @@ namespace MPC.Implementation.MISServices
                 {
                     foreach (var address in allCompanyAddresses)
                     {
-                        if (address.TerritoryId == companyContact.TerritoryId )
+                        if (address.TerritoryId == companyContact.TerritoryId)
                         {
                             address.IsDefaultShippingAddress = false;
                         }

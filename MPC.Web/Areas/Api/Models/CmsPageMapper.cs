@@ -17,6 +17,7 @@ namespace MPC.MIS.Areas.Api.Models
             byte[] bytes = null;
             if (source.PageBanner != null && File.Exists(source.PageBanner))
             {
+                //string fileName = source.PageBanner.Split('_')[0];
                 bytes = source.PageBanner != null ? File.ReadAllBytes(source.PageBanner) : null;
             }
             string defaultPageKeyWords = null;
@@ -26,8 +27,7 @@ namespace MPC.MIS.Areas.Api.Models
                 {
                     if (item.CmsTag != null)
                     {
-
-                        defaultPageKeyWords = defaultPageKeyWords + "," + item.CmsTag.TagName;
+                        defaultPageKeyWords = defaultPageKeyWords != null ? (defaultPageKeyWords + " , " + item.CmsTag.TagName) : item.CmsTag.TagName;
                     }
                 }
             }
@@ -46,7 +46,7 @@ namespace MPC.MIS.Areas.Api.Models
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
                 DefaultPageKeyWords = defaultPageKeyWords,
-                //Image = bytes
+                Image = bytes
             };
         }
 
@@ -69,8 +69,8 @@ namespace MPC.MIS.Areas.Api.Models
                 PageHTML = source.PageHTML,
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
-                //FileName = source.FileName,
-                //Image = source.Image,
+                FileName = source.FileName,
+                Bytes = source.Bytes,
             };
         }
 

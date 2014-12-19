@@ -43,8 +43,40 @@ define("product/product.dataservice", function () {
                         type: 'DELETE'
                     });
 
+                    // Define request to get stock items
+                    amplify.request.define('getStockItems', 'ajax', {
+                        url: ist.siteUrl + '/Api/StockItems',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
+                    // Define request to get base data
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     isInitialized = true;
                 }
+            },
+            // Get base data
+            getBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get Stock Items
+            getStockItems = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getStockItems',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
             },
             // Get Item by id 
             getItem = function (params, callbacks) {
@@ -91,7 +123,9 @@ define("product/product.dataservice", function () {
             getItem: getItem,
             getItems: getItems,
             saveItem: saveItem,
-            archiveItem: archiveItem
+            archiveItem: archiveItem,
+            getStockItems: getStockItems,
+            getBaseData: getBaseData
         };
     })();
 

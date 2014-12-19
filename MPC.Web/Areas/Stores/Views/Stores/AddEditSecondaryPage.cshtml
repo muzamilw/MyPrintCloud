@@ -22,7 +22,7 @@
                     <div class="col-xs-10">
                     </div>
                     <div class="col-xs-1">
-                        <button type="button" class="btn btn-primary pull-right">Save</button>
+                        <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveSecondaryPage">Save</button>
                     </div>
                     <div class="col-xs-1">
                         <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
@@ -53,7 +53,7 @@
                                                         <label for="txtSPTitle" class="control-label text-right tooltip-float">Title</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtSPTitle" data-bind="value:pageTitle">
+                                                        <input type="text" class="form-control" id="txtSPTitle" data-bind="value:pageTitle, validationTooltip:pageTitle">
                                                     </div>
                                                 </div>
                                                 <div class="form-group ">
@@ -66,7 +66,7 @@
                                                         <label for="ddPageCat" class="control-label text-right tooltip-float">Page Category</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'CategoryName', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId"> </select>
+                                                        <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'name', optionsValue: 'id',value:categoryId, validationTooltip: categoryId"> </select>
                                                     </div>
                                                     <div class="col-lg-1">
                                                         <div data-bind="click:$root.onAddSecondryPageCategory" class="btn btn-primary">
@@ -89,16 +89,13 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/tahiti-1.jpg" width="296" />
-
-
+                                                        <img style="min-height: 200px; width: 250px;" data-bind="attr: { src: imageSrc }" />
                                                     </div>
                                                     <div class="col-lg-1">
-
-                                                        <a data-toggle="modal" href="#myMediaGalleryModal" class="btn btn-primary" style="vertical-align: top;">
-                                                            <i class="fa fa-lg"></i>&nbsp;....
-                                                        </a>
-
+                                                        <input type="file" id="image_files" multiple data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}">
+                                                        @*<a data-toggle="modal" href="#" class="btn btn-primary" style="vertical-align: top;">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>*@
                                                     </div>
 
                                                 </div>
@@ -118,11 +115,9 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-
-                                                    <a href="#" class="btn btn-primary pull-right">
+                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.addDefaultPageKeyWords">
                                                         Load Defaults
                                                     </a>
-
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -387,6 +382,6 @@
 @*@Html.Partial("Widgets/_EditSecondaryPageCategories")
     @Html.Partial("Widgets/_MediaGalleryScreen")*@
 
-@*@section Scripts {
-        <script src="js/ckeditor/ckeditor.js"></script>
-    }*@
+@section Scripts {
+    <script src="~/Content/themes/Centaurus/js/ckeditor/ckeditor.js"></script>
+}

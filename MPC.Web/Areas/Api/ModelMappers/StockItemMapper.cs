@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using InventoryBaseResponse = MPC.MIS.Areas.Api.Models.InventoryBaseResponse;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
@@ -26,7 +27,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WeightUnits = source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList(),
                 LengthUnits = source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList(),
                 PaperBasisAreas = source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList(),
-                RegistrationQuestions = source.RegistrationQuestions.Select(q => q.CreateFromDropDown()),
+                RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>()
             };
         }
 
@@ -68,6 +69,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
                 ItemWeight = source.ItemWeight,
+                ItemDescription = source.ItemDescription,
                 CategoryName = source.StockCategory != null ? source.StockCategory.Name : string.Empty,
                 FullCategoryName = (source.StockCategory != null ? source.StockCategory.Name : string.Empty) + (source.StockSubCategory != null ? "  ( " + source.StockSubCategory.Name + " )" : string.Empty),
                 SubCategoryName = source.StockSubCategory != null ? source.StockSubCategory.Name : string.Empty,

@@ -61,7 +61,7 @@ namespace MPC.Models.DomainModels
         public string FileName { get; set; }
 
         [NotMapped]
-        public byte[] Image { get; set; }
+        public string Bytes { get; set; }
         #endregion
     }
 }

@@ -239,6 +239,11 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<CmsTag> CmsTags { get; set; }
 
+        /// <summary>
+        /// Cost Centre Type DbSet
+        /// </summary>
+        public DbSet<CostCentreType> CostCentreTypes { get; set; }
+
         #endregion
     }
 }

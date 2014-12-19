@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using StockCategory = MPC.MIS.Areas.Api.Models.StockCategory;
+using StockSubCategory = MPC.Models.DomainModels.StockSubCategory;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -76,6 +78,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Flag4 = source.Flag4,
                 CompanyId = source.CompanyId,
             };
+            if (stockCategory.StockSubCategories == null)
+            {
+                stockCategory.StockSubCategories = new Collection<StockSubCategory>();
+            }
             if (source.StockSubCategories != null)
             {
                 foreach (var stockSubCategory in source.StockSubCategories)

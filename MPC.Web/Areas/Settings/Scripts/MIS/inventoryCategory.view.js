@@ -4,11 +4,11 @@
 define("inventoryCategory/inventoryCategory.view",
     ["jquery", "inventoryCategory/inventoryCategory.viewModel"], function ($, inventoryCategoryViewModel) {
 
-    	var ist = window.ist || {};
+        var ist = window.ist || {};
 
-    	// View 
-    	ist.inventoryCategory.view = (function (specifiedViewModel) {
-    		var
+        // View 
+        ist.inventoryCategory.view = (function (specifiedViewModel) {
+            var
                 // View model 
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
@@ -23,25 +23,25 @@ define("inventoryCategory/inventoryCategory.view",
                 },
                 // Initialize
                 initialize = function () {
-                	if (!bindingRoot) {
-                		return;
-                	}
+                    if (!bindingRoot) {
+                        return;
+                    }
 
-                	// Handle Sorting
-                	// handleSorting("tariffTypeTable", viewModel.sortOn, viewModel.sortIsAsc, viewModel.getTariffType);
+                    // Handle Sorting
+                    // handleSorting("tariffTypeTable", viewModel.sortOn, viewModel.sortIsAsc, viewModel.getTariffType);
                 };
-    		initialize();
-    		return {
-    			bindingRoot: bindingRoot,
-    			viewModel: viewModel,
-    			showInventoryCategoryDialog: showInventoryCategoryDialog,
-    			hideInventoryCategoryDialog: hideInventoryCategoryDialog
-    		};
-    	})(inventoryCategoryViewModel);
+            initialize();
+            return {
+                bindingRoot: bindingRoot,
+                viewModel: viewModel,
+                showInventoryCategoryDialog: showInventoryCategoryDialog,
+                hideInventoryCategoryDialog: hideInventoryCategoryDialog
+            };
+        })(inventoryCategoryViewModel);
 
-    	// Initialize the view model
-    	if (ist.inventoryCategory.view.bindingRoot) {
-    	    inventoryCategoryViewModel.initialize(ist.inventoryCategory.view);
-    	}
-    	return ist.inventoryCategory.view;
+        // Initialize the view model
+        if (ist.inventoryCategory.view.bindingRoot) {
+            inventoryCategoryViewModel.initialize(ist.inventoryCategory.view);
+        }
+        return ist.inventoryCategory.view;
     });
