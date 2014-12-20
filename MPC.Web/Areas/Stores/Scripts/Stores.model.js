@@ -135,7 +135,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             type = ko.observable(),
             webAccessCode = ko.observable(specifiedWebAccessCode).extend({
                 required: {
-                    onlyIf: function() {
+                    onlyIf: function () {
                         return type() == 3;
                     }
                 }
@@ -432,12 +432,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
-         if (source.IsCustomer == 1) {
+        if (source.IsCustomer == 1) {
             store.type("1");
         }
-        //else if (source.IsCustomer == 2) {
-        //    store.type("Prospect");
-        //}
+            //else if (source.IsCustomer == 2) {
+            //    store.type("Prospect");
+            //}
         else if (source.IsCustomer == 3) {
             store.type("3");
         }
@@ -1264,6 +1264,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
+    //Company Banner Create Factory
     CompanyBanner.Create = function (source) {
         return new CompanyBanner(
             source.CompanyBannerId,
@@ -1332,6 +1333,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.SetName
         );
     };
+    //Company Banner Set Create Factory
     CompanyBannerSet.CreateNew = function () {
         return new CompanyBannerSet(0, undefined);
     };
@@ -1423,6 +1425,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
+    //CMS Page Create Factory
     CMSPage.Create = function (source) {
         return new CMSPage(
             source.PageId,

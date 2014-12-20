@@ -148,7 +148,6 @@ namespace MPC.Implementation.MISServices
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
         }
 
-
         /// <summary>
         /// Delete stock Item
         /// </summary>
