@@ -162,7 +162,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             chooseStockItem  = function(stockOption) {
                 selectItemStockOption(stockOption);
 
-                if (callbacks && typeof callbacks.onChooseStockItem === "function") {
+                if (callbacks && callbacks.onChooseStockItem && typeof callbacks.onChooseStockItem === "function") {
                     callbacks.onChooseStockItem();
                 }
             },
@@ -174,8 +174,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // On Select Stock Item
             onSelectStockItem = function(stockItem) {
-                activeStockOption().selectStockItem(stockItem);
-                activeStockOption(undefined);
+                activeStockOption().selectStock(stockItem);
+                activeStockOption(ItemStockOption.Create({}));
+
+                if (callbacks && callbacks.onSelectStockItem && typeof callbacks.onSelectStockItem === "function") {
+                    callbacks.onSelectStockItem();
+                }
             },
             // Can Add Item Vdp Price
             canAddItemVdpPrice = ko.computed(function () {
@@ -234,11 +238,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onAddItemCostCentre = function(itemStockOption) {
                 selectItemStockOption(itemStockOption);
                 activeStockOption().onAddItemAddonCostCentre();
+
+                if (callbacks && callbacks.onUpdateItemAddonCostCentre && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
+                    callbacks.onUpdateItemAddonCostCentre();
+                }
             },
             // On Edit Item Cost Centre
             onEditItemCostCentre = function (itemStockOption) {
                 selectItemStockOption(itemStockOption);
                 activeStockOption().onEditItemAddonCostCentre();
+
+                if (callbacks && callbacks.onUpdateItemAddonCostCentre && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
+                    callbacks.onUpdateItemAddonCostCentre();
+                }
+            },
+            // On Save Item Cost Centre
+            onSaveItemCostCentre = function () {
+                activeStockOption().saveItemAddonCostCentre();
+
+                if (callbacks && callbacks.onSaveItemAddonCostCentre && typeof callbacks.onSaveItemAddonCostCentre === "function") {
+                    callbacks.onSaveItemAddonCostCentre();
+                }
             },
             // Errors
             errors = ko.validation.group({
@@ -463,6 +483,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             chooseStockItem: chooseStockItem,
             activeStockOption: activeStockOption,
             onSelectStockItem: onSelectStockItem,
+            onAddItemCostCentre: onAddItemCostCentre,
+            onEditItemCostCentre: onEditItemCostCentre,
+            onSaveItemCostCentre: onSaveItemCostCentre,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -821,23 +844,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Item Addon Cost Centers
             itemAddonCostCentres = ko.observableArray([]),
             // Active Video Item
-            activeItemAddonCostCentre = ko.observable(),
+            activeItemAddonCostCentre = ko.observable(ItemAddonCostCentre.Create({})),
             // Added ItemAddonCostCentre Counter
             itemAddonCostCentreCounter = -1,
             // On Add ItemAddonCostCentre
             onAddItemAddonCostCentre = function () {
-                activeItemAddonCostCentre(model.ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }));
-
-                if (callbacks && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
-                    callbacks.onUpdateItemAddonCostCentre();
-                }
+                activeItemAddonCostCentre(ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }));
             },
             onEditItemAddonCostCentre = function (itemAddonCostCentre) {
                 activeItemAddonCostCentre(itemAddonCostCentre);
-
-                if (callbacks && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
-                    callbacks.onUpdateItemAddonCostCentre();
-                }
             },
             // Save ItemAddonCostCentre
             saveItemAddonCostCentre = function () {
@@ -846,10 +861,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     addItemAddonCostCentre(activeItemAddonCostCentre());
                     itemAddonCostCentreCounter -= 1;
                     return;
-                }
-
-                if (callbacks && typeof callbacks.onSaveItemAddonCostCentre === "function") {
-                    callbacks.onSaveItemAddonCostCentre();
                 }
             },
             // Add Item Addon Cost Center
@@ -862,7 +873,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Select Stock Item
             selectStock = function(stockItem) {
-                if (stockItemId() === stockItem.id) {
+                if (!stockItem || stockItemId() === stockItem.id) {
                     return;
                 }
 
@@ -921,6 +932,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockItemDescription: stockItemDescription,
             itemId: itemId,
             image: image,
+            activeItemAddonCostCentre: activeItemAddonCostCentre,
             itemAddonCostCentres: itemAddonCostCentres,
             addItemAddonCostCentre: addItemAddonCostCentre,
             removeItemAddonCostCentre: removeItemAddonCostCentre,

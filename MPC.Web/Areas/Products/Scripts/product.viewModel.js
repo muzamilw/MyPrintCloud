@@ -82,6 +82,18 @@ define("product/product.viewModel",
                         },
                         onSelectRelatedItem: function () {
                             closeRelatedItemDialog();
+                        },
+                        onChooseStockItem: function () {
+                            openStockItemDialog();
+                        },
+                        onSelectStockItem: function () {
+                            closeStockItemDialog();
+                        },
+                        onUpdateItemAddonCostCentre: function () {
+                            openItemAddonCostCentreDialog();
+                        },
+                        onSaveItemAddonCostCentre: function () {
+                            closeItemAddonCostCentreDialog();
                         }
                     },
                     // Selected Job Description
@@ -356,7 +368,7 @@ define("product/product.viewModel",
                             success: function (data) {
                                 costCentres.removeAll();
                                 if (data) {
-                                    mapCostCentres(data.Items);
+                                    mapCostCentres(data.CostCentres);
                                 }
                             },
                             error: function (response) {
@@ -422,7 +434,7 @@ define("product/product.viewModel",
                                 stockItems.removeAll();
                                 if (data && data.TotalCount > 0) {
                                     stockDialogPager().totalCount(data.TotalCount);
-                                    mapStockItems(data.Items);
+                                    mapStockItems(data.StockItems);
                                 }
                             },
                             error: function (response) {

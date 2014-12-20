@@ -2703,7 +2703,7 @@
                     <div class="col-lg-6">
                         <div style="width: 325px;">
                             <input type="text" disabled="disabled" style="width: 278px;float: left;" class="form-control" data-bind="value: stockItemName">
-                            <a class="btn btn-primary pull-right">
+                            <a class="btn btn-primary pull-right" data-bind="click: $parent.chooseStockItem">
                                 <i class="fa fa-lg"></i>&nbsp;....
                             </a>
                         </div>
@@ -2770,7 +2770,7 @@
                 <div class="col-lg-9">
                     <header class="clearfix">
                         <div class="filter-block pull-right">
-                            <a data-bind="click: addItemAddonCostCentre" class="btn btn-primary pull-right">
+                            <a data-bind="click: $parent.onAddItemCostCentre" class="btn btn-primary pull-right">
                                 <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
                             </a>
                         </div>
