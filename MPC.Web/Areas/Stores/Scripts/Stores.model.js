@@ -2124,7 +2124,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.URL,
             source.IsEmailSubscription,
             source.IsNewsLetterSubscription,
-            source.ImageBytes,
+            source.ImageSource,
             source.quickFullName,
             source.quickTitle,
             source.quickCompanyName,
@@ -2308,6 +2308,105 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.Question
             );
         return registrationQuestion;
+    };
+    
+    //______________________    P A Y M E N T   G A T E W A Y S _________________________________//
+    var PaymentGateway = function (specifiedReviewId, specifiedReviewBy, specifiedReview, specifiedReviewDate, specifiedisDisplay, specifiedSortOrder, specifiedOrganisationId, specifiedCompanyId) {
+        var self,
+            reviewId = ko.observable(specifiedReviewId),
+            reviewBy = ko.observable(specifiedReviewBy).extend({ required: true }),
+            review = ko.observable(specifiedReview).extend({ required: true }),
+            reviewDate = ko.observable(specifiedReviewDate),
+            isDisplay = ko.observable(specifiedisDisplay),
+            sortOrder = ko.observable(specifiedSortOrder),
+            organisationId = ko.observable(specifiedOrganisationId),
+            companyId = ko.observable(specifiedCompanyId),
+            // Errors
+            errors = ko.validation.group({
+                reviewBy: reviewBy,
+                review: review
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                reviewId: reviewId,
+                reviewBy: reviewBy,
+                review: review,
+                reviewDate: reviewDate,
+                isDisplay: isDisplay,
+                sortOrder: sortOrder,
+                organisationId: organisationId,
+                companyId: companyId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    ReviewId: reviewId(),
+                    ReviewBy: reviewBy(),
+                    Review: review(),
+                    ReviewDate: reviewDate(),
+                    IsDisplay: isDisplay(),
+                    SortOrder: sortOrder(),
+                    OrganisationId: organisationId(),
+                    CompanyId: companyId()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            reviewId: reviewId,
+            reviewBy: reviewBy,
+            review: review,
+            reviewDate: reviewDate,
+            isDisplay: isDisplay,
+            sortOrder: sortOrder,
+            organisationId: organisationId,
+            companyId: companyId,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    RaveReview.CreateFromClientModel = function (source) {
+        return new RaveReview(
+            source.reviewId,
+            source.reviewBy,
+            source.review,
+            source.reviewDate,
+            source.isDisplay,
+            source.sortOrder,
+            source.organisationId,
+            source.companyId
+        );
+    };
+    RaveReview.Create = function (source) {
+        var raveReview = new RaveReview(
+            //       
+            source.ReviewId,
+            source.ReviewBy,
+            source.Review,
+            source.ReviewDate,
+            source.isDisplay,
+            source.SortOrder,
+            source.OrganisationId,
+            source.CompanyId
+        );
+        return raveReview;
     };
     return {
         StoreListView: StoreListView,

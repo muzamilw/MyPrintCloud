@@ -109,8 +109,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static CompanyContact CreateFrom(this DomainModels.CompanyContact source)
         {
             byte[] bytes = null;
+            string fileName = string.Empty;
             if (source.image != null && File.Exists(source.image))
             {
+                fileName = source.image.IndexOf('_') > 0 ? source.image.Split('_')[1] : string.Empty;
                 bytes = source.image != null ? File.ReadAllBytes(source.image) : null;
             }
             return new CompanyContact
@@ -197,7 +199,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                        CanUserEditProfile = source.CanUserEditProfile,
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
-                       OrganisationId = source.OrganisationId
+                       OrganisationId = source.OrganisationId,
+                       FileName = fileName
                    };
         }
 
