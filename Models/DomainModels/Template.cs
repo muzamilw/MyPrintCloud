@@ -64,6 +64,7 @@ namespace MPC.Models.DomainModels
         public bool? isSpotTemplate { get; set; }
         public bool? isCreatedManual { get; set; }
         public bool? isEditorChoice { get; set; }
+        public long? ProductCategoryId { get; set; }
         public virtual ICollection<TemplatePage> TemplatePages { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }
