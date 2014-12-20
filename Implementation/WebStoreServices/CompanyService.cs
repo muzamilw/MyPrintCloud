@@ -36,6 +36,9 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ISystemUserRepository _systemUserRepository;
         private readonly ICampaignRepository _campaignRepository;
         private readonly IItemRepository _itemRepository;
+        private readonly IMarkupRepository _markupRepository;
+       
+
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -50,7 +53,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository,IMarkupRepository markuprepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -64,6 +67,7 @@ namespace MPC.Implementation.WebStoreServices
             this._organisationRepository = organisationRepository;
             this._systemUserRepository = systemUserRepository;
             this._itemRepository = itemRepository;
+            this._markupRepository = markuprepository;
             this._addressRepository = addressRepository;
         }
 
@@ -395,7 +399,12 @@ namespace MPC.Implementation.WebStoreServices
             return (price - (price * (discountPrecentage / 100)));
         }
 
+        public int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null)
+        {
+            Markup zeroMarkup = _markupRepository.GetZeroMarkup();
 
+            return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, zeroMarkup,regContact);
+        }
         #endregion
     }
 

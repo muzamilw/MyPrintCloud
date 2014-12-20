@@ -21,14 +21,15 @@ namespace MPC.Webstore.Controllers
 
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
-
+        private readonly IItemService _IItemService;
+        private readonly IOrderService _orderService;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public CategoryController(ICompanyService myCompanyService,IWebstoreClaimsHelperService myClaimHelper)
+        public CategoryController(ICompanyService myCompanyService,IWebstoreClaimsHelperService myClaimHelper,IItemService itemService,IOrderService orderService)
         {
             if (myCompanyService == null)
             {
@@ -37,6 +38,8 @@ namespace MPC.Webstore.Controllers
            
             this._myCompanyService = myCompanyService;
             this._myClaimHelper = myClaimHelper;
+            this._IItemService = itemService;
+            this._orderService = orderService;
         }
 
         #endregion
@@ -97,7 +100,8 @@ namespace MPC.Webstore.Controllers
                     foreach (var product in productList)
                     {
                         // for print products
-
+                        int ItemID = (int)product.ItemId;
+                        int TemplateID = 0;
                         if (product.ProductType == (int)ProductType.TemplateProductWithBanner && product.ProductType == (int)ProductType.TemplateProductWithImage)
                         {
                             if(product.IsUploadImage == true)// is popular will replace by isuploadImage
@@ -107,7 +111,10 @@ namespace MPC.Webstore.Controllers
                             }
                             else
                             {
-                                // clone Item
+                              //  (new ProductManager()).CloneItem(ItemID, 0, 0, SessionParameters.ProductSelection.OrderID, SessionParameters.CustomerID, 0, TemplateID, 0, null, true, false, false, SessionParameters.ContactCompany, SessionParameters.CustomerContact, SessionParameters.BrokerContactCompany);
+                               
+                         
+                                    // clone Item
                             }
                         }
                         else if (product.ProductType == (int)ProductType.FinishedGoodWithBanner && product.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
@@ -291,6 +298,28 @@ namespace MPC.Webstore.Controllers
             }
 
             return View("PartialViews/Category",Category);
+        }
+
+
+        public ActionResult CloneItem(int id)
+        {
+             //Item item = _IItemService.CloneItem(product.ItemId,0,0,0,(int)baseResponse.Company.CompanyId,0,0,0,null,true,false,false,baseResponse.Company,)
+             //                   if (item != null)
+             //                   {
+             //                      ItemID = (int)item.ItemId;
+             //                      TemplateID = item.TemplateId.Value;
+             //                   }
+                                    
+
+            return View();
+        }
+
+        public int ProcessOrder()
+        {
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            //Organisation ord = baseResponse.Organisation;
+            //_orderService.ProcessPublicUserOrder(string.Empty,baseResponse.Organisation);
+            return 1;
         }
 
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)

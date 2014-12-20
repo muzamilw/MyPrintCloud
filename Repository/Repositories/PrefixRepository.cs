@@ -65,6 +65,13 @@ namespace MPC.Repository.Repositories
             return nextPrefix;
         }
 
+        public Prefix GetDefaultPrefix()
+        {
+            
+            return db.Prefixes.Where(c => c.SystemSiteId == 1).FirstOrDefault();
+           
+        }
+
         #endregion
 
 

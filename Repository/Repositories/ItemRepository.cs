@@ -127,7 +127,7 @@ namespace MPC.Repository.Repositories
         public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, Company objCompany, CompanyContact objContact,Company NewCustomer)
         {
             Template clonedTemplate = null;
-
+          
             ItemSection tblItemSectionCloned = null;
             ItemAttachment Attacments = null;
             SectionCostcentre tblISectionCostCenteresCloned = null;
@@ -201,9 +201,9 @@ namespace MPC.Repository.Repositories
             {
                 if (isCorporate)
                 {
-                //    System.Data.Objects.ObjectResult<int?> result =  db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
-                    System.Data.Objects.ObjectResult<int?> result = null;
-                    int? clonedTemplateID = result.Single();
+                    System.Data.Objects.ObjectResult<int?> result = null; // db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
+
+                   int? clonedTemplateID =  result.Single();
                     clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
 
 
@@ -221,8 +221,13 @@ namespace MPC.Repository.Repositories
                         }
 
                     }
-
-                   //  ResolveTemplateVariables(clonedTemplate.ProductId, objCompany, objContact, StoreMode.Corp);
+                    List<FieldVariable> lstFieldVariabes = GeyFieldVariablesByItemID(itemID);
+                    if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
+                    {
+                        List<Models.Common.TemplateVariable> lstPageControls = new List<Models.Common.TemplateVariable>();
+                        lstPageControls = ResolveVariables(lstFieldVariabes,objContact);
+                        ResolveTemplateVariables(clonedTemplate.ProductId, objCompany, objContact, StoreMode.Corp,lstPageControls);
+                    }
 
                 }
 
@@ -252,6 +257,89 @@ namespace MPC.Repository.Repositories
 
 
             return newItem;
+        }
+        // gettting field variables by itemid
+        public List<FieldVariable> GeyFieldVariablesByItemID(int itemId)
+        {
+           
+                var tempID = (from i in db.Items
+                              where i.ItemId == itemId
+                              select i.TemplateId).FirstOrDefault();
+
+                int templateID = Convert.ToInt32(tempID);
+
+                var IDs = (from v in db.TemplateVariables
+                           where v.TemplateId == templateID
+                           select v.VariableId).ToList();
+
+                List<FieldVariable> lstFieldVariables = new List<FieldVariable>();
+
+                foreach (int item in IDs)
+                {
+                    FieldVariable objFieldVariable = (from FV in db.FieldVariables
+                                                           where FV.VariableId == item
+                                                           orderby FV.VariableSectionId
+                                                           select FV).FirstOrDefault();
+
+                    lstFieldVariables.Add(objFieldVariable);
+                }
+
+                List<FieldVariable> finalList = (List<FieldVariable>)lstFieldVariables.OrderBy(item => item.VariableSectionId).ToList();
+
+                return finalList;
+           
+        }
+
+       
+        public List<Models.Common.TemplateVariable> ResolveVariables(List<FieldVariable> lstFieldVariabes,CompanyContact objContact)
+        {
+            List<Models.Common.TemplateVariable> templateVariables = new List<Models.Common.TemplateVariable>();
+            if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
+            {
+                foreach (var item in lstFieldVariabes)
+                {
+                    int sectionId = Convert.ToInt32(item.VariableSectionId);
+
+                    //add controls to current section
+                    var keyValue = 0;
+                    string fieldValue = string.Empty;
+
+                    switch (item.RefTableName)
+                    {
+
+                        case "CompanyContacts":
+                            keyValue = (int)objContact.ContactId;
+                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+                            break;
+                        case "Company":
+                            keyValue = (int)objContact.CompanyId;
+                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+                            break;
+                        case "Address":
+                            keyValue = (int)objContact.AddressId;
+                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Models.Common.TemplateVariable imgTempVar = new Models.Common.TemplateVariable(Convert.ToString(keyValue), fieldValue);
+
+                    templateVariables.Add(imgTempVar);
+                  
+                }
+            }
+            return templateVariables;
+        }
+
+        public string DynamicQueryToGetRecord(string feildname, string tblname, string keyName, int keyValue)
+        {
+          
+            string oResult = null;
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+            oResult = result.FirstOrDefault();
+            return oResult;
+
         }
 
         public int CopyTemplatePaths(Template clonedTemplate)
@@ -528,9 +616,7 @@ namespace MPC.Repository.Repositories
         // resolve variables in templates
         public bool ResolveTemplateVariables(int productID, Company objCompany, CompanyContact objContact, StoreMode objMode, List<Models.Common.TemplateVariable> lstPageControls)
         {
-            //if (objCompany != null && objContact != null)
-            //{
-
+            
             string CompanyLogo = "";
             string ContactLogo = "";
             string LocalCompanyLogo = "";
