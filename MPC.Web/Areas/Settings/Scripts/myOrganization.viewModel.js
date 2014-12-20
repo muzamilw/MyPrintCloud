@@ -135,7 +135,7 @@ define("myOrganization/myOrganization.viewModel",
                        //Create Markup
                      onCreateNewMarkup = function () {
                          var markup = markups()[0];
-                         if (markup.name() !== undefined && markup.rate() !== undefined) {
+                         if (markup.name() !== undefined && markup.rate() !== undefined && markup.isValid()) {
                              markups.splice(0, 0, model.Markup());
                              selectedMarkup(markups()[0]);
                          }

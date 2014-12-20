@@ -1153,6 +1153,7 @@
     <Content Include="Areas\Stores\Views\Shared\_EditSecondaryPageCategories.cshtml" />
     <Content Include="Areas\Products\Views\Home\_StockDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_MediaGalleryScreen.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
