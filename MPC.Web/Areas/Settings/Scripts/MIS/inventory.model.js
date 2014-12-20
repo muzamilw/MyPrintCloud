@@ -103,7 +103,7 @@
             //Per Qty Type
             perQtyType = ko.observable(specifiedPerQtyType),
            //Package Qty
-            packageQty = ko.observable(specifiedPackageQty === undefined ? undefined : specifiedPackageQty).extend({ number: true }),
+            packageQty = ko.observable(specifiedPackageQty === undefined ? 100 : specifiedPackageQty).extend({ number: true }),
             //Roll Width
             rollWidth = ko.observable(specifiedRollWidth).extend({ number: true }),
             //Roll Length
@@ -270,15 +270,15 @@
             //Pack Cost Price
             packCostPrice = ko.observable(specifiedPackCostPrice),
             //From Date
-            fromDate = ko.observable(specifiedFromDate).extend({ required: true }),
-            //To Date
-            toDate = ko.observable(specifiedToDate).extend({ required: true }),
+            fromDate = ko.observable(specifiedFromDate === null ? undefined : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
+            //To Date 
+            toDate = ko.observable(specifiedToDate === null ? undefined : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
             //Cost Or Price Identifier
             costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
             // Formatted From Date
              formattedFromDate = ko.computed({
                  read: function () {
-                     return fromDate() !== undefined ? moment(fromDate()).format(ist.datePattern) : undefined;
+                     return fromDate() !== undefined ? moment(fromDate(), ist.datePattern).toDate() : undefined;
                  }
              }),
              // Formatted To Date
@@ -353,7 +353,7 @@
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.Create = function () {
-        return new StockCostAndPrice(0, 0, 0, undefined, undefined, 0);
+        return new StockCostAndPrice(0, 0, 0, null, null, 0);
     };
     // Stock Item Factory
     StockItem.Create = function () {

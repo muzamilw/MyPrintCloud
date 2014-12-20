@@ -2770,7 +2770,7 @@
             </tr>
         </script>
         <script id="secondaryPageItemTemplate" type="text/html">
-            <tr data-bind="click: $root.selectedSecondaryPage">
+            <tr>
                 <td>
                     <img src="../../../../Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
                     <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;margin-left:60px;" data-bind="text:pageTitle"></span>
@@ -2839,8 +2839,8 @@
                 <td data-bind="text: city"></td>
                 <td data-bind="text: territoryId"></td>
                 <td data-bind="text: isDefaultTerrorityBilling() == true ? 'Yes' : 'No' "></td>
-                    
-                <!--ko if: isDefaultAddress() == true --> 
+
+                <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
                     <span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
                 </td>
@@ -2924,6 +2924,7 @@
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/AddEditSecondaryPage.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_EditSecondaryPageCategories.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Shared/_MediaGalleryScreen.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("Widgets/_AddEditPaymentGateway")
@@ -2945,6 +2946,7 @@
     <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     <script src="~/Scripts/jquery.form.js"></script>
+  
     <script type="text/javascript">
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");

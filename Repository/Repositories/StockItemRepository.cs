@@ -52,7 +52,7 @@ namespace MPC.Repository.Repositories
 
         #region public
         /// <summary>
-        /// Get All StockI tem User Domain Key
+        /// Get All StockI tem 
         /// </summary>
         public override IEnumerable<StockItem> GetAll()
         {
@@ -64,7 +64,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public InventorySearchResponse GetStockItems(InventorySearchRequestModel request)
         {
-            int fromRow = (request.PageNo) * request.PageSize;
+            int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<StockItem, bool>> query =
                 stockItem =>
@@ -92,11 +92,11 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public InventorySearchResponse GetStockItemsForProduct(StockItemRequestModel request)
         {
-            int fromRow = (request.PageNo) * request.PageSize;
+            int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<StockItem, bool>> query =
                 stockItem =>
-                    (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) && 
+                    (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
                     stockItem.OrganisationId == OrganisationId;
 
             IEnumerable<StockItem> stockItems = request.IsAsc

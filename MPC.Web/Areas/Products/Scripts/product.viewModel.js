@@ -82,6 +82,21 @@ define("product/product.viewModel",
                         },
                         onSelectRelatedItem: function () {
                             closeRelatedItemDialog();
+                        },
+                        onChooseStockItem: function () {
+                            openStockItemDialog();
+                        },
+                        onSelectStockItem: function () {
+                            closeStockItemDialog();
+                        },
+                        onUpdateItemAddonCostCentre: function () {
+                            openItemAddonCostCentreDialog();
+                        },
+                        onSaveItemAddonCostCentre: function () {
+                            closeItemAddonCostCentreDialog();
+                        },
+                        onCostCentreChange: function (costCentreId, activeItemAddonCostCentre) {
+                            setCostCentreToActiveItemAddonCostCentre(costCentreId, activeItemAddonCostCentre);
                         }
                     },
                     // Selected Job Description
@@ -232,6 +247,27 @@ define("product/product.viewModel",
                     closeItemAddonCostCentreDialog = function () {
                         view.hideItemAddonCostCentreDialog();
                     },
+                    // Get Cost Centre By Id
+                    getCostCentreById = function(id) {
+                        if (costCentres().length === 0) {
+                            return null;
+                        }
+
+                        return costCentres.find(function(costCentre) {
+                            return costCentre.id === id;
+                        });
+                    },
+                    // Set Cost Centre to active Item Add on cost centre
+                    setCostCentreToActiveItemAddonCostCentre = function(costCentreId, activeItemAddonCostCentre) {
+                        var costCentre = getCostCentreById(costCentreId);
+                        
+                        if (!costCentre) {
+                            return;
+                        }
+
+                        activeItemAddonCostCentre.costCentreName(costCentre.name);
+                        activeItemAddonCostCentre.costCentreType(costCentre.type);
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -356,7 +392,7 @@ define("product/product.viewModel",
                             success: function (data) {
                                 costCentres.removeAll();
                                 if (data) {
-                                    mapCostCentres(data.Items);
+                                    mapCostCentres(data.CostCentres);
                                 }
                             },
                             error: function (response) {
@@ -422,7 +458,7 @@ define("product/product.viewModel",
                                 stockItems.removeAll();
                                 if (data && data.TotalCount > 0) {
                                     stockDialogPager().totalCount(data.TotalCount);
-                                    mapStockItems(data.Items);
+                                    mapStockItems(data.StockItems);
                                 }
                             },
                             error: function (response) {

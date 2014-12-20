@@ -114,8 +114,9 @@ namespace MPC.Implementation.MISServices
         {
             IEnumerable<SectionFlag> sectionFlags = sectionFlagRepository.GetSectionFlagForInventory();
             IEnumerable<WeightUnit> weightUnits = weightUnitRepository.GetAll();
-            IEnumerable<StockItem> stockItems = stockItemRepository.GetStockItems(request).StockItems;
-            int totalCount = stockItemRepository.GetStockItems(request).TotalCount;
+            var stockItemResponse = stockItemRepository.GetStockItems(request);
+            IEnumerable<StockItem> stockItems = stockItemResponse.StockItems;
+            int totalCount = stockItemResponse.TotalCount;
             foreach (var stockItem in stockItems)
             {
                 //Set selected color code
@@ -146,7 +147,6 @@ namespace MPC.Implementation.MISServices
 
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
         }
-
 
         /// <summary>
         /// Delete stock Item

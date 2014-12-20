@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsB31FC05B02205DF0182716E34A37870BF18AC5C478680560E57F73C036487674))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets7DA87BE39384260FED5FC7D65690BCC69A91640B69DBBEFC5AE13ADC0EB303B1))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,18 +38,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsB31FC05B02205DF0182716E34A37870BF18AC5C478680560E57F73C036487674 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets7DA87BE39384260FED5FC7D65690BCC69A91640B69DBBEFC5AE13ADC0EB303B1 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsB31FC05B02205DF0182716E34A37870BF18AC5C478680560E57F73C036487674()
+        public ViewsForBaseEntitySets7DA87BE39384260FED5FC7D65690BCC69A91640B69DBBEFC5AE13ADC0EB303B1()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "d424f52cb01c3fb27f0c07d81f57952ea91fb55a9f83fd2b9ea41872a51f469a";
-            this.HashOverAllExtentViews = "3d17095605007f47843ec9dbd149b3b0e4dea265e3065960dede8301a094eb63";
+            this.HashOverMappingClosure = "3a9c2e6e3007770624cdfbc8edab79d4b75994ade08d67100593ea795819e3da";
+            this.HashOverAllExtentViews = "6d7887b07fae18b99c7ed87c9ab2a8a06b70884819decb00274418f5de290f3b";
             this.ViewCount = 174;
         }
         
@@ -3118,7 +3118,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView53()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4713);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4809);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Template\r\n        [DomainModels.Store.Templat");
             viewString.Append("e](T1.Template_ProductId, T1.Template_Code, T1.Template_ProductName, T1.Template");
             viewString.Append("_Description, T1.Template_LowResPDFTemplates, T1.Template_BackgroundArtwork, T1.");
@@ -3138,46 +3138,48 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("T1.Template_TemplateOwnerName, T1.Template_IsPrivate, T1.Template_ApprovedDate, ");
             viewString.Append("T1.Template_IsCorporateEditable, T1.Template_TemplateType, T1.Template_isWaterma");
             viewString.Append("rkText, T1.Template_isSpotTemplate, T1.Template_isCreatedManual, T1.Template_isE");
-            viewString.Append("ditorChoice)\r\n    FROM (\r\n        SELECT \r\n            T.ProductId AS Template_P");
-            viewString.Append("roductId, \r\n            T.Code AS Template_Code, \r\n            T.ProductName AS ");
-            viewString.Append("Template_ProductName, \r\n            T.Description AS Template_Description, \r\n   ");
-            viewString.Append("         T.LowResPDFTemplates AS Template_LowResPDFTemplates, \r\n            T.Ba");
-            viewString.Append("ckgroundArtwork AS Template_BackgroundArtwork, \r\n            T.Side2LowResPDFTem");
-            viewString.Append("plates AS Template_Side2LowResPDFTemplates, \r\n            T.Side2BackgroundArtwo");
-            viewString.Append("rk AS Template_Side2BackgroundArtwork, \r\n            T.Thumbnail AS Template_Thu");
-            viewString.Append("mbnail, \r\n            T.Image AS Template_Image, \r\n            T.IsDisabled AS T");
-            viewString.Append("emplate_IsDisabled, \r\n            T.PTempId AS Template_PTempId, \r\n            T");
-            viewString.Append(".IsDoubleSide AS Template_IsDoubleSide, \r\n            T.IsUsePDFFile AS Template");
-            viewString.Append("_IsUsePDFFile, \r\n            T.PDFTemplateWidth AS Template_PDFTemplateWidth, \r\n");
-            viewString.Append("            T.PDFTemplateHeight AS Template_PDFTemplateHeight, \r\n            T.I");
-            viewString.Append("sUseBackGroundColor AS Template_IsUseBackGroundColor, \r\n            T.BgR AS Tem");
-            viewString.Append("plate_BgR, \r\n            T.BgG AS Template_BgG, \r\n            T.BgB AS Template_");
-            viewString.Append("BgB, \r\n            T.IsUseSide2BackGroundColor AS Template_IsUseSide2BackGroundC");
-            viewString.Append("olor, \r\n            T.Side2BgR AS Template_Side2BgR, \r\n            T.Side2BgG AS");
-            viewString.Append(" Template_Side2BgG, \r\n            T.Side2BgB AS Template_Side2BgB, \r\n           ");
-            viewString.Append(" T.CuttingMargin AS Template_CuttingMargin, \r\n            T.MultiPageCount AS Te");
-            viewString.Append("mplate_MultiPageCount, \r\n            T.Orientation AS Template_Orientation, \r\n  ");
-            viewString.Append("          T.MatchingSetTheme AS Template_MatchingSetTheme, \r\n            T.BaseC");
-            viewString.Append("olorID AS Template_BaseColorID, \r\n            T.SubmittedBy AS Template_Submitte");
-            viewString.Append("dBy, \r\n            T.SubmittedByName AS Template_SubmittedByName, \r\n            ");
-            viewString.Append("T.SubmitDate AS Template_SubmitDate, \r\n            T.Status AS Template_Status, ");
-            viewString.Append("\r\n            T.ApprovedBy AS Template_ApprovedBy, \r\n            T.ApprovedByNam");
-            viewString.Append("e AS Template_ApprovedByName, \r\n            T.UserRating AS Template_UserRating,");
-            viewString.Append(" \r\n            T.UsedCount AS Template_UsedCount, \r\n            T.MPCRating AS T");
-            viewString.Append("emplate_MPCRating, \r\n            T.RejectionReason AS Template_RejectionReason, ");
-            viewString.Append("\r\n            T.ApprovalDate AS Template_ApprovalDate, \r\n            T.TempStrin");
-            viewString.Append("g AS Template_TempString, \r\n            T.MatchingSetID AS Template_MatchingSetI");
-            viewString.Append("D, \r\n            T.FullView AS Template_FullView, \r\n            T.SLThumbnail AS");
-            viewString.Append(" Template_SLThumbnail, \r\n            T.SuperView AS Template_SuperView, \r\n      ");
-            viewString.Append("      T.ColorHex AS Template_ColorHex, \r\n            T.TemplateOwner AS Template");
-            viewString.Append("_TemplateOwner, \r\n            T.TemplateOwnerName AS Template_TemplateOwnerName,");
-            viewString.Append(" \r\n            T.IsPrivate AS Template_IsPrivate, \r\n            T.ApprovedDate A");
-            viewString.Append("S Template_ApprovedDate, \r\n            T.IsCorporateEditable AS Template_IsCorpo");
-            viewString.Append("rateEditable, \r\n            T.TemplateType AS Template_TemplateType, \r\n         ");
-            viewString.Append("   T.isWatermarkText AS Template_isWatermarkText, \r\n            T.isSpotTemplate");
-            viewString.Append(" AS Template_isSpotTemplate, \r\n            T.isCreatedManual AS Template_isCreat");
-            viewString.Append("edManual, \r\n            T.isEditorChoice AS Template_isEditorChoice, \r\n         ");
-            viewString.Append("   True AS _from0\r\n        FROM BaseDbContext.Templates AS T\r\n    ) AS T1");
+            viewString.Append("ditorChoice, T1.Template_ProductCategoryId)\r\n    FROM (\r\n        SELECT \r\n      ");
+            viewString.Append("      T.ProductId AS Template_ProductId, \r\n            T.Code AS Template_Code, ");
+            viewString.Append("\r\n            T.ProductName AS Template_ProductName, \r\n            T.Description");
+            viewString.Append(" AS Template_Description, \r\n            T.LowResPDFTemplates AS Template_LowResP");
+            viewString.Append("DFTemplates, \r\n            T.BackgroundArtwork AS Template_BackgroundArtwork, \r\n");
+            viewString.Append("            T.Side2LowResPDFTemplates AS Template_Side2LowResPDFTemplates, \r\n   ");
+            viewString.Append("         T.Side2BackgroundArtwork AS Template_Side2BackgroundArtwork, \r\n        ");
+            viewString.Append("    T.Thumbnail AS Template_Thumbnail, \r\n            T.Image AS Template_Image, ");
+            viewString.Append("\r\n            T.IsDisabled AS Template_IsDisabled, \r\n            T.PTempId AS Te");
+            viewString.Append("mplate_PTempId, \r\n            T.IsDoubleSide AS Template_IsDoubleSide, \r\n       ");
+            viewString.Append("     T.IsUsePDFFile AS Template_IsUsePDFFile, \r\n            T.PDFTemplateWidth A");
+            viewString.Append("S Template_PDFTemplateWidth, \r\n            T.PDFTemplateHeight AS Template_PDFTe");
+            viewString.Append("mplateHeight, \r\n            T.IsUseBackGroundColor AS Template_IsUseBackGroundCo");
+            viewString.Append("lor, \r\n            T.BgR AS Template_BgR, \r\n            T.BgG AS Template_BgG, \r");
+            viewString.Append("\n            T.BgB AS Template_BgB, \r\n            T.IsUseSide2BackGroundColor AS");
+            viewString.Append(" Template_IsUseSide2BackGroundColor, \r\n            T.Side2BgR AS Template_Side2B");
+            viewString.Append("gR, \r\n            T.Side2BgG AS Template_Side2BgG, \r\n            T.Side2BgB AS T");
+            viewString.Append("emplate_Side2BgB, \r\n            T.CuttingMargin AS Template_CuttingMargin, \r\n   ");
+            viewString.Append("         T.MultiPageCount AS Template_MultiPageCount, \r\n            T.Orientatio");
+            viewString.Append("n AS Template_Orientation, \r\n            T.MatchingSetTheme AS Template_Matching");
+            viewString.Append("SetTheme, \r\n            T.BaseColorID AS Template_BaseColorID, \r\n            T.S");
+            viewString.Append("ubmittedBy AS Template_SubmittedBy, \r\n            T.SubmittedByName AS Template_");
+            viewString.Append("SubmittedByName, \r\n            T.SubmitDate AS Template_SubmitDate, \r\n          ");
+            viewString.Append("  T.Status AS Template_Status, \r\n            T.ApprovedBy AS Template_ApprovedBy");
+            viewString.Append(", \r\n            T.ApprovedByName AS Template_ApprovedByName, \r\n            T.Use");
+            viewString.Append("rRating AS Template_UserRating, \r\n            T.UsedCount AS Template_UsedCount,");
+            viewString.Append(" \r\n            T.MPCRating AS Template_MPCRating, \r\n            T.RejectionReaso");
+            viewString.Append("n AS Template_RejectionReason, \r\n            T.ApprovalDate AS Template_Approval");
+            viewString.Append("Date, \r\n            T.TempString AS Template_TempString, \r\n            T.Matchin");
+            viewString.Append("gSetID AS Template_MatchingSetID, \r\n            T.FullView AS Template_FullView,");
+            viewString.Append(" \r\n            T.SLThumbnail AS Template_SLThumbnail, \r\n            T.SuperView ");
+            viewString.Append("AS Template_SuperView, \r\n            T.ColorHex AS Template_ColorHex, \r\n        ");
+            viewString.Append("    T.TemplateOwner AS Template_TemplateOwner, \r\n            T.TemplateOwnerName");
+            viewString.Append(" AS Template_TemplateOwnerName, \r\n            T.IsPrivate AS Template_IsPrivate,");
+            viewString.Append(" \r\n            T.ApprovedDate AS Template_ApprovedDate, \r\n            T.IsCorpor");
+            viewString.Append("ateEditable AS Template_IsCorporateEditable, \r\n            T.TemplateType AS Tem");
+            viewString.Append("plate_TemplateType, \r\n            T.isWatermarkText AS Template_isWatermarkText,");
+            viewString.Append(" \r\n            T.isSpotTemplate AS Template_isSpotTemplate, \r\n            T.isCr");
+            viewString.Append("eatedManual AS Template_isCreatedManual, \r\n            T.isEditorChoice AS Templ");
+            viewString.Append("ate_isEditorChoice, \r\n            T.ProductCategoryId AS Template_ProductCategor");
+            viewString.Append("yId, \r\n            True AS _from0\r\n        FROM BaseDbContext.Templates AS T\r\n  ");
+            viewString.Append("  ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Template", viewString.ToString());
         }
         
@@ -5743,7 +5745,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView113()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4720);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(4816);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Templates\r\n        [DomainModels.Template](T1");
             viewString.Append(".Template_ProductId, T1.Template_Code, T1.Template_ProductName, T1.Template_Desc");
             viewString.Append("ription, T1.Template_LowResPDFTemplates, T1.Template_BackgroundArtwork, T1.Templ");
@@ -5763,47 +5765,48 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("mplate_TemplateOwnerName, T1.Template_IsPrivate, T1.Template_ApprovedDate, T1.Te");
             viewString.Append("mplate_IsCorporateEditable, T1.Template_TemplateType, T1.Template_isWatermarkTex");
             viewString.Append("t, T1.Template_isSpotTemplate, T1.Template_isCreatedManual, T1.Template_isEditor");
-            viewString.Append("Choice)\r\n    FROM (\r\n        SELECT \r\n            T.ProductId AS Template_Produc");
-            viewString.Append("tId, \r\n            T.Code AS Template_Code, \r\n            T.ProductName AS Templ");
-            viewString.Append("ate_ProductName, \r\n            T.Description AS Template_Description, \r\n        ");
-            viewString.Append("    T.LowResPDFTemplates AS Template_LowResPDFTemplates, \r\n            T.Backgro");
-            viewString.Append("undArtwork AS Template_BackgroundArtwork, \r\n            T.Side2LowResPDFTemplate");
-            viewString.Append("s AS Template_Side2LowResPDFTemplates, \r\n            T.Side2BackgroundArtwork AS");
-            viewString.Append(" Template_Side2BackgroundArtwork, \r\n            T.Thumbnail AS Template_Thumbnai");
-            viewString.Append("l, \r\n            T.Image AS Template_Image, \r\n            T.IsDisabled AS Templa");
-            viewString.Append("te_IsDisabled, \r\n            T.PTempId AS Template_PTempId, \r\n            T.IsDo");
-            viewString.Append("ubleSide AS Template_IsDoubleSide, \r\n            T.IsUsePDFFile AS Template_IsUs");
-            viewString.Append("ePDFFile, \r\n            T.PDFTemplateWidth AS Template_PDFTemplateWidth, \r\n     ");
-            viewString.Append("       T.PDFTemplateHeight AS Template_PDFTemplateHeight, \r\n            T.IsUseB");
-            viewString.Append("ackGroundColor AS Template_IsUseBackGroundColor, \r\n            T.BgR AS Template");
-            viewString.Append("_BgR, \r\n            T.BgG AS Template_BgG, \r\n            T.BgB AS Template_BgB, ");
-            viewString.Append("\r\n            T.IsUseSide2BackGroundColor AS Template_IsUseSide2BackGroundColor,");
-            viewString.Append(" \r\n            T.Side2BgR AS Template_Side2BgR, \r\n            T.Side2BgG AS Temp");
-            viewString.Append("late_Side2BgG, \r\n            T.Side2BgB AS Template_Side2BgB, \r\n            T.Cu");
-            viewString.Append("ttingMargin AS Template_CuttingMargin, \r\n            T.MultiPageCount AS Templat");
-            viewString.Append("e_MultiPageCount, \r\n            T.Orientation AS Template_Orientation, \r\n       ");
-            viewString.Append("     T.MatchingSetTheme AS Template_MatchingSetTheme, \r\n            T.BaseColorI");
-            viewString.Append("D AS Template_BaseColorID, \r\n            T.SubmittedBy AS Template_SubmittedBy, ");
-            viewString.Append("\r\n            T.SubmittedByName AS Template_SubmittedByName, \r\n            T.Sub");
-            viewString.Append("mitDate AS Template_SubmitDate, \r\n            T.Status AS Template_Status, \r\n   ");
-            viewString.Append("         T.ApprovedBy AS Template_ApprovedBy, \r\n            T.ApprovedByName AS ");
-            viewString.Append("Template_ApprovedByName, \r\n            T.UserRating AS Template_UserRating, \r\n  ");
-            viewString.Append("          T.UsedCount AS Template_UsedCount, \r\n            T.MPCRating AS Templa");
-            viewString.Append("te_MPCRating, \r\n            T.RejectionReason AS Template_RejectionReason, \r\n   ");
-            viewString.Append("         T.ApprovalDate AS Template_ApprovalDate, \r\n            T.TempString AS ");
-            viewString.Append("Template_TempString, \r\n            T.MatchingSetID AS Template_MatchingSetID, \r\n");
-            viewString.Append("            T.FullView AS Template_FullView, \r\n            T.SLThumbnail AS Temp");
-            viewString.Append("late_SLThumbnail, \r\n            T.SuperView AS Template_SuperView, \r\n           ");
-            viewString.Append(" T.ColorHex AS Template_ColorHex, \r\n            T.TemplateOwner AS Template_Temp");
-            viewString.Append("lateOwner, \r\n            T.TemplateOwnerName AS Template_TemplateOwnerName, \r\n  ");
-            viewString.Append("          T.IsPrivate AS Template_IsPrivate, \r\n            T.ApprovedDate AS Tem");
-            viewString.Append("plate_ApprovedDate, \r\n            T.IsCorporateEditable AS Template_IsCorporateE");
-            viewString.Append("ditable, \r\n            T.TemplateType AS Template_TemplateType, \r\n            T.");
-            viewString.Append("isWatermarkText AS Template_isWatermarkText, \r\n            T.isSpotTemplate AS T");
-            viewString.Append("emplate_isSpotTemplate, \r\n            T.isCreatedManual AS Template_isCreatedMan");
-            viewString.Append("ual, \r\n            T.isEditorChoice AS Template_isEditorChoice, \r\n            Tr");
-            viewString.Append("ue AS _from0\r\n        FROM DomainModelsStoreContainer.Template AS T\r\n    ) AS T1");
-            viewString.Append("");
+            viewString.Append("Choice, T1.Template_ProductCategoryId)\r\n    FROM (\r\n        SELECT \r\n           ");
+            viewString.Append(" T.ProductId AS Template_ProductId, \r\n            T.Code AS Template_Code, \r\n   ");
+            viewString.Append("         T.ProductName AS Template_ProductName, \r\n            T.Description AS T");
+            viewString.Append("emplate_Description, \r\n            T.LowResPDFTemplates AS Template_LowResPDFTem");
+            viewString.Append("plates, \r\n            T.BackgroundArtwork AS Template_BackgroundArtwork, \r\n     ");
+            viewString.Append("       T.Side2LowResPDFTemplates AS Template_Side2LowResPDFTemplates, \r\n        ");
+            viewString.Append("    T.Side2BackgroundArtwork AS Template_Side2BackgroundArtwork, \r\n            T");
+            viewString.Append(".Thumbnail AS Template_Thumbnail, \r\n            T.Image AS Template_Image, \r\n   ");
+            viewString.Append("         T.IsDisabled AS Template_IsDisabled, \r\n            T.PTempId AS Templat");
+            viewString.Append("e_PTempId, \r\n            T.IsDoubleSide AS Template_IsDoubleSide, \r\n            ");
+            viewString.Append("T.IsUsePDFFile AS Template_IsUsePDFFile, \r\n            T.PDFTemplateWidth AS Tem");
+            viewString.Append("plate_PDFTemplateWidth, \r\n            T.PDFTemplateHeight AS Template_PDFTemplat");
+            viewString.Append("eHeight, \r\n            T.IsUseBackGroundColor AS Template_IsUseBackGroundColor, ");
+            viewString.Append("\r\n            T.BgR AS Template_BgR, \r\n            T.BgG AS Template_BgG, \r\n    ");
+            viewString.Append("        T.BgB AS Template_BgB, \r\n            T.IsUseSide2BackGroundColor AS Temp");
+            viewString.Append("late_IsUseSide2BackGroundColor, \r\n            T.Side2BgR AS Template_Side2BgR, \r");
+            viewString.Append("\n            T.Side2BgG AS Template_Side2BgG, \r\n            T.Side2BgB AS Templa");
+            viewString.Append("te_Side2BgB, \r\n            T.CuttingMargin AS Template_CuttingMargin, \r\n        ");
+            viewString.Append("    T.MultiPageCount AS Template_MultiPageCount, \r\n            T.Orientation AS ");
+            viewString.Append("Template_Orientation, \r\n            T.MatchingSetTheme AS Template_MatchingSetTh");
+            viewString.Append("eme, \r\n            T.BaseColorID AS Template_BaseColorID, \r\n            T.Submit");
+            viewString.Append("tedBy AS Template_SubmittedBy, \r\n            T.SubmittedByName AS Template_Submi");
+            viewString.Append("ttedByName, \r\n            T.SubmitDate AS Template_SubmitDate, \r\n            T.S");
+            viewString.Append("tatus AS Template_Status, \r\n            T.ApprovedBy AS Template_ApprovedBy, \r\n ");
+            viewString.Append("           T.ApprovedByName AS Template_ApprovedByName, \r\n            T.UserRati");
+            viewString.Append("ng AS Template_UserRating, \r\n            T.UsedCount AS Template_UsedCount, \r\n  ");
+            viewString.Append("          T.MPCRating AS Template_MPCRating, \r\n            T.RejectionReason AS ");
+            viewString.Append("Template_RejectionReason, \r\n            T.ApprovalDate AS Template_ApprovalDate,");
+            viewString.Append(" \r\n            T.TempString AS Template_TempString, \r\n            T.MatchingSetI");
+            viewString.Append("D AS Template_MatchingSetID, \r\n            T.FullView AS Template_FullView, \r\n  ");
+            viewString.Append("          T.SLThumbnail AS Template_SLThumbnail, \r\n            T.SuperView AS Te");
+            viewString.Append("mplate_SuperView, \r\n            T.ColorHex AS Template_ColorHex, \r\n            T");
+            viewString.Append(".TemplateOwner AS Template_TemplateOwner, \r\n            T.TemplateOwnerName AS T");
+            viewString.Append("emplate_TemplateOwnerName, \r\n            T.IsPrivate AS Template_IsPrivate, \r\n  ");
+            viewString.Append("          T.ApprovedDate AS Template_ApprovedDate, \r\n            T.IsCorporateEd");
+            viewString.Append("itable AS Template_IsCorporateEditable, \r\n            T.TemplateType AS Template");
+            viewString.Append("_TemplateType, \r\n            T.isWatermarkText AS Template_isWatermarkText, \r\n  ");
+            viewString.Append("          T.isSpotTemplate AS Template_isSpotTemplate, \r\n            T.isCreated");
+            viewString.Append("Manual AS Template_isCreatedManual, \r\n            T.isEditorChoice AS Template_i");
+            viewString.Append("sEditorChoice, \r\n            T.ProductCategoryId AS Template_ProductCategoryId, ");
+            viewString.Append("\r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.Template A");
+            viewString.Append("S T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Templates", viewString.ToString());
         }
         

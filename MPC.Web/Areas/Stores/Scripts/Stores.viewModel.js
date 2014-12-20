@@ -589,6 +589,7 @@ define("stores/stores.viewModel",
                     // ***** COMPANY CMYK COLOR END*****//
 
                     // ***** COMPANY BANNER AND COMPANY BANNER SET*****//
+                    //#region  AND COMPANY BANNER SET
                     bannerEditorViewModel = new ist.ViewModel(model.CompanyBanner),
                     selectedCompanyBanner = bannerEditorViewModel.itemForEditing,
                     selectedCompanyBannerSet = ko.observable(),
@@ -704,6 +705,8 @@ define("stores/stores.viewModel",
                         });
                         confirmation.show();
                     },
+                     //#endregion 
+
                     // ***** COMPANY BANNER eND*****//
 
                     //***** ADDRESSES ****//
@@ -773,7 +776,7 @@ define("stores/stores.viewModel",
                     //Address Pager
                     addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Contact Company Pager
-                    contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                   contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Secondary Page Pager
                     secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Address Search Filter
@@ -889,14 +892,14 @@ define("stores/stores.viewModel",
                     // ***** Address END *****
 
                     //***** Secondry Page *****
-
-                    //Add Secondry Page
+                //#region Secondry Page
                 selectedSecondaryPage = ko.observable(),
                 selectedPageCategory = ko.observable(),
                 newAddedSecondaryPage = ko.observableArray([]),
                 editedSecondaryPage = ko.observableArray([]),
                 deletedSecondaryPage = ko.observableArray([]),
                 nextSecondaryPageIdCounter = ko.observable(0),
+                //Add New Secondary PAge
                 onAddSecondaryPage = function () {
                     selectedSecondaryPage(model.CMSPage());
                     view.showSecondoryPageDialog();
@@ -1101,16 +1104,17 @@ define("stores/stores.viewModel",
                     }
                     return flag;
                 },
+                //#endregion
                 //***** Secondy Page End
                  MultipleImageFilesLoadedCallback = function (file, data) {
                      selectedCompanyBanner().fileBinary(data);
                      selectedCompanyBanner().filename(file.name);
                      selectedCompanyBanner().fileType(data.imageType);
                  },
-                  SecondaryImageFileLoadedCallback = function (file, data) {
-                      selectedSecondaryPage().imageSrc(data);
-                      selectedSecondaryPage().fileName(file.name);
-                  },
+                SecondaryImageFileLoadedCallback = function (file, data) {
+                    selectedSecondaryPage().imageSrc(data);
+                    selectedSecondaryPage().fileName(file.name);
+                },
                   
                 //*****    COMPANY CONTACT      ***************//
 

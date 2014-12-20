@@ -48,5 +48,11 @@ namespace MPC.Interfaces.MISServices
         /// Save image path for company logo in supplier
         /// </summary>
         void SaveCompanyImage(string path, long supplierId);
+
+        /// <summary>
+        /// Delete stock Item
+        /// </summary>
+        /// <param name="stockItemId"></param>
+        void DeleteInvenotry(long stockItemId);
     }
 }

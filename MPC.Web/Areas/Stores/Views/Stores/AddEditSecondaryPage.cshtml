@@ -89,15 +89,14 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <img style="min-height: 200px; width: 250px;" data-bind="attr: { src: imageSrc }" />
+                                                        <img width="290" height="217" data-bind="attr: { src: imageSrc }" />
                                                     </div>
                                                     <div class="col-lg-1">
-                                                        <input type="file" id="image_files" multiple data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}">
-                                                        @*<a data-toggle="modal" href="#" class="btn btn-primary" style="vertical-align: top;">
-                                                                <i class="fa fa-lg"></i>&nbsp;....
-                                                            </a>*@
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" multiple data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -379,9 +378,9 @@
         </div>
     </div>
 </div>
-@*@Html.Partial("Widgets/_EditSecondaryPageCategories")
-    @Html.Partial("Widgets/_MediaGalleryScreen")*@
+@*@Html.Partial("Widgets/_EditSecondaryPageCategories")*@
+@*@Html.Partial("Widgets/_MediaGalleryScreen")*@
 
 @section Scripts {
-    <script src="~/Content/themes/Centaurus/js/ckeditor/ckeditor.js"></script>
+    @*<script src="~/Content/themes/Centaurus/js/ckeditor/ckeditor.js"></script>*@
 }
