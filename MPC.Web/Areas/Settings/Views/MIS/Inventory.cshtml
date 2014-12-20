@@ -123,7 +123,7 @@
     </a>
 </script>
 <script id="itemInventoryTemplate" type="text/html">
-    <tr data-bind="click: $root.selectedInventory">
+    <tr >
         <td data-bind="style: {backgroundColor: colour}"></td>
         <td>
             <span data-bind="text: name"></span><span class="user-subhead" data-bind="text:supplierCompanyName"></span>
@@ -137,8 +137,6 @@
         <td>
             <!-- ko template: { name: 'editActionInventoryTemplate' } -->
             <!-- /ko -->
-        </td>
-        <td>
             <!-- ko template: { name: 'deleteActionInventoryTemplate' } -->
             <!-- /ko -->
         </td>

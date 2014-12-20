@@ -31,24 +31,16 @@
 
                     </div>
 
-                    <div class="col-lg-6">
-                        <input type="file" id="image_files" multiple data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />
-                        <div class="control-group">
-                            <div class="controls">
-                                <img style="min-height: 200px; width: 250px;" data-bind="attr: { src: fileBinary }" />
-                            </div>
-                        </div>
-
-                        @*<div id="dropzone1" class="dropzonepl">
-                                <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                    <div class="dz-default dz-message">
-                                        <span>Drop file here to upload</span>
-                                    </div>
-                                </form>
-                            </div>*@
-                        <span class="help-block text-right"></span>
+                    <div class="col-lg-4">
+                        <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: fileBinary }" />
+                        @*<span class="help-block text-right"></span>*@
                     </div>
-
+                    <div class="col-lg-1">
+                        <div class="fileUpload btn btn-primary">
+                            <span>....</span>
+                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-5 text-right">

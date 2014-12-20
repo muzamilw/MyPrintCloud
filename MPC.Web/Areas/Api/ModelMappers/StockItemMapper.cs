@@ -20,13 +20,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new InventoryBaseResponse
             {
-                StockCategories = source.StockCategories.Select(s => s.CreateFromDropDown()).ToList(),
-                StockSubCategories = source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList(),
-                PaperSizes = source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList(),
-                SectionFlags = source.SectionFlags.Select(su => su.CreateFromDropDown()).ToList(),
-                WeightUnits = source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList(),
-                LengthUnits = source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList(),
-                PaperBasisAreas = source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList(),
+                StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
+                StockSubCategories = source.StockSubCategories != null ? source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList() : null,
+                PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList() : null,
+                SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(su => su.CreateFromDropDown()).ToList() : null,
+                WeightUnits = source.WeightUnits != null ? source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList() : null,
+                LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList() : null,
+                PaperBasisAreas = source.PaperBasisAreas != null ? source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList() : null,
                 RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>()
             };
         }
@@ -42,7 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new ApiModels.InventorySearchResponse
             {
-                StockItems = source.StockItems.Select(stockItem => stockItem.CreateFrom()).ToList(),
+                StockItems = source.StockItems != null ? source.StockItems.Select(stockItem => stockItem.CreateFrom()).ToList() : null,
                 TotalCount = source.TotalCount
             };
         }
@@ -54,7 +54,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new ApiModels.SupplierSearchResponseForInventory
             {
-                Suppliers = source.Suppliers.Select(s => s.CreateFromForInventory()).ToList(),
+                Suppliers = source.Suppliers != null ? source.Suppliers.Select(s => s.CreateFromForInventory()).ToList() : null,
                 TotalCount = source.TotalCount
             };
         }

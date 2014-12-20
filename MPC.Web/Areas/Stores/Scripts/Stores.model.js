@@ -135,7 +135,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             type = ko.observable(),
             webAccessCode = ko.observable(specifiedWebAccessCode).extend({
                 required: {
-                    onlyIf: function() {
+                    onlyIf: function () {
                         return type() == 3;
                     }
                 }
@@ -432,12 +432,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
-         if (source.IsCustomer == 1) {
+        if (source.IsCustomer == 1) {
             store.type("1");
         }
-        //else if (source.IsCustomer == 2) {
-        //    store.type("Prospect");
-        //}
+            //else if (source.IsCustomer == 2) {
+            //    store.type("Prospect");
+            //}
         else if (source.IsCustomer == 3) {
             store.type("3");
         }
@@ -1046,36 +1046,36 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             }),
             //Convert To Server
             convertToServerData = function (source) {
-                    return {
-                        AddressId: addressId(),
-                        CompanyId: companyId(),
-                        AddressName: addressName(),
-                        Address1: address1(),
-                        Address2: address2(),
-                        Address3: address3(),
-                        City: city(),
-                        State: state(),
-                        Country: country(),
-                        PostCode: postCode(),
-                        Fax: fax(),
-                        URL: uRL(),
-                        Tel1: tel1(),
-                        Tel2: tel2(),
-                        Extension1: extension1(),
-                        Extension2: extension2(),
-                        Reference: reference(),
-                        FAO: fAO(),
-                        IsDefaultAddress: isDefaultAddress(),
-                        IsDefaultShippingAddress: isDefaultShippingAddress(),
-                        isArchived: isArchived(),
-                        TerritoryId: territoryId(),
-                        GeoLatitude: geoLatitude(),
-                        GeoLongitude: geoLongitude(),
-                        isPrivate: isPrivate(),
-                        isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
-                        isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
-                        OrganisationId: organisationId()
-                    };
+                return {
+                    AddressId: addressId(),
+                    CompanyId: companyId(),
+                    AddressName: addressName(),
+                    Address1: address1(),
+                    Address2: address2(),
+                    Address3: address3(),
+                    City: city(),
+                    State: state(),
+                    Country: country(),
+                    PostCode: postCode(),
+                    Fax: fax(),
+                    URL: uRL(),
+                    Tel1: tel1(),
+                    Tel2: tel2(),
+                    Extension1: extension1(),
+                    Extension2: extension2(),
+                    Reference: reference(),
+                    FAO: fAO(),
+                    IsDefaultAddress: isDefaultAddress(),
+                    IsDefaultShippingAddress: isDefaultShippingAddress(),
+                    isArchived: isArchived(),
+                    TerritoryId: territoryId(),
+                    GeoLatitude: geoLatitude(),
+                    GeoLongitude: geoLongitude(),
+                    isPrivate: isPrivate(),
+                    isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
+                    isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
+                    OrganisationId: organisationId()
+                };
             },
             // Reset
             reset = function () {
@@ -1264,6 +1264,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
+    //Company Banner Create Factory
     CompanyBanner.Create = function (source) {
         return new CompanyBanner(
             source.CompanyBannerId,
@@ -1332,6 +1333,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.SetName
         );
     };
+    //Company Banner Set Create Factory
     CompanyBannerSet.CreateNew = function () {
         return new CompanyBannerSet(0, undefined);
     };
@@ -1340,7 +1342,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -1355,7 +1357,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             categoryId = ko.observable(specifiedCategoryId),
             pageHTML = ko.observable(specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
-            fileName = ko.observable(),
+            fileName = ko.observable(specifiedFileName),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             // Errors
             errors = ko.validation.group({
@@ -1423,6 +1425,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
+    //CMS Page Create Factory
     CMSPage.Create = function (source) {
         return new CMSPage(
             source.PageId,
@@ -1438,7 +1441,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CategoryId,
             source.PageHTML,
             source.ImageSource,
-            source.DefaultPageKeyWords
+            source.DefaultPageKeyWords,
+            source.FileName
+
         );
     };
 
