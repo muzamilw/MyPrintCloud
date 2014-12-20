@@ -65,6 +65,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemAddOnCostCentreRepository, ItemAddonCostCentreRepository>();
             unityContainer.RegisterType<ICostCentreRepository, CostCentreRepository>();
             unityContainer.RegisterType<IEmailEventRepository, EmailEventRepository>();
+            unityContainer.RegisterType<IMpcFileTableViewRepository, MpcFileTableViewRepository>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
@@ -149,77 +150,10 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public int UserDomainKey { get; set; }
 
-        ///// <summary>
-        ///// Payment Business Email
-        ///// </summary>
-        //public string PaymentBusinessEmail { get; set; }
-
-        ///// <summary>
-        ///// Payment Identity Token
-        ///// </summary>
-        //public string PaymentIdentityToken { get; set; }
-
-        ///// <summary>
-        ///// Payment Gateway Id
-        ///// </summary>
-        //public int? PaymentGatewayId { get; set; }
-
-        ///// <summary>
-        ///// Customer Id
-        ///// </summary>
-        //public int? CustomerId { get; set; }
-
-
-        ///// <summary>
-        ///// Company Id
-        ///// </summary>
-        //public int? CompanyId { get; set; }
-
-        ///// <summary>
-        ///// State Tax Id
-        ///// </summary>
-        //public int? StateTaxId { get; set; }
-
-        ///// <summary>
-        ///// Tax 1
-        ///// </summary>
-        //public string Tax1 { get; set; }
-
-        ///// <summary>
-        ///// Tax 2
-        ///// </summary>
-        //public string Tax2 { get; set; }
-
-        ///// <summary>
-        ///// Tax 3
-        ///// </summary>
-        //public string Tax3 { get; set; }
-        ///// <summary>
-        ///// Tax2 Id
-        ///// </summary>
-        //public int? Tax2Id { get; set; }
-
-        ///// <summary>
-        ///// Tax3 Id
-        ///// </summary>
-        //public int? Tax3Id { get; set; }
-
-        ///// <summary>
-        ///// Production Manager Id
-        ///// </summary>
-        //public int? ProductionManagerId { get; set; }
-
-        ///// <summary>
-        ///// Markup Id
-        ///// </summary>
-        //public int? MarkupId { get; set; }
-
-        ///// <summary>
-        ///// Order Manager Id
-        ///// </summary>
-        //public int? OrderManagerId { get; set; }
-
-
+        /// <summary>
+        /// MIS Logo Stream Id
+        /// </summary>
+        public Guid? MISLogoStreamId { get; set; }
 
         #endregion
         #region Reference Properties

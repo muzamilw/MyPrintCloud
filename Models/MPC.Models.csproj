@@ -175,6 +175,7 @@
     <Compile Include="DomainModels\ItemVDPPrice.cs" />
     <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\LengthUnit.cs" />
+    <Compile Include="DomainModels\MPCFileTableView.cs" />
     <Compile Include="DomainModels\Prefix.cs" />
     <Compile Include="DomainModels\PageCategory.cs" />
     <Compile Include="DomainModels\PaperBasisArea.cs" />

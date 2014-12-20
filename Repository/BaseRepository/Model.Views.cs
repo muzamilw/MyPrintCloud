@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsC6FBB6A5879F58D4224F353DB30B68B2040CBCF473AB0EED7C4E65A623701384))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsF74C24A6B2D816523D2D0876FFEA8C2438288118BC6C8FB8B5F3F3A50A21B885))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,19 +38,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsC6FBB6A5879F58D4224F353DB30B68B2040CBCF473AB0EED7C4E65A623701384 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsF74C24A6B2D816523D2D0876FFEA8C2438288118BC6C8FB8B5F3F3A50A21B885 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsC6FBB6A5879F58D4224F353DB30B68B2040CBCF473AB0EED7C4E65A623701384()
+        public ViewsForBaseEntitySetsF74C24A6B2D816523D2D0876FFEA8C2438288118BC6C8FB8B5F3F3A50A21B885()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "0750c83643570d5d85b4cc4a4572b11b4dd42cb1e668321e342a7def3c17e6d1";
-            this.HashOverAllExtentViews = "ed174bd0fbc737a025e6a63b1e0493ddc4520a54ca7e3b31339aa6681eab11e1";
-            this.ViewCount = 174;
+            this.HashOverMappingClosure = "cb158b890408771f3323e3b78c3a1786b9d43c52fc18a01c920839d3c5d20fcc";
+            this.HashOverAllExtentViews = "21d8f9832ff8965faf94f61dc08be2fdddc539d451abd2e80252c98ca7341f40";
+            this.ViewCount = 176;
         }
         
         /// <Summary>
@@ -754,6 +754,14 @@ namespace Edm_EntityMappingGeneratedViews
             {
                 return GetView173();
             }
+            if ((index == 174))
+            {
+                return GetView174();
+            }
+            if ((index == 175))
+            {
+                return GetView175();
+            }
             throw new System.IndexOutOfRangeException();
         }
         
@@ -997,7 +1005,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2519);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2617);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisation\r\n        [DomainModels.Store.Org");
             viewString.Append("anisation](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.");
             viewString.Append("Organisation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Or");
@@ -1008,28 +1016,29 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("1.Organisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organisatio");
             viewString.Append("n_SmtpUserName, T1.Organisation_SmtpPassword, T1.Organisation_VATRegNumber, T1.O");
             viewString.Append("rganisation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisation_");
-            viewString.Append("CurrencyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey)\r\n    FROM");
-            viewString.Append(" (\r\n        SELECT \r\n            T.OrganisationId AS Organisation_OrganisationId");
-            viewString.Append(", \r\n            T.OrganisationName AS Organisation_OrganisationName, \r\n         ");
-            viewString.Append("   T.Address1 AS Organisation_Address1, \r\n            T.Address2 AS Organisation");
-            viewString.Append("_Address2, \r\n            T.Address3 AS Organisation_Address3, \r\n            T.Ci");
-            viewString.Append("ty AS Organisation_City, \r\n            T.State AS Organisation_State, \r\n        ");
-            viewString.Append("    T.Country AS Organisation_Country, \r\n            T.ZipCode AS Organisation_Z");
-            viewString.Append("ipCode, \r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisa");
-            viewString.Append("tion_Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email A");
-            viewString.Append("S Organisation_Email, \r\n            T.URL AS Organisation_URL, \r\n            T.W");
-            viewString.Append("ebsiteLogo AS Organisation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_");
-            viewString.Append("MISLogo, \r\n            T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n");
-            viewString.Append("            T.LicenseLevel AS Organisation_LicenseLevel, \r\n            T.Custome");
-            viewString.Append("rAccountNumber AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer");
-            viewString.Append(" AS Organisation_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUs");
-            viewString.Append("erName, \r\n            T.SmtpPassword AS Organisation_SmtpPassword, \r\n           ");
-            viewString.Append(" T.VATRegNumber AS Organisation_VATRegNumber, \r\n            T.SystemLengthUnit A");
-            viewString.Append("S Organisation_SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisatio");
-            viewString.Append("n_SystemWeightUnit, \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n   ");
-            viewString.Append("         T.LanguageId AS Organisation_LanguageId, \r\n            T.UserDomainKey ");
-            viewString.Append("AS Organisation_UserDomainKey, \r\n            True AS _from0\r\n        FROM BaseDb");
-            viewString.Append("Context.Organisations AS T\r\n    ) AS T1");
+            viewString.Append("CurrencyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey, T1.Organi");
+            viewString.Append("sation_MISLogoStreamId)\r\n    FROM (\r\n        SELECT \r\n            T.Organisation");
+            viewString.Append("Id AS Organisation_OrganisationId, \r\n            T.OrganisationName AS Organisat");
+            viewString.Append("ion_OrganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n     ");
+            viewString.Append("       T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Organisa");
+            viewString.Append("tion_Address3, \r\n            T.City AS Organisation_City, \r\n            T.State ");
+            viewString.Append("AS Organisation_State, \r\n            T.Country AS Organisation_Country, \r\n      ");
+            viewString.Append("      T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel");
+            viewString.Append(", \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisatio");
+            viewString.Append("n_Mobile, \r\n            T.Email AS Organisation_Email, \r\n            T.URL AS Or");
+            viewString.Append("ganisation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n     ");
+            viewString.Append("       T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS O");
+            viewString.Append("rganisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organisation_Lice");
+            viewString.Append("nseLevel, \r\n            T.CustomerAccountNumber AS Organisation_CustomerAccountN");
+            viewString.Append("umber, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n            T.Sm");
+            viewString.Append("tpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPassword AS Organis");
+            viewString.Append("ation_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r");
+            viewString.Append("\n            T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n            ");
+            viewString.Append("T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId ");
+            viewString.Append("AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organisation_LanguageI");
+            viewString.Append("d, \r\n            T.UserDomainKey AS Organisation_UserDomainKey, \r\n            T.");
+            viewString.Append("MISLogoStreamId AS Organisation_MISLogoStreamId, \r\n            True AS _from0\r\n ");
+            viewString.Append("       FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Organisation", viewString.ToString());
         }
         
@@ -3788,7 +3797,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView69()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2526);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2624);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
             viewString.Append("tion](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.Organ");
             viewString.Append("isation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Organis");
@@ -3799,28 +3808,29 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("anisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organisation_Smt");
             viewString.Append("pUserName, T1.Organisation_SmtpPassword, T1.Organisation_VATRegNumber, T1.Organi");
             viewString.Append("sation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisation_Curre");
-            viewString.Append("ncyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey)\r\n    FROM (\r\n ");
-            viewString.Append("       SELECT \r\n            T.OrganisationId AS Organisation_OrganisationId, \r\n ");
-            viewString.Append("           T.OrganisationName AS Organisation_OrganisationName, \r\n            T.");
-            viewString.Append("Address1 AS Organisation_Address1, \r\n            T.Address2 AS Organisation_Addr");
-            viewString.Append("ess2, \r\n            T.Address3 AS Organisation_Address3, \r\n            T.City AS");
-            viewString.Append(" Organisation_City, \r\n            T.State AS Organisation_State, \r\n            T");
-            viewString.Append(".Country AS Organisation_Country, \r\n            T.ZipCode AS Organisation_ZipCod");
-            viewString.Append("e, \r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisation_");
-            viewString.Append("Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email AS Org");
-            viewString.Append("anisation_Email, \r\n            T.URL AS Organisation_URL, \r\n            T.Websit");
-            viewString.Append("eLogo AS Organisation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_MISLo");
-            viewString.Append("go, \r\n            T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n     ");
-            viewString.Append("       T.LicenseLevel AS Organisation_LicenseLevel, \r\n            T.CustomerAcco");
-            viewString.Append("untNumber AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer AS O");
-            viewString.Append("rganisation_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUserNam");
-            viewString.Append("e, \r\n            T.SmtpPassword AS Organisation_SmtpPassword, \r\n            T.VA");
-            viewString.Append("TRegNumber AS Organisation_VATRegNumber, \r\n            T.SystemLengthUnit AS Org");
-            viewString.Append("anisation_SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisation_Sys");
-            viewString.Append("temWeightUnit, \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n        ");
-            viewString.Append("    T.LanguageId AS Organisation_LanguageId, \r\n            T.UserDomainKey AS Or");
-            viewString.Append("ganisation_UserDomainKey, \r\n            True AS _from0\r\n        FROM DomainModel");
-            viewString.Append("sStoreContainer.Organisation AS T\r\n    ) AS T1");
+            viewString.Append("ncyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey, T1.Organisatio");
+            viewString.Append("n_MISLogoStreamId)\r\n    FROM (\r\n        SELECT \r\n            T.OrganisationId AS");
+            viewString.Append(" Organisation_OrganisationId, \r\n            T.OrganisationName AS Organisation_O");
+            viewString.Append("rganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n          ");
+            viewString.Append("  T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Organisation_");
+            viewString.Append("Address3, \r\n            T.City AS Organisation_City, \r\n            T.State AS Or");
+            viewString.Append("ganisation_State, \r\n            T.Country AS Organisation_Country, \r\n           ");
+            viewString.Append(" T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel, \r\n ");
+            viewString.Append("           T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisation_Mob");
+            viewString.Append("ile, \r\n            T.Email AS Organisation_Email, \r\n            T.URL AS Organis");
+            viewString.Append("ation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n          ");
+            viewString.Append("  T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS Organi");
+            viewString.Append("sation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organisation_LicenseLe");
+            viewString.Append("vel, \r\n            T.CustomerAccountNumber AS Organisation_CustomerAccountNumber");
+            viewString.Append(", \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n            T.SmtpUse");
+            viewString.Append("rName AS Organisation_SmtpUserName, \r\n            T.SmtpPassword AS Organisation");
+            viewString.Append("_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r\n    ");
+            viewString.Append("        T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n            T.Sys");
+            viewString.Append("temWeightUnit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId AS Or");
+            viewString.Append("ganisation_CurrencyId, \r\n            T.LanguageId AS Organisation_LanguageId, \r\n");
+            viewString.Append("            T.UserDomainKey AS Organisation_UserDomainKey, \r\n            T.MISLo");
+            viewString.Append("goStreamId AS Organisation_MISLogoStreamId, \r\n            True AS _from0\r\n      ");
+            viewString.Append("  FROM DomainModelsStoreContainer.Organisation AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
         
@@ -7650,6 +7660,46 @@ namespace Edm_EntityMappingGeneratedViews
             T.SectionDescription AS VariableSection_SectionDescription, 
             True AS _from0
         FROM DomainModelsStoreContainer.VariableSection AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.MPCFileTableView
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView174()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MPCFileTableView", @"
+    SELECT VALUE -- Constructing MPCFileTableView
+        [DomainModels.Store.MPCFileTableView](T1.[MPCFileTableView.stream_id], T1.[MPCFileTableView.file_stream], T1.MPCFileTableView_name, T1.[MPCFileTableView.is_directory], T1.[MPCFileTableView.unc_path])
+    FROM (
+        SELECT 
+            T.StreamId AS [MPCFileTableView.stream_id], 
+            T.FileStream AS [MPCFileTableView.file_stream], 
+            T.Name AS MPCFileTableView_name, 
+            T.IsDirectory AS [MPCFileTableView.is_directory], 
+            T.UncPath AS [MPCFileTableView.unc_path], 
+            True AS _from0
+        FROM BaseDbContext.MpcFileTableViews1 AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.MpcFileTableViews1
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView175()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MpcFileTableViews1", @"
+    SELECT VALUE -- Constructing MpcFileTableViews1
+        [DomainModels.MpcFileTableView](T1.MpcFileTableView_StreamId, T1.MpcFileTableView_FileStream, T1.MpcFileTableView_Name, T1.MpcFileTableView_IsDirectory, T1.MpcFileTableView_UncPath)
+    FROM (
+        SELECT 
+            T.stream_id AS MpcFileTableView_StreamId, 
+            T.file_stream AS MpcFileTableView_FileStream, 
+            T.name AS MpcFileTableView_Name, 
+            T.is_directory AS MpcFileTableView_IsDirectory, 
+            T.unc_path AS MpcFileTableView_UncPath, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.MPCFileTableView AS T
     ) AS T1");
         }
     }

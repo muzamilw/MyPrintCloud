@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IMarkupRepository markupRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
+        private readonly IMpcFileTableViewRepository mpcFileTableViewRepository;
 
         #endregion
 
@@ -30,11 +32,16 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
-         IChartOfAccountRepository chartOfAccountRepository)
+         IChartOfAccountRepository chartOfAccountRepository, IMpcFileTableViewRepository mpcFileTableViewRepository)
         {
+            if (mpcFileTableViewRepository == null)
+            {
+                throw new ArgumentNullException("mpcFileTableViewRepository");
+            }
             this.organisationRepository = organisationRepository;
             this.markupRepository = markupRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
+            this.mpcFileTableViewRepository = mpcFileTableViewRepository;
         }
 
         #endregion
@@ -296,11 +303,41 @@ namespace MPC.Implementation.MISServices
             };
         }
 
-        #endregion
 
         public IList<int> GetOrganizationIds(int request)
         {
             return new List<int>();
         }
+
+        /// <summary>
+        /// Save File to File Table
+        /// </summary>
+        public void SaveFileToFileTable(string fileName, byte[] fileStream)
+        {
+            MpcFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
+            mpcFileTableViewRepository.Add(mpcFileTableView);
+
+            mpcFileTableView.Name = fileName;
+            mpcFileTableView.FileStream = fileStream;
+            
+            // Update Organisation MISLogoStreamId
+            Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
+
+            if (organisation == null)
+            {
+                return;
+            }
+
+            // Save to File Table
+            mpcFileTableViewRepository.SaveChanges();
+
+            organisation.MISLogoStreamId = mpcFileTableView.StreamId;
+
+            // Save Changes to Organisation
+            mpcFileTableViewRepository.SaveChanges();
+        }
+
+        #endregion
+
     }
 }

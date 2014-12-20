@@ -69,7 +69,17 @@ namespace MPC.MIS.Areas.Settings.Controllers
             // Append the name of the file to upload to the path.
             savePath += fileName;
             file.SaveAs(savePath);
-            myOrganizationService.SaveFile(savePath);
+            
+            byte[] fileBytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                file.InputStream.CopyTo(memoryStream);
+                fileBytes = memoryStream.ToArray();
+            }
+
+            myOrganizationService.SaveFileToFileTable(fileName, fileBytes);
+
+            //myOrganizationService.SaveFile(savePath);
         }
 
     }

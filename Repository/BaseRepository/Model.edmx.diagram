@@ -168,6 +168,7 @@
         <AssociationConnector Association="DomainModels.FK_ProductBackgroundImages_Products" />
         <AssociationConnector Association="DomainModels.FK_Company_Campaign" />
         <AssociationConnector Association="DomainModels.FK_EventEmail_Campaign" />
+        <EntityTypeShape EntityType="DomainModels.MpcFileTableView" Width="1.5" PointX="27.375" PointY="21" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
