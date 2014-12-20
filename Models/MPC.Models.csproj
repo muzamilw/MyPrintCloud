@@ -106,6 +106,7 @@
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\AddOnCostsCenter.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
+    <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
     <Compile Include="Common\CampaignEmailParams.cs" />
