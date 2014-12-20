@@ -37,7 +37,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string URL { get; set; }
         public bool? IsEmailSubscription { get; set; }
         public bool? IsNewsLetterSubscription { get; set; }
-        public string image { get; set; }
+        public string ImageBytes { get; set; }
         public string quickFullName { get; set; }
         public string quickTitle { get; set; }
         public string quickCompanyName { get; set; }
@@ -91,5 +91,32 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? canPlaceDirectOrder { get; set; }
         public long? OrganisationId { get; set; }
         public long? BussinessAddressId { get; set; }
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// File Bytes
+        /// </summary>
+        public string Bytes { get; set; }
+
+        /// <summary>
+        /// Image 
+        /// </summary>
+        public byte[] Image { get; set; }
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ImageSource
+        {
+            get
+            {
+                if (Image == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(Image);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
     }
 }
