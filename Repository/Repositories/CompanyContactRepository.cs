@@ -579,6 +579,22 @@ namespace MPC.Repository.Repositories
             return qury.ToList().Where(contct => VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
            
         }
+
+        public int GetContactIdByCustomrID(int customerID)
+        {
+            
+            CompanyContact contact = db.CompanyContacts.Where(i => i.CompanyId == customerID).FirstOrDefault();
+            if (contact != null)
+            {
+                        return (int)contact.ContactId;
+            }
+            else
+             {
+                        return 0;
+             }
+              
+           
+        }
     }
 }
 

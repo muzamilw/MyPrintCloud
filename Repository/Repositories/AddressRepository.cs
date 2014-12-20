@@ -76,5 +76,6 @@ namespace MPC.Repository.Repositories
         {
             return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
         }
+       
     }
 }
