@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -91,7 +92,8 @@ namespace MPC.Models.DomainModels
         public bool? CanUserEditProfile { get; set; }
         public bool? canPlaceDirectOrder { get; set; }
         public long? OrganisationId { get; set; }
-
+        [NotMapped]
+        public string FileName { get; set; }
         public virtual Company Company { get; set; }
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual CompanyContactRole CompanyContactRole { get; set; }

@@ -202,6 +202,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
                 {
                     //address.CompanyId = companySavingModel.Company.CompanyId;
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Add(companyContact);
                 }
             }
@@ -210,6 +211,12 @@ namespace MPC.Implementation.MISServices
                 //Update companyContacts
                 foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
                 {
+                    if (File.Exists(companyContact.image))
+                    {
+                        //If already image exist
+                        File.Delete(companyContact.image);
+                    }
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Update(companyContact);
                 }
             }
@@ -474,6 +481,26 @@ namespace MPC.Implementation.MISServices
             }
             Guid newGuid = Guid.NewGuid();
             string savePath = directoryPath + "\\" + newGuid + "_" + cmsPage.FileName;
+            File.WriteAllBytes(savePath, data);
+            return savePath;
+
+        }
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveCompanyContactProfileImage(CompanyContact companyContact)
+        {
+            string base64 = companyContact.image.Substring(companyContact.image.IndexOf(',') + 1);
+            base64 = base64.Trim('\0');
+            byte[] data = Convert.FromBase64String(base64);
+
+            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyContactProfileImages");
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            Guid newGuid = Guid.NewGuid();
+            string savePath = directoryPath + "\\" + newGuid + "_" + companyContact.FileName;
             File.WriteAllBytes(savePath, data);
             return savePath;
 

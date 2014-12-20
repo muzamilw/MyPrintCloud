@@ -136,7 +136,7 @@ define("stores/stores.viewModel",
                             toastr.error("There Should be Atleast One Address to save this Store");
                             flag = false;
                         }
-                        if (!(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length))) {
+                        if (!(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length)) > 1) {
                             toastr.error("There Should be Atleast One User to save this Store");
                             flag = false;
                         }
@@ -1111,6 +1111,7 @@ define("stores/stores.viewModel",
                       selectedSecondaryPage().imageSrc(data);
                       selectedSecondaryPage().fileName(file.name);
                   },
+                  
                 //*****    COMPANY CONTACT      ***************//
 
                 //companyContactFilter
@@ -1231,6 +1232,10 @@ define("stores/stores.viewModel",
                         }
                         view.hideCompanyContactDialog();
                     }
+                },
+                UserProfileImageFileLoadedCallback = function (file, data) {
+                    selectedCompanyContact().image(data);
+                    selectedCompanyContact().fileName(file.name);
                 },
                 // ***** CompanyContact END *****
                 resetObservableArrays = function () {
@@ -1394,6 +1399,7 @@ define("stores/stores.viewModel",
                     selectedShippingAddressId: selectedShippingAddressId,
                     selectBussinessAddress: selectBussinessAddress,
                     selectShippingAddress: selectShippingAddress,
+                    UserProfileImageFileLoadedCallback:UserProfileImageFileLoadedCallback,
                     initialize: initialize
                 };
             })()
