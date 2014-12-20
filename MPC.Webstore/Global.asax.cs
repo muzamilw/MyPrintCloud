@@ -145,11 +145,12 @@ namespace MPC.Webstore
             if (storeId > 0)
             {
                 MyCompanyDomainBaseResponse baseResponse = companyService.GetStoreFromCache(storeId).CreateFromCompany();
-
+                
                 if (baseResponse.Company != null)
                 {
                     UserCookieManager.StoreId = baseResponse.Company.CompanyId;
                     UserCookieManager.StoreMode = baseResponse.Company.IsCustomer;
+                    UserCookieManager.OrganisationID = baseResponse.Organisation.OrganisationId;
                     // set global language of store
 
                     string languageName =

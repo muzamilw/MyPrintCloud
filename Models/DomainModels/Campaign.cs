@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
@@ -109,6 +106,8 @@ namespace MPC.Models.DomainModels
         public long? CompanyId { get; set; }
         public string UnsubscribeEmailAddress { get; set; }
 
+        public virtual Company Company { get; set; }
+        public virtual EmailEvent CampaignEmailEvent { get; set; }
         public virtual ICollection<CampaignImage> CampaignImages { get; set; }
 
     }

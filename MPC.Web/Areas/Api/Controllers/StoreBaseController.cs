@@ -41,6 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                        RegistrationQuestions = result.RegistrationQuestions.Select(x=> x.CreateFromDropDown()),
                        Addresses = result.Addresses.Select(x=> x.CreateFrom()),
                        PaymentMethods = result.PaymentMethods.Select(x=>x.CreateFrom())
+                       EmailEvents = result.EmailEvents.Select(x => x.CreateFrom())
                    };
         }
         #endregion

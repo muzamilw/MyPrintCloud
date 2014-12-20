@@ -12,5 +12,6 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         string GetNextItemCodePrefix();
 
+        Prefix GetDefaultPrefix();
     }
 }

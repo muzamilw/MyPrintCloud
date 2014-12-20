@@ -183,5 +183,33 @@ namespace MPC.Webstore.Common
                 HttpContext.Current.Response.Cookies.Add(storeIdCookie);
             }
         }
+
+        public static long OrganisationID    
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["OrganisationID"] != null)
+                {
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["OrganisationID"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["OrganisationID"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("OrganisationID");
+
+                }
+
+                HttpCookie organisationIdCookie = null;
+                organisationIdCookie = new HttpCookie("OrganisationID", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(organisationIdCookie);
+            }
+        }
     }
 }

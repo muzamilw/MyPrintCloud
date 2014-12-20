@@ -9,15 +9,15 @@ using MPC.Repository.BaseRepository;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
-    /// Markup Repository
+    /// Email Event Repository
     /// </summary>
-    public class MarkupRepository : BaseRepository<Markup>, IMarkupRepository
+    public class EmailEventRepository : BaseRepository<EmailEvent>, IEmailEventRepository
     {
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public MarkupRepository(IUnityContainer container)
+        public EmailEventRepository(IUnityContainer container)
             : base(container)
         {
 
@@ -25,30 +25,25 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Primary database set
         /// </summary>
-        protected override IDbSet<Markup> DbSet
+        protected override IDbSet<EmailEvent> DbSet
         {
             get
             {
-                return db.Markups;
+                return db.EmailEvents;
             }
         }
 
         #endregion
 
         #region Public
+
         /// <summary>
-        /// Get All MarkUp for User Domain Key
+        /// Get All Email Events
         /// </summary>
-        public override IEnumerable<Markup> GetAll()
+        public override IEnumerable<EmailEvent> GetAll()
         {
-            return DbSet.Where(markup => markup.UserDomainKey == OrganisationId).ToList();
+            return DbSet.ToList();
         }
-
-        public Markup GetZeroMarkup()
-        {
-            return db.Markups.Where(c => c.MarkUpRate.Value == 0).FirstOrDefault();
-        }
-
         #endregion
     }
 }
