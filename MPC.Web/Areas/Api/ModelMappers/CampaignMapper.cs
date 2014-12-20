@@ -23,7 +23,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StartDateTime = source.StartDateTime,
                 SendEmailAfterDays = source.SendEmailAfterDays,
                 CampaignType = source.CampaignType,
-                //EventName = source.EmailEvent != null ? source.EmailEvent.EventName : null,
+                EventName = source.CampaignEmailEvent != null ? source.CampaignEmailEvent.EventName : null,
             };
         }
 

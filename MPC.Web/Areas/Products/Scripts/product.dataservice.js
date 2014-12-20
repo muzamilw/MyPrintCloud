@@ -70,10 +70,11 @@ define("product/product.dataservice", function () {
                 });
             },
             // Get Stock Items
-            getStockItems = function (callbacks) {
+            getStockItems = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getStockItems',
+                    data: params,
                     success: callbacks.success,
                     error: callbacks.error,
                 });

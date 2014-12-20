@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.Models.DomainModels
 {
     public class EmailEvent
     {
@@ -6,5 +8,7 @@
         public string EventName { get; set; }
         public string Description { get; set; }
         public int? EventType { get; set; }
+
+        public virtual ICollection<Campaign> Campaigns { get; set; }
     }
 }

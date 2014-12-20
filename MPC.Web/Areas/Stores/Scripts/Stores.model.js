@@ -1346,14 +1346,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             id = ko.observable(specifiedCampaignId),
             campaignName = ko.observable(specifiedCampaignName).extend({ required: true }),
             emailEventId = ko.observable(specifiedEmailEvent),
-            startDateTime = ko.observable(specifiedStartDateTime),
+            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined),
             isEnabled = ko.observable(specifiedIsEnabled),
-            sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays),
+            sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays).extend({ number: true }),
             eventName = ko.observable(specifiedEventName),
             campaignType = ko.observable(specifiedCampaignType),
                 // Errors
             errors = ko.validation.group({
-                campaignName: campaignName
+                campaignName: campaignName,
+                sendEmailAfterDays: sendEmailAfterDays,
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1414,7 +1415,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.StartDateTime,
             source.IsEnabled,
             source.SendEmailAfterDays,
-            source.EventName
+            source.EventName,
+            source.CampaignType
         );
     };
 
@@ -1626,7 +1628,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId) {
         var self,
-                       contactId = ko.observable(specifiedContactId),
+            contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             firstName = ko.observable(specifiedFirstName),
@@ -1709,8 +1711,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
-                       bussinessAddressId = ko.observable(specifiedBussinessAddressId),
-
+            bussinessAddressId = ko.observable(specifiedBussinessAddressId),
+            fileName = ko.observable(),
             // Errors
             errors = ko.validation.group({
 
@@ -1805,7 +1807,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 canUserEditProfile: canUserEditProfile,
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
-                bussinessAddressId: bussinessAddressId
+                bussinessAddressId: bussinessAddressId,
+                fileName: fileName
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1844,7 +1847,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     URL: uRL(),
                     IsEmailSubscription: isEmailSubscription(),
                     IsNewsLetterSubscription: isNewsLetterSubscription(),
-                    image: image(),
+                    ImageBytes: image(),
                     quickFullName: quickFullName(),
                     quickTitle: quickTitle(),
                     quickCompanyName: quickCompanyName(),
@@ -1897,7 +1900,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     CanUserEditProfile: canUserEditProfile(),
                     canPlaceDirectOrder: canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
-                    BussinessAddressId: bussinessAddressId()
+                    BussinessAddressId: bussinessAddressId(),
+                    FileName: fileName()
                 };
             },
             // Reset
@@ -1989,6 +1993,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            fileName: fileName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -2083,7 +2088,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.canUserEditProfile,
             source.canPlaceDirectOrder,
             source.organisationId,
-            source.BussinessAddressId
+            source.BussinessAddressId,
+            source.FileName
         );
     };
     CompanyContact.Create = function (source) {
@@ -2118,7 +2124,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.URL,
             source.IsEmailSubscription,
             source.IsNewsLetterSubscription,
-            source.image,
+            source.ImageBytes,
             source.quickFullName,
             source.quickTitle,
             source.quickCompanyName,
@@ -2171,7 +2177,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
-            source.BussinessAddressId
+            source.BussinessAddressId,
+            source.FileName
         );
         return companyContact;
     };

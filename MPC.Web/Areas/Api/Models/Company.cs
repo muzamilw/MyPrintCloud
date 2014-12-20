@@ -140,6 +140,7 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CmsPage> EditCmsPages { get; set; }
         public List<CmsPage> DeletedCmsPages { get; set; }
         public List<PageCategory> PageCategories { get; set; }
+        public List<Campaign> Campaigns { get; set; }
 
 
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }

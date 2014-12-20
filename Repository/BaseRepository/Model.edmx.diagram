@@ -166,6 +166,8 @@
         <EntityTypeShape EntityType="DomainModels.TemplateObject" Width="1.5" PointX="7" PointY="79.5" />
         <AssociationConnector Association="DomainModels.FK_Objects_Products" />
         <AssociationConnector Association="DomainModels.FK_ProductBackgroundImages_Products" />
+        <AssociationConnector Association="DomainModels.FK_Company_Campaign" />
+        <AssociationConnector Association="DomainModels.FK_EventEmail_Campaign" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

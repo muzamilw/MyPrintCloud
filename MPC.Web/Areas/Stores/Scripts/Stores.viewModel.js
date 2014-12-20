@@ -64,12 +64,6 @@ define("stores/stores.viewModel",
                     templateToUse = function (store) {
                         return (store === selectedStore() ? 'editStoreTemplate' : 'itemStoreTemplate');
                     },
-                    //Computed call for  customer type
-                    customerType = ko.computed(function () {
-                        if (selectedStore() != undefined && selectedStore().type() != undefined) {
-                            //debugger;
-                        }
-                    }),
                     //Selected Address
                     selectedCompanyContact = ko.observable(),
                     //Make Edittable
@@ -146,13 +140,12 @@ define("stores/stores.viewModel",
                             toastr.error("There Should be Atleast One Address to save this Store");
                             flag = false;
                         }
-                        if (!(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length))) {
+                        if (!(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length)) > 1) {
                             toastr.error("There Should be Atleast One User to save this Store");
                             flag = false;
                         }
                         return flag;
                     },
-
                     //Save Store
                     saveStore = function (item) {
                         if (doBeforeSave()) {
@@ -241,12 +234,10 @@ define("stores/stores.viewModel",
                     },
                     //Open Store Dialog
                     openEditDialog = function () {
-
                         isEditorVisible(true);
                         getStoreForEditting();
                         view.initializeForm();
                         getBaseData();
-
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
@@ -267,6 +258,10 @@ define("stores/stores.viewModel",
                                     //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
+                                    _.each(data.Company.Campaigns, function (item) {
+                                        emails.push(model.Campaign.Create(item));
+                                    });
+
                                     addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                                     companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                                     contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
@@ -302,7 +297,6 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
-
                     //Close Store Dialog
                     closeEditDialog = function () {
                         if (selectedStore() != undefined) {
@@ -326,6 +320,14 @@ define("stores/stores.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
+                                    systemUsers.removeAll();
+                                    addressCompanyTerritoriesFilter.removeAll();
+                                    contactCompanyTerritoriesFilter.removeAll();
+                                    addressTerritoryList.removeAll();
+                                    roles.removeAll();
+                                    registrationQuestions.removeAll();
+                                    allCompanyAddressesList.removeAll();
+                                    pageCategories.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
@@ -718,48 +720,78 @@ define("stores/stores.viewModel",
                     selectedEmail = ko.observable();
                 //Create One Time Marketing Email
                 onCreateOneTimeMarketingEmail = function () {
-                    var compaign = model.Campaign();
-                    selectedEmail(compaign);
-                },
-                //Create One Time Marketing Email
-                onCreateIntervalMarketingEmail = function () {
-                    var compaign = model.Campaign();
-                    selectedEmail(compaign);
+                    var campaign = model.Campaign();
+                    campaign.campaignType(3);
+                    selectedEmail(campaign);
                     view.showEmailCamapaignDialog();
                 },
+                //Create Interval Marketing Email
+                onCreateIntervalMarketingEmail = function () {
+                    var campaign = model.Campaign();
+                    campaign.campaignType(2);
+                    selectedEmail(campaign);
+                    view.showEmailCamapaignDialog();
+                },
+                onSaveEmail = function (email) {
+                    if (dobeforeSaveEmail()) {
+                        if (email.emailEventId() !== undefined) {
+                            _.each(emailEvents(), function (item) {
+                                if (item.EmailEventId === email.emailEventId()) {
+                                    email.eventName(item.EventName);
+                                }
+                            });
+                        }
+                        emails.splice(0, 0, email);
+                        view.hideEmailCamapaignDialog();
+                    }
+                }
+                //Do Before Save Email
+                dobeforeSaveEmail = function () {
+                    var flag = true;
+                    if (!selectedEmail().isValid()) {
+                        selectedEmail().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                onEditEmail = function (campaign) {
+                    selectedEmail(campaign);
+                    view.showEmailCamapaignDialog();
+                }
                 //#endregion
+
                 //***** ADDRESSES ****//
                 //Selected Address
                 selectedAddress = ko.observable(),
                 //SelectedAddressTerritoryFilter
                 addressTerritoryFilter = ko.observable(),
                 //List for Address Territory
-            addressTerritoryList = ko.observableArray([]),
+                    addressTerritoryList = ko.observableArray([]),
                 //Deleted Address
                 deletedAddresses = ko.observableArray([]),
                 edittedAddresses = ko.observableArray([]),
                 newAddresses = ko.observableArray([]),
-            shippingAddresses = ko.observableArray([]),
-            bussinessAddresses = ko.observableArray([]),
+                    shippingAddresses = ko.observableArray([]),
+                    bussinessAddresses = ko.observableArray([]),
                 selectedBussinessAddress = ko.observable(),
                 selectedShippingAddress = ko.observable(),
                 selectedBussinessAddressId = ko.observable(),
                 selectedShippingAddressId = ko.observable(),
                 //Populate addresses lists
-            populateAddressesList = ko.computed(function () {
-                if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
-                    shippingAddresses.removeAll();
-                    bussinessAddresses.removeAll();
-                    _.each(allCompanyAddressesList(), function (item) {
-                        if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
-                            shippingAddresses.push(item);
+                    populateAddressesList = ko.computed(function () {
+                        if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
+                            shippingAddresses.removeAll();
+                            bussinessAddresses.removeAll();
+                            _.each(allCompanyAddressesList(), function (item) {
+                                if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
+                                    shippingAddresses.push(item);
+                                }
+                                if (item.isDefaultTerrorityBilling() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
+                                    bussinessAddresses.push(item);
+                                }
+                            });
                         }
-                        if (item.isDefaultTerrorityBilling() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
-                            bussinessAddresses.push(item);
-                        }
-                    });
-                }
-            }),
+                    }),
                 selectBussinessAddress = ko.computed(function () {
                     if (selectedBussinessAddressId() != undefined) {
                         _.each(allCompanyAddressesList(), function (item) {
@@ -839,7 +871,7 @@ define("stores/stores.viewModel",
                     });
                 },
                 addressTerritoryFilterSelected = ko.computed(function () {
-                    if (selectedStore() != null && selectedStore() != undefined) {
+                    if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
                         searchAddress();
                     }
                 }),
@@ -1134,6 +1166,7 @@ define("stores/stores.viewModel",
                 selectedSecondaryPage().imageSrc(data);
                 selectedSecondaryPage().fileName(file.name);
             },
+
                 //*****    COMPANY CONTACT      ***************//
 
                 //companyContactFilter
@@ -1186,7 +1219,7 @@ define("stores/stores.viewModel",
                 });
             },
             companyContactFilterSelected = ko.computed(function () {
-                if (selectedStore() != null && selectedStore() != undefined) {
+                if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
                     searchCompanyContact();
                 }
             }),
@@ -1255,6 +1288,10 @@ define("stores/stores.viewModel",
                     view.hideCompanyContactDialog();
                 }
             },
+                UserProfileImageFileLoadedCallback = function (file, data) {
+                    selectedCompanyContact().image(data);
+                    selectedCompanyContact().fileName(file.name);
+                },
                 // ***** CompanyContact END *****
             resetObservableArrays = function () {
 
@@ -1398,7 +1435,6 @@ define("stores/stores.viewModel",
                     resetObservableArrays: resetObservableArrays,
                     registrationQuestions: registrationQuestions,
                     roles: roles,
-                    customerType: customerType,
                     secondaryPagePager: secondaryPagePager,
                     selectedSecondaryPage: selectedSecondaryPage,
                     onEditSecondaryPage: onEditSecondaryPage,
@@ -1418,11 +1454,14 @@ define("stores/stores.viewModel",
                     selectedShippingAddressId: selectedShippingAddressId,
                     selectBussinessAddress: selectBussinessAddress,
                     selectShippingAddress: selectShippingAddress,
+                    UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback,
                     emailEvents: emailEvents,
                     emails: emails,
                     onCreateIntervalMarketingEmail: onCreateIntervalMarketingEmail,
                     onCreateOneTimeMarketingEmail: onCreateOneTimeMarketingEmail,
                     selectedEmail: selectedEmail,
+                    onEditEmail: onEditEmail,
+                    onSaveEmail: onSaveEmail,
                     initialize: initialize
                 };
             })()
