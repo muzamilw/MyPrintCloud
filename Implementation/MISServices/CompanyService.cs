@@ -27,6 +27,8 @@ namespace MPC.Implementation.MISServices
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         private readonly ICmsPageRepository cmsPageRepository;
         private readonly IPageCategoryRepository pageCategoryRepository;
+        private readonly IPaymentMethodRepository paymentMethodRepository;
+        private readonly IPaymentGatewayRepository paymentGatewayRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -513,7 +515,7 @@ namespace MPC.Implementation.MISServices
             ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
-             IPageCategoryRepository pageCategoryRepository)
+             IPageCategoryRepository pageCategoryRepository, IPaymentMethodRepository paymentMethodRepository, IPaymentGatewayRepository paymentGatewayRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -527,6 +529,8 @@ namespace MPC.Implementation.MISServices
             this.registrationQuestionRepository = registrationQuestionRepository;
             this.cmsPageRepository = cmsPageRepository;
             this.pageCategoryRepository = pageCategoryRepository;
+            this.paymentMethodRepository = paymentMethodRepository;
+            this.paymentGatewayRepository = paymentGatewayRepository;
         }
         #endregion
 
@@ -539,6 +543,10 @@ namespace MPC.Implementation.MISServices
         public CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request)
         {
             return companyTerritoryRepository.GetCompanyTerritory(request);
+        }
+        public PaymentGatewayResponse SearchPaymentGateways(PaymentGatewayRequestModel request)
+        {
+            return paymentGatewayRepository.GetPaymentGateways(request);
         }
         public AddressResponse SearchAddresses(AddressRequestModel request)
         {
@@ -578,7 +586,8 @@ namespace MPC.Implementation.MISServices
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId)
+                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
+                       PaymentMethods = paymentMethodRepository.GetAll()
                    };
         }
         public void SaveFile(string filePath, long companyId)

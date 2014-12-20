@@ -83,6 +83,8 @@
     <Compile Include="Repository\IItemStockOptionRepository.cs" />
     <Compile Include="Repository\ICostCentreRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
+    <Compile Include="Repository\IPaymentGatewayRepository.cs" />
+    <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\ITemplatePageRepository.cs" />
     <Compile Include="Repository\ITemplateRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />

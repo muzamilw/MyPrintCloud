@@ -64,6 +64,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemStockOptionRepository, ItemStockOptionRepository>();
             unityContainer.RegisterType<IItemAddOnCostCentreRepository, ItemAddonCostCentreRepository>();
             unityContainer.RegisterType<ICostCentreRepository, CostCentreRepository>();
+            unityContainer.RegisterType<IPaymentGatewayRepository, PaymentGatewayRepository>();
+            unityContainer.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>();
         }
     }
 }
