@@ -94,6 +94,9 @@ define("product/product.viewModel",
                         },
                         onSaveItemAddonCostCentre: function () {
                             closeItemAddonCostCentreDialog();
+                        },
+                        onCostCentreChange: function (costCentreId, activeItemAddonCostCentre) {
+                            setCostCentreToActiveItemAddonCostCentre(costCentreId, activeItemAddonCostCentre);
                         }
                     },
                     // Selected Job Description
@@ -243,6 +246,27 @@ define("product/product.viewModel",
                     // Close Item Addon Cost Centre Dialog
                     closeItemAddonCostCentreDialog = function () {
                         view.hideItemAddonCostCentreDialog();
+                    },
+                    // Get Cost Centre By Id
+                    getCostCentreById = function(id) {
+                        if (costCentres().length === 0) {
+                            return null;
+                        }
+
+                        return costCentres.find(function(costCentre) {
+                            return costCentre.id === id;
+                        });
+                    },
+                    // Set Cost Centre to active Item Add on cost centre
+                    setCostCentreToActiveItemAddonCostCentre = function(costCentreId, activeItemAddonCostCentre) {
+                        var costCentre = getCostCentreById(costCentreId);
+                        
+                        if (!costCentre) {
+                            return;
+                        }
+
+                        activeItemAddonCostCentre.costCentreName(costCentre.name);
+                        activeItemAddonCostCentre.costCentreType(costCentre.type);
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {

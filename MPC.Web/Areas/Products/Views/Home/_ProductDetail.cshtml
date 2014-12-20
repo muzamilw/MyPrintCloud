@@ -2805,12 +2805,20 @@
                 <div class="form-group">
                     <div class="col-md-3 ">
                         <div class="checkbox-nice">
-                            <input type="checkbox" id="checkbox-20" data-bind="checked: isMandatory, enable: false">
+                            <input type="checkbox" id="checkbox-20" data-bind="checked: !isMandatory(), enable: false">
                             <label for="checkbox-20">
                             </label>
                         </div>
                     </div>
                 </div>
+            </td>
+            <td class="text-right">
+                <a class="table-link danger" data-bind="click: $parents[1].onEditItemCostCentre.bind($parent, $parent, $data)">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
             </td>
             <td class="text-right">
                 <a class="table-link danger" data-bind="click: $parent.removeItemAddonCostCentre.bind($data)">
