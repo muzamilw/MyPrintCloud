@@ -2274,6 +2274,7 @@
           <Property Name="isSpotTemplate" Type="bit" />
           <Property Name="isCreatedManual" Type="bit" />
           <Property Name="isEditorChoice" Type="bit" />
+          <Property Name="ProductCategoryId" Type="bigint" />
         </EntityType>
         <EntityType Name="TemplateBackgroundImage">
           <Key>
@@ -3364,7 +3365,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
         <Function Name="funGetMiniumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="ItemID" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_cloneTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_cloneTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TemplateID" Type="int" Mode="In" />
+          <Parameter Name="submittedBy" Type="int" Mode="In" />
+          <Parameter Name="submittedByName" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
@@ -4159,7 +4164,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySet Name="FieldVariables" EntityType="DomainModels.FieldVariable" />
           <EntitySet Name="TemplateVariables" EntityType="DomainModels.TemplateVariable" />
           <EntitySet Name="VariableSections" EntityType="DomainModels.VariableSection" />
-          <FunctionImport Name="sp_cloneTemplate" />
+          <FunctionImport Name="sp_cloneTemplate" >
+            <Parameter Name="TemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="submittedBy" Mode="In" Type="Int32" />
+            <Parameter Name="submittedByName" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="TemplateBackgroundImages" EntityType="DomainModels.TemplateBackgroundImage" />
           <EntitySet Name="TemplateObjects" EntityType="DomainModels.TemplateObject" />
           <AssociationSet Name="FK_Objects_Products" Association="DomainModels.FK_Objects_Products">
@@ -7338,6 +7347,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Template_Items" FromRole="Template" ToRole="Item" />
           <NavigationProperty Name="TemplateObjects" Relationship="DomainModels.FK_Objects_Products" FromRole="Template" ToRole="TemplateObject" />
           <NavigationProperty Name="TemplateBackgroundImages" Relationship="DomainModels.FK_ProductBackgroundImages_Products" FromRole="Template" ToRole="TemplateBackgroundImage" />
+          <Property Name="ProductCategoryId" Type="Int64" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -9942,6 +9952,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySetMapping Name="Templates">
             <EntityTypeMapping TypeName="DomainModels.Template">
               <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="isEditorChoice" ColumnName="isEditorChoice" />
                 <ScalarProperty Name="isCreatedManual" ColumnName="isCreatedManual" />
                 <ScalarProperty Name="isSpotTemplate" ColumnName="isSpotTemplate" />

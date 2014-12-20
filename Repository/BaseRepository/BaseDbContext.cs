@@ -272,9 +272,13 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
-        public int sp_cloneTemplate()
+        public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.sp_cloneTemplate");
+            ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
+            ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
+            ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
+                submittedByNameParameter);
         }
 
         #endregion
