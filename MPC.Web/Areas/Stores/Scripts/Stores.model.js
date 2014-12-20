@@ -1338,6 +1338,86 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return new CompanyBannerSet(0, undefined);
     };
 
+    // ______________ Email _________________//
+    // ReSharper disable once InconsistentNaming
+    var Campaign = function (specifiedCampaignId, specifiedCampaignName, specifiedEmailEvent, specifiedStartDateTime, specifiedIsEnabled, specifiedSendEmailAfterDays
+        , specifiedEventName, specifiedCampaignType) {
+        var self,
+            id = ko.observable(specifiedCampaignId),
+            campaignName = ko.observable(specifiedCampaignName).extend({ required: true }),
+            emailEventId = ko.observable(specifiedEmailEvent),
+            startDateTime = ko.observable(specifiedStartDateTime),
+            isEnabled = ko.observable(specifiedIsEnabled),
+            sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays),
+            eventName = ko.observable(specifiedEventName),
+            campaignType = ko.observable(specifiedCampaignType),
+                // Errors
+            errors = ko.validation.group({
+                campaignName: campaignName
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                campaignName: campaignName,
+                emailEventId: emailEventId,
+                startDateTime: startDateTime,
+                isEnabled: isEnabled,
+                sendEmailAfterDays: sendEmailAfterDays
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.CampaignId = source.id() === undefined ? 0 : source.id();
+                result.CampaignName = source.campaignName() === undefined ? null : source.campaignName();;
+                result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();;
+                result.StartDateTime = source.startDateTime() === undefined ? null : source.startDateTime();;
+                result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();;
+                result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? false : source.sendEmailAfterDays();;
+                result.CampaignType = source.campaignType() === undefined ? 0 : source.campaignType();;
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            campaignName: campaignName,
+            emailEventId: emailEventId,
+            startDateTime: startDateTime,
+            isEnabled: isEnabled,
+            sendEmailAfterDays: sendEmailAfterDays,
+            eventName: eventName,
+            campaignType: campaignType,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    Campaign.Create = function (source) {
+        return new Campaign(
+            source.CampaignId,
+            source.CampaignName,
+            source.EmailEvent,
+            source.StartDateTime,
+            source.IsEnabled,
+            source.SendEmailAfterDays,
+            source.EventName
+        );
+    };
+
     // ______________  CMS Page   _________________//
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
@@ -2240,6 +2320,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         SecondaryPageListView: SecondaryPageListView,
         CMSPage: CMSPage,
         PageCategory: PageCategory,
+        Campaign: Campaign,
     };
 
 });

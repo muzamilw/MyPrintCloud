@@ -27,6 +27,7 @@ namespace MPC.Implementation.MISServices
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         private readonly ICmsPageRepository cmsPageRepository;
         private readonly IPageCategoryRepository pageCategoryRepository;
+        private readonly IEmailEventRepository emailEventRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -486,7 +487,7 @@ namespace MPC.Implementation.MISServices
             ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
-             IPageCategoryRepository pageCategoryRepository)
+             IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -500,6 +501,7 @@ namespace MPC.Implementation.MISServices
             this.registrationQuestionRepository = registrationQuestionRepository;
             this.cmsPageRepository = cmsPageRepository;
             this.pageCategoryRepository = pageCategoryRepository;
+            this.emailEventRepository = emailEventRepository;
         }
         #endregion
 
@@ -551,7 +553,8 @@ namespace MPC.Implementation.MISServices
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId)
+                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
+                       EmailEvents = emailEventRepository.GetAll(),
                    };
         }
         public void SaveFile(string filePath, long companyId)

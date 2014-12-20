@@ -271,6 +271,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\CampaignMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactRoleMapper.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAddOnCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemBaseResponseMapper.cs" />
@@ -294,6 +296,7 @@
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\Address.cs" />
     <Compile Include="Areas\Api\Models\AddressResponse.cs" />
+    <Compile Include="Areas\Api\Models\Campaign.cs" />
     <Compile Include="Areas\Api\Models\CmsPage.cs" />
     <Compile Include="Areas\Api\Models\CmsPageForListView.cs" />
     <Compile Include="Areas\Api\Models\CmsPageMapper.cs" />
@@ -311,6 +314,7 @@
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCentre.cs" />
+    <Compile Include="Areas\Api\Models\EmailEvent.cs" />
     <Compile Include="Areas\Api\Models\ItemBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
@@ -567,6 +571,9 @@
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\MainSite.css">
       <DependentUpon>MainSite.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\MainSite.min.css">
+      <DependentUpon>MainSite.css</DependentUpon>
     </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
@@ -1154,6 +1161,10 @@
     <Content Include="Areas\Products\Views\Home\_StockDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_MediaGalleryScreen.cshtml" />
+    <Content Include="Content\less\MainSite.css.map">
+      <DependentUpon>MainSite.css</DependentUpon>
+    </Content>
+    <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />

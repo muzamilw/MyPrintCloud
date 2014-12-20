@@ -85,6 +85,14 @@ define("stores/stores.view",
               // Hide Secondary Page Category the dialog
               hideSecondaryPageCategoryDialog = function () {
                   $("#mySecondaryPageCategoryModal").modal("hide");
+              },
+               // Show Email Camapaign the dialog
+                showEmailCamapaignDialog = function () {
+                    $("#addEditCampaignEmailModal").modal("show");
+                },
+              // Hide Email Camapaign the dialog
+              hideEmailCamapaignDialog = function () {
+                  $("#addEditCampaignEmailModal").modal("hide");
               };
 
             initializeForm = function () {
@@ -126,6 +134,8 @@ define("stores/stores.view",
                 hideCompanyContactDialog: hideCompanyContactDialog,
                 showSecondaryPageCategoryDialog: showSecondaryPageCategoryDialog,
                 hideSecondaryPageCategoryDialog: hideSecondaryPageCategoryDialog,
+                showEmailCamapaignDialog: showEmailCamapaignDialog,
+                hideEmailCamapaignDialog: hideEmailCamapaignDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

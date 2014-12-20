@@ -1,5 +1,8 @@
-﻿namespace MPC.Models.DomainModels
+﻿namespace MPC.MIS.Areas.Api.Models
 {
+    /// <summary>
+    /// Email Event Api Model
+    /// </summary>
     public class EmailEvent
     {
         public int EmailEventId { get; set; }
