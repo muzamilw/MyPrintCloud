@@ -126,5 +126,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
         public virtual ICollection<Campaign> Campaigns { get; set; }
+
+        public virtual ICollection<PaymentGateway> PaymentGateways { get; set; }
     }
 }

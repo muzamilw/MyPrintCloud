@@ -590,7 +590,7 @@ namespace MPC.Implementation.MISServices
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
                        PaymentMethods = paymentMethodRepository.GetAll(),
-                       EmailEvents = emailEventRepository.GetAll(),
+                       EmailEvents = emailEventRepository.GetAll()
                    };
         }
         public void SaveFile(string filePath, long companyId)
