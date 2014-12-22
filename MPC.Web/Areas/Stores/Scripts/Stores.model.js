@@ -291,6 +291,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.EditCmsPages = [];
                 result.DeletedCmsPages = [];
                 result.PageCategories = [];
+                result.Campaigns = [];
                 return result;
             },
             // Reset
@@ -1276,6 +1277,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ImageSource
         );
     };
+    CompanyBanner.CreateFromClientModel = function (source) {
+        return new CompanyBanner(
+            source.id,
+            source.heading,
+            source.description,
+            source.itemURL,
+            source.buttonURL,
+            source.companySetId,
+            source.setName,
+            source.filename,
+            source.fileBinary,
+            source.fileType,
+            source.imageSource
+            );
+    };
 
     // ______________  Company Banner  Set _________________//
     // ReSharper disable once InconsistentNaming
@@ -1377,12 +1393,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             convertToServerData = function (source) {
                 var result = {};
                 result.CampaignId = source.id() === undefined ? 0 : source.id();
-                result.CampaignName = source.campaignName() === undefined ? null : source.campaignName();;
-                result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();;
-                result.StartDateTime = source.startDateTime() === undefined ? null : source.startDateTime();;
-                result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();;
-                result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? false : source.sendEmailAfterDays();;
-                result.CampaignType = source.campaignType() === undefined ? 0 : source.campaignType();;
+                result.CampaignName = source.campaignName() === undefined ? null : source.campaignName();
+                result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();
+                result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+                result.IsEnabled = source.isEnabled() === undefined ? null : source.isEnabled();
+                result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
                 return result;
             },
             // Reset
@@ -1418,6 +1434,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.EventName,
             source.CampaignType
         );
+    };
+    Campaign.CreateFromClientModel = function (source) {
+        return new Campaign(
+            source.id,
+            source.campaignName,
+            source.emailEventId,
+            source.startDateTime,
+            source.isEnabled,
+            source.sendEmailAfterDays,
+            source.eventName,
+            source.campaignType
+            );
     };
 
     // ______________  CMS Page   _________________//

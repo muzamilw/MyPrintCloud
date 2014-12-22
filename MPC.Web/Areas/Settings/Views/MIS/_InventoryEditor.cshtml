@@ -7,7 +7,7 @@
                     <div class="clearfix">
                         <h1 class="pull-left">Inventory Detail</h1>
                         <div class="pull-right top-page-ui">
-                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory">Save</button>
+                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Cancel</button>
                         </div>
                     </div>

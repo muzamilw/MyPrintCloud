@@ -572,9 +572,6 @@
     <Content Include="Content\less\MainSite.css">
       <DependentUpon>MainSite.less</DependentUpon>
     </Content>
-    <Content Include="Content\less\MainSite.min.css">
-      <DependentUpon>MainSite.css</DependentUpon>
-    </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
     </Content>
@@ -1161,9 +1158,6 @@
     <Content Include="Areas\Products\Views\Home\_StockDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_MediaGalleryScreen.cshtml" />
-    <Content Include="Content\less\MainSite.css.map">
-      <DependentUpon>MainSite.css</DependentUpon>
-    </Content>
     <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />

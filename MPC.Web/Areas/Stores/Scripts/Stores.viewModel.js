@@ -176,6 +176,11 @@ define("stores/stores.viewModel",
                             _.each(pageCategories(), function (pageCategory) {
                                 storeToSave.PageCategories.push(pageCategory.convertToServerData(pageCategory));
                             });
+                            //Emails (Campaigns)
+                            _.each(emails(), function (email) {
+                                storeToSave.Campaigns.push(email.convertToServerData(email));
+                            });
+
                             _.each(companyBannerSetList(), function (bannerSet) {
                                 var bannerSetServer = bannerSet.convertToServerData(bannerSet);
                                 var banners = [];
@@ -258,6 +263,7 @@ define("stores/stores.viewModel",
                                     //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
+                                    emails.removeAll();
                                     _.each(data.Company.Campaigns, function (item) {
                                         emails.push(model.Campaign.Create(item));
                                     });
@@ -607,6 +613,7 @@ define("stores/stores.viewModel",
                     //Craete Banner
                     onCreateBanner = function () {
                         selectedCompanyBanner(model.CompanyBanner());
+                        selectedCompanyBanner().reset();
                         view.showEditBannerDialog();
                     },
                     //Create Banner Set
@@ -676,9 +683,17 @@ define("stores/stores.viewModel",
                     },
                     //Edit Company Banner
                     onEditCompanyBanner = function (banner) {
-                        // bannerEditorViewModel.selectItem(banner);
-                        //selectedCompanyBanner().fileBinary(banner.imageSource());
+                        bannerEditorViewModel.selectItem(banner);
+                        selectedCompanyBanner().reset();
                         view.showEditBannerDialog();
+                    },
+                    //Cancel Company Banner
+                    onCloseCompanyBanner = function () {
+                        if (selectedCompanyBanner() != undefined) {
+
+                            view.hideEditBannerDialog();
+                            bannerEditorViewModel.revertItem();
+                        }
                     },
                     //Filter Banners based on banner set id
                     filterBannerSet = ko.computed(function () {
@@ -717,21 +732,24 @@ define("stores/stores.viewModel",
                     //#endregion 
 
                     //#region Email
-                    selectedEmail = ko.observable();
-                //Create One Time Marketing Email
-                onCreateOneTimeMarketingEmail = function () {
-                    var campaign = model.Campaign();
-                    campaign.campaignType(3);
-                    selectedEmail(campaign);
-                    view.showEmailCamapaignDialog();
-                },
-                //Create Interval Marketing Email
-                onCreateIntervalMarketingEmail = function () {
-                    var campaign = model.Campaign();
-                    campaign.campaignType(2);
-                    selectedEmail(campaign);
-                    view.showEmailCamapaignDialog();
-                },
+                    selectedEmail = ko.observable(),
+                   //Create One Time Marketing Email
+                  onCreateOneTimeMarketingEmail = function () {
+                      var campaign = model.Campaign();
+                      campaign.campaignType(3);
+                      campaign.reset();
+                      selectedEmail(campaign);
+                      selectedEmail().reset();
+                      view.showEmailCamapaignDialog();
+                  },
+                 //Create Interval Marketing Email
+                 onCreateIntervalMarketingEmail = function () {
+                     var campaign = model.Campaign();
+                     campaign.campaignType(2);
+                     selectedEmail(campaign);
+                     selectedEmail().reset();
+                     view.showEmailCamapaignDialog();
+                 },
                 onSaveEmail = function (email) {
                     if (dobeforeSaveEmail()) {
                         if (email.emailEventId() !== undefined) {
@@ -741,7 +759,11 @@ define("stores/stores.viewModel",
                                 }
                             });
                         }
-                        emails.splice(0, 0, email);
+                        if (email.id() === undefined) {
+                            emails.splice(0, 0, email);
+                        } else {
+
+                        }
                         view.hideEmailCamapaignDialog();
                     }
                 }
@@ -754,10 +776,16 @@ define("stores/stores.viewModel",
                     }
                     return flag;
                 },
+                //Edit Email
                 onEditEmail = function (campaign) {
                     selectedEmail(campaign);
+                    selectedEmail().reset();
                     view.showEmailCamapaignDialog();
                 }
+                // Delete Email
+                onDeleteEmail = function (email) {
+                    emails.remove(email);
+                },
                 //#endregion
 
                 //***** ADDRESSES ****//
@@ -1462,6 +1490,8 @@ define("stores/stores.viewModel",
                     selectedEmail: selectedEmail,
                     onEditEmail: onEditEmail,
                     onSaveEmail: onSaveEmail,
+                    onDeleteEmail: onDeleteEmail,
+                    onCloseCompanyBanner: onCloseCompanyBanner,
                     initialize: initialize
                 };
             })()

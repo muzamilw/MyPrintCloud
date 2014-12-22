@@ -28,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICmsPageRepository cmsPageRepository;
         private readonly IPageCategoryRepository pageCategoryRepository;
         private readonly IEmailEventRepository emailEventRepository;
+        private readonly ICampaignRepository campaignRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -245,9 +246,77 @@ namespace MPC.Implementation.MISServices
             UpdateAddressOfUpdatingCompany(companySavingModel);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
+            UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void UpdateCampaigns(IEnumerable<Campaign> campaigns, Company companyDbVersion)
+        {
+            #region update Campaign
+
+            if (campaigns != null)
+            {
+                foreach (var campaign in campaigns)
+                {
+                    //New Added
+                    if (campaign.CampaignId == 0)
+                    {
+                        campaign.CompanyId = companyDbVersion.CompanyId;
+                        companyDbVersion.Campaigns.Add(campaign);
+                    }
+                    else
+                    {
+                        Campaign campaignDbItem =
+                            companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
+                        if (campaignDbItem != null)
+                        {
+                            if (campaign.CampaignName != campaignDbItem.CampaignName ||
+                                campaign.EmailEvent != campaignDbItem.EmailEvent
+                                || campaign.IsEnabled != campaignDbItem.IsEnabled ||
+                                campaign.SendEmailAfterDays != campaignDbItem.SendEmailAfterDays
+                                || campaign.StartDateTime != campaignDbItem.StartDateTime)
+                            {
+                                campaignDbItem.CampaignName = campaign.CampaignName;
+                                campaignDbItem.EmailEvent = campaign.EmailEvent;
+                                campaignDbItem.IsEnabled = campaign.IsEnabled;
+                                campaignDbItem.StartDateTime = campaign.StartDateTime;
+                                campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
+                                campaignDbItem.CampaignType = campaign.CampaignType;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #endregion
+
+            #region Delete Campaigns
+
+            //find missing items
+            List<Campaign> missingCampaignListItems = new List<Campaign>();
+            foreach (var dbversionCampaignItem in companyDbVersion.Campaigns)
+            {
+                if (campaigns != null && campaigns.All(x => x.CampaignId != dbversionCampaignItem.CampaignId))
+                {
+                    missingCampaignListItems.Add(dbversionCampaignItem);
+                }
+                //In case user delete all Campaigns
+                if (campaigns == null)
+                {
+                    missingCampaignListItems.Add(dbversionCampaignItem);
+                }
+            }
+            //remove missing items
+            foreach (Campaign missingCampaignItem in missingCampaignListItems)
+            {
+                companyDbVersion.Campaigns.Remove(missingCampaignItem);
+            }
+            #endregion
         }
 
         //Update Secondary Pages
@@ -328,6 +397,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void BannersUpdate(Company company, Company companyDbVersion)
         {
+            #region Update Banners
             if (company.CompanyBannerSets != null)
             {
                 foreach (var bannerItem in company.CompanyBannerSets)
@@ -394,7 +464,9 @@ namespace MPC.Implementation.MISServices
                 }
                 companyRepository.SaveChanges();
             }//End Add/Edit 
+            #endregion
 
+            #region Delete Banners
             foreach (var bannerSetDbVersion in companyDbVersion.CompanyBannerSets)
             {
 
@@ -424,6 +496,8 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
+            #endregion
+
             if (company.CompanyBannerSets != null)
                 SaveCompanyBannerImages(company.CompanyBannerSets);
         }
