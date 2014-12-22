@@ -3,6 +3,8 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace MPC.Repository.Repositories
 {
@@ -39,6 +41,14 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
+
+        public List<ItemStockOption> GetStockList(long ItemID, long companyID)
+        {
+
+            return db.ItemStockOptions.Where(i => i.ItemId == ItemID && i.CompanyId == companyID).OrderBy(g => g.OptionSequence).ToList();
+
+        }
+
         #endregion
     }
 }

@@ -123,11 +123,12 @@ define("inventory/inventory.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedInventory(model.StockItem.CreateForClient(data));
-                                      costPriceList.removeAll();
+                                    costPriceList.removeAll();
                                     _.each(data.StockCostAndPrices, function (item) {
                                         costPriceList.push(model.StockCostAndPrice.CreateForClient(item));
-                                        });
-                                      showInventoryEditor();
+                                    });
+                                    selectedInventory().reset();
+                                    showInventoryEditor();
                                 }
                             },
                             error: function (response) {
@@ -399,11 +400,12 @@ define("inventory/inventory.viewModel",
                         //Add default cost and price rows
                         var cost = model.StockCostAndPrice.Create();
                         selectCostItem(cost);
-                        costPriceList.splice(0,0,cost);
+                        costPriceList.splice(0, 0, cost);
                         var price = model.StockCostAndPrice.Create();
                         price.costOrPriceIdentifier(-1);
                         selectedPriceItem(price);
                         costPriceList.splice(0, 0, price);
+                        selectedInventory().reset();
                         showInventoryEditor();
                     },
                     // close Inventory Editor

@@ -16,12 +16,14 @@ namespace MPC.Implementation.WebStoreServices
         public long loginContactID()
         {
             IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
-            return roles.Select(role => role.ContactId).FirstOrDefault();
+            long contactID = roles.Select(role => role.ContactId).FirstOrDefault();
+            return contactID;
         }
         public long loginContactCompanyID()
         {
             IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
-            return roles.Select(role => role.ContactCompanyId).FirstOrDefault();
+            long CompanyId = roles.Select(role => role.ContactCompanyId).FirstOrDefault();
+            return CompanyId;
         }
         public long loginContactRoleID()
         {

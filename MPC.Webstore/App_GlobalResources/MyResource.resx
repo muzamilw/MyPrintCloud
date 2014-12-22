@@ -126,6 +126,15 @@
   <data name="ForgotPasswordSuccessfull" xml:space="preserve">
     <value>Your new password is sent to given e-mail address. Please check your email</value>
   </data>
+  <data name="lblQtyFrom" xml:space="preserve">
+    <value>Quantity From</value>
+  </data>
+  <data name="lblQtyTo" xml:space="preserve">
+    <value>Quantity To</value>
+  </data>
+  <data name="lblQuantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
   <data name="LogOut" xml:space="preserve">
     <value>Sign out</value>
   </data>

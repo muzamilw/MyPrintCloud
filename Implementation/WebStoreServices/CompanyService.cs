@@ -402,7 +402,7 @@ namespace MPC.Implementation.WebStoreServices
         public int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null)
         {
             Markup zeroMarkup = _markupRepository.GetZeroMarkup();
-
+        
             return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, zeroMarkup,regContact);
         }
         #endregion
