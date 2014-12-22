@@ -12,10 +12,12 @@ namespace MPC.Models.DomainModels
         public string BusinessEmail { get; set; }
         public string IdentityToken { get; set; }
         public bool isActive { get; set; }
-        public Nullable<int> CompanyId { get; set; }
-        public Nullable<int> PaymentMethodId { get; set; }
+        public long? CompanyId { get; set; }
+        public int? PaymentMethodId { get; set; }
         public string SecureHash { get; set; }
 
         public virtual PaymentMethod PaymentMethod { get; set; }
+
+        public virtual Company Company { get; set; }
     }
 }

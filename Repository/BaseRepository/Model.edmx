@@ -1709,7 +1709,7 @@
           <Property Name="BusinessEmail" Type="varchar" MaxLength="500" />
           <Property Name="IdentityToken" Type="varchar" MaxLength="500" />
           <Property Name="isActive" Type="bit" Nullable="false" />
-          <Property Name="CompanyId" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
           <Property Name="PaymentMethodId" Type="int" />
           <Property Name="SecureHash" Type="nvarchar" MaxLength="500" />
         </EntityType>
@@ -2667,6 +2667,18 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PaymentGateway_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="PaymentGateway" Type="Self.PaymentGateway" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="PaymentGateway">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductBackgroundImages_Products">
           <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
           <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="*" />
@@ -3608,6 +3620,10 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
             <End Role="PageCategory" EntitySet="PageCategory" />
             <End Role="CmsPage" EntitySet="CmsPage" />
           </AssociationSet>
+          <AssociationSet Name="FK_PaymentGateway_Company" Association="Self.FK_PaymentGateway_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="PaymentGateway" EntitySet="PaymentGateway" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProductBackgroundImages_Products" Association="Self.FK_ProductBackgroundImages_Products">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
@@ -4256,8 +4272,12 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
             <Parameter Name="filedata" Mode="In" Type="Binary" />
           </FunctionImport>
           <FunctionImport Name="MPCFileTable_Del">
-            <Parameter Name="docId" Mode="In" Type="Guid" />
+          <Parameter Name="docId" Mode="In" Type="Guid" />
           </FunctionImport>
+          <AssociationSet Name="FK_PaymentGateway_Company" Association="DomainModels.FK_PaymentGateway_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="PaymentGateway" EntitySet="PaymentGateways" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4376,6 +4396,7 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <Property Name="MapImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="PickupAddressId" Type="Int64" />
           <NavigationProperty Name="Campaigns" Relationship="DomainModels.FK_Company_Campaign" FromRole="Company" ToRole="Campaign" />
+          <NavigationProperty Name="PaymentGateways" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="Company" ToRole="PaymentGateway" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6420,10 +6441,11 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <Property Name="BusinessEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="IdentityToken" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
           <Property Name="PaymentMethodId" Type="Int32" />
           <Property Name="SecureHash" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PaymentMethod" Relationship="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods" FromRole="PaymentGateway" ToRole="PaymentMethod" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="PaymentGateway" ToRole="Company" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -7802,6 +7824,18 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
           <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
+        <Association Name="FK_PaymentGateway_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.PaymentGateway" Role="PaymentGateway" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="PaymentGateway">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
