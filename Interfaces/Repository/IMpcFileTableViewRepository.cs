@@ -8,5 +8,9 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IMpcFileTableViewRepository : IBaseRepository<MpcFileTableView, Guid>
     {
+        /// <summary>
+        /// Get File by Stream Id
+        /// </summary>
+        MpcFileTableView GetByStreamId(Guid streamId);
     }
 }

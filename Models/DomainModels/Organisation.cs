@@ -194,6 +194,12 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public long? MarkupId { get; set; }
 
+        /// <summary>
+        /// MIS Logo Bytes
+        /// </summary>
+        [NotMapped]
+        public byte[] MisLogoBytes { get; set; }
+
         #endregion
     }
 }

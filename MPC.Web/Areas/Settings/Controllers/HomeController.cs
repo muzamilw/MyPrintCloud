@@ -2,10 +2,7 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
-using MPC.Models.Common;
-using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Settings.Controllers
 {
@@ -47,29 +44,20 @@ namespace MPC.MIS.Areas.Settings.Controllers
             if (file != null && file.InputStream != null)
             {
                 // Before attempting to save the file, verify
-                SaveFile(file, organizationId);
+                SaveFile(file);
 
             }
             return null;
         }
 
         //upload Files
-        private void SaveFile(HttpPostedFileBase file, long organizationId)
+        private void SaveFile(HttpPostedFileBase file)
         {
-            // Specify the path to save organisations files.
-            string organisationDirectoryPath = Server.MapPath("~/Resources/Organisations/" + organizationId);
-
-            if (!Directory.Exists(organisationDirectoryPath))
+            if (file == null || file.InputStream == null)
             {
-                Directory.CreateDirectory(organisationDirectoryPath);
-
+                return;
             }
-            string savePath = Server.MapPath("~/Resources/Organisations/" + organizationId + "/");
-            string fileName = file.FileName;
-            // Append the name of the file to upload to the path.
-            savePath += fileName;
-            file.SaveAs(savePath);
-            
+
             byte[] fileBytes;
             using (var memoryStream = new MemoryStream())
             {
@@ -77,9 +65,7 @@ namespace MPC.MIS.Areas.Settings.Controllers
                 fileBytes = memoryStream.ToArray();
             }
 
-            myOrganizationService.SaveFileToFileTable(fileName, fileBytes);
-
-            //myOrganizationService.SaveFile(savePath);
+            myOrganizationService.SaveFileToFileTable(file.FileName, fileBytes);
         }
 
     }

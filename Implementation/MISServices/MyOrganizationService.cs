@@ -65,6 +65,16 @@ namespace MPC.Implementation.MISServices
         public Organisation GetOrganisationDetail()
         {
             Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
+            
+            if (organization.MISLogoStreamId.HasValue)
+            {
+                MpcFileTableView fileTableView = mpcFileTableViewRepository.GetByStreamId(organization.MISLogoStreamId.Value);
+                if (fileTableView != null)
+                {
+                    organization.MisLogoBytes = fileTableView.FileStream;
+                }
+            }
+
             IEnumerable<Markup> markups = markupRepository.GetAll();
             if (markups != null)
             {

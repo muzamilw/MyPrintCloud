@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -49,6 +50,13 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
 
+        /// <summary>
+        /// Get File by StreamId
+        /// </summary>
+        public MpcFileTableView GetByStreamId(Guid streamId)
+        {
+            return DbSet.FirstOrDefault(file => file.StreamId == streamId);
+        }
 
         #endregion
     }
