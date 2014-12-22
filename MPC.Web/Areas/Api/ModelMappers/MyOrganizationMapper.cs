@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -32,11 +31,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Organisation CreateFrom(this DomainModels.Organisation source)
         {
-            byte[] bytes = null;
-            if (source.MISLogo != null && File.Exists(source.MISLogo))
-            {
-                bytes = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null;
-            }
             return new Organisation
            {
                OrganisationId = source.OrganisationId,
@@ -60,7 +54,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                Url = source.URL,
                MisLogo = source.MISLogo,
                TaxRegistrationNo = source.TaxRegistrationNo,
-               Image = bytes
+               Image = source.MisLogoBytes
            };
         }
 

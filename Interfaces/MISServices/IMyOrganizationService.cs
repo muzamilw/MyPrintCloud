@@ -30,5 +30,10 @@ namespace MPC.Interfaces.MISServices
         void SaveFile(string filePath);
 
         IList<int> GetOrganizationIds(int request);
+
+        /// <summary>
+        /// Save File to File Table
+        /// </summary>
+        void SaveFileToFileTable(string fileName, byte[] fileStream);
     }
 }

@@ -6,10 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MPC.Models.Common;
-using System.Web;
 using MPC.Interfaces.WebStoreServices;
 namespace MPC.Repository.Repositories
 {
