@@ -1165,7 +1165,6 @@
     <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_MediaGalleryScreen.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
-    <Content Include="Content\less\MainSite.css.map" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
