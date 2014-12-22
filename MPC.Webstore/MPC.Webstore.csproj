@@ -254,6 +254,7 @@
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
+    <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
@@ -266,6 +267,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
+    <Compile Include="Controllers\ProductOptionsController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -387,6 +389,7 @@
     <Content Include="Views\Shared\PartialViews\AllProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\Category.cshtml" />
     <Content Include="Views\Shared\PartialViews\CategoryHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ProductOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -398,6 +401,7 @@
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
+    <Folder Include="Views\ProductOptions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

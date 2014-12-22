@@ -395,7 +395,7 @@ namespace MPC.Implementation.WebStoreServices
             return (price - (price * (discountPrecentage / 100)));
         }
 
-
+        
         #endregion
     }
 

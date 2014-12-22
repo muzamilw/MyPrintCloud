@@ -88,6 +88,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity From.
+        /// </summary>
+        internal static string lblQtyFrom {
+            get {
+                return ResourceManager.GetString("lblQtyFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity To.
+        /// </summary>
+        internal static string lblQtyTo {
+            get {
+                return ResourceManager.GetString("lblQtyTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        internal static string lblQuantity {
+            get {
+                return ResourceManager.GetString("lblQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign out.
         /// </summary>
         internal static string LogOut {

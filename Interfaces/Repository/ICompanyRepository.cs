@@ -26,7 +26,10 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         Company GetStoreById(long companyId);
 
-
+        /// <summary>
+        /// Get Company Price Flag id for Price Matrix in webstore
+        /// </summary>
+        int? GetPriceFlagIdByCompany(long CompanyId);
         
     }
 }

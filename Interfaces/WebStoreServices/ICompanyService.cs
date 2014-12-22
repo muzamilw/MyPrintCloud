@@ -70,5 +70,6 @@ namespace MPC.Interfaces.WebStoreServices
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
         double CalculateDiscount(double price, double discountPrecentage);
+        
     }
 }
