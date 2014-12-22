@@ -168,6 +168,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             colorPalette = ko.observable(new ColorPalette()),
             //Company Banner Set List
             companyBannerSets = ko.observableArray([]),
+            //Payment Gateways
+            paymentGateway = ko.observableArray([]),
+            //Payment Methods
+            paymentMethod = ko.observableArray([]),
             // ReSharper restore InconsistentNaming
 
             // Errors
@@ -337,6 +341,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             colorPalette: colorPalette,
             companyBannerSets: companyBannerSets,
             secondaryPages: secondaryPages,
+            paymentGateway: paymentGateway,
+            paymentMethod: paymentMethod,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -392,6 +398,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         });
         _.each(source.users, function (item) {
             result.users.push(CompanyContact.CreateFromClientModel(item));
+        });
+        _.each(source.paymentMethod, function (item) {
+            result.paymentMethod.push(PaymentMethod.CreateFromClientModel(item));
+        });
+        _.each(source.paymentGateway, function (item) {
+            result.paymentGateway.push(PaymentGateway.CreateFromClientModel(item));
         });
         return result;
     };
@@ -456,6 +468,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         });
         _.each(source.ContactCompanies, function (item) {
             store.users.push(CompanyContact.Create(item));
+        });
+        _.each(source.PaymentGateways, function (item) {
+            store.paymentGateway.push(PaymentGateway.Create(item));
+        });
+        _.each(source.PaymentMethods, function (item) {
+            store.paymentMethod.push(PaymentMethod.Create(item));
         });
         return store;
     };
@@ -2311,20 +2329,22 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     
     //______________________    P A Y M E N T   G A T E W A Y S _________________________________//
-    var PaymentGateway = function (specifiedReviewId, specifiedReviewBy, specifiedReview, specifiedReviewDate, specifiedisDisplay, specifiedSortOrder, specifiedOrganisationId, specifiedCompanyId) {
+
+    // ReSharper disable once InconsistentNaming
+    // ReSharper restore InconsistentNaming
+    var PaymentGateway = function (specifiedPaymentGatewayId, specifiedBusinessEmail, specifiedIdentityToken, specifiedIsActive, specifiedCompanyId, specifiedPaymentMethodId, specifiedSecureHash) {
         var self,
-            reviewId = ko.observable(specifiedReviewId),
-            reviewBy = ko.observable(specifiedReviewBy).extend({ required: true }),
-            review = ko.observable(specifiedReview).extend({ required: true }),
-            reviewDate = ko.observable(specifiedReviewDate),
-            isDisplay = ko.observable(specifiedisDisplay),
-            sortOrder = ko.observable(specifiedSortOrder),
-            organisationId = ko.observable(specifiedOrganisationId),
+            paymentGatewayId = ko.observable(specifiedPaymentGatewayId),
+            businessEmail = ko.observable(specifiedBusinessEmail).extend({ required: true }),
+            identityToken = ko.observable(specifiedIdentityToken).extend({ required: true }),
+            isActive = ko.observable(specifiedIsActive),
             companyId = ko.observable(specifiedCompanyId),
+            paymentMethodId = ko.observable(specifiedPaymentMethodId),
+            secureHash = ko.observable(specifiedSecureHash),
             // Errors
             errors = ko.validation.group({
-                reviewBy: reviewBy,
-                review: review
+                businessEmail: businessEmail,
+                identityToken: identityToken
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2334,14 +2354,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                reviewId: reviewId,
-                reviewBy: reviewBy,
-                review: review,
-                reviewDate: reviewDate,
-                isDisplay: isDisplay,
-                sortOrder: sortOrder,
-                organisationId: organisationId,
-                companyId: companyId
+                paymentGatewayId: paymentGatewayId,
+                businessEmail: businessEmail,
+                identityToken: identityToken,
+                companyId: companyId,
+                isActive: isActive,
+                paymentMethodId: paymentMethodId,
+                secureHash: secureHash
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2350,14 +2369,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             //Convert To Server
             convertToServerData = function () {
                 return {
-                    ReviewId: reviewId(),
-                    ReviewBy: reviewBy(),
-                    Review: review(),
-                    ReviewDate: reviewDate(),
-                    IsDisplay: isDisplay(),
-                    SortOrder: sortOrder(),
-                    OrganisationId: organisationId(),
-                    CompanyId: companyId()
+                    PaymentGatewayId: paymentGatewayId(),
+                    BusinessEmail: businessEmail(),
+                    IdentityToken: identityToken(),
+                    IsActive: isActive(),
+                    CompanyId: companyId(),
+                    SecureHash: secureHash()
                 };
             },
             // Reset
@@ -2365,14 +2382,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 dirtyFlag.reset();
             };
         self = {
-            reviewId: reviewId,
-            reviewBy: reviewBy,
-            review: review,
-            reviewDate: reviewDate,
-            isDisplay: isDisplay,
-            sortOrder: sortOrder,
-            organisationId: organisationId,
+            paymentGatewayId: paymentGatewayId,
+            businessEmail: businessEmail,
+            identityToken: identityToken,
             companyId: companyId,
+            isActive: isActive,
+            paymentMethodId: paymentMethodId,
+            secureHash: secureHash,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -2382,32 +2398,103 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
-    RaveReview.CreateFromClientModel = function (source) {
-        return new RaveReview(
-            source.reviewId,
-            source.reviewBy,
-            source.review,
-            source.reviewDate,
-            source.isDisplay,
-            source.sortOrder,
-            source.organisationId,
-            source.companyId
+    PaymentGateway.CreateFromClientModel = function (source) {
+        return new PaymentGateway(
+            source.paymentGatewayId,
+            source.businessEmail,
+            source.identityToken,
+            source.companyId,
+            source.isActive,
+            source.paymentMethodId,
+            source.secureHash
         );
     };
-    RaveReview.Create = function (source) {
-        var raveReview = new RaveReview(
+    PaymentGateway.Create = function (source) {
+        var paymentGateway = new PaymentGateway(
             //       
-            source.ReviewId,
-            source.ReviewBy,
-            source.Review,
-            source.ReviewDate,
-            source.isDisplay,
-            source.SortOrder,
-            source.OrganisationId,
-            source.CompanyId
+            source.PaymentGatewayId,
+            source.BusinessEmail,
+            source.IdentityToken,
+            source.CompanyId,
+            source.IsActive,
+            source.PaymentMethodId,
+            source.SecureHash
         );
-        return raveReview;
+        return paymentGateway;
     };
+    
+
+    
+    //// __________________  P A Y M E N T   M E T H O D   ______________________//
+    // ReSharper disable once InconsistentNaming
+    var PaymentMethod = function (specifiedPaymentMethodId, specifiedMethodName, specifiedIsActive) {
+
+        var self,
+            paymentMethodId = ko.observable(specifiedPaymentMethodId),
+            methodName = ko.observable(specifiedMethodName),        
+            isActive = ko.observable(specifiedIsActive),            
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),//PaymentMethodId  MethodName  IsActive
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                paymentMethodId: paymentMethodId,
+                methodName: methodName,
+                isActive: isActive,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    QuestionId: paymentMethodId(),
+                    MethodName: methodName(),
+                    IsActive: isActive()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            paymentMethodId: paymentMethodId,
+            methodName: methodName,
+            isActive: isActive,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    PaymentMethod.CreateFromClientModel = function (source) {
+        return new PaymentMethod(
+            source.paymentMethodId,
+            source.methodName,
+            source.isActive
+            );
+    };
+    PaymentMethod.Create = function (source) {
+        var paymentMethod = new PaymentMethod(
+            source.QuestionId,
+            source.MethodName,
+            source.IsActive
+            );
+        return paymentMethod;
+    };
+
+    
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -2427,6 +2514,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         CMSPage: CMSPage,
         PageCategory: PageCategory,
         Campaign: Campaign,
+        PaymentGateway: PaymentGateway,
+        PaymentMethod: PaymentMethod
     };
 
 });
