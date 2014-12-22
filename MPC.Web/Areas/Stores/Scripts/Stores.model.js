@@ -115,7 +115,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
-        specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners
+        specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
+        specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
+        specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
+        specifiedmakeEmailBrokerArtworkOrderProductionReady
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -152,7 +155,19 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             productionManagerId1 = ko.observable(specifiedProductionManagerId1),
             productionManagerId2 = ko.observable(specifiedProductionManagerId2),
             stockNotificationManagerId1 = ko.observable(specifiedStockNotificationManagerId1),
-            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),
+            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),/////
+            isStoreModePrivate = ko.observable(specifiedisStoreModePrivate),
+            isTextWatermark = ko.observable(specifiedisTextWatermark),
+            watermarkText = ko.observable(specifiedWatermarkText),
+            isBrokerPaymentRequired = ko.observable(specifiedisBrokerPaymentRequired),
+            isBrokerCanAcceptPaymentOnline = ko.observable(specifiedisBrokerCanAcceptPaymentOnline),
+            canUserPlaceOrderWithoutApproval = ko.observable(specifiedcanUserPlaceOrderWithoutApproval),
+            isIncludeVAT = ko.observable(specifiedisIncludeVAT),
+            includeEmailBrokerArtworkOrderReport = ko.observable(specifiedincludeEmailBrokerArtworkOrderReport),
+            includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
+            includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
+            makeEmailBrokerArtworkOrderProductionReady = ko.observable(specifiedmakeEmailBrokerArtworkOrderProductionReady),
+            //company type
             companyType = ko.observable(),
             //type = ko.observable(),
             isDisplayBanners = ko.observable(specifiedisDisplayBanners),
@@ -226,6 +241,17 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 productionManagerId2: productionManagerId2,
                 stockNotificationManagerId1: stockNotificationManagerId1,
                 stockNotificationManagerId2: stockNotificationManagerId2,
+                isStoreModePrivate: isStoreModePrivate,
+                isTextWatermark: isTextWatermark,
+                watermarkText: watermarkText,
+                isBrokerPaymentRequired: isBrokerPaymentRequired,
+                isBrokerCanAcceptPaymentOnline: isBrokerCanAcceptPaymentOnline,
+                canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
+                isIncludeVAT: isIncludeVAT,
+                includeEmailBrokerArtworkOrderReport: includeEmailBrokerArtworkOrderReport,
+                includeEmailBrokerArtworkOrderXML: includeEmailBrokerArtworkOrderXML,
+                includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
+                makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
                 isDisplayBanners: isDisplayBanners,
             }),
             // Has Changes
@@ -263,9 +289,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.ProductionManagerId2 = source.productionManagerId2();
                 result.StockNotificationManagerId1 = source.stockNotificationManagerId1();
                 result.StockNotificationManagerId2 = source.stockNotificationManagerId2();
+                result.isStoreModePrivate = source.isStoreModePrivate();
+                result.isTextWatermark = source.isTextWatermark();
+                result.WatermarkText = source.watermarkText();
+                result.isBrokerPaymentRequired = source.isBrokerPaymentRequired();
+                result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
+                result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
+                result.isIncludeVAT = source.isIncludeVAT();
+                result.includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
+                result.includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
+                result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
+                result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
                 result.CompanyType = CompanyType().convertToServerData(source.companyType());
                 result.RaveReviews = [];
+                result.PaymentGateways = [];
                 result.CompanyContacts = [];
                 _.each(source.raveReviews(), function (item) {
                     result.RaveReviews.push(item.convertToServerData());
@@ -295,6 +333,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.EditCmsPages = [];
                 result.DeletedCmsPages = [];
                 result.PageCategories = [];
+                _.each(source.paymentGateway(), function (item) {
+                    result.PaymentGateways.push(item.convertToServerData());
+                });
                 return result;
             },
             // Reset
@@ -331,6 +372,17 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             stockNotificationManagerId2: stockNotificationManagerId2,
             twitterAppKey: twitterAppKey,
             companyType: companyType,
+            isStoreModePrivate: isStoreModePrivate,
+            isTextWatermark: isTextWatermark,
+            watermarkText: watermarkText,
+            isBrokerPaymentRequired: isBrokerPaymentRequired,
+            isBrokerCanAcceptPaymentOnline: isBrokerCanAcceptPaymentOnline,
+            canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
+            isIncludeVAT: isIncludeVAT,
+            includeEmailBrokerArtworkOrderReport: includeEmailBrokerArtworkOrderReport,
+            includeEmailBrokerArtworkOrderXML: includeEmailBrokerArtworkOrderXML,
+            includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
+            makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
             isDisplayBanners: isDisplayBanners,
             type: type,
             raveReviews: raveReviews,
@@ -381,7 +433,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.productionManagerId1,
             source.productionManagerId2,
             source.stockNotificationManagerId1,
-            source.stockNotificationManagerId2
+            source.stockNotificationManagerId2,
+            source.isStoreModePrivate,
+            source.isTextWatermark,
+            source.watermarkText,
+            source.isBrokerPaymentRequired,
+            source.isBrokerCanAcceptPaymentOnline,
+            source.canUserPlaceOrderWithoutApproval,
+            source.isIncludeVAT,
+            source.includeEmailBrokerArtworkOrderReport,
+            source.includeEmailBrokerArtworkOrderXML,
+            source.includeEmailBrokerArtworkOrderJobCard,
+            source.makeEmailBrokerArtworkOrderProductionReady
         );
         //result.companyType(CompanyType.CreateFromClientModel(source.companyType));
         _.each(source.raveReviews, function (item) {
@@ -437,7 +500,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ProductionManagerId2,
             source.StockNotificationManagerId1,
             source.StockNotificationManagerId2,
-            source.isDisplayBanners
+            source.isDisplayBanners,
+            source.isStoreModePrivate,
+            source.isTextWatermark,
+            source.WatermarkText,
+            source.isBrokerPaymentRequired,
+            source.isBrokerCanAcceptPaymentOnline,
+            source.canUserPlaceOrderWithoutApproval,
+            source.isIncludeVAT,
+            source.includeEmailBrokerArtworkOrderReport,
+            source.includeEmailBrokerArtworkOrderXML,
+            source.includeEmailBrokerArtworkOrderJobCard,
+            source.makeEmailBrokerArtworkOrderProductionReady
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -2327,12 +2401,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             );
         return registrationQuestion;
     };
-    
+
     //______________________    P A Y M E N T   G A T E W A Y S _________________________________//
 
     // ReSharper disable once InconsistentNaming
     // ReSharper restore InconsistentNaming
-    var PaymentGateway = function (specifiedPaymentGatewayId, specifiedBusinessEmail, specifiedIdentityToken, specifiedIsActive, specifiedCompanyId, specifiedPaymentMethodId, specifiedSecureHash) {
+    var PaymentGateway = function (specifiedPaymentGatewayId, specifiedBusinessEmail, specifiedIdentityToken, specifiedIsActive, specifiedCompanyId, specifiedPaymentMethodId, specifiedSecureHash, specifiedPaymentMethodName) {
         var self,
             paymentGatewayId = ko.observable(specifiedPaymentGatewayId),
             businessEmail = ko.observable(specifiedBusinessEmail).extend({ required: true }),
@@ -2341,6 +2415,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             companyId = ko.observable(specifiedCompanyId),
             paymentMethodId = ko.observable(specifiedPaymentMethodId),
             secureHash = ko.observable(specifiedSecureHash),
+            paymentMethodName = ko.observable(specifiedPaymentMethodName),
             // Errors
             errors = ko.validation.group({
                 businessEmail: businessEmail,
@@ -2360,7 +2435,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 companyId: companyId,
                 isActive: isActive,
                 paymentMethodId: paymentMethodId,
-                secureHash: secureHash
+                secureHash: secureHash,
+                paymentMethodName: paymentMethodName
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2389,6 +2465,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isActive: isActive,
             paymentMethodId: paymentMethodId,
             secureHash: secureHash,
+            paymentMethodName: paymentMethodName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -2406,7 +2483,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.companyId,
             source.isActive,
             source.paymentMethodId,
-            source.secureHash
+            source.secureHash,
+            source.paymentMethodName
         );
     };
     PaymentGateway.Create = function (source) {
@@ -2418,21 +2496,22 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CompanyId,
             source.IsActive,
             source.PaymentMethodId,
-            source.SecureHash
+            source.SecureHash,
+            source.PaymentMethodName
         );
         return paymentGateway;
     };
-    
 
-    
+
+
     //// __________________  P A Y M E N T   M E T H O D   ______________________//
     // ReSharper disable once InconsistentNaming
     var PaymentMethod = function (specifiedPaymentMethodId, specifiedMethodName, specifiedIsActive) {
 
         var self,
             paymentMethodId = ko.observable(specifiedPaymentMethodId),
-            methodName = ko.observable(specifiedMethodName),        
-            isActive = ko.observable(specifiedIsActive),            
+            methodName = ko.observable(specifiedMethodName),
+            isActive = ko.observable(specifiedIsActive),
             errors = ko.validation.group({
 
             }),
@@ -2494,7 +2573,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return paymentMethod;
     };
 
-    
+
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -2519,6 +2598,3 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
 
 });
-
-
-

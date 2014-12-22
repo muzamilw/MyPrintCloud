@@ -589,7 +589,7 @@ namespace MPC.Implementation.MISServices
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
-                       PaymentMethods = paymentMethodRepository.GetAll(),
+                       PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                        EmailEvents = emailEventRepository.GetAll()
                    };
         }

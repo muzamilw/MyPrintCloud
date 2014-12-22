@@ -1582,13 +1582,13 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosStore" id="optionsRadiosPrivateStore" value="option1" checked>
+                                                        <input type="radio" name="optionsRadiosStore" id="optionsRadiosPrivateStore" value="true" data-bind="checked: $root.selectedStore().isStoreModePrivate">
                                                         <label for="optionsRadiosPrivateStore">
                                                             Private
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosStore" id="optionsRadiosPublicStore" value="option1">
+                                                        <input type="radio" name="optionsRadiosStore" id="optionsRadiosPublicStore" value="false" data-bind="checked: $root.selectedStore().isStoreModePrivate">
                                                         <label for="optionsRadiosPublicStore">
                                                             Public
                                                         </label>
@@ -1612,19 +1612,19 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="option1" onclick="HideWaterMarkUploader();" checked>
+                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="option1" onclick="HideWaterMarkUploader();" data-bind="checked: $root.selectedStore().isTextWatermark">
                                                         <label for="rdioWatermarkText">
                                                             Display specified Text
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkImage" value="option2" onclick="showWaterMarkUploader();">
+                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkImage" value="option2" onclick="showWaterMarkUploader();" data-bind="checked: $root.selectedStore().isTextWatermark">
                                                         <label for="rdioWatermarkImage">
                                                             Display specified Image
                                                         </label>
                                                     </div>
                                                     <br />
-                                                    <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text">
+                                                    <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text" data-bind="value: $root.selectedStore().watermarkText">
                                                     <br />
                                                     <div id="WaterMarkImageUploadCnt" style="display: none;" class="col-lg-6">
                                                         <div id="dropzoneWaterMarkImg" class="dropzonepl">
@@ -1656,13 +1656,13 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="option1" checked>
+                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="option1" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                         <label for="optionsRadiosForceOnlinePayment">
                                                             Force visitors to pay online to your PayPal Account
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosCheckoutWOPayment" value="option1">
+                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosCheckoutWOPayment" value="option1" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                         <label for="optionsRadiosCheckoutWOPayment">
                                                             Allow users to checkout without payment
                                                         </label>
@@ -1678,7 +1678,7 @@
                                                 <label class="col-md-6" for="onoffswitchAcceptOnline">Can this store accept online payments ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchAcceptOnline" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchAcceptOnline" data-bind="checked: $root.selectedStore().isBrokerCanAcceptPaymentOnline">
                                                         <label class="onoffswitch-label" for="onoffswitchAcceptOnline">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1748,7 +1748,7 @@
                                                 <label class="col-md-6" for="switchOrderWithoutApproval">Can user place order without Manager's approval</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchOrderWithoutApproval" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchOrderWithoutApproval" data-bind="checked: $root.selectedStore().canUserPlaceOrderWithoutApproval">
                                                         <label class="onoffswitch-label" for="switchOrderWithoutApproval">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1791,7 +1791,7 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionYes" value="option1" checked>
+                                                        <input type="radio" name="optionsRadios" id="optionYes" value="option1" data-bind="checked: $root.selectedStore().isIncludeVAT">
                                                         <label for="optionYes">
                                                             Yes
                                                         </label>
@@ -1838,7 +1838,7 @@
                                                         <input type="text" class="form-control" placeholder="Search...">
                                                         <i class="fa fa-search search-icon"></i>
                                                     </div>
-                                                    <a data-toggle="modal" href="#myPaymentGatewayModal" class="btn btn-primary pull-right">
+                                                    <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click:$root.onCreateNewPaymentGateway">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Gateway
                                                     </a>
                                                 </div>
@@ -1855,83 +1855,8 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    Paypal
-                                                                </td>
-                                                                <td>
-                                                                    mpcystemsbiz_1452178@paypal.com
-                                                                </td>
-                                                                <td>
-                                                                    <span class="label label-warning">Inactive</span>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Authorize.Net
-                                                                </td>
-                                                                <td>
-                                                                    1245785412589-5458-45888
-                                                                </td>
-                                                                <td>
-                                                                    <span class="label label-warning">Inactive</span>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Paypal
-                                                                </td>
-                                                                <td>
-                                                                    naveedmnz-78-biz_1452178@paypal.com
-                                                                </td>
-                                                                <td>
-                                                                    <span class="label label-success">Active</span>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <a data-toggle="modal" href="#myPaymentGatewayModal" class="table-link">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                    <a href="#" class="table-link danger">
-                                                                        <span class="fa-stack">
-                                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-
+                                                            <!-- ko template: { name: 'itemPaymentGatewayTemplate' , foreach: $root.selectedStore().paymentGateway } -->
+                                                            <!-- /ko -->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -1956,7 +1881,7 @@
                                                 <div class="col-lg-4">
                                                     <div>
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderReport">
                                                             <label class="onoffswitch-label" for="onoffswitchOrderReport">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -1968,7 +1893,6 @@
 
                                             </div>
 
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
 
@@ -1979,7 +1903,7 @@
                                                 <div class="col-lg-3">
                                                     <div>
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderXML">
                                                             <label class="onoffswitch-label" for="onoffswitchxmlformat">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -2001,7 +1925,7 @@
                                                 <div class="col-lg-3">
                                                     <div>
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderJobCard">
                                                             <label class="onoffswitch-label" for="onoffswitchOrderforeach">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -2013,7 +1937,6 @@
 
                                             </div>
 
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
 
@@ -2024,7 +1947,7 @@
                                                 <div class="col-lg-3">
                                                     <div>
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" checked>
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" data-bind="checked: $root.selectedStore().makeEmailBrokerArtworkOrderProductionReady">
                                                             <label class="onoffswitch-label" for="onoffswitchOrderemovwWater">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -2035,9 +1958,6 @@
                                                 </div>
 
                                             </div>
-
-
-
 
                                         </div>
                                     </div>
@@ -2687,6 +2607,41 @@
                 </td>
             </tr>
         </script>
+        
+        <script id="actionsPaymentGatewayTemplate" type="text/html">
+            <a class="table-link" data-bind="click : $root.onEditPaymentGateway">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click : $root.onDeletePaymentGateway">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </script>
+        <script id="itemPaymentGatewayTemplate" type="text/html">
+            <tr data-bind="click: $root.selectPaymentGateway, css: { selectedRow: $data === $root.selectedPaymentGateway}">
+                <td data-bind="text: paymentMethodName"></td>
+                <td data-bind="text: businessEmail"></td>
+                <!--ko if: isActive() === true -->
+                <td>
+                    <span class="label label-success">active</span>
+                </td>
+                <!-- /ko -->
+                <!--ko if: isActive() !== true -->
+                <td>
+                    <span class="label label-warning">Inactive</span>
+                </td>
+                <!-- /ko -->
+                <td id="actionColumn">
+                    <!-- ko template: { name: "actionsPaymentGatewayTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>
+            </tr>
+        </script>
     </form>
 </div>
 <style type="text/css" media="screen">
@@ -2710,7 +2665,7 @@
 @Html.Partial("~/Areas/Stores/Views/Shared/_MediaGalleryScreen.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
-@Html.Partial("Widgets/_AddEditPaymentGateway")
+@Html.Partial("~/Areas/Stores/Views/Shared/_AddEditPaymentGateway.cshtml")
 @Html.Partial("Address/_SelectAddress")
 @Html.Partial("Company/_RaveReviews")
 @Html.Partial("Company/_ProductsFilter")

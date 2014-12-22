@@ -833,6 +833,7 @@ define("stores/stores.viewModel",
                 addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
                contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+               
                 //Secondary Page Pager
                 secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
@@ -1514,6 +1515,7 @@ define("stores/stores.viewModel",
                     selectedEmail: selectedEmail,
                     onEditEmail: onEditEmail,
                     onSaveEmail: onSaveEmail,
+                    paymentMethods: paymentMethods,
                     templateToUsePaymentGateways: templateToUsePaymentGateways,
                     onCreateNewPaymentGateway: onCreateNewPaymentGateway,
                     onDeletePaymentGateway: onDeletePaymentGateway,
@@ -1521,6 +1523,7 @@ define("stores/stores.viewModel",
                     onClosePaymentGateway: onClosePaymentGateway,
                     doBeforeSavePaymentGateway: doBeforeSavePaymentGateway,
                     onSavePaymentGateway: onSavePaymentGateway,
+                    selectedPaymentGateway:selectedPaymentGateway,
                     initialize: initialize
                 };
             })()

@@ -16,7 +16,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsActive = source.isActive,
                 CompanyId = source.CompanyId,
                 PaymentMethodId = source.PaymentMethodId,
-                SecureHash = source.SecureHash
+                SecureHash = source.SecureHash,
+                PaymentMethodName = source.PaymentMethod != null ? source.PaymentMethod.MethodName : string.Empty
             };
         }
 
