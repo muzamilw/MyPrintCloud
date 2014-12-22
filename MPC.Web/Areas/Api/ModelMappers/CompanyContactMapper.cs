@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.IO;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -43,7 +44,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        URL = source.URL,
                        IsEmailSubscription = source.IsEmailSubscription,
                        IsNewsLetterSubscription = source.IsNewsLetterSubscription,
-                       image = source.image,
+                       image = source.ImageBytes,
                        quickFullName = source.quickFullName,
                        quickTitle = source.quickTitle,
                        quickCompanyName = source.quickCompanyName,
@@ -95,7 +96,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                        CanUserEditProfile = source.CanUserEditProfile,
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
-                       OrganisationId = source.OrganisationId
+                       OrganisationId = source.OrganisationId,
+                       FileName = source.FileName
                    };
         }
 
@@ -106,6 +108,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <returns></returns>
         public static CompanyContact CreateFrom(this DomainModels.CompanyContact source)
         {
+            byte[] bytes = null;
+            string fileName = string.Empty;
+            if (source.image != null && File.Exists(source.image))
+            {
+                fileName = source.image.IndexOf('_') > 0 ? source.image.Split('_')[1] : string.Empty;
+                bytes = source.image != null ? File.ReadAllBytes(source.image) : null;
+            }
             return new CompanyContact
                    {
                        ContactId = source.ContactId,
@@ -138,7 +147,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        URL = source.URL,
                        IsEmailSubscription = source.IsEmailSubscription,
                        IsNewsLetterSubscription = source.IsNewsLetterSubscription,
-                       image = source.image,
+                       Image = bytes,
                        quickFullName = source.quickFullName,
                        quickTitle = source.quickTitle,
                        quickCompanyName = source.quickCompanyName,
@@ -190,7 +199,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                        CanUserEditProfile = source.CanUserEditProfile,
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
-                       OrganisationId = source.OrganisationId
+                       OrganisationId = source.OrganisationId,
+                       FileName = fileName
                    };
         }
 

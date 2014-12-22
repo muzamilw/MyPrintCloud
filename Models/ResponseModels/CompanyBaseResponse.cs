@@ -12,8 +12,10 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<CompanyTerritory> CompanyTerritories { get; set; }
         public IEnumerable<CompanyContactRole> CompanyContactRoles { get; set; } 
         public IEnumerable<PageCategory> PageCategories { get; set; }
-        public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; } 
+        public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
+        public IEnumerable<EmailEvent> EmailEvents { get; set; }
         public IEnumerable<Address> Addresses { get; set; } 
+        public IEnumerable<PaymentMethod> PaymentMethods { get; set; } 
 
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }

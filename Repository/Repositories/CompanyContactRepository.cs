@@ -10,7 +10,6 @@ using MPC.Interfaces.Repository;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
-using MPC.Common;
 using MPC.Models.Common;
 using System.Collections.Generic;
 
@@ -577,6 +576,22 @@ namespace MPC.Repository.Repositories
                        select Contacts;
 
             return qury.ToList().Where(contct => VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
+
+        }
+
+        public int GetContactIdByCustomrID(int customerID)
+        {
+            
+            CompanyContact contact = db.CompanyContacts.Where(i => i.CompanyId == customerID).FirstOrDefault();
+            if (contact != null)
+            {
+                        return (int)contact.ContactId;
+            }
+            else
+             {
+                        return 0;
+             }
+              
            
         }
     }

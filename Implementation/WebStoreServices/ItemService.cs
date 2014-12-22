@@ -1,5 +1,7 @@
 ﻿using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,10 +43,14 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
-
+        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, Company objCompany, CompanyContact objContact)
+        {
+            Models.DomainModels.Company company = _CompanyRepository.GetStoreById((int)CustomerID);
+            return _ItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isCorporate, isSavedDesign, isCopyProduct, objCompany, objContact, company);
+        }
         public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
         {
-            int flagId = 0; 
+            int flagId = 0;
             if (IsUserLoggedIn)
             {
                 flagId = GetFlagId(CompanyId);
@@ -102,7 +108,7 @@ namespace MPC.Implementation.WebStoreServices
 
         private int GetFlagId(long companyId)
         {
-            if(companyId > 0)
+            if (companyId > 0)
             {
                 return _CompanyRepository.GetPriceFlagIdByCompany(companyId) == null ? 0 : Convert.ToInt32(_CompanyRepository.GetPriceFlagIdByCompany(companyId));
             }

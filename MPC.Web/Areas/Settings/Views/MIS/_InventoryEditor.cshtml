@@ -7,7 +7,7 @@
                     <div class="clearfix">
                         <h1 class="pull-left">Inventory Detail</h1>
                         <div class="pull-right top-page-ui">
-                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory">Save</button>
+                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Cancel</button>
                         </div>
                     </div>
@@ -402,8 +402,8 @@
 <script id="itemCostTemplate" type="text/html">
     <tr data-bind="if: (costOrPriceIdentifier() == 0), click: $root.selectCostItem, css: { selectedRow: $data === $root.selectedCostItem() }">
         <td>$<span data-bind="text: costPrice"></span></td>
-        <td data-bind="text: formattedFromDate"></td>
-        <td data-bind="text: formattedToDate"></td>
+        <td data-bind="dateString: fromDate"></td>
+        <td data-bind="dateString: toDate"></td>
         <td>$<span data-bind="text: packCostPrice"></span></td>
         <td>
             <!-- ko template: { name: 'deleteActionCostItemTemplate' } -->
@@ -443,8 +443,8 @@
 <script id="itemPriceTemplate" type="text/html">
     <tr data-bind="if: (costOrPriceIdentifier() == -1), click: $root.selectPriceItem, css: { selectedRow: $data === $root.selectedPriceItem() }">
         <td>$<span data-bind="text: costPrice"></span></td>
-        <td data-bind="dateString: formattedFromDate"></td>
-        <td data-bind="dateString: formattedToDate"></td>
+        <td data-bind="dateString: fromDate"></td>
+        <td data-bind="dateString: toDate"></td>
         <td>$<span data-bind="text: packCostPrice"></span></td>
         <td>
             <!-- ko template: { name: 'deleteActionPriceItemTemplate' } -->

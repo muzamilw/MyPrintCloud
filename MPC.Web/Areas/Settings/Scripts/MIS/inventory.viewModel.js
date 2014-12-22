@@ -123,11 +123,11 @@ define("inventory/inventory.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedInventory(model.StockItem.CreateForClient(data));
-                                    //Parent Hiregroup
                                     costPriceList.removeAll();
                                     _.each(data.StockCostAndPrices, function (item) {
                                         costPriceList.push(model.StockCostAndPrice.CreateForClient(item));
                                     });
+                                    selectedInventory().reset();
                                     showInventoryEditor();
                                 }
                             },
@@ -137,9 +137,9 @@ define("inventory/inventory.viewModel",
                         });
                     },
                     //Get Inventories
-                    getInventories = function () {
+                    getInventoriesListItems = function () {
                         isLoadingInventory(true);
-                        dataservice.getInventories({
+                        dataservice.getInventoriesList({
                             SearchString: searchFilter(),
                             CategoryId: categoryFilter(),
                             SubCategoryId: subCategoryFilter(),
@@ -255,6 +255,9 @@ define("inventory/inventory.viewModel",
                     packCost = ko.computed(function () {
                         if (selectedInventory() !== undefined && costPriceList().length > 0) {
                             _.each(costPriceList(), function (item) {
+                                //selectedInventory().perQtyQty();
+                                //item.costPrice();
+                                //selectedInventory().packageQty();
                                 item.packCostPrice(((item.costPrice() === undefined ? 0 : item.costPrice()) / (selectedInventory().perQtyQty() === undefined ? 1 : selectedInventory().perQtyQty())) * selectedInventory().packageQty());
                             });
 
@@ -396,11 +399,13 @@ define("inventory/inventory.viewModel",
                         selectedInventory(model.StockItem.Create());
                         //Add default cost and price rows
                         var cost = model.StockCostAndPrice.Create();
-                        costPriceList.push(cost);
+                        selectCostItem(cost);
+                        costPriceList.splice(0, 0, cost);
                         var price = model.StockCostAndPrice.Create();
                         price.costOrPriceIdentifier(-1);
-                        costPriceList.push(price);
-                        costPriceList.valueHasMutated();
+                        selectedPriceItem(price);
+                        costPriceList.splice(0, 0, price);
+                        selectedInventory().reset();
                         showInventoryEditor();
                     },
                     // close Inventory Editor
@@ -451,6 +456,7 @@ define("inventory/inventory.viewModel",
                         }
                         if (flag) {
                             var cost = model.StockCostAndPrice.Create();
+                            selectedCostItem(cost);
                             costPriceList.splice(0, 0, cost);
                         }
                     },
@@ -475,6 +481,7 @@ define("inventory/inventory.viewModel",
                         if (flag) {
                             var price = model.StockCostAndPrice.Create();
                             price.costOrPriceIdentifier(-1);
+                            selectedPriceItem(price);
                             costPriceList.splice(0, 0, price);
                         }
                     },
@@ -507,7 +514,7 @@ define("inventory/inventory.viewModel",
                      // Filter Inventories
                     filterInventories = function () {
                         // Get Inventories
-                        getInventories();
+                        getInventoriesListItems();
                     },
                     // Reset Filter
                     resetFilter = function () {
@@ -516,7 +523,7 @@ define("inventory/inventory.viewModel",
                         categoryFilter(undefined);
                         subCategoryFilter(undefined);
                         // Filter Record
-                        getInventories();
+                        getInventoriesListItems();
                     },
 
                     onAddSupplier = function () {
@@ -528,8 +535,8 @@ define("inventory/inventory.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
-                        pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventories));
-                        getInventories();
+                        pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventoriesListItems));
+                        getInventoriesListItems();
                     };
                 // #endregion Arrays
 
@@ -566,7 +573,7 @@ define("inventory/inventory.viewModel",
                     errorList: errorList,
                     //Utility Functiions
                     initialize: initialize,
-                    getInventories: getInventories,
+                    getInventoriesListItems: getInventoriesListItems,
                     onDeleteInventory: onDeleteInventory,
                     closeInventoryEditor: closeInventoryEditor,
                     showInventoryEditor: showInventoryEditor,

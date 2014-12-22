@@ -15,9 +15,10 @@ namespace MPC.MIS.Areas.Api.Models
         public static CmsPage CreateFrom(this DomainModels.CmsPage source)
         {
             byte[] bytes = null;
+            string fileName = string.Empty;
             if (source.PageBanner != null && File.Exists(source.PageBanner))
             {
-                //string fileName = source.PageBanner.Split('_')[0];
+                fileName = source.PageBanner.IndexOf('_') > 0 ? source.PageBanner.Split('_')[1] : string.Empty;
                 bytes = source.PageBanner != null ? File.ReadAllBytes(source.PageBanner) : null;
             }
             string defaultPageKeyWords = null;
@@ -46,7 +47,8 @@ namespace MPC.MIS.Areas.Api.Models
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
                 DefaultPageKeyWords = defaultPageKeyWords,
-                Image = bytes
+                Image = bytes,
+                FileName = fileName
             };
         }
 

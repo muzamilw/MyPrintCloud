@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
@@ -128,5 +125,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<CompanyTerritory> CompanyTerritories { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+        public virtual ICollection<Campaign> Campaigns { get; set; }
+
+        public virtual ICollection<PaymentGateway> PaymentGateways { get; set; }
     }
 }

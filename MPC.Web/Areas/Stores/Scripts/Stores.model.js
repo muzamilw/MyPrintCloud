@@ -135,7 +135,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             type = ko.observable(),
             webAccessCode = ko.observable(specifiedWebAccessCode).extend({
                 required: {
-                    onlyIf: function() {
+                    onlyIf: function () {
                         return type() == 3;
                     }
                 }
@@ -291,6 +291,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.EditCmsPages = [];
                 result.DeletedCmsPages = [];
                 result.PageCategories = [];
+                result.Campaigns = [];
                 return result;
             },
             // Reset
@@ -432,12 +433,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
-         if (source.IsCustomer == 1) {
+        if (source.IsCustomer == 1) {
             store.type("1");
         }
-        //else if (source.IsCustomer == 2) {
-        //    store.type("Prospect");
-        //}
+            //else if (source.IsCustomer == 2) {
+            //    store.type("Prospect");
+            //}
         else if (source.IsCustomer == 3) {
             store.type("3");
         }
@@ -1046,36 +1047,36 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             }),
             //Convert To Server
             convertToServerData = function (source) {
-                    return {
-                        AddressId: addressId(),
-                        CompanyId: companyId(),
-                        AddressName: addressName(),
-                        Address1: address1(),
-                        Address2: address2(),
-                        Address3: address3(),
-                        City: city(),
-                        State: state(),
-                        Country: country(),
-                        PostCode: postCode(),
-                        Fax: fax(),
-                        URL: uRL(),
-                        Tel1: tel1(),
-                        Tel2: tel2(),
-                        Extension1: extension1(),
-                        Extension2: extension2(),
-                        Reference: reference(),
-                        FAO: fAO(),
-                        IsDefaultAddress: isDefaultAddress(),
-                        IsDefaultShippingAddress: isDefaultShippingAddress(),
-                        isArchived: isArchived(),
-                        TerritoryId: territoryId(),
-                        GeoLatitude: geoLatitude(),
-                        GeoLongitude: geoLongitude(),
-                        isPrivate: isPrivate(),
-                        isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
-                        isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
-                        OrganisationId: organisationId()
-                    };
+                return {
+                    AddressId: addressId(),
+                    CompanyId: companyId(),
+                    AddressName: addressName(),
+                    Address1: address1(),
+                    Address2: address2(),
+                    Address3: address3(),
+                    City: city(),
+                    State: state(),
+                    Country: country(),
+                    PostCode: postCode(),
+                    Fax: fax(),
+                    URL: uRL(),
+                    Tel1: tel1(),
+                    Tel2: tel2(),
+                    Extension1: extension1(),
+                    Extension2: extension2(),
+                    Reference: reference(),
+                    FAO: fAO(),
+                    IsDefaultAddress: isDefaultAddress(),
+                    IsDefaultShippingAddress: isDefaultShippingAddress(),
+                    isArchived: isArchived(),
+                    TerritoryId: territoryId(),
+                    GeoLatitude: geoLatitude(),
+                    GeoLongitude: geoLongitude(),
+                    isPrivate: isPrivate(),
+                    isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
+                    isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
+                    OrganisationId: organisationId()
+                };
             },
             // Reset
             reset = function () {
@@ -1264,6 +1265,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
+    //Company Banner Create Factory
     CompanyBanner.Create = function (source) {
         return new CompanyBanner(
             source.CompanyBannerId,
@@ -1274,6 +1276,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CompanySetId,
             source.ImageSource
         );
+    };
+    CompanyBanner.CreateFromClientModel = function (source) {
+        return new CompanyBanner(
+            source.id,
+            source.heading,
+            source.description,
+            source.itemURL,
+            source.buttonURL,
+            source.companySetId,
+            source.setName,
+            source.filename,
+            source.fileBinary,
+            source.fileType,
+            source.imageSource
+            );
     };
 
     // ______________  Company Banner  Set _________________//
@@ -1332,15 +1349,110 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.SetName
         );
     };
+    //Company Banner Set Create Factory
     CompanyBannerSet.CreateNew = function () {
         return new CompanyBannerSet(0, undefined);
+    };
+
+    // ______________ Email _________________//
+    // ReSharper disable once InconsistentNaming
+    var Campaign = function (specifiedCampaignId, specifiedCampaignName, specifiedEmailEvent, specifiedStartDateTime, specifiedIsEnabled, specifiedSendEmailAfterDays
+        , specifiedEventName, specifiedCampaignType) {
+        var self,
+            id = ko.observable(specifiedCampaignId),
+            campaignName = ko.observable(specifiedCampaignName).extend({ required: true }),
+            emailEventId = ko.observable(specifiedEmailEvent),
+            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined),
+            isEnabled = ko.observable(specifiedIsEnabled),
+            sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays).extend({ number: true }),
+            eventName = ko.observable(specifiedEventName),
+            campaignType = ko.observable(specifiedCampaignType),
+                // Errors
+            errors = ko.validation.group({
+                campaignName: campaignName,
+                sendEmailAfterDays: sendEmailAfterDays,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                campaignName: campaignName,
+                emailEventId: emailEventId,
+                startDateTime: startDateTime,
+                isEnabled: isEnabled,
+                sendEmailAfterDays: sendEmailAfterDays
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.CampaignId = source.id() === undefined ? 0 : source.id();
+                result.CampaignName = source.campaignName() === undefined ? null : source.campaignName();
+                result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();
+                result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+                result.IsEnabled = source.isEnabled() === undefined ? null : source.isEnabled();
+                result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            campaignName: campaignName,
+            emailEventId: emailEventId,
+            startDateTime: startDateTime,
+            isEnabled: isEnabled,
+            sendEmailAfterDays: sendEmailAfterDays,
+            eventName: eventName,
+            campaignType: campaignType,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    Campaign.Create = function (source) {
+        return new Campaign(
+            source.CampaignId,
+            source.CampaignName,
+            source.EmailEvent,
+            source.StartDateTime,
+            source.IsEnabled,
+            source.SendEmailAfterDays,
+            source.EventName,
+            source.CampaignType
+        );
+    };
+    Campaign.CreateFromClientModel = function (source) {
+        return new Campaign(
+            source.id,
+            source.campaignName,
+            source.emailEventId,
+            source.startDateTime,
+            source.isEnabled,
+            source.sendEmailAfterDays,
+            source.eventName,
+            source.campaignType
+            );
     };
 
     // ______________  CMS Page   _________________//
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -1355,7 +1467,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             categoryId = ko.observable(specifiedCategoryId),
             pageHTML = ko.observable(specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
-            fileName = ko.observable(),
+            fileName = ko.observable(specifiedFileName),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             // Errors
             errors = ko.validation.group({
@@ -1423,6 +1535,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
+    //CMS Page Create Factory
     CMSPage.Create = function (source) {
         return new CMSPage(
             source.PageId,
@@ -1438,7 +1551,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CategoryId,
             source.PageHTML,
             source.ImageSource,
-            source.DefaultPageKeyWords
+            source.DefaultPageKeyWords,
+            source.FileName
+
         );
     };
 
@@ -1541,7 +1656,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId) {
         var self,
-                       contactId = ko.observable(specifiedContactId),
+            contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             firstName = ko.observable(specifiedFirstName),
@@ -1624,8 +1739,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
-                       bussinessAddressId = ko.observable(specifiedBussinessAddressId),
-
+            bussinessAddressId = ko.observable(specifiedBussinessAddressId),
+            fileName = ko.observable(),
             // Errors
             errors = ko.validation.group({
 
@@ -1720,7 +1835,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 canUserEditProfile: canUserEditProfile,
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
-                bussinessAddressId: bussinessAddressId
+                bussinessAddressId: bussinessAddressId,
+                fileName: fileName
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1759,7 +1875,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     URL: uRL(),
                     IsEmailSubscription: isEmailSubscription(),
                     IsNewsLetterSubscription: isNewsLetterSubscription(),
-                    image: image(),
+                    ImageBytes: image(),
                     quickFullName: quickFullName(),
                     quickTitle: quickTitle(),
                     quickCompanyName: quickCompanyName(),
@@ -1812,7 +1928,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     CanUserEditProfile: canUserEditProfile(),
                     canPlaceDirectOrder: canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
-                    BussinessAddressId: bussinessAddressId()
+                    BussinessAddressId: bussinessAddressId(),
+                    FileName: fileName()
                 };
             },
             // Reset
@@ -1904,6 +2021,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            fileName: fileName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1998,7 +2116,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.canUserEditProfile,
             source.canPlaceDirectOrder,
             source.organisationId,
-            source.BussinessAddressId
+            source.BussinessAddressId,
+            source.FileName
         );
     };
     CompanyContact.Create = function (source) {
@@ -2033,7 +2152,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.URL,
             source.IsEmailSubscription,
             source.IsNewsLetterSubscription,
-            source.image,
+            source.ImageSource,
             source.quickFullName,
             source.quickTitle,
             source.quickCompanyName,
@@ -2086,7 +2205,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
-            source.BussinessAddressId
+            source.BussinessAddressId,
+            source.FileName
         );
         return companyContact;
     };
@@ -2217,6 +2337,105 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             );
         return registrationQuestion;
     };
+    
+    //______________________    P A Y M E N T   G A T E W A Y S _________________________________//
+    var PaymentGateway = function (specifiedReviewId, specifiedReviewBy, specifiedReview, specifiedReviewDate, specifiedisDisplay, specifiedSortOrder, specifiedOrganisationId, specifiedCompanyId) {
+        var self,
+            reviewId = ko.observable(specifiedReviewId),
+            reviewBy = ko.observable(specifiedReviewBy).extend({ required: true }),
+            review = ko.observable(specifiedReview).extend({ required: true }),
+            reviewDate = ko.observable(specifiedReviewDate),
+            isDisplay = ko.observable(specifiedisDisplay),
+            sortOrder = ko.observable(specifiedSortOrder),
+            organisationId = ko.observable(specifiedOrganisationId),
+            companyId = ko.observable(specifiedCompanyId),
+            // Errors
+            errors = ko.validation.group({
+                reviewBy: reviewBy,
+                review: review
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                reviewId: reviewId,
+                reviewBy: reviewBy,
+                review: review,
+                reviewDate: reviewDate,
+                isDisplay: isDisplay,
+                sortOrder: sortOrder,
+                organisationId: organisationId,
+                companyId: companyId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    ReviewId: reviewId(),
+                    ReviewBy: reviewBy(),
+                    Review: review(),
+                    ReviewDate: reviewDate(),
+                    IsDisplay: isDisplay(),
+                    SortOrder: sortOrder(),
+                    OrganisationId: organisationId(),
+                    CompanyId: companyId()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            reviewId: reviewId,
+            reviewBy: reviewBy,
+            review: review,
+            reviewDate: reviewDate,
+            isDisplay: isDisplay,
+            sortOrder: sortOrder,
+            organisationId: organisationId,
+            companyId: companyId,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    RaveReview.CreateFromClientModel = function (source) {
+        return new RaveReview(
+            source.reviewId,
+            source.reviewBy,
+            source.review,
+            source.reviewDate,
+            source.isDisplay,
+            source.sortOrder,
+            source.organisationId,
+            source.companyId
+        );
+    };
+    RaveReview.Create = function (source) {
+        var raveReview = new RaveReview(
+            //       
+            source.ReviewId,
+            source.ReviewBy,
+            source.Review,
+            source.ReviewDate,
+            source.isDisplay,
+            source.SortOrder,
+            source.OrganisationId,
+            source.CompanyId
+        );
+        return raveReview;
+    };
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -2235,6 +2454,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         SecondaryPageListView: SecondaryPageListView,
         CMSPage: CMSPage,
         PageCategory: PageCategory,
+        Campaign: Campaign,
     };
 
 });

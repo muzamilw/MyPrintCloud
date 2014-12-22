@@ -43,6 +43,12 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(markup => markup.UserDomainKey == OrganisationId).ToList();
         }
+
+        public Markup GetZeroMarkup()
+        {
+            return db.Markups.Where(c => c.MarkUpRate.Value == 0).FirstOrDefault();
+        }
+
         #endregion
     }
 }

@@ -95,16 +95,16 @@
 
                                                 <div class="col-lg-6">
                                                     @*<div class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-primary">
-                                                            <input type="radio" name="options" id="option1">
-                                                            Corporate
-                                                        </label>
-                                                        <label class="btn btn-primary">
-                                                            <input type="radio" name="options" id="option2">
-                                                            Retail
-                                                        </label>
+                                                            <label class="btn btn-primary">
+                                                                <input type="radio" name="options" id="option1">
+                                                                Corporate
+                                                            </label>
+                                                            <label class="btn btn-primary">
+                                                                <input type="radio" name="options" id="option2">
+                                                                Retail
+                                                            </label>
 
-                                                    </div>*@
+                                                        </div>*@
                                                     <div class="btn-group" data-toggle="buttons">
                                                         <label data-bind="css: { active: (type() == 1)}, click: function () { type(1); }, clickBubble: false" class="btn btn-primary">
                                                             Retail
@@ -113,45 +113,45 @@
                                                             Corporate
                                                         </label>
                                                     </div>
-                                                    
-            <span class="help-block text-right">The store type determines how a store is accessed.</span>
-        </div>
 
-    </div>
-    <div class="form-group" data-bind="visible: type() == 'Corporate' || type() == 3">
-        <div class="col-lg-3 text-right">
-            <div class="bs-example-tooltips tooltip-float-width">
+                                                    <span class="help-block text-right">The store type determines how a store is accessed.</span>
+                                                </div>
 
-                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
-                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                </a>
+                                            </div>
+                                            <div class="form-group" data-bind="visible: type() == 'Corporate' || type() == 3">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
 
-            </div>
-            <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
-        </div>
-        <div class="col-lg-6">
-            <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode">
-            <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
-        </div>
-    </div>
-    @*<div class="form-group">
-        <div class="col-lg-3 text-right">
-            <div class="bs-example-tooltips tooltip-float-width">
+                                                    </div>
+                                                    <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
 
-                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
-                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                </a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode">
+                                                    <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
 
-            </div>
-            <label for="txtWebsiteURL" class="control-label text-right tooltip-float">Website Domain(s)</label>
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
 
-        </div>
-        <div class="col-lg-6">
-            <textarea id="WebUrl" class="form-control" data-bind="value: url"></textarea>
-            <span class="help-block text-right">You can have multiple domains point to your store enter each domain in new line.</span>
-        </div>
-    </div>*@
+                                                        </div>
+                                                        <label for="txtWebsiteURL" class="control-label text-right tooltip-float">Website Domain(s)</label>
+
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <textarea id="WebUrl" class="form-control" data-bind="value: url"></textarea>
+                                                        <span class="help-block text-right">You can have multiple domains point to your store enter each domain in new line.</span>
+                                                    </div>
+                                                </div>*@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
 
@@ -1503,62 +1503,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            Thank you for registering with Pink Cards
-                                                        </td>
-                                                        <td>
-                                                            User Registration
-                                                        </td>
-
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Pending Items - Pink Cards
-                                                        </td>
-                                                        <td>
-                                                            Un Ordered Shopping Cart
-                                                        </td>
-
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Order Confirmation - Pink Cards
-                                                        </td>
-                                                        <td>
-                                                            Online Order Placed
-                                                        </td>
-
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-
-                                                        </td>
-                                                    </tr>
-
+                                                    <!-- ko template: { name: 'workflowEmailItemTemplate' , foreach: $root.emails } -->
+                                                    <!-- /ko -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -1566,7 +1512,7 @@
                                     <h3 class="group-header">One time Marketing Emails</h3>
 
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-primary">
+                                        <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateOneTimeMarketingEmail">
                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Email
                                         </a>
 
@@ -1583,90 +1529,15 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            Summer Sizzlers &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2014/09/10
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success">Active</span>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Spring Sale
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2014/09/17
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-warning">Inactive</span>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Black Friday Promotion
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2014/09/15
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success">Active</span>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-
+                                                    <!-- ko template: { name: 'oneTimeMarketingEmailItemTemplate' , foreach: $root.emails } -->
+                                                    <!-- /ko -->
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                     <h3 class="group-header">Interval Marketing Emails</h3>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-primary">
+                                        <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateIntervalMarketingEmail">
                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Email
                                         </a>
 
@@ -1684,97 +1555,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            5 Design Principles
-                                                        </td>
-                                                        <td>
-                                                            5
-                                                        </td>
-
-                                                        <td>
-                                                            Corporate Order for Approval
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success">Active</span>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Creativity with Fonts
-                                                        </td>
-                                                        <td>
-                                                            3
-                                                        </td>
-
-                                                        <td>
-                                                            Forgot Password
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success">Active</span>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Of The Wall
-                                                        </td>
-                                                        <td>
-                                                            7
-                                                        </td>
-
-                                                        <td>
-                                                            New Registration to Sales
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success">Active</span>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-
-                                                    </tr>
-
+                                                    <!-- ko template: { name: 'intervalMarketingEmailItemTemplate' , foreach: $root.emails } -->
+                                                    <!-- /ko -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -2770,7 +2552,7 @@
             </tr>
         </script>
         <script id="secondaryPageItemTemplate" type="text/html">
-            <tr data-bind="click: $root.selectedSecondaryPage">
+            <tr>
                 <td>
                     <img src="../../../../Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
                     <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;margin-left:60px;" data-bind="text:pageTitle"></span>
@@ -2839,8 +2621,8 @@
                 <td data-bind="text: city"></td>
                 <td data-bind="text: territoryId"></td>
                 <td data-bind="text: isDefaultTerrorityBilling() == true ? 'Yes' : 'No' "></td>
-                    
-                <!--ko if: isDefaultAddress() == true --> 
+
+                <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
                     <span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
                 </td>
@@ -2876,7 +2658,7 @@
             <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}">
                 <td>
                     <div class="img col-xs-3">
-                        <img data-bind="attr:{src: image}" alt="" />
+                        <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
                     </div>
                     <div class="details">
                         <div class="name">
@@ -2924,6 +2706,8 @@
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/AddEditSecondaryPage.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_EditSecondaryPageCategories.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_AddEditEmailCampaign.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Shared/_MediaGalleryScreen.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("Widgets/_AddEditPaymentGateway")
@@ -2945,6 +2729,7 @@
     <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     <script src="~/Scripts/jquery.form.js"></script>
+
     <script type="text/javascript">
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
@@ -3289,3 +3074,87 @@
 
 
 }
+
+<script id="workflowEmailItemTemplate" type="text/html">
+    <!-- ko if: campaignType() === 1 -->
+    <tr>
+        <td data-bind="text:campaignName"></td>
+        <td data-bind="text:eventName"></td>
+        <td class="text-right">
+            <a href="" class="table-link" data-bind="click:$root.onEditEmail">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+    <!-- /ko -->
+</script>
+
+<script id="oneTimeMarketingEmailItemTemplate" type="text/html">
+    <!-- ko if: campaignType() === 3 -->
+    <tr>
+        <td data-bind="text:campaignName"></td>
+        <td data-bind="dateString:startDateTime"></td>
+        <!-- ko if: isEnabled -->
+        <td class="text-center">
+            <span class="label label-success">Active</span>
+        </td>
+        <!-- /ko -->
+        <!-- ko ifnot: isEnabled -->
+        <td class="text-center">
+            <span class="label label-default">Inactive</span>
+        </td>
+        <!-- /ko -->
+        <td class="text-right">
+            <a href="" class="table-link" data-bind="click:$root.onEditEmail">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click:$root.onDeleteEmail">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+    <!-- /ko -->
+</script>
+
+<script id="intervalMarketingEmailItemTemplate" type="text/html">
+    <!-- ko if: campaignType() === 2 -->
+    <tr>
+        <td data-bind="text:campaignName"></td>
+        <td data-bind="text:sendEmailAfterDays "></td>
+        <td data-bind="text:eventName"></td>
+        <!-- ko if: isEnabled -->
+        <td class="text-center">
+            <span class="label label-success">Active</span>
+        </td>
+        <!-- /ko -->
+        <!-- ko ifnot: isEnabled -->
+        <td class="text-center">
+            <span class="label label-default">Inactive</span>
+        </td>
+        <!-- /ko -->
+        <td class="text-right">
+            <a href="" class="table-link" data-bind="click:$root.onEditEmail">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click:$root.onDeleteEmail">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+    <!-- /ko -->
+</script>

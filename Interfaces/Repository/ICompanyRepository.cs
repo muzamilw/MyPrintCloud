@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         Company GetStoreById(long companyId);
 
+        int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, Markup zeroMarkup, CompanyContact regContact = null);
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
         /// </summary>

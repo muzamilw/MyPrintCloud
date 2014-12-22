@@ -103,7 +103,7 @@
             //Per Qty Type
             perQtyType = ko.observable(specifiedPerQtyType),
            //Package Qty
-            packageQty = ko.observable(specifiedPackageQty === undefined ? undefined : specifiedPackageQty).extend({ number: true }),
+            packageQty = ko.observable(specifiedPackageQty === undefined ? 100 : specifiedPackageQty).extend({ number: true }),
             //Roll Width
             rollWidth = ko.observable(specifiedRollWidth).extend({ number: true }),
             //Roll Length
@@ -161,6 +161,46 @@
         // True if the booking has been changed
         // ReSharper disable InconsistentNaming
         dirtyFlag = new ko.dirtyFlag({
+            itemName: itemName,
+            itemCode: itemCode,
+            supplierId: supplierId,
+            categoryId: categoryId,
+            subCategoryId: subCategoryId,
+            barCode: barCode,
+            inStock: inStock,
+            description: description,
+            createdDate: createdDate,
+            flagId: flagId,
+            statusId: statusId,
+            isDisabled: isDisabled,
+            paperTypeId: paperTypeId,
+            itemSizeSelectedUnitId: itemSizeSelectedUnitId,
+            perQtyQty: perQtyQty,
+            itemSizeCustom: itemSizeCustom,
+            stockLocation: stockLocation,
+            itemSizeId: itemSizeId,
+            itemSizeHeight: itemSizeHeight,
+            itemSizeWidth: itemSizeWidth,
+            perQtyType: perQtyType,
+            packageQty: packageQty,
+            rollWidth: rollWidth,
+            rollLength: rollLength,
+            reOrderLevel: reOrderLevel,
+            reorderQty: reorderQty,
+            itemWeight: itemWeight,
+            itemColour: itemColour,
+            inkAbsorption: inkAbsorption,
+            paperBasicAreaId: paperBasicAreaId,
+            itemCoated: itemCoated,
+            itemCoatedType: itemCoatedType,
+            itemWeightSelectedUnit: itemWeightSelectedUnit,
+            allocated: allocated,
+            onOrder: onOrder,
+            lastOrderQty: lastOrderQty,
+            lastOrderDate: lastOrderDate,
+            headerComputedValue: headerComputedValue,
+            supplierName: supplierName,
+            stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -270,15 +310,15 @@
             //Pack Cost Price
             packCostPrice = ko.observable(specifiedPackCostPrice),
             //From Date
-            fromDate = ko.observable(specifiedFromDate).extend({ required: true }),
-            //To Date
-            toDate = ko.observable(specifiedToDate).extend({ required: true }),
+            fromDate = ko.observable(specifiedFromDate === null ? undefined : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
+            //To Date 
+            toDate = ko.observable(specifiedToDate === null ? undefined : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
             //Cost Or Price Identifier
             costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
             // Formatted From Date
              formattedFromDate = ko.computed({
                  read: function () {
-                     return fromDate() !== undefined ? moment(fromDate()).format(ist.datePattern) : undefined;
+                     return fromDate() !== undefined ? moment(fromDate(), ist.datePattern).toDate() : undefined;
                  }
              }),
              // Formatted To Date
@@ -311,8 +351,8 @@
                     CostPriceId: costPriceId(),
                     CostPrice: costPrice(),
                     PackCostPrice: packCostPrice(),
-                    FromDate: fromDate() === undefined || fromDate() === null ? undefined : moment(fromDate()).format(ist.utcFormat),
-                    ToDate: toDate() === undefined || toDate() === null ? undefined : moment(toDate()).format(ist.utcFormat),
+                    FromDate: fromDate() === undefined || fromDate() === null ? null : moment(fromDate()).format(ist.utcFormat),
+                    ToDate: toDate() === undefined || toDate() === null ? null : moment(toDate()).format(ist.utcFormat),
                     CostOrPriceIdentifier: costOrPriceIdentifier(),
                 }
             },
@@ -353,7 +393,7 @@
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.Create = function () {
-        return new StockCostAndPrice(0, 0, 0, undefined, undefined, 0);
+        return new StockCostAndPrice(0, 0, 0, null, null, 0);
     };
     // Stock Item Factory
     StockItem.Create = function () {

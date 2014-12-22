@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -11,6 +7,8 @@ namespace MPC.Models.DomainModels
         public int EmailEventId { get; set; }
         public string EventName { get; set; }
         public string Description { get; set; }
-        public Nullable<int> EventType { get; set; }
+        public int? EventType { get; set; }
+
+        public virtual ICollection<Campaign> Campaigns { get; set; }
     }
 }

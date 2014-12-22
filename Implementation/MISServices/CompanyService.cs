@@ -27,6 +27,9 @@ namespace MPC.Implementation.MISServices
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         private readonly ICmsPageRepository cmsPageRepository;
         private readonly IPageCategoryRepository pageCategoryRepository;
+        private readonly IPaymentMethodRepository paymentMethodRepository;
+        private readonly IEmailEventRepository emailEventRepository;
+        private readonly IPaymentGatewayRepository paymentGatewayRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -202,6 +205,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
                 {
                     //address.CompanyId = companySavingModel.Company.CompanyId;
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Add(companyContact);
                 }
             }
@@ -210,6 +214,12 @@ namespace MPC.Implementation.MISServices
                 //Update companyContacts
                 foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
                 {
+                    if (File.Exists(companyContact.image))
+                    {
+                        //If already image exist
+                        File.Delete(companyContact.image);
+                    }
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Update(companyContact);
                 }
             }
@@ -237,9 +247,77 @@ namespace MPC.Implementation.MISServices
             UpdateAddressOfUpdatingCompany(companySavingModel);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
+            UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void UpdateCampaigns(IEnumerable<Campaign> campaigns, Company companyDbVersion)
+        {
+            #region update Campaign
+
+            if (campaigns != null)
+            {
+                foreach (var campaign in campaigns)
+                {
+                    //New Added
+                    if (campaign.CampaignId == 0)
+                    {
+                        campaign.CompanyId = companyDbVersion.CompanyId;
+                        companyDbVersion.Campaigns.Add(campaign);
+                    }
+                    else
+                    {
+                        Campaign campaignDbItem =
+                            companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
+                        if (campaignDbItem != null)
+                        {
+                            if (campaign.CampaignName != campaignDbItem.CampaignName ||
+                                campaign.EmailEvent != campaignDbItem.EmailEvent
+                                || campaign.IsEnabled != campaignDbItem.IsEnabled ||
+                                campaign.SendEmailAfterDays != campaignDbItem.SendEmailAfterDays
+                                || campaign.StartDateTime != campaignDbItem.StartDateTime)
+                            {
+                                campaignDbItem.CampaignName = campaign.CampaignName;
+                                campaignDbItem.EmailEvent = campaign.EmailEvent;
+                                campaignDbItem.IsEnabled = campaign.IsEnabled;
+                                campaignDbItem.StartDateTime = campaign.StartDateTime;
+                                campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
+                                campaignDbItem.CampaignType = campaign.CampaignType;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #endregion
+
+            #region Delete Campaigns
+
+            //find missing items
+            List<Campaign> missingCampaignListItems = new List<Campaign>();
+            foreach (var dbversionCampaignItem in companyDbVersion.Campaigns)
+            {
+                if (campaigns != null && campaigns.All(x => x.CampaignId != dbversionCampaignItem.CampaignId))
+                {
+                    missingCampaignListItems.Add(dbversionCampaignItem);
+                }
+                //In case user delete all Campaigns
+                if (campaigns == null)
+                {
+                    missingCampaignListItems.Add(dbversionCampaignItem);
+                }
+            }
+            //remove missing items
+            foreach (Campaign missingCampaignItem in missingCampaignListItems)
+            {
+                companyDbVersion.Campaigns.Remove(missingCampaignItem);
+            }
+            #endregion
         }
 
         //Update Secondary Pages
@@ -320,6 +398,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void BannersUpdate(Company company, Company companyDbVersion)
         {
+            #region Update Banners
             if (company.CompanyBannerSets != null)
             {
                 foreach (var bannerItem in company.CompanyBannerSets)
@@ -386,7 +465,9 @@ namespace MPC.Implementation.MISServices
                 }
                 companyRepository.SaveChanges();
             }//End Add/Edit 
+            #endregion
 
+            #region Delete Banners
             foreach (var bannerSetDbVersion in companyDbVersion.CompanyBannerSets)
             {
 
@@ -416,6 +497,8 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
+            #endregion
+
             if (company.CompanyBannerSets != null)
                 SaveCompanyBannerImages(company.CompanyBannerSets);
         }
@@ -478,6 +561,26 @@ namespace MPC.Implementation.MISServices
             return savePath;
 
         }
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveCompanyContactProfileImage(CompanyContact companyContact)
+        {
+            string base64 = companyContact.image.Substring(companyContact.image.IndexOf(',') + 1);
+            base64 = base64.Trim('\0');
+            byte[] data = Convert.FromBase64String(base64);
+
+            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyContactProfileImages");
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            Guid newGuid = Guid.NewGuid();
+            string savePath = directoryPath + "\\" + newGuid + "_" + companyContact.FileName;
+            File.WriteAllBytes(savePath, data);
+            return savePath;
+
+        }
         #endregion
 
         #region Constructor
@@ -486,7 +589,7 @@ namespace MPC.Implementation.MISServices
             ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
-             IPageCategoryRepository pageCategoryRepository)
+             IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository, IPaymentGatewayRepository paymentGatewayRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -500,6 +603,9 @@ namespace MPC.Implementation.MISServices
             this.registrationQuestionRepository = registrationQuestionRepository;
             this.cmsPageRepository = cmsPageRepository;
             this.pageCategoryRepository = pageCategoryRepository;
+            this.paymentMethodRepository = paymentMethodRepository;
+            this.emailEventRepository = emailEventRepository;
+            this.paymentGatewayRepository = paymentGatewayRepository;
         }
         #endregion
 
@@ -512,6 +618,10 @@ namespace MPC.Implementation.MISServices
         public CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request)
         {
             return companyTerritoryRepository.GetCompanyTerritory(request);
+        }
+        public PaymentGatewayResponse SearchPaymentGateways(PaymentGatewayRequestModel request)
+        {
+            return paymentGatewayRepository.GetPaymentGateways(request);
         }
         public AddressResponse SearchAddresses(AddressRequestModel request)
         {
@@ -551,7 +661,9 @@ namespace MPC.Implementation.MISServices
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId)
+                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
+                       PaymentMethods = paymentMethodRepository.GetAll(),
+                       EmailEvents = emailEventRepository.GetAll()
                    };
         }
         public void SaveFile(string filePath, long companyId)

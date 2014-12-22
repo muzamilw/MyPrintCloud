@@ -70,6 +70,6 @@ namespace MPC.Interfaces.WebStoreServices
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
         double CalculateDiscount(double price, double discountPrecentage);
-        
+        int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null);
     }
 }

@@ -12,5 +12,6 @@ namespace MPC.Interfaces.Repository
         Address GetDefaultAddressByStoreID(Int64 StoreID);
         IEnumerable<Address> GetAllDefaultAddressByStoreID(Int64 StoreID);
 
+       
     }
 }

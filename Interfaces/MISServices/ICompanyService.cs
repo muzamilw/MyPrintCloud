@@ -10,6 +10,7 @@ namespace MPC.Interfaces.MISServices
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
         CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request);
         AddressResponse SearchAddresses(AddressRequestModel request);
+        PaymentGatewayResponse SearchPaymentGateways(PaymentGatewayRequestModel request);
         CompanyResponse GetCompanyById(long companyId);
         CompanyBaseResponse GetBaseData(long clubId);
         /// <summary>
