@@ -2437,12 +2437,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var PaymentGateway = function (specifiedPaymentGatewayId, specifiedBusinessEmail, specifiedIdentityToken, specifiedIsActive, specifiedCompanyId, specifiedPaymentMethodId, specifiedSecureHash, specifiedPaymentMethodName) {
         var self,
             paymentGatewayId = ko.observable(specifiedPaymentGatewayId),
-            businessEmail = ko.observable(specifiedBusinessEmail).extend({ required: true }),
-            identityToken = ko.observable(specifiedIdentityToken).extend({ required: true }),
+            businessEmail = ko.observable(specifiedBusinessEmail).extend({ required: true }),//marchant id
+            identityToken = ko.observable(specifiedIdentityToken).extend({ required: true }),//access code 
             isActive = ko.observable(specifiedIsActive),
             companyId = ko.observable(specifiedCompanyId),
             paymentMethodId = ko.observable(specifiedPaymentMethodId),
-            secureHash = ko.observable(specifiedSecureHash),
+            secureHash = ko.observable(specifiedSecureHash),// secure hash
             paymentMethodName = ko.observable(specifiedPaymentMethodName),
             // Errors
             errors = ko.validation.group({
@@ -2517,7 +2517,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     PaymentGateway.Create = function (source) {
         var paymentGateway = new PaymentGateway(
-            //       
             source.PaymentGatewayId,
             source.BusinessEmail,
             source.IdentityToken,
