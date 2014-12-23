@@ -10,8 +10,8 @@ namespace MPC.Interfaces.WebStoreServices
     public interface IOrderService
     {
         int GetFirstItemIDByOrderId(int orderId);
-      
-        
+
+        int ProcessPublicUserOrder(string orderTitle, Organisation org);
 
      
         

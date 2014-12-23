@@ -27,10 +27,10 @@ namespace MPC.Implementation.WebStoreServices
             this._ICompanyRepository = ICompanyRepository;
         }
 
-        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, Company objCompany, CompanyContact objContact)
+        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID)
         {
             Models.DomainModels.Company company = _ICompanyRepository.GetStoreById((int)CustomerID);
-            return _IItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isCorporate, isSavedDesign, isCopyProduct, objCompany, objContact, company);
+            return _IItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isCorporate, isSavedDesign, isCopyProduct, objContactID, company);
 
         }
         #endregion
