@@ -60,6 +60,16 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(sf => sf.SectionId == SectionId).ToList();
         }
+
+        /// <summary>
+        /// Get Defualt Section Flag for Price Matrix in webstore
+        /// </summary>
+        public int GetDefaultSectionFlagId()
+        {
+            return DbSet.Where(sf => sf.SectionId == 81 && sf.isDefault == true).Select(id => id.SectionFlagId).FirstOrDefault();
+        }
+
+      
         #endregion
     }
 }

@@ -254,6 +254,7 @@
     <Compile Include="Areas\Api\Controllers\ItemBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\StockItemsController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryController.cs" />
@@ -271,6 +272,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Api\ModelMappers\CampaignMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactRoleMapper.cs" />
@@ -278,11 +280,14 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAddOnCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PageCategoryMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PaymentGatewayMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PaymentMethodMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
@@ -294,6 +299,7 @@
     <Compile Include="Areas\Api\ModelMappers\SystemUserDropDownMapper.cs" />
     <Compile Include="Areas\Api\Models\Address.cs" />
     <Compile Include="Areas\Api\Models\AddressResponse.cs" />
+    <Compile Include="Areas\Api\Models\Campaign.cs" />
     <Compile Include="Areas\Api\Models\CmsPage.cs" />
     <Compile Include="Areas\Api\Models\CmsPageForListView.cs" />
     <Compile Include="Areas\Api\Models\CmsPageMapper.cs" />
@@ -311,6 +317,7 @@
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCentre.cs" />
+    <Compile Include="Areas\Api\Models\EmailEvent.cs" />
     <Compile Include="Areas\Api\Models\ItemBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
@@ -320,6 +327,9 @@
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
+    <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
+    <Compile Include="Areas\Api\Models\PaymentGatewayResponse.cs" />
+    <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
@@ -1154,6 +1164,7 @@
     <Content Include="Areas\Products\Views\Home\_StockDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_MediaGalleryScreen.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -2290,7 +2301,7 @@
     <Content Include="Scripts\Plugins\misc\search\tipuesearch_content.json" />
     <Content Include="Views\Products\ProductCategoryDetail.cshtml" />
     <Content Include="Views\Shared\Address\_SelectAddress.cshtml" />
-    <Content Include="Views\Shared\Widgets\_AddEditPaymentGateway.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditPaymentGateway.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />
     <Content Include="Views\Shared\Widgets\_PhraseLibrary.cshtml" />
     <Content Include="Views\Shared\Product\_SelectProductCategory.cshtml" />
@@ -2311,6 +2322,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
+    <Folder Include="Areas\Api\Views\PaymentGateway\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Products\Models\" />

@@ -8,8 +8,7 @@ define("stores/stores.view",
 
         // View 
         ist.stores.view = (function (specifiedViewModel) {
-            var
-                // View model 
+            var // View model 
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#storesBinding")[0],
@@ -21,7 +20,7 @@ define("stores/stores.view",
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
                 },
-                showCompanyTerritoryDialog = function () {//
+                showCompanyTerritoryDialog = function () { //
                     $("#myTerritorySetModal").modal("show");
                 },
                 // Hide Activity the dialog
@@ -66,26 +65,43 @@ define("stores/stores.view",
                 showSetBannerDialog = function () {
                     $("#mybannerSetModal").modal("show");
                 },
-              // Hide  Add Banner Set the dialog
-              hideSetBannerDialog = function () {
-                  $("#mybannerSetModal").modal("hide");
-              },
-               // Show Secondory Page the dialog
+                // Hide  Add Banner Set the dialog
+                hideSetBannerDialog = function () {
+                    $("#mybannerSetModal").modal("hide");
+                },
+                // Show Secondory Page the dialog
                 showSecondoryPageDialog = function () {
                     $("#secondaryPageAddDialog").modal("show");
                 },
-              // Hide Secondory Page the dialog
-              hideSecondoryPageDialog = function () {
-                  $("#secondaryPageAddDialog").modal("hide");
-              },
-              // Show Secondary Page Category the dialog
+                // Hide Secondory Page the dialog
+                hideSecondoryPageDialog = function () {
+                    $("#secondaryPageAddDialog").modal("hide");
+                },
+                // Show Secondary Page Category the dialog
                 showSecondaryPageCategoryDialog = function () {
                     $("#mySecondaryPageCategoryModal").modal("show");
                 },
-              // Hide Secondary Page Category the dialog
-              hideSecondaryPageCategoryDialog = function () {
-                  $("#mySecondaryPageCategoryModal").modal("hide");
-              };
+                // Hide Secondary Page Category the dialog
+                hideSecondaryPageCategoryDialog = function () {
+                    $("#mySecondaryPageCategoryModal").modal("hide");
+                },
+                // Show Email Camapaign the dialog
+                showEmailCamapaignDialog = function () {
+                    $("#addEditCampaignEmailModal").modal("show");
+                },
+                // Hide Email Camapaign the dialog
+                hideEmailCamapaignDialog = function () {
+                    $("#addEditCampaignEmailModal").modal("hide");
+                },
+                // show Payment Gateway Dialog
+                showPaymentGatewayDialog = function () {
+                    $("#myPaymentGatewayModal").modal("show");
+                },
+                // hide Payment Gateway Dialog 
+                hidePaymentGatewayDialog = function () {
+                    $("#myPaymentGatewayModal").modal("hide");
+                };
+
 
             initializeForm = function () {
                 // Initialize Forms - For File Upload
@@ -126,6 +142,10 @@ define("stores/stores.view",
                 hideCompanyContactDialog: hideCompanyContactDialog,
                 showSecondaryPageCategoryDialog: showSecondaryPageCategoryDialog,
                 hideSecondaryPageCategoryDialog: hideSecondaryPageCategoryDialog,
+                showEmailCamapaignDialog: showEmailCamapaignDialog,
+                hideEmailCamapaignDialog: hideEmailCamapaignDialog,
+                showPaymentGatewayDialog: showPaymentGatewayDialog,
+                hidePaymentGatewayDialog: hidePaymentGatewayDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

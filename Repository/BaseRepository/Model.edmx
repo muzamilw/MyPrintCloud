@@ -1669,6 +1669,7 @@
           <Property Name="CurrencyId" Type="bigint" />
           <Property Name="LanguageId" Type="bigint" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
+          <Property Name="MISLogoStreamId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -1708,7 +1709,7 @@
           <Property Name="BusinessEmail" Type="varchar" MaxLength="500" />
           <Property Name="IdentityToken" Type="varchar" MaxLength="500" />
           <Property Name="isActive" Type="bit" Nullable="false" />
-          <Property Name="CompanyId" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
           <Property Name="PaymentMethodId" Type="int" />
           <Property Name="SecureHash" Type="nvarchar" MaxLength="500" />
         </EntityType>
@@ -2460,6 +2461,20 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="isUploadImage" Type="bit" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MPCFileTableView">
+          <Key>
+            <PropertyRef Name="stream_id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="is_directory" />
+          </Key>
+          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="file_stream" Type="varbinary(max)" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="is_directory" Type="bit" Nullable="false" />
+          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
         <Association Name="FK_Company_Campaign">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Campaign" Type="Self.Campaign" Multiplicity="*" />
@@ -2649,6 +2664,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Principal>
             <Dependent Role="CmsPage">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentGateway_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="PaymentGateway" Type="Self.PaymentGateway" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="PaymentGateway">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3389,6 +3416,13 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
         <Function Name="funGetMiniumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="ItemID" Type="int" Mode="In" />
         </Function>
+        <Function Name="MPCFileTable_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="filename" Type="nvarchar" Mode="In" />
+          <Parameter Name="filedata" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="MPCFileTable_Del" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="docId" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="sp_cloneTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TemplateID" Type="int" Mode="In" />
           <Parameter Name="submittedBy" Type="int" Mode="In" />
@@ -3513,6 +3547,15 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
     [GetItemsListView].[isUploadImage] AS [isUploadImage]
     FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="MPCFileTableView" EntityType="Self.MPCFileTableView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MPCFileTableView].[stream_id] AS [stream_id], 
+    [MPCFileTableView].[file_stream] AS [file_stream], 
+    [MPCFileTableView].[name] AS [name], 
+    [MPCFileTableView].[is_directory] AS [is_directory], 
+    [MPCFileTableView].[unc_path] AS [unc_path]
+    FROM [dbo].[MPCFileTableView] AS [MPCFileTableView]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
             <End Role="Campaign" EntitySet="Campaign" />
@@ -3576,6 +3619,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategory" />
             <End Role="CmsPage" EntitySet="CmsPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentGateway_Company" Association="Self.FK_PaymentGateway_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="PaymentGateway" EntitySet="PaymentGateway" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductBackgroundImages_Products" Association="Self.FK_ProductBackgroundImages_Products">
             <End Role="Template" EntitySet="Template" />
@@ -4219,6 +4266,18 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             <End Role="EmailEvent" EntitySet="EmailEvents" />
             <End Role="Campaign" EntitySet="Campaigns" />
           </AssociationSet>
+          <EntitySet Name="MpcFileTableViews1" EntityType="DomainModels.MpcFileTableView" />
+          <FunctionImport Name="MPCFileTable_Add">
+            <Parameter Name="filename" Mode="In" Type="String" />
+            <Parameter Name="filedata" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="MPCFileTable_Del">
+          <Parameter Name="docId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <AssociationSet Name="FK_PaymentGateway_Company" Association="DomainModels.FK_PaymentGateway_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="PaymentGateway" EntitySet="PaymentGateways" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4337,6 +4396,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="MapImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="PickupAddressId" Type="Int64" />
           <NavigationProperty Name="Campaigns" Relationship="DomainModels.FK_Company_Campaign" FromRole="Company" ToRole="Campaign" />
+          <NavigationProperty Name="PaymentGateways" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="Company" ToRole="PaymentGateway" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -4472,6 +4532,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="Organisation" ToRole="CmsSkinPageWidget" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Organisation" ToRole="Estimate" />
           <NavigationProperty Name="SystemUsers" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="Organisation" ToRole="SystemUser" />
+          <Property Name="MISLogoStreamId" Type="Guid" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -6380,10 +6441,11 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="BusinessEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="IdentityToken" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
           <Property Name="PaymentMethodId" Type="Int32" />
           <Property Name="SecureHash" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PaymentMethod" Relationship="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods" FromRole="PaymentGateway" ToRole="PaymentMethod" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="PaymentGateway" ToRole="Company" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -7750,6 +7812,30 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MpcFileTableView">
+          <Key>
+            <PropertyRef Name="StreamId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsDirectory" />
+          </Key>
+          <Property Name="StreamId" Type="Guid" Nullable="false" />
+          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
+          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_PaymentGateway_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.PaymentGateway" Role="PaymentGateway" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="PaymentGateway">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7961,6 +8047,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="MISLogoStreamId" ColumnName="MISLogoStreamId" />
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
@@ -10298,6 +10385,32 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MpcFileTableViews1">
+            <EntityTypeMapping TypeName="DomainModels.MpcFileTableView">
+              <MappingFragment StoreEntitySet="MPCFileTableView">
+                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
+                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
+                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="DomainModels.MpcFileTableView">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
+                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
+                  <ScalarProperty Name="Name" ParameterName="filename" />
+                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
+                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
+                  <ScalarProperty Name="StreamId" ParameterName="docId" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MPCFileTable_Add" FunctionName="DomainModels.Store.MPCFileTable_Add" />
+          <FunctionImportMapping FunctionImportName="MPCFileTable_Del" FunctionName="DomainModels.Store.MPCFileTable_Del" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -24,5 +24,6 @@ namespace MPC.Interfaces.Repository
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
 
         Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct,  int ObjContactID, Company NewCustomer);
+        Item GetItemById(long RefitemId);
     }
 }

@@ -270,6 +270,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<TemplateObject> TemplateObjects { get; set; }
 
         /// <summary>
+        /// MPC File Table View DbSet
+        /// </summary>
+        public DbSet<MpcFileTableView> MpcFileTableViews { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)
@@ -279,6 +284,32 @@ namespace MPC.Repository.BaseRepository
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
                 submittedByNameParameter);
+        }
+
+        /// <summary>
+        /// Stored Procedure to Add File to FileTable
+        /// </summary>
+        public int MPCFileTable_Add(string filename, byte[] filedata)
+        {
+            var filenameParameter = filename != null ?
+                new ObjectParameter("filename", filename) :
+                new ObjectParameter("filename", typeof(string));
+
+            var filedataParameter = filedata != null ?
+                new ObjectParameter("filedata", filedata) :
+                new ObjectParameter("filedata", typeof(byte[]));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter);
+        }
+
+        /// <summary>
+        /// Stored Procedure to Delete File from FileTable
+        /// </summary>
+        public int MPCFileTable_Del(Guid docId)
+        {
+            var docIdParameter = new ObjectParameter("docId", docId);
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter);
         }
 
         #endregion

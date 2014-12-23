@@ -975,6 +975,12 @@ namespace MPC.Repository.Repositories
         #endregion
 
 
+        public Item GetItemById(long itemId) 
+        {
+            return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
+           
+        }
+
         #endregion
     }
 }

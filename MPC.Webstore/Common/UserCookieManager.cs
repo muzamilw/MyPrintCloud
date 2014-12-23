@@ -205,10 +205,65 @@ namespace MPC.Webstore.Common
                     HttpContext.Current.Response.Cookies.Remove("OrganisationID");
 
                 }
-
                 HttpCookie organisationIdCookie = null;
                 organisationIdCookie = new HttpCookie("OrganisationID", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(organisationIdCookie);
+            }
+        }
+
+        public static bool isIncludeTax  
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["isIncludeTax"] != null)
+                {
+                    return Convert.ToBoolean((HttpContext.Current.Request.Cookies["isIncludeTax"].Value));
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["isIncludeTax"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("isIncludeTax");
+
+                }
+
+                HttpCookie IncludeTaxCookie = null;
+                IncludeTaxCookie = new HttpCookie("isIncludeTax", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(IncludeTaxCookie);
+            }
+        }
+
+        public static double StoreTax
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["TaxPrice"] != null)
+                {
+                    return Convert.ToDouble((HttpContext.Current.Request.Cookies["TaxPrice"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["TaxPrice"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("TaxPrice");
+
+                }
+
+                HttpCookie TaxPriceCookie = null;
+                TaxPriceCookie = new HttpCookie("TaxPrice", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(TaxPriceCookie);
             }
         }
     }
