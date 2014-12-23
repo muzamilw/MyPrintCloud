@@ -97,7 +97,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(),
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.CreateFrom()).ToList() : null,
-                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null
+                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
+                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList(): null
                 //CmsPages = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForListView()).ToList() : null
             };
         }
@@ -186,6 +187,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                         : null,
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null,
+                    PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x=> x.CreateFrom()).ToList(): null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null
             };
 

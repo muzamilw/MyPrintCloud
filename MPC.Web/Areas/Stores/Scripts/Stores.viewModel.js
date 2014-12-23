@@ -34,6 +34,8 @@ define("stores/stores.viewModel",
                     companyBannerSetList = ko.observableArray([]),
                     //Page Categories
                     pageCategories = ko.observableArray([]),
+                    //Payment Methods
+                    paymentMethods = ko.observableArray([]),
                     //Email Events
                     emailEvents = ko.observableArray([]),
                     //Emails
@@ -358,6 +360,9 @@ define("stores/stores.viewModel",
                                     });
                                     _.each(data.PageCategories, function (item) {
                                         pageCategories.push(model.PageCategory.Create(item));
+                                    });
+                                    _.each(data.PaymentMethods, function (item) {
+                                        paymentMethods.push(model.PaymentMethod.Create(item));
                                     });
                                     ko.utils.arrayPushAll(emailEvents(), data.EmailEvents);
                                     emailEvents.valueHasMutated();
@@ -766,7 +771,7 @@ define("stores/stores.viewModel",
                         }
                         view.hideEmailCamapaignDialog();
                     }
-                }
+                },
                 //Do Before Save Email
                 dobeforeSaveEmail = function () {
                     var flag = true;
@@ -781,7 +786,7 @@ define("stores/stores.viewModel",
                     selectedEmail(campaign);
                     selectedEmail().reset();
                     view.showEmailCamapaignDialog();
-                }
+                },
                 // Delete Email
                 onDeleteEmail = function (email) {
                     emails.remove(email);
@@ -856,6 +861,7 @@ define("stores/stores.viewModel",
                 addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
                contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+               
                 //Secondary Page Pager
                 secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
@@ -1195,9 +1201,9 @@ define("stores/stores.viewModel",
                 selectedSecondaryPage().fileName(file.name);
             },
 
-                //*****    COMPANY CONTACT      ***************//
+             //***********    C O M P A N  Y   C O N T A C T    *******************//
 
-                //companyContactFilter
+            //companyContactFilter
             companyContactFilter = ko.observable(),
             contactCompanyTerritoryFilter = ko.observable(),
                 //Deleted Company Contact 
@@ -1320,7 +1326,54 @@ define("stores/stores.viewModel",
                     selectedCompanyContact().image(data);
                     selectedCompanyContact().fileName(file.name);
                 },
-                // ***** CompanyContact END *****
+                //***********    C O M P A N  Y   C O N T A C T   E N D *******************//
+
+                  //***********    P A Y M E N T    G A T E W A Y    *********************//   
+
+
+                    //Selected Payment Gateway
+                    selectedPaymentGateway = ko.observable(),
+                    // Template Chooser For Payment Gateway
+                    templateToUsePaymentGateways = function (paymentGateway) {
+                        return (paymentGateway === selectedPaymentGateway() ? 'editPaymentGatewayTemplate' : 'itemPaymentGatewayTemplate');
+                    },
+                    //Create Payment Gateway
+                    onCreateNewPaymentGateway = function () {
+                        var paymentGateway = new model.PaymentGateway();
+                        selectedPaymentGateway(paymentGateway);
+                        view.showPaymentGatewayDialog();
+                    },
+                    // Delete a Payment Gateway
+                    onDeletePaymentGateway = function (paymentGateway) {
+                        selectedStore().paymentGateways.remove(paymentGateway);
+                        return;
+                    },
+                    onEditPaymentGateway = function (paymentGateway) {
+                        selectedPaymentGateway(paymentGateway);
+                        view.showPaymentGatewayDialog();
+                    },
+                    onClosePaymentGateway = function () {
+                        view.hidePaymentGatewayDialog();
+                    },
+                    //Do Before Save Payment Gateway
+                    doBeforeSavePaymentGateway = function () {
+                        var flag = true;
+                        if (!selectedPaymentGateway().isValid()) {
+                            selectedPaymentGateway().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSavePaymentGateway = function () {
+                        if (doBeforeSaveRaveReview()) {
+                            selectedStore().paymentGateways.splice(0, 0, selectedPaymentGateway());
+                            view.hidePaymentGatewayDialog();
+                        }
+                    },
+                    //***********    P A Y M E N T    G A T E W A Y   E N D  *********************//   
+
+
+
             resetObservableArrays = function () {
 
                 deletedAddresses.removeAll();
@@ -1492,6 +1545,15 @@ define("stores/stores.viewModel",
                     onSaveEmail: onSaveEmail,
                     onDeleteEmail: onDeleteEmail,
                     onCloseCompanyBanner: onCloseCompanyBanner,
+                    paymentMethods: paymentMethods,
+                    templateToUsePaymentGateways: templateToUsePaymentGateways,
+                    onCreateNewPaymentGateway: onCreateNewPaymentGateway,
+                    onDeletePaymentGateway: onDeletePaymentGateway,
+                    onEditPaymentGateway: onEditPaymentGateway,
+                    onClosePaymentGateway: onClosePaymentGateway,
+                    doBeforeSavePaymentGateway: doBeforeSavePaymentGateway,
+                    onSavePaymentGateway: onSavePaymentGateway,
+                    selectedPaymentGateway:selectedPaymentGateway,
                     initialize: initialize
                 };
             })()

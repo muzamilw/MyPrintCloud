@@ -114,6 +114,7 @@ namespace MPC.MIS.Areas.Api.Models
         public ICollection<CompanyContact> NewAddedCompanyContacts { get; set; }
         public ICollection<CompanyContact> EdittedCompanyContacts { get; set; }
         public ICollection<CompanyContact> DeletedCompanyContacts { get; set; }
+        public ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         /// <summary>
         /// Image Source

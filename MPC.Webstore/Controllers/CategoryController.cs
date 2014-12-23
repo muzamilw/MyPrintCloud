@@ -23,6 +23,7 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly IItemService _IItemService;
         private readonly IOrderService _orderService;
+        
         #endregion
 
         #region Constructor
@@ -303,23 +304,36 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult CloneItem(int id)
         {
-             //Item item = _IItemService.CloneItem(product.ItemId,0,0,0,(int)baseResponse.Company.CompanyId,0,0,0,null,true,false,false,baseResponse.Company,)
-             //                   if (item != null)
-             //                   {
-             //                      ItemID = (int)item.ItemId;
-             //                      TemplateID = item.TemplateId.Value;
-             //                   }
-                                    
+            int ItemID = 0;
+            int TemplateID = 0;
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            int ContactID = (int)_myClaimHelper.loginContactID();
+                int OrderID = ProcessOrder(baseResponse);
+                if (OrderID > 0)
+                {
+                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, true, false, false, ContactID);
+
+                    if (item != null)
+                    {
+                        ItemID = (int)item.ItemId;
+                        TemplateID = item.TemplateId.Value;
+                    }
+                }
 
             return View();
         }
 
-        public int ProcessOrder()
+        public int ProcessOrder(MyCompanyDomainBaseResponse baseResponse)
         {
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            //Organisation ord = baseResponse.Organisation;
-            //_orderService.ProcessPublicUserOrder(string.Empty,baseResponse.Organisation);
-            return 1;
+
+            int orderID = 0;
+            
+            int ordID = (int)baseResponse.Organisation.OrganisationId;
+
+            Organisation org = _myCompanyService.getOrganisatonByID(ordID);
+
+            orderID =  _orderService.ProcessPublicUserOrder(string.Empty,org);
+            return orderID;
         }
 
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)

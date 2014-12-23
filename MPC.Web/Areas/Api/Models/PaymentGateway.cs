@@ -9,5 +9,6 @@
         public long? CompanyId { get; set; }
         public int? PaymentMethodId { get; set; }
         public string SecureHash { get; set; }
+        public string PaymentMethodName { get; set; }
     }
 }

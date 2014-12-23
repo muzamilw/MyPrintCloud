@@ -12,9 +12,9 @@ namespace MPC.Interfaces.WebStoreServices
     public interface IItemService
     {
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
-        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, Company objCompany, CompanyContact objContact);
         Item GetItemById(long ItemId);
-        
+
+        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId);
     }
 }

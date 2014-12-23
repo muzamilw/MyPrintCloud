@@ -43,10 +43,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
-        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, Company objCompany, CompanyContact objContact)
+        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID)
         {
             Models.DomainModels.Company company = _CompanyRepository.GetStoreById((int)CustomerID);
-            return _ItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isCorporate, isSavedDesign, isCopyProduct, objCompany, objContact, company);
+            return _ItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isCorporate, isSavedDesign, isCopyProduct, objContactID, company);
         }
         public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
         {
