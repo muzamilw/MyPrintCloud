@@ -2051,109 +2051,8 @@
                                             </header>
                                             <div style="padding-right: 5px;" id="nestable2">
                                                 <ol class="dd-list">
-                                                    <li class="dd-item dd-item-list" data-id="13">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Home Page Banner S4
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="14">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Category Listing
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="15">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Featured Products
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="19">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Polpular Products
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="20">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Corporate Products
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="21">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            CRUD Department
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Corporate Home
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Top Header
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Pinky Sticky Menu
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Login Bar
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Why Choose Us
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
+                                                    <!-- ko template: { name: 'widgetItemTemplate' , foreach: $root.widgets } -->
+                                                    <!-- /ko -->
                                                 </ol>
                                             </div>
                                         </div>
@@ -3157,4 +3056,17 @@
         </td>
     </tr>
     <!-- /ko -->
+</script>
+
+<script id="widgetItemTemplate" type="text/html">
+    <li class="dd-item dd-item-list" data-id="13">
+        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle">
+            Home Page Banner S4
+            <div class="nested-links">
+                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
+            </div>
+        </div>
+    </li>
+
 </script>

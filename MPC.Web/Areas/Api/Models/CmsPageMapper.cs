@@ -8,7 +8,7 @@ namespace MPC.MIS.Areas.Api.Models
 {
     public static class CmsPageMapper
     {
-        #region
+        #region Public
         /// <summary>
         /// Crete From Web Model
         /// </summary>
@@ -89,6 +89,18 @@ namespace MPC.MIS.Areas.Api.Models
                 IsEnabled = source.isEnabled,
                 Meta_Title = source.Meta_Title,
                 CategoryName = source.PageCategory != null ? source.PageCategory.CategoryName : string.Empty,
+            };
+        }
+
+        /// <summary>
+        ///Create From For DropDown
+        /// </summary>
+        public static CmsPageDropDown CreateFromForDropDown(this DomainModels.CmsPage source)
+        {
+            return new CmsPageDropDown
+            {
+                PageId = source.PageId,
+                PageTitle = source.PageTitle,
             };
         }
 

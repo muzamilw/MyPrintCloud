@@ -38,6 +38,8 @@ define("stores/stores.viewModel",
                     emailEvents = ko.observableArray([]),
                     //Emails
                     emails = ko.observableArray([]),
+                    //Widgets List
+                    widgets = ko.observableArray([]),
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
@@ -359,8 +361,15 @@ define("stores/stores.viewModel",
                                     _.each(data.PageCategories, function (item) {
                                         pageCategories.push(model.PageCategory.Create(item));
                                     });
+                                    //Email Event List
+                                    emailEvents.removeAll();
                                     ko.utils.arrayPushAll(emailEvents(), data.EmailEvents);
                                     emailEvents.valueHasMutated();
+                                    //Widget List
+                                    widgets.removeAll();
+                                    ko.utils.arrayPushAll(widgets(), data.CmsPageDropDownList);
+                                    widgets.valueHasMutated();
+
                                 }
                                 isLoadingStores(false);
                             },
@@ -794,32 +803,32 @@ define("stores/stores.viewModel",
                 //SelectedAddressTerritoryFilter
                 addressTerritoryFilter = ko.observable(),
                 //List for Address Territory
-                    addressTerritoryList = ko.observableArray([]),
+                addressTerritoryList = ko.observableArray([]),
                 //Deleted Address
                 deletedAddresses = ko.observableArray([]),
                 edittedAddresses = ko.observableArray([]),
                 newAddresses = ko.observableArray([]),
-                    shippingAddresses = ko.observableArray([]),
-                    bussinessAddresses = ko.observableArray([]),
+                shippingAddresses = ko.observableArray([]),
+                bussinessAddresses = ko.observableArray([]),
                 selectedBussinessAddress = ko.observable(),
                 selectedShippingAddress = ko.observable(),
                 selectedBussinessAddressId = ko.observable(),
                 selectedShippingAddressId = ko.observable(),
                 //Populate addresses lists
-                    populateAddressesList = ko.computed(function () {
-                        if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
-                            shippingAddresses.removeAll();
-                            bussinessAddresses.removeAll();
-                            _.each(allCompanyAddressesList(), function (item) {
-                                if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
-                                    shippingAddresses.push(item);
-                                }
-                                if (item.isDefaultTerrorityBilling() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
-                                    bussinessAddresses.push(item);
-                                }
-                            });
-                        }
-                    }),
+                populateAddressesList = ko.computed(function () {
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
+                        shippingAddresses.removeAll();
+                        bussinessAddresses.removeAll();
+                        _.each(allCompanyAddressesList(), function (item) {
+                            if (item.isDefaultTerrorityShipping() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
+                                shippingAddresses.push(item);
+                            }
+                            if (item.isDefaultTerrorityBilling() == true && item.territoryId() == selectedCompanyContact().territoryId()) {
+                                bussinessAddresses.push(item);
+                            }
+                        });
+                    }
+                }),
                 selectBussinessAddress = ko.computed(function () {
                     if (selectedBussinessAddressId() != undefined) {
                         _.each(allCompanyAddressesList(), function (item) {
@@ -855,7 +864,7 @@ define("stores/stores.viewModel",
                 //Address Pager
                 addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
-               contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Secondary Page Pager
                 secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Address Search Filter
@@ -1492,6 +1501,7 @@ define("stores/stores.viewModel",
                     onSaveEmail: onSaveEmail,
                     onDeleteEmail: onDeleteEmail,
                     onCloseCompanyBanner: onCloseCompanyBanner,
+                    widgets: widgets,
                     initialize: initialize
                 };
             })()

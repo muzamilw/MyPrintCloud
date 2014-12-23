@@ -68,6 +68,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IMpcFileTableViewRepository, MpcFileTableViewRepository>();
             unityContainer.RegisterType<IPaymentGatewayRepository, PaymentGatewayRepository>();
             unityContainer.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>();
+            unityContainer.RegisterType<IWidgetRepository, WidgetRepository>();
         }
     }
 }

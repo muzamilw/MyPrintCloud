@@ -38,10 +38,12 @@ namespace MPC.MIS.Areas.Api.Controllers
                        CompanyTerritories = result.CompanyTerritories.Select(x => x.CreateFrom()),
                        CompanyContactRoles = result.CompanyContactRoles.Select(x => x.CreateFrom()),
                        PageCategories = result.PageCategories.Select(x => x.CreateFromDropDown()),
-                       RegistrationQuestions = result.RegistrationQuestions.Select(x=> x.CreateFromDropDown()),
-                       Addresses = result.Addresses.Select(x=> x.CreateFrom()),
-                       PaymentMethods = result.PaymentMethods.Select(x=>x.CreateFrom()),
-                       EmailEvents = result.EmailEvents.Select(x => x.CreateFrom())
+                       RegistrationQuestions = result.RegistrationQuestions.Select(x => x.CreateFromDropDown()),
+                       Addresses = result.Addresses.Select(x => x.CreateFrom()),
+                       //PaymentMethods = result.PaymentMethods.Select(x=>x.CreateFrom()),
+                       EmailEvents = result.EmailEvents.Select(x => x.CreateFrom()),
+                       Widgets = result.Widgets.Select(x => x.CreateFrom()),
+                       CmsPageDropDownList = result.CmsPages.Select(x => x.CreateFromForDropDown())
                    };
         }
         #endregion
