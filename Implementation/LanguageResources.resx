@@ -132,4 +132,7 @@
   <data name="ItemService_InvalidFilePath" xml:space="preserve">
     <value>Invalid File Path.</value>
   </data>
+  <data name="MyOrganisationService_OrganisationNotFound" xml:space="preserve">
+    <value>Organisation with Id {0} not found.</value>
+  </data>
 </root>

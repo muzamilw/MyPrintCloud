@@ -170,6 +170,7 @@
         <AssociationConnector Association="DomainModels.FK_EventEmail_Campaign" />
         <EntityTypeShape EntityType="DomainModels.MpcFileTableView" Width="1.5" PointX="27.375" PointY="21" />
         <AssociationConnector Association="DomainModels.FK_PaymentGateway_Company" />
+        <EntityTypeShape EntityType="DomainModels.GetCategoryProduct" Width="1.5" PointX="29.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

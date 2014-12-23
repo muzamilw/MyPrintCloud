@@ -124,7 +124,7 @@ namespace MPC.Repository.Repositories
                 return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).Take(2).ToList();
         }
 
-        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, Company objCompany, CompanyContact objContact,Company NewCustomer)
+        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID,Company NewCustomer)
         {
             Template clonedTemplate = null;
           
@@ -201,7 +201,7 @@ namespace MPC.Repository.Repositories
             {
                 if (isCorporate)
                 {
-                    System.Data.Objects.ObjectResult<int?> result = null; // db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
+                    System.Data.Objects.ObjectResult<int?> result = null;// db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
 
                    int? clonedTemplateID =  result.Single();
                     clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
@@ -225,8 +225,9 @@ namespace MPC.Repository.Repositories
                     if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
                     {
                         List<Models.Common.TemplateVariable> lstPageControls = new List<Models.Common.TemplateVariable>();
-                        lstPageControls = ResolveVariables(lstFieldVariabes,objContact);
-                        ResolveTemplateVariables(clonedTemplate.ProductId, objCompany, objContact, StoreMode.Corp,lstPageControls);
+                        CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == objContactID).FirstOrDefault();
+                        lstPageControls = ResolveVariables(lstFieldVariabes, contact);
+                        ResolveTemplateVariables(clonedTemplate.ProductId, contact, StoreMode.Corp,lstPageControls);
                     }
 
                 }
@@ -614,7 +615,7 @@ namespace MPC.Repository.Repositories
 
         #region "dynamic resolve template Variables"
         // resolve variables in templates
-        public bool ResolveTemplateVariables(int productID, Company objCompany, CompanyContact objContact, StoreMode objMode, List<Models.Common.TemplateVariable> lstPageControls)
+        public bool ResolveTemplateVariables(int productID, CompanyContact objContact, StoreMode objMode, List<Models.Common.TemplateVariable> lstPageControls)
         {
             
             string CompanyLogo = "";

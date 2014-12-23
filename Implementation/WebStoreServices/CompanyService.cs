@@ -405,6 +405,12 @@ namespace MPC.Implementation.WebStoreServices
         
             return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, zeroMarkup,regContact);
         }
+
+        public Organisation getOrganisatonByID(int OID)
+        {
+            return _organisationRepository.GetOrganizatiobByID(OID);
+            
+        }
         #endregion
     }
 

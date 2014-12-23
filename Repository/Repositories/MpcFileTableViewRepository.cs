@@ -58,6 +58,14 @@ namespace MPC.Repository.Repositories
             return DbSet.FirstOrDefault(file => file.StreamId == streamId);
         }
 
+        /// <summary>
+        /// Returns new path for directory/file
+        /// </summary>
+        public string GetNewPathLocator(string path)
+        {
+            return db.GetNewPathLocator(path);
+        }
+
         #endregion
     }
 }

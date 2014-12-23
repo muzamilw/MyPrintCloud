@@ -154,6 +154,7 @@
     <Compile Include="DomainModels\EmailEvent.cs" />
     <Compile Include="DomainModels\Estimate.cs" />
     <Compile Include="DomainModels\FieldVariable.cs" />
+    <Compile Include="DomainModels\GetCategoryProduct.cs" />
     <Compile Include="DomainModels\GlobalLanguage.cs" />
     <Compile Include="DomainModels\Inquiry.cs" />
     <Compile Include="DomainModels\InquiryAttachment.cs" />
