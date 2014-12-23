@@ -12,5 +12,10 @@ namespace MPC.Interfaces.Repository
         /// Get File by Stream Id
         /// </summary>
         MpcFileTableView GetByStreamId(Guid streamId);
+
+        /// <summary>
+        /// Returns New Path for directory/file to be stored 
+        /// </summary>
+        string GetNewPathLocator(string path);
     }
 }

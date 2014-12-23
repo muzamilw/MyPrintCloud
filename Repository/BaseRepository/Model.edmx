@@ -1350,6 +1350,10 @@
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="PackagingWeight" Type="float" />
           <Property Name="IsVDPProduct" Type="bit" />
+          <Property Name="TemplateType" Type="int" />
+          <Property Name="DesignerCategoryId" Type="int" />
+          <Property Name="Scalar" Type="float" />
+          <Property Name="ZoomFactor" Type="float" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -2426,6 +2430,42 @@
           <Property Name="WidgetControlName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="GetCategoryProducts">
+          <Key>
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="MinPrice" />
+          </Key>
+          <Property Name="ItemId" Type="bigint" Nullable="false" />
+          <Property Name="ItemCode" Type="varchar" MaxLength="50" />
+          <Property Name="isQtyRanged" Type="bit" />
+          <Property Name="EstimateId" Type="bigint" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProductCode" Type="varchar" MaxLength="50" />
+          <Property Name="ProductCategoryName" Type="nvarchar(max)" />
+          <Property Name="MinPrice" Type="float" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IconPath" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsEnabled" Type="bit" />
+          <Property Name="IsSpecialItem" Type="bit" />
+          <Property Name="IsPopular" Type="bit" />
+          <Property Name="IsFeatured" Type="bit" />
+          <Property Name="IsPromotional" Type="bit" />
+          <Property Name="IsPublished" Type="bit" />
+          <Property Name="ProductType" Type="int" />
+          <Property Name="ProductSpecification" Type="varchar(max)" />
+          <Property Name="CompleteSpecification" Type="varchar(max)" />
+          <Property Name="IsArchived" Type="bit" />
+          <Property Name="SortOrder" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="WebDescription" Type="varchar(max)" />
+          <Property Name="PriceDiscountPercentage" Type="int" />
+          <Property Name="isTemplateDesignMode" Type="bit" />
+          <Property Name="DefaultItemTax" Type="float" />
+          <Property Name="isUploadImage" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GetItemsListView">
           <Key>
@@ -3416,9 +3456,17 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
         <Function Name="funGetMiniumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="ItemID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetMPCFileTableNewPathLocator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+          <Parameter Name="filePath" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GetNewPathLocator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="filePath" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="MPCFileTable_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="filename" Type="nvarchar" Mode="In" />
           <Parameter Name="filedata" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="pathlocator" Type="nvarchar" Mode="In" />
+          <Parameter Name="isdirectory" Type="bit" Mode="In" />
         </Function>
         <Function Name="MPCFileTable_Del" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="docId" Type="uniqueidentifier" Mode="In" />
@@ -3515,6 +3563,38 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GetCategoryProducts" EntityType="Self.GetCategoryProducts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GetCategoryProducts].[ItemId] AS [ItemId], 
+    [GetCategoryProducts].[ItemCode] AS [ItemCode], 
+    [GetCategoryProducts].[isQtyRanged] AS [isQtyRanged], 
+    [GetCategoryProducts].[EstimateId] AS [EstimateId], 
+    [GetCategoryProducts].[ProductName] AS [ProductName], 
+    [GetCategoryProducts].[ProductCode] AS [ProductCode], 
+    [GetCategoryProducts].[ProductCategoryName] AS [ProductCategoryName], 
+    [GetCategoryProducts].[MinPrice] AS [MinPrice], 
+    [GetCategoryProducts].[ImagePath] AS [ImagePath], 
+    [GetCategoryProducts].[ThumbnailPath] AS [ThumbnailPath], 
+    [GetCategoryProducts].[IconPath] AS [IconPath], 
+    [GetCategoryProducts].[IsEnabled] AS [IsEnabled], 
+    [GetCategoryProducts].[IsSpecialItem] AS [IsSpecialItem], 
+    [GetCategoryProducts].[IsPopular] AS [IsPopular], 
+    [GetCategoryProducts].[IsFeatured] AS [IsFeatured], 
+    [GetCategoryProducts].[IsPromotional] AS [IsPromotional], 
+    [GetCategoryProducts].[IsPublished] AS [IsPublished], 
+    [GetCategoryProducts].[ProductType] AS [ProductType], 
+    [GetCategoryProducts].[ProductSpecification] AS [ProductSpecification], 
+    [GetCategoryProducts].[CompleteSpecification] AS [CompleteSpecification], 
+    [GetCategoryProducts].[IsArchived] AS [IsArchived], 
+    [GetCategoryProducts].[SortOrder] AS [SortOrder], 
+    [GetCategoryProducts].[OrganisationId] AS [OrganisationId], 
+    [GetCategoryProducts].[WebDescription] AS [WebDescription], 
+    [GetCategoryProducts].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
+    [GetCategoryProducts].[isTemplateDesignMode] AS [isTemplateDesignMode], 
+    [GetCategoryProducts].[DefaultItemTax] AS [DefaultItemTax], 
+    [GetCategoryProducts].[isUploadImage] AS [isUploadImage]
+    FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [GetItemsListView].[ItemId] AS [ItemId], 
@@ -4270,6 +4350,8 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <FunctionImport Name="MPCFileTable_Add">
             <Parameter Name="filename" Mode="In" Type="String" />
             <Parameter Name="filedata" Mode="In" Type="Binary" />
+            <Parameter Name="pathlocator" Mode="In" Type="String" />
+            <Parameter Name="isdirectory" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="MPCFileTable_Del">
           <Parameter Name="docId" Mode="In" Type="Guid" />
@@ -4278,6 +4360,10 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
             <End Role="Company" EntitySet="Companies" />
             <End Role="PaymentGateway" EntitySet="PaymentGateways" />
           </AssociationSet>
+          <EntitySet Name="GetCategoryProducts" EntityType="DomainModels.GetCategoryProduct" />
+          <FunctionImport Name="GetNewPathLocator" ReturnType="Collection(String)">
+            <Parameter Name="filePath" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5655,6 +5741,10 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <NavigationProperty Name="ItemVideos" Relationship="DomainModels.FK_ItemVideo_Items" FromRole="Item" ToRole="ItemVideo" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_Template_Items" FromRole="Item" ToRole="Template" />
           <Property Name="ProductType" Type="Int32" />
+          <Property Name="TemplateType" Type="Int32" />
+          <Property Name="DesignerCategoryId" Type="Int32" />
+          <Property Name="Scalar" Type="Double" />
+          <Property Name="ZoomFactor" Type="Double" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -7836,6 +7926,40 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GetCategoryProduct">
+          <Key>
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="MinPrice" />
+          </Key>
+          <Property Name="ItemId" Type="Int64" Nullable="false" />
+          <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isQtyRanged" Type="Boolean" />
+          <Property Name="EstimateId" Type="Int64" />
+          <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductCategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MinPrice" Type="Double" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ThumbnailPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IconPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="Boolean" />
+          <Property Name="IsSpecialItem" Type="Boolean" />
+          <Property Name="IsPopular" Type="Boolean" />
+          <Property Name="IsFeatured" Type="Boolean" />
+          <Property Name="IsPromotional" Type="Boolean" />
+          <Property Name="IsPublished" Type="Boolean" />
+          <Property Name="ProductType" Type="Int32" />
+          <Property Name="ProductSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CompleteSpecification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsArchived" Type="Boolean" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PriceDiscountPercentage" Type="Int32" />
+          <Property Name="isTemplateDesignMode" Type="Boolean" />
+          <Property Name="DefaultItemTax" Type="Double" />
+          <Property Name="isUploadImage" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8742,6 +8866,10 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="ZoomFactor" ColumnName="ZoomFactor" />
+                <ScalarProperty Name="Scalar" ColumnName="Scalar" />
+                <ScalarProperty Name="DesignerCategoryId" ColumnName="DesignerCategoryId" />
+                <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="IsVdpProduct" ColumnName="IsVDPProduct" />
                 <ScalarProperty Name="PackagingWeight" ColumnName="PackagingWeight" />
@@ -10398,6 +10526,8 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
             <EntityTypeMapping TypeName="DomainModels.MpcFileTableView">
               <ModificationFunctionMapping>
                 <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
+                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
+                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
                   <ScalarProperty Name="FileStream" ParameterName="filedata" />
                   <ScalarProperty Name="Name" ParameterName="filename" />
                   <ResultBinding Name="StreamId" ColumnName="stream_id" />
@@ -10411,6 +10541,41 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="MPCFileTable_Add" FunctionName="DomainModels.Store.MPCFileTable_Add" />
           <FunctionImportMapping FunctionImportName="MPCFileTable_Del" FunctionName="DomainModels.Store.MPCFileTable_Del" />
+          <EntitySetMapping Name="GetCategoryProducts">
+            <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
+              <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="isUploadImage" ColumnName="isUploadImage" />
+                <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
+                <ScalarProperty Name="isTemplateDesignMode" ColumnName="isTemplateDesignMode" />
+                <ScalarProperty Name="PriceDiscountPercentage" ColumnName="PriceDiscountPercentage" />
+                <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+                <ScalarProperty Name="CompleteSpecification" ColumnName="CompleteSpecification" />
+                <ScalarProperty Name="ProductSpecification" ColumnName="ProductSpecification" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+                <ScalarProperty Name="IsPromotional" ColumnName="IsPromotional" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+                <ScalarProperty Name="IsPopular" ColumnName="IsPopular" />
+                <ScalarProperty Name="IsSpecialItem" ColumnName="IsSpecialItem" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="IconPath" ColumnName="IconPath" />
+                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+                <ScalarProperty Name="ProductCategoryName" ColumnName="ProductCategoryName" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
+                <ScalarProperty Name="isQtyRanged" ColumnName="isQtyRanged" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetNewPathLocator" FunctionName="DomainModels.Store.GetNewPathLocator" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
