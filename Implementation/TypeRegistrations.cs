@@ -40,7 +40,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IWebstoreClaimsHelperService, WebstoreClaimsHelperService>();
             unityContainer.RegisterType<ICampaignService, CampaignService>();
             unityContainer.RegisterType<IUserManagerService, UserManagerService>();
-            unityContainer.RegisterType<IOrderService, IOrderService>();
+            unityContainer.RegisterType<IOrderService, OrderService>();
             unityContainer.RegisterType<webstoreInterfaces.IItemService, webstoreImplementation.ItemService>();
         }
     }

@@ -102,27 +102,7 @@ namespace MPC.Webstore.Controllers
                     {
                         // for print products
                         int ItemID = (int)product.ItemId;
-                        int TemplateID = 0;
-                        if (product.ProductType == (int)ProductType.TemplateProductWithBanner && product.ProductType == (int)ProductType.TemplateProductWithImage)
-                        {
-                            if(product.IsUploadImage == true)// is popular will replace by isuploadImage
-                            {
-                                // goto landing page
-                                ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
-                            }
-                            else
-                            {
-                              //  (new ProductManager()).CloneItem(ItemID, 0, 0, SessionParameters.ProductSelection.OrderID, SessionParameters.CustomerID, 0, TemplateID, 0, null, true, false, false, SessionParameters.ContactCompany, SessionParameters.CustomerContact, SessionParameters.BrokerContactCompany);
-                               
-                         
-                                    // clone Item
-                            }
-                        }
-                        else if (product.ProductType == (int)ProductType.FinishedGoodWithBanner && product.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
-                        {
-                            ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
-                            // goto landing page
-                        }
+                        
 
                         ItemStockOption optSeq1 = _myCompanyService.GetFirstStockOptByItemID((int)product.ItemId, 0);
                         if (optSeq1 != null)
@@ -253,7 +233,7 @@ namespace MPC.Webstore.Controllers
                                if (matrix.IsDiscounted == true)
                                {
                                    isDiscounted = true;
-                                   //lblPrice1.CssClass = "strikeThrough"; /* hellow */
+                                   //lblPrice1.CssClass = "strikeThrough"; 
                                    //lblDiscountedPrice1.Visible = true;
                                    DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(Price), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
 
@@ -306,12 +286,17 @@ namespace MPC.Webstore.Controllers
         {
             int ItemID = 0;
             int TemplateID = 0;
+            bool isCorp = true;
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                isCorp = true;
+            else
+                isCorp = false;
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
             int ContactID = (int)_myClaimHelper.loginContactID();
                 int OrderID = ProcessOrder(baseResponse);
                 if (OrderID > 0)
                 {
-                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, true, false, false, ContactID);
+                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, isCorp, false, false, ContactID);
 
                     if (item != null)
                     {
@@ -319,7 +304,14 @@ namespace MPC.Webstore.Controllers
                         TemplateID = item.TemplateId.Value;
                     }
                 }
-
+            // ItemID ok
+            // TemplateID ok
+            // iscalledfrom ok
+            // cv scripts require
+            // productName ok
+            // contactid // ask from iqra about retail and corporate
+            // companyID // ask from iqra
+            // isembaded ook
             return View();
         }
 

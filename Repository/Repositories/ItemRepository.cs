@@ -201,14 +201,10 @@ namespace MPC.Repository.Repositories
             {
                 if (isCorporate)
                 {
-                    System.Data.Objects.ObjectResult<int?> result = null;// db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
+                    int result =  db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
 
-                   int? clonedTemplateID =  result.Single();
+                    int? clonedTemplateID = result;
                     clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
-
-
-                    // saving water mark string added by saqib and copied by MZ here
-
 
                     var oCutomer = NewCustomer;
                     if (oCutomer != null)

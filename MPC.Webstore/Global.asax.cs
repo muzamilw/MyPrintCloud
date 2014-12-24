@@ -150,7 +150,7 @@ namespace MPC.Webstore
                 {
                     UserCookieManager.StoreId = baseResponse.Company.CompanyId;
                     UserCookieManager.StoreMode = baseResponse.Company.IsCustomer;
-                    UserCookieManager.OrganisationID = baseResponse.Organisation.OrganisationId;
+                   
                     // set global language of store
 
                     string languageName =
