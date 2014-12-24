@@ -210,6 +210,7 @@ namespace MPC.Repository.Repositories
                 }
             }
             //Copy Template if it does exists
+            
             if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
             {
                 if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
