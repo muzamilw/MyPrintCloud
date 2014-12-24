@@ -17,7 +17,7 @@ namespace MPC.Interfaces.Repository
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
 
   
-        List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
 
