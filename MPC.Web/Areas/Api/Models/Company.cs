@@ -59,7 +59,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isBrokerCanDeliverSameDay { get; set; }
         public bool? isBrokerCanAcceptPaymentOnline { get; set; }
         public bool? isBrokerOrderApprovalRequired { get; set; }
-        public bool? isBrokerPaymentRequired { get; set; }
+        public string isBrokerPaymentRequired { get; set; }
         public bool? isWhiteLabel { get; set; }
         public string TwitterURL { get; set; }
         public string FacebookURL { get; set; }
@@ -67,13 +67,13 @@ namespace MPC.MIS.Areas.Api.Models
         public string WebMasterTag { get; set; }
         public string WebAnalyticCode { get; set; }
         public int? isShowGoogleMap { get; set; }
-        public bool? isTextWatermark { get; set; }
+        public string isTextWatermark { get; set; }
         public string WatermarkText { get; set; }
         public int? CoreCustomerId { get; set; }
         public string StoreBackgroundImage { get; set; }
         public bool? isDisplayBrokerSecondaryPages { get; set; }
         public int? PriceFlagId { get; set; }
-        public bool? isIncludeVAT { get; set; }
+        public string isIncludeVAT { get; set; }
         public bool? isAllowRegistrationFromWeb { get; set; }
         public string MarketingBriefRecipient { get; set; }
         public bool? isLoginFirstTime { get; set; }
@@ -81,7 +81,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string facebookAppKey { get; set; }
         public string twitterAppId { get; set; }
         public string twitterAppKey { get; set; }
-        public bool? isStoreModePrivate { get; set; }
+        //public bool? isStoreModePrivate { get; set; }
+        public string isStoreModePrivate { get; set; }
         public string CustomCSS { get; set; }
         public int? TaxPercentageId { get; set; }
         public string XeroAccessCode { get; set; }

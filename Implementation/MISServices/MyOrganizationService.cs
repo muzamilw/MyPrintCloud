@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using MPC.Interfaces.MISServices;
@@ -324,19 +325,33 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void SaveFileToFileTable(string fileName, byte[] fileStream)
         {
-            MpcFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
-            mpcFileTableViewRepository.Add(mpcFileTableView);
-
-            mpcFileTableView.Name = fileName;
-            mpcFileTableView.FileStream = fileStream;
-            
             // Update Organisation MISLogoStreamId
             Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
 
             if (organisation == null)
             {
-                return;
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.MyOrganisationService_OrganisationNotFound,
+                    organisationRepository.OrganisationId));
             }
+
+            string pathLocator = "\\Organisation" + organisation.OrganisationId;
+            if (string.IsNullOrEmpty(mpcFileTableViewRepository.GetNewPathLocator(pathLocator)))
+            {
+                MpcFileTableView mpcFile = mpcFileTableViewRepository.Create();
+                mpcFileTableViewRepository.Add(mpcFile);
+                mpcFile.Name = "Organisation" + organisation.OrganisationId;
+                mpcFile.UncPath = pathLocator;
+                mpcFile.IsDirectory = true;
+                // Save to File Table
+                mpcFileTableViewRepository.SaveChanges();
+            }
+
+            // Add File
+            MpcFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
+            mpcFileTableViewRepository.Add(mpcFileTableView);
+            mpcFileTableView.Name = fileName;
+            mpcFileTableView.FileStream = fileStream;
+            mpcFileTableView.UncPath = pathLocator;
 
             // Save to File Table
             mpcFileTableViewRepository.SaveChanges();

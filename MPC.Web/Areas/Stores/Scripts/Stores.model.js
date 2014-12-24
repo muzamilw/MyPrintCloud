@@ -2437,17 +2437,18 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     var PaymentGateway = function (specifiedPaymentGatewayId, specifiedBusinessEmail, specifiedIdentityToken, specifiedIsActive, specifiedCompanyId, specifiedPaymentMethodId, specifiedSecureHash, specifiedPaymentMethodName) {
         var self,
             paymentGatewayId = ko.observable(specifiedPaymentGatewayId),
-            businessEmail = ko.observable(specifiedBusinessEmail).extend({ required: true }),
-            identityToken = ko.observable(specifiedIdentityToken).extend({ required: true }),
+            businessEmail = ko.observable(specifiedBusinessEmail).extend({ required: true }),//marchant id
+            identityToken = ko.observable(specifiedIdentityToken).extend({ required: true }),//access code 
             isActive = ko.observable(specifiedIsActive),
             companyId = ko.observable(specifiedCompanyId),
             paymentMethodId = ko.observable(specifiedPaymentMethodId),
-            secureHash = ko.observable(specifiedSecureHash),
+            secureHash = ko.observable(specifiedSecureHash),// secure hash
             paymentMethodName = ko.observable(specifiedPaymentMethodName),
             // Errors
             errors = ko.validation.group({
+                paymentMethodId: paymentMethodId,
                 businessEmail: businessEmail,
-                identityToken: identityToken
+                //identityToken: identityToken
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2478,7 +2479,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     IdentityToken: identityToken(),
                     IsActive: isActive(),
                     CompanyId: companyId(),
-                    SecureHash: secureHash()
+                    SecureHash: secureHash(),
+                    PaymentMethodId: paymentMethodId()
                 };
             },
             // Reset
@@ -2508,21 +2510,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.paymentGatewayId,
             source.businessEmail,
             source.identityToken,
-            source.companyId,
             source.isActive,
+            source.companyId,
             source.paymentMethodId,
             source.secureHash,
             source.paymentMethodName
         );
     };
     PaymentGateway.Create = function (source) {
+        
         var paymentGateway = new PaymentGateway(
-            //       
             source.PaymentGatewayId,
             source.BusinessEmail,
             source.IdentityToken,
-            source.CompanyId,
             source.IsActive,
+            source.CompanyId,
             source.PaymentMethodId,
             source.SecureHash,
             source.PaymentMethodName
@@ -2594,7 +2596,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     PaymentMethod.Create = function (source) {
         var paymentMethod = new PaymentMethod(
-            source.QuestionId,
+            source.PaymentMethodId,
             source.MethodName,
             source.IsActive
             );
