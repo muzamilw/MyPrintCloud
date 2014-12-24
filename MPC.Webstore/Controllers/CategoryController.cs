@@ -55,6 +55,7 @@ namespace MPC.Webstore.Controllers
             bool isDiscounted = false;
             double TaxRate = 0;
             bool includeVAT = false;
+            List<ItemStockOptionList> StockOptions = new List<ItemStockOptionList>();
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
 
@@ -102,40 +103,29 @@ namespace MPC.Webstore.Controllers
                     {
                         // for print products
                         int ItemID = (int)product.ItemId;
-                        int TemplateID = 0;
-                        if (product.ProductType == (int)ProductType.TemplateProductWithBanner && product.ProductType == (int)ProductType.TemplateProductWithImage)
-                        {
-                            if(product.IsUploadImage == true)// is popular will replace by isuploadImage
-                            {
-                                // goto landing page
-                                ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
-                            }
-                            else
-                            {
-                              //  (new ProductManager()).CloneItem(ItemID, 0, 0, SessionParameters.ProductSelection.OrderID, SessionParameters.CustomerID, 0, TemplateID, 0, null, true, false, false, SessionParameters.ContactCompany, SessionParameters.CustomerContact, SessionParameters.BrokerContactCompany);
-                               
-                         
-                                    // clone Item
-                            }
-                        }
-                        else if (product.ProductType == (int)ProductType.FinishedGoodWithBanner && product.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
-                        {
-                            ViewBag.ProductOptionURL = "/ProductOptions/" + CategoryID + "/" + product.ItemId + "/mode=UploadDesign";
-                            // goto landing page
-                        }
+                        
 
-                        ItemStockOption optSeq1 = _myCompanyService.GetFirstStockOptByItemID((int)product.ItemId, 0);
-                        if (optSeq1 != null)
-                            ViewBag.StockLabel = optSeq1.StockLabel;
-                        else
-                            ViewBag.StockLabel = "N/A";
+                         ItemStockOption optSeq1 = _myCompanyService.GetFirstStockOptByItemID((int)product.ItemId, 0);
+
+                         ItemStockOptionList Sqn = new ItemStockOptionList();
+                         Sqn.ItemID = (int)product.ItemId;
+                         if (optSeq1 != null)
+                             Sqn.StockLabel = optSeq1.StockLabel;
+                         else
+                             Sqn.StockLabel = "N/A";
+
+
+                         StockOptions.Add(Sqn);
+                         ViewData["StockOptions"] = StockOptions;
+                      
+
 
 
                         List<ItemPriceMatrix> matrixlist = _myCompanyService.GetPriceMatrixByItemID((int)product.ItemId);
                       
                         if (matrixlist.Count > 0 && matrixlist.Count == 1)
                         {
-                            if (product.IsQtyRanged == true)
+                            if (product.isQtyRanged == true)
                             {
                                 Quantity = matrixlist[0].QtyRangeFrom + " - " + matrixlist[0].QtyRangeTo;
                             }
@@ -196,9 +186,12 @@ namespace MPC.Webstore.Controllers
 
                                 ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
                                 ppm.Quantity = Quantity;
-                               
-                                ppm.Price = Price;
-                                ppm.DiscountPrice = DPrice;
+                                ppm.ItemID = (int)product.ItemId;
+                                if (!string.IsNullOrEmpty(Price))
+                                     ppm.Price = Convert.ToDouble(Price);
+                                if (!string.IsNullOrEmpty(DPrice))
+                                    ppm.DiscountPrice = Convert.ToDouble(DPrice);
+                              
                                 ppm.isDiscounted = isDiscounted;
                                 ProductPriceMatrix.Add(ppm);
 
@@ -209,7 +202,7 @@ namespace MPC.Webstore.Controllers
                         {
                             foreach(var matrix in matrixlist)
                             {
-                               if(product.IsQtyRanged ?? false)
+                               if(product.isQtyRanged ?? false)
                                {
                                    Quantity = matrix.QtyRangeFrom + " - " + matrix.QtyRangeTo;
                                    
@@ -253,7 +246,7 @@ namespace MPC.Webstore.Controllers
                                if (matrix.IsDiscounted == true)
                                {
                                    isDiscounted = true;
-                                   //lblPrice1.CssClass = "strikeThrough"; /* hellow */
+                                   //lblPrice1.CssClass = "strikeThrough"; 
                                    //lblDiscountedPrice1.Visible = true;
                                    DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(Price), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
 
@@ -274,9 +267,12 @@ namespace MPC.Webstore.Controllers
 
                                ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
                                ppm.Quantity = Quantity;
+                               ppm.ItemID = (int)product.ItemId;
+                               if (!string.IsNullOrEmpty(Price))
+                                   ppm.Price = Convert.ToDouble(Price);
+                               if (!string.IsNullOrEmpty(DPrice))
+                                   ppm.DiscountPrice = Convert.ToDouble(DPrice);
                              
-                               ppm.Price = Price;
-                               ppm.DiscountPrice = DPrice;
                                ppm.isDiscounted = isDiscounted;
                                ProductPriceMatrix.Add(ppm);
 
@@ -306,21 +302,52 @@ namespace MPC.Webstore.Controllers
         {
             int ItemID = 0;
             int TemplateID = 0;
+            bool isCorp = true;
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                isCorp = true;
+            else
+                isCorp = false;
+             int TempDesignerID = 0;
+            string ProductName = string.Empty;
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MyCompanyDomainBaseResponse baseResponseorg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
             int ContactID = (int)_myClaimHelper.loginContactID();
-                int OrderID = ProcessOrder(baseResponse);
+            int OrderID = ProcessOrder(baseResponseorg);
                 if (OrderID > 0)
                 {
-                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, true, false, false, ContactID);
+                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, isCorp, false, false, ContactID);
 
                     if (item != null)
                     {
                         ItemID = (int)item.ItemId;
-                        TemplateID = item.TemplateId.Value;
+                        TemplateID = item.TemplateId ?? 0;
+                        TempDesignerID = item.DesignerCategoryId ?? 0;
+                        ProductName = item.ProductName;
                     }
                 }
+            int isCalledFrom = 0;
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                isCalledFrom = 4;
+            else
+                isCalledFrom = 3;
 
-            return View();
+            bool isEmbaded;
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp ||  UserCookieManager.StoreMode == (int)StoreMode.Retail)
+              isEmbaded = true;
+            else
+                isEmbaded = false;
+            //PartialViews/TempDesigner/ItemID/TemplateID/IsCalledFrom/CV2/ProductName/ContactID/CompanyID/IsEmbaded;
+            string URL = "PartialViews/TempDesigner/" + ItemID + "/" + TemplateID + "/" + isCalledFrom + "/" + TempDesignerID + "/" + ProductName + "/" + ContactID + "/" + (int)baseResponse.Company.CompanyId + "/" + isEmbaded;
+           
+            // ItemID ok
+            // TemplateID ok
+            // iscalledfrom ok
+            // cv scripts require
+            // productName ok
+            // contactid // ask from iqra about retail and corporate
+            // companyID // ask from iqra
+            // isembaded ook
+            return View(URL);
         }
 
         public int ProcessOrder(MyCompanyDomainBaseResponse baseResponse)

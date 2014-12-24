@@ -97,25 +97,37 @@ namespace MPC.Repository.Repositories
 
             return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
         }
-        public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
         {
             //g.ProductCategoryId == ProductCategoryID , ProductCategoryId is no more in Items
-            List<GetItemsListView> recordds = db.GetItemsListViews.Where(g => g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
-            
+            //List<GetCategoryProduct> recordds = db.GetCategoryProducts.Where(g => g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
+            List<GetCategoryProduct> recordds = db.GetCategoryProducts.Where(g => g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
             recordds = recordds.OrderBy(s => s.SortOrder).ToList();
             return recordds;
         }
 
+        //public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        //{
+        //        if (CompanyId > 0)
+        //        {
+        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
+        //        }
+        //        else
+        //        {
+        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1).FirstOrDefault();
+        //        }
+        //}
+
         public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
         {
-                if (CompanyId > 0)
-                {
-                    return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
-                }
-                else
-                {
-                    return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1).FirstOrDefault();
-                }
+            if (CompanyId > 0)
+            {
+                return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
+            }
+            else
+            {
+                return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1).FirstOrDefault();
+            }
         }
 
         public List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId)
@@ -126,12 +138,12 @@ namespace MPC.Repository.Repositories
 
         public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID,Company NewCustomer)
         {
-            Template clonedTemplate = null;
+            Template clonedTemplate = new Template();
           
-            ItemSection tblItemSectionCloned = null;
-            ItemAttachment Attacments = null;
-            SectionCostcentre tblISectionCostCenteresCloned = null;
-            Item newItem = null;
+            ItemSection tblItemSectionCloned = new ItemSection();
+            ItemAttachment Attacments = new ItemAttachment();
+            SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
+            Item newItem = new Item();
 
 
             double netTotal = 0;
@@ -192,23 +204,20 @@ namespace MPC.Repository.Repositories
                     {
                         tblISectionCostCenteresCloned = Clone<SectionCostcentre>(tblSectCostCenter);
                         tblISectionCostCenteresCloned.SectionCostcentreId = 0;
-                        tblItemSectionCloned.SectionCostcentres.Add(tblISectionCostCenteresCloned);
+                        tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                        db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
                     }
                 }
             }
             //Copy Template if it does exists
             if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
             {
-                if (isCorporate)
+                if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
                 {
-                    System.Data.Objects.ObjectResult<int?> result = null;// db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
-
-                   int? clonedTemplateID =  result.Single();
+                    int result = db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
+                  //  System.Data.Objects.ObjectResult<int?> result = db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
+                    int? clonedTemplateID = result;
                     clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
-
-
-                    // saving water mark string added by saqib and copied by MZ here
-
 
                     var oCutomer = NewCustomer;
                     if (oCutomer != null)
@@ -237,17 +246,15 @@ namespace MPC.Repository.Repositories
 
             if (db.SaveChanges() > 0)
             {
-                if (clonedTemplate != null && isCorporate)
+                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
                 {
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
 
                     CopyTemplatePaths(clonedTemplate);
                 }
-              
-                    newItem.TemplateId = TemplateID;
-                    clonedNewItemID = (int)newItem.ItemId;
-                    SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, (int)newItem.ItemId, StockID, 0, isCopyProduct); // additional addon required the newly inserted cloneditem
+                clonedNewItemID = (int)newItem.ItemId;
+                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, (int)newItem.ItemId, StockID, 0, isCopyProduct); // additional addon required the newly inserted cloneditem
              
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
                 db.SaveChanges();
@@ -467,7 +474,7 @@ namespace MPC.Repository.Repositories
         public Item GetItemToClone(int itemID)
         {
             Item productItem = null;
-            productItem = db.Items.Include("ItemSection.SectionCostcentre").Where(item => item.ItemId == itemID).FirstOrDefault<Item>();
+            productItem = db.Items.Include("ItemSections.SectionCostcentres").Where(item => item.ItemId == itemID).FirstOrDefault<Item>();
             return productItem;
 
         }

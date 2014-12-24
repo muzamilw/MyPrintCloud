@@ -109,55 +109,98 @@
                             &nbsp;
                         </div>
                         <div id="cntProductList">
-                            @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetItemsListView>)
+                            @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetCategoryProduct>)
                             {
+                                bool isUploadImage = true;
                                 string RedirectURL = string.Empty;
                                 <div class="BD_CatProducts rounded_corners">
                                     <div class="pad5">
                                         <div class="LCLB">
                                            
-                                            @if (item.ProductType == (int)ProductType.TemplateProductWithBanner && item.ProductType == (int)ProductType.TemplateProductWithImage)
+                                            @if (item.ProductType == (int)ProductType.TemplateProductWithBanner || item.ProductType == (int)ProductType.TemplateProductWithImage)
                                             {
-                                                if (item.IsUploadImage == true)
+                                                if (item.isUploadImage == true)
                                                 { 
-                                                  RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/mode=UploadDesign";
+                                                  RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
                                                 }
                                                 else
                                                 {
+                                                    isUploadImage = false;
                                                    // RedirectURL = "@Url.Action("'CloneItem'", "'Category'", new { id = "item.ItemId" })";
                                                    //clone
+                                                 //   RedirectURL = "@Url.Action('CloneItem', 'Category', new { id = "+item.ItemId+" })";
+                                                    RedirectURL = "/Category/CloneItem/" + item.ItemId;
                                                 }
                                                 
                                             }
-                                            else if (item.ProductType == (int)ProductType.FinishedGoodWithBanner && item.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
+                                            else if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
                                             {
-                                                RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/mode=UploadDesign";
+                                                RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
                                             }
-                                            <a ID="hlProductDetail" href="@RedirectURL">
-                                                <div class="PDTC_CatProd FI_CatProd">
-                                                @{
-                                                  
+                                            @if (isUploadImage == false)
+                                            {
+                                                <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })">
+                                                    <div class="PDTC_CatProd FI_CatProd">
+                                                        @{
+
+                                                string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                                                if (string.IsNullOrEmpty(AppBasePath))
+                                                {
+                                                    AppBasePath = string.Empty;
+                                                }
+                                                string ThumbPath = AppBasePath + @item.ThumbnailPath;
+                                                <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
+
+
+                                                            @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
+                                                                CommandName="DesignOnline" CommandArgument='' />*@
+                                                        }
+                                                    </div>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                    <a id="hlProductDetail" href="@RedirectURL">
+                                                        <div class="PDTC_CatProd FI_CatProd">
+                                                            @{
+
                                                 string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
                                                         if (string.IsNullOrEmpty(AppBasePath))
                                                         {
                                                             AppBasePath = string.Empty;
                                                         }
                                                         string ThumbPath = AppBasePath + @item.ThumbnailPath;
-                                                          <img ID="imgProduct" src="@ThumbPath"  class ="full_img_ThumbnailPath_CatPro" />
+                                                        <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
 
-                                                          
-                                                          @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
-                                                                     CommandName="DesignOnline" CommandArgument='' />*@
-                                                }
-                                                </div>
-                                            </a>
-                                        </div>
+
+                                                                @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
+                                                                    CommandName="DesignOnline" CommandArgument='' />*@
+                                                            }
+                                                        </div>
+                                                    </a>
+                                            }
+</div>
                                         <div class="product_detail_image_heading_IRI">
                                             <label ID="lblProductName">@item.ProductName</label>
                                         </div>
                                         <div class="product_detail_image_Pricing">
                                             <label ID="lblPrice">@item.MinPrice</label>
                                         </div>
+                                        @{
+                                            string stockLabel = string.Empty; 
+                                            string quantity = string.Empty;
+                                          
+                                            
+                                            List<MPC.Webstore.ViewModels.ItemStockOptionList> sqn = ViewData["StockOptions"] as List<MPC.Webstore.ViewModels.ItemStockOptionList>;
+                                            stockLabel = sqn.Where(s => s.ItemID == item.ItemId).Select(c => c.StockLabel).FirstOrDefault();
+
+
+                                            List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel> matrix = ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>;
+                                            matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
+                                            
+                                        }
+
+
                                         <table id="productPricetbl" class="productPricetbl"  width="80%" cellpadding="5" cellspacing="0" style="">
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
@@ -166,42 +209,44 @@
                                                 </td>
                                                 <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">
-                                                    <label ID="lblStockOpt1">@ViewBag.StockLabel</label>
+                                                    <label ID="lblStockOpt1">@stockLabel</label>
                                                 </td>
                                             </tr>
-                                 @if (ViewData["PriceMatrix"] != null)
+                                 @if (matrix != null)
                                  { 
-                                        foreach (var matrix in ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>)
+                                        foreach (var Objmatrix in matrix)
                                         {
                                             <tr>
                                                 <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
 
-                                                    <label  ID="spanQuantity">@matrix.Quantity</label>
+                                                    <label  ID="spanQuantity">@Objmatrix.Quantity</label>
                                                 </td>
                                                 <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
                                                     style="text-align: right;">
                                                     <div id="matrixItemColumn1">
 
-                                                        <label ID="lblPrice1" >@matrix.Price</label>
-                                                        @if(matrix.isDiscounted == true)
-                                                        { 
-                                                            
-                                                          <label ID="lblDiscountedPrice1" class="custom_colorTS" >@matrix.DiscountPrice</label>
+                                                        <label ID="lblPrice1" >@Objmatrix.Price</label>
+                                                        @if (Objmatrix.isDiscounted == true)
+                                                        {
+                                                             <script>
+                                                                 $("#lblPrice1").attr('class', 'strikeThrough');
+                                                             </script>
+                                                           
+                                                          <label ID="lblDiscountedPrice1" class="custom_colorTS" >@Objmatrix.DiscountPrice</label>
                                                         }
 
                                                     </div>
                                                 </td>
                                             </tr>
-                                         
-                                         
-                                            <tr class="trMoreDetailOfProductLnk">
-                                                <td style="text-align: left;">
-                                                    <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
-                                                        <a id="lnkPRoductdetail">more...</a>
-                                                    </p>
-                                                </td>
-                                            </tr>
                                         }
+
+                                        <tr class="trMoreDetailOfProductLnk">
+                                            <td style="text-align: left;">
+                                                <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
+                                                    <a id="lnkPRoductdetail">more...</a>
+                                                </p>
+                                            </td>
+                                        </tr>
                                  }
                                         </table>
                                     </div>
