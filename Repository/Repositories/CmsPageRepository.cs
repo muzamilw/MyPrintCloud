@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 namespace MPC.Repository.Repositories
 {
+    /// <summary>
+    /// CMS Page Repository
+    /// </summary>
     public class CmsPageRepository : BaseRepository<CmsPage>, ICmsPageRepository
     {
         public CmsPageRepository(IUnityContainer container)

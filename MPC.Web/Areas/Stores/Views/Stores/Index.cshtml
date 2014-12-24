@@ -116,7 +116,7 @@
 
     </div>
     @Html.Partial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml")
-  
+
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
@@ -150,20 +150,48 @@
             $('#ligeneralsettings').addClass('active');
             $('#listore').addClass('active');
         });
-        $('#colorPick1').ColorPicker({
-            color: '',
-            onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                return false;
-            },
-            onChange: function (hsb, hex, rgb) {
-                $("#colorPick1").css("background-color", "#" + hex);
-                $("#colorPick1").text('#' + hex);
-            }
+
+        $(document).ready(function () {
+
+            $('#colorPick1').ColorPicker({
+                color: '',
+                onShow: function (colpkr) {
+                    $(colpkr).fadeIn(500);
+                    return false;
+                },
+                onHide: function (colpkr) {
+                    $(colpkr).fadeOut(500);
+                    return false;
+                },
+                onChange: function (hsb, hex, rgb) {
+                    $("#colorPick1").css("background-color", "#" + hex);
+                    $("#colorPick1").text('#' + hex);
+                }
+            });
+
+            $('#licrm').addClass('active');
+            //$('#widgetList').each(function () {
+
+            //    // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+            //    // it doesn't need to have a start or end
+            //    var eventObject = {
+            //        title: $.trim($(this).text()) // use the element's text as the event title
+            //    };
+
+            //    // store the Event Object in the DOM element so we can get to it later
+            //    $(this).data('eventObject', eventObject);
+
+            //    // make the event draggable using jQuery UI
+            //    $(this).draggable({
+            //        zIndex: 999,
+            //        revert: true,      // will cause the event to go back to its
+            //        revertDuration: 0  //  original position after the drag
+            //    });
+
+            //});
+
+
+           
         });
     </script>
 }
