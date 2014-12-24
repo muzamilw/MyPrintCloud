@@ -2532,7 +2532,64 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return paymentGateway;
     };
 
+    //// __________________  Widget   ______________________//
+    // ReSharper disable once InconsistentNaming
+    var Widget = function (specifiedWidgetId, specifiedWidgetName) {
 
+        var self,
+            weidgetId = ko.observable(specifiedWidgetId),
+            widgetName = ko.observable(specifiedWidgetName === undefined ? "Test Name" : specifiedWidgetName),
+            id = ko.computed(function () {
+                ist.stores.viewModel.selectedWidget(weidgetId);
+
+            }, this);
+
+        self = {
+            weidgetId: weidgetId,
+            widgetName: widgetName,
+        };
+        return self;
+    };
+
+    Widget.Create = function (source) {
+        return new Widget(
+             source.WidgetId,
+             source.WidgetName
+               );
+
+    };
+
+    //// __________________  CMS Skin Page Widget   ______________________//
+    // ReSharper disable once InconsistentNaming
+    var CmsSkingPageWidget = function (specifiedPageWidgetId, specifiedPageId, specifiedWidgetId, specifiedSequence, specifiedHtml) {
+
+        var self,
+            pageWidgetId = ko.observable(specifiedPageWidgetId),
+            pageId = ko.observable(specifiedPageId),
+            widgetId = ko.observable(specifiedWidgetId),
+            sequence = ko.observable(specifiedSequence),
+            html = ko.observable(specifiedHtml);
+
+        self = {
+            pageWidgetId: pageWidgetId,
+            pageId: pageId,
+            widgetId: widgetId,
+            sequence: sequence,
+            html: html,
+        };
+        return self;
+    };
+
+    CmsSkingPageWidget.Create = function (source) {
+        return new CmsSkingPageWidget(
+             source.PageWidgetId,
+             source.PageId,
+             source.WidgetId,
+             source.Sequence,
+             source.Html
+               );
+
+    };
 
     //// __________________  P A Y M E N T   M E T H O D   ______________________//
     // ReSharper disable once InconsistentNaming
@@ -2624,7 +2681,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         PageCategory: PageCategory,
         Campaign: Campaign,
         PaymentGateway: PaymentGateway,
-        PaymentMethod: PaymentMethod
+        PaymentMethod: PaymentMethod,
+        Widget: Widget,
+        CmsSkingPageWidget: CmsSkingPageWidget,
     };
 
 });

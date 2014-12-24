@@ -30,6 +30,8 @@ namespace MPC.Implementation.MISServices
         private readonly IPaymentMethodRepository paymentMethodRepository;
         private readonly IEmailEventRepository emailEventRepository;
         private readonly IPaymentGatewayRepository paymentGatewayRepository;
+        private readonly IWidgetRepository widgetRepository;
+        private readonly ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -640,7 +642,8 @@ namespace MPC.Implementation.MISServices
             ICompanyCMYKColorRepository companyCmykColorRepository, ICompanyTerritoryRepository companyTerritoryRepository, IAddressRepository addressRepository,
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
-             IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository, IPaymentGatewayRepository paymentGatewayRepository)
+             IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
+            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -657,6 +660,8 @@ namespace MPC.Implementation.MISServices
             this.paymentMethodRepository = paymentMethodRepository;
             this.emailEventRepository = emailEventRepository;
             this.paymentGatewayRepository = paymentGatewayRepository;
+            this.widgetRepository = widgetRepository;
+            this.cmsSkinPageWidgetRepository = cmsSkinPageWidgetRepository;
         }
         #endregion
 
@@ -714,7 +719,8 @@ namespace MPC.Implementation.MISServices
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
                        PaymentMethods = paymentMethodRepository.GetAll().ToList(),
-                       EmailEvents = emailEventRepository.GetAll()
+                       EmailEvents = emailEventRepository.GetAll(),
+                       Widgets = widgetRepository.GetAll(),
                    };
         }
         public void SaveFile(string filePath, long companyId)
@@ -785,6 +791,13 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        /// <summary>
+        /// Get Cms Page Widget By Page Id
+        /// </summary>
+        public IEnumerable<CmsSkinPageWidget> GetCmsPageWidgetByPageId(long pageId, long companyId)
+        {
+            return cmsSkinPageWidgetRepository.GetByPageId(pageId, companyId);
+        }
         #endregion
     }
 }

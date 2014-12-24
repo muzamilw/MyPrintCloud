@@ -43,6 +43,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store By StoreId
+                    amplify.request.define('getCmsPageLayoutWidget', 'ajax', {
+                        url: ist.siteUrl + '/Api/CmsPageLayoutDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Store
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/StoreBase',
@@ -132,6 +139,16 @@
                     data: params
                 });
             },
+             // get CMS Page Layout Widget
+            getCmsPageLayoutWidget = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmsPageLayoutWidget',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // get Store by id
             getBaseData = function (params, callbacks) {
                 initialize();
@@ -184,6 +201,7 @@
             searchCompanyContact: searchCompanyContact,
             getSecondaryPages: getSecondaryPages,
             getSecondryPageById: getSecondryPageById,
+            getCmsPageLayoutWidget: getCmsPageLayoutWidget,
         };
     })();
 

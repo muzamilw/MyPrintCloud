@@ -1969,111 +1969,10 @@
                                                 <h2>Available Widgets</h2>
 
                                             </header>
-                                            <div style="padding-right: 5px;" id="nestable2">
-                                                <ol class="dd-list">
-                                                    <li class="dd-item dd-item-list" data-id="13">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Home Page Banner S4
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="14">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Category Listing
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="15">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Featured Products
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="19">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Polpular Products
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="20">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Corporate Products
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="21">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            CRUD Department
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Corporate Home
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Top Header
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Pinky Sticky Menu
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Login Bar
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Why Choose Us
-                                                            <div class="nested-links">
-                                                                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
+                                            <div style="padding-right: 5px;" id="widgetDiv">
+                                                <ol class="dd-list" id="widgetList">
+                                                    @*<!-- ko template: { name: 'widgetItemTemplate', foreach: $root.widgets }-->
+                                                    <!-- /ko -->*@
                                                 </ol>
                                             </div>
                                         </div>
@@ -2100,45 +1999,34 @@
                                                 </div>
 
                                                 <div class="col-lg-6">
-                                                    <select class="form-control">
-                                                        <option>Home Page</option>
-                                                        <option>About US</option>
-                                                        <option>Contact Us</option>
-                                                        <option>Website Privacy Ploicy</option>
-                                                        <option>Terms & Conditions</option>
-                                                    </select>
+                                                    <select class="form-control" data-bind="options: $root.cmsPagesForStoreLayout,optionsCaption:'Select Page', optionsText: 'PageTitle', optionsValue: 'PageId',value:$root.selectedCurrentPageId"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
 
                                             </div>
-
                                             <div>
-                                                <ul id="gallery-photos" class="clearfix gallery-photos gallery-photos-hover">
-                                                    <li id="recordsArray_1">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/1.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
-                                                    </li>
-                                                    <li id="recordsArray_2">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/2.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
-                                                    </li>
-                                                    <li id="recordsArray_3">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/3.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
-                                                    </li>
-                                                    <li id="recordsArray_4">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/4.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
-                                                    </li>
-                                                    <li id="recordsArray_5">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/6.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
-                                                    </li>
-                                                    <li id="recordsArray_6">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/7.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
-                                                    </li>
-                                                    <li id="recordsArray_7">
-                                                        <img src="~/Content/themes/Centaurus/img/samples/8.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
-                                                    </li>
-                                                </ul>
-
+                                                @*<ul class="dd-list" >
+                                                        <!-- ko template: { name: 'skinWidgetItemTemplate', foreach: $root.pageSkinWidgets }-->
+                                                        <!-- /ko -->
+                                                    </ul>*@
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                            <th id="Description">Description</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody data-bind="sortable: { template: 'skinWidgetItemTemplate', data: $root.pageSkinWidgets }"></tbody>
+                                                </table>
                                             </div>
+                                            @*<!-- ko with: $root.selectedWidget -->
+                                                <div id="myContainer" data-bind="drop: {value:$root.selectedWidget}, " style="background-color: red;width: 250px; min-height: 50px;">
+                                                    @*<!-- ko with: $root.selectedWidget -->
+                                                           <div id=" pizza" style="background-color: red;width: 125px; min-height: 50px;"
+                                                        data-bind="drop: {value:  $root.selectedWidget}"></div>
+                                                           <!-- /ko -->
 
+                                                </div>
+                                                <!-- /ko -->*@
                                         </div>
                                         <div class="col-md-3">
                                         </div>
@@ -2607,7 +2495,7 @@
                 </td>
             </tr>
         </script>
-        
+
         <script id="actionsPaymentGatewayTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditPaymentGateway">
                 <span class="fa-stack">
@@ -2642,7 +2530,10 @@
                 </td>
             </tr>
         </script>
+
     </form>
+
+
 </div>
 <style type="text/css" media="screen">
     #editor {
@@ -3024,6 +2915,7 @@
 
             });
             $('.slider-minmax').val(100, true);
+
         });
     </script>
 
@@ -3113,3 +3005,29 @@
     </tr>
     <!-- /ko -->
 </script>
+<script id="widgetItemTemplate" type="text/html">
+    <li class="dd-item dd-item-list" data-id="13">
+        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle">
+            <span data-bind="text: $data.widgetName(),drag: {value: $data.weidgetId()}" style="cursor: move;" title="Drag wiget to add to the right panel"></span>
+            <div class="nested-links">
+                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
+            </div>
+        </div>
+    </li>
+    @*<span data-bind="drag: {text: WidgetName, dragOptions: {appendTo: '#myContainer'}}"></span>*@
+    @*<div class="item" style="background-color: #DDD; cursor: move;" data-bind="sortableItem: { item: $data}">
+            <a href="#" data-bind="text: WidgetName, visible: $data !== $root.selectedWidget()"></a>
+        </div>*@
+</script>
+
+<script id="skinWidgetItemTemplate" type="text/html">
+    @*<li class="dd-item dd-item-list" data-id="13">
+            <div data-bind="html:html"></div>
+        </li>*@
+    <tr class="dd-item dd-item-list" data-id="13">
+        <td> <div data-bind="html:html"></div></td>
+    </tr>
+</script>
+
+
