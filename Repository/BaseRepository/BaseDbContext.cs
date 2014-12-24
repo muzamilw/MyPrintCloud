@@ -283,8 +283,11 @@ namespace MPC.Repository.BaseRepository
             ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
             ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
+            ObjectResult<int?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
                 submittedByNameParameter);
+            int? newTemplateId = result.FirstOrDefault();
+
+            return newTemplateId.HasValue ? newTemplateId.Value : 0;
         }
 
         /// <summary>
