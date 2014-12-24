@@ -18,5 +18,10 @@ namespace MPC.Interfaces.Repository
         /// Get Section Flag By Section Id
         /// </summary>
         IEnumerable<SectionFlag> GetSectionFlagBySectionId(long SectionId);
+
+         /// <summary>
+        /// Get Defualt Section Flag for Price Matrix in webstore
+        /// </summary>
+        int GetDefaultSectionFlagId();
     }
 }

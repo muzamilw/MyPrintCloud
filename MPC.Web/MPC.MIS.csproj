@@ -248,6 +248,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CmsPageLayoutDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
@@ -285,6 +286,8 @@
     <Compile Include="Areas\Api\ModelMappers\ItemBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PageCategoryMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PaymentGatewayMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PaymentMethodMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
@@ -302,6 +305,8 @@
     <Compile Include="Areas\Api\Models\CmsPageDropDown.cs" />
     <Compile Include="Areas\Api\Models\CmsPageForListView.cs" />
     <Compile Include="Areas\Api\Models\CmsPageMapper.cs" />
+    <Compile Include="Areas\Api\Models\CmsPageWidgetResponse.cs" />
+    <Compile Include="Areas\Api\Models\CmsSkinPageWidget.cs" />
     <Compile Include="Areas\Api\Models\CompanyBanner.cs" />
     <Compile Include="Areas\Api\Models\CompanyBannerSet.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
@@ -326,6 +331,9 @@
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
+    <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
+    <Compile Include="Areas\Api\Models\PaymentGatewayResponse.cs" />
+    <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
@@ -351,7 +359,6 @@
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\CRMController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\EstimateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -1163,6 +1170,8 @@
     <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_MediaGalleryScreen.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_InventoryCategoryDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_HomeWidget.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
@@ -1205,6 +1214,7 @@
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
+    <Content Include="Scripts\knockout-sortable.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\knockout.validation.debug.js" />
@@ -2299,7 +2309,7 @@
     <Content Include="Scripts\Plugins\misc\search\tipuesearch_content.json" />
     <Content Include="Views\Products\ProductCategoryDetail.cshtml" />
     <Content Include="Views\Shared\Address\_SelectAddress.cshtml" />
-    <Content Include="Views\Shared\Widgets\_AddEditPaymentGateway.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditPaymentGateway.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />
     <Content Include="Views\Shared\Widgets\_PhraseLibrary.cshtml" />
     <Content Include="Views\Shared\Product\_SelectProductCategory.cshtml" />
@@ -2309,8 +2319,6 @@
     <Content Include="Views\Shared\Product\_SelectProductOption.cshtml" />
     <Content Include="Views\CRM\SupplierDetail.cshtml" />
     <Content Include="Views\CRM\SuppliersList.cshtml" />
-    <Content Include="Views\Default\Index.cshtml" />
-    <Content Include="Views\Default\GetPartialview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

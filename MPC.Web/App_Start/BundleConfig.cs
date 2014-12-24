@@ -43,6 +43,7 @@ namespace MPC.MIS
                 .Include("~/Scripts/moment.js")
                 .Include("~/Scripts/toastr.js")
                 .Include("~/Scripts/amplify.js")
+                .Include("~/Scripts/knockout-sortable.js")
                 .Include("~/Scripts/require.js")
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/App/architecture.js")

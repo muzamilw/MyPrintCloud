@@ -114,6 +114,7 @@ namespace MPC.MIS.Areas.Api.Models
         public ICollection<CompanyContact> NewAddedCompanyContacts { get; set; }
         public ICollection<CompanyContact> EdittedCompanyContacts { get; set; }
         public ICollection<CompanyContact> DeletedCompanyContacts { get; set; }
+        public ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         /// <summary>
         /// Image Source
@@ -141,7 +142,7 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CmsPage> DeletedCmsPages { get; set; }
         public List<PageCategory> PageCategories { get; set; }
         public List<Campaign> Campaigns { get; set; }
-
+        public List<CmsPageDropDown> CmsPagesDropDownList { get; set; }
 
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }

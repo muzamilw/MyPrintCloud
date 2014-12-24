@@ -36,11 +36,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         public Models.PaymentGatewayResponse Get([FromUri] PaymentGatewayRequestModel request)
         {
-            //var result = companyService.SearchAddresses(request);
+            var result = companyService.SearchPaymentGateways(request);
             return new Models.PaymentGatewayResponse
             {
-                //PaymentGateways = result..Select(x => x.CreateFrom()),
-                //RowCount = result.RowCount
+                PaymentGateways = result.PaymentGateways.Select(x => x.CreateFrom()),
+                RowCount = result.RowCount
             };
         }
 	}

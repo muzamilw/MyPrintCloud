@@ -29,7 +29,7 @@ namespace MPC.Webstore
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
 
-            
+
             routes.MapRoute(
                 "Login",
                 "Login/{controller}/{action}/{id}",
@@ -52,6 +52,11 @@ namespace MPC.Webstore
         "Category/{name}/{id}",
         new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
+            routes.MapRoute(
+  "ProductOptions",
+  "ProductOptions/{Cid}/{Itemid}/{Mode}",
+  new { controller = "Home", action = "Index", Cid = UrlParameter.Optional, Itemid = UrlParameter.Optional, Mode = UrlParameter.Optional }
+    );
 
             routes.MapRoute(
                 name: "Default",

@@ -148,6 +148,13 @@ namespace MPC.Repository.Repositories
             return db.Companies.FirstOrDefault(c => c.CompanyId == companyId);
         }
 
+        /// <summary>
+        /// Get Company Price Flag id for Price Matrix in webstore
+        /// </summary>
+        public int? GetPriceFlagIdByCompany(long CompanyId)
+        {
+            return DbSet.Where(c => c.CompanyId == CompanyId).Select(f => f.PriceFlagId).FirstOrDefault();
+        }
         public int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter,Markup zeroMarkup, CompanyContact regContact = null)
         {
             Address tblAddress = null;

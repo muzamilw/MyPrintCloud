@@ -41,6 +41,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICampaignService, CampaignService>();
             unityContainer.RegisterType<IUserManagerService, UserManagerService>();
             unityContainer.RegisterType<IOrderService, IOrderService>();
+            unityContainer.RegisterType<webstoreInterfaces.IItemService, webstoreImplementation.ItemService>();
         }
     }
 }
