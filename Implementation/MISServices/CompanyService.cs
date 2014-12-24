@@ -92,6 +92,56 @@ namespace MPC.Implementation.MISServices
             #endregion
             return company;
         }
+        private Company UpdatePaymentGatewaysOfUpdatingCompany(Company company)
+        {
+            var companyDbVersion = companyRepository.Find(company.CompanyId);
+            #region Payment Gateways
+            //Add  Payment Gateways
+            if (company.PaymentGateways != null)
+            {
+                foreach (var item in company.PaymentGateways)
+                {
+                    if (companyDbVersion.PaymentGateways.All(x => x.PaymentGatewayId != item.PaymentGatewayId) || item.PaymentGatewayId == 0)
+                    {
+                        item.CompanyId = company.CompanyId;
+                        companyDbVersion.PaymentGateways.Add(item);
+                    }
+                }
+            }
+            //find missing items
+
+            List<PaymentGateway> missingPaymentGateways = new List<PaymentGateway>();
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (PaymentGateway dbversionPaymentGateways in companyDbVersion.PaymentGateways)
+            {
+                if (company.PaymentGateways != null && company.PaymentGateways.All(x => x.PaymentGatewayId != dbversionPaymentGateways.PaymentGatewayId))
+                {
+                    missingPaymentGateways.Add(dbversionPaymentGateways);
+                }
+            }
+
+            //remove missing items
+            foreach (PaymentGateway missingPaymentGateway in missingPaymentGateways)
+            {
+
+                PaymentGateway dbVersionMissingItem = companyDbVersion.PaymentGateways.First(x => x.PaymentGatewayId == missingPaymentGateway.PaymentGatewayId);
+                if (dbVersionMissingItem.PaymentGatewayId > 0)
+                {
+                    companyDbVersion.PaymentGateways.Remove(dbVersionMissingItem);
+                    paymentGatewayRepository.Delete(dbVersionMissingItem);
+                }
+            }
+            if (company.PaymentGateways != null)
+            {
+                //updating payment Gateway
+                foreach (var paymentGateway in company.PaymentGateways)
+                {
+                    paymentGatewayRepository.Update(paymentGateway);
+                }
+            }
+            #endregion
+            return company;
+        }
 
         private Company UpdateCmykColorsOfUpdatingCompany(Company company)
         {
@@ -243,6 +293,7 @@ namespace MPC.Implementation.MISServices
         {
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
+            companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);

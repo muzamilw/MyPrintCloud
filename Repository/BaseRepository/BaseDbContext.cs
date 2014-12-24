@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Practices.Unity;
 using MPC.Models.DomainModels;
@@ -177,6 +178,8 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public DbSet<GetItemsListView> GetItemsListViews { get; set; }
 
+        public DbSet<GetCategoryProduct> GetCategoryProducts { get; set; }
+
         public DbSet<Address> Addesses { get; set; }
         /// <summary>
         /// Prefix DbSet
@@ -282,14 +285,17 @@ namespace MPC.Repository.BaseRepository
             ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
             ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
+            ObjectResult<int?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
                 submittedByNameParameter);
+            int? newTemplateId = result.FirstOrDefault();
+
+            return newTemplateId.HasValue ? newTemplateId.Value : 0;
         }
 
         /// <summary>
         /// Stored Procedure to Add File to FileTable
         /// </summary>
-        public int MPCFileTable_Add(string filename, byte[] filedata)
+        public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, bool isDirectory = false)
         {
             var filenameParameter = filename != null ?
                 new ObjectParameter("filename", filename) :
@@ -299,7 +305,14 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("filedata", filedata) :
                 new ObjectParameter("filedata", typeof(byte[]));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter);
+            var pathLocatorParameter = !string.IsNullOrEmpty(pathlocator) ?
+               new ObjectParameter("pathlocator", pathlocator) :
+               new ObjectParameter("pathlocator", typeof(string));
+
+            var isDirectoryParameter = new ObjectParameter("isdirectory", isDirectory);
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter, 
+                pathLocatorParameter, isDirectoryParameter);
         }
 
         /// <summary>
@@ -310,6 +323,19 @@ namespace MPC.Repository.BaseRepository
             var docIdParameter = new ObjectParameter("docId", docId);
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter);
+        }
+
+        /// <summary>
+        /// Get New Path Locator
+        /// </summary>
+        public string GetNewPathLocator(string filePath)
+        {
+            var filePathParameter = filePath != null ?
+                new ObjectParameter("filePath", filePath) :
+                new ObjectParameter("filePath", typeof(string));
+
+            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter);
+            return result.FirstOrDefault();
         }
 
         #endregion

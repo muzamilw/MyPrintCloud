@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <select class="form-control col-lg-4" id="ddPaymentGatway" onchange="ShowHidePaymentSettings();" data-bind="options:$root.paymentMethods ,optionsText:'methodName',optionsValue:'paymentMethodId',optionsCaption: 'Choose...', value: paymentMethodId, validationTooltip: paymentMethodId"></select>
+                        <select class="form-control col-lg-4" id="ddPaymentGatway"  data-bind="options:$root.paymentMethods ,optionsText:'methodName',optionsValue:'paymentMethodId', value: paymentMethodId, validationTooltip: paymentMethodId"></select>  @*,optionsCaption: 'Choose...'*@
                         @*<select id="ddPaymentGatway" class="form-control" onchange="ShowHidePaymentSettings();">
                             <option>PayPal</option>
                             <option>Authorized.Net</option>
@@ -59,20 +59,25 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtMerchantID">
+                        <input type="text" class="form-control" id="txtMerchantID" data-bind="value: businessEmail, validationTooltip: businessEmail">
                     </div>
 
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
                         <div class="col-lg-12" id="marchantIDtxt" style="font-size:12px;">
-                            e.g. The marchant email address used in your PayPal account.
+                           <!-- ko if: !$root.isAccessCodeSectionVisible() -->
+                                e.g. The marchant email address used in your PayPal account.
+                            <!--/ko-->
+                           <!-- ko if: $root.isAccessCodeSectionVisible() -->
+                            e.g. The marchant id used in your <label data-bind="text: $root.paymentMethodName"></label> account.
+                            <!--/ko-->
                         </div>
 
                     </div>
 
                 </div>
-                <div class="form-group paymentSettingsDisplay" style="display:none;">
+                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
                     <div class="col-lg-4 text-right">
 
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -89,11 +94,11 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtMerchantID">
+                        <input type="text" class="form-control" id="txtMerchantID" data-bind="value: identityToken">
                     </div>
 
                 </div>
-                <div class="form-group paymentSettingsDisplay" style="display:none;">
+                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
                     <div class="col-lg-4 text-right">
 
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -110,11 +115,11 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtMerchantID">
+                        <input type="text" class="form-control" id="txtMerchantID" data-bind="value: secureHash">
                     </div>
 
                 </div>
-                <div class="form-group paymentSettingsDisplay" style="display:none;">
+                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
 
@@ -128,7 +133,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsTDefault" checked>
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsTDefault" data-bind="checked: isActive">
                             <label class="onoffswitch-label" for="switchIsTDefault">
                                 <div class="onoffswitch-inner"></div>
                                 <div class="onoffswitch-switch"></div>
@@ -143,14 +148,14 @@
                 &nbsp;
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click: onClosePaymentGateway">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: onSavePaymentGateway">Save</button>
             </div>
         </div>
     </div>
 </div>
 <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
-<script>
+@*<script>
     function ShowHidePaymentSettings() {
         
         if ($("#ddPaymentGatway option:selected").text() == "PayPal" || $("#ddPaymentGatway option:selected").text() == "Cash" || $("#ddPaymentGatway option:selected").text() == "Choose...") {
@@ -160,7 +165,6 @@
             $('.paymentSettingsDisplay').css("display", "block");
             $("#marchantIDtxt").text("e.g. The marchant email address used in your " + $("#ddPaymentGatway option:selected").text() + " account.");
         }
-        
     }
-</script>
+</script>*@
 @* Wizard Popup ends here*@

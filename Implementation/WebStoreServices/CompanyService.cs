@@ -361,7 +361,7 @@ namespace MPC.Implementation.WebStoreServices
             return _addressRepository.GetDefaultAddressByStoreID(StoreID);
         }
 
-        public List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
         {
             return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
         }
@@ -404,6 +404,12 @@ namespace MPC.Implementation.WebStoreServices
             Markup zeroMarkup = _markupRepository.GetZeroMarkup();
         
             return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, zeroMarkup,regContact);
+        }
+
+        public Organisation getOrganisatonByID(int OID)
+        {
+            return _organisationRepository.GetOrganizatiobByID(OID);
+            
         }
         #endregion
     }

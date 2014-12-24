@@ -1352,7 +1352,8 @@ define("stores/stores.viewModel",
                     //***********    C O M P A N  Y   C O N T A C T   E N D *******************//
 
                     //***********    P A Y M E N T    G A T E W A Y    *********************//   
-
+                  isAccessCodeSectionVisible = ko.observable(false),
+                    paymentMethodName = ko.observable(),
 
                     //Selected Payment Gateway
                     selectedPaymentGateway = ko.observable(),
@@ -1368,7 +1369,7 @@ define("stores/stores.viewModel",
                     },
                     // Delete a Payment Gateway
                     onDeletePaymentGateway = function (paymentGateway) {
-                        selectedStore().paymentGateways.remove(paymentGateway);
+                        selectedStore().paymentGateway.remove(paymentGateway);
                         return;
                     },
                     onEditPaymentGateway = function (paymentGateway) {
@@ -1388,11 +1389,53 @@ define("stores/stores.viewModel",
                         return flag;
                     },
                     onSavePaymentGateway = function () {
-                        if (doBeforeSaveRaveReview()) {
-                            selectedStore().paymentGateways.splice(0, 0, selectedPaymentGateway());
+                        if (doBeforeSavePaymentGateway()) {
+                            _.each(paymentMethods(), function (paymentMethod) {
+                                if (paymentMethod.paymentMethodId() == selectedPaymentGateway().paymentMethodId()) {
+                                    selectedPaymentGateway().paymentMethodName(paymentMethod.methodName());
+                                }
+                            });
+                            selectedStore().paymentGateway.splice(0, 0, selectedPaymentGateway());
                             view.hidePaymentGatewayDialog();
                         }
                     },
+
+                    
+                    checkPaymentMethodSelection = ko.computed(function () {
+                        if (isEditorVisible() && selectedPaymentGateway() != null && selectedPaymentGateway() != undefined && selectedPaymentGateway().paymentMethodId() != "") {
+                            var id = selectedPaymentGateway().paymentMethodId();
+                            _.each(paymentMethods(), function (paymentMethod) {
+                                if (paymentMethod.paymentMethodId() == id) {
+                                 
+                                    if (paymentMethod.methodName() == "PayPal" || paymentMethod.methodName() == "Cash" || paymentMethod.methodName() == "") {
+                                        isAccessCodeSectionVisible(false);
+                                    }
+                                    else {
+                                        paymentMethodName(paymentMethod.methodName());
+                                        isAccessCodeSectionVisible(true);
+                                    }
+                                }
+                            });
+                        }
+                    }),
+                    //checkPaymentMethodSelection = selectedPaymentGateway().paymentMethodId().subscribe(function (value) {
+                    //    debugger;
+
+                    //    var id = value.paymentMethodId();
+                    //    _.each(paymentMethods(), function (paymentMethod) {
+                    //        if (paymentMethod.paymentMethodId() == id) {
+                    //            debugger;
+                    //            if (paymentMethod.methodName() == "PayPal" || paymentMethod.methodName() == "Cash" || paymentMethod.methodName() == "") {
+                    //                isAccessCodeSectionVisible(false);
+                    //            }
+                    //            else {
+                    //                isAccessCodeSectionVisible(true);
+                    //            }
+                    //        }
+                    //    });
+
+                    //}),
+
                     //***********    P A Y M E N T    G A T E W A Y   E N D  *********************//   
 
 
@@ -1618,6 +1661,9 @@ define("stores/stores.viewModel",
                     doBeforeSavePaymentGateway: doBeforeSavePaymentGateway,
                     onSavePaymentGateway: onSavePaymentGateway,
                     selectedPaymentGateway: selectedPaymentGateway,
+                    checkPaymentMethodSelection: checkPaymentMethodSelection,
+                    isAccessCodeSectionVisible: isAccessCodeSectionVisible,
+                    paymentMethodName:paymentMethodName,
                     selectedWidgetsList: selectedWidgetsList,
                     selectedWidget: selectedWidget,
                     selectWidget: selectWidget,

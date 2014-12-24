@@ -1612,13 +1612,13 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="option1" onclick="HideWaterMarkUploader();" data-bind="checked: $root.selectedStore().isTextWatermark">
+                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="true"  data-bind="checked: $root.selectedStore().isTextWatermark">
                                                         <label for="rdioWatermarkText">
                                                             Display specified Text
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkImage" value="option2" onclick="showWaterMarkUploader();" data-bind="checked: $root.selectedStore().isTextWatermark">
+                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkImage" value="false"  data-bind="checked: $root.selectedStore().isTextWatermark">
                                                         <label for="rdioWatermarkImage">
                                                             Display specified Image
                                                         </label>
@@ -1656,13 +1656,13 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="option1" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
+                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="true" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                         <label for="optionsRadiosForceOnlinePayment">
                                                             Force visitors to pay online to your PayPal Account
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosCheckoutWOPayment" value="option1" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
+                                                        <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosCheckoutWOPayment" value="false" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                         <label for="optionsRadiosCheckoutWOPayment">
                                                             Allow users to checkout without payment
                                                         </label>
@@ -1791,13 +1791,13 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionYes" value="option1" data-bind="checked: $root.selectedStore().isIncludeVAT">
+                                                        <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT">
                                                         <label for="optionYes">
                                                             Yes
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionNo" value="option2">
+                                                        <input type="radio" name="optionsRadios" id="optionNo" value="false" data-bind="checked: $root.selectedStore().isIncludeVAT">
                                                         <label for="optionNo">
                                                             No
                                                         </label>

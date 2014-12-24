@@ -17,13 +17,13 @@ namespace MPC.Interfaces.Repository
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
 
   
-        List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
 
-        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, Company objCompany, CompanyContact objContact, Company NewCustomer);
+        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct,  int ObjContactID, Company NewCustomer);
         Item GetItemById(long RefitemId);
     }
 }

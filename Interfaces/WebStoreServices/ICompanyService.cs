@@ -59,7 +59,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
-        List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
         void GetStoreFromCache(long companyId, bool clearcache);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
@@ -71,5 +71,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         double CalculateDiscount(double price, double discountPrecentage);
         int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null);
+
+        Organisation getOrganisatonByID(int OID);
     }
 }

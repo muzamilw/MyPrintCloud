@@ -104,5 +104,14 @@ namespace MPC.Implementation {
                 return ResourceManager.GetString("ItemService_ItemNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organisation with Id {0} not found..
+        /// </summary>
+        internal static string MyOrganisationService_OrganisationNotFound {
+            get {
+                return ResourceManager.GetString("MyOrganisationService_OrganisationNotFound", resourceCulture);
+            }
+        }
     }
 }
