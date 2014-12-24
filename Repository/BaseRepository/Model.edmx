@@ -4323,7 +4323,7 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           <EntitySet Name="FieldVariables" EntityType="DomainModels.FieldVariable" />
           <EntitySet Name="TemplateVariables" EntityType="DomainModels.TemplateVariable" />
           <EntitySet Name="VariableSections" EntityType="DomainModels.VariableSection" />
-          <FunctionImport Name="sp_cloneTemplate" >
+          <FunctionImport Name="sp_cloneTemplate" ReturnType="Collection(Int32)" >
             <Parameter Name="TemplateID" Mode="In" Type="Int32" />
             <Parameter Name="submittedBy" Mode="In" Type="Int32" />
             <Parameter Name="submittedByName" Mode="In" Type="String" />
@@ -4362,7 +4362,7 @@ warning 6002: The table/view 'MPC.dbo.MPCFileTableView' does not have a primary 
           </AssociationSet>
           <EntitySet Name="GetCategoryProducts" EntityType="DomainModels.GetCategoryProduct" />
           <FunctionImport Name="GetNewPathLocator" ReturnType="Collection(String)">
-            <Parameter Name="filePath" Mode="In" Type="String" />
+          <Parameter Name="filePath" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
