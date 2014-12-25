@@ -59,7 +59,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
-        List<GetItemsListView> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
         void GetStoreFromCache(long companyId, bool clearcache);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);

@@ -10,5 +10,10 @@ namespace MPC.Interfaces.Repository
     public interface ICmsSkinPageWidgetRepository : IBaseRepository<CmsSkinPageWidget, long>
     {
         List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId);
+
+        /// <summary>
+        /// Get By Page Id
+        /// </summary>
+        IEnumerable<CmsSkinPageWidget> GetByPageId(long pageId,long companyId);
     }
 }

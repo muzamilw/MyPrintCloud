@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace MPC.Repository.Repositories
 {
-    
+
     public class CmsSkinPageWidgetRepository : BaseRepository<CmsSkinPageWidget>, ICmsSkinPageWidgetRepository
     {
         public CmsSkinPageWidgetRepository(IUnityContainer container)
@@ -29,7 +29,15 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
 
-      
+        /// <summary>
+        /// Get By Page Id
+        /// </summary>
+        public IEnumerable<CmsSkinPageWidget> GetByPageId(long pageId, long companyId)
+        {
+            return DbSet.Where(c => c.PageId == pageId && c.CompanyId == companyId && c.OrganisationId == OrganisationId).ToList();
+        }
+
+
         public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId)
         {
             var widgets = (from result in db.PageWidgets.Include("CmsSkinPageWidgetParams").Include("Widget")

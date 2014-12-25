@@ -107,7 +107,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList(): null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x=> x.ParentCategoryId == null).Select( x=> x.ListViewModelCreateFrom()).ToList(): null
-                //CmsPages = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForListView()).ToList() : null
+                CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null
             };
         }
 

@@ -57,7 +57,11 @@ namespace MPC.Webstore
   "ProductOptions/{Cid}/{Itemid}/{Mode}",
   new { controller = "Home", action = "Index", Cid = UrlParameter.Optional, Itemid = UrlParameter.Optional, Mode = UrlParameter.Optional }
     );
-
+             routes.MapRoute(
+              "CloneItem",
+              "CloneItem/{id}",
+              new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
+                );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

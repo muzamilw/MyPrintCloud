@@ -73,7 +73,7 @@ namespace MPC.Repository.Repositories
         public long CreateOrder(Company tblCustomer, int ContactID, OrderStatus orderStatus,Organisation organisation,Prefix prefix, string orderTitle = null)
         {
 
-            Estimate tblOrder = null;
+            Estimate tblOrder = new Estimate();
             //tbl_Statuses tblOrderStatus = null;            
             long orderID = 0;
             short orderStatusID = (short)orderStatus;
@@ -84,38 +84,38 @@ namespace MPC.Repository.Repositories
 
                 //tblOrderStatus = this.GetStatusByName(orderStatus);
 
-                tblOrder = new Estimate()
-                {
-                    CompanyId = (int)tblCustomer.CompanyId, // customeriD
-                    OrganisationId = organisation.OrganisationId,
-                    CompanyName = "N/A",
-                    AddressId = (int)tblCustomer.Addresses.ToList()[0].AddressId,
-                    ContactId = ContactID,
-                    isEstimate = false,
-                    StatusId = orderStatusID, //tblOrderStatus.StatusID, // E.G. SHOPPING CART.
-
-                    SectionFlagId = 145,
-                    Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle,
-
-
-                    SalesPersonId = (int)tblCustomer.SalesAndOrderManagerId1,
-                    OrderManagerId = (int)tblCustomer.SalesAndOrderManagerId1,
-
-                    Estimate_Total = 0,
-                    Classification1Id = 0,
-                    OrderSourceId = 0,
-                    isDirectSale = false,
-                    //Created_by = Common.LoggedInID,
-                    Order_CreationDateTime = DateTime.Now,
-                    Order_Date = DateTime.Now,
-                    StartDeliveryDate = DateTime.Now.AddDays(1),
-                    FinishDeliveryDate = DateTime.Now.AddDays(2),
-                    CreationDate = DateTime.Now,
-                    CreationTime = DateTime.Now,
-                   
-                };
-
                
+                    tblOrder.CompanyId = (int)tblCustomer.CompanyId; // customeriD
+                    tblOrder.ContactCompanyId = (int)tblCustomer.CompanyId;
+                    tblOrder.OrganisationId = organisation.OrganisationId;
+                    tblOrder.CompanyName = "N/A";
+                    tblOrder.AddressId = (int)tblCustomer.Addresses.ToList()[0].AddressId;
+                    tblOrder.ContactId = ContactID;
+                    tblOrder.isEstimate = false;
+                    tblOrder.StatusId = orderStatusID; //tblOrderStatus.StatusID, // E.G. SHOPPING CART.
+
+                    tblOrder.SectionFlagId = 145;
+                    tblOrder.Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle;
+
+                    if (tblCustomer.SalesAndOrderManagerId1 != null)
+                    {
+                        tblOrder.SalesPersonId = (int)tblCustomer.SalesAndOrderManagerId1;
+                        tblOrder.OrderManagerId = (int)tblCustomer.SalesAndOrderManagerId1;
+                    }
+                   
+
+                    tblOrder.Estimate_Total = 0;
+                    tblOrder.Classification1Id = 0;
+                    tblOrder.OrderSourceId = 0;
+                    tblOrder.isDirectSale = false;
+                    //Created_by = Common.LoggedInID,
+                    tblOrder.Order_CreationDateTime = DateTime.Now;
+                    tblOrder.Order_Date = DateTime.Now;
+                    tblOrder.StartDeliveryDate = DateTime.Now.AddDays(1);
+                    tblOrder.FinishDeliveryDate = DateTime.Now.AddDays(2);
+                    tblOrder.CreationDate = DateTime.Now;
+                    tblOrder.CreationTime = DateTime.Now;
+                   
                     // Get order prefix and update the order next number
                     
 

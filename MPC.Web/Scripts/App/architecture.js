@@ -117,6 +117,87 @@ require(["ko", "knockout-validation"], function (ko) {
         return string.substring(0, startsWith.length) === startsWith;
     };
 
+
+    ko.bindingHandlers.drag = {
+        init: function (element, valueAccessor, allBindingsAccessor,
+                       viewModel, context) {
+            var value = valueAccessor();
+
+            if (value(context)) {
+
+                $(element).draggable({
+                    containment: 'window',
+                    zindex: 1000,
+                    distance: 20,
+                    helper: function (evt) {
+                        var h = $(element).clone().css({
+                            width: $(element).width(),
+                            height: $(element).height(),
+                        });
+                        if (evt.ctrlKey) {
+                            $(h).css({ cursor: "copy" });
+                        }
+                        h.data('ko.draggable.data', value(context, evt));
+                        return h;
+                    },
+                    appendTo: 'body'
+                });
+            } else {
+                $(element).draggable({
+                    containment: 'window',
+                    zindex: 1000,
+                    distance: 20,
+                    disabled: true
+                });
+
+            }
+        }
+    };
+
+    ko.bindingHandlers.drop = {
+        init: function (element, valueAccessor, allBindingsAccessor,
+                       viewModel, context) {
+            var value = valueAccessor();
+            $(element).droppable({
+                tolerance: 'pointer',
+                hoverClass: 'dragHover',
+                activeClass: 'dragActive',
+                drop: function (evt, ui) {
+                    value(ui.helper.data('ko.draggable.data'), context, evt);
+                }
+            });
+        }
+    };
+
+    //var _dragged;
+    //ko.bindingHandlers.drag = {
+    //    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+    //        var dragElement = $(element);
+    //        var dragOptions = {
+    //            helper: 'clone',
+    //            revert: true,
+    //            revertDuration: 0,
+    //            start: function () {
+    //                _dragged = ko.utils.unwrapObservable(valueAccessor().value);
+    //            },
+    //            cursor: 'default'
+    //        };
+    //        dragElement.draggable(dragOptions).disableSelection();
+    //    }
+    //};
+
+    //ko.bindingHandlers.drop = {
+    //    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+    //        var dropElement = $(element);
+    //        var dropOptions = {
+    //            drop: function (event, ui) {
+    //                valueAccessor().value(_dragged);
+    //            }
+    //        };
+    //        dropElement.droppable(dropOptions);
+    //    }
+    //};
+
     // jquery date picker binding. Usage: <input data-bind="datepicker: myDate, datepickerOptions: { minDate: new Date() }" />. Source: http://jsfiddle.net/rniemeyer/NAgNV/
     ko.bindingHandlers.datepicker = {
         init: function (element, valueAccessor, allBindingsAccessor) {
@@ -236,7 +317,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-    
+
     ko.bindingHandlers.colorpicker = {
         init: function (element, valueAccessor, allBindingsAccessor) {
 
@@ -266,6 +347,7 @@ require(["ko", "knockout-validation"], function (ko) {
             $(element).change();
         }
     };
+
     var windowURL = window.URL || window.webkitURL;
     ko.bindingHandlers.file = {
         init: function (element, valueAccessor) {

@@ -144,7 +144,7 @@ namespace MPC.MIS.Areas.Api.Models
         public List<PageCategory> PageCategories { get; set; }
         public List<Campaign> Campaigns { get; set; }
         public List<ProductCategoryListViewModel> ProductCategoriesListView { get; set; }
-
+        public List<CmsPageDropDown> CmsPagesDropDownList { get; set; }
 
         //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
