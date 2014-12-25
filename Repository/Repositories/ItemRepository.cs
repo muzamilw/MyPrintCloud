@@ -252,7 +252,7 @@ namespace MPC.Repository.Repositories
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
 
-                    CopyTemplatePaths(clonedTemplate);
+                  //  CopyTemplatePaths(clonedTemplate);
                 }
                 clonedNewItemID = (int)newItem.ItemId;
                 SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, (int)newItem.ItemId, StockID, 0, isCopyProduct); // additional addon required the newly inserted cloneditem
