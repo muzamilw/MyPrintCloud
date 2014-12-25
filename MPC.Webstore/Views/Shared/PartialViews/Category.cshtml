@@ -116,11 +116,14 @@
                                 <div class="BD_CatProducts rounded_corners">
                                     <div class="pad5">
                                         <div class="LCLB">
-                                           
+                                          
+                                           @* condition for marketing brief*@
+
                                             @if (item.ProductType == (int)ProductType.TemplateProductWithBanner || item.ProductType == (int)ProductType.TemplateProductWithImage)
                                             {
                                                 if (item.isUploadImage == true)
-                                                { 
+                                                {
+                                                    isUploadImage = true;
                                                   RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
                                                 }
                                                 else

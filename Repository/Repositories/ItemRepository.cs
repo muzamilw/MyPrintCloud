@@ -210,6 +210,7 @@ namespace MPC.Repository.Repositories
                 }
             }
             //Copy Template if it does exists
+            
             if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
             {
                 if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
@@ -251,7 +252,7 @@ namespace MPC.Repository.Repositories
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
 
-                    CopyTemplatePaths(clonedTemplate);
+                  //  CopyTemplatePaths(clonedTemplate);
                 }
                 clonedNewItemID = (int)newItem.ItemId;
                 SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, (int)newItem.ItemId, StockID, 0, isCopyProduct); // additional addon required the newly inserted cloneditem
