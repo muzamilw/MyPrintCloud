@@ -4,14 +4,14 @@ using MPC.Models.DomainModels;
 namespace MPC.Interfaces.Repository
 {
     /// <summary>
-    /// Get Items List View Repository 
+    /// Get Organisation File Table View Repository 
     /// </summary>
-    public interface IMpcFileTableViewRepository : IBaseRepository<MpcFileTableView, Guid>
+    public interface IOrganisationFileTableViewRepository : IBaseRepository<OrganisationFileTableView, Guid>
     {
         /// <summary>
         /// Get File by Stream Id
         /// </summary>
-        MpcFileTableView GetByStreamId(Guid streamId);
+        OrganisationFileTableView GetByStreamId(Guid streamId);
 
         /// <summary>
         /// Returns New Path for directory/file to be stored 

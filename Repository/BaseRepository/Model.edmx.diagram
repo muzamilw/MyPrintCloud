@@ -168,9 +168,19 @@
         <AssociationConnector Association="DomainModels.FK_ProductBackgroundImages_Products" />
         <AssociationConnector Association="DomainModels.FK_Company_Campaign" />
         <AssociationConnector Association="DomainModels.FK_EventEmail_Campaign" />
-        <EntityTypeShape EntityType="DomainModels.MpcFileTableView" Width="1.5" PointX="27.375" PointY="21" />
         <AssociationConnector Association="DomainModels.FK_PaymentGateway_Company" />
         <EntityTypeShape EntityType="DomainModels.GetCategoryProduct" Width="1.5" PointX="29.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DomainModels.ArtworkFileTableView" Width="1.5" PointX="27.375" PointY="23.875" />
+        <EntityTypeShape EntityType="DomainModels.AttachmentFileTableView" Width="1.5" PointX="28.375" PointY="15.875" />
+        <EntityTypeShape EntityType="DomainModels.CategoryFileTableView" Width="1.5" PointX="29.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DomainModels.CompanyBannerFileTableView" Width="1.5" PointX="29.375" PointY="11.75" />
+        <EntityTypeShape EntityType="DomainModels.CostCentreFileTableView" Width="1.5" PointX="29.375" PointY="18.875" />
+        <EntityTypeShape EntityType="DomainModels.MediaFileTableView" Width="1.5" PointX="29.375" PointY="21.875" />
+        <EntityTypeShape EntityType="DomainModels.OrganisationFileTableView" Width="1.5" PointX="29.375" PointY="24.625" />
+        <EntityTypeShape EntityType="DomainModels.ProductFileTableView" Width="1.5" PointX="30.375" PointY="14.875" />
+        <EntityTypeShape EntityType="DomainModels.SecondaryPageFileTableView" Width="1.5" PointX="30.375" PointY="27.875" />
+        <EntityTypeShape EntityType="DomainModels.StoreFileTableView" Width="1.5" PointX="30.375" PointY="30.875" />
+        <EntityTypeShape EntityType="DomainModels.TemplateFileTableView" Width="1.5" PointX="31.375" PointY="0.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

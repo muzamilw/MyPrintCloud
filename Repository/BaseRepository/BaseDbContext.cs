@@ -273,9 +273,59 @@ namespace MPC.Repository.BaseRepository
         public DbSet<TemplateObject> TemplateObjects { get; set; }
 
         /// <summary>
-        /// MPC File Table View DbSet
+        /// Organisation File Table View DbSet
         /// </summary>
-        public DbSet<MpcFileTableView> MpcFileTableViews { get; set; }
+        public DbSet<OrganisationFileTableView> OrganisationFileTableViews { get; set; }
+
+        /// <summary>
+        /// Artwork File Table View DbSet
+        /// </summary>
+        public DbSet<ArtworkFileTableView> ArtworkFileTableViews { get; set; }
+
+        /// <summary>
+        /// Attachment File Table View DbSet
+        /// </summary>
+        public DbSet<AttachmentFileTableView> AttachmentFileTableViews { get; set; }
+
+        /// <summary>
+        /// Category File Table View DbSet
+        /// </summary>
+        public DbSet<CategoryFileTableView> CategoryFileTableViews { get; set; }
+
+        /// <summary>
+        /// CompanyBanner File Table View DbSet
+        /// </summary>
+        public DbSet<CompanyBannerFileTableView> CompanyBannerFileTableViews { get; set; }
+
+        /// <summary>
+        /// CostCentre File Table View DbSet
+        /// </summary>
+        public DbSet<CostCentreFileTableView> CostCentreFileTableViews { get; set; }
+
+        /// <summary>
+        /// Media File Table View DbSet
+        /// </summary>
+        public DbSet<MediaFileTableView> MediaFileTableViews { get; set; }
+
+        /// <summary>
+        /// Product File Table View DbSet
+        /// </summary>
+        public DbSet<ProductFileTableView> ProductFileTableViews { get; set; }
+
+        /// <summary>
+        /// SecondaryPage File Table View DbSet
+        /// </summary>
+        public DbSet<SecondaryPageFileTableView> SecondaryPageFileTableViews { get; set; }
+
+        /// <summary>
+        /// Store File Table View DbSet
+        /// </summary>
+        public DbSet<StoreFileTableView> StoreFileTableViews { get; set; }
+
+        /// <summary>
+        /// Template File Table View DbSet
+        /// </summary>
+        public DbSet<TemplateFileTableView> TemplateFileTableViews { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure
@@ -295,7 +345,7 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Stored Procedure to Add File to FileTable
         /// </summary>
-        public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, bool isDirectory = false)
+        public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, string fileTableName, bool isDirectory = false)
         {
             var filenameParameter = filename != null ?
                 new ObjectParameter("filename", filename) :
@@ -309,32 +359,44 @@ namespace MPC.Repository.BaseRepository
                new ObjectParameter("pathlocator", pathlocator) :
                new ObjectParameter("pathlocator", typeof(string));
 
+            var fileTableParameter = fileTableName != null ?
+                new ObjectParameter("fileTableName", fileTableName) :
+                new ObjectParameter("fileTableName", typeof(string));
+
             var isDirectoryParameter = new ObjectParameter("isdirectory", isDirectory);
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter, 
-                pathLocatorParameter, isDirectoryParameter);
+                pathLocatorParameter, isDirectoryParameter, fileTableParameter);
         }
 
         /// <summary>
         /// Stored Procedure to Delete File from FileTable
         /// </summary>
-        public int MPCFileTable_Del(Guid docId)
+        public int MPCFileTable_Del(Guid docId, string fileTableName)
         {
             var docIdParameter = new ObjectParameter("docId", docId);
+            var fileTableParameter = fileTableName != null ?
+                new ObjectParameter("fileTableName", fileTableName) :
+                new ObjectParameter("fileTableName", typeof(string));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter, fileTableParameter);
         }
 
         /// <summary>
         /// Get New Path Locator
         /// </summary>
-        public string GetNewPathLocator(string filePath)
+        public string GetNewPathLocator(string filePath, string fileTableName)
         {
             var filePathParameter = filePath != null ?
                 new ObjectParameter("filePath", filePath) :
                 new ObjectParameter("filePath", typeof(string));
 
-            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter);
+            var fileTableParameter = fileTableName != null ?
+                new ObjectParameter("fileTableName", fileTableName) :
+                new ObjectParameter("fileTableName", typeof(string));
+
+            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter, 
+                fileTableParameter);
             return result.FirstOrDefault();
         }
 

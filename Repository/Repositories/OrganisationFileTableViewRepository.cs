@@ -9,9 +9,9 @@ using MPC.Repository.BaseRepository;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
-    /// Get Items List View Repository
+    /// Organisation File Table View Repository
     /// </summary>
-    public class MpcFileTableViewRepository : BaseRepository<MpcFileTableView>, IMpcFileTableViewRepository
+    public class OrganisationFileTableViewRepository : BaseRepository<OrganisationFileTableView>, IOrganisationFileTableViewRepository
     {
         #region privte
         #endregion
@@ -21,7 +21,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Constructor
         /// </summary>
-        public MpcFileTableViewRepository(IUnityContainer container)
+        public OrganisationFileTableViewRepository(IUnityContainer container)
             : base(container)
         {
 
@@ -30,11 +30,11 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Primary database set
         /// </summary>
-        protected override IDbSet<MpcFileTableView> DbSet
+        protected override IDbSet<OrganisationFileTableView> DbSet
         {
             get
             {
-                return null;
+                return db.OrganisationFileTableViews;
             }
         }
 
@@ -45,7 +45,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Find File in File Table
         /// </summary>
-        public MpcFileTableView Find(Guid id)
+        public OrganisationFileTableView Find(Guid id)
         {
             return DbSet.Find(id);
         }
@@ -53,7 +53,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Get File by StreamId
         /// </summary>
-        public MpcFileTableView GetByStreamId(Guid streamId)
+        public OrganisationFileTableView GetByStreamId(Guid streamId)
         {
             return DbSet.FirstOrDefault(file => file.StreamId == streamId);
         }
