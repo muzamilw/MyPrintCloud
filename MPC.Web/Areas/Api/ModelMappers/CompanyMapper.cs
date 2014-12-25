@@ -106,6 +106,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList(): null,
+                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x=> x.ParentCategoryId == null).Select( x=> x.ListViewModelCreateFrom()).ToList(): null,
                 CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null
             };
         }
@@ -279,23 +280,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyResponse
             {
                 Company = source.Company.CreateFrom(),
-                //AddressResponse = new ApiModels.AddressResponse
-                //                    {
-                //                        Addresses = source.AddressResponse.Addresses.Select(x => x.CreateFrom()),
-                //                        RowCount = source.AddressResponse.RowCount
-                //                    },
-
-                //CompanyTerritoryResponse = new ApiModels.CompanyTerritoryResponse
-                //                           {
-                //                               CompanyTerritories = source.CompanyTerritoryResponse.CompanyTerritories.Select(x => x.CreateFrom()),
-                //                               RowCount = source.CompanyTerritoryResponse.RowCount
-                //                           },
-                //CompanyContactResponse = new ApiModels.CompanyContactResponse
-                //{
-                //    CompanyContacts = source.CompanyContactResponse.CompanyContacts.Select(x => x.CreateFrom()),
-                //    RowCount = source.CompanyContactResponse.RowCount
-                //}
-
+                
                 SecondaryPageResponse = new SecondaryPageResponse
                 {
                     CmsPages =

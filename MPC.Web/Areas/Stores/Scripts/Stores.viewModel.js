@@ -1401,7 +1401,6 @@ define("stores/stores.viewModel",
                         }
                     },
 
-
                     checkPaymentMethodSelection = ko.computed(function () {
                         if (isEditorVisible() && selectedPaymentGateway() != null && selectedPaymentGateway() != undefined && selectedPaymentGateway().paymentMethodId() != "") {
                             var id = selectedPaymentGateway().paymentMethodId();
@@ -1419,6 +1418,21 @@ define("stores/stores.viewModel",
                             });
                         }
                     }),
+
+
+                    //_______________   P R O D U C T    C A T E G O R Y _______________
+                    selectedProductCategory = ko.observable(),
+                    selectProductCategory = function(category) {
+                        if (selectedProductCategory() != category) {
+                            selectedProductCategory(category);
+                        }
+                    },
+                    getCategoryChildList = function(category) {
+                        //toastr.success("get child list method called");
+                        //$("#" + category.productCategoryId()).append('<li><a href="/user/messages"><span class="tab">Message Center</span></a></li>');
+                    },
+                   
+
                     //checkPaymentMethodSelection = selectedPaymentGateway().paymentMethodId().subscribe(function (value) {
                     //    debugger;
 
@@ -1719,6 +1733,9 @@ define("stores/stores.viewModel",
                     checkPaymentMethodSelection: checkPaymentMethodSelection,
                     isAccessCodeSectionVisible: isAccessCodeSectionVisible,
                     paymentMethodName: paymentMethodName,
+                    selectedProductCategory: selectedProductCategory,
+                    selectProductCategory: selectProductCategory,
+                    getCategoryChildList: getCategoryChildList,
                     selectedWidgetsList: selectedWidgetsList,
                     selectedWidget: selectedWidget,
                     selectWidget: selectWidget,
