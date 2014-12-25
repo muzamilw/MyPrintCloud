@@ -188,7 +188,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             //Payment Methods
             paymentMethod = ko.observableArray([]),
             // ReSharper restore InconsistentNaming
-
+            //Product Categories
+            productCategories = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -396,6 +397,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             secondaryPages: secondaryPages,
             paymentGateway: paymentGateway,
             paymentMethod: paymentMethod,
+            productCategories: productCategories,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -468,6 +470,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         });
         _.each(source.paymentGateway, function (item) {
             result.paymentGateway.push(PaymentGateway.CreateFromClientModel(item));
+        });
+        _.each(source.productCategories, function (item) {
+            result.productCategories.push(ProductCategoryListView.CreateFromClientModel(item));
         });
         return result;
     };
@@ -549,6 +554,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         });
         _.each(source.PaymentMethods, function (item) {
             store.paymentMethod.push(PaymentMethod.Create(item));
+        });
+        //_.each(source.ProductCategoriesListView, function (item) {
+        //    store.productCategories.push(ProductCategoryListView.Create(item));
+        //});
+        _.each(source.ProductCategoriesListView, function (item) {
+            store.productCategories.push(ProductCategory.Create(item));
         });
         return store;
     };
@@ -2518,7 +2529,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         );
     };
     PaymentGateway.Create = function (source) {
-        
+
         var paymentGateway = new PaymentGateway(
             source.PaymentGatewayId,
             source.BusinessEmail,
@@ -2604,6 +2615,385 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
 
 
+    //public long ProductCategoryId { get; set; }
+    //public string CategoryName { get; set; }
+    //public string ContentType { get; set; }
+    //public int LockedBy { get; set; }
+    //public int? ParentCategoryId { get; set; }
+    ///___________________ P R O D U C T     C A T E G O R Y    L I S T   V I E W _____________________///
+    // ReSharper disable once InconsistentNaming
+    var ProductCategoryListView = function (specifiedProductCategoryId, specifiedCategoryName, specifiedContentType, specifiedLockedBy, specifiedParentCategoryId) {
+        var // Unique key
+            productCategoryId = ko.observable(specifiedProductCategoryId || 0),
+            // CategoryName
+            categoryName = ko.observable(specifiedCategoryName || undefined),
+            // ContentType
+            contentType = ko.observable(specifiedContentType || undefined),
+            // LockedBy
+            lockedBy = ko.observable(specifiedLockedBy || undefined),
+
+            // Product Code
+            parentCategoryId = ko.observable(specifiedParentCategoryId || undefined),
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+            // True if the product has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                productCategoryId: productCategoryId,
+                categoryName: categoryName,
+                contentType: contentType,
+                lockedBy: lockedBy,
+                parentCategoryId: parentCategoryId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            });
+        return {
+            productCategoryId: productCategoryId,
+            categoryName: categoryName,
+            contentType: contentType,
+            lockedBy: lockedBy,
+            parentCategoryId: parentCategoryId,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+        };
+    };
+    ProductCategoryListView.CreateFromClientModel = function (source) {
+        return new ProductCategoryListView(
+            source.productCategoryId,
+            source.categoryName,
+            source.contentType,
+            source.lockedBy,
+            source.parentCategoryId
+            );
+    };
+    ProductCategoryListView.Create = function (source) {
+        var productCategoryListViewItem = new ProductCategoryListView(
+            source.ProductCategoryId,
+            source.CategoryName,
+            source.ContentType,
+            source.LockedBy,
+            source.ParentCategoryId
+            );
+        return productCategoryListViewItem;
+    };
+
+
+    /// ______________________P R O D U C T   C A T E G O R Y  _________________________________
+    // ReSharper disable once InconsistentNaming
+    var ProductCategory = function (specifiedProductCategoryId, specifiedCategoryName, specifiedContentType, specifiedDescription1, specifiedDescription2, specifiedLockedBy,
+        specifiedCompanyId, specifiedParentCategoryId, specifiedDisplayOrder, specifiedImagePath, specifiedThumbnailPath, specifiedisEnabled, specifiedisMarketPlace, specifiedTemplateDesignerMappedCategoryName,
+        specifiedisArchived, specifiedisPublished, specifiedTrimmedWidth, specifiedTrimmedHeight, specifiedisColorImposition, specifiedisOrderImposition, specifiedisLinkToTemplates,
+        specifiedSides, specifiedApplySizeRestrictions, specifiedApplyFoldLines, specifiedWidthRestriction, specifiedHeightRestriction, specifiedCategoryTypeId, specifiedRegionId,
+        specifiedZoomFactor, specifiedScaleFactor, specifiedisShelfProductCategory, specifiedMetaKeywords, specifiedMetaDescription, specifiedMetaTitle, specifiedOrganisationId,
+        specifiedSubCategoryDisplayMode1, specifiedSubCategoryDisplayMode2, specifiedSubCategoryDisplayColumns, specifiedCategoryURLText, specifiedMetaOverride, specifiedShortDescription,
+        specifiedSecondaryDescription, specifiedDefaultSortBy, specifiedProductsDisplayColumns, specifiedProductsDisplayRows, specifiedIsDisplayFeaturedproducts, specifiedIsShowAvailablity,
+        specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription) {
+        var
+        productCategoryId = ko.observable(specifiedProductCategoryId),
+        categoryName = ko.observable(specifiedCategoryName),
+        contentType = ko.observable(specifiedContentType),
+        description1 = ko.observable(specifiedDescription1),
+        description2 = ko.observable(specifiedDescription2),
+        lockedBy = ko.observable(specifiedLockedBy),
+        companyId = ko.observable(specifiedCompanyId),
+        parentCategoryId = ko.observable(specifiedParentCategoryId),
+        displayOrder = ko.observable(specifiedDisplayOrder),
+        imagePath = ko.observable(specifiedImagePath),
+        thumbnailPath = ko.observable(specifiedThumbnailPath),
+        isEnabled = ko.observable(specifiedisEnabled),
+        isMarketPlace = ko.observable(specifiedisMarketPlace),
+        templateDesignerMappedCategoryName = ko.observable(specifiedTemplateDesignerMappedCategoryName),
+        isArchived = ko.observable(specifiedisArchived),
+        isPublished = ko.observable(specifiedisPublished),
+        trimmedWidth = ko.observable(specifiedTrimmedWidth),
+        trimmedHeight = ko.observable(specifiedTrimmedHeight),
+        isColorImposition = ko.observable(specifiedisColorImposition),
+        isOrderImposition = ko.observable(specifiedisOrderImposition),
+        isLinkToTemplates = ko.observable(specifiedisLinkToTemplates),
+        sides = ko.observable(specifiedSides),
+        applySizeRestrictions = ko.observable(specifiedApplySizeRestrictions),
+        applyFoldLines = ko.observable(specifiedApplyFoldLines),
+        widthRestriction = ko.observable(specifiedWidthRestriction),
+        heightRestriction = ko.observable(specifiedHeightRestriction),
+        categoryTypeId = ko.observable(specifiedCategoryTypeId),
+        regionId = ko.observable(specifiedRegionId),
+        zoomFactor = ko.observable(specifiedZoomFactor),
+        scaleFactor = ko.observable(specifiedScaleFactor),
+        isShelfProductCategory = ko.observable(specifiedisShelfProductCategory),
+        metaKeywords = ko.observable(specifiedMetaKeywords),
+        metaDescription = ko.observable(specifiedMetaDescription),
+        metaTitle = ko.observable(specifiedMetaTitle),
+        organisationId = ko.observable(specifiedOrganisationId),
+        subCategoryDisplayMode1 = ko.observable(specifiedSubCategoryDisplayMode1),
+        subCategoryDisplayMode2 = ko.observable(specifiedSubCategoryDisplayMode2),
+        subCategoryDisplayColumns = ko.observable(specifiedSubCategoryDisplayColumns),
+        categoryURLText = ko.observable(specifiedCategoryURLText),
+        metaOverride = ko.observable(specifiedMetaOverride),
+        shortDescription = ko.observable(specifiedShortDescription),
+        secondaryDescription = ko.observable(specifiedSecondaryDescription),
+        defaultSortBy = ko.observable(specifiedDefaultSortBy),
+        productsDisplayColumns = ko.observable(specifiedProductsDisplayColumns),
+        productsDisplayRows = ko.observable(specifiedProductsDisplayRows),
+        isDisplayFeaturedproducts = ko.observable(specifiedIsDisplayFeaturedproducts),
+        isShowAvailablity = ko.observable(specifiedIsShowAvailablity),
+        isShowRewardPoints = ko.observable(specifiedIsShowRewardPoints),
+        isShowListPrice = ko.observable(specifiedIsShowListPrice),
+        isShowSalePrice = ko.observable(specifiedIsShowSalePrice),
+        isShowStockStatus = ko.observable(specifiedIsShowStockStatus),
+        isShowProductDescription = ko.observable(specifiedIsShowProductDescription),
+        isShowProductShortDescription = ko.observable(specifiedIsShowProductShortDescription),
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+            // True if the product has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                productCategoryId: productCategoryId,
+                categoryName: categoryName,
+                contentType: contentType,
+                description1: description1,
+                description2: description2,
+                lockedBy: lockedBy,
+                companyId: companyId,
+                parentCategoryId: parentCategoryId,
+                displayOrder: displayOrder,
+                imagePath: imagePath,
+                thumbnailPath: thumbnailPath,
+                isEnabled: isEnabled,
+                isMarketPlace: isMarketPlace,
+                templateDesignerMappedCategoryName: templateDesignerMappedCategoryName,
+                isArchived: isArchived,
+                isPublished: isPublished,
+                trimmedWidth: trimmedWidth,
+                trimmedHeight: trimmedHeight,
+                isColorImposition: isColorImposition,
+                isOrderImposition: isOrderImposition,
+                isLinkToTemplates: isLinkToTemplates,
+                sides: sides,
+                applySizeRestrictions: applySizeRestrictions,
+                applyFoldLines: applyFoldLines,
+                widthRestriction: widthRestriction,
+                heightRestriction: heightRestriction,
+                categoryTypeId: categoryTypeId,
+                regionId: regionId,
+                zoomFactor: zoomFactor,
+                scaleFactor: scaleFactor,
+                isShelfProductCategory: isShelfProductCategory,
+                metaKeywords: metaKeywords,
+                metaDescription: metaDescription,
+                metaTitle: metaTitle,
+                organisationId: organisationId,
+                subCategoryDisplayMode1: subCategoryDisplayMode1,
+                subCategoryDisplayMode2: subCategoryDisplayMode2,
+                subCategoryDisplayColumns: subCategoryDisplayColumns,
+                categoryURLText: categoryURLText,
+                metaOverride: metaOverride,
+                shortDescription: shortDescription,
+                secondaryDescription: secondaryDescription,
+                defaultSortBy: defaultSortBy,
+                productsDisplayColumns: productsDisplayColumns,
+                productsDisplayRows: productsDisplayRows,
+                isDisplayFeaturedproducts: isDisplayFeaturedproducts,
+                isShowAvailablity: isShowAvailablity,
+                isShowRewardPoints: isShowRewardPoints,
+                isShowListPrice: isShowListPrice,
+                isShowSalePrice: isShowSalePrice,
+                isShowStockStatus: isShowStockStatus,
+                isShowProductDescription: isShowProductDescription,
+                isShowProductShortDescription: isShowProductShortDescription,
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            });
+        return {
+            productCategoryId: productCategoryId,
+            categoryName: categoryName,
+            contentType: contentType,
+            description1: description1,
+            description2: description2,
+            lockedBy: lockedBy,
+            companyId: companyId,
+            parentCategoryId: parentCategoryId,
+            displayOrder: displayOrder,
+            imagePath: imagePath,
+            thumbnailPath: thumbnailPath,
+            isEnabled: isEnabled,
+            isMarketPlace: isMarketPlace,
+            templateDesignerMappedCategoryName: templateDesignerMappedCategoryName,
+            isArchived: isArchived,
+            isPublished: isPublished,
+            trimmedWidth: trimmedWidth,
+            trimmedHeight: trimmedHeight,
+            isColorImposition: isColorImposition,
+            isOrderImposition: isOrderImposition,
+            isLinkToTemplates: isLinkToTemplates,
+            sides: sides,
+            applySizeRestrictions: applySizeRestrictions,
+            applyFoldLines: applyFoldLines,
+            widthRestriction: widthRestriction,
+            heightRestriction: heightRestriction,
+            categoryTypeId: categoryTypeId,
+            regionId: regionId,
+            zoomFactor: zoomFactor,
+            scaleFactor: scaleFactor,
+            isShelfProductCategory: isShelfProductCategory,
+            metaKeywords: metaKeywords,
+            metaDescription: metaDescription,
+            metaTitle: metaTitle,
+            organisationId: organisationId,
+            subCategoryDisplayMode1: subCategoryDisplayMode1,
+            subCategoryDisplayMode2: subCategoryDisplayMode2,
+            subCategoryDisplayColumns: subCategoryDisplayColumns,
+            categoryURLText: categoryURLText,
+            metaOverride: metaOverride,
+            shortDescription: shortDescription,
+            secondaryDescription: secondaryDescription,
+            defaultSortBy: defaultSortBy,
+            productsDisplayColumns: productsDisplayColumns,
+            productsDisplayRows: productsDisplayRows,
+            isDisplayFeaturedproducts: isDisplayFeaturedproducts,
+            isShowAvailablity: isShowAvailablity,
+            isShowRewardPoints: isShowRewardPoints,
+            isShowListPrice: isShowListPrice,
+            isShowSalePrice: isShowSalePrice,
+            isShowStockStatus: isShowStockStatus,
+            isShowProductDescription: isShowProductDescription,
+            isShowProductShortDescription: isShowProductShortDescription,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+        };
+    };
+    ProductCategory.CreateFromClientModel = function (source) {
+        return new ProductCategory(
+            source.productCategoryId,
+            source.categoryName,
+            source.contentType,
+            source.description1,
+            source.description2,
+            source.lockedBy,
+            source.companyId,
+            source.parentCategoryId,
+            source.displayOrder,
+            source.imagePath,
+            source.thumbnailPath,
+            source.isEnabled,
+            source.isMarketPlace,
+            source.templateDesignerMappedCategoryName,
+            source.isArchived,
+            source.isPublished,
+            source.trimmedWidth,
+            source.trimmedHeight,
+            source.isColorImposition,
+            source.isOrderImposition,
+            source.isLinkToTemplates,
+            source.sides,
+            source.applySizeRestrictions,
+            source.applyFoldLines,
+            source.widthRestriction,
+            source.heightRestriction,
+            source.categoryTypeId,
+            source.regionId,
+            source.zoomFactor,
+            source.scaleFactor,
+            source.isShelfProductCategory,
+            source.metaKeywords,
+            source.metaDescription,
+            source.metaTitle,
+            source.organisationId,
+            source.subCategoryDisplayMode1,
+            source.subCategoryDisplayMode2,
+            source.subCategoryDisplayColumns,
+            source.categoryURLText,
+            source.metaOverride,
+            source.shortDescription,
+            source.secondaryDescription,
+            source.defaultSortBy,
+            source.productsDisplayColumns,
+            source.productsDisplayRows,
+            source.isDisplayFeaturedproducts,
+            source.isShowAvailablity,
+            source.isShowRewardPoints,
+            source.isShowListPrice,
+            source.isShowSalePrice,
+            source.isShowStockStatus,
+            source.isShowProductDescription,
+            source.isShowProductShortDescription
+        );
+    };
+    ProductCategory.Create = function (source) {
+        var productCategory = new ProductCategory(
+            source.ProductCategoryId,
+            source.CategoryName,
+            source.ContentType,
+            source.Description1,
+            source.Description2,
+            source.LockedBy,
+            source.CompanyId,
+            source.ParentCategoryId,
+            source.DisplayOrder,
+            source.ImagePath,
+            source.ThumbnailPath,
+            source.isEnabled,
+            source.isMarketPlace,
+            source.TemplateDesignerMappedCategoryName,
+            source.isArchived,
+            source.isPublished,
+            source.TrimmedWidth,
+            source.TrimmedHeight,
+            source.isColorImposition,
+            source.isOrderImposition,
+            source.isLinkToTemplates,
+            source.Sides,
+            source.ApplySizeRestrictions,
+            source.ApplyFoldLines,
+            source.WidthRestriction,
+            source.HeightRestriction,
+            source.CategoryTypeId,
+            source.RegionId,
+            source.ZoomFactor,
+            source.ScaleFactor,
+            source.isShelfProductCategory,
+            source.MetaKeywords,
+            source.MetaDescription,
+            source.MetaTitle,
+            source.OrganisationId,
+            source.SubCategoryDisplayMode1,
+            source.SubCategoryDisplayMode2,
+            source.SubCategoryDisplayColumns,
+            source.CategoryURLText,
+            source.MetaOverride,
+            source.ShortDescription,
+            source.SecondaryDescription,
+            source.DefaultSortBy,
+            source.ProductsDisplayColumns,
+            source.ProductsDisplayRows,
+            source.IsDisplayFeaturedproducts,
+            source.IsShowAvailablity,
+            source.IsShowRewardPoints,
+            source.IsShowListPrice,
+            source.IsShowSalePrice,
+            source.IsShowStockStatus,
+            source.IsShowProductDescription,
+            source.IsShowProductShortDescription
+        );
+        return productCategory;
+    };
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -2624,7 +3014,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         PageCategory: PageCategory,
         Campaign: Campaign,
         PaymentGateway: PaymentGateway,
-        PaymentMethod: PaymentMethod
+        PaymentMethod: PaymentMethod,
+        ProductCategoryListView: ProductCategoryListView,
+        ProductCategory: ProductCategory
     };
 
 });
