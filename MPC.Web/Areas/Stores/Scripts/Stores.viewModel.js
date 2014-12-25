@@ -309,6 +309,7 @@ define("stores/stores.viewModel",
                                     });
                                     ko.utils.arrayPushAll(filteredCompanyBanners(), companyBanners());
                                     filteredCompanyBanners.valueHasMutated();
+                                    pageSkinWidgets.removeAll();
                                 }
                                 isLoadingStores(false);
                             },
@@ -1400,13 +1401,13 @@ define("stores/stores.viewModel",
                         }
                     },
 
-                    
+
                     checkPaymentMethodSelection = ko.computed(function () {
                         if (isEditorVisible() && selectedPaymentGateway() != null && selectedPaymentGateway() != undefined && selectedPaymentGateway().paymentMethodId() != "") {
                             var id = selectedPaymentGateway().paymentMethodId();
                             _.each(paymentMethods(), function (paymentMethod) {
                                 if (paymentMethod.paymentMethodId() == id) {
-                                 
+
                                     if (paymentMethod.methodName() == "PayPal" || paymentMethod.methodName() == "Cash" || paymentMethod.methodName() == "") {
                                         isAccessCodeSectionVisible(false);
                                     }
@@ -1467,9 +1468,12 @@ define("stores/stores.viewModel",
                           if (selectedCurrentPageId() !== undefined) {
                               getPageLayoutWidget();
                           }
+                          if (selectedCurrentPageId() === undefined) {
+                              pageSkinWidgets.removeAll();
+                          }
                       }, this);
 
-                //Get Store For editting
+                //Get Page Layout Widgets
                 getPageLayoutWidget = function () {
                     dataservice.getCmsPageLayoutWidget({
                         pageId: selectedCurrentPageId(),
@@ -1490,6 +1494,57 @@ define("stores/stores.viewModel",
                             toastr.error("Failed to Load Page Widgets . Error: " + response);
                         }
                     });
+                },
+                // Widget being dropped
+                dropped = function (source, target, event) {
+                    if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetCode !== undefined && source.widget.widgetCode() !== undefined && source.widget.widgetCode() !== "") {
+                        getWidgetDetail(source.widget.widgetCode());
+                    }
+                    if (selectedCurrentPageId() === undefined) {
+                        toastr.error("Before add widget please select page !");
+                    }
+                },
+                //Get Store For editting
+                getWidgetDetail = function (widgetCode) {
+                    dataservice.getWidgetDetail({
+                        widgetCode: widgetCode,
+                    }, {
+                        success: function (data) {
+                            if (data !== "" && data !== null) {
+                                var widget = new model.CmsSkingPageWidget();
+                                widget.html(data);
+                                pageSkinWidgets.push(widget);
+                            }
+                            isLoadingStores(false);
+                        },
+                        error: function (response) {
+                            isLoadingStores(false);
+                            toastr.error("Failed to Load Page Widgets . Error: " + response);
+                        }
+                    });
+                },
+                // Returns the item being dragged
+                 dragged = function (source) {
+
+                     return {
+                         row: source.$parent,
+                         widget: source.$data
+                     };
+                 },
+                //Add Widget To Page Layout
+                addWidgetToPageLayout = function (widget) {
+                    if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetCode !== undefined && widget.widgetCode() !== undefined && widget.widgetCode() !== "") {
+                        getWidgetDetail(widget.widgetCode());
+                    }
+                    if (selectedCurrentPageId() === undefined) {
+                        toastr.error("Before add widget please select page !");
+                    }
+                },
+                //Delete Page Layout Widget
+                deletePageLayoutWidget = function (widget) {
+                    if (widget !== undefined && widget !== null) {
+                        pageSkinWidgets.remove(widget);
+                    }
                 },
                 //#endregion
 
@@ -1663,13 +1718,17 @@ define("stores/stores.viewModel",
                     selectedPaymentGateway: selectedPaymentGateway,
                     checkPaymentMethodSelection: checkPaymentMethodSelection,
                     isAccessCodeSectionVisible: isAccessCodeSectionVisible,
-                    paymentMethodName:paymentMethodName,
+                    paymentMethodName: paymentMethodName,
                     selectedWidgetsList: selectedWidgetsList,
                     selectedWidget: selectedWidget,
                     selectWidget: selectWidget,
                     selectedCurrentPageId: selectedCurrentPageId,
                     cmsPagesForStoreLayout: cmsPagesForStoreLayout,
                     pageSkinWidgets: pageSkinWidgets,
+                    dropped: dropped,
+                    dragged: dragged,
+                    addWidgetToPageLayout: addWidgetToPageLayout,
+                    deletePageLayoutWidget: deletePageLayoutWidget,
                     initialize: initialize
                 };
             })()

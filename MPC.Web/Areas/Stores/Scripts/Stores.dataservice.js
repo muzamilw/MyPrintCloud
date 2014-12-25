@@ -43,9 +43,15 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get Store By StoreId
+                    // Define request to get Page Layout widgets
                     amplify.request.define('getCmsPageLayoutWidget', 'ajax', {
                         url: ist.siteUrl + '/Api/CmsPageLayoutDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Widget Detail
+                    amplify.request.define('getWidgetDetail', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetWidgetDetail',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -149,6 +155,17 @@
                     data: params
                 });
             },
+              // get Widget Detail 
+            getWidgetDetail= function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getWidgetDetail',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
             // get Store by id
             getBaseData = function (params, callbacks) {
                 initialize();
@@ -202,6 +219,7 @@
             getSecondaryPages: getSecondaryPages,
             getSecondryPageById: getSecondryPageById,
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
+            getWidgetDetail: getWidgetDetail,
         };
     })();
 

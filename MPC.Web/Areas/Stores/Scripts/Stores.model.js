@@ -2518,7 +2518,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         );
     };
     PaymentGateway.Create = function (source) {
-        
+
         var paymentGateway = new PaymentGateway(
             source.PaymentGatewayId,
             source.BusinessEmail,
@@ -2534,19 +2534,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     //// __________________  Widget   ______________________//
     // ReSharper disable once InconsistentNaming
-    var Widget = function (specifiedWidgetId, specifiedWidgetName) {
+    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode) {
 
         var self,
-            weidgetId = ko.observable(specifiedWidgetId),
-            widgetName = ko.observable(specifiedWidgetName === undefined ? "Test Name" : specifiedWidgetName),
+            widgetId = ko.observable(specifiedWidgetId),
+            widgetName = ko.observable(specifiedWidgetName),
+            widgetCode = ko.observable(specifiedWidgetCode),
             id = ko.computed(function () {
-                ist.stores.viewModel.selectedWidget(weidgetId);
+                ist.stores.viewModel.selectedWidget(widgetId);
 
             }, this);
 
         self = {
-            weidgetId: weidgetId,
+            widgetId: widgetId,
             widgetName: widgetName,
+            widgetCode: widgetCode,
         };
         return self;
     };
@@ -2554,7 +2556,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     Widget.Create = function (source) {
         return new Widget(
              source.WidgetId,
-             source.WidgetName
+             source.WidgetName,
+             source.WidgetCode
                );
 
     };

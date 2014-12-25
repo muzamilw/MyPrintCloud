@@ -253,6 +253,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetWidgetDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
@@ -1173,6 +1174,7 @@
     <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_InventoryCategoryDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_HomeWidget.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AboutUs.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />
