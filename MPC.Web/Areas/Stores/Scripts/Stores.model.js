@@ -3076,7 +3076,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         PaymentGateway: PaymentGateway,
         PaymentMethod: PaymentMethod,
         ProductCategoryListView: ProductCategoryListView,
-        ProductCategory: ProductCategory
+        ProductCategory: ProductCategory,
         Widget: Widget,
         CmsSkingPageWidget: CmsSkingPageWidget,
     };
