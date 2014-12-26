@@ -1,0 +1,115 @@
+﻿
+<div class="content_area">
+    <div class="left_right_padding">
+        @*<uc1:BreadCrumbMenu ID="BreadCumbMenuCategory" runat="server" />*@
+        <div class="signin_heading_div float_left_simple">
+            <img ID="imgLght"  src="~/images/artwork_light_icons.png"
+                      style="width:40px;" />
+        </div>
+        <div class="signin_heading_div float_left_simple" style="margin-top: 3px;">
+            <label ID="lblInqueryBreif" Style="font-size: 22px;">Inquiry Breif</label>
+        </div>
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+        <div class="MB_MsgSm">
+            <asp:Label ID="lblSummeryMesg" runat="server">
+            </asp:Label>
+        </div>
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+        <div id="welcomeSummeryMEsg" class="LGBC rounded_corners paddingLeft5px Mleft10"
+             style="display: none; padding: 5px;">
+            <div class="white_background rounded_corners MB_P5o">
+                <asp:Label ID="WlSumMesg" CssClass="MB_ThksMsg" runat="server"></asp:Label>
+                <asp:LinkButton CssClass="spanRetURl" ID="lnkReturnLogin" runat="server" Text="Return to home Page"
+                                CausesValidation="false"></asp:LinkButton>
+            </div>
+        </div>
+        <div id="LeftPanel" class="float_left_simple MB_Width780">
+            <asp:Repeater ID="rptQuestionsInquiryBreif" runat="server" OnItemDataBound="rptQuestionsInquiryBreif_ItemDataBound">
+                <itemtemplate>
+                    <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont"
+                         runat="server">
+                        <div class="white_background rounded_corners MB_InnerCont">
+                            <div id="questionCont" class="MB_QtnsCont" runat="server">
+                            </div>
+                            <div id="answersCont" runat="server" class="MB_AnsCont">
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                            <div class="MB_AddInfoCOnt">
+                                <asp:Label ID="AddInfo" runat="server" Text="Additional Info" CssClass="MB_AddInfoColor"></asp:Label>
+                                <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" runat="server"
+                                          cols="10" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </itemtemplate>
+            </asp:Repeater>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+            <div id="MBUploadContainerDisplay" class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
+                <div class="white_background rounded_corners MB_InnerCont">
+                    <div class="MB_QtnsCont">
+                        Upload files
+                    </div>
+                    <div class="MB_UploadContainer">
+                        <label ID="UpFileGuidl"  class="Fsize17">Upload file guidelines</label><br />
+                        <br />
+                        <div class="MB_GLContainer">
+                            <label ID="lblGL4Heading">File formats</label>
+                            <label ID="ltrlGL4Desc">PNG, GIF, PDF and JPG file formats.</label>
+                        </div>
+                        <div class="MB_GLContainer">
+                            <label ID="lblGL6Heading">File size:</label>
+                            <label ID="ltrlGL6Desc">File greater than 4 mb are not permitted for upload.</label>
+                        </div>
+                    </div>
+                    <div class="MB_fileUploadContainer">
+                       @* <asp:FileUpload ID="fuImageUpload" runat="server" CssClass="file_upload_box185" />*@
+                    </div>
+                </div>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
+        <div id="RightPanel" class="MB_RightCont float_left_simple">
+            <img id="CatImge" class="MB_ProductImage float_left_simple" />
+            <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
+                <div class="white_background rounded_corners MB_RightInnerPnl">
+                    <div class="MB_GrayBack">
+                        <label ID="lblReplyBacktome" class="Fsize17">Reply back to me by</label>
+                        <div class="left_align">
+                            <label ID="lblReplyemailtxt" class="MB_EMailtxtColor">email</label>
+                        </div>
+                        <label ID="lblEMailAdd" ></label><br />
+                        <div style="margin-top: 10px; text-align: left;">
+                            <label ID="lblTelText" class="MB_EMailtxtColor">Tel:</label>
+                        </div>
+                        <label ID="lblPhoneNo"></label><br />
+                        <a ID="hpChange"  href="#"  
+                                       Style="float: right; cursor: pointer; color:#73a8ac; clear: both;">change</a>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div style="margin: 5px; margin-top: 15px;">
+                        <button ID="SendINqBtn"  value="Send" class="MB_SendINqBtn rounded_corners5"
+                                    OnClientClick="return GetAllinputElementIDS();" OnClick="SendINqBtn_Click" />
+                    </div>
+                </div>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+    </div>
+</div>

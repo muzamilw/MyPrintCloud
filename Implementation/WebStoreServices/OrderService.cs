@@ -76,6 +76,7 @@ namespace MPC.Implementation.WebStoreServices
                 //user is Loggged in
                 //Then get customer
                  Company tblCustomer = _myCompanyService.GetCompanyByCompanyID((Int64)customerID);
+                
                  Prefix prefix = _prefixRepository.GetDefaultPrefix();
                 customerID = (int)_myClaimHelper.loginContactCompanyID();
                 int contactID = (int)_myClaimHelper.loginContactID();
@@ -103,7 +104,7 @@ namespace MPC.Implementation.WebStoreServices
         public bool CheckCustomerCookie()
         {
 
-            bool result = false;
+            bool result = true;
             //HttpCookie customerCookie = null;
 
 
@@ -130,7 +131,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             bool result = false;
             HttpCookie customerCookie = null;
-          
+     
                 //customerCookie = new HttpCookie(CUSTOMER_COOKIE, customerID.ToString());
                 //customerCookie.Expires = DateTime.Today.AddDays(365);
                 //Response.Cookies.Add(customerCookie);

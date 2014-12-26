@@ -336,6 +336,8 @@ namespace MPC.Webstore.Controllers
               isEmbaded = true;
             else
                 isEmbaded = false;
+
+            ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //PartialViews/TempDesigner/ItemID/TemplateID/IsCalledFrom/CV2/ProductName/ContactID/CompanyID/IsEmbaded;
             string URL = "PartialViews/TempDesigner/" + ItemID + "/" + TemplateID + "/" + isCalledFrom + "/" + TempDesignerID + "/" + ProductName + "/" + ContactID + "/" + (int)baseResponse.Company.CompanyId + "/" + isEmbaded;
            
@@ -358,7 +360,7 @@ namespace MPC.Webstore.Controllers
             int ordID = (int)baseResponse.Organisation.OrganisationId;
 
             Organisation org = _myCompanyService.getOrganisatonByID(ordID);
-
+            
             orderID =  _orderService.ProcessPublicUserOrder(string.Empty,org);
             return orderID;
         }

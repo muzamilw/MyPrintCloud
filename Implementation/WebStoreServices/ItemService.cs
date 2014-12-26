@@ -117,5 +117,22 @@ namespace MPC.Implementation.WebStoreServices
                 return _SectionFlagRepository.GetDefaultSectionFlagId();
             }
         }
+
+        public string specialCharactersEncoder(string value)
+        {
+            value = value.Replace("/", "-");
+            value = value.Replace(" ", "-");
+            value = value.Replace(";", "-");
+            value = value.Replace("&#34;", "");
+            value = value.Replace("&", "");
+            value = value.Replace("+", "");
+            return value;
+        }
+
+        public ProductItem GetItemAndDetailsByItemID(int itemId)
+        {
+           return _ItemRepository.GetItemAndDetailsByItemID(itemId);
+        }
+
     }
 }

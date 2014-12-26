@@ -266,6 +266,7 @@
     <Compile Include="Controllers\LoginBarController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\BannerController.cs" />
+    <Compile Include="Controllers\MarketingBriefController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
@@ -390,6 +391,7 @@
     <Content Include="Views\Shared\PartialViews\Category.cshtml" />
     <Content Include="Views\Shared\PartialViews\CategoryHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOptions.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MarketingBrief.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -401,6 +403,7 @@
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
+    <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
   </ItemGroup>
   <ItemGroup>
