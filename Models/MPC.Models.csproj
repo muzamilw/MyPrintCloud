@@ -107,6 +107,7 @@
     <Compile Include="Common\AddOnCostsCenter.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
+    <Compile Include="Common\FileTableCaption.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
     <Compile Include="Common\CampaignEmailParams.cs" />
@@ -130,6 +131,15 @@
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\TemplateFileTableView.cs" />
+    <Compile Include="DomainModels\StoreFileTableView.cs" />
+    <Compile Include="DomainModels\SecondaryPageFileTableView.cs" />
+    <Compile Include="DomainModels\ProductFileTableView.cs" />
+    <Compile Include="DomainModels\MediaFileTableView.cs" />
+    <Compile Include="DomainModels\CostCentreFileTableView.cs" />
+    <Compile Include="DomainModels\CompanyBannerFileTableView.cs" />
+    <Compile Include="DomainModels\CategoryFileTableView.cs" />
+    <Compile Include="DomainModels\AttachmentFileTableView.cs" />
     <Compile Include="DomainModels\Campaign.cs" />
     <Compile Include="DomainModels\CampaignEmailQueue.cs" />
     <Compile Include="DomainModels\CampaignEmailVariable.cs" />
@@ -178,6 +188,8 @@
     <Compile Include="DomainModels\ItemVDPPrice.cs" />
     <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\LengthUnit.cs" />
+    <Compile Include="DomainModels\ArtworkFileTableView.cs" />
+    <Compile Include="DomainModels\OrganisationFileTableView.cs" />
     <Compile Include="DomainModels\MPCFileTableView.cs" />
     <Compile Include="DomainModels\Prefix.cs" />
     <Compile Include="DomainModels\PageCategory.cs" />

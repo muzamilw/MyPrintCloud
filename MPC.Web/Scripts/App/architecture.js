@@ -198,43 +198,6 @@ require(["ko", "knockout-validation"], function (ko) {
     //    }
     //};
 
-
-    //connect items with observableArrays
-    //ko.bindingHandlers.sortableList = {
-    //    init: function (element, valueAccessor, allBindingsAccessor, context) {
-    //        $(element).data("sortList", valueAccessor()); //attach meta-data
-    //        $(element).sortable({
-    //            update: function (event, ui) {
-    //                var item = ui.item.data("sortItem");
-    //                if (item) {
-    //                    //identify parents
-    //                    var originalParent = ui.item.data("parentList");
-    //                    var newParent = ui.item.parent().data("sortList");
-    //                    //figure out its new position
-    //                    var position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
-    //                    if (position >= 0) {
-    //                        originalParent.remove(item);
-    //                        newParent.splice(position, 0, item);
-    //                    }
-
-    //                    ui.item.remove();
-    //                }
-    //            },
-    //            connectWith: '.container'
-    //        });
-    //    }
-    //};
-
-    ////attach meta-data
-    //ko.bindingHandlers.sortableItem = {
-    //    init: function (element, valueAccessor) {
-    //        var options1 = valueAccessor();
-    //        $(element).data("sortItem", options1.item);
-    //        $(element).data("parentList", options1.parentList);
-    //    }
-    //};
-
-
     // jquery date picker binding. Usage: <input data-bind="datepicker: myDate, datepickerOptions: { minDate: new Date() }" />. Source: http://jsfiddle.net/rniemeyer/NAgNV/
     ko.bindingHandlers.datepicker = {
         init: function (element, valueAccessor, allBindingsAccessor) {
@@ -354,7 +317,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-    
+
     ko.bindingHandlers.colorpicker = {
         init: function (element, valueAccessor, allBindingsAccessor) {
 

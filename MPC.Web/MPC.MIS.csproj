@@ -253,6 +253,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyTerritoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetWidgetDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\InventoryCategoryController.cs" />
@@ -289,6 +290,8 @@
     <Compile Include="Areas\Api\ModelMappers\PageCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaymentGatewayMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaymentMethodMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ProductCategoryListViewMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ProductCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemRelatedItemMapper.cs" />
@@ -335,6 +338,8 @@
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
     <Compile Include="Areas\Api\Models\PaymentGatewayResponse.cs" />
     <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
+    <Compile Include="Areas\Api\Models\ProductCategory.cs" />
+    <Compile Include="Areas\Api\Models\ProductCategoryListViewModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
@@ -1173,6 +1178,7 @@
     <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_InventoryCategoryDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_HomeWidget.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AboutUs.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\plugins\Thumbs.db" />

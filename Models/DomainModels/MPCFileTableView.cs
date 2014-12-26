@@ -10,5 +10,6 @@
         public string Name { get; set; }
         public bool IsDirectory { get; set; }
         public string UncPath { get; set; }
+        public string FileTableName { get; set; }
     }
 }

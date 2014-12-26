@@ -117,8 +117,9 @@ namespace MPC.MIS.Areas.Api.Models
                 RowCount = source.RowCount
             };
         }
+        
         /// <summary>
-        /// Create From Domain Response Model
+        /// Create From Domain Model
         /// </summary>
         public static CmsSkinPageWidget CreateFrom(this DomainModels.CmsSkinPageWidget source)
         {
@@ -134,14 +135,19 @@ namespace MPC.MIS.Areas.Api.Models
 
 
         #endregion
-        #region
 
+        #region Private
+        /// <summary>
+        /// Read Cshtml
+        /// </summary>
         private static string ReadCshtml(DomainModels.Widget widget)
         {
             switch (widget.WidgetCode)
             {
                 case "001":
                     return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
+                case "002":
+                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
             }
             return string.Empty;
         }

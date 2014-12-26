@@ -495,26 +495,12 @@
                                                 </a>
                                             </header>
                                             <div style="padding-right: 5px;" id="nestable2">
-                                                <ol class="dd-list">
-                                                    <li class="dd-item dd-item-list" data-id="13">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Marketing Material
-                                                            <div class="nested-links">
-                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="14">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Business Stationery
-                                                            <div class="nested-links">
-                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="15">
+                                                <ol class="dd-list" >
+                                                    <!-- ko template: { name: 'itemProductCategoriesTemplate' , foreach: $root.selectedStore().productCategories } -->
+                                                    <!-- /ko -->
+
+
+                                                    @*<li class="dd-item dd-item-list" data-id="15">
                                                         <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
                                                         <div class="dd-handle">
                                                             Business Cards
@@ -551,63 +537,8 @@
                                                                 </div>
                                                             </li>
                                                         </ol>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="19">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Flyers
-                                                            <div class="nested-links">
-                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="20">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Posters & Postcards
-                                                            <div class="nested-links">
-                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="21">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Retail and POS
-                                                            <div class="nested-links">
-                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <ol class="dd-list">
-                                                            <li class="dd-item dd-item-list" data-id="22">
-                                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                                <div class="dd-handle">
-                                                                    Banners
-                                                                    <div class="nested-links">
-                                                                        <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="dd-item dd-item-list" data-id="23">
-                                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                                <div class="dd-handle">
-                                                                    Frames
-                                                                    <div class="nested-links">
-                                                                        <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </ol>
-                                                    </li>
-                                                    <li class="dd-item dd-item-list" data-id="24">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Events and Exhibitions
-                                                            <div class="nested-links">
-                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
+                                                    </li>*@
+                                                    
                                                 </ol>
                                             </div>
                                         </div>
@@ -625,7 +556,6 @@
                                         <div class="col-md-3">
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="tab-pane fade" id="tab-territory">
                                     <div class="col-lg-12">
@@ -1612,13 +1542,13 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="true"  data-bind="checked: $root.selectedStore().isTextWatermark">
+                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkText" value="true" data-bind="checked: $root.selectedStore().isTextWatermark">
                                                         <label for="rdioWatermarkText">
                                                             Display specified Text
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkImage" value="false"  data-bind="checked: $root.selectedStore().isTextWatermark">
+                                                        <input type="radio" name="optionsRadiosDesigner" id="rdioWatermarkImage" value="false" data-bind="checked: $root.selectedStore().isTextWatermark">
                                                         <label for="rdioWatermarkImage">
                                                             Display specified Image
                                                         </label>
@@ -1971,8 +1901,8 @@
                                             </header>
                                             <div style="padding-right: 5px;" id="widgetDiv">
                                                 <ol class="dd-list" id="widgetList">
-                                                    @*<!-- ko template: { name: 'widgetItemTemplate', foreach: $root.widgets }-->
-                                                    <!-- /ko -->*@
+                                                    <!-- ko template: { name: 'widgetItemTemplate', foreach: $root.widgets }-->
+                                                    <!-- /ko -->
                                                 </ol>
                                             </div>
                                         </div>
@@ -1988,45 +1918,27 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Current Page" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtCurrentPage" class="control-label text-right tooltip-float">Current Page</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <select class="form-control" data-bind="options: $root.cmsPagesForStoreLayout,optionsCaption:'Select Page', optionsText: 'PageTitle', optionsValue: 'PageId',value:$root.selectedCurrentPageId"></select>
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
                                             </div>
                                             <div>
-                                                @*<ul class="dd-list" >
-                                                        <!-- ko template: { name: 'skinWidgetItemTemplate', foreach: $root.pageSkinWidgets }-->
-                                                        <!-- /ko -->
-                                                    </ul>*@
-                                                <table class="table table-condensed">
+                                                <table class="table table-condensed" data-bind="drop: $root.dropped" style="background-color: #e8f5f4;min-height: 50px;border: #320b0b;border-width: 5px;">
                                                     <thead>
                                                         <tr>
-                                                            <th id="Description">Description</th>
+                                                            <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody data-bind="sortable: { template: 'skinWidgetItemTemplate', data: $root.pageSkinWidgets }"></tbody>
                                                 </table>
                                             </div>
-                                            @*<!-- ko with: $root.selectedWidget -->
-                                                <div id="myContainer" data-bind="drop: {value:$root.selectedWidget}, " style="background-color: red;width: 250px; min-height: 50px;">
-                                                    @*<!-- ko with: $root.selectedWidget -->
-                                                           <div id=" pizza" style="background-color: red;width: 125px; min-height: 50px;"
-                                                        data-bind="drop: {value:  $root.selectedWidget}"></div>
-                                                           <!-- /ko -->
-
-                                                </div>
-                                                <!-- /ko -->*@
                                         </div>
                                         <div class="col-md-3">
                                         </div>
@@ -2531,6 +2443,27 @@
             </tr>
         </script>
 
+        <script id="itemProductCategoriesTemplate" type="text/html">
+            <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
+                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                <div class="dd-handle">
+                    <span data-bind="text: categoryName"></span>
+                    <div class="nested-links">
+                        <a data-bind="click: $root.getCategoryChildList" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                    </div>
+                </div>
+            </li>
+            @*<tr>*@
+                @**@
+                @*<td data-bind="text: categoryName"></td>*@
+                @*<td data-bind="text: territoryCode"></td>*@
+                @*<td id="actionColumn" class="text-right">
+                        <!-- ko template: { name: "actionsCompanyTerritoryTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
+            @*</tr>*@
+        </script>
+
     </form>
 
 
@@ -3006,28 +2939,20 @@
     <!-- /ko -->
 </script>
 <script id="widgetItemTemplate" type="text/html">
-    <li class="dd-item dd-item-list" data-id="13">
+    <li class="dd-item dd-item-list">
         <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
-            <span data-bind="text: $data.widgetName(),drag: {value: $data.weidgetId()}" style="cursor: move;" title="Drag wiget to add to the right panel"></span>
+            @*<span data-bind="text: $data.widgetName(),drag: {value: $data.weidgetId()}" style="cursor: move;z-index: 1000" title="Drag wiget to add to the right panel"></span>*@
+            <span data-bind="text: $data.widgetName(),drag: $root.dragged" style="cursor: move;z-index: 1000" title="Drag wiget to add to the right panel"></span>
             <div class="nested-links">
-                <a href="#" class="nested-link" title="Edit Category"><i class="fa fa-plus"></i></a>
+                <a href="#" class="nested-link" title="Add Widget" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
             </div>
         </div>
     </li>
-    @*<span data-bind="drag: {text: WidgetName, dragOptions: {appendTo: '#myContainer'}}"></span>*@
-    @*<div class="item" style="background-color: #DDD; cursor: move;" data-bind="sortableItem: { item: $data}">
-            <a href="#" data-bind="text: WidgetName, visible: $data !== $root.selectedWidget()"></a>
-        </div>*@
 </script>
 
 <script id="skinWidgetItemTemplate" type="text/html">
-    @*<li class="dd-item dd-item-list" data-id="13">
-            <div data-bind="html:html"></div>
-        </li>*@
     <tr class="dd-item dd-item-list" data-id="13">
         <td> <div data-bind="html:html"></div></td>
     </tr>
 </script>
-
-

@@ -195,6 +195,7 @@
     <Compile Include="Repositories\ItemAddonCostCentreRepository.cs" />
     <Compile Include="Repositories\ItemStockOptionRepository.cs" />
     <Compile Include="Repositories\CostCentreRepository.cs" />
+    <Compile Include="Repositories\OrganisationFileTableViewRepository.cs" />
     <Compile Include="Repositories\MpcFileTableViewRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PaymentGatewayRepository.cs" />
