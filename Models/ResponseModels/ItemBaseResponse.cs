@@ -13,5 +13,19 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public IEnumerable<CostCentre> CostCentres { get; set; }
 
+        /// <summary>
+        /// Countries
+        /// </summary>
+        public IEnumerable<Country> Countries { get; set; }
+
+        /// <summary>
+        /// States
+        /// </summary>
+        public IEnumerable<State> States { get; set; }
+
+        /// <summary>
+        /// Section Flags
+        /// </summary>
+        public IEnumerable<SectionFlag> SectionFlags { get; set; }
     }
 }

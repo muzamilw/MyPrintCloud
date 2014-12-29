@@ -20,6 +20,14 @@ define("product/product.viewModel",
                     stockItems = ko.observableArray([]),
                     // Cost Centres
                     costCentres = ko.observableArray([]),
+                    // Section Flags
+                    sectionFlags = ko.observableArray([]),
+                    // Countries
+                    countries = ko.observableArray([]),
+                    // States
+                    states = ko.observableArray([]),
+                    // Item Price Matrices
+                    itemPriceMatrices = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
@@ -97,14 +105,10 @@ define("product/product.viewModel",
                         },
                         onCostCentreChange: function (costCentreId, activeItemAddonCostCentre) {
                             setCostCentreToActiveItemAddonCostCentre(costCentreId, activeItemAddonCostCentre);
-                        },
-                        onCountryChange: function(countryId) {
-                            // Get Country by Id
-                        },
-                        OnStateChange: function(stateId) {
-                            // Get State by Id
                         }
                     },
+                    // Item State Tax Constructor Params
+                    itemStateTaxConstructorParams = { countries: countries(), states: states() },
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
                     // Stock Dialog Filter
@@ -125,7 +129,7 @@ define("product/product.viewModel",
                     },
                     // Create New Product
                     createProduct = function () {
-                        selectedProduct(model.Item.Create({}, itemActions));
+                        selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
                         openProductEditor();
                     },
                     // Edit Product
@@ -153,7 +157,7 @@ define("product/product.viewModel",
                     },
                     // Close Editor
                     closeProductEditor = function () {
-                        selectedProduct(model.Item.Create({}, itemActions));
+                        selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
                         resetVideoCounter();
                         isProductDetailsVisible(false);
                     },
@@ -392,6 +396,39 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(costCentres(), itemsList);
                         costCentres.valueHasMutated();
                     },
+                    // Map Countreis
+                    mapCountries = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.Country.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(countries(), itemsList);
+                        countries.valueHasMutated();
+                    },
+                    // Map State
+                    mapStates = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.State.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(states(), itemsList);
+                        states.valueHasMutated();
+                    },
+                    // Map Section Flags
+                    mapSectionFlags = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.SectionFlag.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(sectionFlags(), itemsList);
+                        sectionFlags.valueHasMutated();
+                    },
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
@@ -399,6 +436,19 @@ define("product/product.viewModel",
                                 costCentres.removeAll();
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
+
+                                    // Map Countries
+                                    mapCountries(data.Countries);
+
+                                    // Map States
+                                    mapStates(data.States);
+
+                                    // Map Section Flags
+                                    mapSectionFlags(data.SectionFlags);
+
+                                    // Assign countries & states to StateTaxConstructorParam
+                                    itemStateTaxConstructorParams.countries = countries();
+                                    itemStateTaxConstructorParams.states = states();
                                 }
                             },
                             error: function (response) {
@@ -524,7 +574,7 @@ define("product/product.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    selectedProduct(model.Item.Create(data, itemActions));
+                                    selectedProduct(model.Item.Create(data, itemActions, itemStateTaxConstructorParams));
 
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -565,6 +615,7 @@ define("product/product.viewModel",
                     stockDialogFilter: stockDialogFilter,
                     stockItems: stockItems,
                     costCentres: costCentres,
+                    itemPriceMatrices: itemPriceMatrices,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
