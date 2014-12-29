@@ -62,6 +62,7 @@
     <Compile Include="Data\AuthorizationCheckRequest.cs" />
     <Compile Include="Data\SecurityAccessRight.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
+    <Compile Include="MISServices\ICategoryService.cs" />
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\IItemService.cs" />

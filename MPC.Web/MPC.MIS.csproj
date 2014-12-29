@@ -249,6 +249,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
+    <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CmsPageLayoutDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyController.cs" />
@@ -347,6 +349,7 @@
     <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
     <Compile Include="Areas\Api\Models\ProductCategory.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryListViewModel.cs" />
+    <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
@@ -2345,6 +2348,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
+    <Folder Include="Areas\Api\Views\Category\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
