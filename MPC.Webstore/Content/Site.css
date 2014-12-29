@@ -6804,6 +6804,7 @@ width: 520px*/
     padding-top: 5px;
     /* font-weight: bold;*/
     font-size: 14px;
+color:black;
 }
 /* weekly emails*/
 .topDiv
@@ -25171,8 +25172,7 @@ gridViewRowStyle td
 
 .grossTotaldiv
 {
-    width: 240px;
-    margin-left: 10px !important;
+    width: 233px;
     font-size: 20px;
     font-weight: bold;
     margin-top: 15px;

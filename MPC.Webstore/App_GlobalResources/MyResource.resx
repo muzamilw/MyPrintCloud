@@ -147,4 +147,10 @@
   <data name="TermsAndConditions" xml:space="preserve">
     <value>Terms &amp; Conditions</value>
   </data>
+  <data name="HidePriceMatrix" xml:space="preserve">
+    <value>Hide Price Table</value>
+  </data>
+  <data name="ShowPriceMatrix" xml:space="preserve">
+    <value>Show Price Table</value>
+  </data>
 </root>

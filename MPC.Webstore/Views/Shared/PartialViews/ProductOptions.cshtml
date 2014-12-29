@@ -1,4 +1,5 @@
 ﻿@model MPC.Models.DomainModels.Item
+@using Newtonsoft.Json;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     int StockCount = 1;
@@ -20,12 +21,6 @@
                 </div>
                 <div class="white_background rounded_corners divStk">
                     <div class="float_left_simple Width100Percent">
-                        <div id="divStock" class="Width220pxM250px heght150px spacer10pxtop">
-                            <asp:label id="lblStockTxt" text="Stock" cssclass="DisplayNoneCSS6 ProdtPricedisplayNoneCs spacer10pxtop checked_design custom_color float_left_simple MTop12px ClearLeft clearRight"></asp:label><br />
-                        </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
                         <div class="spacer10pxtop">
 
                             @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
@@ -35,14 +30,14 @@
                                 {
                                     <div class=float_left_simple style="height:55px;">
                                         <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                        <label for=radio1 class=grayRadiantbtn onclick=CheckRadioBtn('@stockClassName');> @stock.StockLabel </label>
+                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStock('@stockClassName');> @stock.StockLabel </label>
                                     </div>
                                 }
                                 else
                                 {
                                     <div class=float_left_simple style="height:55px;">
                                         <input type=radio name=StockPaper data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                        <label for=radio1 class=grayRadiantbtn onclick=CheckRadioBtn('@stockClassName');> @stock.StockLabel </label>
+                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStock('@stockClassName');> @stock.StockLabel </label>
                                     </div>
                                 }
 
@@ -105,9 +100,9 @@
                     </div>
                     <div>
                         <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
-                        @*<img id="imgpng"  alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
+                        @*<img id="imgpng"  alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
                         <img id="imgjpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple FormatedImgs" />
-                        @*<img id="imggif"  alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
+                        @*<img id="imggif"  alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
                     </div>
                 </div>
                 <div class="float_left_simple LGBC rounded_corners paddingLeft5px H4B
@@ -123,8 +118,7 @@
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
-                            @*@foreach (var templateItem in rptTemplte)
-                                {*@
+                            @*foreach (var templateItem in rptTemplte){*@
                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                 <asp:hyperlink id="hlSide1">
                                     <div class="PDTC_LP FI_PCS">
@@ -132,7 +126,7 @@
                                     </div>
                                 </asp:hyperlink>
                                 <div class="confirm_design LGBC" style="display: none;">
-                                    <asp:label id="lblFront" cssclass="ProdtPricedisplayNoneCs DisplayNoneCSS6"></asp:label>
+                                    <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6"></label>
                                 </div>
                                 <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
                                     <div>
@@ -141,9 +135,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @*}
-                                @foreach (var artworkFile in rptUploadFiles)
-                                {*@
+                            @*}@foreach (var artworkFile in rptUploadFiles){*@
                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                 <div class="DeleteIconPP">
                                     <asp:button id="DeleteBtn2" cssclass="delete_icon_img " onclientclick="return confirm('Are you sure you want to delete this Design?');"
@@ -155,7 +147,7 @@
                                     </div>
                                 </asp:hyperlink>
                                 <div class="confirm_design LGBC height40_LP ">
-                                    <asp:label id="lblFront" cssclass="" text="front"></asp:label>
+                                    <label id="lblFront" class="">front</label>
                                 </div>
                             </div>
                             @*}*@
@@ -195,304 +187,332 @@
                         </asp:hyperlink>
                     </div>
                     <div>
-                        <label id="lblQtytxt" class="checked_design custom_color ProdtPricedisplayNoneCs DisplayNoneCSS6 float_left_simple clearRight MTop12px ClearLeft">Quantity</label>
-                        <br />
-                        <asp:textbox id="RangedQtyTxtBox" visible="false" cssclass="dropdownBorderCS Width60pixel Mleft10 Fsize17"
-                                     clientidmode="Static" onblur="javascript:OnFocusOut();">
-                        </asp:textbox>
-                        <asp:button id="CalCulatePriceBtn" onclientclick="CalcutesTextBoxPrice(); return false;"
-                                    text="Go" cssclass="go_button rounded_corners5 width35pix" visible="false" />
-                        <select onchange="OnQtyDropDownChanged();" class="dropdownBorderCS dropdown190 rounded_corners5 template_designing float_right dropdownQtyListClass clearRight ">
-                            @foreach (var quantity in ViewData["PriceMatrix"] as List<MPC.Models.DomainModels.ItemPriceMatrix>)
-                            {
-                                    <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
-                            }
-
-                    </select>
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <br />
-                <div class=" left_align productStockDesc">
-                    <label class="Fsize18 colorBlack left_align colorDGry">@Model.ProductName</label><br />
-                    <br />
-                    <label id="lblStock" class="LightGrayLabels"></label>
-                    <label id="lblExtra" class="LightGrayLabels"></label>
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <div class="float_left_simple grossTotaldiv">
-                    <label id="lblTotlTxt" class="float_left_simple">Total</label>
-                    <label id="lblTaxLabel" class="Fsize13 spacer10pxtop float_right marginLeft"></label>
-                    <label id="lblGrossTotal" class="float_right">$0</label>
-
-                </div>
-                <div id="ContainerInStock" class="InStockContainer">
-                    <asp:label id="InStockValue"></asp:label>
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <div class="float_right">
-
-                    <asp:button id="btnAddToCart" onclientclick="return CheckSpelling();"
-                                cssclass="add_to_cart_btn rounded_corners5 MTopM10" onclick="btnAddToCart_Click"
-                                text="ADD TO CART" /><br />
-
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <div id="ToogleTable" onclick="TextChange();" style="cursor: pointer; color: #b6d682;
-                            font-size: 13px; float: left; margin-top: 15px; margin-bottom: 10px;">
-                    <asp:label id="ShowPriceMatrix" text="Show price table"></asp:label>
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <div id="HeadingCont" class="" style="display: none;">
-                    <div class="confirm_design divtxtalgn MLR">
-                        <asp:literal id="ltrlQty" visible="false"></asp:literal>
-                    </div>
-                    <br />
-                    <div class="width50p">
                         @if (Model.IsQtyRanged == true)
                         {
-                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -40px;">
-                                <label>@Resources.MyResource.lblQtyTo</label>
-                            </div>
-                            <div class="Fsize13 divtxtalgn float_left_simple">
-                                <label>@Resources.MyResource.lblQtyFrom</label>
-                            </div>
+                            <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="javascript:OnFocusOut();" />
+                            <input type="button" onclick="CalcutesTextBoxPrice(); return false;" class="go_button rounded_corners5 width35pix"
+                                   value="Go" />
                         }
                         else
                         {
-                            <div class="Fsize13 divtxtalgn_CS width70pixel float_left_simple">
+                            <select class="dropdownBorderCS dropdown190 rounded_corners5 template_designing float_right dropdownQtyListClass clearRight ">
+                                @foreach (var quantity in Model.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                                {
+                                        <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
+                                }
+
+                        </select>
+                        }
+
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <br />
+                    <div class=" left_align productStockDesc">
+                        <label class="Fsize18 colorBlack left_align colorDGry">@Model.ProductName</label><br />
+                        <br />
+                        <label id="lblStock" class="LightGrayLabels"></label>
+                        <label id="lblExtra" class="LightGrayLabels"></label>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div class="float_left_simple grossTotaldiv">
+                        <label id="lblTotlTxt" class="float_left_simple">Total</label>
+                        @if (MPC.Webstore.Common.UserCookieManager.isIncludeTax == true)
+                        {
+                            <label id="lblTaxLabel" class="Fsize13 spacer10pxtop float_right marginLeft">inc. VAT</label>
+                        }
+                        else
+                        {
+                            <label id="lblTaxLabel" class="Fsize13 spacer10pxtop float_right marginLeft">ex. VAT</label>
+                        }
+                        
+                        <label id="lblGrossTotal" class="float_right">$0</label>
+
+                    </div>
+                    <div id="ContainerInStock" class="InStockContainer">
+                        <asp:label id="InStockValue"></asp:label>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div class="float_right">
+
+                        <asp:button id="btnAddToCart" onclientclick="return CheckSpelling();"
+                                    cssclass="add_to_cart_btn rounded_corners5 MTopM10" onclick="btnAddToCart_Click"
+                                    text="ADD TO CART" /><br />
+
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: #b6d682;
+                            font-size: 13px; float: left; margin-top: 15px; margin-bottom: 10px;">
+                        <label id="toggleHeading">Show price table</label>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="matrixHeadingsContainer" class="" style="display: none;">
+                        @if (Model.IsQtyRanged == true)
+                        {
+                            <div class="confirm_design divtxtalgn MLR">
                                 <label>@Resources.MyResource.lblQuantity</label>
                             </div>
-                        }
+                            <br />}
+                        <div class="width50p">
+                            @if (Model.IsQtyRanged == true)
+                            {
+                                <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -40px;">
+                                    <label>@Resources.MyResource.lblQtyTo</label>
+                                </div>
+                                <div class="Fsize13 divtxtalgn float_left_simple">
+                                    <label>@Resources.MyResource.lblQtyFrom</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="Fsize13 divtxtalgn_CS width70pixel float_left_simple">
+                                    <label>@Resources.MyResource.lblQuantity</label>
+                                </div>
+                            }
 
-                        <div class="divtxtalgn_CS Width40Px float_right" style="visibility:hidden;">
-                            <label id="LtrlCurrencySymbol"></label>
-                        </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
-                    </div>
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <div id="tableCont" style="" class="spacerbottom cntlndngtbl">
-                    @foreach (var matrix in ViewData["PriceMatrix"] as List<MPC.Models.DomainModels.ItemPriceMatrix>)
-                    {
-                        if (PriceBackgroundCount % 2 == 0)
-                        {
-                            priceMatrixBackground = "lightgray";
-                        }
-                        else
-                        {
-                            priceMatrixBackground = "white";
-                        }
-                        PriceBackgroundCount++;
-                            <div class="@priceMatrixBackground">
-                                <div class="divfloat WhtBakg">
-                                    <asp:label id="lblJasonString" cssclass="ClaassJsonObj radioBtnQtyGroupClass"></asp:label>
-
-                                    <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrix.PriceMatrixId' />
-                                    <input type="hidden" id="txtHiddenIsDiscounted" value='@matrix.IsDiscounted' />
-                                </div>
-                                <div id="Quantity" class="LandingPageQty divQNum">
-                                    @matrix.Quantity
-                                </div>
-                                <div id="QtyRangeFrom" class="LandingPageQty divQNum">
-                                    @matrix.QtyRangeFrom
-                                </div>
-                                <div id="QtyRangeTo" class="LandingPageQty divQNum">
-                                    @matrix.QtyRangeTo
-                                </div>
-                                <div id="matrixItemColumn1" class="mattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='Matt_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType1'>
-                                        <label id="lblMatt">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString()) </label>
-                                        <label id="lblMattDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PricePaperType1</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn2" class="glossyPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='Glossy_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType2'>
-                                        <label id="lblGlossy">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType2.ToString())</label>
-                                        <label id="lblGlossyDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PricePaperType2</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='PremiumMatt_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType3'>
-                                        <label id="lblPremiumMatt">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType3.ToString())</label>
-                                        <label id="lblPremiumMattDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PricePaperType3</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='4_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType4'>
-                                        <label id="lblForthStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType4.ToString())</label>
-                                        <label id="lblForthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType4</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='5_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType5'>
-                                        <label id="lblFifthStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType5.ToString())</label>
-                                        <label id="lblFifthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType5</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='6_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType6'>
-                                        <label id="lblSixthStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType6.ToString())</label>
-                                        <label id="lblSixthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType6</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='7_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType7'>
-                                        <label id="lblSevenStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType7.ToString())</label>
-                                        <label id="lblSevenStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType7</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='8_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType8'>
-                                        <label id="lblEightStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType8.ToString())</label>
-                                        <label id="lblEightStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType8</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='9_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType9'>
-                                        <label id="lblNinthStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType9.ToString())</label>
-                                        <label id="lblNinthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType9</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='10_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType10'>
-                                        <label id="lblTenthStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType10.ToString())</label>
-                                        <label id="lblTenthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType10</label>
-
-                                    </span>
-                                </div>
-                                <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='11_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType11'>
-                                        <label id="lblElevenStock">@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType11.ToString())</label>
-                                        <label id="lblElevenStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType11</label>
-                                    </span>
-                                </div>
-                                <div style="clear: both;">
-                                </div>
+                            <div class="divtxtalgn_CS Width40Px float_right" style="visibility:hidden;">
+                                <label id="LtrlCurrencySymbol"></label>
                             </div>
-                    }
-            </div>
-        </div>
-    </div>
-    <div class=" ProductDetailGrayBoxLeftLP rounded_corners float_right ">
-        <div style="background: white; padding: 10px; text-align: left;" class="rounded_corners">
-            <div class="boxCatDes">
-                <div class="mrginBtm">
-                    <label class="marginall5 ProductDetailH2">Specifications</label>
-                </div>
-                <label class="marginall5">Category Code</label>
-                <br />
-                <p class="marginall5" style="width: 243px;">
-                    <label>@Model.WebDescription</label>
-                </p>
-                <br />
-                <div class="marginall5 ProductDetailRefOptions">
-                    <ul class="ProductDetailRefOptionsUL">
-                        @*@foreach (var extra in BulletedListExtras)
-                            {*@
-                        <li></li>
-                        @*}*@
-                    </ul>
-                </div>
-            </div>
-            <div class="box_prodPrice">
-                <div id="PriceCircle" class="blue_cicle_container">
-                    <div class="productNewClasscircle">
-                        <div class="all_padding3">
-                            <div class="paddingTop2px">
+                            <div class="clearBoth">
                                 &nbsp;
                             </div>
-                            <asp:literal id="Literal1" text="FROM"></asp:literal>
-                            <br />
-                            <label style="font-size:16px;">MinPrice</label>
+                        </div>
+                    </div>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                    <div id="priceMatrixContainer" style="" class="spacerbottom cntlndngtbl">
+
+                        @foreach (var matrix in Model.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
+                        {
+                            if (PriceBackgroundCount % 2 == 0)
+                            {
+                                priceMatrixBackground = "lightgray";
+                            }
+                            else
+                            {
+                                priceMatrixBackground = "white";
+                            }
+                            PriceBackgroundCount++;
+                                <div class="@priceMatrixBackground">
+                                    <div class="divfloat WhtBakg">
+                                        <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrix.PriceMatrixId' />
+             
+                                    </div>
+                                    <div id="Quantity" class="LandingPageQty divQNum">
+                                        @matrix.Quantity
+                                    </div>
+                                    <div id="QtyRangeFrom" class="LandingPageQty divQNum">
+                                        @matrix.QtyRangeFrom
+                                    </div>
+                                    <div id="QtyRangeTo" class="LandingPageQty divQNum">
+                                        @matrix.QtyRangeTo
+                                    </div>
+                                    <div id="matrixItemColumn1" class="mattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='1_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType1'>
+                                            <label id="lblMatt">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString()) </label>
+
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn2" class="glossyPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='2_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType2'>
+                                            <label id="lblGlossy">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType2.ToString())</label>
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='3_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType3'>
+                                            <label id="lblPremiumMatt">@ViewBag.Currency + @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType3.ToString())</label>
+                        
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='4_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType4'>
+                                            <label id="lblForthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType4.ToString())</label>
+                                          
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='5_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType5'>
+                                            <label id="lblFifthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType5.ToString())</label>
+                                            <label id="lblFifthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType5</label>
+
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='6_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType6'>
+                                            <label id="lblSixthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType6.ToString())</label>
+                                           
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='7_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType7'>
+                                            <label id="lblSevenStock">@ViewBag.Currency + @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType7.ToString())</label>
+                                            
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='8_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType8'>
+                                            <label id="lblEightStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType8.ToString())</label>
+                                           
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='9_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType9'>
+                                            <label id="lblNinthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType9.ToString())</label>
+                                            
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='10_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType10'>
+                                            <label id="lblTenthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType10.ToString())</label>
+                                           
+                                        </span>
+                                    </div>
+                                    <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                        <span id='11_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType11'>
+                                            <label id="lblElevenStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType11.ToString())</label>
+                                           
+                                        </span>
+                                    </div>
+                                    <div style="clear: both;">
+                                    </div>
+                                </div>
+                        }
+                </div>
+            </div>
+        </div>
+        <div class=" ProductDetailGrayBoxLeftLP rounded_corners float_right ">
+            <div style="background: white; padding: 10px; text-align: left;" class="rounded_corners">
+                <div class="boxCatDes">
+                    <div class="mrginBtm">
+                        <label class="marginall5 ProductDetailH2">Specifications</label>
+                    </div>
+                    <label class="marginall5">Category Code</label>
+                    <br />
+                    <p class="marginall5" style="width: 243px;">
+                        <label>@Model.WebDescription</label>
+                    </p>
+                    <br />
+                    <div class="marginall5 ProductDetailRefOptions">
+                        <ul class="ProductDetailRefOptionsUL">
+                            @*@foreach (var extra in BulletedListExtras)
+                                {*@
+                            <li></li>
+                            @*}*@
+                        </ul>
+                    </div>
+                </div>
+                <div class="box_prodPrice">
+                    <div id="PriceCircle" class="blue_cicle_container">
+                        <div class="productNewClasscircle">
+                            <div class="all_padding3">
+                                <div class="paddingTop2px">
+                                    &nbsp;
+                                </div>
+                                <asp:literal id="Literal1" text="FROM"></asp:literal>
+                                <br />
+                                <label style="font-size:16px;">MinPrice</label>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class=" clear">
+                <div class=" clear">
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="clearBoth">
-    &nbsp;
-</div>
-<div class="height15">
-    &nbsp;
-</div>
-@*<%--Hidden Fielsds--%>*@
-<asp:hiddenfield id="txtHiddenOrderID" value="0" />
-<asp:hiddenfield id="txtHiddenCorpItemTemplateID" value='0' />
-<asp:hiddenfield id="txtHiddenProductName" value='' />
-<asp:hiddenfield id="txtHiddenItemDiscountRate" value="0" />
-<asp:hiddenfield id="txtHiddenProductCategoryID" />
-<asp:hiddenfield id="txtHiddenProductItemID" />
-<asp:hiddenfield id="txtHiddenProdItemPrice" value="0" />
-<asp:hiddenfield id="txtHiddenAddonTotal" value="0" />
-<asp:hiddenfield id="hfSelectedStockId" value="0" />
-<asp:hiddenfield id="hfSelectedQuantity" value="0" />
-<asp:hiddenfield id="hfSelectedCostCenters" value="0" />
-<asp:hiddenfield id="hfJVSQ" value="0" />
-<asp:hiddenfield id="hfBrokerMarkup" value="0" />
-<asp:hiddenfield id="hfContactMarkup" value="0" />
-<asp:hiddenfield id="hfIndexOfRangedQty" value="0" />
-<asp:hiddenfield id="hfCountOfMatrix" value="0" />
-<asp:hiddenfield id="hfRangedQty" value="0" />
-<input type="hidden" id="hdnTargetCtrlUpload" />
-<input type="hidden" id="hdnFileUploadTargetCtrl" />
-<input type="hidden" id="hdnLoaderTargetCtrl" />
-<asp:hiddenfield id="hfQtyRangdSelectedPrice" value="0" />
-<asp:hiddenfield id="hfQtyRangedCustPer" value="0" />
-<asp:hiddenfield id="hfSTockID" value="0" />
-<asp:hiddenfield id="hfSTockIDOnModify" value="0" />
-<asp:hiddenfield id="hfPriceExVat" value="0" />
-<asp:hiddenfield id="hfdiscountandVatApplied" value="0" />
-<asp:hiddenfield id="hfStockLevel" value="0" />
-<asp:hiddenfield id="hfBackOrderingAllowed" value="0" />
-<asp:hiddenfield id="hfProductVAT" value="-1" />
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+    <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.jasonObjectList)) class="jsonValues" />
 </div>
 <br />
 </div>
 @section scripts {
     <script>
+        var isRanged = "@Model.IsQtyRanged.Value.ToString()" == "False" ? 0 : 1;
         $(document).ready(function () {
+
+
             $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
             $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
             hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
 
+            MatrixToggle();
+
+            if(isRanged){
+                CalculatePriceBaseOnRangedQuantity();
+            }else{
+                CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
+            }
         });
 
+        $("#priceToggle").click(function () {
+            $('#priceMatrixContainer').slideToggle();
 
-        function CheckRadioBtn(classname) {
+        });
+
+        function MatrixToggle() {
 
 
+            var hideMessage = "Hide Price Table";//Resources.MyResource.HidePriceMatrix;
+            var showMessage = "Show Price Table"; //Resources.MyResource.ShowPriceMatrix;
+            if ($('#toggleHeading').text() == hideMessage) {
+                $('#toggleHeading').text(showMessage);
+                $('#ToogleTable').css("margin-bottom", "0px");
+
+                $('#matrixHeadingsContainer').css("display", "none");
+            }
+            else {
+                $('#toggleHeading').text(hideMessage);
+                $('#ToogleTable').css("margin-bottom", "10px");
+                $('#matrixHeadingsContainer').css("display", "block");
+            }
+        }
+
+        function CalculatePriceBaseOnRangedQuantity() {
+
+        }
+
+        function CalculatePriceBaseOnSelectedQuantity(selectedQuantityIndex) {
+
+            var selectedStockNo = StockNo();
+
+            var JsonData = jQuery.parseJSON($('.jsonValues').val());
+            JsonData = JsonData[selectedQuantityIndex];
+            selectedStockNo = selectedStockNo + '_PriceMatrixID_' + JsonData.ItemID.toString();
+
+            var price = "";
+
+            price = parseFloat($('#' + selectedStockNo).attr("title"));
+
+           
+            this.displayTotalPrice(price, 0);
+        }
+
+        $(".dropdownQtyListClass").change(function () {
+
+            CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
+        });
+
+        function SelectStock(classname) {
 
             $('input:radio[class=' + classname + ']').prop('checked', true);
 
@@ -514,7 +534,16 @@
                 hideShowPriceColumns(classname);
 
             }
+
+
+            if (isRanged) {
+                
+            } else {
+                CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
+            }
+
         }
+
 
 
         function hideShowPriceColumns(selectedPaperType) {
@@ -589,5 +618,184 @@
             $(columnsListObj).css("display", "none");
             //$(columnsListObj).css("visibility", "hidden");
         }
+
+        function displayTotalPrice(productPrice, addOnPrice) {
+            var productPriceTotal = productPrice;
+            var addonPriceTotal = addOnPrice;
+            var IsCalculateVat = 0;
+            var culturee = 1;
+
+            var IsInt = "";
+            IsInt = productPrice;
+
+            if (IsInt == 0) {
+            } else {
+                IsInt = IsInt.toString();
+                var indexOfDot = IsInt.indexOf(".");
+                var indexOfComma = IsInt.indexOf(",") == -1
+
+                if (indexOfDot == -1 || indexOfComma == -1) {
+
+                    IsInt = -1;
+                } else {
+                    IsInt = 1;
+                }
+
+            }
+
+            //if (culturee == 1) {
+            //    this.displayProductItemTotal(productPriceTotal.toFixed(2));
+            //    this.displayAddOnTotal(addonPriceTotal.toFixed(2))
+            //} else {
+            //    this.displayProductItemTotal(productPriceTotal);
+            //    this.displayAddOnTotal(addonPriceTotal)
+            //}
+
+
+            var total = 0;
+
+
+            if (IsCalculateVat > 0) {
+                var isVatApplicable = 1;
+
+                if (isVatApplicable == 0) { // this hidden feild will have a value 1 in case of non-discount price
+
+                    total = productPriceTotal + addonPriceTotal;
+                    if (IsInt == -1) {
+                        total = parseInt(productPriceTotal) + addonPriceTotal;
+                    } else {
+                        total = productPriceTotal + addonPriceTotal;
+                    }
+
+                    var productVAt = 10; //$("#<%= hfProductVAT.ClientID %>").val();
+
+                    if (productVAt != -1) {// apply ProductVat
+                        total = total + ((total * productVAt) / 100);
+                    } else {// apply global settings
+                        total = total + ((total * IsCalculateVat) / 100);
+                    }
+
+                } else {// the discounted value case
+
+                    var valueIncludeDiscount = productPriceTotal; //$("#<%= hfPriceExVat.ClientID %>").val();
+                    valueIncludeDiscount = parseFloat(valueIncludeDiscount);
+
+                    total = valueIncludeDiscount + addonPriceTotal;
+
+                    if (IsInt == -1) {
+                        total = valueIncludeDiscount + addonPriceTotal;
+                    } else {
+                        total = valueIncludeDiscount + addonPriceTotal;
+                    }
+
+                    total = total + ((total * IsCalculateVat) / 100);
+
+                }
+            } else {
+                total = productPriceTotal + addonPriceTotal;
+
+                if (IsInt == -1) {
+
+                    if (culturee == 1) {
+                    } else {
+                        productPriceTotal = productPriceTotal.replace(",", ".");
+                    }
+
+
+
+                    total = parseFloat(productPriceTotal) + addonPriceTotal;
+                } else {
+                    total = productPriceTotal + addonPriceTotal;
+                }
+
+            }
+            var CorpUser = 0;//'<%=IsUsrCorp %>';
+            var Reslt = 1;//'<%=PricingShown %>';
+            var CorpPricing = 1;//'<%=isCorporatePricingshown %>';
+            if (CorpUser == 1) {
+                if (CorpPricing == 1) {
+                    if (IsInt == -1) {
+                        $('#lblGrossTotal').text(@ViewBag.Currency +parseFloat(total).toFixed(2));
+                } else {
+                    $('#lblGrossTotal').text(@ViewBag.Currency +parseFloat(total).toFixed(2));
+                }
+            }
+            else {
+                $('#lblGrossTotal').css("display", "none");
+            }
+        } else {
+            if (Reslt == 1) {
+                if (culturee == 1) {
+
+                    if (IsInt == -1) {
+
+                        $('#lblGrossTotal').text(@ViewBag.Currency +parseFloat(total).toFixed(2));
+                    } else {
+                        $('#lblGrossTotal').text(@ViewBag.Currency +parseFloat(total).toFixed(2));
+                    }
+
+                } else {
+                    if (IsCalculateVat > 0) {
+                    } else {
+                        if (isNaN(total) === true) {
+                            total = total.replace(",", ".");
+                        }
+                    }
+                    if (IsInt == -1) {
+
+                        $('#lblGrossTotal').text(@ViewBag.Currency +parseFloat(total).toFixed(2));
+                    } else {
+                        $('#lblGrossTotal').text(@ViewBag.Currency +parseFloat(total).toFixed(2));
+                    }
+
+                }
+
+            }
+            else {
+                $('#lblGrossTotal').css("display", "none");
+            }
+        }
+    }
+
+    // returns the the selected stock no
+    function StockNo() {
+        var stockName = $('input:radio[name=StockPaper]:checked').attr("class");
+        if (stockName == 'rbStockType1') {
+            selectedPaperType = '1';
+        }
+        else if (stockName == 'rbStockType2') {
+            selectedPaperType = '2';
+        }
+        else if (stockName == 'rbStockType3') {
+            selectedPaperType = '3';
+        }
+        else if (stockName == 'rbStockType4') {
+            selectedPaperType = '4';
+        }
+        else if (stockName == 'rbStockType5') {
+            selectedPaperType = '5';
+        }
+        else if (stockName == 'rbStockType6') {
+            selectedPaperType = '6';
+        }
+        else if (stockName == 'rbStockType7') {
+            selectedPaperType = '7';
+        }
+        else if (stockName == 'rbStockType8') {
+            selectedPaperType = '8';
+        }
+        else if (stockName == 'rbStockType9') {
+            selectedPaperType = '9';
+        }
+        else if (stockName == 'rbStockType10') {
+            selectedPaperType = '10';
+        }
+        else if (stockName == 'rbStockType11') {
+            selectedPaperType = '11';
+        }
+
+        return selectedPaperType;
+    }
     </script>
+
 }

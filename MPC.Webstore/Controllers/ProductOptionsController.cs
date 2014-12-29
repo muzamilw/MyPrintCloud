@@ -9,6 +9,9 @@ using MPC.Webstore.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.Common;
 using System.Globalization;
+using MPC.Webstore.ViewModels;
+using MPC.Webstore.ModelMappers;
+using MPC.Webstore.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -55,19 +58,21 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string Cid, string Itemid, string Mode)
         {
             // add falg idd
+
+            List<ProductPriceMatrixViewModel> jasonObjectList = new List<ProductPriceMatrixViewModel>();
             Item referenceItem = _myItemService.GetItemById(Convert.ToInt64(Itemid));
             ViewData["StckOptions"] = _myItemService.GetStockList(Convert.ToInt64(Itemid), UserCookieManager.StoreId);
-            List<ItemPriceMatrix> PriceMatrix = referenceItem.ItemPriceMatrices.ToList();
+          
             if(_webstoreAuthorizationChecker.isUserLoggedIn())
             {
-                 PriceMatrix = _myItemService.GetPriceMatrix(PriceMatrix, referenceItem.IsQtyRanged ?? false, true, UserCookieManager.StoreId);
+                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, true, UserCookieManager.StoreId);
             }
             else
             {
-                PriceMatrix = _myItemService.GetPriceMatrix(PriceMatrix, referenceItem.IsQtyRanged ?? false, false, 0);
+                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, false, 0);
             }
 
-            foreach (var matrixItem in PriceMatrix) 
+            foreach (var matrixItem in referenceItem.ItemPriceMatrices) 
             {
                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                 {
@@ -152,9 +157,34 @@ namespace MPC.Webstore.Controllers
                         matrixItem.PriceStockType11 = matrixItem.PriceStockType11 == null ? 0 : matrixItem.PriceStockType11;
                     }
                 }
-
+                if (referenceItem.IsQtyRanged == true)
+                {
+                    //json object
+                    RangedPriceMatrixData priceMatrd = new RangedPriceMatrixData
+                    {
+                        ItemID = Convert.ToInt32(matrixItem.PriceMatrixId),
+                        QtyRangeFrom = Convert.ToDouble(matrixItem.QtyRangeFrom),
+                        QtyRangeTo = Convert.ToDouble(matrixItem.QtyRangeTo)
+                    };
+                    
+                }
+                else
+                {
+                    //json object
+                    ProductPriceMatrixViewModel priceMatrd = new ProductPriceMatrixViewModel
+                    {
+                        ItemID = Convert.ToInt32(matrixItem.PriceMatrixId),
+                        Quantity = matrixItem.Quantity.ToString()
+                    };
+                    jasonObjectList.Add(priceMatrd);
+                }
             }
-            ViewData["PriceMatrix"] = PriceMatrix;
+
+            ViewBag.jasonObjectList = jasonObjectList;
+
+            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+            ViewBag.Currency =  baseResponse.Currency;
+
             return View("PartialViews/ProductOptions", referenceItem);
         }
     }
