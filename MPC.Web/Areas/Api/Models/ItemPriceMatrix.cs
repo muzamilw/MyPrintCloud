@@ -12,7 +12,6 @@
         public double? PricePaperType1 { get; set; }
         public double? PricePaperType2 { get; set; }
         public double? PricePaperType3 { get; set; }
-        public bool? IsDiscounted { get; set; }
         public int? QtyRangeFrom { get; set; }
         public int? QtyRangeTo { get; set; }
         public int? SupplierId { get; set; }
