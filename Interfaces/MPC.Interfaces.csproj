@@ -79,10 +79,12 @@
     <Compile Include="Repository\IEmailEventRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
+    <Compile Include="Repository\IItemStateTaxRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\IItemAddOnCostCentreRepository.cs" />
     <Compile Include="Repository\IItemStockOptionRepository.cs" />
     <Compile Include="Repository\ICostCentreRepository.cs" />
+    <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
     <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
     <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />

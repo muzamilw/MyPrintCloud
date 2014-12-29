@@ -70,6 +70,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>();
             unityContainer.RegisterType<IWidgetRepository, WidgetRepository>();
             unityContainer.RegisterType<IOrganisationFileTableViewRepository, OrganisationFileTableViewRepository>();
+            unityContainer.RegisterType<IItemPriceMatrixRepository, ItemPriceMatrixRepository>();
+            unityContainer.RegisterType<IItemStateTaxRepository, ItemStateTaxRepository>();
         }
     }
 }

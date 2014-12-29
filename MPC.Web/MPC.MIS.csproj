@@ -284,9 +284,11 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAddOnCostCentreMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemStateTaxMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PageCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaymentGatewayMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PaymentMethodMapper.cs" />
@@ -330,7 +332,9 @@
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\ItemPriceMatrix.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
+    <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
