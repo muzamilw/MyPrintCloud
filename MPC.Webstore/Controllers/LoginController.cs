@@ -124,8 +124,11 @@ namespace MPC.Webstore.Controllers
                  {
                      user = _myCompanyService.GetUserByEmailAndPassword(model.Email, model.Password);
                  }
-                
 
+                 if (model.KeepMeLoggedIn)
+                     UserCookieManager.isWritePresistentCookie = true;
+                 else
+                     UserCookieManager.isWritePresistentCookie = false;
                 if (user != null)
                 {
                     return VerifyUser(user, returnUrl);

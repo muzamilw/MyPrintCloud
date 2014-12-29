@@ -155,4 +155,13 @@ namespace MPC.Models.Common
         //Rejected = 25 //corporate case
 
     };
+
+    [Serializable]
+    public enum UploadFileTypes : int
+    {
+        Artwork,
+        Document,
+        Draft,
+        None
+    };
 }

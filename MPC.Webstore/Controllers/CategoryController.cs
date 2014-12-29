@@ -169,16 +169,16 @@ namespace MPC.Webstore.Controllers
                                     Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
 
                                 }
-                                if (matrixlist[0].IsDiscounted == true)
-                                {
-                                    isDiscounted = true;
-                                    //lblPrice1.CssClass = "strikeThrough"; /* hellow
-                                    //lblDiscountedPrice1.Visible = true;
-                                    DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
-                                    // lblDiscountedPrice1.Text = this.GetCompanySiteWithCurrencySymbol.GenSettingsCurrencySymbol + Utils.FormatDecimalValueToTwoDecimal(ProductManager.CalculateDiscount(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
-                                }
-                                else
-                                    isDiscounted = false;
+                                //if (matrixlist[0].IsDiscounted == true)  // Is Discounted is removed from table
+                                //{
+                                //    isDiscounted = true;
+                                //    //lblPrice1.CssClass = "strikeThrough"; /* hellow
+                                //    //lblDiscountedPrice1.Visible = true;
+                                //    DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
+                                //    // lblDiscountedPrice1.Text = this.GetCompanySiteWithCurrencySymbol.GenSettingsCurrencySymbol + Utils.FormatDecimalValueToTwoDecimal(ProductManager.CalculateDiscount(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
+                                //}
+                                //else
+                                isDiscounted = false;
                             }
                                
                                 //lblPrice1.Text = this.GetCompanySiteWithCurrencySymbol.GenSettingsCurrencySymbol + lblPrice1.Text;
@@ -243,16 +243,16 @@ namespace MPC.Webstore.Controllers
                                         
                                     }
                                }
-                               if (matrix.IsDiscounted == true)
-                               {
-                                   isDiscounted = true;
-                                   //lblPrice1.CssClass = "strikeThrough"; 
-                                   //lblDiscountedPrice1.Visible = true;
-                                   DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(Price), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
+                               //if (matrix.IsDiscounted == true) // IsDiscounted is removed from table
+                               //{
+                               //    isDiscounted = true;
+                               //    //lblPrice1.CssClass = "strikeThrough"; 
+                               //    //lblDiscountedPrice1.Visible = true;
+                               //    DPrice = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(_myCompanyService.CalculateDiscount(Convert.ToDouble(Price), Convert.ToDouble(product.PriceDiscountPercentage)).ToString());
 
-                               }
-                               else
-                                   isDiscounted = false;
+                               //}
+                               //else
+                               isDiscounted = false;
                               
 
                                //if (matrixlist[1].PricePaperType1 > 0)
@@ -336,6 +336,8 @@ namespace MPC.Webstore.Controllers
               isEmbaded = true;
             else
                 isEmbaded = false;
+
+            ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //PartialViews/TempDesigner/ItemID/TemplateID/IsCalledFrom/CV2/ProductName/ContactID/CompanyID/IsEmbaded;
             string URL = "PartialViews/TempDesigner/" + ItemID + "/" + TemplateID + "/" + isCalledFrom + "/" + TempDesignerID + "/" + ProductName + "/" + ContactID + "/" + (int)baseResponse.Company.CompanyId + "/" + isEmbaded;
            
@@ -358,7 +360,7 @@ namespace MPC.Webstore.Controllers
             int ordID = (int)baseResponse.Organisation.OrganisationId;
 
             Organisation org = _myCompanyService.getOrganisatonByID(ordID);
-
+            
             orderID =  _orderService.ProcessPublicUserOrder(string.Empty,org);
             return orderID;
         }

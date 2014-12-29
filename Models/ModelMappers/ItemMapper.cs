@@ -467,7 +467,7 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
-        /// Update RelatedItems
+        /// Update Item Stock Options
         /// </summary>
         private static void UpdateItemStockOptions(Item source, Item target, ItemMapperActions actions)
         {
@@ -476,6 +476,141 @@ namespace MPC.Models.ModelMappers
 
             UpdateOrAddItemStockOptions(source, target, actions);
             DeleteItemStockOptions(source, target, actions);
+        }
+
+        /// <summary>
+        /// True if the ItemPriceMatrix is new
+        /// </summary>
+        private static bool IsNewItemPriceMatrix(ItemPriceMatrix source)
+        {
+            return source.PriceMatrixId == 0;
+        }
+
+        /// <summary>
+        /// Initialize target Item Price Matrices
+        /// </summary>
+        private static void InitializeItemPriceMatrices(Item item)
+        {
+            if (item.ItemPriceMatrices == null)
+            {
+                item.ItemPriceMatrices = new List<ItemPriceMatrix>();
+            }
+        }
+        
+        /// <summary>
+        /// Update target Item Price Matrix
+        /// </summary>
+        private static void UpdateOrAddItemPriceMatrix(ItemPriceMatrix source, Item target, ItemMapperActions actions)
+        {
+            ItemPriceMatrix targetLine;
+            if (IsNewItemPriceMatrix(source))
+            {
+                targetLine = actions.CreateItemPriceMatrix();
+                target.ItemPriceMatrices.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemPriceMatrices.FirstOrDefault(so => so.PriceMatrixId == source.PriceMatrixId);
+            }
+
+            source.UpdateTo(targetLine, target);
+        }
+
+        /// <summary>
+        /// Update or add Item Price Matrices
+        /// </summary>
+        private static void UpdateOrAddItemPriceMatrices(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemPriceMatrix sourceLine in source.ItemPriceMatrices.ToList())
+            {
+                UpdateOrAddItemPriceMatrix(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update Item Price Matrices
+        /// </summary>
+        private static void UpdateItemPriceMatrices(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemPriceMatrices(source);
+            InitializeItemPriceMatrices(target);
+
+            UpdateOrAddItemPriceMatrices(source, target, actions);
+        }
+
+        /// <summary>
+        /// True if the ItemStateTax is new
+        /// </summary>
+        private static bool IsNewItemStateTax(ItemStateTax sourceItemStateTax)
+        {
+            return sourceItemStateTax.ItemStateTaxId == 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemStateTaxs
+        /// </summary>
+        private static void InitializeItemStateTaxs(Item item)
+        {
+            if (item.ItemStateTaxes == null)
+            {
+                item.ItemStateTaxes = new List<ItemStateTax>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddItemStateTaxs(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemStateTax sourceLine in source.ItemStateTaxes.ToList())
+            {
+                UpdateOrAddItemStateTax(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target StateTaxs 
+        /// </summary>
+        private static void UpdateOrAddItemStateTax(ItemStateTax sourceItemStateTax, Item target, ItemMapperActions actions)
+        {
+            ItemStateTax targetLine;
+            if (IsNewItemStateTax(sourceItemStateTax))
+            {
+                targetLine = actions.CreateItemStateTax();
+                target.ItemStateTaxes.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemStateTaxes.FirstOrDefault(vdp => vdp.ItemStateTaxId == sourceItemStateTax.ItemStateTaxId);
+            }
+            sourceItemStateTax.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete StateTaxs no longer needed
+        /// </summary>
+        private static void DeleteItemStateTaxs(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemStateTax> linesToBeRemoved = target.ItemStateTaxes.Where(
+                vdp => !IsNewItemStateTax(vdp) && source.ItemStateTaxes.All(sourceVdp => sourceVdp.ItemStateTaxId != vdp.ItemStateTaxId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemStateTaxes.Remove(line);
+                actions.DeleteItemStateTax(line);
+            });
+        }
+
+        /// <summary>
+        /// Update StateTaxs
+        /// </summary>
+        private static void UpdateItemStateTaxes(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemStateTaxs(source);
+            InitializeItemStateTaxs(target);
+
+            UpdateOrAddItemStateTaxs(source, target, actions);
+            DeleteItemStateTaxs(source, target, actions);
         }
         
         /// <summary>
@@ -497,6 +632,9 @@ namespace MPC.Models.ModelMappers
 
             // Update Internal Description
             UpdateInternalDescription(source, target);
+
+            // Update Price Table Defaults
+            UpdatePriceTableDefaultsHeader(source, target);
         }
 
         /// <summary>
@@ -543,6 +681,17 @@ namespace MPC.Models.ModelMappers
             target.JobDescription10 = source.JobDescription10;
         }
 
+        /// <summary>
+        /// Update Price Table Defaults Headers
+        /// </summary>
+        private static void UpdatePriceTableDefaultsHeader(Item source, Item target)
+        {
+            target.FlagId = source.FlagId;
+            target.IsQtyRanged = source.IsQtyRanged;
+            target.PackagingWeight = source.PackagingWeight;
+            target.DefaultItemTax = source.DefaultItemTax;
+        }
+
         #endregion
         #region Public
 
@@ -579,6 +728,8 @@ namespace MPC.Models.ModelMappers
             UpdateItemRelatedItems(source, target, actions);
             UpdateTemplate(source, target, actions);
             UpdateItemStockOptions(source, target, actions);
+            UpdateItemPriceMatrices(source, target, actions);
+            UpdateItemStateTaxes(source, target, actions);
         }
 
         #endregion

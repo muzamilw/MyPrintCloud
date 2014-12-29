@@ -97,6 +97,12 @@ define("product/product.viewModel",
                         },
                         onCostCentreChange: function (costCentreId, activeItemAddonCostCentre) {
                             setCostCentreToActiveItemAddonCostCentre(costCentreId, activeItemAddonCostCentre);
+                        },
+                        onCountryChange: function(countryId) {
+                            // Get Country by Id
+                        },
+                        OnStateChange: function(stateId) {
+                            // Get State by Id
                         }
                     },
                     // Selected Job Description

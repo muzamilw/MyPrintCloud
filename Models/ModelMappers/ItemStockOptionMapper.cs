@@ -28,6 +28,7 @@ namespace MPC.Models.ModelMappers
             target.ItemId = source.ItemId;
             target.StockLabel = source.StockLabel;
             target.ImageURL = source.ImageURL;
+            target.OptionSequence = source.OptionSequence;
         }
 
         #endregion
