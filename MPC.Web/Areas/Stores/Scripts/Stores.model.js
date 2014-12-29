@@ -3080,5 +3080,4 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         Widget: Widget,
         CmsSkingPageWidget: CmsSkingPageWidget,
     };
-
 });
