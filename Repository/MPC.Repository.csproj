@@ -191,10 +191,12 @@
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
+    <Compile Include="Repositories\ItemStateTaxRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />
     <Compile Include="Repositories\ItemAddonCostCentreRepository.cs" />
     <Compile Include="Repositories\ItemStockOptionRepository.cs" />
     <Compile Include="Repositories\CostCentreRepository.cs" />
+    <Compile Include="Repositories\ItemPriceMatrixRepository.cs" />
     <Compile Include="Repositories\OrganisationFileTableViewRepository.cs" />
     <Compile Include="Repositories\MpcFileTableViewRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />

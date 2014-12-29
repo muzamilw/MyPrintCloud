@@ -4,16 +4,16 @@ namespace MPC.Models.ModelMappers
     using System;
 
     /// <summary>
-    /// Item Stock Option mapper
+    /// Item State Tax mapper
     /// </summary>
-    public static class ItemStockOptionMapper
+    public static class ItemStateTaxMapper
     {
         #region Public
 
         /// <summary>
         ///  Copy from source entity to the target
         /// </summary>
-        public static void UpdateTo(this ItemStockOption source, ItemStockOption target)
+        public static void UpdateTo(this ItemStateTax source, ItemStateTax target)
         {
             if (source == null)
             {
@@ -24,11 +24,10 @@ namespace MPC.Models.ModelMappers
                 throw new ArgumentNullException("target");
             }
 
-            target.StockId = source.StockId;
             target.ItemId = source.ItemId;
-            target.StockLabel = source.StockLabel;
-            target.ImageURL = source.ImageURL;
-            target.OptionSequence = source.OptionSequence;
+            target.CountryId = source.CountryId;
+            target.StateId = source.StateId;
+            target.TaxRate = source.TaxRate;
         }
 
         #endregion

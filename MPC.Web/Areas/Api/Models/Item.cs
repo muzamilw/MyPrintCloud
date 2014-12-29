@@ -471,6 +471,10 @@ namespace MPC.MIS.Areas.Api.Models
 
         public IEnumerable<ItemStockOption> ItemStockOptions { get; set; }
 
+        public IEnumerable<ItemStateTax> ItemStateTaxes { get; set; }
+
+        public IEnumerable<ItemPriceMatrix> ItemPriceMatrices { get; set; }
+
         #endregion
     }
 }

@@ -33,6 +33,8 @@ namespace MPC.Implementation.MISServices
         private readonly IItemAddOnCostCentreRepository itemAddOnCostCentreRepository;
         private readonly ICostCentreRepository costCentreRepository;
         private readonly IStockItemRepository stockItemRepository;
+        private readonly IItemPriceMatrixRepository itemPriceMatrixRepository;
+        private readonly IItemStateTaxRepository itemStateTaxRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -152,6 +154,34 @@ namespace MPC.Implementation.MISServices
             itemAddOnCostCentreRepository.Delete(line);
         }
 
+        /// <summary>
+        /// Create Item State Tax
+        /// </summary>
+        private ItemStateTax CreateItemStateTax()
+        {
+            ItemStateTax line = itemStateTaxRepository.Create();
+            itemStateTaxRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item State Tax
+        /// </summary>
+        private void DeleteItemStateTax(ItemStateTax line)
+        {
+            itemStateTaxRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create Item Price Matrix
+        /// </summary>
+        private ItemPriceMatrix CreateItemPriceMatrix()
+        {
+            ItemPriceMatrix line = itemPriceMatrixRepository.Create();
+            itemPriceMatrixRepository.Add(line);
+            return line;
+        }
+
         #endregion
 
         #region Constructor
@@ -162,7 +192,8 @@ namespace MPC.Implementation.MISServices
         public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
             IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository, 
             ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
-            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository)
+            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository, 
+            IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository)
         {
             if (itemRepository == null)
             {
@@ -212,6 +243,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("stockItemRepository");
             }
+            if (itemPriceMatrixRepository == null)
+            {
+                throw new ArgumentNullException("itemPriceMatrixRepository");
+            }
+            if (itemStateTaxRepository == null)
+            {
+                throw new ArgumentNullException("itemStateTaxRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -225,6 +264,8 @@ namespace MPC.Implementation.MISServices
             this.itemAddOnCostCentreRepository = itemAddOnCostCentreRepository;
             this.costCentreRepository = costCentreRepository;
             this.stockItemRepository = stockItemRepository;
+            this.itemPriceMatrixRepository = itemPriceMatrixRepository;
+            this.itemStateTaxRepository = itemStateTaxRepository;
         }
 
         #endregion
@@ -349,7 +390,10 @@ namespace MPC.Implementation.MISServices
                 CreateItemStockOption = CreateItemStockOption,
                 DeleteItemStockOption = DeleteItemStockOption,
                 CreateItemAddonCostCentre = CreateItemAddonCostCentre,
-                DeleteItemAddonCostCentre = DeleteItemAddonCostCentre
+                DeleteItemAddonCostCentre = DeleteItemAddonCostCentre,
+                CreateItemStateTax = CreateItemStateTax,
+                DeleteItemStateTax = DeleteItemStateTax,
+                CreateItemPriceMatrix = CreateItemPriceMatrix
             });
 
             // Save Changes

@@ -422,6 +422,7 @@
           <Property Name="IsDisplayCorporateBinding" Type="bit" />
           <Property Name="MapImageURL" Type="varchar" MaxLength="200" />
           <Property Name="PickupAddressId" Type="bigint" />
+          <Property Name="TaxLabel" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -1106,7 +1107,6 @@
           <Property Name="PricePaperType1" Type="float" />
           <Property Name="PricePaperType2" Type="float" />
           <Property Name="PricePaperType3" Type="float" />
-          <Property Name="IsDiscounted" Type="bit" />
           <Property Name="QtyRangeFrom" Type="int" />
           <Property Name="QtyRangeTo" Type="int" />
           <Property Name="SupplierId" Type="int" />
@@ -2785,19 +2785,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ItemStateTax_ItemStateTax">
-          <End Role="ItemStateTax" Type="Self.ItemStateTax" Multiplicity="1" />
-          <End Role="ItemStateTax1" Type="Self.ItemStateTax" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ItemStateTax">
-              <PropertyRef Name="ItemStateTaxId" />
-            </Principal>
-            <Dependent Role="ItemStateTax1">
-              <PropertyRef Name="ItemStateTaxId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ItemStateTax_ItemStateTax1">
+        <Association Name="FK_ItemStateTax_State">
           <End Role="State" Type="Self.State" Multiplicity="0..1" />
           <End Role="ItemStateTax" Type="Self.ItemStateTax" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3939,11 +3927,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemStateTax" EntitySet="ItemStateTax" />
           </AssociationSet>
-          <AssociationSet Name="FK_ItemStateTax_ItemStateTax" Association="Self.FK_ItemStateTax_ItemStateTax">
-            <End Role="ItemStateTax" EntitySet="ItemStateTax" />
-            <End Role="ItemStateTax1" EntitySet="ItemStateTax" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ItemStateTax_ItemStateTax1" Association="Self.FK_ItemStateTax_ItemStateTax1">
+          <AssociationSet Name="FK_ItemStateTax_State" Association="Self.FK_ItemStateTax_State">
             <End Role="State" EntitySet="State" />
             <End Role="ItemStateTax" EntitySet="ItemStateTax" />
           </AssociationSet>
@@ -4328,7 +4312,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="ItemRelatedItems" EntityType="DomainModels.ItemRelatedItem" />
           <EntitySet Name="Items" EntityType="DomainModels.Item" />
           <EntitySet Name="ItemSections" EntityType="DomainModels.ItemSection" />
-          <EntitySet Name="ItemStateTaxes" EntityType="DomainModels.ItemStateTax" />
           <EntitySet Name="ItemStockControls" EntityType="DomainModels.ItemStockControl" />
           <EntitySet Name="ItemStockOptions" EntityType="DomainModels.ItemStockOption" />
           <EntitySet Name="ItemVdpPrices1" EntityType="DomainModels.ItemVdpPrice" />
@@ -4352,10 +4335,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Item" EntitySet="Items" />
             <End Role="ItemRelatedItem" EntitySet="ItemRelatedItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_ItemStateTax_Items" Association="DomainModels.FK_ItemStateTax_Items">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
-          </AssociationSet>
           <AssociationSet Name="FK_ItemVDPPrice_Items" Association="DomainModels.FK_ItemVDPPrice_Items">
             <End Role="Item" EntitySet="Items" />
             <End Role="ItemVDPPrice" EntitySet="ItemVdpPrices1" />
@@ -4368,10 +4347,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Item" EntitySet="Items" />
             <End Role="ItemStockOption" EntitySet="ItemStockOptions" />
           </AssociationSet>
-          <AssociationSet Name="FK_ItemStateTax_ItemStateTax" Association="DomainModels.FK_ItemStateTax_ItemStateTax">
-            <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
-            <End Role="ItemStateTax1" EntitySet="ItemStateTaxes" />
-          </AssociationSet>
           <EntitySet Name="Countries" EntityType="DomainModels.Country" />
           <EntitySet Name="SectionCostcentres" EntityType="DomainModels.SectionCostcentre" />
           <EntitySet Name="SectionCostCentreDetails" EntityType="DomainModels.SectionCostCentreDetail" />
@@ -4383,10 +4358,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="CostCentre" EntitySet="CostCentres" />
             <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
           </AssociationSet>
-          <AssociationSet Name="FK_ItemStateTax_Country" Association="DomainModels.FK_ItemStateTax_Country">
-            <End Role="Country" EntitySet="Countries" />
-            <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_items_tbl_Statuses" Association="DomainModels.FK_tbl_items_tbl_Statuses">
             <End Role="Status" EntitySet="Status" />
             <End Role="Item" EntitySet="Items" />
@@ -4394,10 +4365,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_tbl_section_costcentres_tbl_item_sections" Association="DomainModels.FK_tbl_section_costcentres_tbl_item_sections">
             <End Role="ItemSection" EntitySet="ItemSections" />
             <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ItemStateTax_ItemStateTax1" Association="DomainModels.FK_ItemStateTax_ItemStateTax1">
-            <End Role="State" EntitySet="States" />
-            <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres" Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_section_costcentres">
             <End Role="SectionCostcentre" EntitySet="SectionCostcentres" />
@@ -4644,6 +4611,19 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="SecondaryPageFileTableViews" EntityType="DomainModels.SecondaryPageFileTableView" />
           <EntitySet Name="StoreFileTableViews" EntityType="DomainModels.StoreFileTableView" />
           <EntitySet Name="TemplateFileTableViews" EntityType="DomainModels.TemplateFileTableView" />
+          <EntitySet Name="ItemStateTaxes" EntityType="DomainModels.ItemStateTax" />
+          <AssociationSet Name="FK_ItemStateTax_Country" Association="DomainModels.FK_ItemStateTax_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemStateTax_Items" Association="DomainModels.FK_ItemStateTax_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemStateTax_State" Association="DomainModels.FK_ItemStateTax_State">
+            <End Role="State" EntitySet="States" />
+            <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4763,6 +4743,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="PickupAddressId" Type="Int64" />
           <NavigationProperty Name="Campaigns" Relationship="DomainModels.FK_Company_Campaign" FromRole="Company" ToRole="Campaign" />
           <NavigationProperty Name="PaymentGateways" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="Company" ToRole="PaymentGateway" />
+          <Property Name="TaxLabel" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -5758,7 +5739,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="PricePaperType1" Type="Double" />
           <Property Name="PricePaperType2" Type="Double" />
           <Property Name="PricePaperType3" Type="Double" />
-          <Property Name="IsDiscounted" Type="Boolean" />
           <Property Name="QtyRangeFrom" Type="Int32" />
           <Property Name="QtyRangeTo" Type="Int32" />
           <Property Name="SupplierId" Type="Int32" />
@@ -6009,7 +5989,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="ItemPriceMatrices" Relationship="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" FromRole="Item" ToRole="ItemPriceMatrix" />
           <NavigationProperty Name="ItemRelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items" FromRole="Item" ToRole="ItemRelatedItem" />
           <NavigationProperty Name="RelatedItems" Relationship="DomainModels.FK_tbl_items_RelatedItems_tbl_items1" FromRole="Item" ToRole="ItemRelatedItem" />
-          <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
           <NavigationProperty Name="ItemVdpPrices" Relationship="DomainModels.FK_ItemVDPPrice_Items" FromRole="Item" ToRole="ItemVDPPrice" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="Item" ToRole="ItemSection" />
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.itemmidfk" FromRole="Item" ToRole="ItemStockOption" />
@@ -6025,6 +6004,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="DesignerCategoryId" Type="Int32" />
           <Property Name="Scalar" Type="Double" />
           <Property Name="ZoomFactor" Type="Double" />
+          <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -6197,21 +6177,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="ItemSection" ToRole="Item" />
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_item_sections" FromRole="ItemSection" ToRole="SectionCostcentre" />
         </EntityType>
-        <EntityType Name="ItemStateTax">
-          <Key>
-            <PropertyRef Name="ItemStateTaxId" />
-          </Key>
-          <Property Name="ItemStateTaxId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CountryId" Type="Int64" />
-          <Property Name="StateId" Type="Int64" />
-          <Property Name="TaxRate" Type="Double" />
-          <Property Name="ItemId" Type="Int64" />
-          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="ItemStateTax" ToRole="Item" />
-          <NavigationProperty Name="ItemStateTax1" Relationship="DomainModels.FK_ItemStateTax_ItemStateTax" FromRole="ItemStateTax" ToRole="ItemStateTax1" />
-          <NavigationProperty Name="ItemStateTax2" Relationship="DomainModels.FK_ItemStateTax_ItemStateTax" FromRole="ItemStateTax1" ToRole="ItemStateTax" />
-          <NavigationProperty Name="Country" Relationship="DomainModels.FK_ItemStateTax_Country" FromRole="ItemStateTax" ToRole="Country" />
-          <NavigationProperty Name="State" Relationship="DomainModels.FK_ItemStateTax_ItemStateTax1" FromRole="ItemStateTax" ToRole="State" />
-        </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
             <PropertyRef Name="Id" />
@@ -6359,18 +6324,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ItemStateTax_Items">
-          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
-          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="ItemId" />
-            </Principal>
-            <Dependent Role="ItemStateTax">
-              <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ItemVDPPrice_Items">
           <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
           <End Type="DomainModels.ItemVdpPrice" Role="ItemVDPPrice" Multiplicity="*" />
@@ -6406,18 +6359,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="ItemStockOption">
               <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ItemStateTax_ItemStateTax">
-          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="1" />
-          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ItemStateTax">
-              <PropertyRef Name="ItemStateTaxId" />
-            </Principal>
-            <Dependent Role="ItemStateTax1">
-              <PropertyRef Name="ItemStateTaxId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6575,7 +6516,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CountryId" Type="Int64" Nullable="false" />
           <Property Name="StateCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="StateName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_ItemStateTax1" FromRole="State" ToRole="ItemStateTax" />
+          <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_State" FromRole="State" ToRole="ItemStateTax" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -6614,18 +6555,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ItemStateTax_Country">
-          <End Type="DomainModels.Country" Role="Country" Multiplicity="0..1" />
-          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="CountryId" />
-            </Principal>
-            <Dependent Role="ItemStateTax">
-              <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tbl_items_tbl_Statuses">
           <End Type="DomainModels.Status" Role="Status" Multiplicity="0..1" />
           <End Type="DomainModels.Item" Role="Item" Multiplicity="*" />
@@ -6649,18 +6578,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="SectionCostcentre">
               <PropertyRef Name="ItemSectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ItemStateTax_ItemStateTax1">
-          <End Type="DomainModels.State" Role="State" Multiplicity="0..1" />
-          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="State">
-              <PropertyRef Name="StateId" />
-            </Principal>
-            <Dependent Role="ItemStateTax">
-              <PropertyRef Name="StateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8382,6 +8299,55 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="17" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ItemStateTax">
+          <Key>
+            <PropertyRef Name="ItemStateTaxId" />
+          </Key>
+          <Property Name="ItemStateTaxId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryId" Type="Int64" />
+          <Property Name="StateId" Type="Int64" />
+          <Property Name="TaxRate" Type="Double" />
+          <Property Name="ItemId" Type="Int64" />
+          <NavigationProperty Name="Country" Relationship="DomainModels.FK_ItemStateTax_Country" FromRole="ItemStateTax" ToRole="Country" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="ItemStateTax" ToRole="Item" />
+          <NavigationProperty Name="State" Relationship="DomainModels.FK_ItemStateTax_State" FromRole="ItemStateTax" ToRole="State" />
+        </EntityType>
+        <Association Name="FK_ItemStateTax_Country">
+          <End Type="DomainModels.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="ItemStateTax">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemStateTax_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ItemStateTax">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemStateTax_State">
+          <End Type="DomainModels.State" Role="State" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemStateTax" Role="ItemStateTax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="ItemStateTax">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8391,6 +8357,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
                 <ScalarProperty Name="PickupAddressId" ColumnName="PickupAddressId" />
                 <ScalarProperty Name="MapImageUrl" ColumnName="MapImageURL" />
                 <ScalarProperty Name="IsDisplayCorporateBinding" ColumnName="IsDisplayCorporateBinding" />
@@ -9248,7 +9215,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="QtyRangeTo" ColumnName="QtyRangeTo" />
                 <ScalarProperty Name="QtyRangeFrom" ColumnName="QtyRangeFrom" />
-                <ScalarProperty Name="IsDiscounted" ColumnName="IsDiscounted" />
                 <ScalarProperty Name="PricePaperType3" ColumnName="PricePaperType3" />
                 <ScalarProperty Name="PricePaperType2" ColumnName="PricePaperType2" />
                 <ScalarProperty Name="PricePaperType1" ColumnName="PricePaperType1" />
@@ -9662,17 +9628,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="SectionName" ColumnName="SectionName" />
                 <ScalarProperty Name="SectionNo" ColumnName="SectionNo" />
                 <ScalarProperty Name="ItemSectionId" ColumnName="ItemSectionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ItemStateTaxes">
-            <EntityTypeMapping TypeName="DomainModels.ItemStateTax">
-              <MappingFragment StoreEntitySet="ItemStateTax">
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
-                <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="ItemStateTaxId" ColumnName="ItemStateTaxId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -11289,6 +11244,17 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                   <ScalarProperty Name="StreamId" ParameterName="docId" />
                 </DeleteFunction>
               </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemStateTaxes">
+            <EntityTypeMapping TypeName="DomainModels.ItemStateTax">
+              <MappingFragment StoreEntitySet="ItemStateTax">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="ItemStateTaxId" ColumnName="ItemStateTaxId" />
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>
