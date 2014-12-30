@@ -14,5 +14,7 @@ namespace MPC.Models.DomainModels
         public string StateName { get; set; }
 
         public virtual ICollection<ItemStateTax> ItemStateTaxes { get; set; }
+        public virtual ICollection<Organisation> Organisations { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }
