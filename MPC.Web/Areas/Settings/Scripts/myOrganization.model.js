@@ -223,8 +223,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.address1(source.Address1 === null ? undefined : source.Address1);
         companySites.address2(source.Address2 === null ? undefined : source.Address2);
         companySites.city(source.City === null ? undefined : source.City);
-        companySites.state(source.State === null ? undefined : source.State);
-        companySites.country(source.Country === null ? undefined : source.Country);
         companySites.zipCode(source.ZipCode === null ? undefined : source.ZipCode);
         companySites.tel(source.Tel === null ? undefined : source.Tel);
         companySites.fax(source.Fax === null ? undefined : source.Fax);
@@ -237,7 +235,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.weightUnitId(source.SystemWeightUnit === null ? undefined : source.SystemWeightUnit);
         companySites.taxRegistrationNo(source.TaxRegistrationNo === null ? undefined : source.TaxRegistrationNo);
         companySites.markupId(source.MarkupId === null ? undefined : source.MarkupId);
-        companySites.reset();
+        companySites.state(source.StateId === null ? undefined : source.StateId);
+        companySites.country(source.CountryId === null ? undefined : source.CountryId);
+        // companySites.reset();
         return companySites;
     };
     //Convert Server To Client
@@ -264,8 +264,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.Address1 = source.address1() === undefined ? null : source.address1();
         result.Address2 = source.address2() === undefined ? null : source.address2();
         result.City = source.city() === undefined ? null : source.city();
-        result.State = source.state() === undefined ? null : source.state();
-        result.Country = source.country() === undefined ? null : source.country();
         result.ZipCode = source.zipCode() === undefined ? null : source.zipCode();
         result.Tel = source.tel() === undefined ? null : source.tel();
         result.Fax = source.fax() === undefined ? null : source.fax();
@@ -278,6 +276,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.SystemWeightUnit = source.weightUnitId() === undefined ? null : source.weightUnitId();
         result.TaxRegistrationNo = source.taxRegistrationNo() === undefined ? null : source.taxRegistrationNo();
         result.MarkupId = source.markupId() === undefined ? null : source.markupId();
+        result.CountryId = source.country() === undefined ? null : source.country();
+        result.StateId = source.state() === undefined ? null : source.state();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

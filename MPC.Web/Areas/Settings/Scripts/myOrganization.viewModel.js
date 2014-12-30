@@ -11,7 +11,7 @@ define("myOrganization/myOrganization.viewModel",
                     view,
                     // Active
                     selectedMyOrganization = ko.observable(),
-                       //Active markup
+                    //Active markup
                     selectedMarkup = ko.observable(),
                     //Active Chart Of Accounts
                     selectedChartOfAccounts = ko.observable(),
@@ -61,9 +61,8 @@ define("myOrganization/myOrganization.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
-                        selectedMyOrganization(new model.CompanySites());
+                        //selectedMyOrganization(new model.CompanySites());
                         //selectedMyOrganization().id(2);
-                        getMyOrganizationById();
                         view.initializeForm();
                     },
                     // Get Base
@@ -117,6 +116,9 @@ define("myOrganization/myOrganization.viewModel",
                                 markupsForDropDown.removeAll();
                                 ko.utils.arrayPushAll(markupsForDropDown(), data.Markups);
                                 markupsForDropDown.valueHasMutated();
+
+                                getMyOrganizationById();
+
                                 if (callBack && typeof callBack === 'function') {
                                     callBack();
                                 }
@@ -191,7 +193,9 @@ define("myOrganization/myOrganization.viewModel",
                         isLoadingMyOrganization(true);
                         dataservice.getMyOrganizationDetail({
                             success: function (data) {
-                                selectedMyOrganization(model.CompanySitesClientMapper(data));
+                                filteredStates.removeAll();
+                                var org = model.CompanySitesClientMapper(data);
+                                selectedMyOrganization(org);
                                 orgnizationImage(data.ImageSource);
                                 view.initializeForm();
                                 isLoadingMyOrganization(false);
@@ -285,8 +289,8 @@ define("myOrganization/myOrganization.viewModel",
                     },
                      //Filter States based on Country
                     filterStates = ko.computed(function () {
-                        filteredStates.removeAll();
                         if (selectedMyOrganization() !== undefined && selectedMyOrganization().country() !== undefined) {
+                            filteredStates.removeAll();
                             _.each(states(), function (item) {
                                 if (item.CountryId === selectedMyOrganization().country()) {
                                     filteredStates.push(item);
