@@ -284,6 +284,8 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\StateMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CountryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAddOnCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemPriceMatrixMapper.cs" />
@@ -329,6 +331,7 @@
     <Compile Include="Areas\Api\Models\CompanyTerritory.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCentre.cs" />
+    <Compile Include="Areas\Api\Models\Country.cs" />
     <Compile Include="Areas\Api\Models\EmailEvent.cs" />
     <Compile Include="Areas\Api\Models\ItemBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
@@ -348,6 +351,8 @@
     <Compile Include="Areas\Api\Models\ProductCategoryListViewModel.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
+    <Compile Include="Areas\Api\Models\SectionFlag.cs" />
+    <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />

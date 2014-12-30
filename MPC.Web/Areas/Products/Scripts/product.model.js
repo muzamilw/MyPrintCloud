@@ -13,7 +13,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescription4, specifiedJobDescriptionTitle5, specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
         specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
         specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
-        specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, callbacks) {
+        specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -292,7 +292,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Add Item State Tax
             addItemStateTax = function () {
-                itemStateTaxes.push(ItemStateTax.Create({ ItemId: id() }, callbacks));
+                itemStateTaxes.push(ItemStateTax.Create({ ItemId: id() }, callbacks, constructorParams));
             },
             // Remove Item State Tax
             removeItemStateTax = function (itemStateTax) {
@@ -1135,6 +1135,34 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         }
     },
 
+    // Country Entity        
+    Country = function (specifiedId, specifiedName, specifiedCode) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            type: specifiedCode
+        }
+    },
+
+    // State Entity        
+    State = function (specifiedId, specifiedName, specifiedCode, specifiedCountryId) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            type: specifiedCode,
+            countryId: specifiedCountryId
+        }
+    },
+
+    // Section Flag Entity        
+    SectionFlag = function (specifiedId, specifiedFlagName, specifiedFlagColor) {
+        return {
+            id: specifiedId,
+            name: specifiedFlagName,
+            type: specifiedFlagColor
+        }
+    },
+
     // Item Price Matrix Entity
     ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
         specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
@@ -1254,8 +1282,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Item State Tax Entity
-    ItemStateTax = function (specifiedId, specifiedCountryId, specifiedStateId, specifiedTaxRate, specifiedCountryName, specifiedStateName, specifiedItemId,
-        callbacks) {
+    ItemStateTax = function (specifiedId, specifiedCountryId, specifiedStateId, specifiedTaxRate, specifiedCountryName, specifiedStateName, specifiedItemId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -1271,6 +1298,20 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             taxRate = ko.observable(specifiedTaxRate || undefined),
             // Item Id
             itemId = ko.observable(specifiedItemId || 0),
+            // Countries
+            countries = ko.observableArray([]),
+            // States
+            states = ko.observableArray([]),
+            // Country States
+            countryStates = ko.computed(function () {
+                if (!countryId()) {
+                    return [];
+                }
+
+                return states.filter(function (state) {
+                    return state.countryid === countryId();
+                });
+            }),
             // Country Id
             countryId = ko.computed({
                 read: function () {
@@ -1283,9 +1324,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     internalCountryId(value);
 
-                    if (callbacks && callbacks.onCountryChange && typeof callbacks.onCountryChange === "function") {
-                        callbacks.onCountryChange(value);
+                    var countryResult = countries.filter(function (country) {
+                        return country.id === value;
+                    });
+
+                    if (!countryResult) {
+                        return;
                     }
+
+                    countryName(countryResult.name);
                 }
             }),
             // State Id
@@ -1300,9 +1347,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     internalStateId(value);
 
-                    if (callbacks && callbacks.onStateChange && typeof callbacks.onStateChange === "function") {
-                        callbacks.onStateChange(value);
+                    var stateResult = states.filter(function (state) {
+                        return state.id === value;
+                    });
+
+                    if (!stateResult) {
+                        return;
                     }
+
+                    stateName(stateResult.name);
                 }
             }),
             // Errors
@@ -1346,6 +1399,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stateId: stateId,
             countryName: countryName,
             stateName: stateName,
+            countries: countries,
+            states: states,
+            countryStates: countryStates,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -1434,9 +1490,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     }
 
     // Item State Tax Factory
-    ItemStateTax.Create = function (source, callbacks) {
-        return new ItemStateTax(source.ItemStateTaxId, source.CountryId, source.StateId, source.TaxRate, source.CountryName,
+    ItemStateTax.Create = function (source, callbacks, constructorParams) {
+        var itemStateTax = new ItemStateTax(source.ItemStateTaxId, source.CountryId, source.StateId, source.TaxRate, source.CountryName,
             source.StateName, source.ItemId, callbacks);
+
+        if (constructorParams) {
+            itemStateTax.countries(constructorParams.countries || []);
+            itemStateTax.states(constructorParams.states || []);
+        }
+
+        return itemStateTax;
     }
 
     // Item Price Matrix Factory
@@ -1447,7 +1510,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     }
 
     // Item Factory
-    Item.Create = function (source, callbacks) {
+    Item.Create = function (source, callbacks, constructorParams) {
         var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
             source.IsArchived, source.IsPublished, source.ProductCategoryName, source.IsEnabled, source.IsFeatured, source.ProductType, source.SortOrder,
             source.IsStockControl, source.IsVdpProduct, source.XeroAccessCode, source.WebDescription, source.ProductSpecification, source.TipsAndHints,
@@ -1455,7 +1518,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
-            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, callbacks);
+            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, callbacks,
+            constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {
@@ -1532,7 +1596,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             var itemStateTaxes = [];
 
             _.each(source.ItemStateTaxes, function (itemStateTax) {
-                itemStateTaxes.push(ItemStateTax.Create(itemStateTax, callbacks));
+                itemStateTaxes.push(ItemStateTax.Create(itemStateTax, callbacks, constructorParams));
             });
 
             // Push to Original Item
@@ -1556,6 +1620,21 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new CostCentre(source.CostCentreId, source.Name, source.TypeName);
     }
 
+    // Country Factory
+    Country.Create = function (source) {
+        return new Country(source.CountryId, source.CountryName, source.CountryCode);
+    }
+
+    // State Factory
+    State.Create = function (source) {
+        return new State(source.StateId, source.StateName, source.StateCode, source.CountryId);
+    }
+
+    // Section Flag Factory
+    SectionFlag.Create = function (source) {
+        return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
+    }
+
     return {
         // Item Constructor
         Item: Item,
@@ -1576,6 +1655,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Stock Item Constructor
         StockItem: StockItem,
         // Cost Centre Constructor
-        CostCentre: CostCentre
+        CostCentre: CostCentre,
+        // Country Constructor
+        Country: Country,
+        // State Constructor
+        State: State,
+        // Section Flag Constructor
+        SectionFlag: SectionFlag
     };
 });

@@ -36,9 +36,14 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
             ViewBag.Organisation = baseResponse.Organisation;
-
-            string MapInfoWindow = baseResponse.Organisation.OrganisationName + "<br>" + baseResponse.Organisation.Address1 + baseResponse.Organisation.Address2 + "<br>" + baseResponse.Organisation.City + "," + baseResponse.Organisation.State + "," + baseResponse.Organisation.ZipCode;
-            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + baseResponse.Organisation.Address1 + "," + baseResponse.Organisation.Address2 + "," + baseResponse.Organisation.City + "," + baseResponse.Organisation.Country + "," + baseResponse.Organisation.ZipCode + "';var info='" + MapInfoWindow + "';</script>";
+            string country = baseResponse.Organisation.Country != null
+                                                                ? baseResponse.Organisation.Country.CountryName
+                                                                : string.Empty;
+            string state = baseResponse.Organisation.State != null
+                ? baseResponse.Organisation.State.StateName
+                : string.Empty;
+            string MapInfoWindow = baseResponse.Organisation.OrganisationName + "<br>" + baseResponse.Organisation.Address1 + baseResponse.Organisation.Address2 + "<br>" + baseResponse.Organisation.City + "," + state + "," + baseResponse.Organisation.ZipCode;
+            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + baseResponse.Organisation.Address1 + "," + baseResponse.Organisation.Address2 + "," + baseResponse.Organisation.City + "," + country + "," + baseResponse.Organisation.ZipCode + "';var info='" + MapInfoWindow + "';</script>";
             return PartialView("PartialViews/ContactUs");
         }
 

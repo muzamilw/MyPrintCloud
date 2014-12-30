@@ -44,12 +44,12 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// State
         /// </summary>
-        public string State { get; set; }
+        public long? StateId { get; set; }
 
         /// <summary>
         /// Country
         /// </summary>
-        public string Country { get; set; }
+        public long? CountryId { get; set; }
 
         /// <summary>
         /// Zip Code
@@ -157,6 +157,10 @@ namespace MPC.Models.DomainModels
 
         #endregion
         #region Reference Properties
+
+        public virtual Country Country { get; set; }
+
+        public virtual State State { get; set; } 
 
         /// <summary>
         /// Cms Skin Page Widgets

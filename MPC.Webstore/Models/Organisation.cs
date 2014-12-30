@@ -44,12 +44,12 @@ namespace MPC.Webstore.Models
         /// <summary>
         /// State
         /// </summary>
-        public string State { get; set; }
+        public long? StateId { get; set; }
 
         /// <summary>
         /// Country
         /// </summary>
-        public string Country { get; set; }
+        public long? CountryId { get; set; }
 
         /// <summary>
         /// Zip Code
@@ -224,6 +224,9 @@ namespace MPC.Webstore.Models
 
         #endregion
         #region Reference Properties
+
+        public Country Country { get; set; }
+        public State State { get; set; }
 
         /// <summary>
         /// Cms Skin Page Widgets
