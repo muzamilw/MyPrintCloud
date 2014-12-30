@@ -16,8 +16,8 @@
           <Property Name="Address2" Type="varchar" MaxLength="255" />
           <Property Name="Address3" Type="varchar" MaxLength="255" />
           <Property Name="City" Type="varchar" MaxLength="100" />
-          <Property Name="State" Type="varchar" MaxLength="100" />
-          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="StateId" Type="bigint" />
+          <Property Name="CountryId" Type="bigint" />
           <Property Name="PostCode" Type="varchar" MaxLength="30" />
           <Property Name="Fax" Type="varchar" MaxLength="30" />
           <Property Name="Email" Type="varchar" MaxLength="150" />
@@ -1120,7 +1120,6 @@
           <Property Name="PriceStockType11" Type="float" />
           <Property Name="FlagId" Type="int" />
           <Property Name="SupplierSequence" Type="int" />
-          <Property Name="ContactCompanyId" Type="int" />
         </EntityType>
         <EntityType Name="ItemProductDetail">
           <Key>
@@ -1651,8 +1650,8 @@
           <Property Name="Address2" Type="varchar" MaxLength="255" />
           <Property Name="Address3" Type="varchar" MaxLength="255" />
           <Property Name="City" Type="varchar" MaxLength="50" />
-          <Property Name="State" Type="varchar" MaxLength="100" />
-          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="StateId" Type="bigint" />
+          <Property Name="CountryId" Type="bigint" />
           <Property Name="ZipCode" Type="varchar" MaxLength="50" />
           <Property Name="Tel" Type="varchar" MaxLength="50" />
           <Property Name="Fax" Type="varchar" MaxLength="50" />
@@ -2718,6 +2717,54 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
           <Property Name="fileTableName" Type="varchar" MaxLength="17" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Address__Country__1765C178">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Address__StateId__1859E5B1">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__Count__16719D3F">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__State__157D7906">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Company_Campaign">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Campaign" Type="Self.Campaign" Multiplicity="*" />
@@ -3974,6 +4021,22 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [TemplateFileTableView].[fileTableName] AS [fileTableName]
     FROM [dbo].[TemplateFileTableView] AS [TemplateFileTableView]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK__Address__Country__1765C178" Association="Self.FK__Address__Country__1765C178">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Address__StateId__1859E5B1" Association="Self.FK__Address__StateId__1859E5B1">
+            <End Role="State" EntitySet="State" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__Count__16719D3F" Association="Self.FK__Organisat__Count__16719D3F">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__State__157D7906" Association="Self.FK__Organisat__State__157D7906">
+            <End Role="State" EntitySet="State" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
             <End Role="Campaign" EntitySet="Campaign" />
@@ -4735,6 +4798,22 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="ProductCategory" EntitySet="ProductCategories" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItems" />
           </AssociationSet>
+          <AssociationSet Name="FK__Address__Country__1765C178" Association="DomainModels.FK__Address__Country__1765C178">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Address__StateId__1859E5B1" Association="DomainModels.FK__Address__StateId__1859E5B1">
+            <End Role="State" EntitySet="States" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__Count__16719D3F" Association="DomainModels.FK__Organisat__Count__16719D3F">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__State__157D7906" Association="DomainModels.FK__Organisat__State__157D7906">
+            <End Role="State" EntitySet="States" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4965,8 +5044,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -4991,6 +5068,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Organisation" ToRole="Estimate" />
           <NavigationProperty Name="SystemUsers" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="Organisation" ToRole="SystemUser" />
           <Property Name="MISLogoStreamId" Type="Guid" />
+          <Property Name="StateId" Type="Int64" />
+          <Property Name="CountryId" Type="Int64" />
+          <NavigationProperty Name="Country" Relationship="DomainModels.FK__Organisat__Count__16719D3F" FromRole="Organisation" ToRole="Country" />
+          <NavigationProperty Name="State" Relationship="DomainModels.FK__Organisat__State__157D7906" FromRole="Organisation" ToRole="State" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -5864,7 +5945,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="PriceStockType11" Type="Double" />
           <Property Name="FlagId" Type="Int32" />
           <Property Name="SupplierSequence" Type="Int32" />
-          <Property Name="ContactCompanyId" Type="Int32" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" FromRole="ItemPriceMatrix" ToRole="Item" />
         </EntityType>
         <EntityType Name="ItemProductDetail">
@@ -6483,6 +6563,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Country" FromRole="Country" ToRole="ItemStateTax" />
+          <NavigationProperty Name="Addresses" Relationship="DomainModels.FK__Address__Country__1765C178" FromRole="Country" ToRole="Address" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK__Organisat__Count__16719D3F" FromRole="Country" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="SectionCostcentre">
           <Key>
@@ -6630,6 +6712,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="StateCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="StateName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_State" FromRole="State" ToRole="ItemStateTax" />
+          <NavigationProperty Name="Addresses" Relationship="DomainModels.FK__Address__StateId__1859E5B1" FromRole="State" ToRole="Address" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK__Organisat__State__157D7906" FromRole="State" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -7708,8 +7792,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PostCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Fax" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
@@ -7735,6 +7817,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="CompanyTerritory" Relationship="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" FromRole="Address" ToRole="CompanyTerritory" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="Address" ToRole="CompanyContact" />
           <Property Name="DisplayOnContactUs" Type="Boolean" />
+          <Property Name="StateId" Type="Int64" />
+          <Property Name="CountryId" Type="Int64" />
+          <NavigationProperty Name="Country" Relationship="DomainModels.FK__Address__Country__1765C178" FromRole="Address" ToRole="Country" />
+          <NavigationProperty Name="State" Relationship="DomainModels.FK__Address__StateId__1859E5B1" FromRole="Address" ToRole="State" />
         </EntityType>
         <Association Name="FK_tbl_addresses_tbl_contactcompanies">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -8542,6 +8628,54 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Address__Country__1765C178">
+          <End Type="DomainModels.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="DomainModels.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Address__StateId__1859E5B1">
+          <End Type="DomainModels.State" Role="State" Multiplicity="0..1" />
+          <End Type="DomainModels.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__Count__16719D3F">
+          <End Type="DomainModels.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__State__157D7906">
+          <End Type="DomainModels.State" Role="State" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8754,6 +8888,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="MISLogoStreamId" ColumnName="MISLogoStreamId" />
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
@@ -8775,8 +8911,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Address3" ColumnName="Address3" />
                 <ScalarProperty Name="Address2" ColumnName="Address2" />
@@ -9395,7 +9529,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="ItemPriceMatrices">
             <EntityTypeMapping TypeName="DomainModels.ItemPriceMatrix">
               <MappingFragment StoreEntitySet="ItemPriceMatrix">
-                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
                 <ScalarProperty Name="SupplierSequence" ColumnName="SupplierSequence" />
                 <ScalarProperty Name="FlagId" ColumnName="FlagId" />
                 <ScalarProperty Name="PriceStockType11" ColumnName="PriceStockType11" />
@@ -10751,6 +10884,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="DomainModels.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="DisplayOnContactUs" ColumnName="DisplayOnContactUs" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="isDefaultTerrorityShipping" ColumnName="isDefaultTerrorityShipping" />
@@ -10773,8 +10908,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Address3" ColumnName="Address3" />
                 <ScalarProperty Name="Address2" ColumnName="Address2" />

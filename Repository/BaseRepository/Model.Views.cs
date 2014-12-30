@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsB6A90AFE27A5B6E248ABC1E8CD8A55AE0F6F267A626B91AA9FF19D6C80EF73AF))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets783D229202583C7706D661514CC3D6EBE684F016EAEEC3A44F7DE3C5D492254B))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,18 +38,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsB6A90AFE27A5B6E248ABC1E8CD8A55AE0F6F267A626B91AA9FF19D6C80EF73AF : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets783D229202583C7706D661514CC3D6EBE684F016EAEEC3A44F7DE3C5D492254B : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsB6A90AFE27A5B6E248ABC1E8CD8A55AE0F6F267A626B91AA9FF19D6C80EF73AF()
+        public ViewsForBaseEntitySets783D229202583C7706D661514CC3D6EBE684F016EAEEC3A44F7DE3C5D492254B()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "95d98d163b28f44441d9e110a2da144270fa9ebd866e22dc8f32ebe8a4c32a7d";
-            this.HashOverAllExtentViews = "e6d00c483cd2443646f636b6913bea226468bf2524eb620290a9063c5dc9e41e";
+            this.HashOverMappingClosure = "e6c3fbd0e389979a30b6fcfeee370c2b729ed8f340b39b3e25fecc4619e6f6a2";
+            this.HashOverAllExtentViews = "b6afdff98bde6ec347dcca4ec0e15fc2362d923fc0d8b09535f5672d6f443249";
             this.ViewCount = 206;
         }
         
@@ -1126,40 +1126,40 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2617);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2629);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisation\r\n        [DomainModels.Store.Org");
             viewString.Append("anisation](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.");
             viewString.Append("Organisation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Or");
-            viewString.Append("ganisation_City, T1.Organisation_State, T1.Organisation_Country, T1.Organisation");
-            viewString.Append("_ZipCode, T1.Organisation_Tel, T1.Organisation_Fax, T1.Organisation_Mobile, T1.O");
-            viewString.Append("rganisation_Email, T1.Organisation_URL, T1.Organisation_WebsiteLogo, T1.Organisa");
-            viewString.Append("tion_MISLogo, T1.Organisation_TaxRegistrationNo, T1.Organisation_LicenseLevel, T");
-            viewString.Append("1.Organisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organisatio");
-            viewString.Append("n_SmtpUserName, T1.Organisation_SmtpPassword, T1.Organisation_VATRegNumber, T1.O");
-            viewString.Append("rganisation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisation_");
-            viewString.Append("CurrencyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey, T1.Organi");
-            viewString.Append("sation_MISLogoStreamId)\r\n    FROM (\r\n        SELECT \r\n            T.Organisation");
-            viewString.Append("Id AS Organisation_OrganisationId, \r\n            T.OrganisationName AS Organisat");
-            viewString.Append("ion_OrganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n     ");
-            viewString.Append("       T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Organisa");
-            viewString.Append("tion_Address3, \r\n            T.City AS Organisation_City, \r\n            T.State ");
-            viewString.Append("AS Organisation_State, \r\n            T.Country AS Organisation_Country, \r\n      ");
-            viewString.Append("      T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel");
-            viewString.Append(", \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisatio");
-            viewString.Append("n_Mobile, \r\n            T.Email AS Organisation_Email, \r\n            T.URL AS Or");
-            viewString.Append("ganisation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n     ");
-            viewString.Append("       T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS O");
-            viewString.Append("rganisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organisation_Lice");
-            viewString.Append("nseLevel, \r\n            T.CustomerAccountNumber AS Organisation_CustomerAccountN");
-            viewString.Append("umber, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n            T.Sm");
-            viewString.Append("tpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPassword AS Organis");
-            viewString.Append("ation_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r");
-            viewString.Append("\n            T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n            ");
-            viewString.Append("T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId ");
-            viewString.Append("AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organisation_LanguageI");
-            viewString.Append("d, \r\n            T.UserDomainKey AS Organisation_UserDomainKey, \r\n            T.");
-            viewString.Append("MISLogoStreamId AS Organisation_MISLogoStreamId, \r\n            True AS _from0\r\n ");
-            viewString.Append("       FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
+            viewString.Append("ganisation_City, T1.Organisation_StateId, T1.Organisation_CountryId, T1.Organisa");
+            viewString.Append("tion_ZipCode, T1.Organisation_Tel, T1.Organisation_Fax, T1.Organisation_Mobile, ");
+            viewString.Append("T1.Organisation_Email, T1.Organisation_URL, T1.Organisation_WebsiteLogo, T1.Orga");
+            viewString.Append("nisation_MISLogo, T1.Organisation_TaxRegistrationNo, T1.Organisation_LicenseLeve");
+            viewString.Append("l, T1.Organisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organis");
+            viewString.Append("ation_SmtpUserName, T1.Organisation_SmtpPassword, T1.Organisation_VATRegNumber, ");
+            viewString.Append("T1.Organisation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisat");
+            viewString.Append("ion_CurrencyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey, T1.Or");
+            viewString.Append("ganisation_MISLogoStreamId)\r\n    FROM (\r\n        SELECT \r\n            T.Organisa");
+            viewString.Append("tionId AS Organisation_OrganisationId, \r\n            T.OrganisationName AS Organ");
+            viewString.Append("isation_OrganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n ");
+            viewString.Append("           T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Orga");
+            viewString.Append("nisation_Address3, \r\n            T.City AS Organisation_City, \r\n            T.St");
+            viewString.Append("ateId AS Organisation_StateId, \r\n            T.CountryId AS Organisation_Country");
+            viewString.Append("Id, \r\n            T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Orga");
+            viewString.Append("nisation_Tel, \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobile AS");
+            viewString.Append(" Organisation_Mobile, \r\n            T.Email AS Organisation_Email, \r\n           ");
+            viewString.Append(" T.URL AS Organisation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteL");
+            viewString.Append("ogo, \r\n            T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistr");
+            viewString.Append("ationNo AS Organisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organ");
+            viewString.Append("isation_LicenseLevel, \r\n            T.CustomerAccountNumber AS Organisation_Cust");
+            viewString.Append("omerAccountNumber, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n    ");
+            viewString.Append("        T.SmtpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPasswor");
+            viewString.Append("d AS Organisation_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VAT");
+            viewString.Append("RegNumber, \r\n            T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n");
+            viewString.Append("            T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n            T");
+            viewString.Append(".CurrencyId AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organisati");
+            viewString.Append("on_LanguageId, \r\n            T.UserDomainKey AS Organisation_UserDomainKey, \r\n  ");
+            viewString.Append("          T.MISLogoStreamId AS Organisation_MISLogoStreamId, \r\n            True ");
+            viewString.Append("AS _from0\r\n        FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Organisation", viewString.ToString());
         }
         
@@ -1866,7 +1866,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView22()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2263);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2156);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemPriceMatrix\r\n        [DomainModels.Store.");
             viewString.Append("ItemPriceMatrix](T1.ItemPriceMatrix_PriceMatrixId, T1.ItemPriceMatrix_Quantity, ");
             viewString.Append("T1.ItemPriceMatrix_Price, T1.ItemPriceMatrix_ItemId, T1.ItemPriceMatrix_PricePap");
@@ -1876,26 +1876,24 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("kType5, T1.ItemPriceMatrix_PriceStockType6, T1.ItemPriceMatrix_PriceStockType7, ");
             viewString.Append("T1.ItemPriceMatrix_PriceStockType8, T1.ItemPriceMatrix_PriceStockType9, T1.ItemP");
             viewString.Append("riceMatrix_PriceStockType10, T1.ItemPriceMatrix_PriceStockType11, T1.ItemPriceMa");
-            viewString.Append("trix_FlagId, T1.ItemPriceMatrix_SupplierSequence, T1.ItemPriceMatrix_ContactComp");
-            viewString.Append("anyId)\r\n    FROM (\r\n        SELECT \r\n            T.PriceMatrixId AS ItemPriceMat");
-            viewString.Append("rix_PriceMatrixId, \r\n            T.Quantity AS ItemPriceMatrix_Quantity, \r\n     ");
-            viewString.Append("       T.Price AS ItemPriceMatrix_Price, \r\n            T.ItemId AS ItemPriceMatr");
-            viewString.Append("ix_ItemId, \r\n            T.PricePaperType1 AS ItemPriceMatrix_PricePaperType1, \r");
-            viewString.Append("\n            T.PricePaperType2 AS ItemPriceMatrix_PricePaperType2, \r\n           ");
-            viewString.Append(" T.PricePaperType3 AS ItemPriceMatrix_PricePaperType3, \r\n            T.QtyRangeF");
-            viewString.Append("rom AS ItemPriceMatrix_QtyRangeFrom, \r\n            T.QtyRangeTo AS ItemPriceMatr");
-            viewString.Append("ix_QtyRangeTo, \r\n            T.SupplierId AS ItemPriceMatrix_SupplierId, \r\n     ");
-            viewString.Append("       T.PriceStockType4 AS ItemPriceMatrix_PriceStockType4, \r\n            T.Pri");
-            viewString.Append("ceStockType5 AS ItemPriceMatrix_PriceStockType5, \r\n            T.PriceStockType6");
-            viewString.Append(" AS ItemPriceMatrix_PriceStockType6, \r\n            T.PriceStockType7 AS ItemPric");
-            viewString.Append("eMatrix_PriceStockType7, \r\n            T.PriceStockType8 AS ItemPriceMatrix_Pric");
-            viewString.Append("eStockType8, \r\n            T.PriceStockType9 AS ItemPriceMatrix_PriceStockType9,");
-            viewString.Append(" \r\n            T.PriceStockType10 AS ItemPriceMatrix_PriceStockType10, \r\n       ");
-            viewString.Append("     T.PriceStockType11 AS ItemPriceMatrix_PriceStockType11, \r\n            T.Fla");
-            viewString.Append("gId AS ItemPriceMatrix_FlagId, \r\n            T.SupplierSequence AS ItemPriceMatr");
-            viewString.Append("ix_SupplierSequence, \r\n            T.ContactCompanyId AS ItemPriceMatrix_Contact");
-            viewString.Append("CompanyId, \r\n            True AS _from0\r\n        FROM BaseDbContext.ItemPriceMat");
-            viewString.Append("rices AS T\r\n    ) AS T1");
+            viewString.Append("trix_FlagId, T1.ItemPriceMatrix_SupplierSequence)\r\n    FROM (\r\n        SELECT \r\n");
+            viewString.Append("            T.PriceMatrixId AS ItemPriceMatrix_PriceMatrixId, \r\n            T.Qu");
+            viewString.Append("antity AS ItemPriceMatrix_Quantity, \r\n            T.Price AS ItemPriceMatrix_Pri");
+            viewString.Append("ce, \r\n            T.ItemId AS ItemPriceMatrix_ItemId, \r\n            T.PricePaper");
+            viewString.Append("Type1 AS ItemPriceMatrix_PricePaperType1, \r\n            T.PricePaperType2 AS Ite");
+            viewString.Append("mPriceMatrix_PricePaperType2, \r\n            T.PricePaperType3 AS ItemPriceMatrix");
+            viewString.Append("_PricePaperType3, \r\n            T.QtyRangeFrom AS ItemPriceMatrix_QtyRangeFrom, ");
+            viewString.Append("\r\n            T.QtyRangeTo AS ItemPriceMatrix_QtyRangeTo, \r\n            T.Suppli");
+            viewString.Append("erId AS ItemPriceMatrix_SupplierId, \r\n            T.PriceStockType4 AS ItemPrice");
+            viewString.Append("Matrix_PriceStockType4, \r\n            T.PriceStockType5 AS ItemPriceMatrix_Price");
+            viewString.Append("StockType5, \r\n            T.PriceStockType6 AS ItemPriceMatrix_PriceStockType6, ");
+            viewString.Append("\r\n            T.PriceStockType7 AS ItemPriceMatrix_PriceStockType7, \r\n          ");
+            viewString.Append("  T.PriceStockType8 AS ItemPriceMatrix_PriceStockType8, \r\n            T.PriceSto");
+            viewString.Append("ckType9 AS ItemPriceMatrix_PriceStockType9, \r\n            T.PriceStockType10 AS ");
+            viewString.Append("ItemPriceMatrix_PriceStockType10, \r\n            T.PriceStockType11 AS ItemPriceM");
+            viewString.Append("atrix_PriceStockType11, \r\n            T.FlagId AS ItemPriceMatrix_FlagId, \r\n    ");
+            viewString.Append("        T.SupplierSequence AS ItemPriceMatrix_SupplierSequence, \r\n            Tr");
+            viewString.Append("ue AS _from0\r\n        FROM BaseDbContext.ItemPriceMatrices AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemPriceMatrix", viewString.ToString());
         }
         
@@ -3351,38 +3349,38 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView54()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2465);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2477);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Address\r\n        [DomainModels.Store.Address]");
             viewString.Append("(T1.Address_AddressId, T1.Address_CompanyId, T1.Address_AddressName, T1.Address_");
             viewString.Append("Address1, T1.Address_Address2, T1.Address_Address3, T1.Address_City, T1.Address_");
-            viewString.Append("State, T1.Address_Country, T1.Address_PostCode, T1.Address_Fax, T1.Address_Email");
-            viewString.Append(", T1.Address_URL, T1.Address_Tel1, T1.Address_Tel2, T1.Address_Extension1, T1.Ad");
-            viewString.Append("dress_Extension2, T1.Address_Reference, T1.Address_FAO, T1.Address_IsDefaultAddr");
-            viewString.Append("ess, T1.Address_IsDefaultShippingAddress, T1.Address_isArchived, T1.Address_Terr");
-            viewString.Append("itoryId, T1.Address_GeoLatitude, T1.Address_GeoLongitude, T1.Address_isPrivate, ");
-            viewString.Append("T1.Address_ContactId, T1.Address_isDefaultTerrorityBilling, T1.Address_isDefault");
-            viewString.Append("TerrorityShipping, T1.Address_OrganisationId, T1.Address_DisplayOnContactUs)\r\n  ");
-            viewString.Append("  FROM (\r\n        SELECT \r\n            T.AddressId AS Address_AddressId, \r\n     ");
-            viewString.Append("       T.CompanyId AS Address_CompanyId, \r\n            T.AddressName AS Address_");
-            viewString.Append("AddressName, \r\n            T.Address1 AS Address_Address1, \r\n            T.Addre");
-            viewString.Append("ss2 AS Address_Address2, \r\n            T.Address3 AS Address_Address3, \r\n       ");
-            viewString.Append("     T.City AS Address_City, \r\n            T.State AS Address_State, \r\n         ");
-            viewString.Append("   T.Country AS Address_Country, \r\n            T.PostCode AS Address_PostCode, \r");
-            viewString.Append("\n            T.Fax AS Address_Fax, \r\n            T.Email AS Address_Email, \r\n   ");
-            viewString.Append("         T.URL AS Address_URL, \r\n            T.Tel1 AS Address_Tel1, \r\n         ");
-            viewString.Append("   T.Tel2 AS Address_Tel2, \r\n            T.Extension1 AS Address_Extension1, \r\n ");
-            viewString.Append("           T.Extension2 AS Address_Extension2, \r\n            T.Reference AS Addr");
-            viewString.Append("ess_Reference, \r\n            T.FAO AS Address_FAO, \r\n            T.IsDefaultAddr");
-            viewString.Append("ess AS Address_IsDefaultAddress, \r\n            T.IsDefaultShippingAddress AS Add");
-            viewString.Append("ress_IsDefaultShippingAddress, \r\n            T.isArchived AS Address_isArchived,");
-            viewString.Append(" \r\n            T.TerritoryId AS Address_TerritoryId, \r\n            T.GeoLatitude");
-            viewString.Append(" AS Address_GeoLatitude, \r\n            T.GeoLongitude AS Address_GeoLongitude, \r");
-            viewString.Append("\n            T.isPrivate AS Address_isPrivate, \r\n            T.ContactId AS Addr");
-            viewString.Append("ess_ContactId, \r\n            T.isDefaultTerrorityBilling AS Address_isDefaultTer");
-            viewString.Append("rorityBilling, \r\n            T.isDefaultTerrorityShipping AS Address_isDefaultTe");
-            viewString.Append("rrorityShipping, \r\n            T.OrganisationId AS Address_OrganisationId, \r\n   ");
-            viewString.Append("         T.DisplayOnContactUs AS Address_DisplayOnContactUs, \r\n            True ");
-            viewString.Append("AS _from0\r\n        FROM BaseDbContext.Addresses AS T\r\n    ) AS T1");
+            viewString.Append("StateId, T1.Address_CountryId, T1.Address_PostCode, T1.Address_Fax, T1.Address_E");
+            viewString.Append("mail, T1.Address_URL, T1.Address_Tel1, T1.Address_Tel2, T1.Address_Extension1, T");
+            viewString.Append("1.Address_Extension2, T1.Address_Reference, T1.Address_FAO, T1.Address_IsDefault");
+            viewString.Append("Address, T1.Address_IsDefaultShippingAddress, T1.Address_isArchived, T1.Address_");
+            viewString.Append("TerritoryId, T1.Address_GeoLatitude, T1.Address_GeoLongitude, T1.Address_isPriva");
+            viewString.Append("te, T1.Address_ContactId, T1.Address_isDefaultTerrorityBilling, T1.Address_isDef");
+            viewString.Append("aultTerrorityShipping, T1.Address_OrganisationId, T1.Address_DisplayOnContactUs)");
+            viewString.Append("\r\n    FROM (\r\n        SELECT \r\n            T.AddressId AS Address_AddressId, \r\n ");
+            viewString.Append("           T.CompanyId AS Address_CompanyId, \r\n            T.AddressName AS Addr");
+            viewString.Append("ess_AddressName, \r\n            T.Address1 AS Address_Address1, \r\n            T.A");
+            viewString.Append("ddress2 AS Address_Address2, \r\n            T.Address3 AS Address_Address3, \r\n   ");
+            viewString.Append("         T.City AS Address_City, \r\n            T.StateId AS Address_StateId, \r\n ");
+            viewString.Append("           T.CountryId AS Address_CountryId, \r\n            T.PostCode AS Address");
+            viewString.Append("_PostCode, \r\n            T.Fax AS Address_Fax, \r\n            T.Email AS Address_");
+            viewString.Append("Email, \r\n            T.URL AS Address_URL, \r\n            T.Tel1 AS Address_Tel1,");
+            viewString.Append(" \r\n            T.Tel2 AS Address_Tel2, \r\n            T.Extension1 AS Address_Ext");
+            viewString.Append("ension1, \r\n            T.Extension2 AS Address_Extension2, \r\n            T.Refer");
+            viewString.Append("ence AS Address_Reference, \r\n            T.FAO AS Address_FAO, \r\n            T.I");
+            viewString.Append("sDefaultAddress AS Address_IsDefaultAddress, \r\n            T.IsDefaultShippingAd");
+            viewString.Append("dress AS Address_IsDefaultShippingAddress, \r\n            T.isArchived AS Address");
+            viewString.Append("_isArchived, \r\n            T.TerritoryId AS Address_TerritoryId, \r\n            T");
+            viewString.Append(".GeoLatitude AS Address_GeoLatitude, \r\n            T.GeoLongitude AS Address_Geo");
+            viewString.Append("Longitude, \r\n            T.isPrivate AS Address_isPrivate, \r\n            T.Conta");
+            viewString.Append("ctId AS Address_ContactId, \r\n            T.isDefaultTerrorityBilling AS Address_");
+            viewString.Append("isDefaultTerrorityBilling, \r\n            T.isDefaultTerrorityShipping AS Address");
+            viewString.Append("_isDefaultTerrorityShipping, \r\n            T.OrganisationId AS Address_Organisat");
+            viewString.Append("ionId, \r\n            T.DisplayOnContactUs AS Address_DisplayOnContactUs, \r\n     ");
+            viewString.Append("       True AS _from0\r\n        FROM BaseDbContext.Addresses AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Address", viewString.ToString());
         }
         
@@ -3940,40 +3938,40 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView70()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2624);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2636);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
             viewString.Append("tion](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.Organ");
             viewString.Append("isation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Organis");
-            viewString.Append("ation_City, T1.Organisation_State, T1.Organisation_Country, T1.Organisation_ZipC");
-            viewString.Append("ode, T1.Organisation_Tel, T1.Organisation_Fax, T1.Organisation_Mobile, T1.Organi");
-            viewString.Append("sation_Email, T1.Organisation_URL, T1.Organisation_WebsiteLogo, T1.Organisation_");
-            viewString.Append("MISLogo, T1.Organisation_TaxRegistrationNo, T1.Organisation_LicenseLevel, T1.Org");
-            viewString.Append("anisation_CustomerAccountNumber, T1.Organisation_SmtpServer, T1.Organisation_Smt");
-            viewString.Append("pUserName, T1.Organisation_SmtpPassword, T1.Organisation_VATRegNumber, T1.Organi");
-            viewString.Append("sation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisation_Curre");
-            viewString.Append("ncyId, T1.Organisation_LanguageId, T1.Organisation_UserDomainKey, T1.Organisatio");
-            viewString.Append("n_MISLogoStreamId)\r\n    FROM (\r\n        SELECT \r\n            T.OrganisationId AS");
-            viewString.Append(" Organisation_OrganisationId, \r\n            T.OrganisationName AS Organisation_O");
-            viewString.Append("rganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n          ");
-            viewString.Append("  T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Organisation_");
-            viewString.Append("Address3, \r\n            T.City AS Organisation_City, \r\n            T.State AS Or");
-            viewString.Append("ganisation_State, \r\n            T.Country AS Organisation_Country, \r\n           ");
-            viewString.Append(" T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel, \r\n ");
-            viewString.Append("           T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisation_Mob");
-            viewString.Append("ile, \r\n            T.Email AS Organisation_Email, \r\n            T.URL AS Organis");
-            viewString.Append("ation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n          ");
-            viewString.Append("  T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS Organi");
-            viewString.Append("sation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organisation_LicenseLe");
-            viewString.Append("vel, \r\n            T.CustomerAccountNumber AS Organisation_CustomerAccountNumber");
-            viewString.Append(", \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n            T.SmtpUse");
-            viewString.Append("rName AS Organisation_SmtpUserName, \r\n            T.SmtpPassword AS Organisation");
-            viewString.Append("_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r\n    ");
-            viewString.Append("        T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n            T.Sys");
-            viewString.Append("temWeightUnit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId AS Or");
-            viewString.Append("ganisation_CurrencyId, \r\n            T.LanguageId AS Organisation_LanguageId, \r\n");
-            viewString.Append("            T.UserDomainKey AS Organisation_UserDomainKey, \r\n            T.MISLo");
-            viewString.Append("goStreamId AS Organisation_MISLogoStreamId, \r\n            True AS _from0\r\n      ");
-            viewString.Append("  FROM DomainModelsStoreContainer.Organisation AS T\r\n    ) AS T1");
+            viewString.Append("ation_City, T1.Organisation_ZipCode, T1.Organisation_Tel, T1.Organisation_Fax, T");
+            viewString.Append("1.Organisation_Mobile, T1.Organisation_Email, T1.Organisation_URL, T1.Organisati");
+            viewString.Append("on_WebsiteLogo, T1.Organisation_MISLogo, T1.Organisation_TaxRegistrationNo, T1.O");
+            viewString.Append("rganisation_LicenseLevel, T1.Organisation_CustomerAccountNumber, T1.Organisation");
+            viewString.Append("_SmtpServer, T1.Organisation_SmtpUserName, T1.Organisation_SmtpPassword, T1.Orga");
+            viewString.Append("nisation_VATRegNumber, T1.Organisation_SystemLengthUnit, T1.Organisation_SystemW");
+            viewString.Append("eightUnit, T1.Organisation_CurrencyId, T1.Organisation_LanguageId, T1.Organisati");
+            viewString.Append("on_UserDomainKey, T1.Organisation_MISLogoStreamId, T1.Organisation_StateId, T1.O");
+            viewString.Append("rganisation_CountryId)\r\n    FROM (\r\n        SELECT \r\n            T.OrganisationI");
+            viewString.Append("d AS Organisation_OrganisationId, \r\n            T.OrganisationName AS Organisati");
+            viewString.Append("on_OrganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n      ");
+            viewString.Append("      T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Organisat");
+            viewString.Append("ion_Address3, \r\n            T.City AS Organisation_City, \r\n            T.ZipCode");
+            viewString.Append(" AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel, \r\n           ");
+            viewString.Append(" T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n   ");
+            viewString.Append("         T.Email AS Organisation_Email, \r\n            T.URL AS Organisation_URL,");
+            viewString.Append(" \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n            T.MISLog");
+            viewString.Append("o AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS Organisation_Tax");
+            viewString.Append("RegistrationNo, \r\n            T.LicenseLevel AS Organisation_LicenseLevel, \r\n   ");
+            viewString.Append("         T.CustomerAccountNumber AS Organisation_CustomerAccountNumber, \r\n      ");
+            viewString.Append("      T.SmtpServer AS Organisation_SmtpServer, \r\n            T.SmtpUserName AS O");
+            viewString.Append("rganisation_SmtpUserName, \r\n            T.SmtpPassword AS Organisation_SmtpPassw");
+            viewString.Append("ord, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r\n            T.");
+            viewString.Append("SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n            T.SystemWeightU");
+            viewString.Append("nit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId AS Organisation");
+            viewString.Append("_CurrencyId, \r\n            T.LanguageId AS Organisation_LanguageId, \r\n          ");
+            viewString.Append("  T.UserDomainKey AS Organisation_UserDomainKey, \r\n            T.MISLogoStreamId");
+            viewString.Append(" AS Organisation_MISLogoStreamId, \r\n            T.StateId AS Organisation_StateI");
+            viewString.Append("d, \r\n            T.CountryId AS Organisation_CountryId, \r\n            True AS _f");
+            viewString.Append("rom0\r\n        FROM DomainModelsStoreContainer.Organisation AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
         
@@ -4680,7 +4678,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView86()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2270);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2163);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemPriceMatrices\r\n        [DomainModels.Item");
             viewString.Append("PriceMatrix](T1.ItemPriceMatrix_PriceMatrixId, T1.ItemPriceMatrix_Quantity, T1.I");
             viewString.Append("temPriceMatrix_Price, T1.ItemPriceMatrix_ItemId, T1.ItemPriceMatrix_PricePaperTy");
@@ -4690,26 +4688,25 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("e5, T1.ItemPriceMatrix_PriceStockType6, T1.ItemPriceMatrix_PriceStockType7, T1.I");
             viewString.Append("temPriceMatrix_PriceStockType8, T1.ItemPriceMatrix_PriceStockType9, T1.ItemPrice");
             viewString.Append("Matrix_PriceStockType10, T1.ItemPriceMatrix_PriceStockType11, T1.ItemPriceMatrix");
-            viewString.Append("_FlagId, T1.ItemPriceMatrix_SupplierSequence, T1.ItemPriceMatrix_ContactCompanyI");
-            viewString.Append("d)\r\n    FROM (\r\n        SELECT \r\n            T.PriceMatrixId AS ItemPriceMatrix_");
-            viewString.Append("PriceMatrixId, \r\n            T.Quantity AS ItemPriceMatrix_Quantity, \r\n         ");
-            viewString.Append("   T.Price AS ItemPriceMatrix_Price, \r\n            T.ItemId AS ItemPriceMatrix_I");
-            viewString.Append("temId, \r\n            T.PricePaperType1 AS ItemPriceMatrix_PricePaperType1, \r\n   ");
-            viewString.Append("         T.PricePaperType2 AS ItemPriceMatrix_PricePaperType2, \r\n            T.P");
-            viewString.Append("ricePaperType3 AS ItemPriceMatrix_PricePaperType3, \r\n            T.QtyRangeFrom ");
-            viewString.Append("AS ItemPriceMatrix_QtyRangeFrom, \r\n            T.QtyRangeTo AS ItemPriceMatrix_Q");
-            viewString.Append("tyRangeTo, \r\n            T.SupplierId AS ItemPriceMatrix_SupplierId, \r\n         ");
-            viewString.Append("   T.PriceStockType4 AS ItemPriceMatrix_PriceStockType4, \r\n            T.PriceSt");
-            viewString.Append("ockType5 AS ItemPriceMatrix_PriceStockType5, \r\n            T.PriceStockType6 AS ");
-            viewString.Append("ItemPriceMatrix_PriceStockType6, \r\n            T.PriceStockType7 AS ItemPriceMat");
-            viewString.Append("rix_PriceStockType7, \r\n            T.PriceStockType8 AS ItemPriceMatrix_PriceSto");
-            viewString.Append("ckType8, \r\n            T.PriceStockType9 AS ItemPriceMatrix_PriceStockType9, \r\n ");
-            viewString.Append("           T.PriceStockType10 AS ItemPriceMatrix_PriceStockType10, \r\n           ");
-            viewString.Append(" T.PriceStockType11 AS ItemPriceMatrix_PriceStockType11, \r\n            T.FlagId ");
-            viewString.Append("AS ItemPriceMatrix_FlagId, \r\n            T.SupplierSequence AS ItemPriceMatrix_S");
-            viewString.Append("upplierSequence, \r\n            T.ContactCompanyId AS ItemPriceMatrix_ContactComp");
-            viewString.Append("anyId, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.Ite");
-            viewString.Append("mPriceMatrix AS T\r\n    ) AS T1");
+            viewString.Append("_FlagId, T1.ItemPriceMatrix_SupplierSequence)\r\n    FROM (\r\n        SELECT \r\n    ");
+            viewString.Append("        T.PriceMatrixId AS ItemPriceMatrix_PriceMatrixId, \r\n            T.Quanti");
+            viewString.Append("ty AS ItemPriceMatrix_Quantity, \r\n            T.Price AS ItemPriceMatrix_Price, ");
+            viewString.Append("\r\n            T.ItemId AS ItemPriceMatrix_ItemId, \r\n            T.PricePaperType");
+            viewString.Append("1 AS ItemPriceMatrix_PricePaperType1, \r\n            T.PricePaperType2 AS ItemPri");
+            viewString.Append("ceMatrix_PricePaperType2, \r\n            T.PricePaperType3 AS ItemPriceMatrix_Pri");
+            viewString.Append("cePaperType3, \r\n            T.QtyRangeFrom AS ItemPriceMatrix_QtyRangeFrom, \r\n  ");
+            viewString.Append("          T.QtyRangeTo AS ItemPriceMatrix_QtyRangeTo, \r\n            T.SupplierId");
+            viewString.Append(" AS ItemPriceMatrix_SupplierId, \r\n            T.PriceStockType4 AS ItemPriceMatr");
+            viewString.Append("ix_PriceStockType4, \r\n            T.PriceStockType5 AS ItemPriceMatrix_PriceStoc");
+            viewString.Append("kType5, \r\n            T.PriceStockType6 AS ItemPriceMatrix_PriceStockType6, \r\n  ");
+            viewString.Append("          T.PriceStockType7 AS ItemPriceMatrix_PriceStockType7, \r\n            T.");
+            viewString.Append("PriceStockType8 AS ItemPriceMatrix_PriceStockType8, \r\n            T.PriceStockTy");
+            viewString.Append("pe9 AS ItemPriceMatrix_PriceStockType9, \r\n            T.PriceStockType10 AS Item");
+            viewString.Append("PriceMatrix_PriceStockType10, \r\n            T.PriceStockType11 AS ItemPriceMatri");
+            viewString.Append("x_PriceStockType11, \r\n            T.FlagId AS ItemPriceMatrix_FlagId, \r\n        ");
+            viewString.Append("    T.SupplierSequence AS ItemPriceMatrix_SupplierSequence, \r\n            True A");
+            viewString.Append("S _from0\r\n        FROM DomainModelsStoreContainer.ItemPriceMatrix AS T\r\n    ) AS");
+            viewString.Append(" T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemPriceMatrices", viewString.ToString());
         }
         
@@ -6160,23 +6157,22 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView118()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2472);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2484);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Addresses\r\n        [DomainModels.Address](T1.");
             viewString.Append("Address_AddressId, T1.Address_CompanyId, T1.Address_AddressName, T1.Address_Addr");
-            viewString.Append("ess1, T1.Address_Address2, T1.Address_Address3, T1.Address_City, T1.Address_Stat");
-            viewString.Append("e, T1.Address_Country, T1.Address_PostCode, T1.Address_Fax, T1.Address_Email, T1");
-            viewString.Append(".Address_URL, T1.Address_Tel1, T1.Address_Tel2, T1.Address_Extension1, T1.Addres");
-            viewString.Append("s_Extension2, T1.Address_Reference, T1.Address_FAO, T1.Address_IsDefaultAddress,");
-            viewString.Append(" T1.Address_IsDefaultShippingAddress, T1.Address_isArchived, T1.Address_Territor");
-            viewString.Append("yId, T1.Address_GeoLatitude, T1.Address_GeoLongitude, T1.Address_isPrivate, T1.A");
-            viewString.Append("ddress_ContactId, T1.Address_isDefaultTerrorityBilling, T1.Address_isDefaultTerr");
-            viewString.Append("orityShipping, T1.Address_OrganisationId, T1.Address_DisplayOnContactUs)\r\n    FR");
-            viewString.Append("OM (\r\n        SELECT \r\n            T.AddressId AS Address_AddressId, \r\n         ");
-            viewString.Append("   T.CompanyId AS Address_CompanyId, \r\n            T.AddressName AS Address_Addr");
-            viewString.Append("essName, \r\n            T.Address1 AS Address_Address1, \r\n            T.Address2 ");
-            viewString.Append("AS Address_Address2, \r\n            T.Address3 AS Address_Address3, \r\n           ");
-            viewString.Append(" T.City AS Address_City, \r\n            T.State AS Address_State, \r\n            T");
-            viewString.Append(".Country AS Address_Country, \r\n            T.PostCode AS Address_PostCode, \r\n   ");
+            viewString.Append("ess1, T1.Address_Address2, T1.Address_Address3, T1.Address_City, T1.Address_Post");
+            viewString.Append("Code, T1.Address_Fax, T1.Address_Email, T1.Address_URL, T1.Address_Tel1, T1.Addr");
+            viewString.Append("ess_Tel2, T1.Address_Extension1, T1.Address_Extension2, T1.Address_Reference, T1");
+            viewString.Append(".Address_FAO, T1.Address_IsDefaultAddress, T1.Address_IsDefaultShippingAddress, ");
+            viewString.Append("T1.Address_isArchived, T1.Address_TerritoryId, T1.Address_GeoLatitude, T1.Addres");
+            viewString.Append("s_GeoLongitude, T1.Address_isPrivate, T1.Address_ContactId, T1.Address_isDefault");
+            viewString.Append("TerrorityBilling, T1.Address_isDefaultTerrorityShipping, T1.Address_Organisation");
+            viewString.Append("Id, T1.Address_DisplayOnContactUs, T1.Address_StateId, T1.Address_CountryId)\r\n  ");
+            viewString.Append("  FROM (\r\n        SELECT \r\n            T.AddressId AS Address_AddressId, \r\n     ");
+            viewString.Append("       T.CompanyId AS Address_CompanyId, \r\n            T.AddressName AS Address_");
+            viewString.Append("AddressName, \r\n            T.Address1 AS Address_Address1, \r\n            T.Addre");
+            viewString.Append("ss2 AS Address_Address2, \r\n            T.Address3 AS Address_Address3, \r\n       ");
+            viewString.Append("     T.City AS Address_City, \r\n            T.PostCode AS Address_PostCode, \r\n   ");
             viewString.Append("         T.Fax AS Address_Fax, \r\n            T.Email AS Address_Email, \r\n       ");
             viewString.Append("     T.URL AS Address_URL, \r\n            T.Tel1 AS Address_Tel1, \r\n            T");
             viewString.Append(".Tel2 AS Address_Tel2, \r\n            T.Extension1 AS Address_Extension1, \r\n     ");
@@ -6190,8 +6186,10 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ContactId, \r\n            T.isDefaultTerrorityBilling AS Address_isDefaultTerrori");
             viewString.Append("tyBilling, \r\n            T.isDefaultTerrorityShipping AS Address_isDefaultTerror");
             viewString.Append("ityShipping, \r\n            T.OrganisationId AS Address_OrganisationId, \r\n       ");
-            viewString.Append("     T.DisplayOnContactUs AS Address_DisplayOnContactUs, \r\n            True AS _");
-            viewString.Append("from0\r\n        FROM DomainModelsStoreContainer.Address AS T\r\n    ) AS T1");
+            viewString.Append("     T.DisplayOnContactUs AS Address_DisplayOnContactUs, \r\n            T.StateId");
+            viewString.Append(" AS Address_StateId, \r\n            T.CountryId AS Address_CountryId, \r\n         ");
+            viewString.Append("   True AS _from0\r\n        FROM DomainModelsStoreContainer.Address AS T\r\n    ) A");
+            viewString.Append("S T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Addresses", viewString.ToString());
         }
         

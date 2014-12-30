@@ -25,8 +25,6 @@
         public double? PriceStockType11 { get; set; }
         public int? FlagId { get; set; }
         public int? SupplierSequence { get; set; }
-        public int? ContactCompanyId { get; set; }
-
         public virtual Item Item { get; set; }
     }
 }
