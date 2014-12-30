@@ -1999,16 +1999,33 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <table class="table table-condensed" data-bind="drop: $root.dropped" style="background-color: #e8f5f4;min-height: 50px;border: #320b0b;border-width: 5px;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody data-bind="sortable: { template: 'skinWidgetItemTemplate', data: $root.pageSkinWidgets }"></tbody>
-                                                </table>
+                                            @*<div style="padding: 5px; margin: 5px; border: black 1px solid;">
+                                                    <table >
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody data-bind="sortable: { template: 'skinWidgetItemTemplate', data: $root.pageSkinWidgets }"></tbody>
+                                                    </table>
+                                                </div>*@
+                                            @*<div style="padding: 5px; margin: 5px; border: black 1px solid;" data-bind="template: { name: 'taskTmpl', foreach: $root.pageSkinWidgets, templateOptions: { parentList: $root.pageSkinWidgets} }, sortableList: $root.pageSkinWidgets">*@
+                                            @*<div class="container1"  data-bind="template: { name: 'taskTmpl', foreach: $root.highPriorityTasks, templateOptions: { parentList: $root.highPriorityTasks} }, sortableList: $root.highPriorityTasks"></div>*@
+                                            <div class="sortable" id="test">
+                                                <ul data-bind="sortable: { data: $root.highPriorityTasks,connectClass:'ko_container' }">
+                                                    <li>
+                                                        <span data-bind="text: Text"></span>
+
+                                                    </li>
+                                                </ul>
                                             </div>
+                                            <ul data-bind="sortable: { data: $root.pageSkinWidgets }">
+                                                <li>
+                                                    <span data-bind="html: htmlData"></span>
+
+                                                </li>
+                                            </ul>
+                                            <div class="editor" data-bind="wysiwyg: $root.textFieldToEdit">Edit this data</div>
                                         </div>
                                         <div class="col-md-3">
                                         </div>
@@ -2546,17 +2563,18 @@
 
 @section Scripts {
 
-    <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>
+    @*<script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
     @*<link href="~/Content/colorpicker.css" rel="stylesheet" />*@
-    @*<script src="~/Scripts/Ace/ace.js"></script>*@
-    <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
-    <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>
-    @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
-    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+    <script src="~/Scripts/Ace/ace.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-    <script src="~/Scripts/jquery.form.js"></script>
+    @*<script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
+    <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
+    <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>*@
+    @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
+    @*<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+    
+    <script src="~/Scripts/jquery.form.js"></script>*@
 
     <script type="text/javascript">
         var editor = ace.edit("editor");
@@ -3000,8 +3018,27 @@
     </li>
 </script>
 
+@*<script id="skinWidgetItemTemplate" type="text/html">
+        <tr style="padding: 5px; margin: 5px; border: black 1px solid;">
+            <td> <div data-bind="html:html"></div></td>
+        </tr>
+    </script>*@
+
 <script id="skinWidgetItemTemplate" type="text/html">
-    <tr class="dd-item dd-item-list" data-id="13">
-        <td> <div data-bind="html:html"></div></td>
-    </tr>
+    <div class="item" data-bind="html:html">
+    </div>
+
 </script>
+
+
+<script id="taskTmpl" type="text/html">
+    <div class="item"  data-bind="sortableItem: { item: $data }">
+        <a href=# data-bind="text:Text"></a>
+    </div>
+</script>
+
+@*<script id="taskTmpl" type="text/html">
+        <div style="background-color: #DDD; cursor: move;" data-bind="sortableItem: { item: $data }">
+            <div data-bind="text:pageId"></div>
+        </div>
+    </script>*@

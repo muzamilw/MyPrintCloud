@@ -301,6 +301,7 @@ define("myOrganization/myOrganization.viewModel",
                                 } else {
                                     selectedMyOrganization(), id(orgId);
                                 }
+                                selectedMyOrganization().reset();
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {

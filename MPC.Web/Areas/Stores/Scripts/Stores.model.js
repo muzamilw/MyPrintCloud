@@ -2571,14 +2571,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             pageId = ko.observable(specifiedPageId),
             widgetId = ko.observable(specifiedWidgetId),
             sequence = ko.observable(specifiedSequence),
-            html = ko.observable(specifiedHtml);
+            htmlData = ko.observable(specifiedHtml);
 
         self = {
             pageWidgetId: pageWidgetId,
             pageId: pageId,
             widgetId: widgetId,
             sequence: sequence,
-            html: html,
+            htmlData: htmlData
         };
         return self;
     };

@@ -1353,7 +1353,7 @@ define("stores/stores.viewModel",
                     //***********    C O M P A N  Y   C O N T A C T   E N D *******************//
 
                     //***********    P A Y M E N T    G A T E W A Y    *********************//   
-                  isAccessCodeSectionVisible = ko.observable(false),
+                    isAccessCodeSectionVisible = ko.observable(false),
                     paymentMethodName = ko.observable(),
 
                     //Selected Payment Gateway
@@ -1410,8 +1410,7 @@ define("stores/stores.viewModel",
 
                                     if (paymentMethod.methodName() == "PayPal" || paymentMethod.methodName() == "Cash" || paymentMethod.methodName() == "") {
                                         isAccessCodeSectionVisible(false);
-                                    }
-                                    else {
+                                    } else {
                                         paymentMethodName(paymentMethod.methodName());
                                         isAccessCodeSectionVisible(true);
                                     }
@@ -1464,17 +1463,17 @@ define("stores/stores.viewModel",
                         this.selectedWidget(widget);
                     },
 
-                      getPageLayoutWidget = ko.computed(function () {
-                          if (selectedCurrentPageId() !== undefined) {
-                              getPageLayoutWidget();
-                          }
-                          if (selectedCurrentPageId() === undefined) {
-                              pageSkinWidgets.removeAll();
-                          }
-                      }, this);
+                    getPageLayoutWidget = ko.computed(function () {
+                        if (selectedCurrentPageId() !== undefined) {
+                            getPageLayoutWidget1();
+                        }
+                        if (selectedCurrentPageId() === undefined) {
+                            pageSkinWidgets.removeAll();
+                        }
+                    }, this);
 
                 //Get Page Layout Widgets
-                getPageLayoutWidget = function () {
+                getPageLayoutWidget1 = function () {
                     dataservice.getCmsPageLayoutWidget({
                         pageId: selectedCurrentPageId(),
                         companyId: selectedStore().companyId()
@@ -1496,63 +1495,70 @@ define("stores/stores.viewModel",
                     });
                 },
                 // Widget being dropped
-                dropped = function (source, target, event) {
-                    if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetCode !== undefined && source.widget.widgetCode() !== undefined && source.widget.widgetCode() !== "") {
-                        getWidgetDetail(source.widget.widgetCode());
-                    }
-                    if (selectedCurrentPageId() === undefined) {
-                        toastr.error("Before add widget please select page !");
-                    }
-                },
-                //Get Store For editting
-                getWidgetDetail = function (widgetCode) {
-                    dataservice.getWidgetDetail({
-                        widgetCode: widgetCode,
-                    }, {
-                        success: function (data) {
-                            if (data !== "" && data !== null) {
-                                var widget = new model.CmsSkingPageWidget();
-                                widget.html(data);
-                                pageSkinWidgets.push(widget);
-                            }
-                            isLoadingStores(false);
-                        },
-                        error: function (response) {
-                            isLoadingStores(false);
-                            toastr.error("Failed to Load Page Widgets . Error: " + response);
+                    dropped = function (source, target, event) {
+                        if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetCode !== undefined && source.widget.widgetCode() !== undefined && source.widget.widgetCode() !== "") {
+                            getWidgetDetail(source.widget.widgetCode());
                         }
-                    });
-                },
+                        if (selectedCurrentPageId() === undefined) {
+                            toastr.error("Before add widget please select page !");
+                        }
+                    },
+                //Get Store For editting
+                    getWidgetDetail = function (widgetCode) {
+                        dataservice.getWidgetDetail({
+                            widgetCode: widgetCode,
+                        }, {
+                            success: function (data) {
+                                if (data !== "" && data !== null) {
+                                    var widget = new model.CmsSkingPageWidget();
+                                    widget.htmlData(data);
+                                    pageSkinWidgets.push(widget);
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            }
+                        });
+                    },
                 // Returns the item being dragged
-                 dragged = function (source) {
+                    dragged = function (source) {
 
-                     return {
-                         row: source.$parent,
-                         widget: source.$data
-                     };
-                 },
+                        return {
+                            row: source.$parent,
+                            widget: source.$data
+                        };
+                    },
                 //Add Widget To Page Layout
-                addWidgetToPageLayout = function (widget) {
-                    if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetCode !== undefined && widget.widgetCode() !== undefined && widget.widgetCode() !== "") {
-                        getWidgetDetail(widget.widgetCode());
-                    }
-                    if (selectedCurrentPageId() === undefined) {
-                        toastr.error("Before add widget please select page !");
-                    }
-                },
+                    addWidgetToPageLayout = function (widget) {
+                        if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetCode !== undefined && widget.widgetCode() !== undefined && widget.widgetCode() !== "") {
+                            getWidgetDetail(widget.widgetCode());
+                        }
+                        if (selectedCurrentPageId() === undefined) {
+                            toastr.error("Before add widget please select page !");
+                        }
+                    },
                 //Delete Page Layout Widget
-                deletePageLayoutWidget = function (widget) {
-                    if (widget !== undefined && widget !== null) {
-                        pageSkinWidgets.remove(widget);
-                    }
-                },
+                    deletePageLayoutWidget = function (widget) {
+                        if (widget !== undefined && widget !== null) {
+                            pageSkinWidgets.remove(widget);
+                        }
+                    },
                 //#endregion
-
+                    highPriorityTasks = ko.observableArray([
+                        { Text: "Text1" },
+                        { Text: "Text 2" },
+                        { Text: "Text 3" },
+                        { Text: "Text 4" }
+                    ]),
+                    textFieldToEdit = ko.observable(''),
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
+                    //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
                     pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
                     getStores();
                     view.initializeForm();
@@ -1729,6 +1735,8 @@ define("stores/stores.viewModel",
                     dragged: dragged,
                     addWidgetToPageLayout: addWidgetToPageLayout,
                     deletePageLayoutWidget: deletePageLayoutWidget,
+                    highPriorityTasks: highPriorityTasks,
+                    textFieldToEdit: textFieldToEdit,
                     initialize: initialize
                 };
             })()
