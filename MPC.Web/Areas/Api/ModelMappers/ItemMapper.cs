@@ -61,11 +61,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescriptionTitle10 = source.JobDescriptionTitle10,
                 JobDescription10 = source.JobDescription10,
                 TemplateId = source.TemplateId,
+                FlagId = source.FlagId,
+                IsQtyRanged = source.IsQtyRanged,
+                PackagingWeight = source.PackagingWeight,
+                DefaultItemTax = source.DefaultItemTax,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()) : new List<ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()) : new List<ItemVideo>(),
                 ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()) : new List<ItemRelatedItem>(),
-                ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(vdp => vdp.CreateFrom()) : new List<ItemStockOption>()
+                ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(vdp => vdp.CreateFrom()) : new List<ItemStockOption>(),
+                ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()) : new List<ItemStateTax>(),
+                ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()) : new List<ItemPriceMatrix>()
             }; 
 
             // Load Thumbnail Image
@@ -166,13 +172,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescriptionTitle10 = source.JobDescriptionTitle10,
                 JobDescription10 = source.JobDescription10,
                 TemplateId = source.TemplateId,
+                FlagId = source.FlagId,
+                IsQtyRanged = source.IsQtyRanged,
+                PackagingWeight = source.PackagingWeight,
+                DefaultItemTax = source.DefaultItemTax,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
                 ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()).ToList() : 
                 new List<DomainModels.ItemRelatedItem>(),
                 ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(stockOption => stockOption.CreateFrom()).ToList() : 
-                new List<DomainModels.ItemStockOption>()
+                new List<DomainModels.ItemStockOption>(),
+                ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()).ToList() : 
+                new List<DomainModels.ItemStateTax>(),
+                ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()).ToList() : 
+                new List<DomainModels.ItemPriceMatrix>()
             };
         }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
@@ -23,7 +24,9 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IMarkupRepository markupRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
-        private readonly IMpcFileTableViewRepository mpcFileTableViewRepository;
+        private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
+        private readonly IStateRepository stateRepository;
+        private readonly ICountryRepository countryRepository;
 
         #endregion
 
@@ -33,7 +36,8 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
-         IChartOfAccountRepository chartOfAccountRepository, IMpcFileTableViewRepository mpcFileTableViewRepository)
+         IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
+            ICountryRepository countryRepository, IStateRepository stateRepository)
         {
             if (mpcFileTableViewRepository == null)
             {
@@ -43,6 +47,8 @@ namespace MPC.Implementation.MISServices
             this.markupRepository = markupRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
             this.mpcFileTableViewRepository = mpcFileTableViewRepository;
+            this.countryRepository = countryRepository;
+            this.stateRepository = stateRepository;
         }
 
         #endregion
@@ -57,6 +63,8 @@ namespace MPC.Implementation.MISServices
             {
                 ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
+                Countries = countryRepository.GetAll(),
+                States = stateRepository.GetAll(),
             };
         }
 
@@ -66,7 +74,7 @@ namespace MPC.Implementation.MISServices
         public Organisation GetOrganisationDetail()
         {
             Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
-            
+
             if (organization.MISLogoStreamId.HasValue)
             {
                 MpcFileTableView fileTableView = mpcFileTableViewRepository.GetByStreamId(organization.MISLogoStreamId.Value);
@@ -335,22 +343,24 @@ namespace MPC.Implementation.MISServices
             }
 
             string pathLocator = "\\Organisation" + organisation.OrganisationId;
-            if (string.IsNullOrEmpty(mpcFileTableViewRepository.GetNewPathLocator(pathLocator)))
+            if (string.IsNullOrEmpty(mpcFileTableViewRepository.GetNewPathLocator(pathLocator, FileTableCaption.Organisation)))
             {
-                MpcFileTableView mpcFile = mpcFileTableViewRepository.Create();
+                OrganisationFileTableView mpcFile = mpcFileTableViewRepository.Create();
                 mpcFileTableViewRepository.Add(mpcFile);
                 mpcFile.Name = "Organisation" + organisation.OrganisationId;
                 mpcFile.UncPath = pathLocator;
                 mpcFile.IsDirectory = true;
+                mpcFile.FileTableName = FileTableCaption.Organisation;
                 // Save to File Table
                 mpcFileTableViewRepository.SaveChanges();
             }
 
             // Add File
-            MpcFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
+            OrganisationFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
             mpcFileTableViewRepository.Add(mpcFileTableView);
             mpcFileTableView.Name = fileName;
             mpcFileTableView.FileStream = fileStream;
+            mpcFileTableView.FileTableName = FileTableCaption.Organisation;
             mpcFileTableView.UncPath = pathLocator;
 
             // Save to File Table

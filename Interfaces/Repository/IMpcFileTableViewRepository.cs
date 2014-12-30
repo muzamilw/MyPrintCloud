@@ -16,6 +16,6 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Returns New Path for directory/file to be stored 
         /// </summary>
-        string GetNewPathLocator(string path);
+        string GetNewPathLocator(string path, string fileTableName);
     }
 }

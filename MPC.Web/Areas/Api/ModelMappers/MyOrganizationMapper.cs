@@ -20,6 +20,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
                 ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
+                Countries = source.Countries != null ? source.Countries.Select(c => c.CreateFromDropDown()).ToList() : null,
+                States = source.States != null ? source.States.Select(s => s.CreateFromDropDown()).ToList() : null,
             };
         }
 

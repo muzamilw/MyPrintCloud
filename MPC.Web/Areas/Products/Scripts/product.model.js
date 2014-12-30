@@ -12,7 +12,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3, specifiedJobDescription3, specifiedJobDescriptionTitle4,
         specifiedJobDescription4, specifiedJobDescriptionTitle5, specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
         specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
-        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1, callbacks) {
+        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
+        specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -143,9 +144,34 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // job description 10
             jobDescription10 = ko.observable(specifiedJobDescription10 || undefined),
             // Is Template tabs Visible
-            isTemplateTabsVisible = ko.computed(function() {
+            isTemplateTabsVisible = ko.computed(function () {
                 return isFinishedGoodsUi() === '1';
             }),
+            // Flag Id
+            flagId = ko.observable(specifiedFlagId || undefined),
+            // Is Qty Ranged
+            isQtyRanged = ko.observable(specifiedIsQtyRanged != null && specifiedIsQtyRanged != undefined ? specifiedIsQtyRanged : undefined),
+            // Is Qty Ranged for ui
+            isQtyRangedUi = ko.computed({
+                read: function () {
+                    if (isQtyRanged() === 0) {
+                        return '1';
+                    }
+                    return '' + isQtyRanged();
+                },
+                write: function (value) {
+                    var qtyRanged = parseInt(value);
+                    if (qtyRanged === isQtyRanged()) {
+                        return;
+                    }
+
+                    isQtyRanged(qtyRanged === 1 ? 0 : qtyRanged);
+                }
+            }),
+            // Packaging Weight
+            packagingWeight = ko.observable(specifiedPackagingWeight || undefined),
+            // Default Item Tax
+            defaultItemTax = ko.observable(specifiedDefaultItemTax || undefined),
             // Item Vdp Prices
             itemVdpPrices = ko.observableArray([]),
             // Item Videos
@@ -156,10 +182,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             template = ko.observable(Template.Create({})),
             // Item Stock options
             itemStockOptions = ko.observableArray([]),
+            // Item Price Matrices
+            itemPriceMatrices = ko.observableArray([]),
+            // Item State Taxes
+            itemStateTaxes = ko.observableArray([]),
             // Active Stock Option
             activeStockOption = ko.observable(),
             // choose stock item
-            chooseStockItem  = function(stockOption) {
+            chooseStockItem = function (stockOption) {
                 selectItemStockOption(stockOption);
 
                 if (callbacks && callbacks.onChooseStockItem && typeof callbacks.onChooseStockItem === "function") {
@@ -167,13 +197,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             },
             // Select Item Stock Option
-            selectItemStockOption = function(stockOption) {
+            selectItemStockOption = function (stockOption) {
                 if (activeStockOption() !== stockOption) {
                     activeStockOption(stockOption);
                 }
             },
             // On Select Stock Item
-            onSelectStockItem = function(stockItem) {
+            onSelectStockItem = function (stockItem) {
                 activeStockOption().selectStock(stockItem);
                 activeStockOption(ItemStockOption.Create({}, callbacks));
 
@@ -235,7 +265,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemStockOptions.remove(itemStockOption);
             },
             // On Add Item Cost Centre
-            onAddItemCostCentre = function(itemStockOption) {
+            onAddItemCostCentre = function (itemStockOption) {
                 selectItemStockOption(itemStockOption);
                 activeStockOption().onAddItemAddonCostCentre();
 
@@ -259,6 +289,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (callbacks && callbacks.onSaveItemAddonCostCentre && typeof callbacks.onSaveItemAddonCostCentre === "function") {
                     callbacks.onSaveItemAddonCostCentre();
                 }
+            },
+            // Add Item State Tax
+            addItemStateTax = function () {
+                itemStateTaxes.push(ItemStateTax.Create({ ItemId: id() }, callbacks, constructorParams));
+            },
+            // Remove Item State Tax
+            removeItemStateTax = function (itemStateTax) {
+                itemStateTaxes.remove(itemStateTax);
             },
             // Errors
             errors = ko.validation.group({
@@ -314,11 +352,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 jobDescription8: jobDescription8,
                 jobDescription9: jobDescription9,
                 jobDescription10: jobDescription10,
+                flagId: flagId,
+                isQtyRanged: isQtyRanged,
+                packagingWeight: packagingWeight,
+                defaultItemTax: defaultItemTax,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
                 itemRelatedItems: itemRelatedItems,
                 template: template,
-                itemStockOptions: itemStockOptions
+                itemStockOptions: itemStockOptions,
+                itemPriceMatrices: itemPriceMatrices,
+                itemStateTaxes: itemStateTaxes
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -327,8 +371,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }) != null;
             }),
             // Item Videos Has Changes
-            itemVideosHasChanges = ko.computed(function() {
-                return itemVideos.find(function(itemVideo) {
+            itemVideosHasChanges = ko.computed(function () {
+                return itemVideos.find(function (itemVideo) {
                     return itemVideo.hasChanges();
                 }) != null;
             }),
@@ -338,9 +382,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return itemStockOption.hasChanges();
                 }) != null;
             }),
+            // Item Price Matrix Changes
+            itemPriceMatrixHasChanges = ko.computed(function () {
+                return itemPriceMatrices.find(function (itemPriceMatrix) {
+                    return itemPriceMatrix.hasChanges();
+                }) != null;
+            }),
+            // Item State Taxes Changes
+            itemStateTaxesHasChanges = ko.computed(function () {
+                return itemStateTaxes.find(function (itemStateTax) {
+                    return itemStateTax.hasChanges();
+                }) != null;
+            }),
             // Has Changes
             hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges() || itemStockOptionHasChanges();
+                return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges() || itemStockOptionHasChanges() ||
+                    itemPriceMatrixHasChanges() || itemStateTaxesHasChanges();
             }),
             // Reset
             reset = function () {
@@ -352,6 +409,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 });
                 itemStockOptions.each(function (itemStockOption) {
                     return itemStockOption.reset();
+                });
+                itemPriceMatrices.each(function (itemPriceMatrix) {
+                    return itemPriceMatrix.reset();
+                });
+                itemStateTaxes.each(function (itemStateTax) {
+                    return itemStateTax.reset();
                 });
                 template().reset();
                 dirtyFlag.reset();
@@ -398,6 +461,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     JobDescription8: jobDescription8(),
                     JobDescription9: jobDescription9(),
                     JobDescription10: jobDescription10(),
+                    FlagId: flagId(),
+                    IsQtyRanged: isQtyRanged(),
+                    PackagingWeight: packagingWeight(),
+                    DefaultItemTax: defaultItemTax(),
                     ItemVdpPrices: itemVdpPrices.map(function (itemVdpPrice) {
                         return itemVdpPrice.convertToServerData();
                     }),
@@ -409,6 +476,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }),
                     ItemStockOptions: itemStockOptions.map(function (itemStockOption) {
                         return itemStockOption.convertToServerData();
+                    }),
+                    ItemPriceMatrices: itemPriceMatrices.map(function (itemPriceMatrix) {
+                        return itemPriceMatrix.convertToServerData();
+                    }),
+                    ItemStateTaxes: itemStateTaxes.map(function (itemStateTax) {
+                        return itemStateTax.convertToServerData();
                     }),
                     Template: template().convertToServerData()
                 }
@@ -467,6 +540,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription9: jobDescription9,
             jobDescription10: jobDescription10,
             isTemplateTabsVisible: isTemplateTabsVisible,
+            flagId: flagId,
+            isQtyRangedUi: isQtyRangedUi,
+            packagingWeight: packagingWeight,
+            defaultItemTax: defaultItemTax,
             itemVideos: itemVideos,
             itemRelatedItems: itemRelatedItems,
             canAddItemVdpPrice: canAddItemVdpPrice,
@@ -478,6 +555,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemRelatedItem: removeItemRelatedItem,
             template: template,
             itemStockOptions: itemStockOptions,
+            itemStateTaxes: itemStateTaxes,
+            itemPriceMatrices: itemPriceMatrices,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
             chooseStockItem: chooseStockItem,
@@ -486,6 +565,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onAddItemCostCentre: onAddItemCostCentre,
             onEditItemCostCentre: onEditItemCostCentre,
             onSaveItemCostCentre: onSaveItemCostCentre,
+            addItemStateTax: addItemStateTax,
+            removeItemStateTax: removeItemStateTax,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -658,7 +739,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             convertToServerData: convertToServerData
         };
     },
-        
+
     // Template Entity
     // ReSharper disable InconsistentNaming
     Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight) {
@@ -680,7 +761,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 templatePages.remove(templatePage);
             },
             // Move Template Page Up
-            moveTemplatePageUp = function(templatePage) {
+            moveTemplatePageUp = function (templatePage) {
                 var i = templatePages.indexOf(templatePage);
                 if (i >= 1) {
                     var array = templatePages();
@@ -700,7 +781,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Is Valid
             isValid = ko.computed(function () {
-                return errors().length === 0 || templatePages.filter(function(templatePage) {
+                return errors().length === 0 || templatePages.filter(function (templatePage) {
                     return !templatePage.isValid();
                 }).length === 0;
             }),
@@ -713,7 +794,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty() || templatePages.find(function(templatePage) {
+                return dirtyFlag.isDirty() || templatePages.find(function (templatePage) {
                     return templatePage.hasChanges();
                 }) != null;
             }),
@@ -756,7 +837,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             convertToServerData: convertToServerData
         };
     },
-        
+
     // Template Page Entity
     TemplatePage = function (specifiedId, specifiedWidth, specifiedHeight, specifiedPageName, specifiedPageNo, specifiedProductId) {
         // ReSharper restore InconsistentNaming
@@ -822,7 +903,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             convertToServerData: convertToServerData
         };
     },
-        
+
     // Item Stock Option Entity
     ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
         specifiedItemId, callbacks) {
@@ -872,7 +953,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemAddonCostCentres.remove(itemAddonCostCentre);
             },
             // Select Stock Item
-            selectStock = function(stockItem) {
+            selectStock = function (stockItem) {
                 if (!stockItem || stockItemId() === stockItem.id) {
                     return;
                 }
@@ -953,7 +1034,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
         specifiedCostCentreType, callbacks) {
         // ReSharper restore InconsistentNaming
-        var 
+        var
             // self reference
             self,
             // Unique key
@@ -968,10 +1049,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreType = ko.observable(specifiedCostCentreType || undefined),
             // Cost Centre Id - On Change
             costCentreId = ko.computed({
-                read: function() {
+                read: function () {
                     return internalCostCentreId();
                 },
-                write: function(value) {
+                write: function (value) {
                     if (!value || value === internalCostCentreId()) {
                         return;
                     }
@@ -1034,7 +1115,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Stock Item Entity        
-    StockItem = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+    StockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
         return {
             id: specifiedId,
             name: specifiedName,
@@ -1044,15 +1125,290 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             description: specifiedDescription
         }
     },
-        
+
     // Cost Centre Entity        
     CostCentre = function (specifiedId, specifiedName, specifiedType) {
-        // ReSharper restore InconsistentNaming
         return {
             id: specifiedId,
             name: specifiedName,
             type: specifiedType
         }
+    },
+
+    // Country Entity        
+    Country = function (specifiedId, specifiedName, specifiedCode) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            type: specifiedCode
+        }
+    },
+
+    // State Entity        
+    State = function (specifiedId, specifiedName, specifiedCode, specifiedCountryId) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            type: specifiedCode,
+            countryId: specifiedCountryId
+        }
+    },
+
+    // Section Flag Entity        
+    SectionFlag = function (specifiedId, specifiedFlagName, specifiedFlagColor) {
+        return {
+            id: specifiedId,
+            name: specifiedFlagName,
+            type: specifiedFlagColor
+        }
+    },
+
+    // Item Price Matrix Entity
+    ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
+        specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
+        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedItemId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Quantity
+            quantity = ko.observable(specifiedQuantity || undefined),
+            // Qty Ranged From
+            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || undefined),
+            // Qty Ranged To
+            qtyRangedTo = ko.observable(specifiedQtyRangedTo || undefined),
+            // Price Paper Type1
+            pricePaperType1 = ko.observable(specifiedPricePaperType1 || undefined),
+            // Price Paper Type2
+            pricePaperType2 = ko.observable(specifiedPricePaperType2 || undefined),
+            // Price Paper Type3
+            pricePaperType3 = ko.observable(specifiedPricePaperType3 || undefined),
+            // Price Stock Type4
+            priceStockType4 = ko.observable(specifiedPriceStockType4 || undefined),
+            // Price Stock Type5
+            priceStockType5 = ko.observable(specifiedPriceStockType5 || undefined),
+            // Price Stock Type6
+            priceStockType6 = ko.observable(specifiedPriceStockType6 || undefined),
+            // Price Stock Type7
+            priceStockType7 = ko.observable(specifiedPriceStockType7 || undefined),
+            // Price Stock Type8
+            priceStockType8 = ko.observable(specifiedPriceStockType8 || undefined),
+            // Price Stock Type9
+            priceStockType9 = ko.observable(specifiedPriceStockType9 || undefined),
+            // Price Stock Type10
+            priceStockType10 = ko.observable(specifiedPriceStockType10 || undefined),
+            // Price Stock Type11
+            priceStockType11 = ko.observable(specifiedPriceStockType11 || undefined),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || 0),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                quantity: quantity,
+                qtyRangedFrom: qtyRangedFrom,
+                qtyRangedTo: qtyRangedTo,
+                pricePaperType1: pricePaperType1,
+                pricePaperType2: pricePaperType2,
+                pricePaperType3: pricePaperType3,
+                priceStockType4: priceStockType4,
+                priceStockType5: priceStockType5,
+                priceStockType6: priceStockType6,
+                priceStockType7: priceStockType7,
+                priceStockType8: priceStockType8,
+                priceStockType9: priceStockType9,
+                priceStockType10: priceStockType10,
+                priceStockType11: priceStockType11
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    PriceMatrixId: id(),
+                    ItemId: itemId(),
+                    Quantity: quantity(),
+                    QtyRangedFrom: qtyRangedFrom(),
+                    QtyRangedTo: qtyRangedTo(),
+                    PricePaperType1: pricePaperType1(),
+                    PricePaperType2: pricePaperType2(),
+                    PricePaperType3: pricePaperType3(),
+                    PriceStockType4: priceStockType4(),
+                    PriceStockType5: priceStockType5(),
+                    PriceStockType6: priceStockType6(),
+                    PriceStockType7: priceStockType7(),
+                    PriceStockType8: priceStockType8(),
+                    PriceStockType9: priceStockType9(),
+                    PriceStockType10: priceStockType10(),
+                    PriceStockType11: priceStockType11()
+                }
+            };
+
+        return {
+            id: id,
+            itemId: itemId,
+            quantity: quantity,
+            qtyRangedFrom: qtyRangedFrom,
+            qtyRangedTo: qtyRangedTo,
+            pricePaperType1: pricePaperType1,
+            pricePaperType2: pricePaperType2,
+            pricePaperType3: pricePaperType3,
+            priceStockType4: priceStockType4,
+            priceStockType5: priceStockType5,
+            priceStockType6: priceStockType6,
+            priceStockType7: priceStockType7,
+            priceStockType8: priceStockType8,
+            priceStockType9: priceStockType9,
+            priceStockType10: priceStockType10,
+            priceStockType11: priceStockType11,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
+    // Item State Tax Entity
+    ItemStateTax = function (specifiedId, specifiedCountryId, specifiedStateId, specifiedTaxRate, specifiedCountryName, specifiedStateName, specifiedItemId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Country Id
+            internalCountryId = ko.observable(specifiedCountryId || undefined),
+            // Country Name
+            countryName = ko.observable(specifiedCountryName || undefined),
+            // State Name
+            stateName = ko.observable(specifiedStateName || undefined),
+            // State Id
+            internalStateId = ko.observable(specifiedStateId || undefined),
+            // Tax Rate
+            taxRate = ko.observable(specifiedTaxRate || undefined),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || 0),
+            // Countries
+            countries = ko.observableArray([]),
+            // States
+            states = ko.observableArray([]),
+            // Country States
+            countryStates = ko.computed(function () {
+                if (!countryId()) {
+                    return [];
+                }
+
+                return states.filter(function (state) {
+                    return state.countryid === countryId();
+                });
+            }),
+            // Country Id
+            countryId = ko.computed({
+                read: function () {
+                    return internalCountryId();
+                },
+                write: function (value) {
+                    if (!value || internalCountryId() === value) {
+                        return;
+                    }
+
+                    internalCountryId(value);
+
+                    var countryResult = countries.filter(function (country) {
+                        return country.id === value;
+                    });
+
+                    if (!countryResult) {
+                        return;
+                    }
+
+                    countryName(countryResult.name);
+                }
+            }),
+            // State Id
+            stateId = ko.computed({
+                read: function () {
+                    return internalStateId();
+                },
+                write: function (value) {
+                    if (!value || internalStateId() === value) {
+                        return;
+                    }
+
+                    internalStateId(value);
+
+                    var stateResult = states.filter(function (state) {
+                        return state.id === value;
+                    });
+
+                    if (!stateResult) {
+                        return;
+                    }
+
+                    stateName(stateResult.name);
+                }
+            }),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item State Tax has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                taxRate: taxRate,
+                countryId: countryId,
+                stateId: stateId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ItemStateTaxId: id(),
+                    ItemId: itemId(),
+                    CountryId: countryId(),
+                    StateId: stateId(),
+                    TaxRate: taxRate()
+                }
+            };
+
+        return {
+            id: id,
+            itemId: itemId,
+            taxRate: taxRate,
+            countryId: countryId,
+            stateId: stateId,
+            countryName: countryName,
+            stateName: stateName,
+            countries: countries,
+            states: states,
+            countryStates: countryStates,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
     };
 
     // Item Vdp Price Factory
@@ -1088,7 +1444,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return a.PageNo > b.PageNo ? 1 : -1;
             });
 
-            _.each(source.TemplatePages, function(templatePage) {
+            _.each(source.TemplatePages, function (templatePage) {
                 templatePages.push(TemplatePage.Create(templatePage));
             });
 
@@ -1133,8 +1489,28 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return itemStockOption;
     }
 
+    // Item State Tax Factory
+    ItemStateTax.Create = function (source, callbacks, constructorParams) {
+        var itemStateTax = new ItemStateTax(source.ItemStateTaxId, source.CountryId, source.StateId, source.TaxRate, source.CountryName,
+            source.StateName, source.ItemId, callbacks);
+
+        if (constructorParams) {
+            itemStateTax.countries(constructorParams.countries || []);
+            itemStateTax.states(constructorParams.states || []);
+        }
+
+        return itemStateTax;
+    }
+
+    // Item Price Matrix Factory
+    ItemPriceMatrix.Create = function (source) {
+        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangedFrom, source.QtyRangedTo, source.PricePaperType1, source.PricePaperType2,
+            source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
+            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.ItemId);
+    }
+
     // Item Factory
-    Item.Create = function (source, callbacks) {
+    Item.Create = function (source, callbacks, constructorParams) {
         var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
             source.IsArchived, source.IsPublished, source.ProductCategoryName, source.IsEnabled, source.IsFeatured, source.ProductType, source.SortOrder,
             source.IsStockControl, source.IsVdpProduct, source.XeroAccessCode, source.WebDescription, source.ProductSpecification, source.TipsAndHints,
@@ -1142,7 +1518,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
-            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, callbacks);
+            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, callbacks,
+            constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {
@@ -1201,6 +1578,32 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             item.itemStockOptions.valueHasMutated();
         }
 
+        // Map Item Related Items if any
+        if (source.ItemPriceMatrices && source.ItemPriceMatrices.length > 0) {
+            var itemPriceMatrices = [];
+
+            _.each(source.ItemPriceMatrices, function (itemPriceMatrix) {
+                itemPriceMatrices.push(ItemPriceMatrix.Create(itemPriceMatrix));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.itemPriceMatrices(), itemPriceMatrices);
+            item.itemPriceMatrices.valueHasMutated();
+        }
+
+        // Map Item State Taxes if any
+        if (source.ItemStateTaxes && source.ItemStateTaxes.length > 0) {
+            var itemStateTaxes = [];
+
+            _.each(source.ItemStateTaxes, function (itemStateTax) {
+                itemStateTaxes.push(ItemStateTax.Create(itemStateTax, callbacks, constructorParams));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.itemStateTaxes(), itemStateTaxes);
+            item.itemStateTaxes.valueHasMutated();
+        }
+
         // Reset State to Un-Modified
         item.reset();
 
@@ -1208,13 +1611,28 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     }
 
     // Stock Item Factory
-    StockItem.Create = function(source) {
+    StockItem.Create = function (source) {
         return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
     }
 
     // Cost Centre Factory
     CostCentre.Create = function (source) {
         return new CostCentre(source.CostCentreId, source.Name, source.TypeName);
+    }
+
+    // Country Factory
+    Country.Create = function (source) {
+        return new Country(source.CountryId, source.CountryName, source.CountryCode);
+    }
+
+    // State Factory
+    State.Create = function (source) {
+        return new State(source.StateId, source.StateName, source.StateCode, source.CountryId);
+    }
+
+    // Section Flag Factory
+    SectionFlag.Create = function (source) {
+        return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
     }
 
     return {
@@ -1237,6 +1655,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Stock Item Constructor
         StockItem: StockItem,
         // Cost Centre Constructor
-        CostCentre: CostCentre
+        CostCentre: CostCentre,
+        // Country Constructor
+        Country: Country,
+        // State Constructor
+        State: State,
+        // Section Flag Constructor
+        SectionFlag: SectionFlag
     };
 });

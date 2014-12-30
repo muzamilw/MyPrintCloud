@@ -142,7 +142,7 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <input type="text" class="form-control" id="txtState" placeholder="Enter State" data-bind="value:state , validationTooltip:state">
+                                                            <select id="currency" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"></select>
                                                             <span class="help-block text-right"></span>
                                                         </div>
 
@@ -162,7 +162,7 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <input type="text" class="form-control" id="txtCountry" placeholder="Enter Country" data-bind="value:country,validationTooltip:country">
+                                                            <select id="currency" class="form-control" data-bind="options: $root.countries , optionsText: 'CountryName', optionsValue: 'CountryId' ,value:country,validationtooltip:country"></select>
                                                             <span class="help-block text-right"></span>
                                                         </div>
 

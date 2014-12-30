@@ -401,8 +401,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
-
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
+        public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
 
         #endregion
     }

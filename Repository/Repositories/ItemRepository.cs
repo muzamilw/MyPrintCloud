@@ -989,6 +989,32 @@ namespace MPC.Repository.Repositories
            
         }
 
+        public ProductItem GetItemAndDetailsByItemID(int itemId)
+        {
+
+            //var query = null;
+//                from item in db.Items
+////                        inner join dbo.ProductCategoryItem pc2 on p.ItemId = pc2.ItemId
+////inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
+//                        //join productCatItem in db.ProductCategoryItem
+//                       // join category in db.ProductCategories on item.ProductCategoryId equals category.ProductCategoryId
+//                        //join ItemDetail in db.ItemProductDetails on item.ItemID equals ItemDetail.ItemID
+//                        where item.ItemId == itemId
+//                        select new ProductItem
+//                        {
+//                            ProductName = item.ProductName,
+//                            ThumbnailPath = item.ThumbnailPath,
+//                            ProductCategoryName = category.CategoryName,
+//                            ProductSpecification = item.ProductSpecification,
+//                            AllowBriefAttachments = ItemDetail.isAllowMarketBriefAttachment ?? false,
+//                            BriefSuccessMessage = ItemDetail.MarketBriefSuccessMessage
+
+//                        };
+           // return query.FirstOrDefault<ProductItem>();
+            return null;
+        }
+       
+
         #endregion
     }
 }

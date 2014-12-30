@@ -32,9 +32,15 @@ define("myOrganization/myOrganization.viewModel",
                     errorList = ko.observableArray([]),
                     //Markups
                     markups = ko.observableArray([]),
+                    //Countries
+                    countries = ko.observableArray([]),
+                    //States
+                    states = ko.observableArray([]),
+                    //Filtered States
+                    filteredStates = ko.observableArray([]),
                     //Markup List For Drop Down
                     markupsForDropDown = ko.observableArray([]),
-                        // #endregion Arrays
+                    // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingMyOrganization = ko.observable(false),
                     // #endregion Busy Indicators
@@ -80,6 +86,14 @@ define("myOrganization/myOrganization.viewModel",
                                 unitWeights.removeAll();
                                 ko.utils.arrayPushAll(unitWeights(), unitWeightsGlobal);
                                 unitWeights.valueHasMutated();
+                                //Countries 
+                                countries.removeAll();
+                                ko.utils.arrayPushAll(countries(), data.Countries);
+                                countries.valueHasMutated();
+                                //States 
+                                states.removeAll();
+                                ko.utils.arrayPushAll(states(), data.States);
+                                states.valueHasMutated();
                                 //Chart Of Accounts
                                 chartOfAccounts.removeAll();
                                 var chartOfAccountsList = [];
@@ -269,6 +283,17 @@ define("myOrganization/myOrganization.viewModel",
                         }
 
                     },
+                     //Filter States based on Country
+                    filterStates = ko.computed(function () {
+                        filteredStates.removeAll();
+                        if (selectedMyOrganization() !== undefined && selectedMyOrganization().country() !== undefined) {
+                            _.each(states(), function (item) {
+                                if (item.CountryId === selectedMyOrganization().country()) {
+                                    filteredStates.push(item);
+                                }
+                            });
+                        }
+                    }, this),
                     // Save My Organization
                     saveMyOrganization = function (myOrg) {
                         dataservice.saveMyOrganization(model.CompanySitesServerMapper(myOrg), {
@@ -340,6 +365,8 @@ define("myOrganization/myOrganization.viewModel",
                     chartOfAccounts: chartOfAccounts,
                     markupsForDropDown: markupsForDropDown,
                     errorList: errorList,
+                    countries: countries,
+                    filteredStates: filteredStates,
                     // Utility Methods
                     initialize: initialize,
                     pager: pager,

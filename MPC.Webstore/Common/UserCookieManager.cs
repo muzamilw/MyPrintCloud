@@ -9,7 +9,7 @@ namespace MPC.Webstore.Common
 {
     public sealed class UserCookieManager
     {
-
+        public static bool isWritePresistentCookie = false;
 
         public static long StoreId
         {
@@ -263,7 +263,37 @@ namespace MPC.Webstore.Common
 
                 HttpCookie TaxPriceCookie = null;
                 TaxPriceCookie = new HttpCookie("TaxPrice", value.ToString());
+                 
                 HttpContext.Current.Response.Cookies.Add(TaxPriceCookie);
+            }
+        }
+
+        public static int RememberMeCompanyID
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["RememberMeCompanyID"] != null)
+                {
+                    return Convert.ToInt32((HttpContext.Current.Request.Cookies["RememberMeCompanyID"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["RememberMeCompanyID"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("RememberMeCompanyID");
+
+                }
+
+                HttpCookie RememberMeCompanyIDCookie = null;
+                RememberMeCompanyIDCookie = new HttpCookie("RememberMeCompanyID", value.ToString());
+                RememberMeCompanyIDCookie.Expires = DateTime.Now.AddDays(30);
+                HttpContext.Current.Response.Cookies.Add(RememberMeCompanyIDCookie);
             }
         }
     }

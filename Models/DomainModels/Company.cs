@@ -111,6 +111,11 @@ namespace MPC.Models.DomainModels
 
         public long? PickupAddressId { get; set; }
 
+        /// <summary>
+        /// Tax Label
+        /// </summary>
+        public string TaxLabel { get; set; }
+
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
         public virtual ICollection<CompanyCMYKColor> CompanyCMYKColors { get; set; }

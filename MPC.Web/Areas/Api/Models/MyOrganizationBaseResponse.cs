@@ -21,5 +21,15 @@ namespace MPC.MIS.Areas.Api.Models
         /// Markup List
         /// </summary>
         public List<Markup> Markups { get; set; }
+
+        /// <summary>
+        /// States
+        /// </summary>
+        public List<StateDropDown> States { get; set; }
+
+        /// <summary>
+        /// Countries
+        /// </summary>
+        public List<CountryDropDown> Countries { get; set; }
     }
 }
