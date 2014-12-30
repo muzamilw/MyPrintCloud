@@ -76,6 +76,7 @@
     <Compile Include="Repository\ICompanyContactRoleRepository.cs" />
     <Compile Include="Repository\ICompanyTerritoryRepository.cs" />
     <Compile Include="Repository\ICompanyTypeRepository.cs" />
+    <Compile Include="Repository\ICountryRepository.cs" />
     <Compile Include="Repository\ICurrencyRepository.cs" />
     <Compile Include="Repository\IEmailEventRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
+    <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ITemplatePageRepository.cs" />
     <Compile Include="Repository\ITemplateRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />

@@ -72,6 +72,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IOrganisationFileTableViewRepository, OrganisationFileTableViewRepository>();
             unityContainer.RegisterType<IItemPriceMatrixRepository, ItemPriceMatrixRepository>();
             unityContainer.RegisterType<IItemStateTaxRepository, ItemStateTaxRepository>();
+            unityContainer.RegisterType<IStateRepository, StateRepository>();
+            unityContainer.RegisterType<ICountryRepository, CountryRepository>();
         }
     }
 }

@@ -25,6 +25,8 @@ namespace MPC.Implementation.MISServices
         private readonly IMarkupRepository markupRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
         private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
+        private readonly IStateRepository stateRepository;
+        private readonly ICountryRepository countryRepository;
 
         #endregion
 
@@ -34,7 +36,8 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
-         IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository)
+         IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
+            ICountryRepository countryRepository, IStateRepository stateRepository)
         {
             if (mpcFileTableViewRepository == null)
             {
@@ -44,6 +47,8 @@ namespace MPC.Implementation.MISServices
             this.markupRepository = markupRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
             this.mpcFileTableViewRepository = mpcFileTableViewRepository;
+            this.countryRepository = countryRepository;
+            this.stateRepository = stateRepository;
         }
 
         #endregion
@@ -58,6 +63,8 @@ namespace MPC.Implementation.MISServices
             {
                 ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
+                Countries = countryRepository.GetAll(),
+                States = stateRepository.GetAll(),
             };
         }
 
@@ -67,7 +74,7 @@ namespace MPC.Implementation.MISServices
         public Organisation GetOrganisationDetail()
         {
             Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
-            
+
             if (organization.MISLogoStreamId.HasValue)
             {
                 MpcFileTableView fileTableView = mpcFileTableViewRepository.GetByStreamId(organization.MISLogoStreamId.Value);

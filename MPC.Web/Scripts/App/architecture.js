@@ -116,8 +116,38 @@ require(["ko", "knockout-validation"], function (ko) {
             return false;
         return string.substring(0, startsWith.length) === startsWith;
     };
+    ko.bindingHandlers.wysiwyg = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var valueUnwrapped = ko.unwrap(value);
+            var allBindings = allBindingsAccessor();
+            var $element = $(element);
+            $element.attr('contenteditable', true);
+            //CKEDITOR.inline(element).setData(valueUnwrapped || $element.html());
+            CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
+            if (ko.isObservable(value)) {
+                var isSubscriberChange = false;
+                var isEditorChange = true;
+                $element.html(value());
+                visEditorChange = false;
 
-
+                $element.on('input, change, keyup, mouseup', function () {
+                    if (!isSubscriberChange) {
+                        isEditorChange = true;
+                        value($element.html());
+                        isEditorChange = false;
+                    }
+                });
+                value.subscribe(function (newValue) {
+                    if (!isEditorChange) {
+                        isSubscriberChange = true;
+                        $element.html(newValue);
+                        isSubscriberChange = false;
+                    }
+                });
+            }
+        }
+    }
     ko.bindingHandlers.drag = {
         init: function (element, valueAccessor, allBindingsAccessor,
                        viewModel, context) {
@@ -168,35 +198,6 @@ require(["ko", "knockout-validation"], function (ko) {
             });
         }
     };
-
-    //var _dragged;
-    //ko.bindingHandlers.drag = {
-    //    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-    //        var dragElement = $(element);
-    //        var dragOptions = {
-    //            helper: 'clone',
-    //            revert: true,
-    //            revertDuration: 0,
-    //            start: function () {
-    //                _dragged = ko.utils.unwrapObservable(valueAccessor().value);
-    //            },
-    //            cursor: 'default'
-    //        };
-    //        dragElement.draggable(dragOptions).disableSelection();
-    //    }
-    //};
-
-    //ko.bindingHandlers.drop = {
-    //    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-    //        var dropElement = $(element);
-    //        var dropOptions = {
-    //            drop: function (event, ui) {
-    //                valueAccessor().value(_dragged);
-    //            }
-    //        };
-    //        dropElement.droppable(dropOptions);
-    //    }
-    //};
 
     // jquery date picker binding. Usage: <input data-bind="datepicker: myDate, datepickerOptions: { minDate: new Date() }" />. Source: http://jsfiddle.net/rniemeyer/NAgNV/
     ko.bindingHandlers.datepicker = {
@@ -315,36 +316,6 @@ require(["ko", "knockout-validation"], function (ko) {
             if (isNaN(value)) value = 0;
             $(element).slider("value", value);
 
-        }
-    };
-
-    ko.bindingHandlers.colorpicker = {
-        init: function (element, valueAccessor, allBindingsAccessor) {
-
-            // set default value
-            var value = ko.utils.unwrapObservable(valueAccessor());
-            $(element).val(value);
-
-            //initialize datepicker with some optional options
-            var options1 = allBindingsAccessor().colorPickerOptions || {};
-            $(element).colorpicker(options1);
-
-            //handle the field changing
-            ko.utils.registerEventHandler(element, "change", function () {
-                var observable = valueAccessor();
-                observable($(element).val());
-            });
-
-            //handle disposal (if KO removes by the template binding)
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).colorpicker("destroy");
-            });
-
-        },
-        update: function (element, valueAccessor, allBindingsAccessor) {
-            var value = ko.utils.unwrapObservable(valueAccessor());
-            $(element).val(value);
-            $(element).change();
         }
     };
 

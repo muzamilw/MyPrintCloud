@@ -20,6 +20,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CountryCode = source.CountryCode
             };
         }
-        
+
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        public static CountryDropDown CreateFromDropDown(this DomainModels.Country source)
+        {
+            return new CountryDropDown
+            {
+                CountryId = source.CountryId,
+                CountryName = source.CountryName,
+            };
+        }
+
     }
 }

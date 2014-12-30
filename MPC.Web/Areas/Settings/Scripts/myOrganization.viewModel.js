@@ -11,7 +11,7 @@ define("myOrganization/myOrganization.viewModel",
                     view,
                     // Active
                     selectedMyOrganization = ko.observable(),
-                       //Active markup
+                    //Active markup
                     selectedMarkup = ko.observable(),
                     //Active Chart Of Accounts
                     selectedChartOfAccounts = ko.observable(),
@@ -32,9 +32,15 @@ define("myOrganization/myOrganization.viewModel",
                     errorList = ko.observableArray([]),
                     //Markups
                     markups = ko.observableArray([]),
+                    //Countries
+                    countries = ko.observableArray([]),
+                    //States
+                    states = ko.observableArray([]),
+                    //Filtered States
+                    filteredStates = ko.observableArray([]),
                     //Markup List For Drop Down
                     markupsForDropDown = ko.observableArray([]),
-                        // #endregion Arrays
+                    // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingMyOrganization = ko.observable(false),
                     // #endregion Busy Indicators
@@ -55,9 +61,8 @@ define("myOrganization/myOrganization.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
-                        selectedMyOrganization(new model.CompanySites());
+                        //selectedMyOrganization(new model.CompanySites());
                         //selectedMyOrganization().id(2);
-                        getMyOrganizationById();
                         view.initializeForm();
                     },
                     // Get Base
@@ -80,6 +85,14 @@ define("myOrganization/myOrganization.viewModel",
                                 unitWeights.removeAll();
                                 ko.utils.arrayPushAll(unitWeights(), unitWeightsGlobal);
                                 unitWeights.valueHasMutated();
+                                //Countries 
+                                countries.removeAll();
+                                ko.utils.arrayPushAll(countries(), data.Countries);
+                                countries.valueHasMutated();
+                                //States 
+                                states.removeAll();
+                                ko.utils.arrayPushAll(states(), data.States);
+                                states.valueHasMutated();
                                 //Chart Of Accounts
                                 chartOfAccounts.removeAll();
                                 var chartOfAccountsList = [];
@@ -103,6 +116,9 @@ define("myOrganization/myOrganization.viewModel",
                                 markupsForDropDown.removeAll();
                                 ko.utils.arrayPushAll(markupsForDropDown(), data.Markups);
                                 markupsForDropDown.valueHasMutated();
+
+                                getMyOrganizationById();
+
                                 if (callBack && typeof callBack === 'function') {
                                     callBack();
                                 }
@@ -177,7 +193,9 @@ define("myOrganization/myOrganization.viewModel",
                         isLoadingMyOrganization(true);
                         dataservice.getMyOrganizationDetail({
                             success: function (data) {
-                                selectedMyOrganization(model.CompanySitesClientMapper(data));
+                                filteredStates.removeAll();
+                                var org = model.CompanySitesClientMapper(data);
+                                selectedMyOrganization(org);
                                 orgnizationImage(data.ImageSource);
                                 view.initializeForm();
                                 isLoadingMyOrganization(false);
@@ -269,6 +287,17 @@ define("myOrganization/myOrganization.viewModel",
                         }
 
                     },
+                     //Filter States based on Country
+                    filterStates = ko.computed(function () {
+                        if (selectedMyOrganization() !== undefined && selectedMyOrganization().country() !== undefined) {
+                            filteredStates.removeAll();
+                            _.each(states(), function (item) {
+                                if (item.CountryId === selectedMyOrganization().country()) {
+                                    filteredStates.push(item);
+                                }
+                            });
+                        }
+                    }, this),
                     // Save My Organization
                     saveMyOrganization = function (myOrg) {
                         dataservice.saveMyOrganization(model.CompanySitesServerMapper(myOrg), {
@@ -301,6 +330,7 @@ define("myOrganization/myOrganization.viewModel",
                                 } else {
                                     selectedMyOrganization(), id(orgId);
                                 }
+                                selectedMyOrganization().reset();
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {
@@ -339,6 +369,8 @@ define("myOrganization/myOrganization.viewModel",
                     chartOfAccounts: chartOfAccounts,
                     markupsForDropDown: markupsForDropDown,
                     errorList: errorList,
+                    countries: countries,
+                    filteredStates: filteredStates,
                     // Utility Methods
                     initialize: initialize,
                     pager: pager,
