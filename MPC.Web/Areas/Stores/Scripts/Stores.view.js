@@ -93,6 +93,14 @@ define("stores/stores.view",
                 hideEmailCamapaignDialog = function () {
                     $("#addEditCampaignEmailModal").modal("hide");
                 },
+                // Show Product Category Dialog
+                showProductCategoryDialog = function () {
+                    $("#myProductCategoryModal").modal("show");
+                },
+                // Hide Product Category Dialog
+                hideProductCategoryDialog = function () {
+                    $("#myProductCategoryModal").modal("hide");
+                },
                 // show Payment Gateway Dialog
                 showPaymentGatewayDialog = function () {
                     $("#myPaymentGatewayModal").modal("show");
@@ -146,6 +154,8 @@ define("stores/stores.view",
                 hideEmailCamapaignDialog: hideEmailCamapaignDialog,
                 showPaymentGatewayDialog: showPaymentGatewayDialog,
                 hidePaymentGatewayDialog: hidePaymentGatewayDialog,
+                showProductCategoryDialog: showProductCategoryDialog,
+                hideProductCategoryDialog: hideProductCategoryDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

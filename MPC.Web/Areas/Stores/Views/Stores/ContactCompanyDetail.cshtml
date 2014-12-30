@@ -485,7 +485,7 @@
                                     </div>
 
                                 </div>
-                                <div class="tab-pane fade" id="tab-products">
+                                <div class="tab-pane fade" id="tab-products" >
                                     <div class="col-lg-3">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
@@ -495,50 +495,48 @@
                                                 </a>
                                             </header>
                                             <div style="padding-right: 5px;" id="nestable2">
-                                                <ol class="dd-list" >
+                                                <ol class="dd-list">
                                                     <!-- ko template: { name: 'itemProductCategoriesTemplate' , foreach: $root.selectedStore().productCategories } -->
                                                     <!-- /ko -->
-
-
                                                     @*<li class="dd-item dd-item-list" data-id="15">
-                                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                        <div class="dd-handle">
-                                                            Business Cards
-                                                            <div class="nested-links">
-                                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <ol class="dd-list">
-                                                            <li class="dd-item dd-item-list" data-id="16">
-                                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                                <div class="dd-handle red-bg txt-white-hover">
-                                                                    Letterheads
-                                                                    <div class="nested-links">
-                                                                        <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="dd-item dd-item-list" data-id="17">
-                                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                                <div class="dd-handle yellow-bg txt-white-hover">
-                                                                    Compliment Slips
-                                                                    <div class="nested-links">
-                                                                        <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="dd-item dd-item-list" data-id="18">
-                                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                                <div class="dd-handle green-bg txt-white-hover">
-                                                                    Envelopes
-                                                                    <div class="nested-links">
-                                                                        <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </ol>
-                                                    </li>*@
-                                                    
+                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                <div class="dd-handle">
+                                    Business Cards
+                                    <div class="nested-links">
+                                        <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                </div>
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-item-list" data-id="16">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle red-bg txt-white-hover">
+                                            Letterheads
+                                            <div class="nested-links">
+                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dd-item dd-item-list" data-id="17">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle yellow-bg txt-white-hover">
+                                            Compliment Slips
+                                            <div class="nested-links">
+                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dd-item dd-item-list" data-id="18">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle green-bg txt-white-hover">
+                                            Envelopes
+                                            <div class="nested-links">
+                                                <a href="~/Products/ProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </li>*@
+
                                                 </ol>
                                             </div>
                                         </div>
@@ -2449,7 +2447,7 @@
                 <div class="dd-handle">
                     <span data-bind="text: categoryName"></span>
                     <div class="nested-links">
-                        <a  class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+                        <a data-bind="click: $root.openProductCategoryDetail" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
                     </div>
                 </div>
             </li>
@@ -2494,7 +2492,7 @@
 @Html.Partial("Company/_RaveReviews")
 @Html.Partial("Company/_ProductsFilter")
 @Html.Partial("Company/_ChooseUsIcon")
-
+@Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
 @section Scripts {
 
     <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>

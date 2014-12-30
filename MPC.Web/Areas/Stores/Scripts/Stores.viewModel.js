@@ -49,6 +49,7 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
+                    
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -1421,7 +1422,6 @@ define("stores/stores.viewModel",
                     getCategoryChildListItems = function(dataRecieved, event) {
                         //var id = event.target.parentElement.parentElement.id;
                         var id = $(event.target).closest('li')[0].id;
-                        toastr.success("id = " + id);
                         if ($(event.target).closest('li').children('ol').length > 0) {
                             if ($(event.target).closest('li').children('ol').is(':hidden')) {
                                 $(event.target).closest('li').children('ol').show();
@@ -1429,7 +1429,6 @@ define("stores/stores.viewModel",
                                 $(event.target).closest('li').children('ol').hide();
                             }
                             
-                            toastr.error("already recieved data");
                             return;
                         }
                         dataservice.getProductCategoryChilds({
@@ -1442,34 +1441,22 @@ define("stores/stores.viewModel",
                                             ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
                                         });
                                     }
-
                                     isLoadingStores(false);
                                 },
                                 error: function(response) {
                                     isLoadingStores(false);
-                                    //toastr.error("Error: Failed To load Stores " + response);
+                                    toastr.error("Error: Failed To load Categories " + response);
                                 }
                             });
                     },
+                    openProductCategoryDetail = function(dataRecieved, event) {
+                        var id = $(event.target).closest('li')[0].id;
+                        toastr.success("id =" + id);
+                        var productCategory = new model.ProductCategory();
+                        selectedProductCategory(productCategory);
+                        view.showProductCategoryDialog();
+                    },
                     
-                    //checkPaymentMethodSelection = selectedPaymentGateway().paymentMethodId().subscribe(function (value) {
-                    //    debugger;
-
-                    //    var id = value.paymentMethodId();
-                    //    _.each(paymentMethods(), function (paymentMethod) {
-                    //        if (paymentMethod.paymentMethodId() == id) {
-                    //            debugger;
-                    //            if (paymentMethod.methodName() == "PayPal" || paymentMethod.methodName() == "Cash" || paymentMethod.methodName() == "") {
-                    //                isAccessCodeSectionVisible(false);
-                    //            }
-                    //            else {
-                    //                isAccessCodeSectionVisible(true);
-                    //            }
-                    //        }
-                    //    });
-
-                    //}),
-
                     //***********    P A Y M E N T    G A T E W A Y   E N D  *********************//   
 
 
@@ -1762,6 +1749,7 @@ define("stores/stores.viewModel",
                     addWidgetToPageLayout: addWidgetToPageLayout,
                     deletePageLayoutWidget: deletePageLayoutWidget,
                     getCategoryChildListItems: getCategoryChildListItems,
+                    openProductCategoryDetail: openProductCategoryDetail,
                     initialize: initialize
                 };
             })()

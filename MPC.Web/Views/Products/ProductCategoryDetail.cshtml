@@ -3,7 +3,7 @@
 }
 
 @section leftmenue {
-   }
+}
 <div class="row">
     <div class="col-lg-12">
         <div class="row">
@@ -11,100 +11,80 @@
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="~/CRM/ContactCompanies">Store</a></li>
-                     <li><a href="~/CRM/ContactCompanyDetail">Store Detail</a></li>
+                    <li><a href="~/CRM/ContactCompanyDetail">Store Detail</a></li>
                     <li class="active"><span>Product Category Detail</span></li>
                 </ol>
                 <h1>Business Cards</h1>
             </div>
         </div>
         <div class="row" id="user-profile">
-         
+
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                              @*<li class="active"><a href="#tab-newsfeed" data-toggle="tab">General Info</a></li>*@
+                            @*<li class="active"><a href="#tab-newsfeed" data-toggle="tab">General Info</a></li>*@
                             <li class="active"><a href="#tab-CatNameAndImages" data-toggle="tab">Basic Details</a></li>
-                             
+
                             <li><a href="#tab-catDisplay" data-toggle="tab">Category Display</a></li>
                             <li><a href="#tab-SEO" data-toggle="tab">Search Engine Optimization</a></li>
                             <li><a href="#tab-catDesc" data-toggle="tab">Category Descriptions</a></li>
                             <li><a href="#tab-productDisplay" data-toggle="tab">Product Display</a></li>
-                             <li><a href="#tab-catImages" data-toggle="tab">Category Images</a></li> 
+                            <li><a href="#tab-catImages" data-toggle="tab">Category Images</a></li>
                         </ul>
                         <div class="tab-content">
 
 
-                            
+
                             <div class="tab-pane fade in active" id="tab-CatNameAndImages">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Details</h3>
                                     <div class="col-lg-9">
-
-                                         
-
-                                          <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                   <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category Name contains name of specifice category." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category Name contains name of specifice category." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
                                                 <label for="txtProductName" class="control-label text-right tooltip-float">Category Name</label>
-                                               
                                             </div>
-
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtCategoryName" placeholder="Enter Category Name" value ="Business Cards Matt">
+                                                <input type="text" class="form-control" id="txtCategoryName" placeholder="Enter Category Name" value="Business Cards Matt">
                                                 <span class="help-block text-right"></span>
                                             </div>
-
                                         </div>
-                                       
-                                        
-                                       
-
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Parent categories" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Parent categories" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
                                                 <label for="txtCompanyName" class="control-label text-right">Parent Category</label>
-                                                
                                             </div>
-
                                             <div class="col-lg-6">
-                                                     <select class="form-control">
-                                                                        <option>Stationary Marketing</option>
-                                                                        <option>Brouchers</option>
-                                                                        <option>Flyers</option>
-                                                                        <option>Posters and Postcards</option>
-                                                                        <option>Flyers</option>
-                                                                         <option>Retail and POS</option>
-                                                       </select>
-                                             
-                                              
+                                                <select class="form-control">
+                                                    <option>Stationary Marketing</option>
+                                                    <option>Brouchers</option>
+                                                    <option>Flyers</option>
+                                                    <option>Posters and Postcards</option>
+                                                    <option>Flyers</option>
+                                                    <option>Retail and POS</option>
+                                                </select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
 
-                                <div class="form-group">
-                                            <div class="col-lg-4 text-right" >
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories in which there is all shelf products" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Is this Shelf Product Category ?</label>
-                                                 
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories in which there is all shelf products" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Is this Shelf Product Category ?</label>
                                             </div>
-
                                             <div class="col-lg-6">
                                                 <div>
                                                     <div class="onoffswitch">
@@ -117,21 +97,16 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable category" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Enable Category</label>
-                                                 
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Enable Category</label>
                                             </div>
-
                                             <div class="col-lg-6">
                                                 <div>
                                                     <div class="onoffswitch">
@@ -144,20 +119,15 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-
                                         </div>
-                                        
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Publish Category on webstore" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
                                                 <label class="control-label text-right" for="switchSecondaryPages">Publish Category on Webstore</label>
-
                                             </div>
 
                                             <div class="col-lg-6">
@@ -177,143 +147,138 @@
                                     </div>
 
                                     <div class="col-lg-3 col-md-4 col-sm-4">
-                <div class=" clearfix">
-                    <header class="main-box-header clearfix">
-                        <h2>Business Cards</h2>
-                    </header>
-                    <div class="main-box-body clearfix">
-                        <div class="profile-status">
-                          
-                        </div>
-                        <img src="~/Content/themes/Centaurus/img/samples/CategoryImg1.png" alt="" class="profile-img img-responsive center-block" />
-                        <div class="profile-label">
-                            <span class="label label-danger">Active</span>
-                        </div>
-                        <div class="profile-stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                            <span></span>
-                        </div>
-                        <div class="profile-since">
-                          
-                        </div>
-                        <div class="profile-details">
-                            <ul class="fa-ul">
-                                <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa  fa-check"></i>  </li>
-                                <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa  fa-check"></i></li>
-                               
-                            </ul>
-                        </div>
-                       @* <div class="profile-message-btn center-block text-center">
-                            <a href="#" class="btn btn-success">
-                                <i class="fa fa-envelope"></i>
-                                Send message
-                            </a>
-                        </div>*@
-                    </div>
-                </div>
-            </div>
+                                        <div class=" clearfix">
+                                            <header class="main-box-header clearfix">
+                                                <h2>Business Cards</h2>
+                                            </header>
+                                            <div class="main-box-body clearfix">
+                                                <div class="profile-status">
+
+                                                </div>
+                                                <img src="~/Content/themes/Centaurus/img/samples/CategoryImg1.png" alt="" class="profile-img img-responsive center-block" />
+                                                <div class="profile-label">
+                                                    <span class="label label-danger">Active</span>
+                                                </div>
+                                                <div class="profile-stars">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <span></span>
+                                                </div>
+                                                <div class="profile-since">
+
+                                                </div>
+                                                <div class="profile-details">
+                                                    <ul class="fa-ul">
+                                                        <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa  fa-check"></i>  </li>
+                                                        <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa  fa-check"></i></li>
+
+                                                    </ul>
+                                                </div>
+                                                @* <div class="profile-message-btn center-block text-center">
+                                                        <a href="#" class="btn btn-success">
+                                                            <i class="fa fa-envelope"></i>
+                                                            Send message
+                                                        </a>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                 
-                            
+
+
                             </div>
 
-                              <div class="tab-pane fade" id="tab-catDisplay">
+                            <div class="tab-pane fade" id="tab-catDisplay">
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Category Display</h3>
                                     <div class="col-lg-12">
 
-                                      
+
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the order of your categories here. If you leave this field blank, categories will show in alphabetical order. " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
-                                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Sort Order</label>
-                                              
-                                            </div>
+                                                <div class="bs-example-tooltips tooltip-float-width">
 
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the order of your categories here. If you leave this field blank, categories will show in alphabetical order. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Sort Order</label>
+                                            </div>
                                             <div class="col-lg-3">
                                                 <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" value="1">
                                                 <span class="help-block text-right">Sort Order in Category</span>
                                             </div>
-
                                         </div>
-                                       
-                                        
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose whether you would like to display subcategory names in this main category. If you prefer to display the subcategories as images rather than text, use Subcategory Display Mode 2. " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose whether you would like to display subcategory names in this main category. If you prefer to display the subcategories as images rather than text, use Subcategory Display Mode 2. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
                                                 <label for="txtCompanyName" class="control-label text-right">Subcategory Display Mode 1</label>
-                                                
+
                                             </div>
 
                                             <div class="col-lg-3">
-                                                     <select class="form-control">
-                                                                        <option>Show</option>
-                                                                        <option>Hide</option>
-                                                                        <option>Select</option>
-                                                                  
-                                                            </select>
-                                             
-                                              
+                                                <select class="form-control">
+                                                    <option>Show</option>
+                                                    <option>Hide</option>
+                                                    <option>Select</option>
+
+                                                </select>
+
+
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                        </div>      
+                                        </div>
 
-                                           <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose how a secondary, image-based subcategory listing will be displayed within this main category. See Subcategory Display Mode 2 for details on the display choices." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose how a secondary, image-based subcategory listing will be displayed within this main category. See Subcategory Display Mode 2 for details on the display choices." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
                                                 <label for="txtCompanyName" class="control-label text-right">Subcategory Display Mode 2</label>
-                                                
+
                                             </div>
 
                                             <div class="col-lg-3">
-                                                     <select class="form-control">
-                                                                        <option>Select</option>
-                                                                        <option>None (Hide)</option>
-                                                                        <option>Thumbnails</option>
-                                                                          <option>Category Graphics</option>
-                                                            </select>
-                                             
-                                              
+                                                <select class="form-control">
+                                                    <option>Select</option>
+                                                    <option>None (Hide)</option>
+                                                    <option>Thumbnails</option>
+                                                    <option>Category Graphics</option>
+                                                </select>
+
+
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                        </div>    
-                                        
-                                        
-                                         <div class="form-group">
+                                        </div>
+
+
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for displaying subcategory information on this category page. " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for displaying subcategory information on this category page. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Display Columns, Responsive</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-3">
@@ -321,128 +286,129 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>  
-                                  </div>
-
-                                </div>
-                               
-                                  <div class="col-md-12 form-horizontal">
-                                      <h3 class="group-header">Territories</h3>
-                                      <div class="col-lg-9">
-                                          <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-
-                                                      <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="territories of category" data-original-title="" title="">
-                                                          <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                      </a>
-
-                                                  </div>
-                                                  <label class="control-label text-right" for="switchSecondaryPages">Territories</label>
-
-                                              </div>
-                                              <div class="col-lg-9">
-                                                  <div class="main-box-body clearfix">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th><a href="#"><span>Territory Name</span></a></th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                Berkeley Vale
-                            </td>
-                            <td>
-                                <div class="form-group pull-right">
-
-                                    <div class="col-md-3 ">
-                                        <div class="checkbox-nice">
-                                            <input type="checkbox" id="checkbox-1">
-                                            <label for="checkbox-1">
-                                            </label>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Coolum
-                            </td>
-                            <td>
-                                <div class="form-group pull-right">
 
-                                    <div class="col-md-3 ">
-                                        <div class="checkbox-nice">
-                                            <input type="checkbox" id="checkbox-1">
-                                            <label for="checkbox-1">
-                                            </label>
+                                </div>
+
+                                <div class="col-md-12 form-horizontal">
+                                    <h3 class="group-header">Territories</h3>
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="territories of category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Territories</label>
+
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="main-box-body clearfix">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><a href="#"><span>Territory Name</span></a></th>
+                                                                    <th>&nbsp;</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        Berkeley Vale
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group pull-right">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <div class="checkbox-nice">
+                                                                                    <input type="checkbox" id="checkbox-1">
+                                                                                    <label for="checkbox-1">
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        Coolum
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group pull-right">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <div class="checkbox-nice">
+                                                                                    <input type="checkbox" id="checkbox-1">
+                                                                                    <label for="checkbox-1">
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        Toowong
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group pull-right">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <div class="checkbox-nice">
+                                                                                    <input type="checkbox" id="checkbox-1">
+                                                                                    <label for="checkbox-1">
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
+
                                 </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                Toowong
-                            </td>
-                            <td>
-                                <div class="form-group pull-right">
-
-                                    <div class="col-md-3 ">
-                                        <div class="checkbox-nice">
-                                            <input type="checkbox" id="checkbox-1">
-                                            <label for="checkbox-1">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-                                                  </div>
-                                         </div>
-
-                                              </div>
-
-                                  </div>
 
 
 
-                                 
+
                             </div>
-                          
-                             <div class="tab-pane fade" id="tab-SEO">
+
+                            <div class="tab-pane fade" id="tab-SEO">
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Search Engine Optimization</h3>
                                     <div class="col-md-9">
 
-                                          <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This value is used to generate an SEO-friendly URL (when SEO Friendly URIs is enabled at Marketing > SEO) for this category.It should be a short, text-only version of this category's name." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This value is used to generate an SEO-friendly URL (when SEO Friendly URIs is enabled at Marketing > SEO) for this category.It should be a short, text-only version of this category's name." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Category URL Text</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Category URL Text" >
+                                                <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Category URL Text">
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -450,301 +416,311 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the title of the page according to Search Engines, and will display in the browser tab when this category is viewed. If left blank, the Category Name field will be used.  " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the title of the page according to Search Engines, and will display in the browser tab when this category is viewed. If left blank, the Category Name field will be used.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Meta Title</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Meta Title" >
+                                                <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Meta Title">
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>  
+                                        </div>
 
-                                          <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="A list of keywords for this category, separated by commas.Keywords are not displayed to customers, but are used by search engines when indexing your store.  " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="A list of keywords for this category, separated by commas.Keywords are not displayed to customers, but are used by search engines when indexing your store.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Meta Keywords</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Meta Keywords" >
+                                                <input type="text" class="form-control" id="txtMetaTitle" placeholder="Enter Meta Keywords">
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>  
+                                        </div>
 
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Meta Description</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <textarea class="form-control"  id="txtDescription1"  placeholder="Enter Meta Description"  rows="3"></textarea>
+                                                <textarea class="form-control" id="txtDescription1" placeholder="Enter Meta Description" rows="3"></textarea>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
-                                        </div>  
-                                          <div class="form-group">
+                                        </div>
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This field is for advanced users only. Any code entered here will override all other SEO and meta settings for this category.  " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This field is for advanced users only. Any code entered here will override all other SEO and meta settings for this category.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Meta Override</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <textarea class="form-control"  id="txtDescription1"  placeholder="Enter Meta Override"  rows="3"></textarea>
+                                                <textarea class="form-control" id="txtDescription1" placeholder="Enter Meta Override" rows="3"></textarea>
                                                 <span class="help-block text-right">Override meta information with custom HTML</span>
                                             </div>
 
-                                        </div>  
-                                  </div>
+                                        </div>
+                                    </div>
 
                                 </div>
-                               
+
                             </div>
 
-                             <div class="tab-pane fade" id="tab-catDesc">
+                            <div class="tab-pane fade" id="tab-catDesc">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Category Descriptions</h3>
                                     <div class="col-lg-9">
-                                          <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Webstore Description</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <textarea class="form-control"  id="txtWebStoreDesc"  placeholder="Enter Webstore Description"   rows="5">
-FREE designs and images. Dont see something that catches your eye, then give
-us a call and see if you'd like us to design something unique for you.
+                                                <textarea class="form-control" id="txtWebStoreDesc" placeholder="Enter Webstore Description" rows="5">
+                                                    FREE designs and images. Dont see something that catches your eye, then give
+                                                    us a call and see if you'd like us to design something unique for you.
 
-Use our templates as a starting point. Change them by uploading your own
-backgrounds, images, logos and changing text presets (layouts).
-                                                </textarea>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>  
-
-                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a description that will be displayed above the products listed on this category page.  " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
-                                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Description</label>
-                                              
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <textarea class="form-control"  id="txtCategoryDescription"  placeholder="Enter Category Description"   rows="5">
-
+                                                    Use our templates as a starting point. Change them by uploading your own
+                                                    backgrounds, images, logos and changing text presets (layouts).
                                                 </textarea>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
 
-                                         <div class="form-group">
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a description that will be displayed above the products listed on this category page.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Description</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <textarea class="form-control" id="txtCategoryDescription" placeholder="Enter Category Description" rows="5"></textarea>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right" style="width:25.5%;">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a short category description. This shortened description will display for subcategories when SubCategory Display Mode 2 is set to Thumbnails. " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a short category description. This shortened description will display for subcategories when SubCategory Display Mode 2 is set to Thumbnails. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Description Short</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                              <textarea class="form-control ckeditor" id="exampleTextarea" rows="5"></textarea>
+                                                <textarea class="form-control ckeditor" id="exampleTextarea" rows="5"></textarea>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
 
 
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a secondary category description that will display below the products section of this category page.  " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a secondary category description that will display below the products section of this category page.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float">Secondary Description</label>
-                                              
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                               <textarea class="form-control ckeditor" disabled="disabled" id="secondaryDes" rows="5"></textarea>
-                                                   <a data-toggle="modal" id="P1"  style="display:none;" href="#PhraseModel" class="btn btn-primary pull-right">
+                                                <textarea class="form-control ckeditor" disabled="disabled" id="secondaryDes" rows="5"></textarea>
+                                                <a data-toggle="modal" id="P1" style="display:none;" href="#PhraseModel" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
-                                               
+
                                             </div>
 
                                         </div>
-                                        
-                                     </div>
-                                </div>  
-                              
+
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="tab-pane fade" id="tab-productDisplay">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Product Display</h3>
                                     <div class="col-lg-9">
-                                        
-                                             <div class="form-group">
-                                                    <div class="col-lg-3 text-right">
-                                                       <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select a default sort mode for products in this category. See Default Sort By for details on the Sort By choices. " data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
 
-                                                        <label  class="control-label text-right tooltip-float" >Default Sort By</label>
-                                                
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                           <select class="form-control">
-                                                                <option>Select</option>
-                                                                <option>Price Low to High</option>
-                                                                <option>Price Hight to Low</option>
-                                                                <option>Most Popular</option>
-                                                                <option>Title</option>
-                                                                  <option>Manufacturer</option>
-                                                                  <option>Availabilty</option>
-                                                                  <option>Newest</option>
-                                                                  <option>Oldest</option>
-                                                        </select>
-                                                  
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select a default sort mode for products in this category. See Default Sort By for details on the Sort By choices. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+                                                <label class="control-label text-right tooltip-float">Default Sort By</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <select class="form-control">
+                                                    <option>Select</option>
+                                                    <option>Price Low to High</option>
+                                                    <option>Price Hight to Low</option>
+                                                    <option>Most Popular</option>
+                                                    <option>Title</option>
+                                                    <option>Manufacturer</option>
+                                                    <option>Availabilty</option>
+                                                    <option>Newest</option>
+                                                    <option>Oldest</option>
+                                                </select>
+
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                                 
-                                           </div>
-                                            
-                                             <div class="form-group">
-                                                    <div class="col-lg-3 text-right">
 
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for product display on this category.  " data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                  
-                  
-                                                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Display Columns, Responsive</label>
-                                              
-                                                    </div>
+                                        </div>
 
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Columns" value="2">
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Type the number of columns you would like to use for product display on this category.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
 
 
-                                              <div class="form-group">
-                                                    <div class="col-lg-3 text-right">
+                                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Display Columns, Responsive</label>
 
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the number of product display rows for this category" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                  
-                  
-                                                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Display Rows</label>
-                                              
-                                                    </div>
-
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter rows" value="2">
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-
-                                                </div>
-                                     
-                                       <div class="form-group">
-                                              <div class="col-lg-3 text-right" >
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Y to disable the Next and Previous buttons for this category and display only Featured Products in this category. This will allow the customer to click into subcategories to view more products. " data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Display Featured Products</label>
-                                                  
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="switchFeatured" checked>
+                                                <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Columns" value="2">
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the number of product display rows for this category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Display Rows</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter rows" value="2">
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Y to disable the Next and Previous buttons for this category and display only Featured Products in this category. This will allow the customer to click into subcategories to view more products. " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Display Featured Products</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchFeatured" checked>
                                                     <label class="onoffswitch-label" for="switchFeatured">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -755,25 +731,26 @@ backgrounds, images, logos and changing text presets (layouts).
 
                                         </div>
 
-                                           
 
-                                          <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Show Availability</label>
-                                                  
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Show Availability</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="showAvail" checked>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showAvail" checked>
                                                     <label class="onoffswitch-label" for="showAvail">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -785,23 +762,24 @@ backgrounds, images, logos and changing text presets (layouts).
                                         </div>
 
 
-                                          <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page." data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Show Reward Points</label>
-                                                  
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Availability for products on this category page." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Show Reward Points</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="showRPoints" checked>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showRPoints" checked>
                                                     <label class="onoffswitch-label" for="showRPoints">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -812,23 +790,24 @@ backgrounds, images, logos and changing text presets (layouts).
 
                                         </div>
 
-                                          <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the List Price for products on this category page" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Show List Price</label>
-                                                  
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the List Price for products on this category page" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Show List Price</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="showLPrice" checked>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showLPrice" checked>
                                                     <label class="onoffswitch-label" for="showLPrice">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -839,22 +818,23 @@ backgrounds, images, logos and changing text presets (layouts).
 
                                         </div>
                                         <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Sale Price for products on this category page." data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Show Sale Price</label>
-                                                  
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Sale Price for products on this category page." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Show Sale Price</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="showSPrice" checked>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showSPrice" checked>
                                                     <label class="onoffswitch-label" for="showSPrice">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -866,23 +846,24 @@ backgrounds, images, logos and changing text presets (layouts).
                                         </div>
 
 
-                                          <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Stock Status for products on this category page." data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Show Stock Status</label>
-                                                  
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Stock Status for products on this category page." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Show Stock Status</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="showSStatus" checked>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showSStatus" checked>
                                                     <label class="onoffswitch-label" for="showSStatus">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -894,23 +875,24 @@ backgrounds, images, logos and changing text presets (layouts).
                                         </div>
 
 
-                                          <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description for products on this category page.  " data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Show Description</label>
-                                                  
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description for products on this category page.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Show Description</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="showDescription" checked>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showDescription" checked>
                                                     <label class="onoffswitch-label" for="showDescription">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -922,23 +904,24 @@ backgrounds, images, logos and changing text presets (layouts).
                                         </div>
 
 
-                                         <div class="form-group">
-                                              <div class="col-lg-3 text-right">
-                                                
-                                                  
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description Short field for products on this category page. This display will override a Y in the Show Description field.  " data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                         </div>
-                                                <label class="control-label text-right"  for="switchSecondaryPages">Show Description Short</label>
-                                                  
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Display or hide the Product Description Short field for products on this category page. This display will override a Y in the Show Description field.  " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Show Description Short</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                  <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"   id="showSDescription" checked>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showSDescription" checked>
                                                     <label class="onoffswitch-label" for="showSDescription">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
@@ -948,82 +931,84 @@ backgrounds, images, logos and changing text presets (layouts).
                                             </div>
 
                                         </div>
-                                       </div>
-                                </div>  
+                                    </div>
+                                </div>
 
                             </div>
 
                             <div class="tab-pane fade" id="tab-catImages">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Category Images</h3>
-                                       <div class="col-lg-9 form-horizontal">
-                                                   <div class="form-group">
-                                                <div class="col-lg-4 text-right">
-                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
-
-                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Thumbnail</label>
-                                                
-                                                </div>
-                                           
-                                                    <div class="col-lg-6">
-                                                          <div id="dropzone1" class="dropzonepl">
-                                    <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                        <div class="dz-default dz-message">
-                                            <span>Drop file here to upload</span>
-                                        </div>
-                                    </form>
-                                </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                            
-                                            </div>
+                                    <div class="col-lg-9 form-horizontal">
                                         <div class="form-group">
-                                                <div class="col-lg-4 text-right">
-                                                       <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                          </div>
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
 
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
-                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Banner</label>
-                      
                                                 </div>
-                                           
-                                                    <div class="col-lg-6">
-                                                          <div id="dropzone1" class="dropzonepl">
-                                    <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                        <div class="dz-default dz-message">
-                                            <span>Drop file here to upload</span>
-                                        </div>
-                                    </form>
-                                </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                            
+
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Thumbnail</label>
+
                                             </div>
+
+                                            <div class="col-lg-6">
+                                                <div id="dropzone1" class="dropzonepl">
+                                                    <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                                        <div class="dz-default dz-message">
+                                                            <span>Drop file here to upload</span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
                                         </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Banner</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div id="dropzone1" class="dropzonepl">
+                                                    <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                                        <div class="dz-default dz-message">
+                                                            <span>Drop file here to upload</span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
-                          
-                        </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
- </div>
-  @Html.Partial("Product/_SelectStock")
- @Html.Partial("Product/_SignatureEdit")
- @Html.Partial("Widgets/_PhraseLibrary")
- @Html.Partial("Widgets/_AddVideo")
+    </div>
+</div>
+@Html.Partial("Product/_SelectStock")
+@Html.Partial("Product/_SignatureEdit")
+@Html.Partial("Widgets/_PhraseLibrary")
+@Html.Partial("Widgets/_AddVideo")
 @section Scripts {
 
     <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
@@ -1061,7 +1046,7 @@ backgrounds, images, logos and changing text presets (layouts).
             else if (RadioID == "3") {
                 $('#LinkDesign').css('display', 'block');
             }
-           
+
         }
         function Remove() {
             //Remove the view and Show the add new button
@@ -1070,7 +1055,7 @@ backgrounds, images, logos and changing text presets (layouts).
             $("#stockMainDiv #" + numofRec + "").css('display', 'none');
 
             //  $('#' + recNo).css('display', 'none');
-           // $('#divAddNew').css('display', 'block');
+            // $('#divAddNew').css('display', 'block');
             $('#hfNoOfRec').val((numofRec - 1));
             //if (numofRec == 2) {
 
@@ -1114,7 +1099,7 @@ backgrounds, images, logos and changing text presets (layouts).
             }
             if (numofRec == 2) {
                 $('#Add1').css('display', '');
-              
+
             }
             //if (numofRec == 1) {
             //    $('#Add8').css('display', 'block');
@@ -1214,29 +1199,28 @@ backgrounds, images, logos and changing text presets (layouts).
 
         function AddNewVideo() {
 
-            
+
             var currentRec = parseInt($('#hfNoOfVideo').val());
             var numOfRec = currentRec + 1;
             $('#hfNoOfVideo').val(numOfRec);
             ShowVideo();
 
         }
-        function RemoveVideo()
-        {
-          
+        function RemoveVideo() {
+
             var numofRec = parseInt($('#hfNoOfVideo').val());
 
             $("#OuterVidDiv #Vid" + numofRec + "").css('display', 'none');
 
             //  $('#' + recNo).css('display', 'none');
-           // $('#AddSection').css('display', 'block');
+            // $('#AddSection').css('display', 'block');
             $('#hfNoOfVideo').val((numofRec - 1));
-           
+
 
         }
         function ShowVideo() {
             var numofRec = $('#hfNoOfVideo').val();
-          
+
             if (numofRec >= 1) {
 
                 $('#Vid1').css('display', 'block');
@@ -1244,295 +1228,295 @@ backgrounds, images, logos and changing text presets (layouts).
             if (numofRec >= 2) {
                 $('#Vid2').css('display', 'block');
             }
-            
+
 
         }
 
-            function AddNewSection() {
-           
-            
-                // var txtSect = $("#txtSection").val();
-            
-                var txtSect = parseInt($('#txtSection').val());
-                var incValu = txtSect + 1;
-                $('#txtSection').val(incValu);
+        function AddNewSection() {
+
+
+            // var txtSect = $("#txtSection").val();
+
+            var txtSect = parseInt($('#txtSection').val());
+            var incValu = txtSect + 1;
+            $('#txtSection').val(incValu);
 
 
 
-                var currentRec = parseInt($('#hfNoOfSec').val());
-                var numOfRec = currentRec + 1;
-                $('#hfNoOfSec').val(numOfRec);
-                ShowGUISections();
-                if (numOfRec > 1) {
+            var currentRec = parseInt($('#hfNoOfSec').val());
+            var numOfRec = currentRec + 1;
+            $('#hfNoOfSec').val(numOfRec);
+            ShowGUISections();
+            if (numOfRec > 1) {
 
-                    $('#RemoveSection').css('display', 'block');
-                }
+                $('#RemoveSection').css('display', 'block');
+            }
+        }
+
+        function RemoveSection() {
+            //Remove the view and Show the add new button
+
+            var txtSect = parseInt($('#txtSection').val());
+            var incValu = txtSect - 1;
+            $('#txtSection').val(incValu);
+
+
+            var numofRec = parseInt($('#hfNoOfSec').val());
+
+            $("#mainDivSections #Sec" + numofRec + "").css('display', 'none');
+
+            //  $('#' + recNo).css('display', 'none');
+            $('#AddSection').css('display', 'block');
+            $('#hfNoOfSec').val((numofRec - 1));
+            if (numofRec == 2) {
+
+                $('#RemoveSection').css('display', 'none');
             }
 
-            function RemoveSection() {
-                //Remove the view and Show the add new button
-
-                var txtSect = parseInt($('#txtSection').val());
-                var incValu = txtSect - 1;
-                $('#txtSection').val(incValu);
 
 
-                var numofRec = parseInt($('#hfNoOfSec').val());
+        }
 
-                $("#mainDivSections #Sec" + numofRec + "").css('display', 'none');
+        function ShowGUISections() {
+            var numofRec = $('#hfNoOfSec').val();
 
-                //  $('#' + recNo).css('display', 'none');
-                $('#AddSection').css('display', 'block');
-                $('#hfNoOfSec').val((numofRec - 1));
-                if (numofRec == 2) {
+            if (numofRec >= 1) {
 
-                    $('#RemoveSection').css('display', 'none');
-                }
-
-
+                $('#Sec1').css('display', 'block');
+            }
+            if (numofRec >= 2) {
+                $('#Sec2').css('display', 'block');
+            }
+            if (numofRec >= 3) {
+                $('#Sec3').css('display', 'block');
 
             }
-        
-            function ShowGUISections() {
-                var numofRec = $('#hfNoOfSec').val();
-
-                if (numofRec >= 1) {
-
-                    $('#Sec1').css('display', 'block');
-                }
-                if (numofRec >= 2) {
-                    $('#Sec2').css('display', 'block');
-                }
-                if (numofRec >= 3) {
-                    $('#Sec3').css('display', 'block');
-
-                }
-                if (numofRec >= 4) {
-                    $('#Sec4').css('display', 'block');
-
-                }
-                if (numofRec >= 5) {
-                    $('#Sec5').css('display', 'block');
-                    $('#AddSection').css('display', 'none');
-                }
-          
-          
+            if (numofRec >= 4) {
+                $('#Sec4').css('display', 'block');
 
             }
-            function VisiblePhraseLibrary(DescID) {
-
-                if (DescID == "1") {
-                    $('#P1').css('display', 'block');
-                    $('#P2').css('display', 'none');
-                    $('#P3').css('display', 'none');
-                    $('#P4').css('display', 'none');
-                    $('#P5').css('display', 'none');
-                    $('#P6').css('display', 'none');
-                    $('#P7').css('display', 'none');
-                }
-                else if (DescID == "2") {
-                    $('#P1').css('display', 'none');
-                    $('#P2').css('display', 'block');
-                    $('#P3').css('display', 'none');
-                    $('#P4').css('display', 'none');
-                    $('#P5').css('display', 'none');
-                    $('#P6').css('display', 'none');
-                    $('#P7').css('display', 'none');
-                }
-                else if (DescID == "3") {
-                    $('#P1').css('display', 'none');
-                    $('#P2').css('display', 'none');
-                    $('#P3').css('display', 'block');
-                    $('#P4').css('display', 'none');
-                    $('#P5').css('display', 'none');
-                    $('#P6').css('display', 'none');
-                    $('#P7').css('display', 'none');
-                }
-                else if (DescID == "4") {
-                    $('#P1').css('display', 'none');
-                    $('#P2').css('display', 'none');
-                    $('#P3').css('display', 'none');
-                    $('#P4').css('display', 'block');
-                    $('#P5').css('display', 'none');
-                    $('#P6').css('display', 'none');
-                    $('#P7').css('display', 'none');
-                }
-                else if (DescID == "5") {
-                    $('#P1').css('display', 'none');
-                    $('#P2').css('display', 'none');
-                    $('#P3').css('display', 'none');
-                    $('#P4').css('display', 'none');
-                    $('#P5').css('display', 'block');
-                    $('#P6').css('display', 'none');
-                    $('#P7').css('display', 'none');
-                }
-                else if (DescID == "6") {
-                    $('#P1').css('display', 'none');
-                    $('#P2').css('display', 'none');
-                    $('#P3').css('display', 'none');
-                    $('#P4').css('display', 'none');
-                    $('#P5').css('display', 'none');
-                    $('#P6').css('display', 'block');
-                    $('#P7').css('display', 'none');
-                }
-                else if (DescID == "7") {
-                    $('#P1').css('display', 'none');
-                    $('#P2').css('display', 'none');
-                    $('#P3').css('display', 'none');
-                    $('#P4').css('display', 'none');
-                    $('#P5').css('display', 'none');
-                    $('#P6').css('display', 'none');
-                    $('#P7').css('display', 'block');
-                }
-          
-            }
-            function setServerName(card) {
-                var host = $("#new-server-fqdn").val();
-                var name = $("#new-server-name").val();
-                var displayName = host;
-
-                if (name) {
-                    displayName = name + " (" + host + ")";
-                };
-
-                card.wizard.setSubtitle(displayName);
-                card.wizard.el.find(".create-server-name").text(displayName);
+            if (numofRec >= 5) {
+                $('#Sec5').css('display', 'block');
+                $('#AddSection').css('display', 'none');
             }
 
-            function validateIP(ipaddr) {
-                //Remember, this function will validate only Class C IP.
-                //change to other IP Classes as you need
-                ipaddr = ipaddr.replace(/\s/g, "") //remove spaces for checking
-                var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; //regex. check for digits and in
-                //all 4 quadrants of the IP
-                if (re.test(ipaddr)) {
-                    //split into units with dots "."
-                    var parts = ipaddr.split(".");
-                    //if the first unit/quadrant of the IP is zero
-                    if (parseInt(parseFloat(parts[0])) == 0) {
-                        return false;
-                    }
-                    //if the fourth unit/quadrant of the IP is zero
-                    if (parseInt(parseFloat(parts[3])) == 0) {
-                        return false;
-                    }
-                    //if any part is greater than 255
-                    for (var i = 0; i < parts.length; i++) {
-                        if (parseInt(parseFloat(parts[i])) > 255) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                else {
+
+
+        }
+        function VisiblePhraseLibrary(DescID) {
+
+            if (DescID == "1") {
+                $('#P1').css('display', 'block');
+                $('#P2').css('display', 'none');
+                $('#P3').css('display', 'none');
+                $('#P4').css('display', 'none');
+                $('#P5').css('display', 'none');
+                $('#P6').css('display', 'none');
+                $('#P7').css('display', 'none');
+            }
+            else if (DescID == "2") {
+                $('#P1').css('display', 'none');
+                $('#P2').css('display', 'block');
+                $('#P3').css('display', 'none');
+                $('#P4').css('display', 'none');
+                $('#P5').css('display', 'none');
+                $('#P6').css('display', 'none');
+                $('#P7').css('display', 'none');
+            }
+            else if (DescID == "3") {
+                $('#P1').css('display', 'none');
+                $('#P2').css('display', 'none');
+                $('#P3').css('display', 'block');
+                $('#P4').css('display', 'none');
+                $('#P5').css('display', 'none');
+                $('#P6').css('display', 'none');
+                $('#P7').css('display', 'none');
+            }
+            else if (DescID == "4") {
+                $('#P1').css('display', 'none');
+                $('#P2').css('display', 'none');
+                $('#P3').css('display', 'none');
+                $('#P4').css('display', 'block');
+                $('#P5').css('display', 'none');
+                $('#P6').css('display', 'none');
+                $('#P7').css('display', 'none');
+            }
+            else if (DescID == "5") {
+                $('#P1').css('display', 'none');
+                $('#P2').css('display', 'none');
+                $('#P3').css('display', 'none');
+                $('#P4').css('display', 'none');
+                $('#P5').css('display', 'block');
+                $('#P6').css('display', 'none');
+                $('#P7').css('display', 'none');
+            }
+            else if (DescID == "6") {
+                $('#P1').css('display', 'none');
+                $('#P2').css('display', 'none');
+                $('#P3').css('display', 'none');
+                $('#P4').css('display', 'none');
+                $('#P5').css('display', 'none');
+                $('#P6').css('display', 'block');
+                $('#P7').css('display', 'none');
+            }
+            else if (DescID == "7") {
+                $('#P1').css('display', 'none');
+                $('#P2').css('display', 'none');
+                $('#P3').css('display', 'none');
+                $('#P4').css('display', 'none');
+                $('#P5').css('display', 'none');
+                $('#P6').css('display', 'none');
+                $('#P7').css('display', 'block');
+            }
+
+        }
+        function setServerName(card) {
+            var host = $("#new-server-fqdn").val();
+            var name = $("#new-server-name").val();
+            var displayName = host;
+
+            if (name) {
+                displayName = name + " (" + host + ")";
+            };
+
+            card.wizard.setSubtitle(displayName);
+            card.wizard.el.find(".create-server-name").text(displayName);
+        }
+
+        function validateIP(ipaddr) {
+            //Remember, this function will validate only Class C IP.
+            //change to other IP Classes as you need
+            ipaddr = ipaddr.replace(/\s/g, "") //remove spaces for checking
+            var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; //regex. check for digits and in
+            //all 4 quadrants of the IP
+            if (re.test(ipaddr)) {
+                //split into units with dots "."
+                var parts = ipaddr.split(".");
+                //if the first unit/quadrant of the IP is zero
+                if (parseInt(parseFloat(parts[0])) == 0) {
                     return false;
                 }
-            }
-
-            function validateFQDN(val) {
-                return /^[a-z0-9-_]+(\.[a-z0-9-_]+)*\.([a-z]{2,4})$/.test(val);
-            }
-
-            function fqdn_or_ip(el) {
-                var val = el.val();
-                ret = {
-                    status: true
-                };
-                if (!validateFQDN(val)) {
-                    if (!validateIP(val)) {
-                        ret.status = false;
-                        ret.msg = "Invalid IP address or FQDN";
+                //if the fourth unit/quadrant of the IP is zero
+                if (parseInt(parseFloat(parts[3])) == 0) {
+                    return false;
+                }
+                //if any part is greater than 255
+                for (var i = 0; i < parts.length; i++) {
+                    if (parseInt(parseFloat(parts[i])) > 255) {
+                        return false;
                     }
                 }
-                return ret;
+                return true;
             }
+            else {
+                return false;
+            }
+        }
 
-            function visibleVDP() {
+        function validateFQDN(val) {
+            return /^[a-z0-9-_]+(\.[a-z0-9-_]+)*\.([a-z]{2,4})$/.test(val);
+        }
 
-                if ($('input:checkbox[id=switchVDPs]').is(':checked')) {
-
-                    $("#VDPTable").css("display", "block");
-                }
-                else {
-                    $("#VDPTable").css("display", "none");
+        function fqdn_or_ip(el) {
+            var val = el.val();
+            ret = {
+                status: true
+            };
+            if (!validateFQDN(val)) {
+                if (!validateIP(val)) {
+                    ret.status = false;
+                    ret.msg = "Invalid IP address or FQDN";
                 }
             }
-            function TickRadio(RadioClassName) {
-                $('input:radio[data-id=' + RadioClassName + ']').attr('checked', true);
-                if ($('input:radio[data-id=' + RadioClassName + ']').is(':checked')) {
+            return ret;
+        }
 
+        function visibleVDP() {
 
-                    $("#gg").css("display", "none");
+            if ($('input:checkbox[id=switchVDPs]').is(':checked')) {
 
-                    // alert();
-                }
+                $("#VDPTable").css("display", "block");
             }
-
-            $(function () {
-
-                $('#sel2').select2();
-
-                $.fn.wizard.logging = false;
-
-                var wizard = $("#wizard-demo").wizard({
-                    showCancel: true
-                });
-
-                //$(".chzn-select").chosen();
-
-                wizard.el.find(".wizard-ns-select").change(function () {
-                    wizard.el.find(".wizard-ns-detail").show();
-                });
-
-                wizard.el.find(".create-server-service-list").change(function () {
-                    var noOption = $(this).find("option:selected").length == 0;
-                    wizard.getCard(this).toggleAlert(null, noOption);
-                });
-
-                wizard.cards["name"].on("validated", function (card) {
-                    var hostname = card.el.find("#new-server-fqdn").val();
-                });
-
-                wizard.on("submit", function (wizard) {
-                    var submit = {
-                        "hostname": $("#new-server-fqdn").val()
-                    };
-
-                    setTimeout(function () {
-                        wizard.trigger("success");
-                        wizard.hideButtons();
-                        wizard._submitting = false;
-                        wizard.showSubmitCard("success");
-                        wizard.updateProgressBar(0);
-                    }, 2000);
-                });
-
-                wizard.on("reset", function (wizard) {
-                    wizard.setSubtitle("");
-                    wizard.el.find("#new-server-fqdn").val("");
-                    wizard.el.find("#new-server-name").val("");
-                });
-
-                wizard.el.find(".wizard-success .im-done").click(function () {
-                    wizard.reset().close();
-                });
-
-                wizard.el.find(".wizard-success .create-another-server").click(function () {
-                    wizard.reset();
-                });
-
-                $(".wizard-group-list").click(function () {
-                    alert("Disabled for demo.");
-                });
-
-                $("#open-wizard").click(function () {
-                    wizard.show();
-                });
+            else {
+                $("#VDPTable").css("display", "none");
+            }
+        }
+        function TickRadio(RadioClassName) {
+            $('input:radio[data-id=' + RadioClassName + ']').attr('checked', true);
+            if ($('input:radio[data-id=' + RadioClassName + ']').is(':checked')) {
 
 
+                $("#gg").css("display", "none");
 
-                //wizard.show();
+                // alert();
+            }
+        }
+
+        $(function () {
+
+            $('#sel2').select2();
+
+            $.fn.wizard.logging = false;
+
+            var wizard = $("#wizard-demo").wizard({
+                showCancel: true
             });
+
+            //$(".chzn-select").chosen();
+
+            wizard.el.find(".wizard-ns-select").change(function () {
+                wizard.el.find(".wizard-ns-detail").show();
+            });
+
+            wizard.el.find(".create-server-service-list").change(function () {
+                var noOption = $(this).find("option:selected").length == 0;
+                wizard.getCard(this).toggleAlert(null, noOption);
+            });
+
+            wizard.cards["name"].on("validated", function (card) {
+                var hostname = card.el.find("#new-server-fqdn").val();
+            });
+
+            wizard.on("submit", function (wizard) {
+                var submit = {
+                    "hostname": $("#new-server-fqdn").val()
+                };
+
+                setTimeout(function () {
+                    wizard.trigger("success");
+                    wizard.hideButtons();
+                    wizard._submitting = false;
+                    wizard.showSubmitCard("success");
+                    wizard.updateProgressBar(0);
+                }, 2000);
+            });
+
+            wizard.on("reset", function (wizard) {
+                wizard.setSubtitle("");
+                wizard.el.find("#new-server-fqdn").val("");
+                wizard.el.find("#new-server-name").val("");
+            });
+
+            wizard.el.find(".wizard-success .im-done").click(function () {
+                wizard.reset().close();
+            });
+
+            wizard.el.find(".wizard-success .create-another-server").click(function () {
+                wizard.reset();
+            });
+
+            $(".wizard-group-list").click(function () {
+                alert("Disabled for demo.");
+            });
+
+            $("#open-wizard").click(function () {
+                wizard.show();
+            });
+
+
+
+            //wizard.show();
+        });
     </script>
 }
 
