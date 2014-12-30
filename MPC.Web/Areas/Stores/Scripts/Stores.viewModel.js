@@ -45,6 +45,8 @@ define("stores/stores.viewModel",
                     widgets = ko.observableArray([]),
                     //Page Skin Widgets
                     pageSkinWidgets = ko.observableArray([]),
+                    //parent Categories Used in Products Add/Edit
+                    parentCategories = ko.observableArray([]),
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
@@ -1412,24 +1414,26 @@ define("stores/stores.viewModel",
                         }
                     }),
                     //_______________   P R O D U C T    C A T E G O R Y _______________
+                    
                     selectedProductCategory = ko.observable(),
+                    selectedProductCategoryForEditting = ko.observable(),
+                    deletedProductCategories = ko.observableArray([]),
+                    edittedProductCategories = ko.observableArray([]),
+                    newProductCategories = ko.observableArray([]),
+                    
                     selectProductCategory = function(category) {
                         if (selectedProductCategory() != category) {
                             selectedProductCategory(category);
                         }
                     },
                     getCategoryChildListItems = function(dataRecieved, event) {
-                        //var id = event.target.parentElement.parentElement.id;
                         var id = $(event.target).closest('li')[0].id;
-                        toastr.success("id = " + id);
                         if ($(event.target).closest('li').children('ol').length > 0) {
                             if ($(event.target).closest('li').children('ol').is(':hidden')) {
                                 $(event.target).closest('li').children('ol').show();
                             } else {
                                 $(event.target).closest('li').children('ol').hide();
                             }
-                            
-                            toastr.error("already recieved data");
                             return;
                         }
                         dataservice.getProductCategoryChilds({
@@ -1440,40 +1444,120 @@ define("stores/stores.viewModel",
                                         _.each(data.ProductCategories, function(productCategory) {
                                             $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a  class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                                             ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
+                                            var category = {
+                                                productCategoryId: productCategory.ProductCategoryId,
+                                                categoryName: productCategory.CategoryName,
+                                                parentCategoryId: id
+                                            };
+                                            parentCategories.push(category);
                                         });
                                     }
-
                                     isLoadingStores(false);
                                 },
                                 error: function(response) {
                                     isLoadingStores(false);
-                                    //toastr.error("Error: Failed To load Stores " + response);
+                                    toastr.error("Error: Failed To load Categories " + response);
                                 }
                             });
                     },
-                    
-                    //checkPaymentMethodSelection = selectedPaymentGateway().paymentMethodId().subscribe(function (value) {
-                    //    debugger;
-
-                    //    var id = value.paymentMethodId();
-                    //    _.each(paymentMethods(), function (paymentMethod) {
-                    //        if (paymentMethod.paymentMethodId() == id) {
-                    //            debugger;
-                    //            if (paymentMethod.methodName() == "PayPal" || paymentMethod.methodName() == "Cash" || paymentMethod.methodName() == "") {
-                    //                isAccessCodeSectionVisible(false);
-                    //            }
-                    //            else {
-                    //                isAccessCodeSectionVisible(true);
-                    //            }
-                    //        }
-                    //    });
-
-                    //}),
-
+                    openProductCategoryDetail = function(dataRecieved, event) {
+                        var id = $(event.target).closest('li')[0].id;
+                        var productCategory = new model.ProductCategory();
+                        selectedProductCategory(productCategory);
+                        view.showProductCategoryDialog();
+                    },
+                    isSavingNewProductCategory = ko.observable(false),
+                    onCreateNewProductCategory = function() {
+                        var productCategory = new model.ProductCategory();
+                        selectedProductCategory(productCategory);
+                        isSavingNewProductCategory(true);
+                        //getParentCategories();
+                        view.showProductCategoryDialog();
+                    },
+                    onDeleteProductCategory = function(productCategory) {
+                        if (productCategory.productCategoryId() !== undefined) {
+                            _.each(edittedProductCategories(), function(item) {
+                                if (item.productCategoryId() == productCategory.productCategoryId()) {
+                                    edittedProductCategories.remove(productCategory);
+                                }
+                            });
+                            deletedProductCategories.push(productCategory);
+                        }
+                        //selectedStore().companyTerritories.remove(companyTerritory);
+                        return;
+                    },
+                    onEditProductCategory = function (productCategory) {
+                        //Get Product Category By Id
+                        dataservice.getProductCategoryById({
+                            ProductCategoryId: productCategory.productCategoryId(),
+                            IsProductCategoryEditting: true
+                        }, {
+                            success: function (data) {
+                                debugger;
+                                if (data.ProductCategory != null) {
+                                    
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Category " + response);
+                            }
+                        });
+                        selectedProductCategory(productCategory);
+                        isSavingNewProductCategory(false);
+                        view.showProductCategoryDialog();
+                    },
+                    onCloseProductCategory = function() {
+                        view.hideProductCategoryDialog();
+                        isSavingNewProductCategory(false);
+                    },
+                    doBeforeSaveProductCategory = function() {
+                        var flag = true;
+                        if (!selectedProductCategory().isValid()) {
+                            selectedProductCategory().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveProductCategory = function() {
+                        if (doBeforeSaveProductCategory()) {
+                            if (selectedProductCategory().productCategoryId() === undefined && isSavingNewProductCategory() === true) {
+                                //selectedStore().companyTerritories.splice(0, 0, selectedCompanyTerritory());
+                                newProductCategories.push(selectedProductCategory());
+                            } else {
+                                //pushing item in editted Product Categories List
+                                if (selectedProductCategory().productCategoryId() != undefined) {
+                                    var match = ko.utils.arrayFirst(edittedProductCategories(), function(item) {
+                                        return (selectedProductCategory().productCategoryId() === item.productCategoryId());
+                                    });
+                                    if (!match) {
+                                        edittedProductCategories.push(selectedProductCategory());
+                                    }
+                                }
+                            }
+                            view.hideProductCategoryDialog();
+                        }
+                    },
+                    populateParentCategories = ko.computed(function () {
+                        
+                        if (selectedStore() != null && selectedStore() != undefined) {
+                            if (selectedStore().productCategories() != undefined && selectedStore().productCategories().length > 0) {
+                                parentCategories.removeAll();
+                                _.each(selectedStore().productCategories(), function (item) {
+                                    var category = {
+                                        productCategoryId: item.productCategoryId(),
+                                        categoryName: item.categoryName(),
+                                        parentCategoryId: undefined
+                                    };
+                                    parentCategories.push(category);
+                                });
+                            }
+                        }
+                    });
                     //***********    P A Y M E N T    G A T E W A Y   E N D  *********************//   
 
-
-                    resetObservableArrays = function() {
+                    resetObservableArrays = function () {
 
                         deletedAddresses.removeAll();
                         edittedAddresses.removeAll();
@@ -1491,12 +1575,12 @@ define("stores/stores.viewModel",
                     selectedWidget = ko.observable(),
                     //selected Current Page Id In Layout Page Tab
                     selectedCurrentPageId = ko.observable(),
-                    selectWidget = function(widget) {
+                    selectWidget = function (widget) {
                         this.selectedWidget(widget);
                     },
-                    getPageLayoutWidget = ko.computed(function() {
+                    getPageLayoutWidget = ko.computed(function () {
                         if (selectedCurrentPageId() !== undefined) {
-                            getPageLayoutWidget();
+                            getPageLayoutWidget1();
                         }
                         if (selectedCurrentPageId() === undefined) {
                             pageSkinWidgets.removeAll();
@@ -1504,7 +1588,7 @@ define("stores/stores.viewModel",
                     }, this);
 
                 //Get Page Layout Widgets
-                getPageLayoutWidget = function () {
+                getPageLayoutWidget1 = function () {
                     dataservice.getCmsPageLayoutWidget({
                         pageId: selectedCurrentPageId(),
                         companyId: selectedStore().companyId()
@@ -1526,63 +1610,70 @@ define("stores/stores.viewModel",
                     });
                 },
                 // Widget being dropped
-                dropped = function (source, target, event) {
-                    if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetCode !== undefined && source.widget.widgetCode() !== undefined && source.widget.widgetCode() !== "") {
-                        getWidgetDetail(source.widget.widgetCode());
-                    }
-                    if (selectedCurrentPageId() === undefined) {
-                        toastr.error("Before add widget please select page !");
-                    }
-                },
-                //Get Store For editting
-                getWidgetDetail = function (widgetCode) {
-                    dataservice.getWidgetDetail({
-                        widgetCode: widgetCode,
-                    }, {
-                        success: function (data) {
-                            if (data !== "" && data !== null) {
-                                var widget = new model.CmsSkingPageWidget();
-                                widget.html(data);
-                                pageSkinWidgets.push(widget);
-                            }
-                            isLoadingStores(false);
-                        },
-                        error: function (response) {
-                            isLoadingStores(false);
-                            toastr.error("Failed to Load Page Widgets . Error: " + response);
+                    dropped = function (source, target, event) {
+                        if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetCode !== undefined && source.widget.widgetCode() !== undefined && source.widget.widgetCode() !== "") {
+                            getWidgetDetail(source.widget.widgetCode());
                         }
-                    });
-                },
+                        if (selectedCurrentPageId() === undefined) {
+                            toastr.error("Before add widget please select page !");
+                        }
+                    },
+                //Get Store For editting
+                    getWidgetDetail = function (widgetCode) {
+                        dataservice.getWidgetDetail({
+                            widgetCode: widgetCode,
+                        }, {
+                            success: function (data) {
+                                if (data !== "" && data !== null) {
+                                    var widget = new model.CmsSkingPageWidget();
+                                    widget.htmlData(data);
+                                    pageSkinWidgets.push(widget);
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            }
+                        });
+                    },
                 // Returns the item being dragged
-                 dragged = function (source) {
+                    dragged = function (source) {
 
-                     return {
-                         row: source.$parent,
-                         widget: source.$data
-                     };
-                 },
+                        return {
+                            row: source.$parent,
+                            widget: source.$data
+                        };
+                    },
                 //Add Widget To Page Layout
-                addWidgetToPageLayout = function (widget) {
-                    if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetCode !== undefined && widget.widgetCode() !== undefined && widget.widgetCode() !== "") {
-                        getWidgetDetail(widget.widgetCode());
-                    }
-                    if (selectedCurrentPageId() === undefined) {
-                        toastr.error("Before add widget please select page !");
-                    }
-                },
+                    addWidgetToPageLayout = function (widget) {
+                        if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetCode !== undefined && widget.widgetCode() !== undefined && widget.widgetCode() !== "") {
+                            getWidgetDetail(widget.widgetCode());
+                        }
+                        if (selectedCurrentPageId() === undefined) {
+                            toastr.error("Before add widget please select page !");
+                        }
+                    },
                 //Delete Page Layout Widget
-                deletePageLayoutWidget = function (widget) {
-                    if (widget !== undefined && widget !== null) {
-                        pageSkinWidgets.remove(widget);
-                    }
-                },
+                    deletePageLayoutWidget = function (widget) {
+                        if (widget !== undefined && widget !== null) {
+                            pageSkinWidgets.remove(widget);
+                        }
+                    },
                 //#endregion
-
+                    highPriorityTasks = ko.observableArray([
+                        { Text: "Text1" },
+                        { Text: "Text 2" },
+                        { Text: "Text 3" },
+                        { Text: "Text 4" }
+                    ]),
+                    textFieldToEdit = ko.observable(''),
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
+                    //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
                     pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
                     getStores();
                     view.initializeForm();
@@ -1761,7 +1852,23 @@ define("stores/stores.viewModel",
                     dragged: dragged,
                     addWidgetToPageLayout: addWidgetToPageLayout,
                     deletePageLayoutWidget: deletePageLayoutWidget,
+                    highPriorityTasks: highPriorityTasks,
                     getCategoryChildListItems: getCategoryChildListItems,
+                    openProductCategoryDetail: openProductCategoryDetail,
+                    textFieldToEdit: textFieldToEdit,
+                    deletedProductCategories: deletedProductCategories,
+                    edittedProductCategories: edittedProductCategories,
+                    newProductCategories: newProductCategories,
+                    isSavingNewProductCategory: isSavingNewProductCategory,
+                    onCreateNewProductCategory: onCreateNewProductCategory,
+                    onDeleteProductCategory: onDeleteProductCategory,
+                    onEditProductCategory: onEditProductCategory,
+                    onCloseProductCategory: onCloseProductCategory,
+                    doBeforeSaveProductCategory: doBeforeSaveProductCategory,
+                    onSaveProductCategory: onSaveProductCategory,
+                    parentCategories: parentCategories,
+                    populateParentCategories: populateParentCategories,
+                    selectedProductCategoryForEditting: selectedProductCategoryForEditting,
                     initialize: initialize
                 };
             })()

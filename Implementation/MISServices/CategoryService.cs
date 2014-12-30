@@ -35,6 +35,12 @@ namespace MPC.Implementation.MISServices
             var result = productCategoryRepository.GetChildCategories(categoryId);
             return result;
         }
+
+        public ProductCategory GetProductCategoryById(int categoryId)
+        {
+            var result = productCategoryRepository.GetCategoryById(categoryId);
+            return result;
+        }
         #endregion
     }
 }

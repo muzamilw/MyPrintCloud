@@ -36,6 +36,11 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #endregion
         #region Public
+        /// <summary>
+        /// Get Produst category Childs
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [ApiException]
         public ProductCategoryResultModel Get(int id)
         {
@@ -50,6 +55,16 @@ namespace MPC.MIS.Areas.Api.Controllers
                 ProductCategories = categories,
                 TotalCount = categories.Count()
             };
+        }
+
+        [ApiException]
+        public ProductCategory Get(ProductCategoryRequestModel requestModel)
+        {
+            if (requestModel.IsProductCategoryEditting)
+            {
+                return categoryService.GetProductCategoryById(requestModel.ProductCategoryId).CreateFrom();
+            }
+            return null;
         }
         #endregion
     }

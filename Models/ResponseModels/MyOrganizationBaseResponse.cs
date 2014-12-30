@@ -22,5 +22,15 @@ namespace MPC.Models.ResponseModels
         /// Markup List
         /// </summary>
         public IEnumerable<Markup> Markups { get; set; }
+
+        /// <summary>
+        ///Countries 
+        /// </summary>
+        public IEnumerable<Country> Countries { get; set; }
+
+        /// <summary>
+        /// States
+        /// </summary>
+        public IEnumerable<State> States { get; set; }
     }
 }

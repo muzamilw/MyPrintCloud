@@ -44,6 +44,7 @@ namespace MPC.MIS
                 .Include("~/Scripts/toastr.js")
                 .Include("~/Scripts/amplify.js")
                 .Include("~/Scripts/knockout-sortable.js")
+                .Include("~/RichTextEditor/ckeditor.js")
                 .Include("~/Scripts/require.js")
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/App/architecture.js")
@@ -52,9 +53,9 @@ namespace MPC.MIS
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                  "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Bundles/BaseCss").Include(
-                      "~/Content/CSS/toastr.css")
-                      );
+            bundles.Add(new StyleBundle("~/Bundles/BaseCss")
+                .Include("~/Content/CSS/toastr.css")
+                      .Include("~/RichTextEditor/skins/moono/editor.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                                         "~/Content/themes/base/jquery.ui.core.css",
