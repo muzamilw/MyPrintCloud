@@ -45,11 +45,12 @@ define("stores/stores.viewModel",
                     widgets = ko.observableArray([]),
                     //Page Skin Widgets
                     pageSkinWidgets = ko.observableArray([]),
+                    //parent Categories Used in Products Add/Edit
+                    parentCategories = ko.observableArray([]),
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
-                    
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -1413,14 +1414,19 @@ define("stores/stores.viewModel",
                         }
                     }),
                     //_______________   P R O D U C T    C A T E G O R Y _______________
+                    
                     selectedProductCategory = ko.observable(),
+                    selectedProductCategoryForEditting = ko.observable(),
+                    deletedProductCategories = ko.observableArray([]),
+                    edittedProductCategories = ko.observableArray([]),
+                    newProductCategories = ko.observableArray([]),
+                    
                     selectProductCategory = function(category) {
                         if (selectedProductCategory() != category) {
                             selectedProductCategory(category);
                         }
                     },
                     getCategoryChildListItems = function(dataRecieved, event) {
-                        //var id = event.target.parentElement.parentElement.id;
                         var id = $(event.target).closest('li')[0].id;
                         if ($(event.target).closest('li').children('ol').length > 0) {
                             if ($(event.target).closest('li').children('ol').is(':hidden')) {
@@ -1428,7 +1434,6 @@ define("stores/stores.viewModel",
                             } else {
                                 $(event.target).closest('li').children('ol').hide();
                             }
-                            
                             return;
                         }
                         dataservice.getProductCategoryChilds({
@@ -1439,6 +1444,12 @@ define("stores/stores.viewModel",
                                         _.each(data.ProductCategories, function(productCategory) {
                                             $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a  class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                                             ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
+                                            var category = {
+                                                productCategoryId: productCategory.ProductCategoryId,
+                                                categoryName: productCategory.CategoryName,
+                                                parentCategoryId: id
+                                            };
+                                            parentCategories.push(category);
                                         });
                                     }
                                     isLoadingStores(false);
@@ -1451,16 +1462,102 @@ define("stores/stores.viewModel",
                     },
                     openProductCategoryDetail = function(dataRecieved, event) {
                         var id = $(event.target).closest('li')[0].id;
-                        toastr.success("id =" + id);
                         var productCategory = new model.ProductCategory();
                         selectedProductCategory(productCategory);
                         view.showProductCategoryDialog();
                     },
-                    
+                    isSavingNewProductCategory = ko.observable(false),
+                    onCreateNewProductCategory = function() {
+                        var productCategory = new model.ProductCategory();
+                        selectedProductCategory(productCategory);
+                        isSavingNewProductCategory(true);
+                        //getParentCategories();
+                        view.showProductCategoryDialog();
+                    },
+                    onDeleteProductCategory = function(productCategory) {
+                        if (productCategory.productCategoryId() !== undefined) {
+                            _.each(edittedProductCategories(), function(item) {
+                                if (item.productCategoryId() == productCategory.productCategoryId()) {
+                                    edittedProductCategories.remove(productCategory);
+                                }
+                            });
+                            deletedProductCategories.push(productCategory);
+                        }
+                        //selectedStore().companyTerritories.remove(companyTerritory);
+                        return;
+                    },
+                    onEditProductCategory = function (productCategory) {
+                        //Get Product Category By Id
+                        dataservice.getProductCategoryById({
+                            ProductCategoryId: productCategory.productCategoryId(),
+                            IsProductCategoryEditting: true
+                        }, {
+                            success: function (data) {
+                                debugger;
+                                if (data.ProductCategory != null) {
+                                    
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Category " + response);
+                            }
+                        });
+                        selectedProductCategory(productCategory);
+                        isSavingNewProductCategory(false);
+                        view.showProductCategoryDialog();
+                    },
+                    onCloseProductCategory = function() {
+                        view.hideProductCategoryDialog();
+                        isSavingNewProductCategory(false);
+                    },
+                    doBeforeSaveProductCategory = function() {
+                        var flag = true;
+                        if (!selectedProductCategory().isValid()) {
+                            selectedProductCategory().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onSaveProductCategory = function() {
+                        if (doBeforeSaveProductCategory()) {
+                            if (selectedProductCategory().productCategoryId() === undefined && isSavingNewProductCategory() === true) {
+                                //selectedStore().companyTerritories.splice(0, 0, selectedCompanyTerritory());
+                                newProductCategories.push(selectedProductCategory());
+                            } else {
+                                //pushing item in editted Product Categories List
+                                if (selectedProductCategory().productCategoryId() != undefined) {
+                                    var match = ko.utils.arrayFirst(edittedProductCategories(), function(item) {
+                                        return (selectedProductCategory().productCategoryId() === item.productCategoryId());
+                                    });
+                                    if (!match) {
+                                        edittedProductCategories.push(selectedProductCategory());
+                                    }
+                                }
+                            }
+                            view.hideProductCategoryDialog();
+                        }
+                    },
+                    populateParentCategories = ko.computed(function () {
+                        
+                        if (selectedStore() != null && selectedStore() != undefined) {
+                            if (selectedStore().productCategories() != undefined && selectedStore().productCategories().length > 0) {
+                                parentCategories.removeAll();
+                                _.each(selectedStore().productCategories(), function (item) {
+                                    var category = {
+                                        productCategoryId: item.productCategoryId(),
+                                        categoryName: item.categoryName(),
+                                        parentCategoryId: undefined
+                                    };
+                                    parentCategories.push(category);
+                                });
+                            }
+                        }
+                    });
                     //***********    P A Y M E N T    G A T E W A Y   E N D  *********************//   
 
-
-                    resetObservableArrays = function() {
+                    resetObservableArrays = function () {
 
                         deletedAddresses.removeAll();
                         edittedAddresses.removeAll();
@@ -1478,10 +1575,10 @@ define("stores/stores.viewModel",
                     selectedWidget = ko.observable(),
                     //selected Current Page Id In Layout Page Tab
                     selectedCurrentPageId = ko.observable(),
-                    selectWidget = function(widget) {
+                    selectWidget = function (widget) {
                         this.selectedWidget(widget);
                     },
-                    getPageLayoutWidget = ko.computed(function() {
+                    getPageLayoutWidget = ko.computed(function () {
                         if (selectedCurrentPageId() !== undefined) {
                             getPageLayoutWidget();
                         }
@@ -1750,6 +1847,19 @@ define("stores/stores.viewModel",
                     deletePageLayoutWidget: deletePageLayoutWidget,
                     getCategoryChildListItems: getCategoryChildListItems,
                     openProductCategoryDetail: openProductCategoryDetail,
+                    deletedProductCategories: deletedProductCategories,
+                    edittedProductCategories: edittedProductCategories,
+                    newProductCategories: newProductCategories,
+                    isSavingNewProductCategory: isSavingNewProductCategory,
+                    onCreateNewProductCategory: onCreateNewProductCategory,
+                    onDeleteProductCategory: onDeleteProductCategory,
+                    onEditProductCategory: onEditProductCategory,
+                    onCloseProductCategory: onCloseProductCategory,
+                    doBeforeSaveProductCategory: doBeforeSaveProductCategory,
+                    onSaveProductCategory: onSaveProductCategory,
+                    parentCategories: parentCategories,
+                    populateParentCategories: populateParentCategories,
+                    selectedProductCategoryForEditting: selectedProductCategoryForEditting,
                     initialize: initialize
                 };
             })()

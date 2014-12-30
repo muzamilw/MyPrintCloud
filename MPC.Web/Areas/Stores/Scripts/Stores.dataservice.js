@@ -13,8 +13,14 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get Store
+                    // Define request to get product category childs
                     amplify.request.define('getProductCategoryChilds', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Product Category By Id 
+                    amplify.request.define('getProductCategoryById', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCategory',
                         dataType: 'json',
                         type: 'GET'
@@ -96,6 +102,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getProductCategoryChilds',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // get Product Category By Id
+            getProductCategoryById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getProductCategoryById',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -237,6 +253,7 @@
             getSecondryPageById: getSecondryPageById,
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
             getWidgetDetail: getWidgetDetail,
+            getProductCategoryById: getProductCategoryById
         };
     })();
 
