@@ -32,6 +32,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPaymentGatewayRepository paymentGatewayRepository;
         private readonly IWidgetRepository widgetRepository;
         private readonly ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository;
+        private readonly IProductCategoryRepository productCategoryRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -249,6 +250,32 @@ namespace MPC.Implementation.MISServices
                 }
         }
 
+        private void UpdateProductCategoriesOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            if (companySavingModel.NewProductCategories != null)
+            {
+                //Add New Product Category
+                foreach (var productCategory in companySavingModel.NewProductCategories)
+                {
+                    productCategory.CompanyId = companySavingModel.Company.CompanyId;
+                    productCategoryRepository.Add(productCategory);
+                }
+            }
+            if (companySavingModel.EdittedProductCategories != null)
+                //Update Product Categories
+                foreach (var productCategory in companySavingModel.EdittedProductCategories)
+                {
+                    productCategoryRepository.Update(productCategory);
+                }
+            if (companySavingModel.DeletedProductCategories != null)
+                //Delete Product Categories
+                foreach (var productCategory in companySavingModel.DeletedProductCategories)
+                {
+                    var productCategoryToDelete = productCategoryRepository.Find(productCategory.ProductCategoryId);
+                    productCategoryRepository.Delete(productCategoryToDelete);
+                }
+        }
+
         private void UpdateCompanyContactOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             if (companySavingModel.NewAddedCompanyContacts != null)
@@ -298,6 +325,7 @@ namespace MPC.Implementation.MISServices
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
+            UpdateProductCategoriesOfUpdatingCompany(companySavingModel);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
@@ -643,7 +671,7 @@ namespace MPC.Implementation.MISServices
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
              IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
-            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository)
+            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -662,6 +690,7 @@ namespace MPC.Implementation.MISServices
             this.paymentGatewayRepository = paymentGatewayRepository;
             this.widgetRepository = widgetRepository;
             this.cmsSkinPageWidgetRepository = cmsSkinPageWidgetRepository;
+            this.productCategoryRepository = productCategoryRepository;
         }
         #endregion
 

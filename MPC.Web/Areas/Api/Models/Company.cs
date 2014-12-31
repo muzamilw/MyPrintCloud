@@ -112,6 +112,9 @@ namespace MPC.MIS.Areas.Api.Models
         public ICollection<Address> NewAddedAddresses { get; set; }// Maintaining List for POST call to determine new Added List Of Addresses
         public ICollection<Address> EdittedAddresses { get; set; }
         public ICollection<Address> DeletedAddresses { get; set; }
+        public ICollection<ProductCategory> NewProductCategories { get; set; }// Maintaining List for POST call to determine new Added List Of Addresses
+        public ICollection<ProductCategory> EdittedProductCategories { get; set; }
+        public ICollection<ProductCategory> DeletedProductCategories { get; set; }
         public ICollection<CompanyContact> NewAddedCompanyContacts { get; set; }
         public ICollection<CompanyContact> EdittedCompanyContacts { get; set; }
         public ICollection<CompanyContact> DeletedCompanyContacts { get; set; }

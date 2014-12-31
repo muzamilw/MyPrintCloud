@@ -4,10 +4,10 @@
 
 
 <div class="modal fade" id="myProductCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog " style="width: 1030px;" >
+    <div class="modal-dialog " style="width: 1030px;">
         <div class="modal-content">
 
-            <div class="col-lg-12">
+            <div class="">
                 @*<ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index">Home</a></li>
                         <li><a href="~/CRM/ContactCompanies">Store</a></li>
@@ -15,7 +15,13 @@
                         <li class="active"><span>Product Category Detail</span></li>
                     </ol>*@
                 <div class="modal-header">
-                    <h1>Business Cards</h1>
+                    <h1>
+                        Business Cards
+                        <span style="float: right">
+                            <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductCategory">Close</button>
+                            <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory">Save</button>
+                        </span>
+                    </h1>
                 </div>
                 <div class="row" id="user-profile">
 
@@ -62,14 +68,7 @@
                                                         <label for="txtCompanyName" class="control-label text-right">Parent Category</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control">
-                                                            <option>Stationary Marketing</option>
-                                                            <option>Brouchers</option>
-                                                            <option>Flyers</option>
-                                                            <option>Posters and Postcards</option>
-                                                            <option>Flyers</option>
-                                                            <option>Retail and POS</option>
-                                                        </select>
+                                                        <select class="form-control col-lg-4" data-bind="options:$root.parentCategories,optionsText:'categoryName',optionsValue:'productCategoryId', value: parentCategoryId"></select>   
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
@@ -176,11 +175,11 @@
                                                             </ul>
                                                         </div>
                                                         @* <div class="profile-message-btn center-block text-center">
-                                    <a href="#" class="btn btn-success">
-                                        <i class="fa fa-envelope"></i>
-                                        Send message
-                                    </a>
-                                </div>*@
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="fa fa-envelope"></i>
+                                                                    Send message
+                                                                </a>
+                                                            </div>*@
                                                     </div>
                                                 </div>
                                             </div>
@@ -225,9 +224,9 @@
 
                                                     <div class="col-lg-3">
                                                         <select class="form-control" data-bind="value: subCategoryDisplayMode1">
-                                                            <option>Show</option>
-                                                            <option>Hide</option>
-                                                            <option>Select</option>
+                                                            <option value="1">Show</option>
+                                                            <option value="2">Hide</option>
+                                                            <option value="3">Select</option>
 
                                                         </select>
 
@@ -251,10 +250,10 @@
 
                                                     <div class="col-lg-3">
                                                         <select class="form-control" data-bind="value: subCategoryDisplayMode2">
-                                                            <option>Select</option>
-                                                            <option>None (Hide)</option>
-                                                            <option>Thumbnails</option>
-                                                            <option>Category Graphics</option>
+                                                            <option value="1">Select</option>
+                                                            <option value="2">None (Hide)</option>
+                                                            <option value="3">Thumbnails</option>
+                                                            <option value="4">Category Graphics</option>
                                                         </select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
@@ -408,106 +407,67 @@
                                             <div class="col-lg-9">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
-
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="The description of this category as it will display in Search Engine results. " data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
-
-
                                                         <label for="txtSortOrder" class="control-label text-right tooltip-float">Webstore Description</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
                                                         <textarea class="form-control" id="txtWebStoreDesc" placeholder="Enter Webstore Description" rows="5" data-bind="value: description1">
-                                                            FREE designs and images. Dont see something that catches your eye, then give
-                                                            us a call and see if you'd like us to design something unique for you.
-
-                                                            Use our templates as a starting point. Change them by uploading your own
-                                                            backgrounds, images, logos and changing text presets (layouts).
                                                         </textarea>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
-
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a description that will be displayed above the products listed on this category page.  " data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
-
-
                                                         <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Description</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
                                                         <textarea class="form-control" id="txtCategoryDescription" placeholder="Enter Category Description" rows="5" data-bind="value: description2"></textarea>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right" style="width:25.5%;">
-
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a short category description. This shortened description will display for subcategories when SubCategory Display Mode 2 is set to Thumbnails. " data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
-
-
                                                         <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Description Short</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control ckeditor" id="exampleTextarea" rows="5" data-bind="value: shortDescription"></textarea>
+                                                        <textarea class="form-control " id="exampleTextarea" rows="5" data-bind="value: shortDescription"></textarea>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
 
 
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
-
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Use text or HTML to create a secondary category description that will display below the products section of this category page.  " data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
-
-
                                                         <label for="txtSortOrder" class="control-label text-right tooltip-float">Secondary Description</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control ckeditor" disabled="disabled" id="secondaryDes" rows="5" data-bind="value: secondaryDescription"></textarea>
+                                                        <textarea class="form-control " disabled="disabled" id="secondaryDes" rows="5" data-bind="value: secondaryDescription"></textarea>
                                                         <a data-toggle="modal" id="P1" style="display:none;" href="#PhraseModel" class="btn btn-primary pull-right">
                                                             <i class="fa fa-lg"></i>&nbsp;....
                                                         </a>
-
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                         </div>
 
@@ -839,39 +799,34 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <div id="dropzone1" class="dropzonepl">
-                                                            <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                                <div class="dz-default dz-message">
-                                                                    <span>Drop file here to upload</span>
-                                                                </div>
-                                                            </form>
+                                                        <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" />
+                                                        <div class="col-lg-1">
+                                                            <div class="fileUpload btn btn-primary">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryThumbnailFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                            </div>
                                                         </div>
                                                         <span class="help-block text-right"></span>
                                                     </div>
+                                                    
 
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
-
-
                                                         <label for="txtCompanyName" class="control-label text-right tooltip-float">Banner</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
-                                                        <div id="dropzone1" class="dropzonepl">
-                                                            <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                                <div class="dz-default dz-message">
-                                                                    <span>Drop file here to upload</span>
-                                                                </div>
-                                                            </form>
+                                                        <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: productCategoryImageFileBinary }" />
+                                                        <div class="col-lg-1">
+                                                            <div class="fileUpload btn btn-primary">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                            </div>
                                                         </div>
                                                         <span class="help-block text-right"></span>
                                                     </div>
@@ -889,8 +844,12 @@
                 </div>
             </div>
         </div>
+
     </div>
+    
 </div>
+
+
 @Html.Partial("Product/_SelectStock")
 @Html.Partial("Product/_SignatureEdit")
 @Html.Partial("Widgets/_PhraseLibrary")
