@@ -615,6 +615,7 @@ define("product/product.viewModel",
                     stockDialogFilter: stockDialogFilter,
                     stockItems: stockItems,
                     costCentres: costCentres,
+                    setionFlags: sectionFlags,
                     itemPriceMatrices: itemPriceMatrices,
                     // Utility Methods
                     initialize: initialize,

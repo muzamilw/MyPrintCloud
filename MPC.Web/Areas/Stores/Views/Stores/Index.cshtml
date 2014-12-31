@@ -73,6 +73,13 @@
 
                 </div>
             </div>
+
+            @*<ul data-bind="sortable: { data: $root.highPriorityTasks }">
+                    <li>
+                        <span data-bind="text: Text"></span>
+
+                    </li>
+                </ul>*@
         </div>
         <script id="actionsTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditItem">
@@ -115,6 +122,7 @@
         </script>
 
     </div>
+    
     @Html.Partial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml")
 
 </div>
@@ -122,14 +130,15 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
-    <link href="~/Content/colorpicker.css" rel="stylesheet" />
-    <link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />
-    <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-    <script src="~/Scripts/Ace/ace.js"></script>
-    <script src="~/Scripts/Ace/colorpicker.js"></script>
+    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />
+        <link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />
+        <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
+        <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
+        <script src="~/Scripts/Ace/ace.js"></script>
+        <script src="~/Scripts/Ace/colorpicker.js"></script>*@
+    @*<link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />*@
     <script src="~/Scripts/jquery.form.js"></script>
-    <script src="~/Content/themes/Centaurus/js/ckeditor/ckeditor.js"></script>
+    @*<script src="~/Content/themes/Centaurus/js/ckeditor/ckeditor.js"></script>*@
     <script>
 
         require(["stores/stores.view", "common/confirmation.view"]);
@@ -151,47 +160,5 @@
             $('#listore').addClass('active');
         });
 
-        $(document).ready(function () {
-
-            $('#colorPick1').ColorPicker({
-                color: '',
-                onShow: function (colpkr) {
-                    $(colpkr).fadeIn(500);
-                    return false;
-                },
-                onHide: function (colpkr) {
-                    $(colpkr).fadeOut(500);
-                    return false;
-                },
-                onChange: function (hsb, hex, rgb) {
-                    $("#colorPick1").css("background-color", "#" + hex);
-                    $("#colorPick1").text('#' + hex);
-                }
-            });
-
-            $('#licrm').addClass('active');
-            //$('#widgetList').each(function () {
-
-            //    // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-            //    // it doesn't need to have a start or end
-            //    var eventObject = {
-            //        title: $.trim($(this).text()) // use the element's text as the event title
-            //    };
-
-            //    // store the Event Object in the DOM element so we can get to it later
-            //    $(this).data('eventObject', eventObject);
-
-            //    // make the event draggable using jQuery UI
-            //    $(this).draggable({
-            //        zIndex: 999,
-            //        revert: true,      // will cause the event to go back to its
-            //        revertDuration: 0  //  original position after the drag
-            //    });
-
-            //});
-
-
-           
-        });
     </script>
 }
