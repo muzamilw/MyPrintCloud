@@ -1382,6 +1382,7 @@
     <Content Include="Areas\Stores\Views\Shared\_InventoryCategoryDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_HomeWidget.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AboutUs.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ProductCategoryDetail.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

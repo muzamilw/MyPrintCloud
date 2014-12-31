@@ -21,3 +21,30 @@
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
   width: 838px;
 }
+#productBinding #tab-pricetable .form-group .input-group-addon {
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+#productBinding #tab-pricetable .form-group #txtDiscountsContainer {
+  padding: 0;
+}
+#productBinding #tab-pricetable .form-group #packagingWeightUnitLabel {
+  padding-top: 10px;
+}
+#productBinding #tab-pricetable .form-group #txtTaxContainer {
+  width: 50%;
+}
+#productBinding #tab-pricetable .form-group #stateTaxSectionLabel {
+  font-weight: bold;
+}
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#Qty {
+  width: 104px;
+}
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeFrom,
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeTo {
+  width: 104px;
+}
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th.paperStockType {
+  width: 10%;
+}

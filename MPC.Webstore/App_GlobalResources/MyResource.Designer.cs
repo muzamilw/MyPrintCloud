@@ -88,7 +88,16 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quantity From.
+        ///   Looks up a localized string similar to Hide Price Table.
+        /// </summary>
+        internal static string HidePriceMatrix {
+            get {
+                return ResourceManager.GetString("HidePriceMatrix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
         /// </summary>
         internal static string lblQtyFrom {
             get {
@@ -97,7 +106,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quantity To.
+        ///   Looks up a localized string similar to To.
         /// </summary>
         internal static string lblQtyTo {
             get {
@@ -129,6 +138,15 @@ namespace Resources {
         internal static string ShoppingCart {
             get {
                 return ResourceManager.GetString("ShoppingCart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Price Table.
+        /// </summary>
+        internal static string ShowPriceMatrix {
+            get {
+                return ResourceManager.GetString("ShowPriceMatrix", resourceCulture);
             }
         }
         

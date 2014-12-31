@@ -189,10 +189,10 @@ namespace MPC.Webstore.Controllers
                                 ppm.ItemID = (int)product.ItemId;
                                 if (!string.IsNullOrEmpty(Price))
                                      ppm.Price = Convert.ToDouble(Price);
-                                if (!string.IsNullOrEmpty(DPrice))
-                                    ppm.DiscountPrice = Convert.ToDouble(DPrice);
+                                //if (!string.IsNullOrEmpty(DPrice))
+                                //    ppm.DiscountPrice = Convert.ToDouble(DPrice);
                               
-                                ppm.isDiscounted = isDiscounted;
+                                //ppm.isDiscounted = isDiscounted;
                                 ProductPriceMatrix.Add(ppm);
 
                                 ViewData["PriceMatrix"] = ProductPriceMatrix;
@@ -270,10 +270,10 @@ namespace MPC.Webstore.Controllers
                                ppm.ItemID = (int)product.ItemId;
                                if (!string.IsNullOrEmpty(Price))
                                    ppm.Price = Convert.ToDouble(Price);
-                               if (!string.IsNullOrEmpty(DPrice))
-                                   ppm.DiscountPrice = Convert.ToDouble(DPrice);
+                               //if (!string.IsNullOrEmpty(DPrice))
+                               //    ppm.DiscountPrice = Convert.ToDouble(DPrice);
                              
-                               ppm.isDiscounted = isDiscounted;
+                               //ppm.isDiscounted = isDiscounted;
                                ProductPriceMatrix.Add(ppm);
 
                                ViewData["PriceMatrix"] = ProductPriceMatrix;

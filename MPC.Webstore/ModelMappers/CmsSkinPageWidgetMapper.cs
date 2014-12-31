@@ -1,5 +1,5 @@
 ﻿using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.Webstore.Models; 
+using ApiModels = MPC.Webstore.Models;
 
 namespace MPC.Webstore.ModelMappers
 {
@@ -39,13 +39,6 @@ namespace MPC.Webstore.ModelMappers
                 CmsSkinPageWidgetParams = source.CmsSkinPageWidgetParams
             };
         }
-
-
-        public static DomainResponseModels.CmsPageWithWidgetList CreateFrom(this ApiModels.CmsPageWithWidgetList source)
-        {
-
-        }
-
         #endregion
     }
 }

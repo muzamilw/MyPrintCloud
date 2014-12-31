@@ -155,7 +155,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isQtyRangedUi = ko.computed({
                 read: function () {
                     if (isQtyRanged() === 0) {
-                        return '1';
+                        return '2';
                     }
                     return '' + isQtyRanged();
                 },
@@ -165,7 +165,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return;
                     }
 
-                    isQtyRanged(qtyRanged === 1 ? 0 : qtyRanged);
+                    isQtyRanged(qtyRanged === 2 ? 0 : qtyRanged);
                 }
             }),
             // Packaging Weight
@@ -188,6 +188,72 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStateTaxes = ko.observableArray([]),
             // Active Stock Option
             activeStockOption = ko.observable(),
+            // Stock Option Sequence 1
+            stockOptionSequence1 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 0 || stockOption.optionSequence() === 1;
+                });
+            }),
+            // Stock Option Sequence 2
+            stockOptionSequence2 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 1 || stockOption.optionSequence() === 2;
+                });
+            }),
+            // Stock Option Sequence 3
+            stockOptionSequence3 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 2 || stockOption.optionSequence() === 3;
+                });
+            }),
+            // Stock Option Sequence 4
+            stockOptionSequence4 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 3 || stockOption.optionSequence() === 4;
+                });
+            }),
+            // Stock Option Sequence 5
+            stockOptionSequence5 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 4 || stockOption.optionSequence() === 5;
+                });
+            }),
+            // Stock Option Sequence 6
+            stockOptionSequence6 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 5 || stockOption.optionSequence() === 6;
+                });
+            }),
+            // Stock Option Sequence 7
+            stockOptionSequence7 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 6 || stockOption.optionSequence() === 7;
+                });
+            }),
+            // Stock Option Sequence 8
+            stockOptionSequence8 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 7 || stockOption.optionSequence() === 8;
+                });
+            }),
+            // Stock Option Sequence 9
+            stockOptionSequence9 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 8 || stockOption.optionSequence() === 9;
+                });
+            }),
+            // Stock Option Sequence 10
+            stockOptionSequence10 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 9 || stockOption.optionSequence() === 10;
+                });
+            }),
+            // Stock Option Sequence 11
+            stockOptionSequence11 = ko.computed(function () {
+                return itemStockOptions.find(function (stockOption, index) {
+                    return index === 10 || stockOption.optionSequence() === 11;
+                });
+            }),
             // choose stock item
             chooseStockItem = function (stockOption) {
                 selectItemStockOption(stockOption);
@@ -297,6 +363,34 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Remove Item State Tax
             removeItemStateTax = function (itemStateTax) {
                 itemStateTaxes.remove(itemStateTax);
+            },
+            // Selected Price Matrix Item
+            selectedPriceMatrixItem = ko.observable(),
+            // Select Price Matrix Item
+            selectPriceMatrixItem = function(priceMatrixItem) {
+                if (selectedPriceMatrixItem() === priceMatrixItem) {
+                    return;
+                }
+
+                selectedPriceMatrixItem(priceMatrixItem);
+            },
+            // Choose Template for Price Matrix
+            chooseTemplateForPriceMatrix = function(priceMatrixItem) {
+                return selectedPriceMatrixItem() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
+            },
+            // Selected State Tax Item
+            selectedStateTaxItem = ko.observable(),
+            // Select State Tax Item
+            selectStateTaxItem = function (stateTaxItem) {
+                if (selectedStateTaxItem() === stateTaxItem) {
+                    return;
+                }
+
+                selectedStateTaxItem(stateTaxItem);
+            },
+            // Choose Template for State Tax
+            chooseTemplateForStateTax = function (stateTaxItem) {
+                return selectedStateTaxItem() === stateTaxItem ? 'editStateTaxTemplate' : 'itemStateTaxTemplate';
             },
             // Errors
             errors = ko.validation.group({
@@ -474,8 +568,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ItemRelatedItems: itemRelatedItems.map(function (itemRelatedItem) {
                         return itemRelatedItem.convertToServerData();
                     }),
-                    ItemStockOptions: itemStockOptions.map(function (itemStockOption) {
-                        return itemStockOption.convertToServerData();
+                    ItemStockOptions: itemStockOptions.map(function (itemStockOption, index) {
+                        var stockOption = itemStockOption.convertToServerData();
+                        stockOption.OptionSequence = index + 1;
+                        return stockOption;
                     }),
                     ItemPriceMatrices: itemPriceMatrices.map(function (itemPriceMatrix) {
                         return itemPriceMatrix.convertToServerData();
@@ -542,6 +638,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isTemplateTabsVisible: isTemplateTabsVisible,
             flagId: flagId,
             isQtyRangedUi: isQtyRangedUi,
+            isQtyRanged: isQtyRanged,
             packagingWeight: packagingWeight,
             defaultItemTax: defaultItemTax,
             itemVideos: itemVideos,
@@ -555,6 +652,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemRelatedItem: removeItemRelatedItem,
             template: template,
             itemStockOptions: itemStockOptions,
+            stockOptionSequence1: stockOptionSequence1,
+            stockOptionSequence2: stockOptionSequence2,
+            stockOptionSequence3: stockOptionSequence3,
+            stockOptionSequence4: stockOptionSequence4,
+            stockOptionSequence5: stockOptionSequence5,
+            stockOptionSequence6: stockOptionSequence6,
+            stockOptionSequence7: stockOptionSequence7,
+            stockOptionSequence8: stockOptionSequence8,
+            stockOptionSequence9: stockOptionSequence9,
+            stockOptionSequence10: stockOptionSequence10,
+            stockOptionSequence11: stockOptionSequence11,
             itemStateTaxes: itemStateTaxes,
             itemPriceMatrices: itemPriceMatrices,
             addItemStockOption: addItemStockOption,
@@ -567,6 +675,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onSaveItemCostCentre: onSaveItemCostCentre,
             addItemStateTax: addItemStateTax,
             removeItemStateTax: removeItemStateTax,
+            chooseTemplateForPriceMatrix: chooseTemplateForPriceMatrix,
+            selectedPriceMatrixItem: selectedPriceMatrixItem,
+            selectPriceMatrixItem: selectPriceMatrixItem,
+            chooseTemplateForStateTax: chooseTemplateForStateTax,
+            selectedStateTaxItem: selectedStateTaxItem,
+            selectStateTaxItem: selectStateTaxItem,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -906,7 +1020,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Stock Option Entity
     ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
-        specifiedItemId, callbacks) {
+        specifiedOptionSequence, specifiedItemId, callbacks) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -920,6 +1034,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockItemDescription = ko.observable(specifiedStockItemDescription || undefined),
             // image
             image = ko.observable(specifiedImage || undefined),
+            // Option Sequence
+            optionSequence = ko.observable(specifiedOptionSequence || undefined),
             // Item Id
             itemId = ko.observable(specifiedItemId || undefined),
             // Item Addon Cost Centers
@@ -999,6 +1115,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     StockLabel: label(),
                     StockId: stockItemId(),
                     ItemId: itemId(),
+                    OptionSequence: optionSequence(),
                     ItemAddOnCostCentres: itemAddonCostCentres.map(function (itemAddonCostCentre) {
                         return itemAddonCostCentre.convertToServerData();
                     })
@@ -1013,6 +1130,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockItemDescription: stockItemDescription,
             itemId: itemId,
             image: image,
+            optionSequence: optionSequence,
             activeItemAddonCostCentre: activeItemAddonCostCentre,
             itemAddonCostCentres: itemAddonCostCentres,
             addItemAddonCostCentre: addItemAddonCostCentre,
@@ -1159,7 +1277,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return {
             id: specifiedId,
             name: specifiedFlagName,
-            type: specifiedFlagColor
+            color: specifiedFlagColor
         }
     },
 
@@ -1178,26 +1296,114 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qtyRangedTo = ko.observable(specifiedQtyRangedTo || undefined),
             // Price Paper Type1
             pricePaperType1 = ko.observable(specifiedPricePaperType1 || undefined),
+            // Price Paper Type1 Ui
+            pricePaperType1Ui = ko.computed(function () {
+                if (!pricePaperType1()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + pricePaperType1();
+            }),
             // Price Paper Type2
             pricePaperType2 = ko.observable(specifiedPricePaperType2 || undefined),
+            // Price Paper Type2 Ui
+            pricePaperType2Ui = ko.computed(function () {
+                if (!pricePaperType2()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + pricePaperType2();
+            }),
             // Price Paper Type3
             pricePaperType3 = ko.observable(specifiedPricePaperType3 || undefined),
+            // Price Paper Type3 Ui
+            pricePaperType3Ui = ko.computed(function () {
+                if (!pricePaperType3()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + pricePaperType3();
+            }),
             // Price Stock Type4
             priceStockType4 = ko.observable(specifiedPriceStockType4 || undefined),
+            // Price Stock Type4 Ui
+            priceStockType4Ui = ko.computed(function () {
+                if (!priceStockType4()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType4();
+            }),
             // Price Stock Type5
             priceStockType5 = ko.observable(specifiedPriceStockType5 || undefined),
+            // Price Stock Type5 Ui
+            priceStockType5Ui = ko.computed(function () {
+                if (!priceStockType5()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType5();
+            }),
             // Price Stock Type6
             priceStockType6 = ko.observable(specifiedPriceStockType6 || undefined),
+            // Price Stock Type6 Ui
+            priceStockType6Ui = ko.computed(function () {
+                if (!priceStockType6()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType6();
+            }),
             // Price Stock Type7
             priceStockType7 = ko.observable(specifiedPriceStockType7 || undefined),
+            // Price Stock Type7 Ui
+            priceStockType7Ui = ko.computed(function () {
+                if (!priceStockType7()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType7();
+            }),
             // Price Stock Type8
             priceStockType8 = ko.observable(specifiedPriceStockType8 || undefined),
+            // Price Stock Type8 Ui
+            priceStockType8Ui = ko.computed(function () {
+                if (!priceStockType8()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType8();
+            }),
             // Price Stock Type9
             priceStockType9 = ko.observable(specifiedPriceStockType9 || undefined),
+            // Price Stock Type9 Ui
+            priceStockType9Ui = ko.computed(function () {
+                if (!priceStockType4()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType9();
+            }),
             // Price Stock Type10
             priceStockType10 = ko.observable(specifiedPriceStockType10 || undefined),
+            // Price Stock Type10 Ui
+            priceStockType10Ui = ko.computed(function () {
+                if (!priceStockType10()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType10();
+            }),
             // Price Stock Type11
             priceStockType11 = ko.observable(specifiedPriceStockType11 || undefined),
+            // Price Stock Type11 Ui
+            priceStockType11Ui = ko.computed(function () {
+                if (!priceStockType11()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType11();
+            }),
             // Item Id
             itemId = ko.observable(specifiedItemId || 0),
             // Errors
@@ -1272,6 +1478,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             priceStockType9: priceStockType9,
             priceStockType10: priceStockType10,
             priceStockType11: priceStockType11,
+            pricePaperType1Ui: pricePaperType1Ui,
+            pricePaperType2Ui: pricePaperType2Ui,
+            pricePaperType3Ui: pricePaperType3Ui,
+            priceStockType4Ui: priceStockType4Ui,
+            priceStockType5Ui: priceStockType5Ui,
+            priceStockType6Ui: priceStockType6Ui,
+            priceStockType7Ui: priceStockType7Ui,
+            priceStockType8Ui: priceStockType8Ui,
+            priceStockType9Ui: priceStockType9Ui,
+            priceStockType10Ui: priceStockType10Ui,
+            priceStockType11Ui: priceStockType11Ui,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -1296,22 +1513,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             internalStateId = ko.observable(specifiedStateId || undefined),
             // Tax Rate
             taxRate = ko.observable(specifiedTaxRate || undefined),
+            // Tax Rate Ui
+            taxRateUi = ko.computed(function() {
+                return taxRate() ? '$ ' + taxRate() : '$ 0';
+            }),
             // Item Id
             itemId = ko.observable(specifiedItemId || 0),
             // Countries
             countries = ko.observableArray([]),
             // States
             states = ko.observableArray([]),
-            // Country States
-            countryStates = ko.computed(function () {
-                if (!countryId()) {
-                    return [];
-                }
-
-                return states.filter(function (state) {
-                    return state.countryid === countryId();
-                });
-            }),
             // Country Id
             countryId = ko.computed({
                 read: function () {
@@ -1358,6 +1569,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     stateName(stateResult.name);
                 }
             }),
+            // Country States
+            countryStates = ko.computed(function () {
+                if (!countryId()) {
+                    return [];
+                }
+
+                return states.filter(function (state) {
+                    return state.countryid === countryId();
+                });
+            }),
             // Errors
             errors = ko.validation.group({
             }),
@@ -1395,6 +1616,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             itemId: itemId,
             taxRate: taxRate,
+            taxRateUi: taxRateUi,
             countryId: countryId,
             stateId: stateId,
             countryName: countryName,
@@ -1518,8 +1740,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
-            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, callbacks,
-            constructorParams);
+            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.FlagId,
+            source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

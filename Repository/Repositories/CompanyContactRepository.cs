@@ -59,6 +59,11 @@ namespace MPC.Repository.Repositories
             return qry.ToList().FirstOrDefault();
 
         }
+        public string GetContactMobile(int CID)
+        {
+            return db.CompanyContacts.Where(c => c.ContactId == CID).Select(s => s.Mobile).FirstOrDefault();
+
+        }
         public string GeneratePasswordHash(string plainText)
         {
             return ComputeHashSHA1(plainText);
