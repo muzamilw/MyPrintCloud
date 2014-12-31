@@ -7343,7 +7343,8 @@ img
 {
     background-color: white;
     z-index: 10000;
-    padding: 10px;
+
+    position: fixed; z-index: 99999; display:none;
 }
 
 .FileUploaderPopup_Mesgbox_corp

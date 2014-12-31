@@ -239,7 +239,7 @@ namespace MPC.Webstore.Common
             }
         }
 
-        public static double StoreTax
+        public static double TaxRate
         {
             get
             {

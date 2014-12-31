@@ -11,21 +11,11 @@ namespace MPC.Webstore.ViewModels
      
         public double Price { get; set; }
 
-       
-
-      
-
-        public int ItemID { get; set; }
-    }
-
-    public class RangedPriceMatrixData
-    {
         public int ItemID { get; set; }
         public double QtyRangeFrom { get; set; }
         public double QtyRangeTo { get; set; }
-      
-        public double Price { get; set; }
     }
+
 
     public class ItemStockOptionList
     {

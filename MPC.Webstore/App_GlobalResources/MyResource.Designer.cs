@@ -97,7 +97,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quantity From.
+        ///   Looks up a localized string similar to From.
         /// </summary>
         internal static string lblQtyFrom {
             get {
@@ -106,7 +106,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quantity To.
+        ///   Looks up a localized string similar to To.
         /// </summary>
         internal static string lblQtyTo {
             get {
