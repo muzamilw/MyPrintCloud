@@ -99,9 +99,8 @@ namespace MPC.Repository.Repositories
         }
         public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
         {
-            //g.ProductCategoryId == ProductCategoryID , ProductCategoryId is no more in Items
-            //List<GetCategoryProduct> recordds = db.GetCategoryProducts.Where(g => g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
-            List<GetCategoryProduct> recordds = db.GetCategoryProducts.Where(g => g.IsPublished == true && g.EstimateId == null).OrderBy(g => g.ProductName).ToList();
+
+            List<GetCategoryProduct> recordds = db.GetCategoryProducts.Where(g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID).OrderBy(g => g.ProductName).ToList();
             recordds = recordds.OrderBy(s => s.SortOrder).ToList();
             return recordds;
         }
@@ -992,29 +991,40 @@ namespace MPC.Repository.Repositories
         public ProductItem GetItemAndDetailsByItemID(int itemId)
         {
 
-            //var query = null;
-//                from item in db.Items
-////                        inner join dbo.ProductCategoryItem pc2 on p.ItemId = pc2.ItemId
-////inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
-//                        //join productCatItem in db.ProductCategoryItem
-//                       // join category in db.ProductCategories on item.ProductCategoryId equals category.ProductCategoryId
-//                        //join ItemDetail in db.ItemProductDetails on item.ItemID equals ItemDetail.ItemID
-//                        where item.ItemId == itemId
-//                        select new ProductItem
-//                        {
-//                            ProductName = item.ProductName,
-//                            ThumbnailPath = item.ThumbnailPath,
-//                            ProductCategoryName = category.CategoryName,
-//                            ProductSpecification = item.ProductSpecification,
-//                            AllowBriefAttachments = ItemDetail.isAllowMarketBriefAttachment ?? false,
-//                            BriefSuccessMessage = ItemDetail.MarketBriefSuccessMessage
+            var query = 
+                from item in db.Items
+                        join productCatItem in db.ProductCategoryItems on item.ItemId equals productCatItem.ItemId
+                        join category in db.ProductCategories on productCatItem.CategoryId equals category.ProductCategoryId
+                        join ItemDetail in db.ItemProductDetails on item.ItemId equals (long)ItemDetail.ItemId
+                        where item.ItemId == itemId
+                        select new ProductItem
+                        {
+                            
+                            ProductName = item.ProductName,
+                            ThumbnailPath = item.ThumbnailPath,
+                            ProductCategoryName = category.CategoryName,
+                            ProductSpecification = item.ProductSpecification,
+                            AllowBriefAttachments = ItemDetail.isAllowMarketBriefAttachment ?? false,
+                            BriefSuccessMessage = ItemDetail.MarketBriefSuccessMessage
 
-//                        };
-           // return query.FirstOrDefault<ProductItem>();
-            return null;
+                        };
+            return query.FirstOrDefault<ProductItem>();
+            
         }
-       
 
+        public List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID)
+        {
+
+            return db.ProductMarketBriefQuestions.Where(i => i.ItemId == itemID).ToList();
+           
+        }
+
+        public List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID)
+        {
+           
+                return db.ProductMarketBriefAnswers.Where(i => i.MarketBriefQuestionId == QID).ToList();
+            
+        }
         #endregion
     }
 }

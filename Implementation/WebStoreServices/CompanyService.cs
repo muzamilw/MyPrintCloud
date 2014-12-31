@@ -411,6 +411,10 @@ namespace MPC.Implementation.WebStoreServices
             return _organisationRepository.GetOrganizatiobByID(OID);
             
         }
+        public string GetContactMobile(int CID)
+        {
+            return _CompanyContactRepository.GetContactMobile(CID);
+        }
         #endregion
     }
 

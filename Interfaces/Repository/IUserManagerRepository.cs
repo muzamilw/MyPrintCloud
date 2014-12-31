@@ -11,7 +11,7 @@ namespace MPC.Interfaces.Repository
     {
         SystemUser GetSalesManagerDataByID(int ManagerId);
 
-       
 
+        string GetMarketingRoleIDByName();
     }
 }

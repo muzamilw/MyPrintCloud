@@ -73,5 +73,6 @@ namespace MPC.Interfaces.WebStoreServices
         int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null);
 
         Organisation getOrganisatonByID(int OID);
+        string GetContactMobile(int CID);
     }
 }

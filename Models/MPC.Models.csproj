@@ -242,11 +242,11 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
-    <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
-    <Compile Include="ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
+    <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
