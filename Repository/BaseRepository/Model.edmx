@@ -16,8 +16,8 @@
           <Property Name="Address2" Type="varchar" MaxLength="255" />
           <Property Name="Address3" Type="varchar" MaxLength="255" />
           <Property Name="City" Type="varchar" MaxLength="100" />
-          <Property Name="State" Type="varchar" MaxLength="100" />
-          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="StateId" Type="bigint" />
+          <Property Name="CountryId" Type="bigint" />
           <Property Name="PostCode" Type="varchar" MaxLength="30" />
           <Property Name="Fax" Type="varchar" MaxLength="30" />
           <Property Name="Email" Type="varchar" MaxLength="150" />
@@ -1120,7 +1120,6 @@
           <Property Name="PriceStockType11" Type="float" />
           <Property Name="FlagId" Type="int" />
           <Property Name="SupplierSequence" Type="int" />
-          <Property Name="ContactCompanyId" Type="int" />
         </EntityType>
         <EntityType Name="ItemProductDetail">
           <Key>
@@ -1651,8 +1650,8 @@
           <Property Name="Address2" Type="varchar" MaxLength="255" />
           <Property Name="Address3" Type="varchar" MaxLength="255" />
           <Property Name="City" Type="varchar" MaxLength="50" />
-          <Property Name="State" Type="varchar" MaxLength="100" />
-          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="StateId" Type="bigint" />
+          <Property Name="CountryId" Type="bigint" />
           <Property Name="ZipCode" Type="varchar" MaxLength="50" />
           <Property Name="Tel" Type="varchar" MaxLength="50" />
           <Property Name="Fax" Type="varchar" MaxLength="50" />
@@ -1851,6 +1850,32 @@
           <Property Name="IsShowProductDescription" Type="bit" />
           <Property Name="IsShowProductShortDescription" Type="bit" />
         </EntityType>
+        <EntityType Name="ProductCategoryItem">
+          <Key>
+            <PropertyRef Name="ProductCategoryItemId" />
+          </Key>
+          <Property Name="ProductCategoryItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="bigint" />
+          <Property Name="ItemId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ProductMarketBriefAnswer">
+          <Key>
+            <PropertyRef Name="MarketBriefAnswerId" />
+          </Key>
+          <Property Name="MarketBriefAnswerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarketBriefQuestionId" Type="int" />
+          <Property Name="AnswerDetail" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ProductMarketBriefQuestion">
+          <Key>
+            <PropertyRef Name="MarketBriefQuestionId" />
+          </Key>
+          <Property Name="MarketBriefQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="QuestionDetail" Type="nvarchar" MaxLength="500" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="isMultipleSelction" Type="bit" />
+        </EntityType>
         <EntityType Name="RaveReview">
           <Key>
             <PropertyRef Name="ReviewId" />
@@ -1870,6 +1895,18 @@
           </Key>
           <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Question" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoleDescription" Type="text" />
+          <Property Name="IsSystemRole" Type="smallint" Nullable="false" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="IsCompanyLevel" Type="smallint" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Section">
           <Key>
@@ -2515,6 +2552,7 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Key>
             <PropertyRef Name="ItemId" />
             <PropertyRef Name="MinPrice" />
+            <PropertyRef Name="ProductCategoryId" />
           </Key>
           <Property Name="ItemId" Type="bigint" Nullable="false" />
           <Property Name="ItemCode" Type="varchar" MaxLength="50" />
@@ -2544,6 +2582,8 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="isUploadImage" Type="bit" />
+          <Property Name="isMarketingBrief" Type="bit" />
+          <Property Name="ProductCategoryId" Type="bigint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2677,6 +2717,54 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
           <Property Name="fileTableName" Type="varchar" MaxLength="17" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Address__Country__1765C178">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Address__StateId__1859E5B1">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__Count__16719D3F">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__State__157D7906">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Company_Campaign">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Campaign" Type="Self.Campaign" Multiplicity="*" />
@@ -2878,6 +2966,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="TemplateBackgroundImage">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategoryItem_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="ProductCategoryItem" Type="Self.ProductCategoryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductCategoryItem">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategoryItem_ProductCategory">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
+          <End Role="ProductCategoryItem" Type="Self.ProductCategoryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="ProductCategoryItem">
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3397,6 +3509,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
+          <End Role="ProductMarketBriefQuestion" Type="Self.ProductMarketBriefQuestion" Multiplicity="0..1" />
+          <End Role="ProductMarketBriefAnswer" Type="Self.ProductMarketBriefAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefAnswer">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres">
           <End Role="SectionCostcentre" Type="Self.SectionCostcentre" Multiplicity="0..1" />
           <End Role="SectionCostCentreDetail" Type="Self.SectionCostCentreDetail" Multiplicity="*" />
@@ -3694,8 +3818,12 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="prefix" EntityType="Self.prefix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductCategoryItem" EntityType="Self.ProductCategoryItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductMarketBriefAnswer" EntityType="Self.ProductMarketBriefAnswer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductMarketBriefQuestion" EntityType="Self.ProductMarketBriefQuestion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RaveReview" EntityType="Self.RaveReview" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegistrationQuestion" EntityType="Self.RegistrationQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostcentre" EntityType="Self.SectionCostcentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostCentreDetail" EntityType="Self.SectionCostCentreDetail" Schema="dbo" store:Type="Tables" />
@@ -3796,7 +3924,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [GetCategoryProducts].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
     [GetCategoryProducts].[isTemplateDesignMode] AS [isTemplateDesignMode], 
     [GetCategoryProducts].[DefaultItemTax] AS [DefaultItemTax], 
-    [GetCategoryProducts].[isUploadImage] AS [isUploadImage]
+    [GetCategoryProducts].[isUploadImage] AS [isUploadImage], 
+    [GetCategoryProducts].[isMarketingBrief] AS [isMarketingBrief], 
+    [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId]
     FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
@@ -3891,6 +4021,22 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [TemplateFileTableView].[fileTableName] AS [fileTableName]
     FROM [dbo].[TemplateFileTableView] AS [TemplateFileTableView]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK__Address__Country__1765C178" Association="Self.FK__Address__Country__1765C178">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Address__StateId__1859E5B1" Association="Self.FK__Address__StateId__1859E5B1">
+            <End Role="State" EntitySet="State" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__Count__16719D3F" Association="Self.FK__Organisat__Count__16719D3F">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__State__157D7906" Association="Self.FK__Organisat__State__157D7906">
+            <End Role="State" EntitySet="State" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
             <End Role="Campaign" EntitySet="Campaign" />
@@ -3958,6 +4104,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_ProductBackgroundImages_Products" Association="Self.FK_ProductBackgroundImages_Products">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategoryItem_Items" Association="Self.FK_ProductCategoryItem_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategoryItem_ProductCategory" Association="Self.FK_ProductCategoryItem_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
           </AssociationSet>
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
@@ -4126,6 +4280,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="ProductCategory" EntitySet="ProductCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="Self.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
+            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswer" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres" Association="Self.FK_tbl_section_costcentre_detail_tbl_section_costcentres">
             <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
@@ -4624,6 +4782,38 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="State" EntitySet="States" />
             <End Role="ItemStateTax" EntitySet="ItemStateTaxes" />
           </AssociationSet>
+          <EntitySet Name="ProductMarketBriefAnswers" EntityType="DomainModels.ProductMarketBriefAnswer" />
+          <EntitySet Name="ProductMarketBriefQuestions" EntityType="DomainModels.ProductMarketBriefQuestion" />
+          <EntitySet Name="Roles" EntityType="DomainModels.Role" />
+          <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
+            <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestions" />
+            <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswers" />
+          </AssociationSet>
+          <EntitySet Name="ProductCategoryItems" EntityType="DomainModels.ProductCategoryItem" />
+          <AssociationSet Name="FK_ProductCategoryItem_Items" Association="DomainModels.FK_ProductCategoryItem_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ProductCategoryItem" EntitySet="ProductCategoryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategoryItem_ProductCategory" Association="DomainModels.FK_ProductCategoryItem_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="ProductCategoryItem" EntitySet="ProductCategoryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Address__Country__1765C178" Association="DomainModels.FK__Address__Country__1765C178">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Address__StateId__1859E5B1" Association="DomainModels.FK__Address__StateId__1859E5B1">
+            <End Role="State" EntitySet="States" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__Count__16719D3F" Association="DomainModels.FK__Organisat__Count__16719D3F">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Organisat__State__157D7906" Association="DomainModels.FK__Organisat__State__157D7906">
+            <End Role="State" EntitySet="States" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4854,8 +5044,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -4880,6 +5068,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Organisation" ToRole="Estimate" />
           <NavigationProperty Name="SystemUsers" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="Organisation" ToRole="SystemUser" />
           <Property Name="MISLogoStreamId" Type="Guid" />
+          <Property Name="StateId" Type="Int64" />
+          <Property Name="CountryId" Type="Int64" />
+          <NavigationProperty Name="Country" Relationship="DomainModels.FK__Organisat__Count__16719D3F" FromRole="Organisation" ToRole="Country" />
+          <NavigationProperty Name="State" Relationship="DomainModels.FK__Organisat__State__157D7906" FromRole="Organisation" ToRole="State" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -4953,6 +5145,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsShowProductDescription" Type="Boolean" />
           <Property Name="IsShowProductShortDescription" Type="Boolean" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
+          <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_ProductCategory" FromRole="ProductCategory" ToRole="ProductCategoryItem" />
           </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -5752,7 +5945,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="PriceStockType11" Type="Double" />
           <Property Name="FlagId" Type="Int32" />
           <Property Name="SupplierSequence" Type="Int32" />
-          <Property Name="ContactCompanyId" Type="Int32" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_items_PriceMatrix_tbl_items" FromRole="ItemPriceMatrix" ToRole="Item" />
         </EntityType>
         <EntityType Name="ItemProductDetail">
@@ -6005,6 +6197,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Scalar" Type="Double" />
           <Property Name="ZoomFactor" Type="Double" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
+          <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_Items" FromRole="Item" ToRole="ProductCategoryItem" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -6370,6 +6563,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Country" FromRole="Country" ToRole="ItemStateTax" />
+          <NavigationProperty Name="Addresses" Relationship="DomainModels.FK__Address__Country__1765C178" FromRole="Country" ToRole="Address" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK__Organisat__Count__16719D3F" FromRole="Country" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="SectionCostcentre">
           <Key>
@@ -6517,6 +6712,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="StateCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="StateName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_State" FromRole="State" ToRole="ItemStateTax" />
+          <NavigationProperty Name="Addresses" Relationship="DomainModels.FK__Address__StateId__1859E5B1" FromRole="State" ToRole="Address" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK__Organisat__State__157D7906" FromRole="State" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -7595,8 +7792,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PostCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Fax" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
@@ -7622,6 +7817,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="CompanyTerritory" Relationship="DomainModels.FK_tbl_addresses_tbl_CustomerTerritory" FromRole="Address" ToRole="CompanyTerritory" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="Address" ToRole="CompanyContact" />
           <Property Name="DisplayOnContactUs" Type="Boolean" />
+          <Property Name="StateId" Type="Int64" />
+          <Property Name="CountryId" Type="Int64" />
+          <NavigationProperty Name="Country" Relationship="DomainModels.FK__Address__Country__1765C178" FromRole="Address" ToRole="Country" />
+          <NavigationProperty Name="State" Relationship="DomainModels.FK__Address__StateId__1859E5B1" FromRole="Address" ToRole="State" />
         </EntityType>
         <Association Name="FK_tbl_addresses_tbl_contactcompanies">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -8115,6 +8314,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Key>
             <PropertyRef Name="ItemId" />
             <PropertyRef Name="MinPrice" />
+            <PropertyRef Name="ProductCategoryId" />
           </Key>
           <Property Name="ItemId" Type="Int64" Nullable="false" />
           <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -8144,6 +8344,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isTemplateDesignMode" Type="Boolean" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="isUploadImage" Type="Boolean" />
+          <Property Name="isMarketingBrief" Type="Boolean" />
+          <Property Name="ProductCategoryId" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="ArtworkFileTableView">
           <Key>
@@ -8344,6 +8546,132 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               <PropertyRef Name="StateId" />
             </Principal>
             <Dependent Role="ItemStateTax">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProductMarketBriefAnswer">
+          <Key>
+            <PropertyRef Name="MarketBriefAnswerId" />
+          </Key>
+          <Property Name="MarketBriefAnswerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarketBriefQuestionId" Type="Int32" />
+          <Property Name="AnswerDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProductMarketBriefQuestion" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefAnswer" ToRole="ProductMarketBriefQuestion" />
+        </EntityType>
+        <EntityType Name="ProductMarketBriefQuestion">
+          <Key>
+            <PropertyRef Name="MarketBriefQuestionId" />
+          </Key>
+          <Property Name="MarketBriefQuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="QuestionDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsMultipleSelection" Type="Boolean" />
+          <NavigationProperty Name="ProductMarketBriefAnswers" Relationship="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" FromRole="ProductMarketBriefQuestion" ToRole="ProductMarketBriefAnswer" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsSystemRole" Type="Int16" Nullable="false" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="IsCompanyLevel" Type="Int16" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
+          <End Type="DomainModels.ProductMarketBriefQuestion" Role="ProductMarketBriefQuestion" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductMarketBriefAnswer" Role="ProductMarketBriefAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMarketBriefQuestion">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Principal>
+            <Dependent Role="ProductMarketBriefAnswer">
+              <PropertyRef Name="MarketBriefQuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProductCategoryItem">
+          <Key>
+            <PropertyRef Name="ProductCategoryItemId" />
+          </Key>
+          <Property Name="ProductCategoryItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int64" />
+          <Property Name="ItemId" Type="Int64" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ProductCategoryItem_Items" FromRole="ProductCategoryItem" ToRole="Item" />
+          <NavigationProperty Name="ProductCategory" Relationship="DomainModels.FK_ProductCategoryItem_ProductCategory" FromRole="ProductCategoryItem" ToRole="ProductCategory" />
+        </EntityType>
+        <Association Name="FK_ProductCategoryItem_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductCategoryItem" Role="ProductCategoryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ProductCategoryItem">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategoryItem_ProductCategory">
+          <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductCategoryItem" Role="ProductCategoryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="ProductCategoryItem">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Address__Country__1765C178">
+          <End Type="DomainModels.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="DomainModels.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Address__StateId__1859E5B1">
+          <End Type="DomainModels.State" Role="State" Multiplicity="0..1" />
+          <End Type="DomainModels.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__Count__16719D3F">
+          <End Type="DomainModels.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Organisat__State__157D7906">
+          <End Type="DomainModels.State" Role="State" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Organisation">
               <PropertyRef Name="StateId" />
             </Dependent>
           </ReferentialConstraint>
@@ -8560,6 +8888,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="MISLogoStreamId" ColumnName="MISLogoStreamId" />
                 <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
@@ -8581,8 +8911,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Address3" ColumnName="Address3" />
                 <ScalarProperty Name="Address2" ColumnName="Address2" />
@@ -9201,7 +9529,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="ItemPriceMatrices">
             <EntityTypeMapping TypeName="DomainModels.ItemPriceMatrix">
               <MappingFragment StoreEntitySet="ItemPriceMatrix">
-                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
                 <ScalarProperty Name="SupplierSequence" ColumnName="SupplierSequence" />
                 <ScalarProperty Name="FlagId" ColumnName="FlagId" />
                 <ScalarProperty Name="PriceStockType11" ColumnName="PriceStockType11" />
@@ -10557,6 +10884,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="DomainModels.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="DisplayOnContactUs" ColumnName="DisplayOnContactUs" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="isDefaultTerrorityShipping" ColumnName="isDefaultTerrorityShipping" />
@@ -10579,8 +10908,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Address3" ColumnName="Address3" />
                 <ScalarProperty Name="Address2" ColumnName="Address2" />
@@ -10895,6 +11222,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="isMarketingBrief" ColumnName="isMarketingBrief" />
                 <ScalarProperty Name="isUploadImage" ColumnName="isUploadImage" />
                 <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
                 <ScalarProperty Name="isTemplateDesignMode" ColumnName="isTemplateDesignMode" />
@@ -11254,6 +11583,48 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="ItemStateTaxId" ColumnName="ItemStateTaxId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductMarketBriefAnswers">
+            <EntityTypeMapping TypeName="DomainModels.ProductMarketBriefAnswer">
+              <MappingFragment StoreEntitySet="ProductMarketBriefAnswer">
+                <ScalarProperty Name="AnswerDetail" ColumnName="AnswerDetail" />
+                <ScalarProperty Name="MarketBriefQuestionId" ColumnName="MarketBriefQuestionId" />
+                <ScalarProperty Name="MarketBriefAnswerId" ColumnName="MarketBriefAnswerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductMarketBriefQuestions">
+            <EntityTypeMapping TypeName="DomainModels.ProductMarketBriefQuestion">
+              <MappingFragment StoreEntitySet="ProductMarketBriefQuestion">
+                <ScalarProperty Name="IsMultipleSelection" ColumnName="isMultipleSelction" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="QuestionDetail" ColumnName="QuestionDetail" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="MarketBriefQuestionId" ColumnName="MarketBriefQuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="DomainModels.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsCompanyLevel" ColumnName="IsCompanyLevel" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="IsSystemRole" ColumnName="IsSystemRole" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategoryItems">
+            <EntityTypeMapping TypeName="DomainModels.ProductCategoryItem">
+              <MappingFragment StoreEntitySet="ProductCategoryItem">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ProductCategoryItemId" ColumnName="ProductCategoryItemId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

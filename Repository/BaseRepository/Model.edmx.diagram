@@ -180,6 +180,17 @@
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_Country" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_Items" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_State" />
+        <EntityTypeShape EntityType="DomainModels.ProductMarketBriefAnswer" Width="1.5" PointX="34" PointY="5.25" />
+        <EntityTypeShape EntityType="DomainModels.ProductMarketBriefQuestion" Width="1.5" PointX="31.75" PointY="5" />
+        <EntityTypeShape EntityType="DomainModels.Role" Width="1.5" PointX="31.75" PointY="8.875" />
+        <AssociationConnector Association="DomainModels.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategoryItem" Width="1.5" PointX="26.625" PointY="43.375" />
+        <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_Items" />
+        <AssociationConnector Association="DomainModels.FK_ProductCategoryItem_ProductCategory" />
+        <AssociationConnector Association="DomainModels.FK__Address__Country__1765C178" />
+        <AssociationConnector Association="DomainModels.FK__Address__StateId__1859E5B1" />
+        <AssociationConnector Association="DomainModels.FK__Organisat__Count__16719D3F" />
+        <AssociationConnector Association="DomainModels.FK__Organisat__State__157D7906" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

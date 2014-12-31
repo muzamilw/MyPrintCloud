@@ -42,12 +42,12 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// State
         /// </summary>
-        public string State { get; set; }
+        public long? StateId { get; set; }
 
         /// <summary>
         /// Country
         /// </summary>
-        public string Country { get; set; }
+        public long? CountryId { get; set; }
 
         /// <summary>
         /// Zip Code

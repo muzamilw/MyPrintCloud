@@ -328,6 +328,26 @@ namespace MPC.Repository.BaseRepository
         public DbSet<TemplateFileTableView> TemplateFileTableViews { get; set; }
 
         /// <summary>
+        /// Product Market Brief Question DbSet
+        /// </summary>
+        public DbSet<ProductMarketBriefQuestion> ProductMarketBriefQuestions { get; set; }
+
+        /// <summary>
+        /// Product Market Brief Answer DbSet
+        /// </summary>
+        public DbSet<ProductMarketBriefAnswer> ProductMarketBriefAnswers { get; set; }
+
+        /// <summary>
+        /// Role DbSet
+        /// </summary>
+        public DbSet<Role> Roles { get; set; }
+
+        /// <summary>
+        /// Product Category Item DbSet
+        /// </summary>
+        public DbSet<ProductCategoryItem> ProductCategoryItems { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)

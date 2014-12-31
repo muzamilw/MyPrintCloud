@@ -131,6 +131,10 @@
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\ProductCategoryItem.cs" />
+    <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
+    <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
+    <Compile Include="DomainModels\Role.cs" />
     <Compile Include="DomainModels\TemplateFileTableView.cs" />
     <Compile Include="DomainModels\StoreFileTableView.cs" />
     <Compile Include="DomainModels\SecondaryPageFileTableView.cs" />
@@ -238,11 +242,11 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
-    <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
-    <Compile Include="ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
+    <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
@@ -265,6 +269,7 @@
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
+    <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />

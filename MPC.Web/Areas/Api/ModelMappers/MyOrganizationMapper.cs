@@ -20,6 +20,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
                 ChartOfAccounts = source.ChartOfAccounts.Select(coa => coa.CreateFrom()).ToList(),
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
+                Countries = source.Countries != null ? source.Countries.Select(c => c.CreateFromDropDown()).ToList() : null,
+                States = source.States != null ? source.States.Select(s => s.CreateFromDropDown()).ToList() : null,
             };
         }
 
@@ -39,8 +41,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                Address2 = source.Address2,
                Address3 = source.Address3,
                City = source.City,
-               State = source.State,
-               Country = source.Country,
+               StateId = source.StateId,
+               CountryId = source.CountryId,
                ZipCode = source.ZipCode,
                Tel = source.Tel,
                Fax = source.Fax,
@@ -71,8 +73,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Address2 = source.Address2,
                 Address3 = source.Address3,
                 City = source.City,
-                State = source.State,
-                Country = source.Country,
+                StateId = source.StateId,
+                CountryId = source.CountryId,
                 ZipCode = source.ZipCode,
                 Tel = source.Tel,
                 Fax = source.Fax,

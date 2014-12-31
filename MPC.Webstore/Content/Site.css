@@ -11378,20 +11378,23 @@ a.PinkRegBack:active
 .MB_MainCont
 {
     min-height: 105px;
-    width: 760px;
+    width: 736px;
     margin-bottom: 10px;
 }
 
 .MB_InnerCont
 {
     min-height: 95px;
-    width: 755px;
+    width: 726px;
     margin-top: 5px;
     margin-bottom: 5px;
     vertical-align: top;
     float: left;
 }
-
+.MB_Width755
+{
+    width: 755px;
+}
 .MB_QtnsCont
 {
     padding: 10px;
@@ -11412,6 +11415,7 @@ a.PinkRegBack:active
     text-align: left;
     margin-left: 35px;
     margin-bottom: 10px;
+    margin-top:10px;
 }
 
 .MB_AddInfoColor

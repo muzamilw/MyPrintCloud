@@ -39,6 +39,33 @@ namespace MPC.Webstore.Common
             }
         }
 
+        public static long ContactId
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["ContactId"] != null)
+                {
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["ContactId"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["ContactId"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("ContactId");
+
+                }
+
+                HttpCookie contactIdCookie = null;
+                contactIdCookie = new HttpCookie("ContactId", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(contactIdCookie);
+            }
+        }
         public static string ContactFirstName
         {
             get
@@ -63,6 +90,34 @@ namespace MPC.Webstore.Common
                 HttpCookie contactFirstNameCookie = null;
                 contactFirstNameCookie = new HttpCookie("FirstName", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(contactFirstNameCookie);
+
+            }
+        }
+
+        public static string Email
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["Email"] != null)
+                {
+                    return (HttpContext.Current.Request.Cookies["Email"].Value);
+                }
+                else
+                {
+                    return "";
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["Email"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("Email");
+
+                }
+                HttpCookie contactEmailCookie = null;
+                contactEmailCookie = new HttpCookie("Email", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(contactEmailCookie);
 
             }
         }
