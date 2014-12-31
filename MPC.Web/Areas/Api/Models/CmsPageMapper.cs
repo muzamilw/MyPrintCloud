@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -117,7 +118,7 @@ namespace MPC.MIS.Areas.Api.Models
                 RowCount = source.RowCount
             };
         }
-        
+
         /// <summary>
         /// Create From Domain Model
         /// </summary>
@@ -130,6 +131,7 @@ namespace MPC.MIS.Areas.Api.Models
                 Sequence = source.Sequence,
                 WidgetId = source.WidgetId,
                 Html = source.Widget != null ? ReadCshtml(source.Widget) : string.Empty,
+                WidgetName = source.Widget != null ? source.Widget.WidgetName : string.Empty,
             };
         }
 
@@ -142,14 +144,18 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         private static string ReadCshtml(DomainModels.Widget widget)
         {
-            switch (widget.WidgetCode)
+            string html = string.Empty;
+            switch (widget.WidgetControlName)
             {
-                case "001":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
-                case "002":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
+                case "SavedDesignsWidget.ascx":
+                    html = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
+                    break;
+                case "LoginBar.ascx":
+                    html = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
+                    break;
+
             }
-            return string.Empty;
+            return html;
         }
 
         #endregion

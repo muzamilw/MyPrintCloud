@@ -27,5 +27,9 @@ namespace MPC.Interfaces.Repository
         Item GetItemById(long RefitemId);
 
         ProductItem GetItemAndDetailsByItemID(int itemId);
+
+        List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
+
+        List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID);
     }
 }

@@ -29,5 +29,7 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId);
 
         int GetContactIdByCustomrID(int customerID);
+        string GetContactMobile(int CID);
+
     }
 }

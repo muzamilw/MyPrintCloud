@@ -10,6 +10,7 @@ using Microsoft.Owin;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.MIS.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
 using PagedList;
@@ -99,6 +100,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.EditCmsPages = company.EditCmsPages != null ? company.EditCmsPages.Select(x => x.CreateFrom()).ToList() : null;
             companySavingModel.DeletedCmsPages = company.DeletedCmsPages != null ? company.DeletedCmsPages.Select(x => x.CreateFrom()).ToList() : null;
             companySavingModel.PageCategories = company.PageCategories != null ? company.PageCategories.Select(x => x.CreateFrom()).ToList() : null;
+            companySavingModel.CmsPageWithWidgetList = company.CmsPageWithWidgetList != null ? company.CmsPageWithWidgetList.Select(x => x.CreateFrom()).ToList() : null;
 
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }

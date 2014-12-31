@@ -329,11 +329,40 @@ namespace MPC.Implementation.MISServices
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
+            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
         }
 
+        /// <summary>
+        /// Update CMS Skin Page Widget
+        /// </summary>
+        private void UpdateCmsSkinPageWidget(IEnumerable<CmsPageWithWidgetList> cmsPageWithWidgetList, Company companyDbVersion)
+        {
+            if (cmsPageWithWidgetList != null)
+            {
+                foreach (var item in cmsPageWithWidgetList)
+                {
+                    if (item.CmsSkinPageWidgets != null)
+                    {
+                        foreach (var cmsSkinPageWidgets in item.CmsSkinPageWidgets)
+                        {
+                            if (cmsSkinPageWidgets.PageWidgetId > 0)
+                            {
+                                //Update 
+                                //cmsSkinPageWidgets.OrganisationId = companyRepository.OrganisationId;
+                            }
+                            else
+                            {
+                                //New widget Added
+                                cmsSkinPageWidgets.OrganisationId = companyRepository.OrganisationId;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

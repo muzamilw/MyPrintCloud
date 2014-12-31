@@ -473,6 +473,7 @@ namespace MPC.Repository.Repositories
                                                             // address
                                                             tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                             Address Address = GetAddressById(Convert.ToInt32(tagValue));
+
                                                             string country = Address.Country != null
                                                                 ? Address.Country.CountryName
                                                                 : string.Empty;

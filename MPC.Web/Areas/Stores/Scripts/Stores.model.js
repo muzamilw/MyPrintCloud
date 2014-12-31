@@ -334,6 +334,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.EditCmsPages = [];
                 result.DeletedCmsPages = [];
                 result.PageCategories = [];
+                result.CmsPageWithWidgetList = [];
                 result.EdittedProductCategories = [];
                 result.DeletedProductCategories = [];
                 result.NewProductCategories = [];
@@ -2548,21 +2549,23 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     //// __________________  Widget   ______________________//
     // ReSharper disable once InconsistentNaming
-    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode) {
+    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName) {
 
         var self,
             widgetId = ko.observable(specifiedWidgetId),
             widgetName = ko.observable(specifiedWidgetName),
             widgetCode = ko.observable(specifiedWidgetCode),
-            id = ko.computed(function () {
-                ist.stores.viewModel.selectedWidget(widgetId);
+            widgetControlName = ko.observable(specifiedWidgetControlName);
+        //id = ko.computed(function () {
+        //    ist.stores.viewModel.selectedWidget(widgetId);
 
-            }, this);
+        //}, this);
 
         self = {
             widgetId: widgetId,
             widgetName: widgetName,
             widgetCode: widgetCode,
+            widgetControlName: widgetControlName,
         };
         return self;
     };
@@ -2571,28 +2574,43 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return new Widget(
              source.WidgetId,
              source.WidgetName,
-             source.WidgetCode
+             source.WidgetCode,
+             source.WidgetControlName
                );
 
     };
 
     //// __________________  CMS Skin Page Widget   ______________________//
     // ReSharper disable once InconsistentNaming
-    var CmsSkingPageWidget = function (specifiedPageWidgetId, specifiedPageId, specifiedWidgetId, specifiedSequence, specifiedHtml) {
+    var CmsSkingPageWidget = function (specifiedPageWidgetId, specifiedPageId, specifiedWidgetId, specifiedSequence, specifiedHtml, specifiedWidgetName, specifiedCompanyId) {
 
         var self,
             pageWidgetId = ko.observable(specifiedPageWidgetId),
             pageId = ko.observable(specifiedPageId),
             widgetId = ko.observable(specifiedWidgetId),
             sequence = ko.observable(specifiedSequence),
-            htmlData = ko.observable(specifiedHtml);
-
+            htmlData = ko.observable(specifiedHtml),
+            widgetName = ko.observable(specifiedWidgetName),
+            companyId = ko.observable(specifiedCompanyId),
+        //Convert To Server
+        convertToServerData = function () {
+            return {
+                PageWidgetId: pageWidgetId() === undefined ? 0 : pageWidgetId(),
+                PageId: pageId(),
+                WidgetId: widgetId(),
+                Sequence: sequence(),
+                CompanyId: companyId(),
+            };
+        };
         self = {
             pageWidgetId: pageWidgetId,
             pageId: pageId,
             widgetId: widgetId,
             sequence: sequence,
-            htmlData: htmlData
+            htmlData: htmlData,
+            widgetName: widgetName,
+            companyId: companyId,
+            convertToServerData: convertToServerData,
         };
         return self;
     };
@@ -2603,9 +2621,30 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.PageId,
              source.WidgetId,
              source.Sequence,
-             source.Html
+             source.Html,
+             source.WidgetName
                );
 
+    };
+
+    CmsPageWithWidgetList = function () {
+        var self,
+            pageId = ko.observable(),
+            widgets = ko.observableArray([]),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    PageId: pageId(),
+                    CmsSkinPageWidgets: [],
+
+                };
+            };
+        self = {
+            pageId: pageId,
+            widgets: widgets,
+            convertToServerData: convertToServerData,
+        };
+        return self;
     };
 
     //// __________________  P A Y M E N T   M E T H O D   ______________________//
@@ -3157,5 +3196,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         ProductCategory: ProductCategory,
         Widget: Widget,
         CmsSkingPageWidget: CmsSkingPageWidget,
+        CmsPageWithWidgetList: CmsPageWithWidgetList,
     };
 });

@@ -133,6 +133,15 @@ namespace MPC.Implementation.WebStoreServices
         {
            return _ItemRepository.GetItemAndDetailsByItemID(itemId);
         }
+        public List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID)
+        {
+            return _ItemRepository.GetMarketingInquiryQuestionsByItemID(itemID);
+        }
+        public List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID)
+        {
+            return _ItemRepository.GetMarketingInquiryAnswersByQID(QID);
+        }
+
 
     }
 }

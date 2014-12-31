@@ -11,12 +11,11 @@ namespace MPC.Webstore.ViewModels
      
         public double Price { get; set; }
 
-        public double DiscountPrice { get; set; }
-
-        public bool isDiscounted { get; set; }
-
         public int ItemID { get; set; }
+        public double QtyRangeFrom { get; set; }
+        public double QtyRangeTo { get; set; }
     }
+
 
     public class ItemStockOptionList
     {

@@ -242,11 +242,11 @@
     <Compile Include="LoggerModels\LogCategory.cs" />
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
+    <Compile Include="ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
-    <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
-    <Compile Include="ModelMappers\ItemPriceMatrixMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
+    <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
@@ -275,6 +275,7 @@
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
+    <Compile Include="ResponseModels\CmsPageWithWidgetList.cs" />
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
