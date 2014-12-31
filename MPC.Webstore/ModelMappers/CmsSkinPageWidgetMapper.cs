@@ -41,6 +41,11 @@ namespace MPC.Webstore.ModelMappers
         }
 
 
+        public static DomainResponseModels.CmsPageWithWidgetList CreateFrom(this ApiModels.CmsPageWithWidgetList source)
+        {
+
+        }
+
         #endregion
     }
 }
