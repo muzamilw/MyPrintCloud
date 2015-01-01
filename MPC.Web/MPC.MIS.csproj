@@ -2529,7 +2529,6 @@
     <Content Include="Scripts\Plugins\charts\knob\jQuery Knob demo.url" />
     <Content Include="Scripts\Plugins\misc\jqueryFileTree\jQuery File Tree - A Beautiful Blog.url" />
     <Content Include="Scripts\Plugins\misc\search\tipuesearch_content.json" />
-    <Content Include="Views\Products\ProductCategoryDetail.cshtml" />
     <Content Include="Views\Shared\Address\_SelectAddress.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AddEditPaymentGateway.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />

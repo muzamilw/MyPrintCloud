@@ -82,6 +82,10 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.NewAddedAddresses = company.NewAddedAddresses != null ? company.NewAddedAddresses.Select(x => x.CreateFrom()) : null;
             companySavingModel.EdittedAddresses = company.EdittedAddresses != null ? company.EdittedAddresses.Select(x => x.CreateFrom()) : null;
             companySavingModel.DeletedAddresses = company.DeletedAddresses != null ? company.DeletedAddresses.Select(x => x.CreateFrom()) : null;
+
+            companySavingModel.NewProductCategories = company.NewProductCategories != null ? company.NewProductCategories.Select(x => x.CreateFrom()) : null;
+            companySavingModel.EdittedProductCategories = company.EdittedProductCategories != null ? company.EdittedProductCategories.Select(x => x.CreateFrom()) : null;
+            companySavingModel.DeletedProductCategories = company.DeletedProductCategories != null ? company.DeletedProductCategories.Select(x => x.CreateFrom()) : null;
             companySavingModel.NewAddedCompanyContacts = company.NewAddedCompanyContacts != null
                 ? company.NewAddedCompanyContacts.Select(x => x.Createfrom())
                 : null;

@@ -13,6 +13,9 @@ namespace MPC.Models.RequestModels
         public IEnumerable<Address> NewAddedAddresses { get; set; }
         public IEnumerable<Address> EdittedAddresses { get; set; }
         public IEnumerable<Address> DeletedAddresses { get; set; }
+        public IEnumerable<ProductCategory> NewProductCategories { get; set; }
+        public IEnumerable<ProductCategory> EdittedProductCategories { get; set; }
+        public IEnumerable<ProductCategory> DeletedProductCategories { get; set; }
         public IEnumerable<CompanyContact> NewAddedCompanyContacts { get; set; }
         public IEnumerable<CompanyContact> EdittedCompanyContacts { get; set; }
         public IEnumerable<CompanyContact> DeletedCompanyContacts { get; set; }
