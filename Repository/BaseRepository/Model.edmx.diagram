@@ -140,7 +140,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_addresses" />
         <EntityTypeShape EntityType="DomainModels.ColorPallete" Width="1.5" PointX="15.375" PointY="24.75" />
         <EntityTypeShape EntityType="DomainModels.Template" Width="1.5" PointX="4.75" PointY="64.5" />
-        <EntityTypeShape EntityType="DomainModels.TemplatePage" Width="1.5" PointX="7" PointY="68.75" />
+        <EntityTypeShape EntityType="DomainModels.TemplatePage" Width="1.5" PointX="7" PointY="68.5" />
         <AssociationConnector Association="DomainModels.FK_Templates_TemplatePages" />
         <AssociationConnector Association="DomainModels.FK_Template_Items" />
         <EntityTypeShape EntityType="DomainModels.GlobalLanguage" Width="1.5" PointX="26.375" PointY="0.75" />
@@ -157,8 +157,8 @@
         <EntityTypeShape EntityType="DomainModels.FieldVariable" Width="1.5" PointX="26.375" PointY="17.25" />
         <EntityTypeShape EntityType="DomainModels.TemplateVariable" Width="1.5" PointX="27.375" PointY="10.25" />
         <EntityTypeShape EntityType="DomainModels.VariableSection" Width="1.5" PointX="27.375" PointY="13.25" />
-        <EntityTypeShape EntityType="DomainModels.TemplateBackgroundImage" Width="1.5" PointX="7" PointY="74.25" />
-        <EntityTypeShape EntityType="DomainModels.TemplateObject" Width="1.5" PointX="7" PointY="79.5" />
+        <EntityTypeShape EntityType="DomainModels.TemplateBackgroundImage" Width="1.5" PointX="9.125" PointY="67.75" />
+        <EntityTypeShape EntityType="DomainModels.TemplateObject" Width="1.5" PointX="11" PointY="67.25" />
         <AssociationConnector Association="DomainModels.FK_Objects_Products" />
         <AssociationConnector Association="DomainModels.FK_ProductBackgroundImages_Products" />
         <AssociationConnector Association="DomainModels.FK_Company_Campaign" />
@@ -192,6 +192,8 @@
         <AssociationConnector Association="DomainModels.FK__Organisat__Count__16719D3F" />
         <AssociationConnector Association="DomainModels.FK__Organisat__State__157D7906" />
         <AssociationConnector Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA" />
+        <EntityTypeShape EntityType="DomainModels.TemplateColorStyle" Width="1.5" PointX="2.5" PointY="68.75" />
+        <AssociationConnector Association="DomainModels.FK_ColorStyles_Products" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

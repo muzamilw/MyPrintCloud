@@ -2339,6 +2339,24 @@
           <Property Name="ContactCompanyId" Type="int" />
           <Property Name="ContactId" Type="int" />
         </EntityType>
+        <EntityType Name="TemplateColorStyle">
+          <Key>
+            <PropertyRef Name="PelleteId" />
+          </Key>
+          <Property Name="PelleteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="ColorC" Type="int" />
+          <Property Name="ColorM" Type="int" />
+          <Property Name="ColorY" Type="int" />
+          <Property Name="ColorK" Type="int" />
+          <Property Name="SpotColor" Type="varchar" MaxLength="50" />
+          <Property Name="IsSpotColor" Type="bit" />
+          <Property Name="Field1" Type="int" />
+          <Property Name="ColorHex" Type="nvarchar" MaxLength="30" />
+          <Property Name="IsColorActive" Type="bit" />
+          <Property Name="CustomerId" Type="int" />
+        </EntityType>
         <EntityType Name="TemplateObject">
           <Key>
             <PropertyRef Name="ObjectId" />
@@ -2773,6 +2791,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="Organisation">
               <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ColorStyles_Products">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplateColorStyle" Type="Self.TemplateColorStyle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateColorStyle">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3850,6 +3880,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateBackgroundImage" EntityType="Self.TemplateBackgroundImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateColorStyle" EntityType="Self.TemplateColorStyle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateObject" EntityType="Self.TemplateObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplatePage" EntityType="Self.TemplatePage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateVariable" EntityType="Self.TemplateVariable" Schema="dbo" store:Type="Tables" />
@@ -4051,6 +4082,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK__Organisat__State__157D7906" Association="Self.FK__Organisat__State__157D7906">
             <End Role="State" EntitySet="State" />
             <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ColorStyles_Products" Association="Self.FK_ColorStyles_Products">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplateColorStyle" EntitySet="TemplateColorStyle" />
           </AssociationSet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
@@ -4832,6 +4867,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK__CmsSkinPa__PageI__194E09EA" Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA">
             <End Role="CmsPage" EntitySet="CmsPages" />
             <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
+          </AssociationSet>
+          <EntitySet Name="TemplateColorStyles" EntityType="DomainModels.TemplateColorStyle" />
+          <AssociationSet Name="FK_ColorStyles_Products" Association="DomainModels.FK_ColorStyles_Products">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="TemplateColorStyle" EntitySet="TemplateColorStyles" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -7960,6 +8000,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="TemplateObjects" Relationship="DomainModels.FK_Objects_Products" FromRole="Template" ToRole="TemplateObject" />
           <NavigationProperty Name="TemplateBackgroundImages" Relationship="DomainModels.FK_ProductBackgroundImages_Products" FromRole="Template" ToRole="TemplateBackgroundImage" />
           <Property Name="ProductCategoryId" Type="Int64" />
+          <NavigationProperty Name="TemplateColorStyles" Relationship="DomainModels.FK_ColorStyles_Products" FromRole="Template" ToRole="TemplateColorStyle" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -8705,6 +8746,37 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="CmsSkinPageWidget">
               <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TemplateColorStyle">
+          <Key>
+            <PropertyRef Name="PelleteId" />
+          </Key>
+          <Property Name="PelleteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ColorC" Type="Int32" />
+          <Property Name="ColorM" Type="Int32" />
+          <Property Name="ColorY" Type="Int32" />
+          <Property Name="ColorK" Type="Int32" />
+          <Property Name="SpotColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsSpotColor" Type="Boolean" />
+          <Property Name="Field1" Type="Int32" />
+          <Property Name="ColorHex" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="IsColorActive" Type="Boolean" />
+          <Property Name="CustomerId" Type="Int32" />
+          <NavigationProperty Name="Template" Relationship="DomainModels.FK_ColorStyles_Products" FromRole="TemplateColorStyle" ToRole="Template" />
+        </EntityType>
+        <Association Name="FK_ColorStyles_Products">
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="DomainModels.TemplateColorStyle" Role="TemplateColorStyle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateColorStyle">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11656,6 +11728,25 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="ProductCategoryItemId" ColumnName="ProductCategoryItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateColorStyles">
+            <EntityTypeMapping TypeName="DomainModels.TemplateColorStyle">
+              <MappingFragment StoreEntitySet="TemplateColorStyle">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="IsColorActive" ColumnName="IsColorActive" />
+                <ScalarProperty Name="ColorHex" ColumnName="ColorHex" />
+                <ScalarProperty Name="Field1" ColumnName="Field1" />
+                <ScalarProperty Name="IsSpotColor" ColumnName="IsSpotColor" />
+                <ScalarProperty Name="SpotColor" ColumnName="SpotColor" />
+                <ScalarProperty Name="ColorK" ColumnName="ColorK" />
+                <ScalarProperty Name="ColorY" ColumnName="ColorY" />
+                <ScalarProperty Name="ColorM" ColumnName="ColorM" />
+                <ScalarProperty Name="ColorC" ColumnName="ColorC" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PelleteId" ColumnName="PelleteId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
