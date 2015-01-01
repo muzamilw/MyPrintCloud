@@ -191,6 +191,7 @@
         <AssociationConnector Association="DomainModels.FK__Address__StateId__1859E5B1" />
         <AssociationConnector Association="DomainModels.FK__Organisat__Count__16719D3F" />
         <AssociationConnector Association="DomainModels.FK__Organisat__State__157D7906" />
+        <AssociationConnector Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

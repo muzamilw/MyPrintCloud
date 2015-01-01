@@ -26,8 +26,6 @@ define("product/product.viewModel",
                     countries = ko.observableArray([]),
                     // States
                     states = ko.observableArray([]),
-                    // Item Price Matrices
-                    itemPriceMatrices = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
@@ -105,6 +103,9 @@ define("product/product.viewModel",
                         },
                         onCostCentreChange: function (costCentreId, activeItemAddonCostCentre) {
                             setCostCentreToActiveItemAddonCostCentre(costCentreId, activeItemAddonCostCentre);
+                        },
+                        onFlagChange: function(flagId, itemId) {
+                            getItemPriceMatricesForItemByFlag(flagId, itemId);
                         }
                     },
                     // Item State Tax Constructor Params
@@ -429,11 +430,26 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(sectionFlags(), itemsList);
                         sectionFlags.valueHasMutated();
                     },
+                    // Set Item Price Matrices to Current Item against selected Flag
+                    setItemPriceMatricesToItem = function(itemPriceMatrices) {
+                        if (!itemPriceMatrices || itemPriceMatrices.length === 0) {
+                            confirmation.messageText("There are no price items against this flag. Do you want to Add New?");
+                            confirmation.afterProceed(selectedProduct().setItemPriceMatrices); 
+                            confirmation.afterCancel(selectedProduct().removeExistingPriceMatrices);
+                            confirmation.show();
+                            return;
+                        }
+
+                        // Set Price Matrix to Item against selected Flag
+                        selectedProduct().setItemPriceMatrices(itemPriceMatrices);
+                    },
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
                                 costCentres.removeAll();
+                                countries.removeAll();
+                                states.removeAll();
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
 
@@ -500,6 +516,20 @@ define("product/product.viewModel",
                             },
                             error: function (response) {
                                 toastr.error("Failed to archive Product. Error: " + response);
+                            }
+                        });
+                    },
+                    // Get Item Price Matrices for Item By Flag
+                    getItemPriceMatricesForItemByFlag = function(flagId, itemId) {
+                        dataservice.getItemPriceMatricesForItemByFlagId({
+                            FlagId: flagId,
+                            ItemId: itemId
+                        }, {
+                            success: function (data) {
+                                setItemPriceMatricesToItem(data);
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load item price matrix" + response);
                             }
                         });
                     },
@@ -615,8 +645,7 @@ define("product/product.viewModel",
                     stockDialogFilter: stockDialogFilter,
                     stockItems: stockItems,
                     costCentres: costCentres,
-                    setionFlags: sectionFlags,
-                    itemPriceMatrices: itemPriceMatrices,
+                    sectionFlags: sectionFlags,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,

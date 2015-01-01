@@ -1919,7 +1919,6 @@
           <Property Name="href" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SectionImage" Type="varchar" MaxLength="50" />
           <Property Name="Independent" Type="bit" Nullable="false" />
-          <Property Name="OrganisationId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="SectionCostcentre">
           <Key>
@@ -2060,7 +2059,7 @@
           <Property Name="FlagName" Type="varchar" MaxLength="50" />
           <Property Name="FlagColor" Type="varchar" MaxLength="50" />
           <Property Name="flagDescription" Type="varchar" MaxLength="250" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" />
           <Property Name="FlagColumn" Type="varchar" MaxLength="50" />
           <Property Name="isDefault" Type="bit" />
         </EntityType>
@@ -2738,6 +2737,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CmsSkinPa__PageI__194E09EA">
+          <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="0..1" />
+          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4029,6 +4040,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="State" EntitySet="State" />
             <End Role="Address" EntitySet="Address" />
           </AssociationSet>
+          <AssociationSet Name="FK__CmsSkinPa__PageI__194E09EA" Association="Self.FK__CmsSkinPa__PageI__194E09EA">
+            <End Role="CmsPage" EntitySet="CmsPage" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
+          </AssociationSet>
           <AssociationSet Name="FK__Organisat__Count__16719D3F" Association="Self.FK__Organisat__Count__16719D3F">
             <End Role="Country" EntitySet="Country" />
             <End Role="Organisation" EntitySet="Organisation" />
@@ -4814,6 +4829,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="State" EntitySet="States" />
             <End Role="Organisation" EntitySet="Organisations" />
           </AssociationSet>
+          <AssociationSet Name="FK__CmsSkinPa__PageI__194E09EA" Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA">
+            <End Role="CmsPage" EntitySet="CmsPages" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -4972,6 +4991,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Organisation" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="CmsSkinPageWidget" ToRole="Organisation" />
           <NavigationProperty Name="Widget" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" FromRole="CmsSkinPageWidget" ToRole="Widget" />
           <NavigationProperty Name="CmsSkinPageWidgetParams" Relationship="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" FromRole="CmsSkinPageWidget" ToRole="CmsSkinPageWidgetParam" />
+          <NavigationProperty Name="CmsPage" Relationship="DomainModels.FK__CmsSkinPa__PageI__194E09EA" FromRole="CmsSkinPageWidget" ToRole="CmsPage" />
         </EntityType>
         <EntityType Name="CmsSkinPageWidgetParam">
           <Key>
@@ -5300,6 +5320,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="CmsPage" ToRole="Company" />
           <NavigationProperty Name="PageCategory" Relationship="DomainModels.FK_PageCategory_CmsPage" FromRole="CmsPage" ToRole="PageCategory" />
           <NavigationProperty Name="CmsPageTags" Relationship="DomainModels.FK_webcmsPageTags_webcmsPages" FromRole="CmsPage" ToRole="CmsPageTag" />
+          <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK__CmsSkinPa__PageI__194E09EA" FromRole="CmsPage" ToRole="CmsSkinPageWidget" />
         </EntityType>
         <EntityType Name="StockCategory">
           <Key>
@@ -5513,7 +5534,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="href" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SectionImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Independent" Type="Boolean" Nullable="false" />
-          <Property Name="OrganisationId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="SectionFlags" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="Section" ToRole="SectionFlag" />
         </EntityType>
         <EntityType Name="SectionFlag">
@@ -5525,10 +5545,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="FlagName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FlagColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="flagDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="FlagColumn" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="isDefault" Type="Boolean" />
           <NavigationProperty Name="Section" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="SectionFlag" ToRole="Section" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <Association Name="FK_tbl_section_flags_tbl_sections">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -8676,6 +8696,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__CmsSkinPa__PageI__194E09EA">
+          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9190,7 +9222,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Sections">
             <EntityTypeMapping TypeName="DomainModels.Section">
               <MappingFragment StoreEntitySet="Section">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="Independent" ColumnName="Independent" />
                 <ScalarProperty Name="SectionImage" ColumnName="SectionImage" />
                 <ScalarProperty Name="href" ColumnName="href" />
@@ -9204,9 +9235,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="SectionFlags">
             <EntityTypeMapping TypeName="DomainModels.SectionFlag">
               <MappingFragment StoreEntitySet="SectionFlag">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="isDefault" ColumnName="isDefault" />
                 <ScalarProperty Name="FlagColumn" ColumnName="FlagColumn" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="flagDescription" ColumnName="flagDescription" />
                 <ScalarProperty Name="FlagColor" ColumnName="FlagColor" />
                 <ScalarProperty Name="FlagName" ColumnName="FlagName" />

@@ -29,7 +29,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets783D229202583C7706D661514CC3D6EBE684F016EAEEC3A44F7DE3C5D492254B))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets0D9B16280E76390C4C8F137A5702836D5564391DE47D6CACD3E606142BE64048))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -38,18 +38,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets783D229202583C7706D661514CC3D6EBE684F016EAEEC3A44F7DE3C5D492254B : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets0D9B16280E76390C4C8F137A5702836D5564391DE47D6CACD3E606142BE64048 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets783D229202583C7706D661514CC3D6EBE684F016EAEEC3A44F7DE3C5D492254B()
+        public ViewsForBaseEntitySets0D9B16280E76390C4C8F137A5702836D5564391DE47D6CACD3E606142BE64048()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "e6c3fbd0e389979a30b6fcfeee370c2b729ed8f340b39b3e25fecc4619e6f6a2";
-            this.HashOverAllExtentViews = "b6afdff98bde6ec347dcca4ec0e15fc2362d923fc0d8b09535f5672d6f443249";
+            this.HashOverMappingClosure = "d0283ad3560c7316be63532332491fe72c76e4dd44e0f26545da51dab0a86f1a";
+            this.HashOverAllExtentViews = "573ae9a20460d02bf20295a2235b16b84e33ef4361cb5ee9b43b5e11320a2bae";
             this.ViewCount = 206;
         }
         
@@ -6817,7 +6817,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Section", @"
     SELECT VALUE -- Constructing Section
-        [DomainModels.Store.Section](T1.Section_SectionId, T1.Section_SectionName, T1.Section_SecOrder, T1.Section_ParentId, T1.Section_href, T1.Section_SectionImage, T1.Section_Independent, T1.Section_OrganisationId)
+        [DomainModels.Store.Section](T1.Section_SectionId, T1.Section_SectionName, T1.Section_SecOrder, T1.Section_ParentId, T1.Section_href, T1.Section_SectionImage, T1.Section_Independent)
     FROM (
         SELECT 
             T.SectionId AS Section_SectionId, 
@@ -6827,7 +6827,6 @@ namespace Edm_EntityMappingGeneratedViews
             T.href AS Section_href, 
             T.SectionImage AS Section_SectionImage, 
             T.Independent AS Section_Independent, 
-            T.OrganisationId AS Section_OrganisationId, 
             True AS _from0
         FROM BaseDbContext.Sections AS T
     ) AS T1");
@@ -6840,7 +6839,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SectionFlag", @"
     SELECT VALUE -- Constructing SectionFlag
-        [DomainModels.Store.SectionFlag](T1.SectionFlag_SectionFlagId, T1.SectionFlag_SectionId, T1.SectionFlag_FlagName, T1.SectionFlag_FlagColor, T1.SectionFlag_flagDescription, T1.SectionFlag_CompanyId, T1.SectionFlag_FlagColumn, T1.SectionFlag_isDefault)
+        [DomainModels.Store.SectionFlag](T1.SectionFlag_SectionFlagId, T1.SectionFlag_SectionId, T1.SectionFlag_FlagName, T1.SectionFlag_FlagColor, T1.SectionFlag_flagDescription, T1.SectionFlag_OrganisationId, T1.SectionFlag_FlagColumn, T1.SectionFlag_isDefault)
     FROM (
         SELECT 
             T.SectionFlagId AS SectionFlag_SectionFlagId, 
@@ -6848,7 +6847,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.FlagName AS SectionFlag_FlagName, 
             T.FlagColor AS SectionFlag_FlagColor, 
             T.flagDescription AS SectionFlag_flagDescription, 
-            T.CompanyId AS SectionFlag_CompanyId, 
+            T.OrganisationId AS SectionFlag_OrganisationId, 
             T.FlagColumn AS SectionFlag_FlagColumn, 
             T.isDefault AS SectionFlag_isDefault, 
             True AS _from0
@@ -6863,7 +6862,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Sections", @"
     SELECT VALUE -- Constructing Sections
-        [DomainModels.Section](T1.Section_SectionId, T1.Section_SectionName, T1.Section_SecOrder, T1.Section_ParentId, T1.Section_href, T1.Section_SectionImage, T1.Section_Independent, T1.Section_OrganisationId)
+        [DomainModels.Section](T1.Section_SectionId, T1.Section_SectionName, T1.Section_SecOrder, T1.Section_ParentId, T1.Section_href, T1.Section_SectionImage, T1.Section_Independent)
     FROM (
         SELECT 
             T.SectionId AS Section_SectionId, 
@@ -6873,7 +6872,6 @@ namespace Edm_EntityMappingGeneratedViews
             T.href AS Section_href, 
             T.SectionImage AS Section_SectionImage, 
             T.Independent AS Section_Independent, 
-            T.OrganisationId AS Section_OrganisationId, 
             True AS _from0
         FROM DomainModelsStoreContainer.Section AS T
     ) AS T1");
@@ -6886,7 +6884,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionFlags", @"
     SELECT VALUE -- Constructing SectionFlags
-        [DomainModels.SectionFlag](T1.SectionFlag_SectionFlagId, T1.SectionFlag_SectionId, T1.SectionFlag_FlagName, T1.SectionFlag_FlagColor, T1.SectionFlag_flagDescription, T1.SectionFlag_CompanyId, T1.SectionFlag_FlagColumn, T1.SectionFlag_isDefault)
+        [DomainModels.SectionFlag](T1.SectionFlag_SectionFlagId, T1.SectionFlag_SectionId, T1.SectionFlag_FlagName, T1.SectionFlag_FlagColor, T1.SectionFlag_flagDescription, T1.SectionFlag_FlagColumn, T1.SectionFlag_isDefault, T1.SectionFlag_OrganisationId)
     FROM (
         SELECT 
             T.SectionFlagId AS SectionFlag_SectionFlagId, 
@@ -6894,9 +6892,9 @@ namespace Edm_EntityMappingGeneratedViews
             T.FlagName AS SectionFlag_FlagName, 
             T.FlagColor AS SectionFlag_FlagColor, 
             T.flagDescription AS SectionFlag_flagDescription, 
-            T.CompanyId AS SectionFlag_CompanyId, 
             T.FlagColumn AS SectionFlag_FlagColumn, 
             T.isDefault AS SectionFlag_isDefault, 
+            T.OrganisationId AS SectionFlag_OrganisationId, 
             True AS _from0
         FROM DomainModelsStoreContainer.SectionFlag AS T
     ) AS T1");

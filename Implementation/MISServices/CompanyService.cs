@@ -32,6 +32,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPaymentGatewayRepository paymentGatewayRepository;
         private readonly IWidgetRepository widgetRepository;
         private readonly ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository;
+        private readonly IProductCategoryRepository productCategoryRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -249,6 +250,32 @@ namespace MPC.Implementation.MISServices
                 }
         }
 
+        private void UpdateProductCategoriesOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            if (companySavingModel.NewProductCategories != null)
+            {
+                //Add New Product Category
+                foreach (var productCategory in companySavingModel.NewProductCategories)
+                {
+                    productCategory.CompanyId = companySavingModel.Company.CompanyId;
+                    productCategoryRepository.Add(productCategory);
+                }
+            }
+            if (companySavingModel.EdittedProductCategories != null)
+                //Update Product Categories
+                foreach (var productCategory in companySavingModel.EdittedProductCategories)
+                {
+                    productCategoryRepository.Update(productCategory);
+                }
+            if (companySavingModel.DeletedProductCategories != null)
+                //Delete Product Categories
+                foreach (var productCategory in companySavingModel.DeletedProductCategories)
+                {
+                    var productCategoryToDelete = productCategoryRepository.Find(productCategory.ProductCategoryId);
+                    productCategoryRepository.Delete(productCategoryToDelete);
+                }
+        }
+
         private void UpdateCompanyContactOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             if (companySavingModel.NewAddedCompanyContacts != null)
@@ -298,14 +325,84 @@ namespace MPC.Implementation.MISServices
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
+            UpdateProductCategoriesOfUpdatingCompany(companySavingModel);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
+            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
         }
 
+        /// <summary>
+        /// Update CMS Skin Page Widget
+        /// </summary>
+        private void UpdateCmsSkinPageWidget(IEnumerable<CmsPageWithWidgetList> cmsPageWithWidgetList, Company companyDbVersion)
+        {
+
+            if (cmsPageWithWidgetList != null)
+            {
+                #region Add/Edit
+                foreach (var item in cmsPageWithWidgetList)
+                {
+                    if (item.CmsSkinPageWidgets != null)
+                    {
+                        foreach (var cmsSkinPageWidget in item.CmsSkinPageWidgets)
+                        {
+                            CmsSkinPageWidget skinPageWidgetDbVsersion = companyDbVersion.CmsSkinPageWidgets.FirstOrDefault(p => p.PageWidgetId == cmsSkinPageWidget.PageWidgetId);
+                            if (skinPageWidgetDbVsersion != null && skinPageWidgetDbVsersion.PageWidgetId > 0)
+                            {
+                                skinPageWidgetDbVsersion.Sequence = cmsSkinPageWidget.Sequence;
+
+                            }
+                            else
+                            {
+                                //New widget Added
+                                cmsSkinPageWidget.OrganisationId = companyRepository.OrganisationId;
+                                companyDbVersion.CmsSkinPageWidgets.Add(cmsSkinPageWidget);
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                #region Delete
+                //find missing items
+                List<CmsSkinPageWidget> missingCmsSkinPageWidgetListItems = new List<CmsSkinPageWidget>();
+                //find missing items
+                foreach (var dbversionCmsSkinPageWidgetItem in companyDbVersion.CmsSkinPageWidgets)
+                {
+                    CmsPageWithWidgetList cmsPageWithWidgetListItem = cmsPageWithWidgetList.FirstOrDefault(pw => pw.PageId == dbversionCmsSkinPageWidgetItem.PageId);
+                    if (cmsPageWithWidgetListItem != null && cmsPageWithWidgetListItem.CmsSkinPageWidgets != null && cmsPageWithWidgetListItem.CmsSkinPageWidgets.All(w => w.PageWidgetId != dbversionCmsSkinPageWidgetItem.PageWidgetId))
+                    {
+                        missingCmsSkinPageWidgetListItems.Add(dbversionCmsSkinPageWidgetItem);
+                    }
+                    //In case user delete all Widgets items from client side then it delete all items from db
+                    if (cmsPageWithWidgetListItem != null && cmsPageWithWidgetListItem.CmsSkinPageWidgets == null)
+                    {
+                        missingCmsSkinPageWidgetListItems.Add(dbversionCmsSkinPageWidgetItem);
+                    }
+                }
+                //remove missing items
+                foreach (CmsSkinPageWidget missingCmsSkinPageWidgetItem in missingCmsSkinPageWidgetListItems)
+                {
+
+                    CmsSkinPageWidget dbVersionMissingItem = companyDbVersion.CmsSkinPageWidgets != null ? companyDbVersion.CmsSkinPageWidgets.FirstOrDefault(
+                        w => w.PageWidgetId == missingCmsSkinPageWidgetItem.PageWidgetId) : null;
+                    if (dbVersionMissingItem != null && dbVersionMissingItem.PageWidgetId > 0)
+                    {
+                        cmsSkinPageWidgetRepository.Delete(dbVersionMissingItem);
+                        cmsSkinPageWidgetRepository.SaveChanges();
+                    }
+                }
+                #endregion
+            }
+
+
+
+
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -643,7 +740,7 @@ namespace MPC.Implementation.MISServices
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
              IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
-            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository)
+            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -662,6 +759,7 @@ namespace MPC.Implementation.MISServices
             this.paymentGatewayRepository = paymentGatewayRepository;
             this.widgetRepository = widgetRepository;
             this.cmsSkinPageWidgetRepository = cmsSkinPageWidgetRepository;
+            this.productCategoryRepository = productCategoryRepository;
         }
         #endregion
 

@@ -54,6 +54,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual ICollection<CmsPageTag> CmsPageTags { get; set; }
 
+        /// <summary>
+        /// Cms Skin Page Widgets
+        /// </summary>
+        public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
+
         #endregion
 
         #region Additional Properties

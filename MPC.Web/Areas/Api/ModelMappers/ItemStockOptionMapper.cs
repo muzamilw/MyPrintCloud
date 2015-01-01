@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemId = source.ItemId,
                 StockLabel = source.StockLabel,
                 StockId = source.StockId,
+                OptionSequence = source.OptionSequence,
                 ItemAddOnCostCentres = source.ItemAddonCostCentres != null ? source.ItemAddonCostCentres.Select(addon => addon.CreateFrom()) : 
                 new List<ItemAddOnCostCentre>()
             };
@@ -53,6 +54,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockLabel = source.StockLabel,
                 StockId = source.StockId,
                 FileSource = source.FileSource,
+                OptionSequence = source.OptionSequence,
                 FileName = source.FileName,
                 ItemAddonCostCentres = source.ItemAddOnCostCentres != null ? source.ItemAddOnCostCentres.Select(addon => addon.CreateFrom()).ToList() : 
                 new List<DomainModels.ItemAddonCostCentre>()
