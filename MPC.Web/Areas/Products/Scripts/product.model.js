@@ -461,7 +461,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Set Already existing Items For Current Flag
                 _.each(itemPriceMatrixList, function (itemPriceMatrix) {
                     var itemMatrix = itemPriceMatrices.find(function(itemMatrixItem) {
-                        return itemMatrixItem.id() === itemPriceMatrix.id();
+                        return itemMatrixItem.id() === itemPriceMatrix.PriceMatrixId;
                     });
                     if (!itemMatrix) {
                         itemPriceMatrixItems.push(ItemPriceMatrix.Create(itemPriceMatrix));
