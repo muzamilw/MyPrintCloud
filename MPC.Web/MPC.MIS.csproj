@@ -1385,6 +1385,12 @@
     <Content Include="Areas\Stores\Views\Shared\_HomeWidget.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AboutUs.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ProductCategoryDetail.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\DeliveryAddOnsDetail.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\DeliveryCarrier.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\DeliveryCostCentres.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\MachinesDetail.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\MachinesList.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2540,6 +2546,7 @@
     <Content Include="Views\Shared\Product\_SelectProductOption.cshtml" />
     <Content Include="Views\CRM\SupplierDetail.cshtml" />
     <Content Include="Views\CRM\SuppliersList.cshtml" />
+    <Content Include="Views\Shared\PageUnAvailable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

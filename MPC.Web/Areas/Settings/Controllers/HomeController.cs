@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Settings.Controllers
 
         [HttpPost]
         //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
-        public ActionResult Index(HttpPostedFileBase file, long organizationId)
+        public ActionResult MyOrganization(HttpPostedFileBase file, long organizationId)
         {
             if (file != null && file.InputStream != null)
             {
@@ -66,6 +66,32 @@ namespace MPC.MIS.Areas.Settings.Controllers
             }
 
             myOrganizationService.SaveFileToFileTable(file.FileName, fileBytes);
+        }
+
+        public ActionResult MyOrganization()
+        {
+            return View();
+        }
+
+        public ActionResult MachinesList()
+        {
+            return View();
+        }
+        public ActionResult MachinesDetail()
+        {
+            return View();
+        }
+        public ActionResult DeliveryCostCentres()
+        {
+            return View();
+        }
+        public ActionResult DeliveryAddOnsDetail()
+        {
+            return View();
+        }
+        public ActionResult DeliveryCarrier()
+        {
+            return View();
         }
 
     }
