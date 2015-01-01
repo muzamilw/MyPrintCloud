@@ -43,6 +43,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IOrderService, OrderService>();
             unityContainer.RegisterType<ICategoryService, CategoryService>();
             unityContainer.RegisterType<webstoreInterfaces.IItemService, webstoreImplementation.ItemService>();
+            unityContainer.RegisterType<webstoreInterfaces.ITemplateService, webstoreImplementation.TemplateService>();
         }
     }
 }

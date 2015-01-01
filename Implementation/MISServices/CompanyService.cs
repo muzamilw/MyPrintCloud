@@ -340,28 +340,68 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateCmsSkinPageWidget(IEnumerable<CmsPageWithWidgetList> cmsPageWithWidgetList, Company companyDbVersion)
         {
+
             if (cmsPageWithWidgetList != null)
             {
+                #region Add/Edit
                 foreach (var item in cmsPageWithWidgetList)
                 {
                     if (item.CmsSkinPageWidgets != null)
                     {
-                        foreach (var cmsSkinPageWidgets in item.CmsSkinPageWidgets)
+                        foreach (var cmsSkinPageWidget in item.CmsSkinPageWidgets)
                         {
-                            if (cmsSkinPageWidgets.PageWidgetId > 0)
+                            CmsSkinPageWidget skinPageWidgetDbVsersion = companyDbVersion.CmsSkinPageWidgets.FirstOrDefault(p => p.PageWidgetId == cmsSkinPageWidget.PageWidgetId);
+                            if (skinPageWidgetDbVsersion != null && skinPageWidgetDbVsersion.PageWidgetId > 0)
                             {
-                                //Update 
-                                //cmsSkinPageWidgets.OrganisationId = companyRepository.OrganisationId;
+                                skinPageWidgetDbVsersion.Sequence = cmsSkinPageWidget.Sequence;
+
                             }
                             else
                             {
                                 //New widget Added
-                                cmsSkinPageWidgets.OrganisationId = companyRepository.OrganisationId;
+                                cmsSkinPageWidget.OrganisationId = companyRepository.OrganisationId;
+                                companyDbVersion.CmsSkinPageWidgets.Add(cmsSkinPageWidget);
                             }
                         }
                     }
                 }
+                #endregion
+
+                #region Delete
+                //find missing items
+                List<CmsSkinPageWidget> missingCmsSkinPageWidgetListItems = new List<CmsSkinPageWidget>();
+                //find missing items
+                foreach (var dbversionCmsSkinPageWidgetItem in companyDbVersion.CmsSkinPageWidgets)
+                {
+                    CmsPageWithWidgetList cmsPageWithWidgetListItem = cmsPageWithWidgetList.FirstOrDefault(pw => pw.PageId == dbversionCmsSkinPageWidgetItem.PageId);
+                    if (cmsPageWithWidgetListItem != null && cmsPageWithWidgetListItem.CmsSkinPageWidgets != null && cmsPageWithWidgetListItem.CmsSkinPageWidgets.All(w => w.PageWidgetId != dbversionCmsSkinPageWidgetItem.PageWidgetId))
+                    {
+                        missingCmsSkinPageWidgetListItems.Add(dbversionCmsSkinPageWidgetItem);
+                    }
+                    //In case user delete all Widgets items from client side then it delete all items from db
+                    if (cmsPageWithWidgetListItem != null && cmsPageWithWidgetListItem.CmsSkinPageWidgets == null)
+                    {
+                        missingCmsSkinPageWidgetListItems.Add(dbversionCmsSkinPageWidgetItem);
+                    }
+                }
+                //remove missing items
+                foreach (CmsSkinPageWidget missingCmsSkinPageWidgetItem in missingCmsSkinPageWidgetListItems)
+                {
+
+                    CmsSkinPageWidget dbVersionMissingItem = companyDbVersion.CmsSkinPageWidgets != null ? companyDbVersion.CmsSkinPageWidgets.FirstOrDefault(
+                        w => w.PageWidgetId == missingCmsSkinPageWidgetItem.PageWidgetId) : null;
+                    if (dbVersionMissingItem != null && dbVersionMissingItem.PageWidgetId > 0)
+                    {
+                        cmsSkinPageWidgetRepository.Delete(dbVersionMissingItem);
+                        cmsSkinPageWidgetRepository.SaveChanges();
+                    }
+                }
+                #endregion
             }
+
+
+
+
         }
         /// <summary>
         /// 
