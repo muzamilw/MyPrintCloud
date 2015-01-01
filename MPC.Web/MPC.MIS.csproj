@@ -249,6 +249,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CmsPageLayoutDetailController.cs" />
@@ -340,6 +341,7 @@
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemPriceMatrix.cs" />
+    <Compile Include="Areas\Api\Models\ItemPriceMatrixSearchRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />

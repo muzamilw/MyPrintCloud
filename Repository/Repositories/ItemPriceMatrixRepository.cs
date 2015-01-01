@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -40,5 +42,13 @@ namespace MPC.Repository.Repositories
 
         #region public
         #endregion
+
+        /// <summary>
+        /// Get For Item By Section Flag
+        /// </summary>
+        public IEnumerable<ItemPriceMatrix> GetForItemBySectionFlag(long sectionFlagId, long itemId)
+        {
+            return DbSet.Where(itemPrice => itemPrice.FlagId == sectionFlagId && itemPrice.ItemId == itemId && itemPrice.SupplierId == null);
+        }
     }
 }
