@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
@@ -35,6 +36,9 @@ namespace MPC.Implementation.MISServices
         private readonly IStockItemRepository stockItemRepository;
         private readonly IItemPriceMatrixRepository itemPriceMatrixRepository;
         private readonly IItemStateTaxRepository itemStateTaxRepository;
+        private readonly ICountryRepository countryRepository;
+        private readonly IStateRepository stateRepository;
+        private readonly ISectionFlagRepository sectionFlagRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -193,7 +197,8 @@ namespace MPC.Implementation.MISServices
             IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository, 
             ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
             IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository, 
-            IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository)
+            IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
+            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository)
         {
             if (itemRepository == null)
             {
@@ -251,6 +256,18 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemStateTaxRepository");
             }
+            if (countryRepository == null)
+            {
+                throw new ArgumentNullException("countryRepository");
+            }
+            if (stateRepository == null)
+            {
+                throw new ArgumentNullException("stateRepository");
+            }
+            if (sectionFlagRepository == null)
+            {
+                throw new ArgumentNullException("sectionFlagRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -266,6 +283,9 @@ namespace MPC.Implementation.MISServices
             this.stockItemRepository = stockItemRepository;
             this.itemPriceMatrixRepository = itemPriceMatrixRepository;
             this.itemStateTaxRepository = itemStateTaxRepository;
+            this.countryRepository = countryRepository;
+            this.stateRepository = stateRepository;
+            this.sectionFlagRepository = sectionFlagRepository;
         }
 
         #endregion
@@ -429,7 +449,10 @@ namespace MPC.Implementation.MISServices
         {
             return new ItemBaseResponse
             {
-                CostCentres = costCentreRepository.GetAllNonSystemCostCentres()
+                CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
+                SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
+                Countries = countryRepository.GetAll(),
+                States = stateRepository.GetAll()
             };
         }
         
@@ -440,6 +463,14 @@ namespace MPC.Implementation.MISServices
         public InventorySearchResponse GetStockItems(StockItemRequestModel request)
         {
             return stockItemRepository.GetStockItemsForProduct(request);
+        }
+
+        /// <summary>
+        /// Get Item Price Matrices for Item by Section Flag
+        /// </summary>
+        public IEnumerable<ItemPriceMatrix> GetItemPriceMatricesBySectionFlagForItem(long sectionFlagId, long itemId)
+        {
+            return itemPriceMatrixRepository.GetForItemBySectionFlag(sectionFlagId, itemId);
         }
 
         #endregion
