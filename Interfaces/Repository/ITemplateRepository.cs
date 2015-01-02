@@ -8,5 +8,6 @@ namespace MPC.Interfaces.Repository
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
         Template GetTemplate(int productID);
+          
     }
 }

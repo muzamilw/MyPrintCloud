@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.Repository;
+﻿using MPC.Common;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using System;
@@ -22,6 +23,7 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
+        // called from webstore usually for coping template
         public Template GetTemplate(int productID)
         {
             var product= _templateRepository.GetTemplate(productID);
@@ -33,6 +35,22 @@ namespace MPC.Implementation.WebStoreServices
             }
             return product;
         }
+
+        // called from designer, all the units are converted to pixel before sending 
+        public Template GetTemplateInDesigner(int productID)
+        {
+            var product = _templateRepository.GetTemplate(productID);
+
+            product.PDFTemplateHeight = DesignerUtils.PointToPixel(product.PDFTemplateHeight.Value);
+            product.PDFTemplateWidth = DesignerUtils.PointToPixel(product.PDFTemplateWidth.Value);
+            product.CuttingMargin = DesignerUtils.PointToPixel(product.CuttingMargin.Value);
+
+
+            return product;
+        }
+
+     
+
         #endregion
     }
 }

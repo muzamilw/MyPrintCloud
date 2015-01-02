@@ -22,6 +22,8 @@ namespace MPC.Webstore.Models
         [Display(Name = "KeepMeLoggedIn")]
         public bool KeepMeLoggedIn { get; set; }
 
+        public string ReturnURL { get; set; }
+
 
     }
     public class ExternalLoginConfirmationViewModel
@@ -111,7 +113,7 @@ namespace MPC.Webstore.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-      
+        public string ReturnURL { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -24,15 +24,15 @@
 
 
                             <script>
-                                function SocialSignUp(isFacebook) {
-                                    var w = 820;
-                                    var h = 560;
-                                    var left = (screen.width / 2) - (w / 2);
-                                    var top = (screen.height / 2) - (h / 2);
-                                    if (isFacebook == 1)
-                                        window.open("/Home/oAuth?id=1&isRegWithSM=1", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                            function SocialSignUp(isFacebook) {
+                                var w = 820;
+                                var h = 560;
+                                var left = (screen.width / 2) - (w / 2);
+                                var top = (screen.height / 2) - (h / 2);
+                                if (isFacebook == 1)
+                                         window.open("/Home/oAuth?id=1&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                                     else
-                                        window.open("/Home/oAuth?id=0&isRegWithSM=1", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                                        window.open("/Home/oAuth?id=0&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                                     return false;
                                 }
                             </script>
@@ -91,14 +91,16 @@
                             @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", placeholder = "Phone" })
                             @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", placeholder = "Email" })
                             @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
-
+                             
                             <br />
                             <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" onclick="return ValidateUSer();" value="CREATE ACCOUNT" /><br />
 
                             <div class="clear">
                                 &nbsp;
                             </div>
+                        <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
                         }
+                      
                     </div>
                     <div class="signup_width col-md-6 col-lg-6 col-xs-12">
                         <div class="BackgroundColor">

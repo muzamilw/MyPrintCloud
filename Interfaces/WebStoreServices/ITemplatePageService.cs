@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace MPC.Interfaces.WebStoreServices
 {
-    public interface ITemplateService
+    public interface ITemplatePageService
     {
-        Template GetTemplate(int productID);
-
-        Template GetTemplateInDesigner(int productID);
+        List<TemplatePage> GetTemplatePages(int productId);
     }
 }
