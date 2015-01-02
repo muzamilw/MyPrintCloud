@@ -1403,6 +1403,7 @@
     <Content Include="RichTextEditor\samples\assets\posteddata.php" />
     <Content Include="RichTextEditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="RichTextEditor\skins\moono\readme.md" />
+    <None Include="Properties\PublishProfiles\mvcMISpublish.pubxml" />
     <None Include="Scripts\amplify-vsdoc.js" />
     <Content Include="Scripts\amplify.js" />
     <Content Include="Scripts\amplify.min.js" />

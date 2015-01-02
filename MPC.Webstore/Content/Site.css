@@ -1590,7 +1590,7 @@ ul.nav li.selectedLava a
 
 .blue_cicle_container
 {
-    display: none;
+    display:none;
     position: relative;
     height: 0px;
     width: 0px;
@@ -2096,13 +2096,13 @@ ul.nav li.selectedLava a
     padding-bottom: 15px;
     text-align: center;
     height: 15px;
-    display: none;
+  
 }
 
 .product_detail_image_Pricing
 {
     color: #a8a8a8;
-    display: none;
+    display:none;
     font-size: 13px;
 }
 
@@ -10420,10 +10420,10 @@ a.PinkRegBack:active
     visibility: hidden;
 }
 
-#MainContent_lblProductName
+/*#MainContent_lblProductName
 {
     display: none;
-}
+}*/
 
 .ScrollImgContainer2Port img
 {
@@ -25173,6 +25173,7 @@ gridViewRowStyle td
 {
     width: 80%;
     margin-left: 23px;
+    margin-top:13px;
 }
 
 .grossTotaldiv
@@ -26402,3 +26403,4 @@ a
 .white {
     background-color: #ffffff;
 }
+

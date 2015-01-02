@@ -14,6 +14,8 @@ namespace MPC.Webstore.ViewModels
         public int ItemID { get; set; }
         public double QtyRangeFrom { get; set; }
         public double QtyRangeTo { get; set; }
+
+       
     }
 
 
