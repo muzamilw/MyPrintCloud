@@ -251,6 +251,8 @@
     <Compile Include="Areas\Categories\CategoriesAreaRegistration.cs" />
     <Compile Include="Areas\Categories\Controllers\AllCategoriesController.cs" />
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateSPController.cs" />
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
