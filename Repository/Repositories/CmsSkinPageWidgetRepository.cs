@@ -34,7 +34,8 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<CmsSkinPageWidget> GetByPageId(long pageId, long companyId)
         {
-            return DbSet.Where(c => c.PageId == pageId && c.CompanyId == companyId && c.OrganisationId == OrganisationId).ToList();
+            return DbSet.Where(c => c.PageId == pageId && c.CompanyId == companyId && c.OrganisationId == OrganisationId)
+                .OrderBy(c => c.Sequence).ToList();
         }
 
 

@@ -57,6 +57,13 @@ define("product/product.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to get item price matrices for Item by FlagId
+                    amplify.request.define('getItemPriceMatricesForItemByFlagId', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemPriceMatrix',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -118,6 +125,16 @@ define("product/product.dataservice", function () {
                     error: callbacks.error,
                     data: param
                 });
+            },
+            // Get ItemPriceMatrices For Item By FlagId
+            getItemPriceMatricesForItemByFlagId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getItemPriceMatricesForItemByFlagId',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
             };
 
         return {
@@ -126,7 +143,8 @@ define("product/product.dataservice", function () {
             saveItem: saveItem,
             archiveItem: archiveItem,
             getStockItems: getStockItems,
-            getBaseData: getBaseData
+            getBaseData: getBaseData,
+            getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId
         };
     })();
 

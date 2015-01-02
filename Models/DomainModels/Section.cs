@@ -43,10 +43,6 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool Independent { get; set; }
 
-        /// <summary>
-        /// Organisation Id
-        /// </summary>
-        public long OrganisationId { get; set; }
         #endregion
 
         #region Reference Properties

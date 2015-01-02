@@ -251,6 +251,11 @@
     <Compile Include="Areas\Categories\CategoriesAreaRegistration.cs" />
     <Compile Include="Areas\Categories\Controllers\AllCategoriesController.cs" />
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplatePageController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateSPController.cs" />
+    <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
@@ -318,6 +323,7 @@
     <Content Include="Areas\Categories\Views\web.config" />
     <Content Include="Areas\Categories\Views\AllCategories\Index.cshtml" />
     <Content Include="Areas\dashboard\Views\web.config" />
+    <Content Include="Areas\DesignerApi\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\input.watermark.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -342,6 +348,7 @@
     <Content Include="Scripts\utilities.js" />
     <Content Include="Scripts\zoomSlider.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="test.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -405,6 +412,8 @@
     <Folder Include="Areas\dashboard\Controllers\" />
     <Folder Include="Areas\dashboard\Models\" />
     <Folder Include="Areas\dashboard\Views\Shared\" />
+    <Folder Include="Areas\DesignerApi\Models\" />
+    <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />

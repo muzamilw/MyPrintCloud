@@ -148,15 +148,41 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return isFinishedGoodsUi() === '1';
             }),
             // Flag Id
-            flagId = ko.observable(specifiedFlagId || undefined),
+            internalFlagId = ko.observable(specifiedFlagId || undefined),
+            // Item Price Matrices For Existing flag
+            itemPriceMatricesForExistingFlag = ko.observableArray([]),
+            // Flag Id
+            flagId = ko.computed({
+                read: function() {
+                    return internalFlagId();
+                },
+                write: function(value) {
+                    if (!value || value === internalFlagId()) {
+                        return;
+                    }
+
+                    // Keep track of item Price Matrices that are against existing flag
+                    var itemPriceMatricesForFlag = itemPriceMatrices.filter(function(itemPriceMatrix) {
+                        return itemPriceMatrix.flagId() === internalFlagId() && itemPriceMatrix.itemId() === id() && !itemPriceMatrix.supplierId();
+                    });
+                    if (itemPriceMatricesForFlag.length > 0) {
+                        itemPriceMatricesForExistingFlag.removeAll();
+                        ko.utils.arrayPushAll(itemPriceMatricesForExistingFlag(), itemPriceMatricesForFlag);
+                        itemPriceMatricesForExistingFlag.valueHasMutated();
+                    }
+
+                    internalFlagId(value);
+                    
+                    if (callbacks && callbacks.onFlagChange && typeof callbacks.onFlagChange === "function") {
+                        callbacks.onFlagChange(value, id());
+                    }
+                }
+            }),
             // Is Qty Ranged
-            isQtyRanged = ko.observable(specifiedIsQtyRanged != null && specifiedIsQtyRanged != undefined ? specifiedIsQtyRanged : undefined),
+            isQtyRanged = ko.observable(!specifiedIsQtyRanged ? 2 : 1),
             // Is Qty Ranged for ui
             isQtyRangedUi = ko.computed({
                 read: function () {
-                    if (isQtyRanged() === 0) {
-                        return '2';
-                    }
                     return '' + isQtyRanged();
                 },
                 write: function (value) {
@@ -165,7 +191,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return;
                     }
 
-                    isQtyRanged(qtyRanged === 2 ? 0 : qtyRanged);
+                    isQtyRanged(qtyRanged);
                 }
             }),
             // Packaging Weight
@@ -184,6 +210,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStockOptions = ko.observableArray([]),
             // Item Price Matrices
             itemPriceMatrices = ko.observableArray([]),
+            // Item Price Matrices for Current Flag
+            itemPriceMatricesForCurrentFlag = ko.computed(function () {
+                if (!flagId()) {
+                    return [];
+                }
+
+                return itemPriceMatrices.filter(function (itemPriceMatrix) {
+                    return itemPriceMatrix.flagId() === flagId() && (!id() || itemPriceMatrix.itemId() === id()) && !itemPriceMatrix.supplierId();
+                });
+            }),
             // Item State Taxes
             itemStateTaxes = ko.observableArray([]),
             // Active Stock Option
@@ -358,7 +394,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Add Item State Tax
             addItemStateTax = function () {
-                itemStateTaxes.push(ItemStateTax.Create({ ItemId: id() }, callbacks, constructorParams));
+                var itemStateTax = ItemStateTax.Create({ ItemId: id() }, constructorParams);
+                itemStateTaxes.push(itemStateTax);
+                selectStateTaxItem(itemStateTax);
             },
             // Remove Item State Tax
             removeItemStateTax = function (itemStateTax) {
@@ -391,6 +429,54 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Choose Template for State Tax
             chooseTemplateForStateTax = function (stateTaxItem) {
                 return selectedStateTaxItem() === stateTaxItem ? 'editStateTaxTemplate' : 'itemStateTaxTemplate';
+            },
+            // Set Item Price Matrices for Selected Flag
+            setItemPriceMatrices = function(itemPriceMatrixList) {
+                // If no list then create new
+                var itemPriceMatrixItems = [];
+                if (!itemPriceMatrixList || itemPriceMatrixList.length === 0) {
+                    // Look for Existing Price Matrices and make a copy
+                    if (itemPriceMatricesForExistingFlag().length > 0) {
+                        itemPriceMatricesForExistingFlag.each(function(itemPriceMatrix) {
+                            var priceItem = itemPriceMatrix.convertToServerData();
+                            priceItem.PriceMatrixId = 0;
+                            priceItem.FlagId = flagId();
+                            priceItem.ItemId = id();
+                            itemPriceMatrixItems.push(ItemPriceMatrix.Create(priceItem));
+                        });
+                        ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
+                        // Remove Existing ones
+                        removeExistingPriceMatrices();
+                        itemPriceMatrices.valueHasMutated();
+                    }
+                    else { // Add New
+                        for (var i = 0; i < 15; i++) {
+                            itemPriceMatrixItems.push(ItemPriceMatrix.Create({ ItemId: id(), FlagId: flagId() }));
+                        }
+                        ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
+                        itemPriceMatrices.valueHasMutated();
+                    }
+                }
+
+                // Set Already existing Items For Current Flag
+                _.each(itemPriceMatrixList, function (itemPriceMatrix) {
+                    var itemMatrix = itemPriceMatrices.find(function(itemMatrixItem) {
+                        return itemMatrixItem.id() === itemPriceMatrix.PriceMatrixId;
+                    });
+                    if (!itemMatrix) {
+                        itemPriceMatrixItems.push(ItemPriceMatrix.Create(itemPriceMatrix));
+                    }
+                });
+                ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
+                removeExistingPriceMatrices();
+                itemPriceMatrices.valueHasMutated();
+            },
+            // Remove Existing Item Price Matrices For Selected Flag
+            removeExistingPriceMatrices = function() {
+                if (itemPriceMatricesForExistingFlag().length > 0 && !id) {
+                    // Remove Existing ones
+                    itemPriceMatrices.removeAll(itemPriceMatricesForExistingFlag());
+                }
             },
             // Errors
             errors = ko.validation.group({
@@ -556,7 +642,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     JobDescription9: jobDescription9(),
                     JobDescription10: jobDescription10(),
                     FlagId: flagId(),
-                    IsQtyRanged: isQtyRanged(),
+                    IsQtyRanged: isQtyRanged() === 2 ? false : true,
                     PackagingWeight: packagingWeight(),
                     DefaultItemTax: defaultItemTax(),
                     ItemVdpPrices: itemVdpPrices.map(function (itemVdpPrice) {
@@ -665,6 +751,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockOptionSequence11: stockOptionSequence11,
             itemStateTaxes: itemStateTaxes,
             itemPriceMatrices: itemPriceMatrices,
+            itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
             chooseStockItem: chooseStockItem,
@@ -681,6 +768,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             chooseTemplateForStateTax: chooseTemplateForStateTax,
             selectedStateTaxItem: selectedStateTaxItem,
             selectStateTaxItem: selectStateTaxItem,
+            setItemPriceMatrices: setItemPriceMatrices,
+            removeExistingPriceMatrices: removeExistingPriceMatrices,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -1284,7 +1373,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Price Matrix Entity
     ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
         specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
-        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedItemId) {
+        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedItemId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -1294,6 +1383,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || undefined),
             // Qty Ranged To
             qtyRangedTo = ko.observable(specifiedQtyRangedTo || undefined),
+            // Flag Id
+            flagId = ko.observable(specifiedFlagId || undefined),
+            // Supplier Id
+            supplierId = ko.observable(specifiedSupplierId || undefined),
             // Price Paper Type1
             pricePaperType1 = ko.observable(specifiedPricePaperType1 || undefined),
             // Price Paper Type1 Ui
@@ -1419,6 +1512,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 quantity: quantity,
                 qtyRangedFrom: qtyRangedFrom,
                 qtyRangedTo: qtyRangedTo,
+                flagId: flagId,
+                supplierId: supplierId,
                 pricePaperType1: pricePaperType1,
                 pricePaperType2: pricePaperType2,
                 pricePaperType3: pricePaperType3,
@@ -1447,6 +1542,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     Quantity: quantity(),
                     QtyRangedFrom: qtyRangedFrom(),
                     QtyRangedTo: qtyRangedTo(),
+                    FlagId: flagId(),
+                    SupplierId: supplierId(),
                     PricePaperType1: pricePaperType1(),
                     PricePaperType2: pricePaperType2(),
                     PricePaperType3: pricePaperType3(),
@@ -1467,6 +1564,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             quantity: quantity,
             qtyRangedFrom: qtyRangedFrom,
             qtyRangedTo: qtyRangedTo,
+            flagId: flagId,
+            supplierId: supplierId,
             pricePaperType1: pricePaperType1,
             pricePaperType2: pricePaperType2,
             pricePaperType3: pricePaperType3,
@@ -1535,7 +1634,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     internalCountryId(value);
 
-                    var countryResult = countries.filter(function (country) {
+                    var countryResult = countries.find(function (country) {
                         return country.id === value;
                     });
 
@@ -1545,6 +1644,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     countryName(countryResult.name);
                 }
+            }),
+            // Country States
+            countryStates = ko.computed(function () {
+                if (!countryId()) {
+                    return [];
+                }
+
+                return states.filter(function (state) {
+                    return state.countryId === countryId();
+                });
             }),
             // State Id
             stateId = ko.computed({
@@ -1558,7 +1667,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     internalStateId(value);
 
-                    var stateResult = states.filter(function (state) {
+                    var stateResult = _.find(countryStates(), function (state) {
                         return state.id === value;
                     });
 
@@ -1568,16 +1677,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                     stateName(stateResult.name);
                 }
-            }),
-            // Country States
-            countryStates = ko.computed(function () {
-                if (!countryId()) {
-                    return [];
-                }
-
-                return states.filter(function (state) {
-                    return state.countryid === countryId();
-                });
             }),
             // Errors
             errors = ko.validation.group({
@@ -1690,7 +1789,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Stock Option Factory
     ItemStockOption.Create = function (source, callbacks) {
         var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-            source.ImageSource, source.ItemId, callbacks);
+            source.ImageSource, source.OptionSequence, source.ItemId, callbacks);
 
         // If Item Addon CostCentres exists then add
         if (source.ItemAddOnCostCentres) {
@@ -1712,9 +1811,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     }
 
     // Item State Tax Factory
-    ItemStateTax.Create = function (source, callbacks, constructorParams) {
+    ItemStateTax.Create = function (source, constructorParams) {
         var itemStateTax = new ItemStateTax(source.ItemStateTaxId, source.CountryId, source.StateId, source.TaxRate, source.CountryName,
-            source.StateName, source.ItemId, callbacks);
+            source.StateName, source.ItemId);
 
         if (constructorParams) {
             itemStateTax.countries(constructorParams.countries || []);
@@ -1728,7 +1827,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ItemPriceMatrix.Create = function (source) {
         return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangedFrom, source.QtyRangedTo, source.PricePaperType1, source.PricePaperType2,
             source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
-            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.ItemId);
+            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.ItemId);
     }
 
     // Item Factory
@@ -1818,7 +1917,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             var itemStateTaxes = [];
 
             _.each(source.ItemStateTaxes, function (itemStateTax) {
-                itemStateTaxes.push(ItemStateTax.Create(itemStateTax, callbacks, constructorParams));
+                itemStateTaxes.push(ItemStateTax.Create(itemStateTax, constructorParams));
             });
 
             // Push to Original Item

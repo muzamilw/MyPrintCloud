@@ -10,6 +10,7 @@ using Microsoft.Owin;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.MIS.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
 using PagedList;
@@ -81,6 +82,10 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.NewAddedAddresses = company.NewAddedAddresses != null ? company.NewAddedAddresses.Select(x => x.CreateFrom()) : null;
             companySavingModel.EdittedAddresses = company.EdittedAddresses != null ? company.EdittedAddresses.Select(x => x.CreateFrom()) : null;
             companySavingModel.DeletedAddresses = company.DeletedAddresses != null ? company.DeletedAddresses.Select(x => x.CreateFrom()) : null;
+
+            companySavingModel.NewProductCategories = company.NewProductCategories != null ? company.NewProductCategories.Select(x => x.CreateFrom()) : null;
+            companySavingModel.EdittedProductCategories = company.EdittedProductCategories != null ? company.EdittedProductCategories.Select(x => x.CreateFrom()) : null;
+            companySavingModel.DeletedProductCategories = company.DeletedProductCategories != null ? company.DeletedProductCategories.Select(x => x.CreateFrom()) : null;
             companySavingModel.NewAddedCompanyContacts = company.NewAddedCompanyContacts != null
                 ? company.NewAddedCompanyContacts.Select(x => x.Createfrom())
                 : null;
@@ -95,6 +100,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.EditCmsPages = company.EditCmsPages != null ? company.EditCmsPages.Select(x => x.CreateFrom()).ToList() : null;
             companySavingModel.DeletedCmsPages = company.DeletedCmsPages != null ? company.DeletedCmsPages.Select(x => x.CreateFrom()).ToList() : null;
             companySavingModel.PageCategories = company.PageCategories != null ? company.PageCategories.Select(x => x.CreateFrom()).ToList() : null;
+            companySavingModel.CmsPageWithWidgetList = company.CmsPageWithWidgetList != null ? company.CmsPageWithWidgetList.Select(x => x.CreateFrom()).ToList() : null;
 
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
