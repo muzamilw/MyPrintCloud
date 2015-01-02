@@ -153,6 +153,7 @@
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />
     <Compile Include="WebStoreServices\TemplateColorStylesService.cs" />
+    <Compile Include="WebStoreServices\TemplateObjectService.cs" />
     <Compile Include="WebStoreServices\TemplatePageService.cs" />
     <Compile Include="WebStoreServices\TemplateService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsHelperService.cs" />

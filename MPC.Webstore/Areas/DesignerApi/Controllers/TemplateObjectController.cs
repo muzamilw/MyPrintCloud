@@ -10,11 +10,11 @@ using System.Web.Http;
 
 namespace MPC.Webstore.Areas.DesignerApi.Controllers
 {
-    public class TemplatePageController : ApiController
+    public class TemplateObjectController : ApiController
     {
-       #region Private
+              #region Private
 
-        private readonly ITemplatePageService templatePageService;
+        private readonly ITemplateObjectService templateObjectService;
 
        #endregion
         #region Constructor
@@ -23,9 +23,9 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public TemplatePageController(ITemplatePageService templatePageService)
+        public TemplateObjectController(ITemplateObjectService templateObjectService)
         {
-            this.templatePageService = templatePageService;
+            this.templateObjectService = templateObjectService;
         }
 
         #endregion
@@ -36,14 +36,14 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public HttpResponseMessage GetTemplatePages(int id)
+        public HttpResponseMessage GetTemplateObjects(int id)
         {
-            var template = templatePageService.GetTemplatePages(id);
+            var result = templateObjectService.GetProductObjects(id);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
          
         }
 

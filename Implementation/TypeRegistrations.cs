@@ -46,6 +46,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<webstoreInterfaces.ITemplateService, webstoreImplementation.TemplateService>();
             unityContainer.RegisterType<webstoreInterfaces.ITemplateColorStylesService, webstoreImplementation.TemplateColorStylesService>();
             unityContainer.RegisterType<webstoreInterfaces.ITemplatePageService, webstoreImplementation.TemplatePageService>();
+            unityContainer.RegisterType<webstoreInterfaces.ITemplateObjectService, webstoreImplementation.TemplateObjectService>();
         }
     }
 }

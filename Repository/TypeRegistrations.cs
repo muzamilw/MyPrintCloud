@@ -74,6 +74,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemStateTaxRepository, ItemStateTaxRepository>();
             unityContainer.RegisterType<IStateRepository, StateRepository>();
             unityContainer.RegisterType<ICountryRepository, CountryRepository>();
+            unityContainer.RegisterType<ITemplateObjectRepository, TemplateObjectRepository>();
             unityContainer.RegisterType<ITemplateColorStylesRepository, TemplateColorStylesRepository>();
         }
     }
