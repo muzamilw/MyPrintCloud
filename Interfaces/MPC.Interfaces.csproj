@@ -143,6 +143,7 @@
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
     <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />
+    <Compile Include="WebStoreServices\ITemplatePageService.cs" />
     <Compile Include="WebStoreServices\ITemplateService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\IUserManagerService.cs" />
