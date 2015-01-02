@@ -251,6 +251,12 @@
     <Compile Include="Areas\Categories\CategoriesAreaRegistration.cs" />
     <Compile Include="Areas\Categories\Controllers\AllCategoriesController.cs" />
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateObjectController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplatePageController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateSPController.cs" />
+    <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
@@ -269,6 +275,7 @@
     <Compile Include="Controllers\MarketingBriefController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
+    <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -306,6 +313,7 @@
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\js-image-slider.css" />
+    <Content Include="Content\nifty-component.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -316,6 +324,7 @@
     <Content Include="Areas\Categories\Views\web.config" />
     <Content Include="Areas\Categories\Views\AllCategories\Index.cshtml" />
     <Content Include="Areas\dashboard\Views\web.config" />
+    <Content Include="Areas\DesignerApi\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\input.watermark.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -329,6 +338,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js-image-slider.js" />
+    <Content Include="Scripts\modalEffects.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
@@ -339,6 +349,7 @@
     <Content Include="Scripts\utilities.js" />
     <Content Include="Scripts\zoomSlider.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="test.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -393,6 +404,7 @@
     <Content Include="Views\Shared\PartialViews\CategoryHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOptions.cshtml" />
     <Content Include="Views\Shared\PartialViews\MarketingBrief.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ShopCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -401,11 +413,14 @@
     <Folder Include="Areas\dashboard\Controllers\" />
     <Folder Include="Areas\dashboard\Models\" />
     <Folder Include="Areas\dashboard\Views\Shared\" />
+    <Folder Include="Areas\DesignerApi\Models\" />
+    <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Products\Views\Shared\" />
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
+    <Folder Include="Views\ShopCart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

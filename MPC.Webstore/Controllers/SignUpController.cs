@@ -38,7 +38,7 @@ namespace MPC.Webstore.Controllers
         #endregion
 
         // GET: SignUp
-        public ActionResult Index(string FirstName, string LastName, string Email)
+        public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
             if (FirstName != null)
             {
@@ -49,6 +49,11 @@ namespace MPC.Webstore.Controllers
                 ViewData["IsSocialSignUp"] = false;
                 
             }
+            if (string.IsNullOrEmpty(ReturnURL))
+                ViewBag.ReturnURL = "Social";
+            else
+                ViewBag.ReturnURL = ReturnURL;
+          
             return View("PartialViews/SignUp");
         }
 
@@ -60,30 +65,43 @@ namespace MPC.Webstore.Controllers
             if (ModelState.IsValid)
             {
                 string isSocial = Request.Form["hfIsSocial"];
+                string ReturnURL = Request.Form["hfReturnURL"];
                 if (_myCompanyService.GetContactByEmail(model.Email) != null)
                 {
-                   ViewBag.Message = string.Format("You indicated you are a new customer, but an account already exists with the e-mail {0}", model.Email);
+                    ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist, model.Email);
                    return View("PartialViews/SignUp");
                 }
                 else if (isSocial == "1")
                 {
                     if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
                     {
-                        ViewBag.Message = string.Format("You indicated you are a new customer, but an account already exists with the e-mail {0}",model.Email);
+                        ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist,model.Email);
                         return View();
                     }
                     else
                     {
                         SetRegisterCustomer(model);
-                        return RedirectToAction("Index", "Home");
+                        if (ReturnURL == "Social")
+                            return RedirectToAction("Index", "Home");
+                        else
+                        {
+                            
+                            ControllerContext.HttpContext.Response.Redirect(ReturnURL);
+                            return null;
+                        }
                     }
                 }
                 else
                 {
-                    SetRegisterCustomer(model);
-
-                    return RedirectToAction("Index", "Home");
                     
+                    SetRegisterCustomer(model);
+                    if (string.IsNullOrEmpty(model.ReturnURL))
+                         return RedirectToAction("Index", "Home");
+                    else
+                    {
+                            ControllerContext.HttpContext.Response.Redirect(model.ReturnURL);
+                            return null;
+                    }
                 }
             }
             else

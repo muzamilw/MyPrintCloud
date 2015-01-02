@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 
@@ -50,15 +51,15 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetSectionFlagForInventory()
         {
-            return DbSet.Where(sf => sf.SectionId == sf.Section.SectionId && sf.Section.SectionName == "Inventory").ToList();
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.Inventory).ToList();
         }
 
         /// <summary>
         /// Get Section Flag By Section Id
         /// </summary>
-        public IEnumerable<SectionFlag> GetSectionFlagBySectionId(long SectionId)
+        public IEnumerable<SectionFlag> GetSectionFlagBySectionId(long sectionId)
         {
-            return DbSet.Where(sf => sf.SectionId == SectionId).ToList();
+            return DbSet.Where(sf => sf.SectionId == sectionId).ToList();
         }
 
         /// <summary>
@@ -69,7 +70,14 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(sf => sf.SectionId == 81 && sf.isDefault == true).Select(id => id.SectionFlagId).FirstOrDefault();
         }
 
-      
+        /// <summary>
+        /// Get Section Flags for Customer Price Index Section
+        /// </summary>
+        public IEnumerable<SectionFlag> GetAllForCustomerPriceIndex()
+        {
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix).ToList();
+        }
+
         #endregion
     }
 }

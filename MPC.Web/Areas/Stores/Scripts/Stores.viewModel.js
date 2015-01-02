@@ -308,6 +308,9 @@ define("stores/stores.viewModel",
                                     deletedSecondaryPage.removeAll();
                                     allPagesWidgets.removeAll();
                                     pageSkinWidgets.removeAll();
+                                    selectedCurrentPageId(undefined);
+                                    selectedCurrentPageCopy(undefined);
+
                                 },
                                 error: function (response) {
                                     toastr.error("Failed to Update . Error: " + response);
@@ -332,10 +335,6 @@ define("stores/stores.viewModel",
                         success: function (data) {
                             selectedStore(undefined);
                             if (data != null) {
-                                allPagesWidgets.removeAll();
-                                pageSkinWidgets.removeAll();
-                                selectedCurrentPageId(undefined);
-                                selectedCurrentPageCopy(undefined);
                                 selectedStore(model.Store.Create(data.Company));
                                 //_.each(data.AddressResponse.Addresses, function (item) {
                                 //    selectedStore().addresses.push(model.Address.Create(item));
@@ -384,8 +383,12 @@ define("stores/stores.viewModel",
                                 });
                                 ko.utils.arrayPushAll(filteredCompanyBanners(), companyBanners());
                                 filteredCompanyBanners.valueHasMutated();
-                                pageSkinWidgets.removeAll();
                             }
+                            allPagesWidgets.removeAll();
+                            pageSkinWidgets.removeAll();
+                            selectedCurrentPageId(undefined);
+                            selectedCurrentPageCopy(undefined);
+
                             isLoadingStores(false);
                         },
                         error: function (response) {
@@ -404,6 +407,9 @@ define("stores/stores.viewModel",
                             stores.remove(selectedStore());
                         }
                         editorViewModel.revertItem();
+                        allPagesWidgets.removeAll();
+                        pageSkinWidgets.removeAll();
+                        selectedCurrentPageId(undefined);
                     }
                 },
                 resetFilterSection = function () {
@@ -1639,7 +1645,7 @@ define("stores/stores.viewModel",
                         else {
                             editNewAddedProductCategory();
                         }
-                        
+
                 },
                 editNewAddedProductCategory = function () {
                     var result = _.find(newProductCategories(), function (productCategory) {
@@ -1741,7 +1747,7 @@ define("stores/stores.viewModel",
                     }),
                 //***********    P A Y M E N T    G A T E W A Y   E N D  *********************//   
 
-                    resetObservableArrays = function () {
+                resetObservableArrays = function () {
 
                         deletedAddresses.removeAll();
                         edittedAddresses.removeAll();
@@ -1755,58 +1761,61 @@ define("stores/stores.viewModel",
 
                     },
                 //#region StoreLayout
-                selectedWidgetsList = ko.observableArray([]),
-                selectedWidget = ko.observable(),
-                    selectWidget = function (widget) {
-                        this.selectedWidget(widget);
-                    },
-                getPageLayoutWidget = ko.computed(function () {
-                    //On page change save widgets against page id. i-e selected Current Page Copy,before change page from dropdown
-                    if (selectedCurrentPageCopy() !== undefined && selectedCurrentPageCopy() !== selectedCurrentPageId()) {
-                        //Remove Widget 
-                        _.each(allPagesWidgets(), function (item) {
-                            if (selectedCurrentPageCopy() === item.pageId()) {
-                                allPagesWidgets.remove(item);
-                            }
-                        });
-                        var flag = true;
-                        _.each(allPagesWidgets(), function (item) {
-                            if (selectedCurrentPageCopy() === item.pageId()) {
-                                ko.utils.arrayPushAll(item.widgets, pageSkinWidgets());
-                                item.widgets.valueHasMutated();
-                                flag = false;
-                            }
-                        });
-                        if (flag) {
-                            //Add widget list of selected page into All Pages Widgets List
-                            var pageWidgetList = model.CmsPageWithWidgetList();
-                            pageWidgetList.pageId(selectedCurrentPageCopy());
-                            ko.utils.arrayPushAll(pageWidgetList.widgets, pageSkinWidgets());
-                            pageWidgetList.widgets.valueHasMutated();
-                            allPagesWidgets.push(pageWidgetList);
+            selectedWidgetsList = ko.observableArray([]),
+            selectedWidget = ko.observable(),
+                selectWidget = function (widget) {
+                    this.selectedWidget(widget);
+                },
+            getPageLayoutWidget = ko.computed(function () {
+                //On page change save widgets against page id. i-e selected Current Page Copy,before change page from dropdown
+                if (selectedCurrentPageCopy() !== undefined && selectedCurrentPageCopy() !== selectedCurrentPageId()) {
+                    //Remove Widget 
+                    _.each(allPagesWidgets(), function (item) {
+                        if (selectedCurrentPageCopy() === item.pageId()) {
+                            allPagesWidgets.remove(item);
                         }
+                    });
+                    var flag = true;
+                    _.each(allPagesWidgets(), function (item) {
+                        if (selectedCurrentPageCopy() === item.pageId()) {
+                            ko.utils.arrayPushAll(item.widgets, pageSkinWidgets());
+                            item.widgets.valueHasMutated();
+                            flag = false;
+                        }
+                    });
+                    if (flag) {
+                        //Add widget list of selected page into All Pages Widgets List
+                        var pageWidgetList = model.CmsPageWithWidgetList();
+                        pageWidgetList.pageId(selectedCurrentPageCopy());
+                        ko.utils.arrayPushAll(pageWidgetList.widgets, pageSkinWidgets());
+                        pageWidgetList.widgets.valueHasMutated();
+                        allPagesWidgets.push(pageWidgetList);
                     }
+                }
 
-                    //Get current page widgets
-                    if (selectedCurrentPageId() !== undefined && selectedCurrentPageCopy() !== selectedCurrentPageId()) {
-                        pageSkinWidgets.removeAll();
+                //Get current page widgets
+                if (selectedCurrentPageId() !== undefined && selectedCurrentPageCopy() !== selectedCurrentPageId()) {
+                    pageSkinWidgets.removeAll();
+
+                    var getSeverOrClientListFlag = true;
+                    _.each(allPagesWidgets(), function (item) {
+                        if (selectedCurrentPageId() === item.pageId()) {
+                            selectedCurrentPageCopy(selectedCurrentPageId());
+                            ko.utils.arrayPushAll(pageSkinWidgets, item.widgets());
+                            pageSkinWidgets.valueHasMutated();
+                            getSeverOrClientListFlag = false;
+                        }
+                    });
+                    if (getSeverOrClientListFlag) {
                         selectedCurrentPageCopy(selectedCurrentPageId());
-                        var getSeverOrClientListFlag = true;
-                        _.each(allPagesWidgets(), function (item) {
-                            if (selectedCurrentPageId() === item.pageId()) {
-                                ko.utils.arrayPushAll(pageSkinWidgets, item.widgets());
-                                pageSkinWidgets.valueHasMutated();
-                                getSeverOrClientListFlag = false;
-                            }
-                        });
-                        if (getSeverOrClientListFlag) {
-                            getPageLayoutWidgets();
-                        }
+                        getPageLayoutWidgets();
+                    }
 
-                    }
-                    if (selectedCurrentPageId() === undefined) {
-                        pageSkinWidgets.removeAll();
-                    }
+                }
+                if (selectedCurrentPageId() === undefined) {
+                    pageSkinWidgets.removeAll();
+                    selectedCurrentPageCopy(selectedCurrentPageId());
+                }
 
                 }, this),
 

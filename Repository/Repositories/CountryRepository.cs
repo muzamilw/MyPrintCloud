@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -29,6 +31,18 @@ namespace MPC.Repository.Repositories
             {
                 return db.Countries;
             }
+        }
+
+        #endregion
+
+        #region Public
+
+        /// <summary>
+        /// Get All Countries for Current Organisation
+        /// </summary>
+        public override IEnumerable<Country> GetAll()
+        {
+            return DbSet.Where(country => country.Organisations.Any(organisation => organisation.OrganisationId == OrganisationId)).ToList();
         }
 
         #endregion

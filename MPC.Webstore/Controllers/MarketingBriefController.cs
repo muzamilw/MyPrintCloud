@@ -38,8 +38,8 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("myCompanyService");
             }
+
            
-       
             this._IItemService = itemService;
             this._myClaimHelper = myClaimHelper;
             this._ICampaignService = CampaignService;
@@ -50,9 +50,15 @@ namespace MPC.Webstore.Controllers
         // GET: MarketingBrief
         public ActionResult Index(string ProductName, int ItemID)
         {
+            ViewBag.IsSubmitSuccessfully = false;
             ViewBag.LabelInquiryBrief = ProductName + " - Marketing Brief";
 
+           
 
+            ViewBag.Email = UserCookieManager.Email;
+            string ContactMobile = _ICompanyService.GetContactMobile((int)UserCookieManager.ContactId);
+
+            ViewBag.Phone = ContactMobile;
             ProductItem Product = _IItemService.GetItemAndDetailsByItemID(ItemID);
 
             List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
@@ -177,15 +183,24 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-
+                string Email = string.Empty;
                 SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(Convert.ToInt32(baseResponse.Company.SalesAndOrderManagerId1));
-                EmailParams.SystemUserID = SalesMagerRec.SystemUserId;
+                if (SalesMagerRec != null)
+                {
+                    EmailParams.SystemUserID = SalesMagerRec.SystemUserId;
+                    Email = SalesMagerRec.Email;
+                }
+                else
+                {
+                    EmailParams.SystemUserID = 0;
+                  
+                }
                 EmailParams.StoreID = baseResponseorg.Organisation.OrganisationId;
                 EmailParams.SalesManagerContactID = UserCookieManager.ContactId;
                
                  
                 int OID = (int)org.OrganisationId;
-                _ICampaignService.emailBodyGenerator(EventCampaign, org, EmailParams, null, StoreMode.Retail, OID, "", "", "", SalesMagerRec.Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                _ICampaignService.emailBodyGenerator(EventCampaign, org, EmailParams, null, StoreMode.Retail, OID, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
 
                
             }
@@ -198,17 +213,18 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    ViewBag.WlSumMesg = "Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";// (string)GetGlobalResourceObject("MyResource", "WlSumMesg");
+                    ViewBag.WlSumMesg = Resources.MyResource.WlSumMesg; // Resources.MyResource.
                 }
             }
 
+            ViewBag.IsSubmitSuccessfully = true;
            // lnkReturnLogin.PostBackUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/Default.aspx";
           //  welcomeSummeryMEsg.Style.Add(HtmlTextWriterStyle.Display, "Block");
 
             //LeftPanel.Visible = false;
             //RightPanel.Visible = false;
 
-            return View("PartialViews/MarketingBrief");
+            return View("PartialViews/MarketingBrief",Item);
         }
     }
 }

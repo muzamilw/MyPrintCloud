@@ -32,6 +32,10 @@ namespace MPC.Webstore
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/modalEffects").Include(
+                     "~/Scripts/modalEffects.js"));
+
+
             bundles.Add(new StyleBundle("~/Content/CSS").Include(
                       "~/Content/bootstrap.css"
                       ));

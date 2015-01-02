@@ -32,8 +32,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                 "Login",
-                "Login/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                "Login/{controller}/{action}/{FirstName}/{LastName}/{Email}/{IsMarketing}",
+                new { controller = "Home", action = "Index", FirstName = UrlParameter.Optional, LastName = UrlParameter.Optional, Email = UrlParameter.Optional, IsMarketing = UrlParameter.Optional }
             );
             routes.MapRoute(
             "SignUp",
