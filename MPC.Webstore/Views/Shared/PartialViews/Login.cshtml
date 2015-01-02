@@ -15,15 +15,16 @@
 
 
                     <script>
-                        function OpenNewWindow(isFacebook) {
-                            var w = 820;
-                            var h = 560;
-                            var left = (screen.width / 2) - (w / 2);
-                            var top = (screen.height / 2) - (h / 2);
-                            if (isFacebook == 1)
-                                window.open("/Home/oAuth?id=1&isRegWithSM=0", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+    function OpenNewWindow(isFacebook) {
+
+        var w = 820;
+        var h = 560;
+        var left = (screen.width / 2) - (w / 2);
+        var top = (screen.height / 2) - (h / 2);
+        if (isFacebook == 1)
+            window.open("/Home/oAuth?id=1&isRegWithSM=0&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                             else
-                                window.open("/Home/oAuth?id=0&isRegWithSM=0", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+              window.open("/Home/oAuth?id=0&isRegWithSM=0&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                             return false;
                         }
                     </script>
@@ -46,7 +47,8 @@
                 </div>
                 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
                 {
-
+                   
+                             
                     <div id="MessageBox"></div>
                     <div class="errorMesgLoginPage">
                         @ViewBag.Message<br />
@@ -63,7 +65,7 @@
                         @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
                         <label for="rememberMe">Keep me logged in</label>
                     </div>
-
+              
                     <div id="divBtnContainer" style="margin-top: 20px;">
                         <div class="divwidth">
                             <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">Forgot your Password?</a>
@@ -75,7 +77,9 @@
                             &nbsp;
                         </div>
                     </div>
+    <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
                 }
+           
             </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
