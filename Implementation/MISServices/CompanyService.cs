@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -33,6 +35,8 @@ namespace MPC.Implementation.MISServices
         private readonly IWidgetRepository widgetRepository;
         private readonly ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository;
         private readonly IProductCategoryRepository productCategoryRepository;
+        private readonly IOrganisationRepository organisationRepository;
+        private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -249,7 +253,21 @@ namespace MPC.Implementation.MISServices
                     addressRepository.Delete(addressToDelete);
                 }
         }
-
+        private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
+        {
+            if (productCategory.ThumbNailBytes != null)
+            {
+                string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                productCategory.ThumbNailFileBytes = Convert.FromBase64String(base64);    
+            }
+            if (productCategory.ImageBytes != null)
+            {
+                string base64Image = productCategory.ImageBytes.Substring(productCategory.ImageBytes.IndexOf(',') + 1);
+                base64Image = base64Image.Trim('\0');
+                productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);    
+            }
+        }
         private void UpdateProductCategoriesOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             if (companySavingModel.NewProductCategories != null)
@@ -258,6 +276,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var productCategory in companySavingModel.NewProductCategories)
                 {
                     productCategory.CompanyId = companySavingModel.Company.CompanyId;
+                    SaveProductCategoryThumbNailImage(productCategory);
                     productCategoryRepository.Add(productCategory);
                 }
             }
@@ -332,7 +351,59 @@ namespace MPC.Implementation.MISServices
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
+            
+            //Save Files
+            SaveFilesOfProductCategories(companyToBeUpdated);
+
             return companySavingModel.Company;
+        }
+
+        private void SaveFilesOfProductCategories(Company company)
+        {
+            // Update Organisation MISLogoStreamId
+            Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
+
+            if (organisation == null)
+            {
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.MyOrganisationService_OrganisationNotFound,
+                    organisationRepository.OrganisationId));
+            }
+            string pathLocator = "\\Organisation" + organisation.OrganisationId;
+            if (string.IsNullOrEmpty(mpcFileTableViewRepository.GetNewPathLocator(pathLocator, FileTableCaption.Organisation)))
+            {
+                OrganisationFileTableView mpcFile = mpcFileTableViewRepository.Create();
+                mpcFileTableViewRepository.Add(mpcFile);
+                mpcFile.Name = "Organisation" + organisation.OrganisationId;
+                mpcFile.UncPath = pathLocator;
+                mpcFile.IsDirectory = true;
+                mpcFile.FileTableName = FileTableCaption.Organisation;
+                // Save to File Table
+                mpcFileTableViewRepository.SaveChanges();
+            }
+            if (company.ProductCategories != null)
+            {
+                foreach (var productCategory in company.ProductCategories)
+                {
+                    if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
+                    {
+                        // Add File
+                        OrganisationFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
+                        mpcFileTableViewRepository.Add(mpcFileTableView);
+                        mpcFileTableView.Name = productCategory.ThumbNailFileName;
+                        //mpcFileTableView.FileStream = fileStream;todo KB
+                        mpcFileTableView.FileTableName = FileTableCaption.Organisation;
+                        mpcFileTableView.UncPath = pathLocator;
+
+                        // Save to File Table
+                        mpcFileTableViewRepository.SaveChanges();
+
+                        //organisation.MISLogoStreamId = mpcFileTableView.StreamId; todo KB
+
+                        // Save Changes to Organisation
+                        mpcFileTableViewRepository.SaveChanges();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -700,7 +771,8 @@ namespace MPC.Implementation.MISServices
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
              IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
-            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository)
+            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository,
+            IOrganisationRepository organisationRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -720,6 +792,8 @@ namespace MPC.Implementation.MISServices
             this.widgetRepository = widgetRepository;
             this.cmsSkinPageWidgetRepository = cmsSkinPageWidgetRepository;
             this.productCategoryRepository = productCategoryRepository;
+            this.organisationRepository = organisationRepository;
+            this.mpcFileTableViewRepository = mpcFileTableViewRepository;
         }
         #endregion
 
