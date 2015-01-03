@@ -97,6 +97,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Out of Stock &lt;br/&gt; Back Ordering Allowed.
+        /// </summary>
+        internal static string lblBackOrder {
+            get {
+                return ResourceManager.GetString("lblBackOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item in Stock:.
+        /// </summary>
+        internal static string lblItemInStock {
+            get {
+                return ResourceManager.GetString("lblItemInStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out of Stock.
+        /// </summary>
+        internal static string lblItemOutOfStock {
+            get {
+                return ResourceManager.GetString("lblItemOutOfStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to From.
         /// </summary>
         internal static string lblQtyFrom {

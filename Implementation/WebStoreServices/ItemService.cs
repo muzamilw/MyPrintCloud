@@ -20,18 +20,23 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemStockOptionRepository _StockOptions;
         private readonly ISectionFlagRepository _SectionFlagRepository;
         private readonly ICompanyRepository _CompanyRepository;
+        private readonly IItemStockControlRepository _StockRepository;
+        private readonly IItemAddOnCostCentreRepository _AddOnRepository;
 
         #region Constructor
 
         /// <summary>
         ///  Constructor
         /// </summary>
-        public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository)
+        public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
+            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
             this._SectionFlagRepository = SectionFlagRepository;
             this._CompanyRepository = CompanyRepository;
+            this._StockRepository = StockRepository;
+            this._AddOnRepository = AddOnRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -142,6 +147,14 @@ namespace MPC.Implementation.WebStoreServices
             return _ItemRepository.GetMarketingInquiryAnswersByQID(QID);
         }
 
+        public ItemStockControl GetStockItem(long itemId)
+        {
+            return _StockRepository.GetStockOfItemById(itemId);
+        }
 
+        public List<AddOnCostsCenter> GetStockOptionCostCentres(long itemId, long companyId)
+        {
+            return _AddOnRepository.AddOnsPerStockOption(itemId, companyId);
+        }
     }
 }

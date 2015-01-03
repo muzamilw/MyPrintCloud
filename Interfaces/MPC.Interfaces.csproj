@@ -84,6 +84,7 @@
     <Compile Include="Repository\IItemStateTaxRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\IItemAddOnCostCentreRepository.cs" />
+    <Compile Include="Repository\IItemStockControlRepository.cs" />
     <Compile Include="Repository\IItemStockOptionRepository.cs" />
     <Compile Include="Repository\ICostCentreRepository.cs" />
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />

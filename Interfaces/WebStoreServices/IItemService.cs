@@ -24,5 +24,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
 
         List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID);
+        ItemStockControl GetStockItem(long itemId);
+        List<AddOnCostsCenter> GetStockOptionCostCentres(long itemId, long companyId);
     }
 }

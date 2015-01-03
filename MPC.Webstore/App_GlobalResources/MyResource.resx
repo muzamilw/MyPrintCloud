@@ -153,4 +153,13 @@
   <data name="ShowPriceMatrix" xml:space="preserve">
     <value>Show Price Table</value>
   </data>
+  <data name="lblBackOrder" xml:space="preserve">
+    <value>Out of Stock &lt;br/&gt; Back Ordering Allowed</value>
+  </data>
+  <data name="lblItemInStock" xml:space="preserve">
+    <value>Item in Stock:</value>
+  </data>
+  <data name="lblItemOutOfStock" xml:space="preserve">
+    <value>Out of Stock</value>
+  </data>
 </root>
