@@ -58,7 +58,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiException]
-        public ProductCategory Get(ProductCategoryRequestModel requestModel)
+        public ProductCategory Get([FromUri]ProductCategoryRequestModel requestModel)
         {
             if (requestModel.IsProductCategoryEditting)
             {

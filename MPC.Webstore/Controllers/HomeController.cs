@@ -99,7 +99,7 @@ namespace MPC.Webstore.Controllers
 
             return View();
         }
-        public ActionResult oAuth(int id,int isRegWithSM)
+        public ActionResult oAuth(int id,int isRegWithSM, string MarketBriefReturnURL)
         {
             int isFacebook = id;
             if (isFacebook == 1)
@@ -138,15 +138,16 @@ namespace MPC.Webstore.Controllers
                             lastname = ResponseJon.last_name;
                         }
                     }
+             
                     if (isRegWithSM == 1)
                     {
-                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
 
                         return View();
                     }
                     else
                     {
-                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
                         return View();
                     }
 
@@ -177,18 +178,18 @@ namespace MPC.Webstore.Controllers
 
 
 
-
+                   
                     if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     {
                         if (isRegWithSM == 1)
                         {
-                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "' </script>";
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
 
                             return View();
                         }
                         else
                         {
-                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "' </script>";
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
                             return View();
                         }
 

@@ -348,6 +348,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ProductCategoryItem> ProductCategoryItems { get; set; }
 
         /// <summary>
+        /// Template Color Style DbSet
+        /// </summary>
+        public DbSet<TemplateColorStyle> TemplateColorStyles { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)

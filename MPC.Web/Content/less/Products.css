@@ -26,6 +26,9 @@
   border: 0;
   cursor: pointer;
 }
+#productBinding #tab-pricetable .form-group .input-group .input-group-addon {
+  border: 1px solid #ccc;
+}
 #productBinding #tab-pricetable .form-group #txtDiscountsContainer {
   padding: 0;
 }

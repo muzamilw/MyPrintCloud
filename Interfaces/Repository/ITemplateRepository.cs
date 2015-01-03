@@ -7,5 +7,7 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
+        Template GetTemplate(int productID);
+          
     }
 }

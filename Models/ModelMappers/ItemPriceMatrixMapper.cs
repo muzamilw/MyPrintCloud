@@ -25,6 +25,8 @@ namespace MPC.Models.ModelMappers
             }
 
             target.ItemId = source.ItemId;
+            target.SupplierId = source.SupplierId;
+            target.SupplierSequence = source.SupplierSequence;
             
             if (targetItem.IsQtyRanged.HasValue && targetItem.IsQtyRanged.Value)
             {
@@ -35,7 +37,7 @@ namespace MPC.Models.ModelMappers
             {
                 target.Quantity = source.Quantity;
             }
-
+            
             if (targetItem.ItemStockOptions.Count > 0)
             {
                 foreach (ItemStockOption stockOption in targetItem.ItemStockOptions)

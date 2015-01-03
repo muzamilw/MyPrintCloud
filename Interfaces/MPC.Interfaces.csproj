@@ -51,7 +51,10 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -94,6 +97,8 @@
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
+    <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
+    <Compile Include="Repository\ITemplateObjectRepository.cs" />
     <Compile Include="Repository\ITemplatePageRepository.cs" />
     <Compile Include="Repository\ITemplateRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />
@@ -142,6 +147,10 @@
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
+    <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />
+    <Compile Include="WebStoreServices\ITemplateObjectService.cs" />
+    <Compile Include="WebStoreServices\ITemplatePageService.cs" />
+    <Compile Include="WebStoreServices\ITemplateService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\IUserManagerService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsSecurityService.cs" />

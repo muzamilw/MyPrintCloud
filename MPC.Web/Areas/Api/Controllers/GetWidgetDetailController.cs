@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
@@ -33,13 +34,15 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Company By Id
         /// </summary>
         /// <returns></returns>
-        public string Get([FromUri]string widgetCode)
+        public string Get([FromUri]string widgetControlName)
         {
-            switch (widgetCode)
+            switch (widgetControlName)
             {
-                case "001":
+                case "SavedDesignsWidget.ascx":
                     return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
-                case "002":
+                case "LoginBar.ascx":
+                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
+                case "HomePageBannerS4.ascx":
                     return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
             }
             return string.Empty;

@@ -132,7 +132,7 @@ namespace MPC.Repository.Repositories
         public List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId)
         {
          
-                return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).Take(2).ToList();
+                return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
         }
 
         public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID,Company NewCustomer)

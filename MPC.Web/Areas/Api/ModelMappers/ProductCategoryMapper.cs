@@ -80,11 +80,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DisplayOrder = source.DisplayOrder,
                 ImagePath = source.ImagePath,
                 ThumbnailPath = source.ThumbnailPath,
-                isEnabled = source.isEnabled,
+                isEnabled = source.isEnabled ?? false,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,
-                isArchived = source.isArchived,
-                isPublished = source.isPublished,
+                isArchived = source.isArchived == null ? true : false,
+                isPublished = source.isPublished ?? false,
                 TrimmedWidth = source.TrimmedWidth,
                 TrimmedHeight = source.TrimmedHeight,
                 isColorImposition = source.isColorImposition,
@@ -122,6 +122,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowStockStatus = source.IsShowStockStatus,
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
+                ImageBytes = source.ImageBytes,
+                ImageFileName = source.ImageName,
+                ThumbNailBytes = source.ThumbnailBytes,
+                ThumbNailFileName = source.ThumbnailName
             };
         }
     }

@@ -108,6 +108,7 @@
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
     <Compile Include="Common\CampaignEmailParams.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
     <Compile Include="DomainModels\Role.cs" />
+    <Compile Include="DomainModels\TemplateColorStyle.cs" />
     <Compile Include="DomainModels\TemplateFileTableView.cs" />
     <Compile Include="DomainModels\StoreFileTableView.cs" />
     <Compile Include="DomainModels\SecondaryPageFileTableView.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
+    <Compile Include="ResponseModels\CmsPageWithWidgetList.cs" />
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />

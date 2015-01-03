@@ -334,6 +334,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.EditCmsPages = [];
                 result.DeletedCmsPages = [];
                 result.PageCategories = [];
+                result.CmsPageWithWidgetList = [];
+                result.EdittedProductCategories = [];
+                result.DeletedProductCategories = [];
+                result.NewProductCategories = [];
                 result.Campaigns = [];
                 _.each(source.paymentGateway(), function (item) {
                     result.PaymentGateways.push(item.convertToServerData());
@@ -2545,21 +2549,23 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     //// __________________  Widget   ______________________//
     // ReSharper disable once InconsistentNaming
-    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode) {
+    var Widget = function (specifiedWidgetId, specifiedWidgetName, specifiedWidgetCode, specifiedWidgetControlName) {
 
         var self,
             widgetId = ko.observable(specifiedWidgetId),
             widgetName = ko.observable(specifiedWidgetName),
             widgetCode = ko.observable(specifiedWidgetCode),
-            id = ko.computed(function () {
-                ist.stores.viewModel.selectedWidget(widgetId);
+            widgetControlName = ko.observable(specifiedWidgetControlName);
+        //id = ko.computed(function () {
+        //    ist.stores.viewModel.selectedWidget(widgetId);
 
-            }, this);
+        //}, this);
 
         self = {
             widgetId: widgetId,
             widgetName: widgetName,
             widgetCode: widgetCode,
+            widgetControlName: widgetControlName,
         };
         return self;
     };
@@ -2568,28 +2574,43 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return new Widget(
              source.WidgetId,
              source.WidgetName,
-             source.WidgetCode
+             source.WidgetCode,
+             source.WidgetControlName
                );
 
     };
 
     //// __________________  CMS Skin Page Widget   ______________________//
     // ReSharper disable once InconsistentNaming
-    var CmsSkingPageWidget = function (specifiedPageWidgetId, specifiedPageId, specifiedWidgetId, specifiedSequence, specifiedHtml) {
+    var CmsSkingPageWidget = function (specifiedPageWidgetId, specifiedPageId, specifiedWidgetId, specifiedSequence, specifiedHtml, specifiedWidgetName, specifiedCompanyId) {
 
         var self,
             pageWidgetId = ko.observable(specifiedPageWidgetId),
             pageId = ko.observable(specifiedPageId),
             widgetId = ko.observable(specifiedWidgetId),
             sequence = ko.observable(specifiedSequence),
-            htmlData = ko.observable(specifiedHtml);
-
+            htmlData = ko.observable(specifiedHtml),
+            widgetName = ko.observable(specifiedWidgetName),
+            companyId = ko.observable(specifiedCompanyId),
+        //Convert To Server
+        convertToServerData = function () {
+            return {
+                PageWidgetId: pageWidgetId() === undefined ? 0 : pageWidgetId(),
+                PageId: pageId(),
+                WidgetId: widgetId(),
+                Sequence: sequence(),
+                CompanyId: companyId(),
+            };
+        };
         self = {
             pageWidgetId: pageWidgetId,
             pageId: pageId,
             widgetId: widgetId,
             sequence: sequence,
-            htmlData: htmlData
+            htmlData: htmlData,
+            widgetName: widgetName,
+            companyId: companyId,
+            convertToServerData: convertToServerData,
         };
         return self;
     };
@@ -2600,9 +2621,30 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
              source.PageId,
              source.WidgetId,
              source.Sequence,
-             source.Html
+             source.Html,
+             source.WidgetName
                );
 
+    };
+
+    CmsPageWithWidgetList = function () {
+        var self,
+            pageId = ko.observable(),
+            widgets = ko.observableArray([]),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    PageId: pageId(),
+                    CmsSkinPageWidgets: [],
+
+                };
+            };
+        self = {
+            pageId: pageId,
+            widgets: widgets,
+            convertToServerData: convertToServerData,
+        };
+        return self;
     };
 
     //// __________________  P A Y M E N T   M E T H O D   ______________________//
@@ -2757,62 +2799,65 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedSubCategoryDisplayMode1, specifiedSubCategoryDisplayMode2, specifiedSubCategoryDisplayColumns, specifiedCategoryURLText, specifiedMetaOverride, specifiedShortDescription,
         specifiedSecondaryDescription, specifiedDefaultSortBy, specifiedProductsDisplayColumns, specifiedProductsDisplayRows, specifiedIsDisplayFeaturedproducts, specifiedIsShowAvailablity,
         specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription) {
-        var
-        productCategoryId = ko.observable(specifiedProductCategoryId),
-        categoryName = ko.observable(specifiedCategoryName),
-        contentType = ko.observable(specifiedContentType),
-        description1 = ko.observable(specifiedDescription1),
-        description2 = ko.observable(specifiedDescription2),
-        lockedBy = ko.observable(specifiedLockedBy),
-        companyId = ko.observable(specifiedCompanyId),
-        parentCategoryId = ko.observable(specifiedParentCategoryId),
-        displayOrder = ko.observable(specifiedDisplayOrder),
-        imagePath = ko.observable(specifiedImagePath),
-        thumbnailPath = ko.observable(specifiedThumbnailPath),
-        isEnabled = ko.observable(specifiedisEnabled),
-        isMarketPlace = ko.observable(specifiedisMarketPlace),
-        templateDesignerMappedCategoryName = ko.observable(specifiedTemplateDesignerMappedCategoryName),
-        isArchived = ko.observable(specifiedisArchived),
-        isPublished = ko.observable(specifiedisPublished),
-        trimmedWidth = ko.observable(specifiedTrimmedWidth),
-        trimmedHeight = ko.observable(specifiedTrimmedHeight),
-        isColorImposition = ko.observable(specifiedisColorImposition),
-        isOrderImposition = ko.observable(specifiedisOrderImposition),
-        isLinkToTemplates = ko.observable(specifiedisLinkToTemplates),
-        sides = ko.observable(specifiedSides),
-        applySizeRestrictions = ko.observable(specifiedApplySizeRestrictions),
-        applyFoldLines = ko.observable(specifiedApplyFoldLines),
-        widthRestriction = ko.observable(specifiedWidthRestriction),
-        heightRestriction = ko.observable(specifiedHeightRestriction),
-        categoryTypeId = ko.observable(specifiedCategoryTypeId),
-        regionId = ko.observable(specifiedRegionId),
-        zoomFactor = ko.observable(specifiedZoomFactor),
-        scaleFactor = ko.observable(specifiedScaleFactor),
-        isShelfProductCategory = ko.observable(specifiedisShelfProductCategory),
-        metaKeywords = ko.observable(specifiedMetaKeywords),
-        metaDescription = ko.observable(specifiedMetaDescription),
-        metaTitle = ko.observable(specifiedMetaTitle),
-        organisationId = ko.observable(specifiedOrganisationId),
-        subCategoryDisplayMode1 = ko.observable(specifiedSubCategoryDisplayMode1),
-        subCategoryDisplayMode2 = ko.observable(specifiedSubCategoryDisplayMode2),
-        subCategoryDisplayColumns = ko.observable(specifiedSubCategoryDisplayColumns),
-        categoryURLText = ko.observable(specifiedCategoryURLText),
-        metaOverride = ko.observable(specifiedMetaOverride),
-        shortDescription = ko.observable(specifiedShortDescription),
-        secondaryDescription = ko.observable(specifiedSecondaryDescription),
-        defaultSortBy = ko.observable(specifiedDefaultSortBy),
-        productsDisplayColumns = ko.observable(specifiedProductsDisplayColumns),
-        productsDisplayRows = ko.observable(specifiedProductsDisplayRows),
-        isDisplayFeaturedproducts = ko.observable(specifiedIsDisplayFeaturedproducts),
-        isShowAvailablity = ko.observable(specifiedIsShowAvailablity),
-        isShowRewardPoints = ko.observable(specifiedIsShowRewardPoints),
-        isShowListPrice = ko.observable(specifiedIsShowListPrice),
-        isShowSalePrice = ko.observable(specifiedIsShowSalePrice),
-        isShowStockStatus = ko.observable(specifiedIsShowStockStatus),
-        isShowProductDescription = ko.observable(specifiedIsShowProductDescription),
-        isShowProductShortDescription = ko.observable(specifiedIsShowProductShortDescription),
+        var productCategoryId = ko.observable(specifiedProductCategoryId),
+            categoryName = ko.observable(specifiedCategoryName).extend({ required: true }),
+            contentType = ko.observable(specifiedContentType),
+            description1 = ko.observable(specifiedDescription1),
+            description2 = ko.observable(specifiedDescription2),
+            lockedBy = ko.observable(specifiedLockedBy),
+            companyId = ko.observable(specifiedCompanyId),
+            parentCategoryId = ko.observable(specifiedParentCategoryId),
+            displayOrder = ko.observable(specifiedDisplayOrder),
+            imagePath = ko.observable(specifiedImagePath),
+            thumbnailPath = ko.observable(specifiedThumbnailPath),
+            isEnabled = ko.observable(specifiedisEnabled),
+            isMarketPlace = ko.observable(specifiedisMarketPlace),
+            templateDesignerMappedCategoryName = ko.observable(specifiedTemplateDesignerMappedCategoryName),
+            isArchived = ko.observable(specifiedisArchived),
+            isPublished = ko.observable(specifiedisPublished),
+            trimmedWidth = ko.observable(specifiedTrimmedWidth),
+            trimmedHeight = ko.observable(specifiedTrimmedHeight),
+            isColorImposition = ko.observable(specifiedisColorImposition),
+            isOrderImposition = ko.observable(specifiedisOrderImposition),
+            isLinkToTemplates = ko.observable(specifiedisLinkToTemplates),
+            sides = ko.observable(specifiedSides),
+            applySizeRestrictions = ko.observable(specifiedApplySizeRestrictions),
+            applyFoldLines = ko.observable(specifiedApplyFoldLines),
+            widthRestriction = ko.observable(specifiedWidthRestriction),
+            heightRestriction = ko.observable(specifiedHeightRestriction),
+            categoryTypeId = ko.observable(specifiedCategoryTypeId),
+            regionId = ko.observable(specifiedRegionId),
+            zoomFactor = ko.observable(specifiedZoomFactor),
+            scaleFactor = ko.observable(specifiedScaleFactor),
+            isShelfProductCategory = ko.observable(specifiedisShelfProductCategory),
+            metaKeywords = ko.observable(specifiedMetaKeywords),
+            metaDescription = ko.observable(specifiedMetaDescription),
+            metaTitle = ko.observable(specifiedMetaTitle),
+            organisationId = ko.observable(specifiedOrganisationId),
+            subCategoryDisplayMode1 = ko.observable(specifiedSubCategoryDisplayMode1),
+            subCategoryDisplayMode2 = ko.observable(specifiedSubCategoryDisplayMode2),
+            subCategoryDisplayColumns = ko.observable(specifiedSubCategoryDisplayColumns),
+            categoryURLText = ko.observable(specifiedCategoryURLText),
+            metaOverride = ko.observable(specifiedMetaOverride),
+            shortDescription = ko.observable(specifiedShortDescription),
+            secondaryDescription = ko.observable(specifiedSecondaryDescription),
+            defaultSortBy = ko.observable(specifiedDefaultSortBy),
+            productsDisplayColumns = ko.observable(specifiedProductsDisplayColumns),
+            productsDisplayRows = ko.observable(specifiedProductsDisplayRows),
+            isDisplayFeaturedproducts = ko.observable(specifiedIsDisplayFeaturedproducts),
+            isShowAvailablity = ko.observable(specifiedIsShowAvailablity),
+            isShowRewardPoints = ko.observable(specifiedIsShowRewardPoints),
+            isShowListPrice = ko.observable(specifiedIsShowListPrice),
+            isShowSalePrice = ko.observable(specifiedIsShowSalePrice),
+            isShowStockStatus = ko.observable(specifiedIsShowStockStatus),
+            isShowProductDescription = ko.observable(specifiedIsShowProductDescription),
+            isShowProductShortDescription = ko.observable(specifiedIsShowProductShortDescription),
+            productCategoryThumbnailFileBinary = ko.observable(specifiedThumbnailPath),
+            productCategoryThumbnailName = ko.observable(),
+            productCategoryImageName = ko.observable(),
+            productCategoryImageFileBinary = ko.observable(specifiedImagePath),
             errors = ko.validation.group({
-
+                categoryName: categoryName
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -2878,7 +2923,76 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // Has Changes
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
-            });
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                var result = {
+                    //RoleId: roleId(),
+                    //RoleName: roleName()
+                    ProductCategoryId: productCategoryId(),
+                    CategoryName: categoryName(),
+                    ContentType: contentType(),
+                    Description1: description1(),
+                    Description2: description2(),
+                    LockedBy: lockedBy(),
+                    CompanyId: companyId(),
+                    ParentCategoryId: parentCategoryId(),
+                    DisplayOrder: displayOrder(),
+                    ImagePath: imagePath(),
+                    ThumbnailPath: thumbnailPath(),
+                    //isEnabled: isEnabled(),
+                    isEnabled: isArchived(),
+                    isMarketPlace: isMarketPlace(),
+                    TemplateDesignerMappedCategoryName: templateDesignerMappedCategoryName(),
+                    isArchived: isArchived(),
+                    isPublished: isPublished(),
+                    TrimmedWidth: trimmedWidth(),
+                    TrimmedHeight: trimmedHeight(),
+                    isColorImposition: isColorImposition(),
+                    isOrderImposition: isOrderImposition(),
+                    isLinkToTemplates: isLinkToTemplates(),
+                    Sides: sides(),
+                    ApplySizeRestrictions: applySizeRestrictions(),
+                    ApplyFoldLines: applyFoldLines(),
+                    WidthRestriction: widthRestriction(),
+                    HeightRestriction: heightRestriction(),
+                    CategoryTypeId: categoryTypeId(),
+                    RegionId: regionId(),
+                    ZoomFactor: zoomFactor(),
+                    ScaleFactor: scaleFactor(),
+                    isShelfProductCategory: isShelfProductCategory(),
+                    MetaKeywords: metaKeywords(),
+                    MetaDescription: metaDescription(),
+                    MetaTitle: metaTitle(),
+                    OrganisationId: organisationId(),
+                    SubCategoryDisplayMode1: subCategoryDisplayMode1(),
+                    SubCategoryDisplayMode2: subCategoryDisplayMode2(),
+                    SubCategoryDisplayColumns: subCategoryDisplayColumns(),
+                    CategoryURLText: categoryURLText(),
+                    MetaOverride: metaOverride(),
+                    ShortDescription: shortDescription(),
+                    SecondaryDescription: secondaryDescription(),
+                    DefaultSortBy: defaultSortBy(),
+                    ProductsDisplayColumns: productsDisplayColumns(),
+                    ProductsDisplayRows: productsDisplayRows(),
+                    IsDisplayFeaturedproducts: isDisplayFeaturedproducts(),
+                    IsShowAvailablity: isShowAvailablity(),
+                    IsShowRewardPoints: isShowRewardPoints(),
+                    IsShowListPrice: isShowListPrice(),
+                    IsShowSalePrice: isShowSalePrice(),
+                    IsShowStockStatus: isShowStockStatus(),
+                    IsShowProductDescription: isShowProductDescription(),
+                    IsShowProductShortDescription: isShowProductShortDescription(),
+                };
+                //productCategoryThumbnailName: productCategoryThumbnailName,
+                //productCategoryImageName: productCategoryImageName,
+                result.ThumbnailName = productCategoryThumbnailName() === undefined ? null : productCategoryThumbnailName();
+                result.ImageName = productCategoryImageName() === undefined ? null : productCategoryImageName();
+                result.ThumbnailBytes = productCategoryThumbnailFileBinary() === undefined ? null : productCategoryThumbnailFileBinary();
+                result.ImageBytes = productCategoryImageFileBinary() === undefined ? null : productCategoryImageFileBinary();
+             
+                return result;
+            };
         return {
             productCategoryId: productCategoryId,
             categoryName: categoryName,
@@ -2933,10 +3047,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isShowStockStatus: isShowStockStatus,
             isShowProductDescription: isShowProductDescription,
             isShowProductShortDescription: isShowProductShortDescription,
+            productCategoryThumbnailFileBinary: productCategoryThumbnailFileBinary,
+            productCategoryImageFileBinary: productCategoryImageFileBinary,
+            productCategoryThumbnailName: productCategoryThumbnailName,
+            productCategoryImageName: productCategoryImageName,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
+            convertToServerData: convertToServerData
         };
     };
     ProductCategory.CreateFromClientModel = function (source) {
@@ -3079,5 +3198,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         ProductCategory: ProductCategory,
         Widget: Widget,
         CmsSkingPageWidget: CmsSkingPageWidget,
+        CmsPageWithWidgetList: CmsPageWithWidgetList,
     };
 });

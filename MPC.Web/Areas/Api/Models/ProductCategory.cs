@@ -1,4 +1,6 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     public class ProductCategory
     {
@@ -55,5 +57,37 @@
         public bool? IsShowStockStatus { get; set; }
         public bool? IsShowProductDescription { get; set; }
         public bool? IsShowProductShortDescription { get; set; }
+        public byte[] Image { get; set; }
+        public byte[] ThumbNail { get; set; }
+        public string ThumbnailBytes { get; set; }
+        public string ImageBytes { get; set; }
+        public string ImageName { get; set; }
+        public string ThumbnailName { get; set; }
+        public string ImageSource
+        {
+            get
+            {
+                if (Image == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(Image);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        public string ThumbNailSource
+        {
+            get
+            {
+                if (ThumbNail == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(Image);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
     }
 }
