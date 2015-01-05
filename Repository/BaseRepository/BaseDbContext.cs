@@ -353,6 +353,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<TemplateColorStyle> TemplateColorStyles { get; set; }
 
         /// <summary>
+        /// Template Font DbSet
+        /// </summary>
+        public DbSet<TemplateFont> TemplateFonts { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)

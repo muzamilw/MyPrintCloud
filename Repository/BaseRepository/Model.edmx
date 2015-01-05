@@ -2357,6 +2357,22 @@
           <Property Name="IsColorActive" Type="bit" />
           <Property Name="CustomerId" Type="int" />
         </EntityType>
+        <EntityType Name="TemplateFont">
+          <Key>
+            <PropertyRef Name="ProductFontId" />
+          </Key>
+          <Property Name="ProductFontId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="FontName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FontDisplayName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FontFile" Type="nvarchar" MaxLength="200" />
+          <Property Name="DisplayIndex" Type="int" />
+          <Property Name="IsPrivateFont" Type="bit" Nullable="false" />
+          <Property Name="IsEnable" Type="bit" />
+          <Property Name="FontBytes" Type="image" />
+          <Property Name="FontPath" Type="nvarchar(max)" />
+          <Property Name="CustomerId" Type="int" />
+        </EntityType>
         <EntityType Name="TemplateObject">
           <Key>
             <PropertyRef Name="ObjectId" />
@@ -3031,6 +3047,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="ProductCategoryItem">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFonts_Products">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplateFont" Type="Self.TemplateFont" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateFont">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3881,6 +3909,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateBackgroundImage" EntityType="Self.TemplateBackgroundImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateColorStyle" EntityType="Self.TemplateColorStyle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateFont" EntityType="Self.TemplateFont" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateObject" EntityType="Self.TemplateObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplatePage" EntityType="Self.TemplatePage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateVariable" EntityType="Self.TemplateVariable" Schema="dbo" store:Type="Tables" />
@@ -4162,6 +4191,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_ProductCategoryItem_ProductCategory" Association="Self.FK_ProductCategoryItem_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFonts_Products" Association="Self.FK_ProductFonts_Products">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplateFont" EntitySet="TemplateFont" />
           </AssociationSet>
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
@@ -4872,6 +4905,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_ColorStyles_Products" Association="DomainModels.FK_ColorStyles_Products">
             <End Role="Template" EntitySet="Templates" />
             <End Role="TemplateColorStyle" EntitySet="TemplateColorStyles" />
+          </AssociationSet>
+          <EntitySet Name="TemplateFonts" EntityType="DomainModels.TemplateFont" />
+          <AssociationSet Name="FK_ProductFonts_Products" Association="DomainModels.FK_ProductFonts_Products">
+            <End Role="Template" EntitySet="Templates" />
+            <End Role="TemplateFont" EntitySet="TemplateFonts" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -8001,6 +8039,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="TemplateBackgroundImages" Relationship="DomainModels.FK_ProductBackgroundImages_Products" FromRole="Template" ToRole="TemplateBackgroundImage" />
           <Property Name="ProductCategoryId" Type="Int64" />
           <NavigationProperty Name="TemplateColorStyles" Relationship="DomainModels.FK_ColorStyles_Products" FromRole="Template" ToRole="TemplateColorStyle" />
+          <NavigationProperty Name="TemplateFonts" Relationship="DomainModels.FK_ProductFonts_Products" FromRole="Template" ToRole="TemplateFont" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -8776,6 +8815,35 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               <PropertyRef Name="ProductId" />
             </Principal>
             <Dependent Role="TemplateColorStyle">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TemplateFont">
+          <Key>
+            <PropertyRef Name="ProductFontId" />
+          </Key>
+          <Property Name="ProductFontId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="FontName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FontDisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FontFile" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayIndex" Type="Int32" />
+          <Property Name="IsPrivateFont" Type="Boolean" Nullable="false" />
+          <Property Name="IsEnable" Type="Boolean" />
+          <Property Name="FontBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FontPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" />
+          <NavigationProperty Name="Template" Relationship="DomainModels.FK_ProductFonts_Products" FromRole="TemplateFont" ToRole="Template" />
+        </EntityType>
+        <Association Name="FK_ProductFonts_Products">
+          <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
+          <End Type="DomainModels.TemplateFont" Role="TemplateFont" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateFont">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -11747,6 +11815,23 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="PelleteId" ColumnName="PelleteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateFonts">
+            <EntityTypeMapping TypeName="DomainModels.TemplateFont">
+              <MappingFragment StoreEntitySet="TemplateFont">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="FontPath" ColumnName="FontPath" />
+                <ScalarProperty Name="FontBytes" ColumnName="FontBytes" />
+                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+                <ScalarProperty Name="IsPrivateFont" ColumnName="IsPrivateFont" />
+                <ScalarProperty Name="DisplayIndex" ColumnName="DisplayIndex" />
+                <ScalarProperty Name="FontFile" ColumnName="FontFile" />
+                <ScalarProperty Name="FontDisplayName" ColumnName="FontDisplayName" />
+                <ScalarProperty Name="FontName" ColumnName="FontName" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductFontId" ColumnName="ProductFontId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

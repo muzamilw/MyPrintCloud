@@ -194,6 +194,8 @@
         <AssociationConnector Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA" />
         <EntityTypeShape EntityType="DomainModels.TemplateColorStyle" Width="1.5" PointX="2.5" PointY="68.75" />
         <AssociationConnector Association="DomainModels.FK_ColorStyles_Products" />
+        <EntityTypeShape EntityType="DomainModels.TemplateFont" Width="1.5" PointX="7" PointY="74.375" />
+        <AssociationConnector Association="DomainModels.FK_ProductFonts_Products" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
