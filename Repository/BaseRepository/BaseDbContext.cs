@@ -430,6 +430,25 @@ namespace MPC.Repository.BaseRepository
             return result.FirstOrDefault();
         }
 
+        /// <summary>
+        /// GetUsedFonts Updated 
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public ObjectResult<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(int? templateID, int? customerID)
+// ReSharper restore InconsistentNaming
+        {
+            var templateIdParameter = templateID.HasValue ?
+                new ObjectParameter("TemplateID", templateID) :
+                new ObjectParameter("TemplateID", typeof(int));
+
+            var customerIdParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("sp_GetUsedFontsUpdated", templateIdParameter, 
+                customerIdParameter);
+        }
+
         #endregion
     }
 }
