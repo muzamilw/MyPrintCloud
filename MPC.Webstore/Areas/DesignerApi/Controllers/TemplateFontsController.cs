@@ -28,14 +28,17 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         #endregion
         #region public
-        public HttpResponseMessage GetFontList(int parameter1, int parameter2)
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage GetFontsList(int parameter1, int parameter2)
         {
-            var template = templateFontSvc.GetFontList(parameter1,parameter2);
+            var result = templateFontSvc.GetFontList(parameter1,parameter2);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
         #endregion
