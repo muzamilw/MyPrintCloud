@@ -23,8 +23,11 @@
         <meta name="keywords" content="@ViewBag.MetaKeywords" />
     }
 }
-<div id="divShd" class="opaqueLayer">
-</div>
+@section scripts {
+    <script src="~/Scripts/PopUp.js"></script>
+
+}
+
 @if (!string.IsNullOrEmpty(Model.ImagePath))
 {
     <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
@@ -387,8 +390,3 @@
     <input type="hidden"  id="hfPrintCropMarks" />
     <input type="hidden"  id="hfSvcRespone" />
 </div>
-@section scripts {
-    <script src="~/Scripts/PopUp.js"></script>
-
-  
-}

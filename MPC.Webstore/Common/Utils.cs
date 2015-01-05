@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 
 namespace MPC.Webstore.Common
 {
@@ -23,6 +24,10 @@ namespace MPC.Webstore.Common
             {
                 return "";
             }
+        }
+        public static string GetAppBasePath()
+        {
+            return WebConfigurationManager.AppSettings["AppBasePath"];
         }
     }
 }
