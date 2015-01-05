@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div id="pagerDiv">
-                    @*@Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")*@
+                   
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
@@ -86,9 +86,9 @@
         </tr>
     </script>
     @Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
-
+    
 </div>
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 
 @section Scripts{
 

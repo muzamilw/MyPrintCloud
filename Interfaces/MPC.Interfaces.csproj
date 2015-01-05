@@ -96,6 +96,7 @@
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
+    <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
     <Compile Include="Repository\ITemplateObjectRepository.cs" />

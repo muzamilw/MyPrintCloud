@@ -77,6 +77,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemStockControlRepository, ItemStockControlRepository>();
             unityContainer.RegisterType<ITemplateObjectRepository, TemplateObjectRepository>();
             unityContainer.RegisterType<ITemplateColorStylesRepository, TemplateColorStylesRepository>();
+            unityContainer.RegisterType<IProductCategoryFileTableViewRepository, ProductCategoryFileTableViewRepository>();
         }
     }
 }

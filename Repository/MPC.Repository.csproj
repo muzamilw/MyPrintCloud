@@ -204,6 +204,7 @@
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PaymentGatewayRepository.cs" />
     <Compile Include="Repositories\PaymentMethodRepository.cs" />
+    <Compile Include="Repositories\ProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
     <Compile Include="Repositories\TemplateObjectRepository.cs" />
