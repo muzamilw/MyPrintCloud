@@ -3825,6 +3825,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="submittedBy" Type="int" Mode="In" />
           <Parameter Name="submittedByName" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_GetUsedFontsUpdated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TemplateID" Type="int" Mode="In" />
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
@@ -4913,6 +4917,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Template" EntitySet="Templates" />
             <End Role="TemplateFont" EntitySet="TemplateFonts" />
           </AssociationSet>
+          <FunctionImport Name="sp_GetUsedFontsUpdated" ReturnType="Collection(DomainModels.sp_GetUsedFontsUpdated_Result)">
+            <Parameter Name="TemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8852,6 +8860,19 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_GetUsedFontsUpdated_Result">
+          <Property Type="Int32" Name="ProductFontId" Nullable="false" />
+          <Property Type="Int32" Name="ProductId" Nullable="true" />
+          <Property Type="String" Name="FontName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FontDisplayName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FontFile" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DisplayIndex" Nullable="true" />
+          <Property Type="Boolean" Name="IsPrivateFont" Nullable="false" />
+          <Property Type="Boolean" Name="IsEnable" Nullable="true" />
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="FontPath" Nullable="true" />
+          <Property Type="Int32" Name="FontBytes" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11841,6 +11862,23 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetUsedFontsUpdated" FunctionName="DomainModels.Store.sp_GetUsedFontsUpdated">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.sp_GetUsedFontsUpdated_Result">
+                <ScalarProperty Name="ProductFontId" ColumnName="ProductFontId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="FontName" ColumnName="FontName" />
+                <ScalarProperty Name="FontDisplayName" ColumnName="FontDisplayName" />
+                <ScalarProperty Name="FontFile" ColumnName="FontFile" />
+                <ScalarProperty Name="DisplayIndex" ColumnName="DisplayIndex" />
+                <ScalarProperty Name="IsPrivateFont" ColumnName="IsPrivateFont" />
+                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="FontPath" ColumnName="FontPath" />
+                <ScalarProperty Name="FontBytes" ColumnName="FontBytes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
