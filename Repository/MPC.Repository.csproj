@@ -206,6 +206,7 @@
     <Compile Include="Repositories\PaymentMethodRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
+    <Compile Include="Repositories\TemplateFontsRepository.cs" />
     <Compile Include="Repositories\TemplateObjectRepository.cs" />
     <Compile Include="Repositories\TemplatePageRepository.cs" />
     <Compile Include="Repositories\TemplateRepository.cs" />
