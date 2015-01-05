@@ -45,7 +45,7 @@
         <EntityTypeShape EntityType="DomainModels.CompanyContactRole" Width="1.5" PointX="10.625" PointY="18.125" />
         <EntityTypeShape EntityType="DomainModels.CompanyCostCentre" Width="1.5" PointX="18" PointY="14.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyTerritory" Width="1.5" PointX="3" PointY="24.75" />
-        <EntityTypeShape EntityType="DomainModels.CompanyType" Width="1.5" PointX="2.5" PointY="21.625" />
+        <EntityTypeShape EntityType="DomainModels.CompanyType" Width="1.5" PointX="2.5" PointY="22.125" />
         <AssociationConnector Association="DomainModels.FK_tbl_contactcompanies_tbl_contactcompanytypes" />
         <AssociationConnector Association="DomainModels.FK_tbl_contacts_tbl_contactcompanies" />
         <AssociationConnector Association="DomainModels.FK_tbl_CustomerTerritory_tbl_contactcompanies" />
@@ -194,6 +194,8 @@
         <AssociationConnector Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA" />
         <EntityTypeShape EntityType="DomainModels.TemplateColorStyle" Width="1.5" PointX="2.5" PointY="68.75" />
         <AssociationConnector Association="DomainModels.FK_ColorStyles_Products" />
+        <EntityTypeShape EntityType="DomainModels.TemplateFont" Width="1.5" PointX="7" PointY="74.375" />
+        <AssociationConnector Association="DomainModels.FK_ProductFonts_Products" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
