@@ -230,6 +230,7 @@
     <Compile Include="DomainModels\ChartOfAccount.cs" />
     <Compile Include="DomainModels\Template.cs" />
     <Compile Include="DomainModels\TemplateBackgroundImage.cs" />
+    <Compile Include="DomainModels\TemplateFont.cs" />
     <Compile Include="DomainModels\TemplateObject.cs" />
     <Compile Include="DomainModels\TemplatePage.cs" />
     <Compile Include="DomainModels\TemplateVariable.cs" />
