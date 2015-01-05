@@ -445,7 +445,7 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(int));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("sp_GetUsedFontsUpdated", templateIdParameter, 
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("BaseDbContext.sp_GetUsedFontsUpdated", templateIdParameter, 
                 customerIdParameter);
         }
 
