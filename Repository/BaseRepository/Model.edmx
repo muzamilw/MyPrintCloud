@@ -1849,6 +1849,8 @@
           <Property Name="IsShowStockStatus" Type="bit" />
           <Property Name="IsShowProductDescription" Type="bit" />
           <Property Name="IsShowProductShortDescription" Type="bit" />
+          <Property Name="ImageStreamId" Type="uniqueidentifier" />
+          <Property Name="ThumbnailStreamId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ProductCategoryItem">
           <Key>
@@ -5244,6 +5246,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsShowProductShortDescription" Type="Boolean" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
           <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_ProductCategory" FromRole="ProductCategory" ToRole="ProductCategoryItem" />
+          <Property Name="ImageStreamId" Type="Guid" />
+          <Property Name="ThumbnailStreamId" Type="Guid" />
           </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -9110,6 +9114,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="ProductCategories">
             <EntityTypeMapping TypeName="DomainModels.ProductCategory">
               <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="ThumbnailStreamId" ColumnName="ThumbnailStreamId" />
+                <ScalarProperty Name="ImageStreamId" ColumnName="ImageStreamId" />
                 <ScalarProperty Name="IsShowProductShortDescription" ColumnName="IsShowProductShortDescription" />
                 <ScalarProperty Name="IsShowProductDescription" ColumnName="IsShowProductDescription" />
                 <ScalarProperty Name="IsShowStockStatus" ColumnName="IsShowStockStatus" />
