@@ -98,6 +98,7 @@
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
+    <Compile Include="Repository\ITemplateFontsRepository.cs" />
     <Compile Include="Repository\ITemplateObjectRepository.cs" />
     <Compile Include="Repository\ITemplatePageRepository.cs" />
     <Compile Include="Repository\ITemplateRepository.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
     <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />
+    <Compile Include="WebStoreServices\ITemplateFontsService.cs" />
     <Compile Include="WebStoreServices\ITemplateObjectService.cs" />
     <Compile Include="WebStoreServices\ITemplatePageService.cs" />
     <Compile Include="WebStoreServices\ITemplateService.cs" />

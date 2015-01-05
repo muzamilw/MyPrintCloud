@@ -26404,3 +26404,23 @@ a
     background-color: #ffffff;
 }
 
+#innerLayer {
+position: fixed;
+top: 0%;
+left: 50%;
+width: 50%;
+max-width: 630px;
+min-width: 320px;
+height: auto;
+z-index: 2000;
+visibility:visible;
+z-index: 99999;
+}
+
+.md-content {
+color: #344644;
+background: #fff;
+position: relative;
+border-radius: 3px;
+margin: 0 auto;
+}

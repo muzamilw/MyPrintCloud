@@ -253,6 +253,7 @@
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateFontsController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateObjectController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplatePageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateSPController.cs" />
@@ -459,6 +460,7 @@
     <Content Include="App_GlobalResources\MyResource.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>MyResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
