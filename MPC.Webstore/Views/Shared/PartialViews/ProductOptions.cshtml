@@ -467,6 +467,147 @@
 </div>
 <br />
 </div>
+<div ID="PnlUploader"  style="display: none;" class="FileUploaderPopup_Mesgbox UploadPanel rounded_corners">
+
+    <div id="PnlUploaderLeftContainer" class="InnerUploadContainer">
+        @if (!string.IsNullOrEmpty(Model.file1) || !string.IsNullOrEmpty(Model.file2) || !string.IsNullOrEmpty(Model.file3) || !string.IsNullOrEmpty(Model.file4))
+        {
+            <div id="PnlUploaderDownloadExampleHeading" class="DownloadExmContainer">
+                Download templates
+            </div>
+            <div id="PnlUploaderDownloadExmpleDesc" class="DExmlbl">
+                Download templates as a starting reference to creating and uploading your own designs.
+            </div>
+            <div id="PnlUploaderDownloadIcons" style="text-align: left;">
+                @if (!string.IsNullOrEmpty(Model.file1))
+                {
+                    <a id="IcoPhotoshop" href="@Model.file1" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.DesignServiceUrl/@Model.File1" />
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(Model.file2))
+                {
+                    <a id="IcoIllustrator" href="@Model.file2" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.DesignServiceUrl/@Model.File2" />
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(Model.file3))
+                {
+                    <a id="Icoindesign" href="@Model.file3" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.DesignServiceUrl/@Model.File3" />
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(Model.file4))
+                {
+                    <a id="IcoPdf" href="@Model.file4" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.DesignServiceUrl/@Model.File4" />
+                    </a>
+                }
+            </div>
+            <div class="clearBoth">&nbsp;</div>
+        }
+        <div id="formatDesignContainer">
+            <div class="DesgnFormatelbl">
+                <label id="GridDsgnForSizes" class="Fsize17">Design sizes & format</label>
+            </div>
+            <div class="white_background rounded_corners left_align">
+                <img id="designFormateimg" src="@Model.GridImage" />
+            </div>
+        </div>
+        <div class="guidlinContainer">
+            <label id="UpFileGuidlbl" class="Fsize17">Upload file guidelines</label>
+        </div>
+        <div class="float_right UploadsGuidLineContainer">
+            <asp:hiddenfield id="hfSideNumber"></asp:hiddenfield>
+            <input type="file" id="requestedFiles" style="display: none;" />
+            <input type="button" class="Uplod_PCS rounded_corners5 " />
+            <asp:button id="btnUploadYourFile" css
+                        onclientclick="return showLoadingImg();" text="Upload" />
+
+            <div id="allowedFormateslbl" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
+                Permitted formats
+            </div>
+            <div id="allowedFormatesContainer">
+                <img id="imgPdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple"
+                     width="35" style="margin-right: 5px;" />
+                <img id="imgJpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple"
+                     width="35" style="margin-right: 5px;" />
+            </div>
+            <div id="Recommandedtxt">
+                Recommended
+            </div>
+            <div id="PdfFormatInfo">
+                PDFs format with embeded 300 dpi
+            </div>
+            <div id="MaxFileSize">
+                MAX file size 10MB
+            </div>
+            <div id="logoImgsize">
+                images/ logos must be greater than 333 x 223 pixels
+            </div>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL1Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple">
+           
+            <label id="ltrlGL1Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL2Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple">
+            <label id="ltrlGL2Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL3Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple">
+            <label id="ltrlGL3Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL4Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple">
+            <label id="ltrlGL4Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL5Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple" style="width: 380px;">
+            <label id="ltrlGL5Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL6Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple">
+            <label id="ltrlGL6Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL7Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple">
+            <label id="ltrlGL7Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+        <div class="GLHeadingContainer float_left_simple">
+            <label id="lblGL8Heading" class="GLHeading"></label>
+        </div>
+        <div class="GLHeadDescContainer float_left_simple">
+            <label id="ltrlGL8Desc"></label>
+        </div>
+        <div class="clearBoth">&nbsp;</div>
+
+    </div>
+    <asp:Button ID="HdUplodFileBtn"  Style="display: none;" OnClick="btnUploadYourFile_Click" />
+</div>
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
     <script>

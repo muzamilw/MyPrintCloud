@@ -222,6 +222,7 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.ItemStock = null;
             }
+            ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
             PriceMatrixObjectList = null;
             AddonObjectList = null;
             return View("PartialViews/ProductOptions", referenceItem);
