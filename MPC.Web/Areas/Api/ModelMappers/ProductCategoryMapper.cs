@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.IO;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -7,7 +8,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     {
         public static ProductCategory CreateFrom(this DomainModels.ProductCategory source)
         {
-            return new ProductCategory
+            var productCategory = new ProductCategory
             {
                 ProductCategoryId = source.ProductCategoryId,
                 CategoryName = source.CategoryName,
@@ -62,7 +63,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowStockStatus = source.IsShowStockStatus,
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
+                ThumbnailStreamId = source.ThumbnailStreamId,
+                ImageStreamId = source.ImageStreamId,
+                Image = source.ImageFileBytes,
+                ThumbNail = source.ThumbNailFileBytes
             };
+           
+            return productCategory;
         }
 
         public static DomainModels.ProductCategory CreateFrom(this ProductCategory source)
