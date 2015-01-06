@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MPC.MIS.Areas.Api.ModelMappers;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using ResponseDomainModels = MPC.Models.ResponseModels;
@@ -132,6 +133,7 @@ namespace MPC.MIS.Areas.Api.Models
                 WidgetId = source.WidgetId,
                 Html = source.Widget != null ? ReadCshtml(source.Widget) : string.Empty,
                 WidgetName = source.Widget != null ? source.Widget.WidgetName : string.Empty,
+                CmsSkinPageWidgetParams = source.CmsSkinPageWidgetParams != null ? source.CmsSkinPageWidgetParams.Select(pw => pw.CreateFrom()) : null
             };
         }
 

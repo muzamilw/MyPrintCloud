@@ -354,7 +354,19 @@ namespace MPC.Implementation.MISServices
                             if (skinPageWidgetDbVsersion != null && skinPageWidgetDbVsersion.PageWidgetId > 0)
                             {
                                 skinPageWidgetDbVsersion.Sequence = cmsSkinPageWidget.Sequence;
+                                CmsSkinPageWidgetParam skinPageWidgetParam =
+                                    cmsSkinPageWidget.CmsSkinPageWidgetParams != null
+                                        ? cmsSkinPageWidget.CmsSkinPageWidgetParams.FirstOrDefault(
+                                            p => p.PageWidgetParamId == cmsSkinPageWidget.PageWidgetId)
+                                        : null;
 
+                                if (skinPageWidgetParam != null)
+                                {
+                                    foreach (var dbVersionParam in skinPageWidgetDbVsersion.CmsSkinPageWidgetParams)
+                                    {
+                                        dbVersionParam.ParamValue = skinPageWidgetParam.ParamValue;
+                                    }
+                                }
                             }
                             else
                             {
