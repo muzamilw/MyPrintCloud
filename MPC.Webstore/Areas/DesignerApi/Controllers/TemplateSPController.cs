@@ -31,10 +31,11 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         #endregion
         #region public
 
-        // old function name GetTemplateWebstore
+        // old function name GetTemplate
 
         public HttpResponseMessage GetTemplate(int id)
         {
+
             var template = templateService.GetTemplate(id);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
@@ -43,10 +44,14 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
         }
 
-        // public MatchingSets GetMatchingSetbyID(int MatchingSetID)
-        //public List<TemplateColorStyles> GetColorStyle(int ProductId)
-        // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)
-
+        // public MatchingSets GetMatchingSetbyID(int MatchingSetID)  //not used in webstore called from v2
+        //public List<TemplateColorStyles> GetColorStyle(int ProductId) // moved to TemplateColorStyleController
+        // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)//not used in webstore called from v2
+        //public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo) // not implemented as not used in webstore 
+        // public Templates GetTemplateWebStore(int TemplateID) //not implemented as we call this function from v2
+        // public List<TemplateFonts> GetTemplateFonts(int TemplateID)//not implemented as we call this function from v2
+        //public List<TemplatePages> GetTemplatePages(int TemplateID) // not implemented as we call this function from v2
+        //public List<TemplatePages> GetTemplatePages(int TemplateID) // moved to template page controller new function name = GetTemplatePagesSP
         #endregion
    
     }

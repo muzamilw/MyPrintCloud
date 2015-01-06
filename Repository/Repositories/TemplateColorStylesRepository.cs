@@ -58,7 +58,14 @@ namespace MPC.Repository.Repositories
             }
             return oStyles;
         }
+        public List<TemplateColorStyle> GetColorStyle(int ProductId)
+        {
 
+            db.Configuration.LazyLoadingEnabled = false;
+            List<TemplateColorStyle> oStyles = null;
+            oStyles = db.TemplateColorStyles.Where(g => g.ProductId == ProductId || g.ProductId == null).ToList();
+            return oStyles;
+        }
         public int SaveCorpColor(int C, int M, int Y, int K, string Name, int CustomerID)
         {
             TemplateColorStyle obj = new TemplateColorStyle();
