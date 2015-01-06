@@ -8,12 +8,12 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/js-image-slider.css")
-   
+
 
 </head>
 <body class="bodycolor">
     <div id="layer" class="opaqueLayer"></div>
-    <div id="innerLayer" class="FileUploaderPopup_Mesgbox">
+    <div id="innerLayer">
     </div>
     <div class="body-content">
         @RenderBody()
@@ -25,6 +25,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/modalEffects")
     @RenderSection("scripts", required: false)
 
     <script type="text/javascript">

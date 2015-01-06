@@ -23,8 +23,11 @@
         <meta name="keywords" content="@ViewBag.MetaKeywords" />
     }
 }
-<div id="divShd" class="opaqueLayer">
-</div>
+@section scripts {
+    <script src="~/Scripts/PopUp.js"></script>
+
+}
+
 @if (!string.IsNullOrEmpty(Model.ImagePath))
 {
     <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
@@ -120,29 +123,29 @@
                                            @* condition for marketing brief*@
                                            @if (item.isMarketingBrief == true)
                                            {
-                                               RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId;
+                                            
+                                                   RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId;
+                                            
                                            }
                                            else if (item.ProductType == (int)ProductType.TemplateProductWithBanner || item.ProductType == (int)ProductType.TemplateProductWithImage)
                                            {
-                                                if (item.isUploadImage == true)
-                                                {
-                                                    isUploadImage = true;
-                                                  RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                                }
-                                                else
-                                                {
-                                                    isUploadImage = false;
-                                                   // RedirectURL = "@Url.Action("'CloneItem'", "'Category'", new { id = "item.ItemId" })";
-                                                   //clone
-                                                 //   RedirectURL = "@Url.Action('CloneItem', 'Category', new { id = "+item.ItemId+" })";
-                                                    RedirectURL = "/Category/CloneItem/" + item.ItemId;
-                                                }
-                                                
-                                            }
-                                            else if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
-                                            {
-                                                RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                            }
+                                               if (item.isUploadImage == true)
+                                               {
+                                                   isUploadImage = true;
+                                                   RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                               }
+                                               else
+                                               {
+                                                   isUploadImage = false;
+                                                  
+                                                   RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                               }
+
+                                           }
+                                           else if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
+                                           {
+                                               RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                           }
                                             @if (isUploadImage == false)
                                             {
                                                 <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })">
@@ -166,11 +169,17 @@
                                             }
                                             else
                                             {
-                                                    <a id="hlProductDetail" href="@RedirectURL">
-                                                        <div class="PDTC_CatProd FI_CatProd">
-                                                            @{
 
-                                                string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                                                if (item.isMarketingBrief == true) // check if item is marekting breif..??
+                                                {
+                                                    if (ViewBag.IsUserLogin == true) // check if user login or not ??
+                                                    {
+                                                        <a id="hlProductDetail" href="@RedirectURL">
+
+                                                            <div class="PDTC_CatProd FI_CatProd">
+                                                                @{
+
+                                                        string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
                                                         if (string.IsNullOrEmpty(AppBasePath))
                                                         {
                                                             AppBasePath = string.Empty;
@@ -179,11 +188,60 @@
                                                         <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
 
 
+                                                                    @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
+                                                                        CommandName="DesignOnline" CommandArgument='' />*@
+                                                                }
+                                                            </div>
+                                                        </a>
+                                                    }
+                                                    else // if not login then open set onclick event of anchor tab for login
+                                                    {
+                                                        string ProductName = "'" + item.ProductName + "'";
+                                                        string itemID = "'" + item.ItemId + "'";
+                                    
+                                                        <a id="hlProductDetail" href="#" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
+
+                                                            <div class="PDTC_CatProd FI_CatProd">
+                                                                @{
+
+                                                        string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                                                        if (string.IsNullOrEmpty(AppBasePath))
+                                                        {
+                                                            AppBasePath = string.Empty;
+                                                        }
+                                                        string ThumbPath = AppBasePath + @item.ThumbnailPath;
+                                                        <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
+
+
+                                                                    @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
+                                                                        CommandName="DesignOnline" CommandArgument='' />*@
+                                                                }
+                                                            </div>
+                                                        </a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <a id="hlProductDetail" href="@RedirectURL">
+
+                                                        <div class="PDTC_CatProd FI_CatProd">
+                                                            @{
+
+                                                    string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                                                    if (string.IsNullOrEmpty(AppBasePath))
+                                                    {
+                                                        AppBasePath = string.Empty;
+                                                    }
+                                                    string ThumbPath = AppBasePath + @item.ThumbnailPath;
+                                                    <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
+
+
                                                                 @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
                                                                     CommandName="DesignOnline" CommandArgument='' />*@
                                                             }
                                                         </div>
                                                     </a>
+                                                }
                                             }
 </div>
                                         <div class="product_detail_image_heading_IRI">
@@ -192,7 +250,10 @@
                                         <div class="product_detail_image_Pricing">
                                             <label ID="lblPrice">@item.MinPrice</label>
                                         </div>
+
                                         @{
+                                           if(item.isMarketingBrief == null || item.isMarketingBrief == false)
+                                           { 
                                             string stockLabel = string.Empty; 
                                             string quantity = string.Empty;
                                           
@@ -202,16 +263,19 @@
 
 
                                             List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel> matrix = ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>;
-                                            matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
+                                            if (matrix != null)
+                                            {
+                                                 matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
+                                            }
                                             
-                                        }
+                                        
 
 
-                                        <table id="productPricetbl" class="productPricetbl"  width="80%" cellpadding="5" cellspacing="0" style="">
+                                             <table id="productPricetbl" class="productPricetbl"  width="80%" cellpadding="5" cellspacing="0" style="">
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: left;">
-                                                    Quantity
+                                                   @Resources.MyResource.lblQuantity
                                                 </td>
                                                 <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">
@@ -237,6 +301,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                          
                                         }
 
                                         <tr class="trMoreDetailOfProductLnk">
@@ -248,6 +313,8 @@
                                         </tr>
                                  }
                                         </table>
+                                        }
+                                        }
                                     </div>
                                     <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6" >
                                         <div class="BC_CatProd">

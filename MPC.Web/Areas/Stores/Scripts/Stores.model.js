@@ -2832,9 +2832,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedZoomFactor, specifiedScaleFactor, specifiedisShelfProductCategory, specifiedMetaKeywords, specifiedMetaDescription, specifiedMetaTitle, specifiedOrganisationId,
         specifiedSubCategoryDisplayMode1, specifiedSubCategoryDisplayMode2, specifiedSubCategoryDisplayColumns, specifiedCategoryURLText, specifiedMetaOverride, specifiedShortDescription,
         specifiedSecondaryDescription, specifiedDefaultSortBy, specifiedProductsDisplayColumns, specifiedProductsDisplayRows, specifiedIsDisplayFeaturedproducts, specifiedIsShowAvailablity,
-        specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription) {
+        specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription, 
+        specifiedProductCategoryThumbnailFileBinary, specifiedProductCategoryImageFileBinary
+    ) {
         var productCategoryId = ko.observable(specifiedProductCategoryId),
-            categoryName = ko.observable(specifiedCategoryName),
+            categoryName = ko.observable(specifiedCategoryName).extend({ required: true }),
             contentType = ko.observable(specifiedContentType),
             description1 = ko.observable(specifiedDescription1),
             description2 = ko.observable(specifiedDescription2),
@@ -2886,12 +2888,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isShowStockStatus = ko.observable(specifiedIsShowStockStatus),
             isShowProductDescription = ko.observable(specifiedIsShowProductDescription),
             isShowProductShortDescription = ko.observable(specifiedIsShowProductShortDescription),
-            productCategoryThumbnailFileBinary = ko.observable(specifiedThumbnailPath),
+            productCategoryThumbnailFileBinary = ko.observable(specifiedProductCategoryThumbnailFileBinary),
             productCategoryThumbnailName = ko.observable(),
             productCategoryImageName = ko.observable(),
-            productCategoryImageFileBinary = ko.observable(specifiedImagePath),
+            productCategoryImageFileBinary = ko.observable(specifiedProductCategoryImageFileBinary),
             errors = ko.validation.group({
-
+                categoryName: categoryName
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -2974,10 +2976,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     DisplayOrder: displayOrder(),
                     ImagePath: imagePath(),
                     ThumbnailPath: thumbnailPath(),
+                    //isEnabled: isEnabled(),
                     isEnabled: isEnabled(),
                     isMarketPlace: isMarketPlace(),
                     TemplateDesignerMappedCategoryName: templateDesignerMappedCategoryName(),
-                    isArchived: isArchived(),
+                    isArchived: isEnabled() == true ? false: true,
                     isPublished: isPublished(),
                     TrimmedWidth: trimmedWidth(),
                     TrimmedHeight: trimmedHeight(),
@@ -3019,10 +3022,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 };
                 //productCategoryThumbnailName: productCategoryThumbnailName,
                 //productCategoryImageName: productCategoryImageName,
-                result.ProductCategoryThumbnailName = productCategoryThumbnailName() === undefined ? null : productCategoryThumbnailName();
-                result.ProductCategoryImageName = productCategoryImageName() === undefined ? null : productCategoryImageName();
+                result.ThumbnailName = productCategoryThumbnailName() === undefined ? null : productCategoryThumbnailName();
+                result.ImageName = productCategoryImageName() === undefined ? null : productCategoryImageName();
                 result.ThumbnailBytes = productCategoryThumbnailFileBinary() === undefined ? null : productCategoryThumbnailFileBinary();
                 result.ImageBytes = productCategoryImageFileBinary() === undefined ? null : productCategoryImageFileBinary();
+             
                 return result;
             };
         return {
@@ -3201,7 +3205,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.IsShowSalePrice,
             source.IsShowStockStatus,
             source.IsShowProductDescription,
-            source.IsShowProductShortDescription
+            source.IsShowProductShortDescription,
+            source.ThumbNailSource,
+            source.ImageSource
         );
         return productCategory;
     };

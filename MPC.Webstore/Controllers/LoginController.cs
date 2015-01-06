@@ -56,7 +56,7 @@ namespace MPC.Webstore.Controllers
             get { return HttpContext.GetOwinContext().Authentication; }
         }
         // GET: Login
-        public ActionResult Index(string FirstName, string LastName, string Email)
+        public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
@@ -68,7 +68,11 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.AllowRegisteration = 1;
             }
-
+            if (string.IsNullOrEmpty(ReturnURL))
+                ViewBag.ReturnURL = "Social";
+            else  
+                ViewBag.ReturnURL = ReturnURL;
+       
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
@@ -85,7 +89,7 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user != null)
                 {
-                    return VerifyUser(user, returnUrl);
+                    return VerifyUser(user, returnUrl, ReturnURL);
 
                 }
                 else
@@ -106,10 +110,7 @@ namespace MPC.Webstore.Controllers
 
             string returnUrl = string.Empty;
 
-            //if (System.Web.HttpContext.Current.Request.UrlReferrer != null)
-            //    returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.Query.Split('=')[1];
-            //else
-            //    returnUrl = string.Empty;
+           
 
             if (ModelState.IsValid)
             {
@@ -131,7 +132,8 @@ namespace MPC.Webstore.Controllers
                      UserCookieManager.isWritePresistentCookie = false;
                 if (user != null)
                 {
-                    return VerifyUser(user, returnUrl);
+                    string ReturnURL = Request.Form["hfReturnURL"];
+                    return VerifyUser(user, returnUrl, model.ReturnURL);
                 }
                 else
                 {
@@ -146,7 +148,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl)
+        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl, string ReturnURL)
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
@@ -182,8 +184,13 @@ namespace MPC.Webstore.Controllers
                 UserCookieManager.ContactId = user.ContactId;
                 UserCookieManager.Email = user.Email;
 
-                RedirectToLocal(ReturnUrl);
+                if (ReturnURL == "Social")
+                    RedirectToLocal(ReturnUrl);
+                else
+                    ControllerContext.HttpContext.Response.Redirect(ReturnURL);
+
                 return null;
+               
             }
 
         }

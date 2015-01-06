@@ -1,6 +1,6 @@
 ﻿function ShowPopUp(Type,Message) {
    
-    var container = '<div class="white_background" style="padding:20px;"><div class="Width100Percent popUpsDisply"><div class="exit_container_PopUpMesg"><div class="exit_popup"></div></div></div><label class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass">' + Type + '</label><div onclick="HideMessagePopUp();" class="MesgBoxBtnsDisplay rounded_corners5">Close</div><div class="clearBoth">&nbsp;</div><div class="SolidBorderCS">&nbsp;</div><div class="pop_body_MesgPopUp"><br /><div class="inner"><label>' + Message + '</label></div></div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '</div></div>';
    
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
@@ -22,7 +22,34 @@
     document.getElementById("innerLayer").style.display = "block";
 }
 
+function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID) {
 
+    ProductName = ProductName.replace('"', '');
+
+ 
+    ProductName = ProductName.replace(' ', '');
+    var ReturnURL = "/MarketingBrief/" + ProductName + "/" + ItemID; 
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=RedirectToSignUp("' + ReturnURL + '");  >Register</button><button type="button" onclick=RedirectToLogin("' + ReturnURL + '"); class="btn btn-primary">Login</button></div></div>';
+
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+   // document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
 function getBrowserHeight() {
     var intH = 0;
     var intW = 0;
@@ -47,4 +74,14 @@ function HideMessagePopUp() {
     document.getElementById("layer").style.display = "none";
     document.getElementById("innerLayer").style.display = "none";
 
+}
+function RedirectToLogin(ReturnURL)
+{
+   
+    window.location.href = "/Login?ReturnURL=" + ReturnURL;
+   
+}
+function RedirectToSignUp(ReturnURL)
+{
+    window.location.href = "/SignUp?ReturnURL=" + ReturnURL;
 }

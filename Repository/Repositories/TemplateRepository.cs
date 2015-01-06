@@ -3,7 +3,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
-
+using System.Linq;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -46,6 +46,18 @@ namespace MPC.Repository.Repositories
         public Template Find(int id)
         {
             return DbSet.Find(id);
+        }
+        /// <summary>
+        ///  Get template object by template id 
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        public Template GetTemplate(int productID)
+        {
+           // db.Configuration.LazyLoadingEnabled = true;
+            var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            return template;
+
         }
 
         #endregion

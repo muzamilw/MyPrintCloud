@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -348,6 +349,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ProductCategoryItem> ProductCategoryItems { get; set; }
 
         /// <summary>
+        /// Template Color Style DbSet
+        /// </summary>
+        public DbSet<TemplateColorStyle> TemplateColorStyles { get; set; }
+
+        /// <summary>
+        /// Template Font DbSet
+        /// </summary>
+        public DbSet<TemplateFont> TemplateFonts { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)
@@ -418,6 +429,28 @@ namespace MPC.Repository.BaseRepository
             ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter, 
                 fileTableParameter);
             return result.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// GetUsedFonts Updated 
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public IEnumerable<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(int? templateID, int? customerID)
+// ReSharper restore InconsistentNaming
+        {
+            var templateIdParameter = templateID.HasValue ?
+                new ObjectParameter("TemplateID", templateID) :
+                new ObjectParameter("TemplateID", typeof(int));
+
+            var customerIdParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+
+            ObjectResult<sp_GetUsedFontsUpdated_Result> templateFontsUpdatedResults = 
+                ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("BaseDbContext.sp_GetUsedFontsUpdated", templateIdParameter, 
+                customerIdParameter);
+
+            return templateFontsUpdatedResults.ToList();
         }
 
         #endregion

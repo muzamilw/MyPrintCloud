@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.IO;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -7,7 +8,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     {
         public static ProductCategory CreateFrom(this DomainModels.ProductCategory source)
         {
-            return new ProductCategory
+            var productCategory = new ProductCategory
             {
                 ProductCategoryId = source.ProductCategoryId,
                 CategoryName = source.CategoryName,
@@ -62,7 +63,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowStockStatus = source.IsShowStockStatus,
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
+                ThumbnailStreamId = source.ThumbnailStreamId,
+                ImageStreamId = source.ImageStreamId,
+                Image = source.ImageFileBytes,
+                ThumbNail = source.ThumbNailFileBytes
             };
+           
+            return productCategory;
         }
 
         public static DomainModels.ProductCategory CreateFrom(this ProductCategory source)
@@ -80,11 +87,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DisplayOrder = source.DisplayOrder,
                 ImagePath = source.ImagePath,
                 ThumbnailPath = source.ThumbnailPath,
-                isEnabled = source.isEnabled,
+                isEnabled = source.isEnabled ?? false,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,
-                isArchived = source.isArchived,
-                isPublished = source.isPublished,
+                isArchived = source.isArchived == null ? true : false,
+                isPublished = source.isPublished ?? false,
                 TrimmedWidth = source.TrimmedWidth,
                 TrimmedHeight = source.TrimmedHeight,
                 isColorImposition = source.isColorImposition,
@@ -122,6 +129,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowStockStatus = source.IsShowStockStatus,
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
+                ImageBytes = source.ImageBytes,
+                ImageFileName = source.ImageName,
+                ThumbNailBytes = source.ThumbnailBytes,
+                ThumbNailFileName = source.ThumbnailName
             };
         }
     }

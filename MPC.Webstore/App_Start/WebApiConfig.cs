@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace MPC.Webstore
@@ -19,6 +20,8 @@ namespace MPC.Webstore
                 routeTemplate: "APIControllers/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional, action = "Login" }
             );
+            // addded by saqib to get json service in json from instead of xml 
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
         }
     }
 }

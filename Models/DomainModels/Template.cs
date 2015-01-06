@@ -69,6 +69,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }
         public virtual ICollection<TemplateObject> TemplateObjects { get; set; }
+        public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
+        public virtual ICollection<TemplateFont> TemplateFonts { get; set; }
     }
 
 }

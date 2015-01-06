@@ -142,5 +142,12 @@ namespace MPC.MIS.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
+        /// <summary>
+        /// Page Under Construction
+        /// </summary>
+        public ActionResult PageUnAvailable()
+        {
+            return View();
+        }
     }
 }

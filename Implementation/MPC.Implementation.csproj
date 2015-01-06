@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ABCpdf, Version=9.1.2.3, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ABCpdf.9.1.2.3\lib\net40\ABCpdf.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
@@ -152,6 +156,11 @@
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />
+    <Compile Include="WebStoreServices\TemplateColorStylesService.cs" />
+    <Compile Include="WebStoreServices\TemplateFontsService.cs" />
+    <Compile Include="WebStoreServices\TemplateObjectService.cs" />
+    <Compile Include="WebStoreServices\TemplatePageService.cs" />
+    <Compile Include="WebStoreServices\TemplateService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\UserManagerService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsSecurityService.cs" />

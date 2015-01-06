@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You indicated you are a new customer, but an account already exists with the e-mail.
+        /// </summary>
+        internal static string AccAlreadyExist {
+            get {
+                return ResourceManager.GetString("AccAlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All Products.
         /// </summary>
         internal static string AllProducts {
@@ -93,6 +102,33 @@ namespace Resources {
         internal static string HidePriceMatrix {
             get {
                 return ResourceManager.GetString("HidePriceMatrix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out of Stock &lt;br/&gt; Back Ordering Allowed.
+        /// </summary>
+        internal static string lblBackOrder {
+            get {
+                return ResourceManager.GetString("lblBackOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item in Stock:.
+        /// </summary>
+        internal static string lblItemInStock {
+            get {
+                return ResourceManager.GetString("lblItemInStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out of Stock.
+        /// </summary>
+        internal static string lblItemOutOfStock {
+            get {
+                return ResourceManager.GetString("lblItemOutOfStock", resourceCulture);
             }
         }
         
@@ -165,6 +201,15 @@ namespace Resources {
         internal static string TermsAndConditions {
             get {
                 return ResourceManager.GetString("TermsAndConditions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. &lt;br /&gt; &lt;br /&gt; If your brief is not approved, marketing will be in contact with you..
+        /// </summary>
+        internal static string WlSumMesg {
+            get {
+                return ResourceManager.GetString("WlSumMesg", resourceCulture);
             }
         }
     }

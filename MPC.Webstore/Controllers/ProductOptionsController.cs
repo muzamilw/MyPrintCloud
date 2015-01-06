@@ -17,11 +17,11 @@ namespace MPC.Webstore.Controllers
 {
     public class ProductOptionsController : Controller
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
 
-        private readonly  IItemService _myItemService;
+        private readonly IItemService _myItemService;
 
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
@@ -59,11 +59,36 @@ namespace MPC.Webstore.Controllers
         {
             // add falg idd
 
-            List<ProductPriceMatrixViewModel> jasonObjectList = new List<ProductPriceMatrixViewModel>();
+            List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
+
+            List<AddOnCostCenterViewModel> AddonObjectList = null;
+
             Item referenceItem = _myItemService.GetItemById(Convert.ToInt64(Itemid));
+
             ViewData["StckOptions"] = _myItemService.GetStockList(Convert.ToInt64(Itemid), UserCookieManager.StoreId);
-          
-            if(_webstoreAuthorizationChecker.isUserLoggedIn())
+
+            List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(Itemid), UserCookieManager.StoreId);
+
+            ViewData["CostCenters"] = listOfCostCentres;
+
+            AddonObjectList = new List<AddOnCostCenterViewModel>();
+
+            foreach (var addOn in listOfCostCentres)
+            {
+                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                {
+                    Id = addOn.ProductAddOnID,
+                      Type = addOn.Type,
+                      SetupCost = addOn.SetupCost,
+                      MinimumCost = addOn.MinimumCost,
+                      ActualPrice = addOn.AddOnPrice ?? 0.0
+                };
+                AddonObjectList.Add(addOnsObject);
+            }
+
+            ViewBag.JsonAddonCostCentre = AddonObjectList;
+
+            if (_webstoreAuthorizationChecker.isUserLoggedIn())
             {
                 referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, true, UserCookieManager.StoreId);
             }
@@ -72,7 +97,8 @@ namespace MPC.Webstore.Controllers
                 referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, false, 0);
             }
 
-            foreach (var matrixItem in referenceItem.ItemPriceMatrices) 
+            PriceMatrixObjectList = new List<ProductPriceMatrixViewModel>();
+            foreach (var matrixItem in referenceItem.ItemPriceMatrices)
             {
                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                 {
@@ -159,6 +185,7 @@ namespace MPC.Webstore.Controllers
                 }
                 if (referenceItem.IsQtyRanged == true)
                 {
+
                     //json object
                     ProductPriceMatrixViewModel priceObject = new ProductPriceMatrixViewModel
                     {
@@ -166,26 +193,38 @@ namespace MPC.Webstore.Controllers
                         QtyRangeFrom = Convert.ToDouble(matrixItem.QtyRangeFrom),
                         QtyRangeTo = Convert.ToDouble(matrixItem.QtyRangeTo)
                     };
-                    jasonObjectList.Add(priceObject);
-                    
+                    PriceMatrixObjectList.Add(priceObject);
+
                 }
                 else
                 {
+
                     //json object
                     ProductPriceMatrixViewModel priceObject = new ProductPriceMatrixViewModel
                     {
                         ItemID = Convert.ToInt32(matrixItem.PriceMatrixId),
                         Quantity = matrixItem.Quantity.ToString()
                     };
-                    jasonObjectList.Add(priceObject);
+                    PriceMatrixObjectList.Add(priceObject);
                 }
             }
 
-            ViewBag.jasonObjectList = jasonObjectList;
+            ViewBag.JasonPriceMatrix = PriceMatrixObjectList;
 
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            ViewBag.Currency =  baseResponse.Currency;
+            ViewBag.Currency = baseResponse.Currency;
 
+            if (referenceItem.IsStockControl == true)
+            {
+                ViewBag.ItemStock = _myItemService.GetStockItem(referenceItem.ItemId);
+            }
+            else
+            {
+                ViewBag.ItemStock = null;
+            }
+            ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
+            PriceMatrixObjectList = null;
+            AddonObjectList = null;
             return View("PartialViews/ProductOptions", referenceItem);
         }
     }
