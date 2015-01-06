@@ -63,6 +63,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string ImageBytes { get; set; }
         public string ImageName { get; set; }
         public string ThumbnailName { get; set; }
+        public Guid? ImageStreamId { get; set; }
+        public Guid? ThumbnailStreamId { get; set; }
         public string ImageSource
         {
             get
@@ -85,7 +87,7 @@ namespace MPC.MIS.Areas.Api.Models
                     return string.Empty;
                 }
 
-                string base64 = Convert.ToBase64String(Image);
+                string base64 = Convert.ToBase64String(ThumbNail);
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }

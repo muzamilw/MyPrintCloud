@@ -308,6 +308,9 @@ define("stores/stores.viewModel",
                                     deletedSecondaryPage.removeAll();
                                     allPagesWidgets.removeAll();
                                     pageSkinWidgets.removeAll();
+                                    deletedProductCategories.removeAll();
+                                    edittedProductCategories.removeAll();
+                                    newProductCategories.removeAll();
                                     selectedCurrentPageId(undefined);
                                     selectedCurrentPageCopy(undefined);
 
@@ -410,6 +413,7 @@ define("stores/stores.viewModel",
                         allPagesWidgets.removeAll();
                         pageSkinWidgets.removeAll();
                         selectedCurrentPageId(undefined);
+                        resetObservableArrays();
                     }
                 },
                 resetFilterSection = function () {
@@ -1556,9 +1560,6 @@ define("stores/stores.viewModel",
                 onCreateNewProductCategory = function () {
                         var productCategory = new model.ProductCategory();
 
-                        //setting counter as its id
-                        //productCategory.productCategoryId(productCategoryCounter);
-
                         //Setting Product Category Editting
                         selectedProductCategoryForEditting(productCategory);
 
@@ -1671,7 +1672,14 @@ define("stores/stores.viewModel",
                     },
                 onSaveProductCategory = function () {
                         //Saving New Record
-                        if (doBeforeSaveProductCategory()) {
+                    if (doBeforeSaveProductCategory()) {
+                        if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
+                            selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
+                            newProductCategories.push(selectedProductCategoryForEditting());
+                            $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');//data-bind="click: $root.getCategoryChildListItems"
+                            ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                            addProductCategoryCounter();
+                        }
                             if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true) {
                                 //selectedStore().companyTerritories.splice(0, 0, selectedCompanyTerritory());
                                 selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
@@ -1758,6 +1766,7 @@ define("stores/stores.viewModel",
                         deletedCompanyContacts.removeAll();
                         edittedCompanyContacts.removeAll();
                         newCompanyContacts.removeAll();
+                        parentCategories.removeAll();
 
                     },
                 //#region StoreLayout
