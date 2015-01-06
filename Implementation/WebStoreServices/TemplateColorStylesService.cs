@@ -22,10 +22,16 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-        // called from webstore usually for coping template
+
         public List<TemplateColorStyle> GetColorStyle(int ProductId, int CustomerID)
         {
             var colors= _templateColorStyleRepository.GetColorStyle(ProductId,CustomerID);
+            return colors;
+        }
+        
+        public List<TemplateColorStyle> GetColorStyle(int ProductId)
+        {
+            var colors = _templateColorStyleRepository.GetColorStyle(ProductId);
             return colors;
         }
         public int SaveCorpColor(int C, int M, int Y, int K, string Name, int CustomerID)

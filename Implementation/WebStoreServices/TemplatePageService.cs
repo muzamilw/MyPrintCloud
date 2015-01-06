@@ -44,6 +44,12 @@ namespace MPC.Implementation.WebStoreServices
             //}
             return list;
         }
+        public List<TemplatePage> GetTemplatePagesSP(int productId)
+        {
+            var list = _templatePageRepository.GetTemplatePages(productId);
+
+            return list;
+        }
         #endregion
     }
 }
