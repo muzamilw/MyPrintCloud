@@ -59,6 +59,17 @@ define("paperSheet/paperSheet.viewModel",
                             }
                         });
                     },
+                    onDeletePaperSheet = function (paperSheet) {
+                        if (!paperSheet.paperSizeId()) {
+                            paperSheets.remove(paperSheet);
+                            return;
+                        }
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            deletePaperSheet(paperSheet);
+                        });
+                        confirmation.show();
+                    },
                     //GET Paper Sheets
                     getPaperSheets = function () {
                         isLoadingPaperSheet(true);
@@ -161,7 +172,7 @@ define("paperSheet/paperSheet.viewModel",
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(pagination.Pagination({ PageSize: 5 }, paperSheets, getPaperSheets));
+                    pager(pagination.Pagination({ PageSize: 10 }, paperSheets, getPaperSheets));
                     getPaperSheets();
                 };
 
@@ -170,6 +181,7 @@ define("paperSheet/paperSheet.viewModel",
                     selectedPaperSheet: selectedPaperSheet,
                     isLoadingPaperSheet: isLoadingPaperSheet,
                     deletePaperSheet: deletePaperSheet,
+                    onDeletePaperSheet: onDeletePaperSheet,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     pager: pager,

@@ -351,5 +351,32 @@ namespace MPC.Webstore.Common
                 HttpContext.Current.Response.Cookies.Add(RememberMeCompanyIDCookie);
             }
         }
+        public static long OrderId
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["OrderId"] != null)
+                {
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["OrderId"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["OrderId"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("OrderId");
+
+                }
+
+                HttpCookie OrderIdCookie = null;
+                OrderIdCookie = new HttpCookie("OrderId", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(OrderIdCookie);
+            }
+        }
     }
 }

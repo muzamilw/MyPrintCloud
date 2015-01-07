@@ -68,7 +68,7 @@
                                                         <label for="txtCompanyName" class="control-label text-right">Parent Category</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control col-lg-4" data-bind="options:$root.parentCategories,optionsText:'categoryName',optionsValue:'productCategoryId', value: parentCategoryId"></select>   
+                                                        <select class="form-control col-lg-4" data-bind="options:$root.parentCategories,optionsText:'categoryName',optionsValue:'productCategoryId',optionsCaption:'Choose ...', value: parentCategoryId"></select>   
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
@@ -107,7 +107,7 @@
                                                     <div class="col-lg-6">
                                                         <div>
                                                             <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableCat" data-bind="checked: isArchived">
+                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableCat" data-bind="checked: isEnabled">
                                                                 <label class="onoffswitch-label" for="switchEnableCat">
                                                                     <div class="onoffswitch-inner"></div>
                                                                     <div class="onoffswitch-switch"></div>

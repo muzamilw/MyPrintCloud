@@ -302,7 +302,7 @@ namespace MPC.Models.Common
             set;
         }
 
-        public Nullable<bool> IsFinishedGood
+        public Nullable<int> ProductType
         {
             get;
             set;

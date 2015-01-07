@@ -2592,6 +2592,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             htmlData = ko.observable(specifiedHtml),
             widgetName = ko.observable(specifiedWidgetName),
             companyId = ko.observable(specifiedCompanyId),
+            cmsSkinPageWidgetParam = ko.observable(new CmsSkinPageWidgetParam()),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -2600,6 +2601,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 WidgetId: widgetId(),
                 Sequence: sequence(),
                 CompanyId: companyId(),
+                CmsSkinPageWidgetParam:cmsSkinPageWidgetParam().convertToServerData(),
+                CmsSkinPageWidgetParams: []
             };
         };
         self = {
@@ -2610,11 +2613,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             htmlData: htmlData,
             widgetName: widgetName,
             companyId: companyId,
+            cmsSkinPageWidgetParam: cmsSkinPageWidgetParam,
             convertToServerData: convertToServerData,
         };
         return self;
     };
-
     CmsSkingPageWidget.Create = function (source) {
         return new CmsSkingPageWidget(
              source.PageWidgetId,
@@ -2626,7 +2629,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                );
 
     };
-
     CmsPageWithWidgetList = function () {
         var self,
             pageId = ko.observable(),
@@ -2645,6 +2647,38 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             convertToServerData: convertToServerData,
         };
         return self;
+    };
+
+    //// __________________ Cms Skin Page Widget Param  ______________________//
+    var CmsSkinPageWidgetParam = function (specifiedPageWidgetParamId, specifiedPageWidgetId, specifiedParamValue) {
+
+        var self,
+            pageWidgetParamId = ko.observable(specifiedPageWidgetParamId),
+            pageWidgetId = ko.observable(specifiedPageWidgetId),
+            paramValue = ko.observable(specifiedParamValue !== undefined ? specifiedParamValue : ""),
+            editorId = ko.observable(),
+              //Convert To Server
+        convertToServerData = function () {
+            return {
+                PageWidgetParamId: pageWidgetParamId() === undefined ? 0 : pageWidgetParamId(),
+                PageWidgetId: pageWidgetId() < 0 ? 0 : pageWidgetId(),
+                ParamValue: paramValue(),
+            };
+        };
+        self = {
+            pageWidgetParamId: pageWidgetParamId,
+            pageWidgetId: pageWidgetId,
+            paramValue: paramValue,
+            editorId: editorId,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+    CmsSkinPageWidgetParam.Create = function (source) {
+        return new CmsSkinPageWidgetParam(
+             source.PageWidgetParamId,
+             source.PageWidgetId,
+             source.ParamValue);
     };
 
     //// __________________  P A Y M E N T   M E T H O D   ______________________//
@@ -2798,7 +2832,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedZoomFactor, specifiedScaleFactor, specifiedisShelfProductCategory, specifiedMetaKeywords, specifiedMetaDescription, specifiedMetaTitle, specifiedOrganisationId,
         specifiedSubCategoryDisplayMode1, specifiedSubCategoryDisplayMode2, specifiedSubCategoryDisplayColumns, specifiedCategoryURLText, specifiedMetaOverride, specifiedShortDescription,
         specifiedSecondaryDescription, specifiedDefaultSortBy, specifiedProductsDisplayColumns, specifiedProductsDisplayRows, specifiedIsDisplayFeaturedproducts, specifiedIsShowAvailablity,
-        specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription) {
+        specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription, 
+        specifiedProductCategoryThumbnailFileBinary, specifiedProductCategoryImageFileBinary
+    ) {
         var productCategoryId = ko.observable(specifiedProductCategoryId),
             categoryName = ko.observable(specifiedCategoryName).extend({ required: true }),
             contentType = ko.observable(specifiedContentType),
@@ -2852,10 +2888,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isShowStockStatus = ko.observable(specifiedIsShowStockStatus),
             isShowProductDescription = ko.observable(specifiedIsShowProductDescription),
             isShowProductShortDescription = ko.observable(specifiedIsShowProductShortDescription),
-            productCategoryThumbnailFileBinary = ko.observable(specifiedThumbnailPath),
+            productCategoryThumbnailFileBinary = ko.observable(specifiedProductCategoryThumbnailFileBinary),
             productCategoryThumbnailName = ko.observable(),
             productCategoryImageName = ko.observable(),
-            productCategoryImageFileBinary = ko.observable(specifiedImagePath),
+            productCategoryImageFileBinary = ko.observable(specifiedProductCategoryImageFileBinary),
             errors = ko.validation.group({
                 categoryName: categoryName
             }),
@@ -2941,10 +2977,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     ImagePath: imagePath(),
                     ThumbnailPath: thumbnailPath(),
                     //isEnabled: isEnabled(),
-                    isEnabled: isArchived(),
+                    isEnabled: isEnabled(),
                     isMarketPlace: isMarketPlace(),
                     TemplateDesignerMappedCategoryName: templateDesignerMappedCategoryName(),
-                    isArchived: isArchived(),
+                    isArchived: isEnabled() == true ? false: true,
                     isPublished: isPublished(),
                     TrimmedWidth: trimmedWidth(),
                     TrimmedHeight: trimmedHeight(),
@@ -3169,7 +3205,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.IsShowSalePrice,
             source.IsShowStockStatus,
             source.IsShowProductDescription,
-            source.IsShowProductShortDescription
+            source.IsShowProductShortDescription,
+            source.ThumbNailSource,
+            source.ImageSource
         );
         return productCategory;
     };
@@ -3199,5 +3237,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         Widget: Widget,
         CmsSkingPageWidget: CmsSkingPageWidget,
         CmsPageWithWidgetList: CmsPageWithWidgetList,
+        CmsSkinPageWidgetParam: CmsSkinPageWidgetParam,
     };
 });

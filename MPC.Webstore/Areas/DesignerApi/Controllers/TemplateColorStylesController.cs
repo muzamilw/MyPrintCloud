@@ -31,6 +31,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         #endregion
 
         #region public
+
+        // function moved here from templateSvcSP
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage GetColorStyleSP(int id)
+        {
+            //parameter1 = template id and parameter 2 = CustomerID
+            var colors = templateColorStylesService.GetColorStyle(id);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, colors, formatter);
+        }
         public HttpResponseMessage GetColorStyle(int parameter1, int parameter2)
         {
             //parameter1 = template id and parameter 2 = CustomerID

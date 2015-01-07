@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
+    /// <summary>
+    /// Company Domain Model
+    /// </summary>
     public class Company
     {
         public long CompanyId { get; set; }
@@ -115,6 +118,8 @@ namespace MPC.Models.DomainModels
         /// Tax Label
         /// </summary>
         public string TaxLabel { get; set; }
+
+        public long? StoreId { get; set; }
 
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
