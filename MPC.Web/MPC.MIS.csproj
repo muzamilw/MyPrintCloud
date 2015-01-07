@@ -468,6 +468,9 @@
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.model.js" />
+    <Content Include="Areas\Stores\Scripts\store.Product.dataservice.js" />
+    <Content Include="Areas\Stores\Scripts\store.Product.model.js" />
+    <Content Include="Areas\Stores\Scripts\store.Product.viewModel.js" />
     <Content Include="Areas\Stores\Scripts\Stores.dataservice.js" />
     <Content Include="Areas\Stores\Scripts\Stores.model.js" />
     <Content Include="Areas\Stores\Scripts\Stores.view.js" />
@@ -1394,6 +1397,7 @@
     <Content Include="Areas\Settings\Views\Home\MachinesDetail.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MachinesList.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2522,7 +2526,6 @@
     <Content Include="Views\Shared\Estimate\_EstimationWizard.cshtml" />
     <Content Include="Views\Shared\Estimate\_RunWizard.cshtml" />
     <Content Include="Views\Shared\Product\_AddStockQty.cshtml" />
-    <Content Include="Views\Shared\Product\_Products.cshtml" />
     <Content Include="Views\Shared\Product\_SelectStock.cshtml" />
     <Content Include="Views\Shared\Product\_SignatureEdit.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditCMYKColors.cshtml" />
