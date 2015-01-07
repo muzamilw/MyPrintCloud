@@ -330,7 +330,7 @@ namespace MPC.Webstore.Controllers
             int OrderID = ProcessOrder(baseResponseorg);
                 if (OrderID > 0)
                 {
-                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, isCorp, false, false, ContactID);
+                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, false, false, ContactID);
 
                     if (item != null)
                     {

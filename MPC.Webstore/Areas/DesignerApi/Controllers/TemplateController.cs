@@ -47,14 +47,13 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
          
         }
 
-
-        //    public string update(Stream data)
         // public string preview(Stream data)
-        // public string savecontine(Stream data)
-        // public Stream GetFoldLine(string TemplateID)
-        //public Stream GetCategoryV2(string CategoryIDStr)
-        //public Stream GetProductV2(string TemplateID,string CategoryIDStr,string heightStr, string widthStr)
-        //public Stream GetCatListV2(string CategoryIDStr, string pageNoStr, string pageSizeStr)
+        //    public string update(Stream data)// not used in new designer 
+        // public string savecontine(Stream data)// not used in new designer 
+        // public Stream GetFoldLine(string TemplateID)  // not used in new designer 
+        //public Stream GetCategoryV2(string CategoryIDStr)  // called from v2 service
+        //public Stream GetProductV2(string TemplateID,string CategoryIDStr,string heightStr, string widthStr) // called from v2 service
+        //public Stream GetCatListV2(string CategoryIDStr, string pageNoStr, string pageSizeStr) // called from v2 service
         #endregion
     }
 }

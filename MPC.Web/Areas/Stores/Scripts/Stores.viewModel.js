@@ -14,6 +14,10 @@ define("stores/stores.viewModel",
                      //selected Current Page Id In Layout Page Tab
                     selectedCurrentPageId = ko.observable(),
                     selectedCurrentPageCopy = ko.observable(),
+                    //Active Widget (use for dynamic controll)
+                    selectedWidget = ko.observable(),
+                    //New Added fake Id counter
+                    newAddedWidgetIdCounter = ko.observable(0),
                     //Store Image
                     storeImage = ko.observable(),
                     //On Added new widget id calculate
@@ -153,6 +157,11 @@ define("stores/stores.viewModel",
                         });
                     },
                     //#endregion _____________________  S T O R E ____________________
+                                var serverWidget = widget.convertToServerData();
+                                if (serverWidget.WidgetId === 14) {
+                                    serverWidget.CmsSkinPageWidgetParams.push(serverWidget.CmsSkinPageWidgetParam);
+                                }
+                                widgetList.push(serverWidget);
                     
                     // #region ____________________ R A V E   R E V I E W _______________
 
@@ -1890,6 +1899,12 @@ define("stores/stores.viewModel",
                                 if (data != null) {
                                     _.each(data, function (item) {
                                         var widget = new model.CmsSkingPageWidget.Create(item);
+                                    if (widget.widgetId() === 14) {
+                                        _.each(item.CmsSkinPageWidgetParams, function (params) {
+                                            widget.cmsSkinPageWidgetParam(model.CmsSkinPageWidgetParam.Create(params));
+                                            widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                                        });
+                                    }
                                         pageSkinWidgets.push(widget);
                                     });
                                 }
@@ -1906,8 +1921,18 @@ define("stores/stores.viewModel",
                      dropped = function (source, target, event) {
                          // ReSharper restore UnusedParameter
                          if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetControlName !== undefined && source.widget.widgetControlName() !== "") {
+                            if (source.widget.widgetId() === 14) {
+                                var newWidget = new model.CmsSkingPageWidget();
+                                newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
+                                newWidget.widgetName(source.widget.widgetName());
+                                newWidget.pageId(selectedCurrentPageId());
+                                newWidget.widgetId(source.widget.widgetId());
+                                pageSkinWidgets.splice(0, 0, newWidget);
+                                newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
+                            } else {
                              getWidgetDetail(source.widget);
                          }
+                        }
                          if (selectedCurrentPageId() === undefined) {
                              toastr.error("Before add widget please select page !");
                          }
@@ -1944,8 +1969,19 @@ define("stores/stores.viewModel",
                     //Add Widget To Page Layout
                         addWidgetToPageLayout = function (widget) {
                             if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetControlName !== undefined && widget.widgetControlName() !== "") {
+                            if (widget.widgetId() === 14) {
+                                var newWidget = new model.CmsSkingPageWidget();
+                                //newWidget.htmlData(data);
+                                newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
+                                newWidget.widgetName(widget.widgetName());
+                                newWidget.pageId(selectedCurrentPageId());
+                                newWidget.widgetId(widget.widgetId());
+                                pageSkinWidgets.splice(0, 0, newWidget);
+                                newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
+                            } else {
                                 getWidgetDetailOnAdd(widget);
                             }
+                        }
                             if (selectedCurrentPageId() === undefined) {
                                 toastr.error("Before add widget please select page !");
                             }
@@ -1978,6 +2014,25 @@ define("stores/stores.viewModel",
                                 pageSkinWidgets.remove(widget);
                             }
                         },
+                //show Ck Editor Dialog
+                    showCkEditorDialog = function (widget) {
+                        widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
+                        //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
+                        selectedWidget(widget.cmsSkinPageWidgetParam());
+                        view.showCkEditorDialogDialog();
+                    },
+                //Save Widget Params That are set in CkEditor
+                    onSaveWidgetParamFromCkEditor = function (widgetParams) {
+                        var param = CKEDITOR.instances.content.getData();
+                        _.each(pageSkinWidgets(), function (item) {
+                            if (widgetParams.pageWidgetId() === item.pageWidgetId()) {
+                                item.htmlData(param);
+                                item.cmsSkinPageWidgetParam().paramValue(param);
+                            }
+                        });
+                        selectedWidget(undefined);
+                        view.hideCkEditorDialogDialog();
+                    },
                 //#endregion
 
                     highPriorityTasks = ko.observableArray([
@@ -1986,7 +2041,8 @@ define("stores/stores.viewModel",
                         { Text: "Text 3" },
                         { Text: "Text 4" }
                     ]),
-                    textFieldToEdit = ko.observable(''),
+                    viewModelVariableName = ko.observable("test"),
+                    viewModelVariableName1 = ko.observable("test"),
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2179,6 +2235,11 @@ define("stores/stores.viewModel",
                     //#endregion Product Category
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
+                    showCkEditorDialog: showCkEditorDialog,
+                    selectedWidget: selectedWidget,
+                    onSaveWidgetParamFromCkEditor: onSaveWidgetParamFromCkEditor,
+                    viewModelVariableName: viewModelVariableName,
+                    viewModelVariableName1: viewModelVariableName1,
                     contactCompanyPager: contactCompanyPager,
                     onAddSecondaryPage: onAddSecondaryPage,
                     onAddSecondryPageCategory: onAddSecondryPageCategory,

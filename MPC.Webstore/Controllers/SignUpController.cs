@@ -60,7 +60,6 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(RegisterViewModel model)
         {
-            
 
             if (ModelState.IsValid)
             {

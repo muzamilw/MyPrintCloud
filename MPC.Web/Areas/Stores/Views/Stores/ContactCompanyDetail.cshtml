@@ -485,7 +485,7 @@
                                     </div>
 
                                 </div>
-                                <div class="tab-pane fade" id="tab-products" >
+                                <div class="tab-pane fade" id="tab-products">
                                     <div class="col-lg-3">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
@@ -1896,7 +1896,7 @@
                                                 </thead>
                                                 <tbody data-bind="sortable: { template: 'skinWidgetItemTemplate', data: $root.pageSkinWidgets }"></tbody>
                                             </table>
-                                            @*<div class="editor" data-bind="wysiwyg: $root.textFieldToEdit">Edit this data</div>*@
+
                                         </div>
                                         <div class="col-md-3">
                                         </div>
@@ -2436,6 +2436,7 @@
 @Html.Partial("~/Areas/Stores/Views/Shared/_EditSecondaryPageCategories.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditEmailCampaign.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_MediaGalleryScreen.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Shared/_CkEditorDialog.cshtml")
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("~/Areas/Stores/Views/Shared/_AddEditPaymentGateway.cshtml")
@@ -2907,11 +2908,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-bind="text:widgetName,attr: { 'data-parent': '#accordion' + $index(),href:'#collapseBody' + $index()+100 }"></a>
+                            <a data-toggle="collapse" data-bind="text:widgetName,attr: { 'data-parent': '#accordion' + $index(),href:'#collapseBody' + $index()+1000 }"></a>
+                            <span class="glyphicon glyphicon-pencil pull-right" style="cursor: pointer;margin-right: 10px;" title="EditHtml" data-bind="visible:(widgetId()===14),click:$root.showCkEditorDialog"></span>
                             <span class="glyphicon glyphicon-remove pull-right" style="cursor: pointer;margin-right: 10px;" title="Delete" data-bind="click:$root.deletePageLayoutWidget"></span>
                         </h4>
                     </div>
-                    <div data-bind="attr: { id: 'collapseBody' + $index() + 100}" class="panel-collapse collapse in">
+                    <div data-bind="attr: { id: 'collapseBody' + $index() + 1000}" class="panel-collapse collapse in">
                         <div class="panel-body" data-bind="html:htmlData">
                         </div>
                     </div>
@@ -2921,21 +2923,8 @@
     </tr>
 </script>
 
-@*<script id="skinWidgetItemTemplate" type="text/html">
-        <div class="item" data-bind="html:html">
-        </div>
-
-    </script>*@
-
-
 <script id="taskTmpl" type="text/html">
     <div class="item" data-bind="sortableItem: { item: $data }">
         <a href=# data-bind="text:Text"></a>
     </div>
 </script>
-
-@*<script id="taskTmpl" type="text/html">
-        <div style="background-color: #DDD; cursor: move;" data-bind="sortableItem: { item: $data }">
-            <div data-bind="text:pageId"></div>
-        </div>
-    </script>*@

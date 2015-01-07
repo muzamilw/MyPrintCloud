@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using MPC.MIS.Areas.Api.ModelMappers;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModels = MPC.Models.ResponseModels;
@@ -23,7 +24,7 @@ namespace MPC.MIS.ModelMappers
                 Sequence = source.Sequence,
                 CompanyId = source.CompanyId,
                 WidgetId = source.WidgetId,
-                //CmsSkinPageWidgetParams = source.CmsSkinPageWidgetParams
+                CmsSkinPageWidgetParams = source.CmsSkinPageWidgetParams != null ? source.CmsSkinPageWidgetParams.Select(w => w.CreateFrom()).ToList() : null
             };
         }
 

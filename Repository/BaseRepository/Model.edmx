@@ -323,6 +323,7 @@
             <PropertyRef Name="CompanyId" />
           </Key>
           <Property Name="CompanyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="bigint" />
           <Property Name="AccountNumber" Type="varchar" MaxLength="10" />
           <Property Name="Name" Type="varchar" MaxLength="100" />
           <Property Name="URL" Type="varchar" MaxLength="150" />
@@ -1126,7 +1127,7 @@
             <PropertyRef Name="ItemDetailId" />
           </Key>
           <Property Name="ItemDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="isInternalActivity" Type="bit" />
           <Property Name="isAutoCreateSupplierPO" Type="bit" />
           <Property Name="isQtyLimit" Type="bit" />
@@ -2908,6 +2909,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ItemProductDetail_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="ItemProductDetail" Type="Self.ItemProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ItemProductDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Items_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ItemStateTax_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="ItemStateTax" Type="Self.ItemStateTax" Multiplicity="*" />
@@ -4150,6 +4175,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="EmailEvent" EntitySet="EmailEvent" />
             <End Role="Campaign" EntitySet="Campaign" />
           </AssociationSet>
+          <AssociationSet Name="FK_ItemProductDetail_Items" Association="Self.FK_ItemProductDetail_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ItemProductDetail" EntitySet="ItemProductDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Items_Company" Association="Self.FK_Items_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
           <AssociationSet Name="FK_ItemStateTax_Country" Association="Self.FK_ItemStateTax_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="ItemStateTax" EntitySet="ItemStateTax" />
@@ -4921,6 +4954,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <Parameter Name="TemplateID" Mode="In" Type="Int32" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_ItemProductDetail_Items" Association="DomainModels.FK_ItemProductDetail_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemProductDetail" EntitySet="ItemProductDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Items_Company" Association="DomainModels.FK_Items_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5041,6 +5082,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Campaigns" Relationship="DomainModels.FK_Company_Campaign" FromRole="Company" ToRole="Campaign" />
           <NavigationProperty Name="PaymentGateways" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="Company" ToRole="PaymentGateway" />
           <Property Name="TaxLabel" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="StoreId" Type="Int64" />
+          <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6062,7 +6105,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <PropertyRef Name="ItemDetailId" />
           </Key>
           <Property Name="ItemDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="isInternalActivity" Type="Boolean" />
           <Property Name="isAutoCreateSupplierPO" Type="Boolean" />
           <Property Name="isQtyLimit" Type="Boolean" />
@@ -6072,6 +6115,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isPrintItem" Type="Boolean" />
           <Property Name="isAllowMarketBriefAttachment" Type="Boolean" />
           <Property Name="MarketBriefSuccessMessage" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_ItemProductDetail_Items" FromRole="ItemProductDetail" ToRole="Item" />
         </EntityType>
         <EntityType Name="ItemRelatedItem">
           <Key>
@@ -6308,6 +6352,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="ZoomFactor" Type="Double" />
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
           <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_Items" FromRole="Item" ToRole="ProductCategoryItem" />
+          <NavigationProperty Name="ItemProductDetails" Relationship="DomainModels.FK_ItemProductDetail_Items" FromRole="Item" ToRole="ItemProductDetail" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Items_Company" FromRole="Item" ToRole="Company" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -8873,6 +8919,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Type="String" Name="FontPath" Nullable="true" />
           <Property Type="Int32" Name="FontBytes" Nullable="true" />
         </ComplexType>
+        <Association Name="FK_ItemProductDetail_Items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemProductDetail" Role="ItemProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="ItemProductDetail">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Items_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8882,6 +8952,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
                 <ScalarProperty Name="PickupAddressId" ColumnName="PickupAddressId" />
                 <ScalarProperty Name="MapImageUrl" ColumnName="MapImageURL" />

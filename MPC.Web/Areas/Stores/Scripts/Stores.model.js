@@ -2638,6 +2638,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             htmlData = ko.observable(specifiedHtml),
             widgetName = ko.observable(specifiedWidgetName),
             companyId = ko.observable(specifiedCompanyId),
+            cmsSkinPageWidgetParam = ko.observable(new CmsSkinPageWidgetParam()),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -2646,6 +2647,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 WidgetId: widgetId(),
                 Sequence: sequence(),
                 CompanyId: companyId(),
+                CmsSkinPageWidgetParam:cmsSkinPageWidgetParam().convertToServerData(),
+                CmsSkinPageWidgetParams: []
             };
         };
         self = {
@@ -2656,11 +2659,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             htmlData: htmlData,
             widgetName: widgetName,
             companyId: companyId,
+            cmsSkinPageWidgetParam: cmsSkinPageWidgetParam,
             convertToServerData: convertToServerData,
         };
         return self;
     };
-
     CmsSkingPageWidget.Create = function (source) {
         return new CmsSkingPageWidget(
              source.PageWidgetId,
@@ -2672,7 +2675,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                );
 
     };
-
     CmsPageWithWidgetList = function () {
         var self,
             pageId = ko.observable(),
@@ -2695,6 +2697,38 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion __________________  CMS Skin Page Widget   ______________________
 
     // #region __________________  P A Y M E N T   M E T H O D   ______________________
+
+    //// __________________ Cms Skin Page Widget Param  ______________________//
+    var CmsSkinPageWidgetParam = function (specifiedPageWidgetParamId, specifiedPageWidgetId, specifiedParamValue) {
+
+        var self,
+            pageWidgetParamId = ko.observable(specifiedPageWidgetParamId),
+            pageWidgetId = ko.observable(specifiedPageWidgetId),
+            paramValue = ko.observable(specifiedParamValue !== undefined ? specifiedParamValue : ""),
+            editorId = ko.observable(),
+              //Convert To Server
+        convertToServerData = function () {
+            return {
+                PageWidgetParamId: pageWidgetParamId() === undefined ? 0 : pageWidgetParamId(),
+                PageWidgetId: pageWidgetId() < 0 ? 0 : pageWidgetId(),
+                ParamValue: paramValue(),
+            };
+        };
+        self = {
+            pageWidgetParamId: pageWidgetParamId,
+            pageWidgetId: pageWidgetId,
+            paramValue: paramValue,
+            editorId: editorId,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+    CmsSkinPageWidgetParam.Create = function (source) {
+        return new CmsSkinPageWidgetParam(
+             source.PageWidgetParamId,
+             source.PageWidgetId,
+             source.ParamValue);
+    };
 
     // ReSharper disable once InconsistentNaming
     var PaymentMethod = function (specifiedPaymentMethodId, specifiedMethodName, specifiedIsActive) {
@@ -3249,5 +3283,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         Widget: Widget,
         CmsSkingPageWidget: CmsSkingPageWidget,
         CmsPageWithWidgetList: CmsPageWithWidgetList,
+        CmsSkinPageWidgetParam: CmsSkinPageWidgetParam,
     };
 });

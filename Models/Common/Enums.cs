@@ -164,4 +164,12 @@ namespace MPC.Models.Common
         Draft,
         None
     };
+
+  
+
+     public enum CostCentresForWeb : int 
+    {
+        WebOrderCostCentre = 206
+    }
+
 }

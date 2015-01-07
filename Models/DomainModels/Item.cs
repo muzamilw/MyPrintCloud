@@ -389,6 +389,7 @@ namespace MPC.Models.DomainModels
         public virtual Invoice Invoice { get; set; }
 
         public virtual Template Template { get; set; }
+        public virtual Company Company { get; set; }
 
         public virtual ICollection<ItemAttachment> ItemAttachments { get; set; }
         public virtual ICollection<ItemImage> ItemImages { get; set; }
@@ -403,6 +404,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
+        public virtual ICollection<ItemProductDetail> ItemProductDetails { get; set; }
 
         #endregion
     }
