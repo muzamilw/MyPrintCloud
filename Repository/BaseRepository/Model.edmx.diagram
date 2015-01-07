@@ -197,6 +197,7 @@
         <EntityTypeShape EntityType="DomainModels.TemplateFont" Width="1.5" PointX="7" PointY="74.375" />
         <AssociationConnector Association="DomainModels.FK_ProductFonts_Products" />
         <AssociationConnector Association="DomainModels.FK_ItemProductDetail_Items" />
+        <AssociationConnector Association="DomainModels.FK_Items_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

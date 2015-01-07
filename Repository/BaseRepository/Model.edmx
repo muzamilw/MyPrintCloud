@@ -2921,6 +2921,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Items_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ItemStateTax_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="ItemStateTax" Type="Self.ItemStateTax" Multiplicity="*" />
@@ -4167,6 +4179,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemProductDetail" EntitySet="ItemProductDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_Items_Company" Association="Self.FK_Items_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
           <AssociationSet Name="FK_ItemStateTax_Country" Association="Self.FK_ItemStateTax_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="ItemStateTax" EntitySet="ItemStateTax" />
@@ -4942,6 +4958,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Item" EntitySet="Items" />
             <End Role="ItemProductDetail" EntitySet="ItemProductDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_Items_Company" Association="DomainModels.FK_Items_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5063,6 +5083,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="PaymentGateways" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="Company" ToRole="PaymentGateway" />
           <Property Name="TaxLabel" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="StoreId" Type="Int64" />
+          <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6332,6 +6353,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="ItemStateTaxes" Relationship="DomainModels.FK_ItemStateTax_Items" FromRole="Item" ToRole="ItemStateTax" />
           <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_Items" FromRole="Item" ToRole="ProductCategoryItem" />
           <NavigationProperty Name="ItemProductDetails" Relationship="DomainModels.FK_ItemProductDetail_Items" FromRole="Item" ToRole="ItemProductDetail" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Items_Company" FromRole="Item" ToRole="Company" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -8906,6 +8928,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="ItemProductDetail">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Items_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
