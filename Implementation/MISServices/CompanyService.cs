@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -33,6 +35,9 @@ namespace MPC.Implementation.MISServices
         private readonly IWidgetRepository widgetRepository;
         private readonly ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository;
         private readonly IProductCategoryRepository productCategoryRepository;
+        private readonly IOrganisationRepository organisationRepository;
+        private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
+        private readonly IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -249,8 +254,22 @@ namespace MPC.Implementation.MISServices
                     addressRepository.Delete(addressToDelete);
                 }
         }
-
-        private void UpdateProductCategoriesOfUpdatingCompany(CompanySavingModel companySavingModel)
+        private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
+        {
+            if (productCategory.ThumbNailBytes != null)
+            {
+                string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                productCategory.ThumbNailFileBytes = Convert.FromBase64String(base64);
+            }
+            if (productCategory.ImageBytes != null)
+            {
+                string base64Image = productCategory.ImageBytes.Substring(productCategory.ImageBytes.IndexOf(',') + 1);
+                base64Image = base64Image.Trim('\0');
+                productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);
+            }
+        }
+        private void UpdateProductCategoriesOfUpdatingCompany(CompanySavingModel companySavingModel, List<ProductCategory> productCategories)
         {
             if (companySavingModel.NewProductCategories != null)
             {
@@ -258,7 +277,11 @@ namespace MPC.Implementation.MISServices
                 foreach (var productCategory in companySavingModel.NewProductCategories)
                 {
                     productCategory.CompanyId = companySavingModel.Company.CompanyId;
+                    SaveProductCategoryThumbNailImage(productCategory);
                     productCategoryRepository.Add(productCategory);
+                    //companyToBeUpdated.ProductCategories.Add(productCategory);
+                    productCategories.Add(productCategory);
+
                 }
             }
             if (companySavingModel.EdittedProductCategories != null)
@@ -266,6 +289,9 @@ namespace MPC.Implementation.MISServices
                 foreach (var productCategory in companySavingModel.EdittedProductCategories)
                 {
                     productCategoryRepository.Update(productCategory);
+                    SaveProductCategoryThumbNailImage(productCategory);
+                    //companyToBeUpdated.ProductCategories.Update(productCategory);
+                    productCategories.Add(productCategory);
                 }
             if (companySavingModel.DeletedProductCategories != null)
                 //Delete Product Categories
@@ -273,6 +299,7 @@ namespace MPC.Implementation.MISServices
                 {
                     var productCategoryToDelete = productCategoryRepository.Find(productCategory.ProductCategoryId);
                     productCategoryRepository.Delete(productCategoryToDelete);
+                    //companyToBeUpdated.ProductCategories.Delete(productCategory);
                 }
         }
 
@@ -318,6 +345,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            var productCategories = new List<ProductCategory>();
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
@@ -325,14 +353,104 @@ namespace MPC.Implementation.MISServices
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
-            UpdateProductCategoriesOfUpdatingCompany(companySavingModel);
+            UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
+
+            //Save Files
+            companyToBeUpdated.ProductCategories = productCategories;
+            SaveFilesOfProductCategories(companyToBeUpdated);
+
             return companySavingModel.Company;
+        }
+
+        private void SaveFilesOfProductCategories(Company company)
+        {
+            // Update Organisation MISLogoStreamId
+            Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
+            //IEnumerable<ProductCategory> productCategories = productCategoryRepository.GetAllCategoriesByStoreId(company.CompanyId);
+            if (organisation == null)
+            {
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+                    LanguageResources.MyOrganisationService_OrganisationNotFound,
+                    organisationRepository.OrganisationId));
+            }
+            string pathLocator = "\\Organisation" + organisation.OrganisationId;
+            if (
+                string.IsNullOrEmpty(productCategoryFileTableViewRepository.GetNewPathLocator(pathLocator,
+                    FileTableCaption.Category)))
+            {
+                CategoryFileTableView categoryFile = productCategoryFileTableViewRepository.Create();
+                productCategoryFileTableViewRepository.Add(categoryFile);
+                categoryFile.Name = "Organisation" + organisation.OrganisationId;
+                categoryFile.UncPath = pathLocator;
+                categoryFile.IsDirectory = true;
+                categoryFile.FileTableName = FileTableCaption.Category;
+                // Save to File Table
+                productCategoryFileTableViewRepository.SaveChanges();
+            }
+            if (company.ProductCategories != null)
+            {
+                Dictionary<long, List<CategoryFileTableView>> categoryFileTableViews = new Dictionary<long, List<CategoryFileTableView>>();
+                foreach (var productCategory in company.ProductCategories)
+                {
+
+                    categoryFileTableViews[productCategory.ProductCategoryId] = new List<CategoryFileTableView>();
+                    if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
+                    {
+                        // Add File
+                        CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
+
+                        categoryFileTableView.Name = productCategory.ThumbNailFileName + "_" + productCategory.ProductCategoryId + "_Thumbnail";
+                        categoryFileTableView.FileStream = productCategory.ThumbNailFileBytes;
+                        categoryFileTableView.FileTableName = FileTableCaption.Category;
+                        categoryFileTableView.UncPath = pathLocator;
+                        productCategoryFileTableViewRepository.Add(categoryFileTableView);
+
+                        categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
+                    }
+                    if (!string.IsNullOrEmpty(productCategory.ImageBytes))
+                    {
+                        // Add File
+                        CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
+
+                        categoryFileTableView.Name = productCategory.ImageFileName + "_" + productCategory.ProductCategoryId + "_Image";
+                        categoryFileTableView.FileStream = productCategory.ImageFileBytes;
+                        categoryFileTableView.FileTableName = FileTableCaption.Category;
+                        categoryFileTableView.UncPath = pathLocator;
+                        productCategoryFileTableViewRepository.Add(categoryFileTableView);
+
+                        categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
+                    }
+
+                }
+                productCategoryFileTableViewRepository.SaveChanges();
+
+                foreach (var categoryFileTableView in categoryFileTableViews)
+                {
+                    ProductCategory category =
+                        company.ProductCategories.FirstOrDefault(p => p.ProductCategoryId == categoryFileTableView.Key);
+                    if (category != null)
+                    {
+                        CategoryFileTableView view = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ThumbNailFileName + "_" + category.ProductCategoryId + "_Thumbnail");
+                        if (view != null)
+                        {
+                            category.ThumbnailStreamId = view.StreamId;
+                        }
+                        CategoryFileTableView view2 = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ImageFileName + "_" + category.ProductCategoryId + "_Image");
+                        if (view2 != null)
+                        {
+                            category.ImageStreamId = view2.StreamId;
+                        }
+                    }
+                }
+
+                productCategoryFileTableViewRepository.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -354,7 +472,19 @@ namespace MPC.Implementation.MISServices
                             if (skinPageWidgetDbVsersion != null && skinPageWidgetDbVsersion.PageWidgetId > 0)
                             {
                                 skinPageWidgetDbVsersion.Sequence = cmsSkinPageWidget.Sequence;
+                                CmsSkinPageWidgetParam skinPageWidgetParam =
+                                    cmsSkinPageWidget.CmsSkinPageWidgetParams != null
+                                        ? cmsSkinPageWidget.CmsSkinPageWidgetParams.FirstOrDefault(
+                                            p => p.PageWidgetParamId == cmsSkinPageWidget.PageWidgetId)
+                                        : null;
 
+                                if (skinPageWidgetParam != null)
+                                {
+                                    foreach (var dbVersionParam in skinPageWidgetDbVsersion.CmsSkinPageWidgetParams)
+                                    {
+                                        dbVersionParam.ParamValue = skinPageWidgetParam.ParamValue;
+                                    }
+                                }
                             }
                             else
                             {
@@ -740,7 +870,8 @@ namespace MPC.Implementation.MISServices
             ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
              IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
-            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository)
+            IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository,
+            IOrganisationRepository organisationRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository, IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -760,6 +891,9 @@ namespace MPC.Implementation.MISServices
             this.widgetRepository = widgetRepository;
             this.cmsSkinPageWidgetRepository = cmsSkinPageWidgetRepository;
             this.productCategoryRepository = productCategoryRepository;
+            this.organisationRepository = organisationRepository;
+            this.mpcFileTableViewRepository = mpcFileTableViewRepository;
+            this.productCategoryFileTableViewRepository = productCategoryFileTableViewRepository;
         }
         #endregion
 

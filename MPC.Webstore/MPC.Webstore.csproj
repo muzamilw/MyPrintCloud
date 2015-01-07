@@ -253,6 +253,8 @@
     <Compile Include="Areas\dashboard\dashboardAreaRegistration.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateFontsController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateObjectController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplatePageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateSPController.cs" />
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />

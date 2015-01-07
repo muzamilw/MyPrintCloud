@@ -278,6 +278,7 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Api\ModelMappers\CampaignMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CmsSkinPageWidgetParamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactRoleMapper.cs" />
@@ -319,6 +320,7 @@
     <Compile Include="Areas\Api\Models\CmsPageWidgetResponse.cs" />
     <Compile Include="Areas\Api\Models\CmsPageWithWidgetList.cs" />
     <Compile Include="Areas\Api\Models\CmsSkinPageWidget.cs" />
+    <Compile Include="Areas\Api\Models\CmsSkinPageWidgetParam.cs" />
     <Compile Include="Areas\Api\Models\CompanyBanner.cs" />
     <Compile Include="Areas\Api\Models\CompanyBannerSet.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
@@ -1385,6 +1387,7 @@
     <Content Include="Areas\Stores\Views\Shared\_HomeWidget.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AboutUs.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ProductCategoryDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_CkEditorDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\DeliveryAddOnsDetail.cshtml" />
     <Content Include="Areas\Settings\Views\Home\DeliveryCarrier.cshtml" />
     <Content Include="Areas\Settings\Views\Home\DeliveryCostCentres.cshtml" />
@@ -1403,6 +1406,7 @@
     <Content Include="RichTextEditor\samples\assets\posteddata.php" />
     <Content Include="RichTextEditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="RichTextEditor\skins\moono\readme.md" />
+    <None Include="Properties\PublishProfiles\mvcMISpublish.pubxml" />
     <None Include="Scripts\amplify-vsdoc.js" />
     <Content Include="Scripts\amplify.js" />
     <Content Include="Scripts\amplify.min.js" />

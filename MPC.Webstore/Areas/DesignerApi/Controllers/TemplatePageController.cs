@@ -36,7 +36,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public HttpResponseMessage GetTemplate(int id)
+        public HttpResponseMessage GetTemplatePages(int id)
         {
             var template = templatePageService.GetTemplatePages(id);
             var formatter = new JsonMediaTypeFormatter();
@@ -46,15 +46,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
          
         }
+        public HttpResponseMessage GetTemplatePagesSP(int id)
+        {
+            var template = templatePageService.GetTemplatePages(id);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
 
-
-        //    public string update(Stream data)
-        // public string preview(Stream data)
-        // public string savecontine(Stream data)
-        // public Stream GetFoldLine(string TemplateID)
-        //public Stream GetCategoryV2(string CategoryIDStr)
-        //public Stream GetProductV2(string TemplateID,string CategoryIDStr,string heightStr, string widthStr)
-        //public Stream GetCatListV2(string CategoryIDStr, string pageNoStr, string pageSizeStr)
+        }
         #endregion
     }
 }

@@ -134,6 +134,7 @@
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
     <Compile Include="DomainModels\Role.cs" />
+    <Compile Include="DomainModels\sp_GetUsedFontsUpdated_Result.cs" />
     <Compile Include="DomainModels\TemplateColorStyle.cs" />
     <Compile Include="DomainModels\TemplateFileTableView.cs" />
     <Compile Include="DomainModels\StoreFileTableView.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="DomainModels\ChartOfAccount.cs" />
     <Compile Include="DomainModels\Template.cs" />
     <Compile Include="DomainModels\TemplateBackgroundImage.cs" />
+    <Compile Include="DomainModels\TemplateFont.cs" />
     <Compile Include="DomainModels\TemplateObject.cs" />
     <Compile Include="DomainModels\TemplatePage.cs" />
     <Compile Include="DomainModels\TemplateVariable.cs" />

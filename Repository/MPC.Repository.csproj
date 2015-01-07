@@ -196,6 +196,7 @@
     <Compile Include="Repositories\ItemStateTaxRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />
     <Compile Include="Repositories\ItemAddonCostCentreRepository.cs" />
+    <Compile Include="Repositories\ItemStockControlRepository.cs" />
     <Compile Include="Repositories\ItemStockOptionRepository.cs" />
     <Compile Include="Repositories\CostCentreRepository.cs" />
     <Compile Include="Repositories\ItemPriceMatrixRepository.cs" />
@@ -204,8 +205,11 @@
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PaymentGatewayRepository.cs" />
     <Compile Include="Repositories\PaymentMethodRepository.cs" />
+    <Compile Include="Repositories\ProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
+    <Compile Include="Repositories\TemplateFontsRepository.cs" />
+    <Compile Include="Repositories\TemplateObjectRepository.cs" />
     <Compile Include="Repositories\TemplatePageRepository.cs" />
     <Compile Include="Repositories\TemplateRepository.cs" />
     <Compile Include="Repositories\ItemVideoRepository.cs" />

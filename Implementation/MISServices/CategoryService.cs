@@ -16,15 +16,16 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly IProductCategoryRepository productCategoryRepository;
-        
+        private readonly IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository;
         
         #endregion
 
         #region Constructor
 
-        public CategoryService(IProductCategoryRepository productCategoryRepository)
+        public CategoryService(IProductCategoryRepository productCategoryRepository, IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository)
         {
             this.productCategoryRepository = productCategoryRepository;
+            this.productCategoryFileTableViewRepository = productCategoryFileTableViewRepository;
         }
         #endregion
 
@@ -39,6 +40,22 @@ namespace MPC.Implementation.MISServices
         public ProductCategory GetProductCategoryById(int categoryId)
         {
             var result = productCategoryRepository.GetCategoryById(categoryId);
+            if (result.ThumbnailStreamId.HasValue)
+            {
+                CategoryFileTableView categoryfileTableView = productCategoryFileTableViewRepository.GetByStreamId(result.ThumbnailStreamId.Value);
+                if (categoryfileTableView != null)
+                {
+                    result.ThumbNailFileBytes = categoryfileTableView.FileStream;
+                }
+            }
+            if (result.ImageStreamId.HasValue)
+            {
+                CategoryFileTableView categoryfileTableView = productCategoryFileTableViewRepository.GetByStreamId(result.ImageStreamId.Value);
+                if (categoryfileTableView != null)
+                {
+                    result.ImageFileBytes = categoryfileTableView.FileStream;
+                }
+            }
             return result;
         }
         #endregion

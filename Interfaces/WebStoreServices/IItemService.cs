@@ -26,6 +26,8 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID);
 
         void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
+        ItemStockControl GetStockItem(long itemId);
+        List<AddOnCostsCenter> GetStockOptionCostCentres(long itemId, long companyId);
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
     }

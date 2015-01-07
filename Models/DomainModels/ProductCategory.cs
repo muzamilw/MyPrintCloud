@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -60,8 +62,47 @@ namespace MPC.Models.DomainModels
         public bool? IsShowStockStatus { get; set; }
         public bool? IsShowProductDescription { get; set; }
         public bool? IsShowProductShortDescription { get; set; }
+        public Guid? ImageStreamId { get; set; }
+        public Guid? ThumbnailStreamId { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
+
+        #region Additional Properties
+        /// <summary>
+        /// Product Category ThumbNail File Bytes
+        /// </summary>
+        [NotMapped]
+        public string ThumbNailBytes { get; set; }
+
+        /// <summary>
+        /// Product Category Thumb Nail Name
+        /// </summary>
+        [NotMapped]
+        public string ThumbNailFileName { get; set; }
+
+        /// <summary>
+        /// Product Category Thumb Nail Name
+        /// </summary>
+        [NotMapped]
+        public byte[] ThumbNailFileBytes { get; set; }
+        /// <summary>
+        /// Product Category Image File Bytes
+        /// </summary>
+        [NotMapped]
+        public string ImageBytes { get; set; }
+
+        /// <summary>
+        /// Product Category Image Name
+        /// </summary>
+        [NotMapped]
+        public string ImageFileName { get; set; }
+
+        /// <summary>
+        /// Product Category Image Name
+        /// </summary>
+        [NotMapped]
+        public byte[] ImageFileBytes { get; set; }
+        #endregion
     }
 }

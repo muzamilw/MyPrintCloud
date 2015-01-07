@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClaimHelper.cs" />
+    <Compile Include="ColorDataList.cs" />
     <Compile Include="DesignerUtils.cs" />
     <Compile Include="LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>

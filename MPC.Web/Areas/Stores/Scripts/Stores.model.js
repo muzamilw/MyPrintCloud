@@ -2592,6 +2592,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             htmlData = ko.observable(specifiedHtml),
             widgetName = ko.observable(specifiedWidgetName),
             companyId = ko.observable(specifiedCompanyId),
+            cmsSkinPageWidgetParam = ko.observable(new CmsSkinPageWidgetParam()),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -2600,6 +2601,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 WidgetId: widgetId(),
                 Sequence: sequence(),
                 CompanyId: companyId(),
+                CmsSkinPageWidgetParam:cmsSkinPageWidgetParam().convertToServerData(),
+                CmsSkinPageWidgetParams: []
             };
         };
         self = {
@@ -2610,11 +2613,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             htmlData: htmlData,
             widgetName: widgetName,
             companyId: companyId,
+            cmsSkinPageWidgetParam: cmsSkinPageWidgetParam,
             convertToServerData: convertToServerData,
         };
         return self;
     };
-
     CmsSkingPageWidget.Create = function (source) {
         return new CmsSkingPageWidget(
              source.PageWidgetId,
@@ -2626,7 +2629,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                );
 
     };
-
     CmsPageWithWidgetList = function () {
         var self,
             pageId = ko.observable(),
@@ -2645,6 +2647,38 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             convertToServerData: convertToServerData,
         };
         return self;
+    };
+
+    //// __________________ Cms Skin Page Widget Param  ______________________//
+    var CmsSkinPageWidgetParam = function (specifiedPageWidgetParamId, specifiedPageWidgetId, specifiedParamValue) {
+
+        var self,
+            pageWidgetParamId = ko.observable(specifiedPageWidgetParamId),
+            pageWidgetId = ko.observable(specifiedPageWidgetId),
+            paramValue = ko.observable(specifiedParamValue !== undefined ? specifiedParamValue : ""),
+            editorId = ko.observable(),
+              //Convert To Server
+        convertToServerData = function () {
+            return {
+                PageWidgetParamId: pageWidgetParamId() === undefined ? 0 : pageWidgetParamId(),
+                PageWidgetId: pageWidgetId() < 0 ? 0 : pageWidgetId(),
+                ParamValue: paramValue(),
+            };
+        };
+        self = {
+            pageWidgetParamId: pageWidgetParamId,
+            pageWidgetId: pageWidgetId,
+            paramValue: paramValue,
+            editorId: editorId,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+    CmsSkinPageWidgetParam.Create = function (source) {
+        return new CmsSkinPageWidgetParam(
+             source.PageWidgetParamId,
+             source.PageWidgetId,
+             source.ParamValue);
     };
 
     //// __________________  P A Y M E N T   M E T H O D   ______________________//
@@ -2798,9 +2832,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedZoomFactor, specifiedScaleFactor, specifiedisShelfProductCategory, specifiedMetaKeywords, specifiedMetaDescription, specifiedMetaTitle, specifiedOrganisationId,
         specifiedSubCategoryDisplayMode1, specifiedSubCategoryDisplayMode2, specifiedSubCategoryDisplayColumns, specifiedCategoryURLText, specifiedMetaOverride, specifiedShortDescription,
         specifiedSecondaryDescription, specifiedDefaultSortBy, specifiedProductsDisplayColumns, specifiedProductsDisplayRows, specifiedIsDisplayFeaturedproducts, specifiedIsShowAvailablity,
-        specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription) {
+        specifiedIsShowRewardPoints, specifiedIsShowListPrice, specifiedIsShowSalePrice, specifiedIsShowStockStatus, specifiedIsShowProductDescription, specifiedIsShowProductShortDescription, 
+        specifiedProductCategoryThumbnailFileBinary, specifiedProductCategoryImageFileBinary
+    ) {
         var productCategoryId = ko.observable(specifiedProductCategoryId),
-            categoryName = ko.observable(specifiedCategoryName),
+            categoryName = ko.observable(specifiedCategoryName).extend({ required: true }),
             contentType = ko.observable(specifiedContentType),
             description1 = ko.observable(specifiedDescription1),
             description2 = ko.observable(specifiedDescription2),
@@ -2852,15 +2888,15 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isShowStockStatus = ko.observable(specifiedIsShowStockStatus),
             isShowProductDescription = ko.observable(specifiedIsShowProductDescription),
             isShowProductShortDescription = ko.observable(specifiedIsShowProductShortDescription),
-            productCategoryThumbnailFileBinary = ko.observable(specifiedThumbnailPath),
+            productCategoryThumbnailFileBinary = ko.observable(specifiedProductCategoryThumbnailFileBinary),
             productCategoryThumbnailName = ko.observable(),
             productCategoryImageName = ko.observable(),
-            productCategoryImageFileBinary = ko.observable(specifiedImagePath),
+            productCategoryImageFileBinary = ko.observable(specifiedProductCategoryImageFileBinary),
             errors = ko.validation.group({
-                
+                categoryName: categoryName
             }),
             // Is Valid
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
             // True if the product has been changed
@@ -2921,74 +2957,76 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 isShowProductShortDescription: isShowProductShortDescription,
             }),
             // Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function() {
-                var result= {
+            convertToServerData = function () {
+                var result = {
                     //RoleId: roleId(),
                     //RoleName: roleName()
-                    ProductCategoryId  :productCategoryId(),
-                    CategoryName  : categoryName(),
-                    ContentType  : contentType(),
-                    Description1  :description1() ,
-                    Description2  :description2(),
-                    LockedBy  : lockedBy(),
-                    CompanyId  :companyId() ,
-                    ParentCategoryId  : parentCategoryId(),
-                    DisplayOrder  : displayOrder(),
-                    ImagePath  : imagePath(),
-                    ThumbnailPath  : thumbnailPath(),
-                    isEnabled  : isEnabled(),
-                    isMarketPlace  :isMarketPlace(),
-                    TemplateDesignerMappedCategoryName  :templateDesignerMappedCategoryName(),
-                    isArchived  : isArchived(),
-                    isPublished  :isPublished(),
-                    TrimmedWidth  : trimmedWidth(),
-                    TrimmedHeight  : trimmedHeight(),
-                    isColorImposition  :isColorImposition(),
-                    isOrderImposition  : isOrderImposition(),
-                    isLinkToTemplates  :isLinkToTemplates(),
-                    Sides  : sides(),
-                    ApplySizeRestrictions  :applySizeRestrictions(),
-                    ApplyFoldLines  : applyFoldLines(),
-                    WidthRestriction  : widthRestriction(),
-                    HeightRestriction  :heightRestriction(),
-                    CategoryTypeId  :categoryTypeId(),
-                    RegionId  : regionId(),
-                    ZoomFactor  :zoomFactor(),
-                    ScaleFactor  : scaleFactor(),
-                    isShelfProductCategory  : isShelfProductCategory(),
-                    MetaKeywords  : metaKeywords(),
-                    MetaDescription  : metaDescription(),
-                    MetaTitle  : metaTitle(),
-                    OrganisationId  : organisationId(),
-                    SubCategoryDisplayMode1  : subCategoryDisplayMode1(),
-                    SubCategoryDisplayMode2  : subCategoryDisplayMode2(),
-                    SubCategoryDisplayColumns  : subCategoryDisplayColumns(),
-                    CategoryURLText  : categoryURLText(),
-                    MetaOverride  : metaOverride(),
-                    ShortDescription  : shortDescription(),
-                    SecondaryDescription  : secondaryDescription(),
-                    DefaultSortBy  : defaultSortBy(),
-                    ProductsDisplayColumns  : productsDisplayColumns(),
-                    ProductsDisplayRows  : productsDisplayRows(),
-                    IsDisplayFeaturedproducts  : isDisplayFeaturedproducts(),
-                    IsShowAvailablity  : isShowAvailablity(),
-                    IsShowRewardPoints  :isShowRewardPoints(),
-                    IsShowListPrice  : isShowListPrice(),
-                    IsShowSalePrice  : isShowSalePrice(),
-                    IsShowStockStatus  : isShowStockStatus(),
-                    IsShowProductDescription  : isShowProductDescription(),
+                    ProductCategoryId: productCategoryId(),
+                    CategoryName: categoryName(),
+                    ContentType: contentType(),
+                    Description1: description1(),
+                    Description2: description2(),
+                    LockedBy: lockedBy(),
+                    CompanyId: companyId(),
+                    ParentCategoryId: parentCategoryId(),
+                    DisplayOrder: displayOrder(),
+                    ImagePath: imagePath(),
+                    ThumbnailPath: thumbnailPath(),
+                    //isEnabled: isEnabled(),
+                    isEnabled: isEnabled(),
+                    isMarketPlace: isMarketPlace(),
+                    TemplateDesignerMappedCategoryName: templateDesignerMappedCategoryName(),
+                    isArchived: isEnabled() == true ? false: true,
+                    isPublished: isPublished(),
+                    TrimmedWidth: trimmedWidth(),
+                    TrimmedHeight: trimmedHeight(),
+                    isColorImposition: isColorImposition(),
+                    isOrderImposition: isOrderImposition(),
+                    isLinkToTemplates: isLinkToTemplates(),
+                    Sides: sides(),
+                    ApplySizeRestrictions: applySizeRestrictions(),
+                    ApplyFoldLines: applyFoldLines(),
+                    WidthRestriction: widthRestriction(),
+                    HeightRestriction: heightRestriction(),
+                    CategoryTypeId: categoryTypeId(),
+                    RegionId: regionId(),
+                    ZoomFactor: zoomFactor(),
+                    ScaleFactor: scaleFactor(),
+                    isShelfProductCategory: isShelfProductCategory(),
+                    MetaKeywords: metaKeywords(),
+                    MetaDescription: metaDescription(),
+                    MetaTitle: metaTitle(),
+                    OrganisationId: organisationId(),
+                    SubCategoryDisplayMode1: subCategoryDisplayMode1(),
+                    SubCategoryDisplayMode2: subCategoryDisplayMode2(),
+                    SubCategoryDisplayColumns: subCategoryDisplayColumns(),
+                    CategoryURLText: categoryURLText(),
+                    MetaOverride: metaOverride(),
+                    ShortDescription: shortDescription(),
+                    SecondaryDescription: secondaryDescription(),
+                    DefaultSortBy: defaultSortBy(),
+                    ProductsDisplayColumns: productsDisplayColumns(),
+                    ProductsDisplayRows: productsDisplayRows(),
+                    IsDisplayFeaturedproducts: isDisplayFeaturedproducts(),
+                    IsShowAvailablity: isShowAvailablity(),
+                    IsShowRewardPoints: isShowRewardPoints(),
+                    IsShowListPrice: isShowListPrice(),
+                    IsShowSalePrice: isShowSalePrice(),
+                    IsShowStockStatus: isShowStockStatus(),
+                    IsShowProductDescription: isShowProductDescription(),
                     IsShowProductShortDescription: isShowProductShortDescription(),
                 };
                 //productCategoryThumbnailName: productCategoryThumbnailName,
                 //productCategoryImageName: productCategoryImageName,
-                result.ProductCategoryThumbnailName = productCategoryThumbnailName() === undefined ? null : productCategoryThumbnailName();
-                result.ProductCategoryImageName = productCategoryImageName() === undefined ? null : productCategoryImageName();
+                result.ThumbnailName = productCategoryThumbnailName() === undefined ? null : productCategoryThumbnailName();
+                result.ImageName = productCategoryImageName() === undefined ? null : productCategoryImageName();
                 result.ThumbnailBytes = productCategoryThumbnailFileBinary() === undefined ? null : productCategoryThumbnailFileBinary();
                 result.ImageBytes = productCategoryImageFileBinary() === undefined ? null : productCategoryImageFileBinary();
+             
                 return result;
             };
         return {
@@ -3167,7 +3205,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.IsShowSalePrice,
             source.IsShowStockStatus,
             source.IsShowProductDescription,
-            source.IsShowProductShortDescription
+            source.IsShowProductShortDescription,
+            source.ThumbNailSource,
+            source.ImageSource
         );
         return productCategory;
     };
@@ -3197,5 +3237,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         Widget: Widget,
         CmsSkingPageWidget: CmsSkingPageWidget,
         CmsPageWithWidgetList: CmsPageWithWidgetList,
+        CmsSkinPageWidgetParam: CmsSkinPageWidgetParam,
     };
 });
