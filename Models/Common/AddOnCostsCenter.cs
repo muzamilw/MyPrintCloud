@@ -82,7 +82,7 @@ namespace MPC.Models.Common
 
         public double? Qty1NetTotal { get; set; }
 
-        public int? EstimateProductionTime { get; set; }
+        public decimal EstimateProductionTime { get; set; }
 
         public double? ProfitMargin { get; set; }
 

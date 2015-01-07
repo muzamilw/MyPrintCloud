@@ -24,5 +24,45 @@ namespace MPC.Webstore.Common
                 return "";
             }
         }
+        public static string FormatDecimalValueToTwoDecimal(string valueToFormat, string currenctySymbol)
+        {
+            return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToTwoDecimal(valueToFormat));
+        }
+        public static string FormatDecimalValueToTwoDecimal(string valueToFormat)
+        {
+            if (!string.IsNullOrEmpty(valueToFormat))
+            {
+                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+            }
+            else
+            {
+                return "";
+            }
+            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
+
+
+        }
+
+        public static DateTime AddBusinessdays(decimal ProductionDays, DateTime StartingDay)
+        {
+            var sign = ProductionDays < 0 ? -1 : 1;
+
+            var unsignedDays = Math.Abs(ProductionDays);
+
+            var weekdaysAdded = 0;
+
+            DateTime Estimateddate = StartingDay;
+
+            while (weekdaysAdded < unsignedDays)
+            {
+                Estimateddate = Estimateddate.AddDays(sign);
+
+                if (Estimateddate.DayOfWeek != DayOfWeek.Saturday && Estimateddate.DayOfWeek != DayOfWeek.Sunday)
+
+                    weekdaysAdded++;
+
+            }
+            return Estimateddate;
+        }
     }
 }

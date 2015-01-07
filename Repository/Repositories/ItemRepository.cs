@@ -14,6 +14,10 @@ using System.Reflection;
 using System.Web;
 using Newtonsoft.Json;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using WebSupergoo.ABCpdf8;
 
 
 namespace MPC.Repository.Repositories
@@ -135,7 +139,7 @@ namespace MPC.Repository.Repositories
                 return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
         }
 
-        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID,Company NewCustomer)
+        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, int objContactID,Company NewCustomer)
         {
             Template clonedTemplate = new Template();
           
@@ -157,7 +161,7 @@ namespace MPC.Repository.Repositories
 
             newItem.ItemId = 0;
             newItem.IsPublished = false;
-            newItem.RefItemId = itemID; // the refrencedid
+             // the refrencedid
                
                 //newItem.EstimateId = OrderID; //orderid
               //  newItem.CompanyId = CustomerID; //customerid
@@ -168,7 +172,14 @@ namespace MPC.Repository.Repositories
               //  newItem.Qty1NetTotal = netTotal;
               //  newItem.Qty1GrossTotal = grossTotal;
                 newItem.InvoiceId = null;
+            if(isCopyProduct)
+                newItem.IsOrderedItem = true;
+            else
+            {
                 newItem.IsOrderedItem = false;
+                newItem.RefItemId = itemID;
+            }
+                
                 newItem.ProductType = tblItemProduct.ProductType;
             //    newItem.IsMarketingBrief = tblItemProduct.IsMarketingBrief;
            //     newItem.EstimateProductionTime = tblItemProduct.EstimateProductionTime;
@@ -1024,6 +1035,346 @@ namespace MPC.Repository.Repositories
            
                 return db.ProductMarketBriefAnswers.Where(i => i.MarketBriefQuestionId == QID).ToList();
             
+        }
+        public void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate)
+        {
+            int sideNumber = 1;
+            List<ItemAttachment> attchmentRes = GetItemAttactchments(itemID);
+            List<ItemAttachment> Newattchments = new List<ItemAttachment>();
+            ItemAttachment obj = null;
+
+            foreach (ItemAttachment attachment in attchmentRes)
+            {
+                obj = new ItemAttachment();
+
+                obj.ApproveDate = attachment.ApproveDate;
+                obj.Comments = attachment.Comments;
+                obj.ContactId = attachment.ContactId;
+                obj.ContentType = attachment.ContentType;
+                obj.CompanyId = attachment.CompanyId;
+                obj.FileTitle = attachment.FileTitle;
+                obj.FileType = attachment.FileType;
+                obj.FolderPath = attachment.FolderPath;
+                obj.IsApproved = attachment.IsApproved;
+                obj.isFromCustomer = attachment.isFromCustomer;
+                obj.Parent = attachment.Parent;
+                obj.Type = attachment.Type;
+                obj.UploadDate = attachment.UploadDate;
+                obj.Version = attachment.Version;
+                obj.ItemId = NewItem.ItemId;
+                if (NewItem.TemplateId > 0)
+                {
+                    obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode, "Side" + sideNumber.ToString(), attachment.FolderPath, attachment.FileType, OrderCreationDate); //NewItemID + " Side" + sideNumber + attachment.FileType;
+                }
+                else
+                {
+                    obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode, sideNumber.ToString() + "Copy", attachment.FolderPath, attachment.FileType, OrderCreationDate); //NewItemID + " Side" + sideNumber + attachment.FileType;
+                }
+                sideNumber += 1;
+                db.ItemAttachments.Add(obj);
+                Newattchments.Add(obj);
+
+                // Copy physical file
+                string sourceFileName = null;
+                string destFileName = null;
+                if (NewItem.TemplateId > 0 && CopyTemplate == true)
+                {
+                    sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + System.IO.Path.GetFileNameWithoutExtension(attachment.FileName) + "Thumb.png");
+                    destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                }
+                else
+                {
+                    sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName);
+                    destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                }
+
+                if (File.Exists(sourceFileName))
+                {
+                    File.Copy(sourceFileName, destFileName);
+
+                    // Generate the thumbnail
+
+                    byte[] fileData = File.ReadAllBytes(destFileName);
+
+                    if (obj.FileType == ".pdf" || obj.FileType == ".TIF" || obj.FileType == ".TIFF")
+                    {
+                        GenerateThumbnailForPdf(fileData, destFileName, false);
+                    }
+                    else
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        ms.Write(fileData, 0, fileData.Length);
+
+                        CreatAndSaveThumnail(ms, destFileName);
+                    }
+                }
+
+            }
+
+            db.SaveChanges();
+        }
+        public List<ItemAttachment> GetItemAttactchments(int itemID)
+        {
+          
+            return (from Attachment in db.ItemAttachments
+                    where Attachment.ItemId == itemID
+                    select Attachment).ToList();
+        }
+        public static string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
+        {
+            string FileName = CreationDate.Year.ToString() + CreationDate.ToString("MMMM") + CreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
+
+            return FileName;
+        }
+        public static string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate)
+        {
+            string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
+            //checking whether file exists or not
+            while (System.IO.File.Exists(VirtualFolderPath + FileName))
+            {
+                string fileName1 = System.IO.Path.GetFileNameWithoutExtension(FileName);
+                fileName1 += "a";
+                FileName = fileName1 + extension;
+            }
+
+
+            return FileName;
+        }
+        public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
+        {
+            try
+            {
+                using (Doc theDoc = new Doc())
+                {
+                    theDoc.Read(PDFFile);
+                    theDoc.PageNumber = 1;
+                    theDoc.Rect.String = theDoc.CropBox.String;
+
+                    if (insertCuttingMargin)
+                    {
+                        theDoc.Rect.Inset((int)MPC.Models.Common.Constants.CuttingMargin, (int)MPC.Models.Common.Constants.CuttingMargin);
+                    }
+
+                    Stream oImgstream = new MemoryStream();
+
+                    theDoc.Rendering.DotsPerInch = 300;
+                    theDoc.Rendering.Save("tmp.png", oImgstream);
+
+                    theDoc.Clear();
+                    theDoc.Dispose();
+
+                    CreatAndSaveThumnail(oImgstream, sideThumbnailPath);
+                }
+                
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath)
+        {
+            try
+            {
+                string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
+                sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
+
+                sideThumbnailPath = baseAddress + "\\" + sideThumbnailPath;
+
+                Image origImage = Image.FromStream(oImgstream);
+
+                float WidthPer, HeightPer;
+
+                int NewWidth, NewHeight;
+                int ThumbnailSizeWidth = 400;
+                int ThumbnailSizeHeight = 400;
+
+                if (origImage.Width > origImage.Height)
+                {
+                    NewWidth = ThumbnailSizeWidth;
+                    WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
+                    NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
+                }
+                else
+                {
+                    NewHeight = ThumbnailSizeHeight;
+                    HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
+                    NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
+                }
+
+                Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
+                Graphics oGraphic = Graphics.FromImage(origThumbnail);
+                oGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                oGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
+                oGraphic.DrawImage(origImage, oRectangle);
+
+
+                origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove)
+        {
+            try
+            {
+               
+                    bool result = false;
+                    clonedTemplateToRemove = null;
+                    itemAttatchmetList = null;
+
+                    Item tblItem = db.Items.Where(item => item.ItemId == itemID).FirstOrDefault();
+                    if (tblItem != null)
+                    {
+                        if (RemoveCloneItem(tblItem, out itemAttatchmetList, out clonedTemplateToRemove))
+                            result = db.SaveChanges() > 0 ? true : false;
+                    }
+
+                    return result;
+           }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+          
+        
+        }
+
+
+        public bool RemoveCloneItem(Item tblItem, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove)
+        {
+            bool result = false;
+            List<ArtWorkAttatchment> itemAttatchments = null;
+            Template clonedTemplate = null;
+
+            try
+            {
+                if (tblItem != null)
+                {
+                    //tbl_items tblRefItem = GetItemById(Convert.ToInt32(tblItem.RefItemID));
+                    //if (tblRefItem.isStockControl == true)
+                    //{
+                    //    tbl_items_StockControl tblItemStock = GetStockOfItemById(dbContext, Convert.ToInt32(tblRefItem.ItemID));
+                    //    if (tblItemStock != null)
+                    //    {
+                    //        if (tblItemStock.InStock > tblItemStock.ThresholdProductionQuantity || tblItemStock.ThresholdProductionQuantity == null)
+                    //        {
+                    //            tblItemStock.InStock = tblItemStock.InStock + 1;
+                    //        }
+                    //    }
+                    //}
+                    itemAttatchments = new List<ArtWorkAttatchment>();
+
+                    //Delete Attachments                       
+                    tblItem.ItemAttachments.ToList().ForEach(att =>
+                    {
+                        db.ItemAttachments.Remove(att);
+                        //if (att.FileType == ".pdf")
+                        itemAttatchments.Add(PopulateUploadedAttactchment(att)); // gathers attatments list as well.
+                    });
+
+
+                    //Remove the Templates if he has designed any
+                    if (!ValidateIfTemplateIDIsAlreadyBooked(tblItem.ItemId, tblItem.TemplateId))
+                        clonedTemplate = RemoveTemplates(tblItem.TemplateId);
+
+                    //Section cost centeres
+                    tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
+
+
+                    //Item Section
+                    tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
+
+
+
+                    //Finally the item
+                    db.Items.Remove(tblItem);
+                  
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            itemAttatchmetList = itemAttatchments;
+            clonedTemplateToRemove = clonedTemplate;
+            return result;
+        }
+
+        public Template RemoveTemplates(int? templateID)
+        {
+            Template clonedTemplate = null;
+
+            if (templateID.HasValue && templateID.Value > 0)
+            {
+                Template tblTemplate = db.Templates.Where(template => template.ProductId == templateID.Value).FirstOrDefault();
+
+                if (tblTemplate != null)
+                {
+                    //color Style
+                    tblTemplate.TemplateColorStyles.ToList().ForEach(tempColorStyle => db.TemplateColorStyles.Remove(tempColorStyle));
+
+                    //backgourd
+                    tblTemplate.TemplateBackgroundImages.ToList().ForEach(tempBGImages => db.TemplateBackgroundImages.Remove(tempBGImages));
+
+                    //font
+                //    tblTemplate.templat.ToList().ForEach(tempFonts => db dbContext.DeleteObject(tempFonts));
+                     
+                    
+                    //object
+                    tblTemplate.TemplateObjects.ToList().ForEach(tempObj => db.TemplateObjects.Remove(tempObj));
+
+                    //Page
+                    tblTemplate.TemplatePages.ToList().ForEach(tempPage => db.TemplatePages.Remove(tempPage));
+
+
+                    // the template to remove the files in web.ui
+                    clonedTemplate = Clone<Template>(tblTemplate);
+
+                    //finally template it self
+                    db.Templates.Remove(tblTemplate);
+                }
+            }
+
+            return clonedTemplate;
+
+        }
+        public ArtWorkAttatchment PopulateUploadedAttactchment(ItemAttachment attatchment)
+        {
+
+           UploadFileTypes resultUploadedFileType;
+
+            ArtWorkAttatchment itemAttactchment = new ArtWorkAttatchment()
+            {
+                FileName = attatchment.FileName,
+                FileTitle = attatchment.FileTitle,
+                FileExtention = attatchment.FileType,
+                FolderPath = attatchment.FolderPath,
+                UploadFileType = Enum.TryParse(attatchment.Type, true, out resultUploadedFileType) ? resultUploadedFileType : UploadFileTypes.None
+            };
+
+
+            return itemAttactchment;
+        }
+        private bool ValidateIfTemplateIDIsAlreadyBooked(long itemID, long? templateID)
+        {
+            bool result = false;
+
+            if (templateID.HasValue && templateID > 0)
+            {
+                int bookedCount = db.Items.Where(item => item.ItemId != itemID && item.TemplateId == templateID.Value).Count();
+                if (bookedCount > 0)
+                    result = true;
+            }
+
+            return result;
         }
         #endregion
     }

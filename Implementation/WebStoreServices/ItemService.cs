@@ -43,10 +43,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
-        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID)
+        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, int objContactID)
         {
             Models.DomainModels.Company company = _CompanyRepository.GetStoreById((int)CustomerID);
-            return _ItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isCorporate, isSavedDesign, isCopyProduct, objContactID, company);
+            return _ItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID, company);
         }
         public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
         {
@@ -141,7 +141,30 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetMarketingInquiryAnswersByQID(QID);
         }
+        public void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate)
+        {
+            try
+            {
+                _ItemRepository.CopyAttachments(itemID, NewItem, OrderCode, CopyTemplate, OrderCreationDate);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove)
+        {
+            try
+            {
+
+                return _ItemRepository.RemoveCloneItem(itemID,out itemAttatchmetList, out clonedTemplateToRemove);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }
