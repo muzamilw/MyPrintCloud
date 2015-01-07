@@ -1,4 +1,6 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System.Collections.Generic;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Cms Skin Page Widget
@@ -12,6 +14,8 @@
         public short? Sequence { get; set; }
         public string Html { get; set; }
         public string WidgetName { get; set; }
-        //public IEnumerable<CmsSkinPageWidgetParam> CmsSkinPageWidgetParams { get; set; }
+
+        
+        public IEnumerable<CmsSkinPageWidgetParam> CmsSkinPageWidgetParams { get; set; }
     }
 }

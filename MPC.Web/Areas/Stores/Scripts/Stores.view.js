@@ -93,6 +93,14 @@ define("stores/stores.view",
                 hideEmailCamapaignDialog = function () {
                     $("#addEditCampaignEmailModal").modal("hide");
                 },
+                 // Show Ck Editor Dialog
+                showCkEditorDialogDialog = function () {
+                    $("#ckEditorDialog").modal("show");
+                },
+                // Hide Ck Editor Dialog
+                hideCkEditorDialogDialog = function () {
+                    $("#ckEditorDialog").modal("hide");
+                },
                 // Show Product Category Dialog
                 showProductCategoryDialog = function () {
                     $("#myProductCategoryModal").modal("show");
@@ -155,7 +163,9 @@ define("stores/stores.view",
                 showPaymentGatewayDialog: showPaymentGatewayDialog,
                 hidePaymentGatewayDialog: hidePaymentGatewayDialog,
                 showProductCategoryDialog: showProductCategoryDialog,
+                showCkEditorDialogDialog: showCkEditorDialogDialog,
                 hideProductCategoryDialog: hideProductCategoryDialog,
+                hideCkEditorDialogDialog: hideCkEditorDialogDialog,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
             };

@@ -116,26 +116,42 @@ require(["ko", "knockout-validation"], function (ko) {
             return false;
         return string.substring(0, startsWith.length) === startsWith;
     };
-    ko.bindingHandlers.wysiwyg = {
+
+    ko.bindingHandlers.editor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();
             var valueUnwrapped = ko.unwrap(value);
             var allBindings = allBindingsAccessor();
             var $element = $(element);
-            $element.attr('contenteditable', true);
-            //CKEDITOR.inline(element).setData(valueUnwrapped || $element.html());
-            CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
+            var myinstance = CKEDITOR.instances['content'];
+            //check if my instance already exist
+            if (myinstance !== undefined) {
+                CKEDITOR.remove(myinstance);
+            }
+            CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
+            //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
                 var isSubscriberChange = false;
                 var isEditorChange = true;
                 $element.html(value());
                 visEditorChange = false;
-
+                $.fn.modal.Constructor.prototype.enforceFocus = function () {
+                    modal_this = this;
+                    $(document).on('focusin.modal', function (e) {
+                        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+                            // add whatever conditions you need here:
+                            &&
+                            !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+                            modal_this.$element.focus();
+                        }
+                    });
+                };
                 $element.on('input, change, keyup, mouseup', function () {
                     if (!isSubscriberChange) {
                         isEditorChange = true;
                         value($element.html());
                         isEditorChange = false;
+
                     }
                 });
                 value.subscribe(function (newValue) {
@@ -144,6 +160,15 @@ require(["ko", "knockout-validation"], function (ko) {
                         $element.html(newValue);
                         isSubscriberChange = false;
                     }
+                });
+            }
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            //handle programmatic updates to the observable
+            var existingEditor = CKEDITOR.instances && CKEDITOR.instances[element.id];
+            if (existingEditor) {
+                existingEditor.setData(ko.utils.unwrapObservable(valueAccessor()), function () {
+                    this.checkDirty(); // true
                 });
             }
         }
