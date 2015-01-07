@@ -1506,7 +1506,7 @@ define("stores/stores.viewModel",
                     }
                 }),
                 //_______________   P R O D U C T    C A T E G O R Y _______________
-                    
+
                 //Product Category Counter To represent id's of new saving product categories
                 productCategoryCounter = -1,
                 //Counter to add 1 in Product Category 
@@ -1890,7 +1890,7 @@ define("stores/stores.viewModel",
                                 newWidget.widgetName(source.widget.widgetName());
                                 newWidget.pageId(selectedCurrentPageId());
                                 newWidget.widgetId(source.widget.widgetId());
-                                pageSkinWidgets.splice(0, 0, newWidget);
+                                pageSkinWidgets.push(newWidget);
                                 newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
                             } else {
                                 getWidgetDetail(source.widget);
