@@ -157,11 +157,7 @@ define("stores/stores.viewModel",
                         });
                     },
                     //#endregion _____________________  S T O R E ____________________
-                                var serverWidget = widget.convertToServerData();
-                                if (serverWidget.WidgetId === 14) {
-                                    serverWidget.CmsSkinPageWidgetParams.push(serverWidget.CmsSkinPageWidgetParam);
-                                }
-                                widgetList.push(serverWidget);
+                                
                     
                     // #region ____________________ R A V E   R E V I E W _______________
 
@@ -1563,7 +1559,12 @@ define("stores/stores.viewModel",
                                 var page = pageItem.convertToServerData();
                                 var widgetList = [];
                                 _.each(pageItem.widgets(), function (widget) {
-                                    widgetList.push(widget.convertToServerData());
+                                    var serverWidget = widget.convertToServerData();
+                                    if (serverWidget.WidgetId === 14) {
+                                        serverWidget.CmsSkinPageWidgetParams.push(serverWidget.CmsSkinPageWidgetParam);
+                                    }
+                                    widgetList.push(serverWidget);
+                                    //widgetList.push(widget.convertToServerData());
 
                                 });
                                 ko.utils.arrayPushAll(page.CmsSkinPageWidgets, widgetList);
@@ -2264,7 +2265,6 @@ define("stores/stores.viewModel",
                     isAccessCodeSectionVisible: isAccessCodeSectionVisible,
                     paymentMethodName: paymentMethodName,
                     selectedWidgetsList: selectedWidgetsList,
-                    selectedWidget: selectedWidget,
                     selectWidget: selectWidget,
                     selectedCurrentPageId: selectedCurrentPageId,
                     cmsPagesForStoreLayout: cmsPagesForStoreLayout,
@@ -2274,7 +2274,7 @@ define("stores/stores.viewModel",
                     addWidgetToPageLayout: addWidgetToPageLayout,
                     deletePageLayoutWidget: deletePageLayoutWidget,
                     highPriorityTasks: highPriorityTasks,
-                    textFieldToEdit: textFieldToEdit,
+                    //textFieldToEdit: textFieldToEdit,
                     allPagesWidgets: allPagesWidgets,
                     storeProductsViewModel: storeProductsViewModel,
                     initialize: initialize,
