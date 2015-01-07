@@ -35,5 +35,9 @@ namespace MPC.MIS.Areas.Api.Models
         /// Secondary Page Response
         /// </summary>
         public SecondaryPageResponse SecondaryPageResponse { get; set; }
+        /// <summary>
+        /// Items/ Products
+        /// </summary>
+        public ItemSearchResponse Items { get; set; }
     }
 }

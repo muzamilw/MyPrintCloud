@@ -89,7 +89,6 @@
         <EntityTypeShape EntityType="DomainModels.PrePayment" Width="1.5" PointX="23.625" PointY="15.375" />
         <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies" />
         <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contacts" />
-        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_company_sites" />
         <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_Statuses" />
         <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_estimates" />
         <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_estimates" />
@@ -197,6 +196,9 @@
         <EntityTypeShape EntityType="DomainModels.TemplateFont" Width="1.5" PointX="7" PointY="74.375" />
         <AssociationConnector Association="DomainModels.FK_ProductFonts_Products" />
         <AssociationConnector Association="DomainModels.FK_ItemProductDetail_Items" />
+        <AssociationConnector Association="DomainModels.FK_Items_Company" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategoriesView" Width="1.5" PointX="0.75" PointY="32.25" />
+        <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
