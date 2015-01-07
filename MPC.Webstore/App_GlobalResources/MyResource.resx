@@ -166,4 +166,52 @@
   <data name="lblItemOutOfStock" xml:space="preserve">
     <value>Out of Stock</value>
   </data>
+<data name="lblGL1Heading" xml:space="preserve">
+    <value>Trim Size:</value>
+  </data>
+  <data name="lblGL2Heading" xml:space="preserve">
+    <value>Bleed Area:</value>
+  </data>
+  <data name="lblGL3Heading" xml:space="preserve">
+    <value>Safe Area:</value>
+  </data>
+  <data name="lblGL4Heading" xml:space="preserve">
+    <value>File formats:</value>
+  </data>
+  <data name="lblGL5Heading" xml:space="preserve">
+    <value>Resolutions:</value>
+  </data>
+  <data name="lblGL6Heading" xml:space="preserve">
+    <value>File size:</value>
+  </data>
+  <data name="lblGL7Heading" xml:space="preserve">
+    <value>Crop Marks:</value>
+  </data>
+  <data name="lblGL8Heading" xml:space="preserve">
+    <value>Pre-flight:</value>
+  </data>
+  <data name="ltrlGL1Desc" xml:space="preserve">
+    <value>Check the diagram for artwork size guides</value>
+  </data>
+  <data name="ltrlGL2Desc" xml:space="preserve">
+    <value>Allow bleed runs off for all images that cut</value>
+  </data>
+  <data name="ltrlGL3Desc" xml:space="preserve">
+    <value>place your text and logos 5 mm inside the trim edges</value>
+  </data>
+  <data name="ltrlGL4Desc" xml:space="preserve">
+    <value>Photoshop, illustrator, Indesign, Pdf and Jpeg file formats.</value>
+  </data>
+  <data name="ltrlGL5Desc" xml:space="preserve">
+    <value>Save your file in 300 dpi resolution with embedded fonts &amp; images.</value>
+  </data>
+  <data name="ltrlGL6Desc" xml:space="preserve">
+    <value>File greater than 10 mb are not permitted for upload.</value>
+  </data>
+  <data name="ltrlGL7Desc" xml:space="preserve">
+    <value>Do not include registration or crop marks.</value>
+  </data>
+  <data name="ltrlGL8Desc" xml:space="preserve">
+    <value>Pre-flight your PDFs using the Adobe PDF/ X-1a preset.</value>
+  </data>
 </root>
