@@ -198,6 +198,7 @@
         <AssociationConnector Association="DomainModels.FK_ProductFonts_Products" />
         <AssociationConnector Association="DomainModels.FK_ItemProductDetail_Items" />
         <AssociationConnector Association="DomainModels.FK_Items_Company" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategoriesView" Width="1.5" PointX="0.75" PointY="32.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

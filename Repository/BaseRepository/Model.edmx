@@ -2690,6 +2690,20 @@ warning 6002: The table/view 'MPC.dbo.OrganisationFileTableView' does not have a
           <Property Name="fileTableName" Type="varchar" MaxLength="21" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProductCategoriesView">
+          <Key>
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="MinPrice" />
+          </Key>
+          <Property Name="ProductCategoryId" Type="bigint" />
+          <Property Name="TemplateDesignerMappedCategoryName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ItemId" Type="bigint" Nullable="false" />
+          <Property Name="MinPrice" Type="float" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.ProductFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProductFileTableView">
           <Key>
@@ -4083,6 +4097,16 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [OrganisationFileTableView].[fileTableName] AS [fileTableName]
     FROM [dbo].[OrganisationFileTableView] AS [OrganisationFileTableView]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ProductCategoriesView" EntityType="Self.ProductCategoriesView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProductCategoriesView].[ProductCategoryId] AS [ProductCategoryId], 
+    [ProductCategoriesView].[TemplateDesignerMappedCategoryName] AS [TemplateDesignerMappedCategoryName], 
+    [ProductCategoriesView].[ItemId] AS [ItemId], 
+    [ProductCategoriesView].[MinPrice] AS [MinPrice], 
+    [ProductCategoriesView].[CategoryName] AS [CategoryName], 
+    [ProductCategoriesView].[CompanyId] AS [CompanyId]
+    FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ProductFileTableView" EntityType="Self.ProductFileTableView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ProductFileTableView].[stream_id] AS [stream_id], 
@@ -4962,6 +4986,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Company" EntitySet="Companies" />
             <End Role="Item" EntitySet="Items" />
           </AssociationSet>
+          <EntitySet Name="ProductCategoriesViews" EntityType="DomainModels.ProductCategoriesView" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8943,6 +8968,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProductCategoriesView">
+          <Key>
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="MinPrice" />
+          </Key>
+          <Property Name="ProductCategoryId" Type="Int64" />
+          <Property Name="TemplateDesignerMappedCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ItemId" Type="Int64" Nullable="false" />
+          <Property Name="MinPrice" Type="Double" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int64" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11950,6 +11987,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ProductCategoriesViews">
+            <EntityTypeMapping TypeName="DomainModels.ProductCategoriesView">
+              <MappingFragment StoreEntitySet="ProductCategoriesView">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TemplateDesignerMappedCategoryName" ColumnName="TemplateDesignerMappedCategoryName" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
