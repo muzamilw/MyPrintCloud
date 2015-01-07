@@ -833,7 +833,7 @@
           <Property Name="Estimate_Code" Type="varchar" MaxLength="100" />
           <Property Name="Estimate_Name" Type="varchar" MaxLength="255" />
           <Property Name="EnquiryId" Type="int" />
-          <Property Name="ContactCompanyId" Type="bigint" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" Nullable="false" />
           <Property Name="ContactId" Type="bigint" />
           <Property Name="StatusId" Type="smallint" />
           <Property Name="Estimate_Total" Type="float" />
@@ -856,7 +856,6 @@
           <Property Name="AddressId" Type="int" Nullable="false" />
           <Property Name="CompanyName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="SectionFlagId" Type="int" Nullable="false" />
-          <Property Name="CompanyId" Type="int" />
           <Property Name="SourceId" Type="int" />
           <Property Name="ProductId" Type="int" />
           <Property Name="IsInPipeLine" Type="bit" />
@@ -867,7 +866,6 @@
           <Property Name="Order_ConfirmationDate" Type="datetime" />
           <Property Name="Order_Status" Type="smallint" Nullable="false" />
           <Property Name="Order_CompletionDate" Type="datetime" />
-          <Property Name="CompanySiteId" Type="bigint" Nullable="false" />
           <Property Name="OrderManagerId" Type="int" />
           <Property Name="ArtworkByDate" Type="datetime" />
           <Property Name="DataByDate" Type="datetime" />
@@ -912,12 +910,7 @@
           <Property Name="EstimateReportLastPrinted" Type="datetime" />
           <Property Name="isEmailSent" Type="bit" />
           <Property Name="DiscountVoucherID" Type="int" />
-          <Property Name="Estimate_TotalBroker" Type="float" />
-          <Property Name="BrokerPO" Type="varchar" MaxLength="50" />
-          <Property Name="BrokerId" Type="int" />
           <Property Name="ClientStatus" Type="smallint" />
-          <Property Name="ParentId" Type="int" />
-          <Property Name="Version" Type="int" />
           <Property Name="RefEstimateId" Type="bigint" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
@@ -3335,18 +3328,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbl_estimates_tbl_company_sites">
-          <End Role="Organisation" Type="Self.Organisation" Multiplicity="1" />
-          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Organisation">
-              <PropertyRef Name="OrganisationId" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="CompanySiteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tbl_estimates_tbl_contactcompanies">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
@@ -3355,7 +3336,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               <PropertyRef Name="CompanyId" />
             </Principal>
             <Dependent Role="Estimate">
-              <PropertyRef Name="ContactCompanyId" />
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4335,10 +4316,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Items" EntitySet="Items" />
             <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_estimates_tbl_company_sites" Association="Self.FK_tbl_estimates_tbl_company_sites">
-            <End Role="Organisation" EntitySet="Organisation" />
-            <End Role="Estimate" EntitySet="Estimate" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_estimates_tbl_contactcompanies" Association="Self.FK_tbl_estimates_tbl_contactcompanies">
             <End Role="Company" EntitySet="Company" />
             <End Role="Estimate" EntitySet="Estimate" />
@@ -4694,10 +4671,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="CompanyContact" EntitySet="CompanyContacts" />
             <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_estimates_tbl_company_sites" Association="DomainModels.FK_tbl_estimates_tbl_company_sites">
-            <End Role="Organisation" EntitySet="Organisations" />
-            <End Role="Estimate" EntitySet="Estimates" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_estimates_tbl_Statuses" Association="DomainModels.FK_tbl_estimates_tbl_Statuses">
             <End Role="Status" EntitySet="Status" />
             <End Role="Estimate" EntitySet="Estimates" />
@@ -4987,6 +4960,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Item" EntitySet="Items" />
           </AssociationSet>
           <EntitySet Name="ProductCategoriesViews" EntityType="DomainModels.ProductCategoriesView" />
+          <AssociationSet Name="FK_tbl_estimates_tbl_contactcompanies1" Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies1">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5241,7 +5218,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="LanguageId" Type="Int64" />
           <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="Organisation" ToRole="CmsSkinPageWidget" />
-          <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Organisation" ToRole="Estimate" />
           <NavigationProperty Name="SystemUsers" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="Organisation" ToRole="SystemUser" />
           <Property Name="MISLogoStreamId" Type="Guid" />
           <Property Name="StateId" Type="Int64" />
@@ -7003,7 +6979,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Estimate_Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Estimate_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="EnquiryId" Type="Int32" />
-          <Property Name="ContactCompanyId" Type="Int64" Nullable="false" />
+          <Property Name="CompanyId" Type="Int64" Nullable="false" />
           <Property Name="ContactId" Type="Int64" />
           <Property Name="StatusId" Type="Int16" />
           <Property Name="Estimate_Total" Type="Double" />
@@ -7026,7 +7002,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="AddressId" Type="Int32" Nullable="false" />
           <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="SectionFlagId" Type="Int32" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" />
           <Property Name="SourceId" Type="Int32" />
           <Property Name="ProductId" Type="Int32" />
           <Property Name="IsInPipeLine" Type="Boolean" />
@@ -7037,7 +7012,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Order_ConfirmationDate" Type="DateTime" Precision="3" />
           <Property Name="Order_Status" Type="Int16" Nullable="false" />
           <Property Name="Order_CompletionDate" Type="DateTime" Precision="3" />
-          <Property Name="CompanySiteId" Type="Int64" Nullable="false" />
           <Property Name="OrderManagerId" Type="Int32" />
           <Property Name="ArtworkByDate" Type="DateTime" Precision="3" />
           <Property Name="DataByDate" Type="DateTime" Precision="3" />
@@ -7082,18 +7056,12 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="EstimateReportLastPrinted" Type="DateTime" Precision="3" />
           <Property Name="isEmailSent" Type="Boolean" />
           <Property Name="DiscountVoucherID" Type="Int32" />
-          <Property Name="Estimate_TotalBroker" Type="Double" />
-          <Property Name="BrokerPO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BrokerId" Type="Int32" />
           <Property Name="ClientStatus" Type="Int16" />
-          <Property Name="ParentId" Type="Int32" />
-          <Property Name="Version" Type="Int32" />
           <Property Name="RefEstimateId" Type="Int64" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_estimates_tbl_contactcompanies" FromRole="Estimate" ToRole="Company" />
           <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_estimates_tbl_contacts" FromRole="Estimate" ToRole="CompanyContact" />
-          <NavigationProperty Name="Organisation" Relationship="DomainModels.FK_tbl_estimates_tbl_company_sites" FromRole="Estimate" ToRole="Organisation" />
           <NavigationProperty Name="Status" Relationship="DomainModels.FK_tbl_estimates_tbl_Statuses" FromRole="Estimate" ToRole="Status" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_estimates" FromRole="Estimate" ToRole="Item" />
           <NavigationProperty Name="PrePayments" Relationship="DomainModels.FK_tbl_PrePayments_tbl_estimates" FromRole="Estimate" ToRole="PrePayment" />
@@ -7146,7 +7114,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               <PropertyRef Name="CompanyId" />
             </Principal>
             <Dependent Role="Estimate">
-              <PropertyRef Name="ContactCompanyId" />
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7159,18 +7127,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="Estimate">
               <PropertyRef Name="ContactId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_estimates_tbl_company_sites">
-          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="1" />
-          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Organisation">
-              <PropertyRef Name="OrganisationId" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="CompanySiteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8980,6 +8936,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CompanyId" Type="Int64" />
         </EntityType>
+        <Association Name="FK_tbl_estimates_tbl_contactcompanies1">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="1" />
+          <End Type="DomainModels.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10524,15 +10492,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Estimates">
             <EntityTypeMapping TypeName="DomainModels.Estimate">
               <MappingFragment StoreEntitySet="Estimate">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
                 <ScalarProperty Name="RefEstimateId" ColumnName="RefEstimateId" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="ClientStatus" ColumnName="ClientStatus" />
-                <ScalarProperty Name="BrokerId" ColumnName="BrokerId" />
-                <ScalarProperty Name="BrokerPO" ColumnName="BrokerPO" />
-                <ScalarProperty Name="Estimate_TotalBroker" ColumnName="Estimate_TotalBroker" />
                 <ScalarProperty Name="DiscountVoucherID" ColumnName="DiscountVoucherID" />
                 <ScalarProperty Name="isEmailSent" ColumnName="isEmailSent" />
                 <ScalarProperty Name="EstimateReportLastPrinted" ColumnName="EstimateReportLastPrinted" />
@@ -10577,7 +10541,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="DataByDate" ColumnName="DataByDate" />
                 <ScalarProperty Name="ArtworkByDate" ColumnName="ArtworkByDate" />
                 <ScalarProperty Name="OrderManagerId" ColumnName="OrderManagerId" />
-                <ScalarProperty Name="CompanySiteId" ColumnName="CompanySiteId" />
                 <ScalarProperty Name="Order_CompletionDate" ColumnName="Order_CompletionDate" />
                 <ScalarProperty Name="Order_Status" ColumnName="Order_Status" />
                 <ScalarProperty Name="Order_ConfirmationDate" ColumnName="Order_ConfirmationDate" />
@@ -10588,7 +10551,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="IsInPipeLine" ColumnName="IsInPipeLine" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="SourceId" ColumnName="SourceId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="SectionFlagId" ColumnName="SectionFlagId" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
@@ -10611,7 +10573,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Estimate_Total" ColumnName="Estimate_Total" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="ContactId" ColumnName="ContactId" />
-                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
                 <ScalarProperty Name="EnquiryId" ColumnName="EnquiryId" />
                 <ScalarProperty Name="Estimate_Name" ColumnName="Estimate_Name" />
                 <ScalarProperty Name="Estimate_Code" ColumnName="Estimate_Code" />

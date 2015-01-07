@@ -86,7 +86,6 @@ namespace MPC.Repository.Repositories
 
                
                     tblOrder.CompanyId = (int)tblCustomer.CompanyId; // customeriD
-                    tblOrder.ContactCompanyId = (int)tblCustomer.CompanyId;
                     tblOrder.OrganisationId = organisation.OrganisationId;
                     tblOrder.CompanyName = "N/A";
                     tblOrder.AddressId = (int)tblCustomer.Addresses.ToList()[0].AddressId;
@@ -181,7 +180,7 @@ namespace MPC.Repository.Repositories
                 {
                     custID = (int)_myClaimHelper.loginContactCompanyID();
                     OrderId = (from order in db.Estimates
-                               where order.ContactCompanyId == custID && order.StatusId == status && order.isEstimate == false
+                               where order.CompanyId == custID && order.StatusId == status && order.isEstimate == false
                                select order.EstimateId).FirstOrDefault();
                 }
                 return OrderId;
