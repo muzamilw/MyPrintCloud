@@ -230,7 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIControllers\SignUpController.cs" />
-    <Compile Include="App_GlobalResources\MyResource.Designer.cs">
+    <Compile Include="App_GlobalResources\MyResource.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MyResource.resx</DependentUpon>
@@ -273,7 +273,9 @@
     <Compile Include="Controllers\MarketingBriefController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
-    <Compile Include="Controllers\ShopCartController.cs" />
+    <Compile Include="Controllers\ShopCartController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -318,6 +320,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+        
     <Content Include="Areas\DesignerApi\Views\web.config" />
     <Content Include="Areas\Designer\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -345,8 +348,11 @@
     <Content Include="Scripts\zoomSlider.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="test.html" />
-    <Content Include="Web.config">
+      <Content Include="Web.config">
       <SubType>Designer</SubType>
+    </Content>
+  <Content Include="Views\Shared\PartialViews\ShopCart.cshtml">
+      <SubType>Code</SubType>
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -451,8 +457,8 @@
   <ItemGroup>
     <Content Include="App_GlobalResources\MyResource.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MyResource.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>MyResource.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

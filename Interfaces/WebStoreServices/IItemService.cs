@@ -14,7 +14,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);
 
-        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isCorporate, bool isSavedDesign, bool isCopyProduct, int objContactID);
+        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, int objContactID);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId);
 
         string specialCharactersEncoder(string value);
@@ -24,7 +24,11 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
 
         List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID);
+
+        void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
         ItemStockControl GetStockItem(long itemId);
         List<AddOnCostsCenter> GetStockOptionCostCentres(long itemId, long companyId);
+        bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
+
     }
 }

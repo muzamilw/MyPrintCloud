@@ -303,7 +303,7 @@ namespace MPC.Repository.Repositories
             Company.AccountManagerId = Company.AccountManagerId;
             Company.CreditLimit = 0;
             Company.IsCustomer = Convert.ToInt16(CustomerType);
-
+            Company.SalesAndOrderManagerId1 = 0;
             //if (BrokerContactCompanyID != null)
             //{
             //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;
