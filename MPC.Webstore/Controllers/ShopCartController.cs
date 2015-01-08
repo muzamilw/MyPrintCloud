@@ -219,7 +219,7 @@ namespace MPC.Webstore.Controllers
 
 
           
-             //  SetLastItemTemplateMatchingSets(shopCart);
+           //   SetLastItemTemplateMatchingSets(shopCart);
 
              if (baseResponseCompany.Company.isIncludeVAT.Value == false)
              {
@@ -425,7 +425,47 @@ namespace MPC.Webstore.Controllers
             BindGridView(shopCart);
             return View("PartialViews/ShopCart", shopCart);
         }
-     
+
+        private void SetLastItemTemplateMatchingSets(ShoppingCart shopCart)
+        {
+            try
+                
+            {
+            //    if (shopCart != null && shopCart.CartItemsList != null)
+            //    {
+            //        //Model.ProductItem item = shopCart.CartItemsList.Where(c => c.TemplateID.Value > 0 && c.Attatchment.FileTitle != null && !c.Attatchment.FileTitle.Contains("Uploaded ArtWork")).LastOrDefault();
+            //        ProductItem item = shopCart.CartItemsList.Where(c => c.TemplateID != null && c.TemplateID > 0).LastOrDefault();
+            //        if (item != null)
+            //        {
+            //            using (LocalTemplateDesigner.TemplateSvcSPClient pSc = new LocalTemplateDesigner.TemplateSvcSPClient())
+            //            {
+            //                TemplateDesignerModelTypesV2.Templates template = pSc.GetTemplate(item.TemplateID ?? 0);
+            //                if (template != null)
+            //                {
+            //                    MatchingSet1.ItemId = item.RefItemID ?? 0;
+            //                    MatchingSet1.ProductCategoryId = item.ProductCategoryID ?? 0;
+            //                    bool res = BindTemplatesList(template, 1);
+            //                    if (res)
+            //                    {
+            //                        MatchingSet1.Visible = true;
+            //                    }
+            //                    else
+            //                    {
+            //                        MatchingSet1.Visible = false;
+            //                    }
+            //                    return;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    MatchingSet1.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
 
     }
 }

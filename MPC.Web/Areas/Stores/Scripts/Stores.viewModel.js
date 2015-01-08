@@ -157,8 +157,8 @@ define("stores/stores.viewModel",
                         });
                     },
                     //#endregion _____________________  S T O R E ____________________
-                                
-                    
+
+
                     // #region ____________________ R A V E   R E V I E W _______________
 
                     //Selected Rave Review
@@ -979,7 +979,7 @@ define("stores/stores.viewModel",
                     },
                     //#endregion
 
-                    
+
                     // #region _______________  C O M P A N  Y   C O N T A C T _________________
 
                     //companyContactFilter
@@ -1454,9 +1454,9 @@ define("stores/stores.viewModel",
                     }),
 
                     // #endregion
-                    
+
                     //#region ______________ U T I L I T Y   F U N C T I O N S_____________________
-                    
+
                     //Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
@@ -1839,6 +1839,8 @@ define("stores/stores.viewModel",
                         }
                     },
                     //#endregion 
+                    // #region _______________  LAYOUT WIDGET _________________
+
 
                     selectWidget = function (widget) {
                         this.selectedWidget(widget);
@@ -1896,7 +1898,6 @@ define("stores/stores.viewModel",
                         }
 
                     }, this),
-
                     //Get Page Layout Widgets
                     getPageLayoutWidgets = function () {
                         dataservice.getCmsPageLayoutWidget({
@@ -1908,12 +1909,12 @@ define("stores/stores.viewModel",
                                 if (data != null) {
                                     _.each(data, function (item) {
                                         var widget = new model.CmsSkingPageWidget.Create(item);
-                                    if (widget.widgetId() === 14) {
-                                        _.each(item.CmsSkinPageWidgetParams, function (params) {
-                                            widget.cmsSkinPageWidgetParam(model.CmsSkinPageWidgetParam.Create(params));
-                                            widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
-                                        });
-                                    }
+                                        if (widget.widgetId() === 14) {
+                                            _.each(item.CmsSkinPageWidgetParams, function (params) {
+                                                widget.cmsSkinPageWidgetParam(model.CmsSkinPageWidgetParam.Create(params));
+                                                widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                                            });
+                                        }
                                         pageSkinWidgets.push(widget);
                                     });
                                 }
@@ -1930,99 +1931,99 @@ define("stores/stores.viewModel",
                      dropped = function (source, target, event) {
                          // ReSharper restore UnusedParameter
                          if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetControlName !== undefined && source.widget.widgetControlName() !== "") {
-                            if (source.widget.widgetId() === 14) {
-                                var newWidget = new model.CmsSkingPageWidget();
-                                newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
-                                newWidget.widgetName(source.widget.widgetName());
-                                newWidget.pageId(selectedCurrentPageId());
-                                newWidget.widgetId(source.widget.widgetId());
-                                pageSkinWidgets.splice(0, 0, newWidget);
-                                newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
-                            } else {
-                             getWidgetDetail(source.widget);
+                             if (source.widget.widgetId() === 14) {
+                                 var newWidget = new model.CmsSkingPageWidget();
+                                 newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
+                                 newWidget.widgetName(source.widget.widgetName());
+                                 newWidget.pageId(selectedCurrentPageId());
+                                 newWidget.widgetId(source.widget.widgetId());
+                                 pageSkinWidgets.push(newWidget);
+                                 newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
+                             } else {
+                                 getWidgetDetail(source.widget);
+                             }
                          }
-                        }
                          if (selectedCurrentPageId() === undefined) {
                              toastr.error("Before add widget please select page !");
                          }
                      },
                     //Get Widget detail on drag drop
                     getWidgetDetail = function (widget) {
-                            dataservice.getWidgetDetail({
-                                widgetControlName: widget.widgetControlName(),
-                            }, {
-                                success: function (data) {
-                                    if (data !== "" && data !== null) {
-                                        var newWidget = new model.CmsSkingPageWidget();
-                                        newWidget.htmlData(data);
-                                        newWidget.widgetName(widget.widgetName());
-                                        newWidget.pageId(selectedCurrentPageId());
-                                        newWidget.widgetId(widget.widgetId());
-                                        pageSkinWidgets.push(newWidget);
-                                    }
-                                    isLoadingStores(false);
-                                },
-                                error: function (response) {
-                                    isLoadingStores(false);
-                                    toastr.error("Failed to Load Page Widgets . Error: " + response);
-                                }
-                            });
-                        },
+                          dataservice.getWidgetDetail({
+                              widgetControlName: widget.widgetControlName(),
+                          }, {
+                              success: function (data) {
+                                  if (data !== "" && data !== null) {
+                                      var newWidget = new model.CmsSkingPageWidget();
+                                      newWidget.htmlData(data);
+                                      newWidget.widgetName(widget.widgetName());
+                                      newWidget.pageId(selectedCurrentPageId());
+                                      newWidget.widgetId(widget.widgetId());
+                                      pageSkinWidgets.push(newWidget);
+                                  }
+                                  isLoadingStores(false);
+                              },
+                              error: function (response) {
+                                  isLoadingStores(false);
+                                  toastr.error("Failed to Load Page Widgets . Error: " + response);
+                              }
+                          });
+                      },
                     // Returns the item being dragged
                     dragged = function (source) {
-                            return {
-                                row: source.$parent,
-                                widget: source.$data
-                            };
-                        },
+                          return {
+                              row: source.$parent,
+                              widget: source.$data
+                          };
+                      },
                     //Add Widget To Page Layout
                     addWidgetToPageLayout = function (widget) {
                             if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetControlName !== undefined && widget.widgetControlName() !== "") {
-                            if (widget.widgetId() === 14) {
-                                var newWidget = new model.CmsSkingPageWidget();
-                                //newWidget.htmlData(data);
-                                newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
-                                newWidget.widgetName(widget.widgetName());
-                                newWidget.pageId(selectedCurrentPageId());
-                                newWidget.widgetId(widget.widgetId());
-                                pageSkinWidgets.splice(0, 0, newWidget);
-                                newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
-                            } else {
-                                getWidgetDetailOnAdd(widget);
+                                if (widget.widgetId() === 14) {
+                                    var newWidget = new model.CmsSkingPageWidget();
+                                    //newWidget.htmlData(data);
+                                    newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
+                                    newWidget.widgetName(widget.widgetName());
+                                    newWidget.pageId(selectedCurrentPageId());
+                                    newWidget.widgetId(widget.widgetId());
+                                    pageSkinWidgets.splice(0, 0, newWidget);
+                                    newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
+                                } else {
+                                    getWidgetDetailOnAdd(widget);
+                                }
                             }
-                        }
                             if (selectedCurrentPageId() === undefined) {
                                 toastr.error("Before add widget please select page !");
                             }
                         },
                     //Click on plus sign , add widget to page
                     getWidgetDetailOnAdd = function (widget) {
-                            dataservice.getWidgetDetail({
-                                widgetControlName: widget.widgetControlName(),
-                            }, {
-                                success: function (data) {
-                                    if (data !== "" && data !== null) {
-                                        var newWidget = new model.CmsSkingPageWidget();
-                                        newWidget.htmlData(data);
-                                        newWidget.widgetName(widget.widgetName());
-                                        newWidget.pageId(selectedCurrentPageId());
-                                        newWidget.widgetId(widget.widgetId());
-                                        pageSkinWidgets.splice(0, 0, newWidget);
-                                    }
-                                    isLoadingStores(false);
-                                },
-                                error: function (response) {
-                                    isLoadingStores(false);
-                                    toastr.error("Failed to Load Page Widgets . Error: " + response);
-                                }
-                            });
-                        },
+                          dataservice.getWidgetDetail({
+                              widgetControlName: widget.widgetControlName(),
+                          }, {
+                              success: function (data) {
+                                  if (data !== "" && data !== null) {
+                                      var newWidget = new model.CmsSkingPageWidget();
+                                      newWidget.htmlData(data);
+                                      newWidget.widgetName(widget.widgetName());
+                                      newWidget.pageId(selectedCurrentPageId());
+                                      newWidget.widgetId(widget.widgetId());
+                                      pageSkinWidgets.splice(0, 0, newWidget);
+                                  }
+                                  isLoadingStores(false);
+                              },
+                              error: function (response) {
+                                  isLoadingStores(false);
+                                  toastr.error("Failed to Load Page Widgets . Error: " + response);
+                              }
+                          });
+                      },
                     //Delete Page Layout Widget
                     deletePageLayoutWidget = function (widget) {
-                            if (widget !== undefined && widget !== null) {
-                                pageSkinWidgets.remove(widget);
-                            }
-                        },
+                         if (widget !== undefined && widget !== null) {
+                             pageSkinWidgets.remove(widget);
+                         }
+                     },
                     //show Ck Editor Dialog
                     showCkEditorDialog = function (widget) {
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
@@ -2044,14 +2045,6 @@ define("stores/stores.viewModel",
                     },
                     //#endregion
 
-                    highPriorityTasks = ko.observableArray([
-                        { Text: "Text1" },
-                        { Text: "Text 2" },
-                        { Text: "Text 3" },
-                        { Text: "Text 4" }
-                    ]),
-                    viewModelVariableName = ko.observable("test"),
-                    viewModelVariableName1 = ko.observable("test"),
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2251,8 +2244,6 @@ define("stores/stores.viewModel",
                     showCkEditorDialog: showCkEditorDialog,
                     selectedWidget: selectedWidget,
                     onSaveWidgetParamFromCkEditor: onSaveWidgetParamFromCkEditor,
-                    viewModelVariableName: viewModelVariableName,
-                    viewModelVariableName1: viewModelVariableName1,
                     contactCompanyPager: contactCompanyPager,
                     onAddSecondaryPage: onAddSecondaryPage,
                     onAddSecondryPageCategory: onAddSecondryPageCategory,
@@ -2285,8 +2276,6 @@ define("stores/stores.viewModel",
                     dragged: dragged,
                     addWidgetToPageLayout: addWidgetToPageLayout,
                     deletePageLayoutWidget: deletePageLayoutWidget,
-                    highPriorityTasks: highPriorityTasks,
-                    //textFieldToEdit: textFieldToEdit,
                     allPagesWidgets: allPagesWidgets,
                     storeProductsViewModel: storeProductsViewModel,
                     initialize: initialize,

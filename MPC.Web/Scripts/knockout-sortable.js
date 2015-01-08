@@ -109,6 +109,11 @@
             var createTimeout = setTimeout(function () {
                 var dragItem;
                 $element.sortable(ko.utils.extend(sortable.options, {
+                    helper: function (event, ui) {
+                        var $clone = $(ui).clone();
+                        $clone.css('position', 'absolute');
+                        return $clone.get(0);
+                    },
                     start: function (event, ui) {
                         //make sure that fields have a chance to update model
                         ui.item.find("input:focus").change();

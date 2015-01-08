@@ -55,108 +55,85 @@ namespace MPC.Repository.Repositories
         }
         public List<Item> GetOrderItems(int OrderId)
         {
-            
+
             return (from r in db.Items
-                    where r.EstimateId == OrderId && (r.ItemType == null || r.ItemType !=  (int)ItemTypes.Delivery)
+                    where r.EstimateId == OrderId && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
                     select r).ToList();
         }
 
-        public long CreateNewOrder(int customerID, int contactId,Company Company, Organisation Organisation , Prefix prefix, string orderTitle = null)
+        public long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null)
         {
-            long orderId = 0;
+            Prefix prefix = db.Prefixes.Where(c => c.SystemSiteId == 1).FirstOrDefault();
 
-                if (Company != null && Company.CompanyId > 0)
-                    orderId = CreateOrder(Company, contactId, OrderStatus.ShoppingCart, Organisation , prefix, orderTitle);
+            Estimate orderObject = new Estimate();
 
-            return orderId;
-        }
-        public long CreateOrder(Company tblCustomer, int ContactID, OrderStatus orderStatus,Organisation organisation,Prefix prefix, string orderTitle = null)
-        {
-
-            Estimate tblOrder = new Estimate();
-            //tbl_Statuses tblOrderStatus = null;            
-            long orderID = 0;
-            short orderStatusID = (short)orderStatus;
+            orderObject.CompanyId = (int)CompanyId;
             
+            orderObject.OrganisationId = OrganisationId;
 
-            //CompanySiteManager companySiteManager = new CompanySiteManager();
-          
+            orderObject.CompanyName = "N/A";
 
-                //tblOrderStatus = this.GetStatusByName(orderStatus);
+            orderObject.ContactId = ContactId;
 
-               
-                    tblOrder.CompanyId = (int)tblCustomer.CompanyId; // customeriD
-                    tblOrder.ContactCompanyId = (int)tblCustomer.CompanyId;
-                    tblOrder.OrganisationId = organisation.OrganisationId;
-                    tblOrder.CompanyName = "N/A";
-                    tblOrder.AddressId = (int)tblCustomer.Addresses.ToList()[0].AddressId;
-                    tblOrder.ContactId = ContactID;
-                    tblOrder.isEstimate = false;
-                    tblOrder.StatusId = orderStatusID; //tblOrderStatus.StatusID, // E.G. SHOPPING CART.
+            orderObject.isEstimate = false;
 
-                    tblOrder.SectionFlagId = 145;
-                    tblOrder.Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle;
+            orderObject.StatusId = 3;
 
-                    if (tblCustomer.SalesAndOrderManagerId1 != null)
-                    {
-                        tblOrder.SalesPersonId = (int)tblCustomer.SalesAndOrderManagerId1;
-                        tblOrder.OrderManagerId = (int)tblCustomer.SalesAndOrderManagerId1;
-                    }
-                   
+            orderObject.SectionFlagId = 145;
 
-                    tblOrder.Estimate_Total = 0;
-                    tblOrder.Classification1Id = 0;
-                    tblOrder.OrderSourceId = 0;
-                    tblOrder.isDirectSale = false;
-                    //Created_by = Common.LoggedInID,
-                    tblOrder.Order_CreationDateTime = DateTime.Now;
-                    tblOrder.Order_Date = DateTime.Now;
-                    tblOrder.StartDeliveryDate = DateTime.Now.AddDays(1);
-                    tblOrder.FinishDeliveryDate = DateTime.Now.AddDays(2);
-                    tblOrder.CreationDate = DateTime.Now;
-                    tblOrder.CreationTime = DateTime.Now;
-                   
-                    // Get order prefix and update the order next number
-                    
+            orderObject.Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle;
 
-                    if (prefix != null)
-                    {
-                        tblOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
-                        prefix.OrderNext = prefix.OrderNext + 1;
-                    }
+            orderObject.isDirectSale = false;
 
-                    db.Estimates.Add(tblOrder);
-                    if (db.SaveChanges() > 0)
-                        orderID = tblOrder.EstimateId;
+            orderObject.Order_Date = DateTime.Now;
 
-                
-            
-            return orderID;
+            orderObject.CreationDate = DateTime.Now;
 
-        }
-        public long GetOrderID(int customerID, int contactId, string orderTitle,Company company, Organisation org,Prefix prefix)
-        {
-            long orderID = 0;
-            Estimate tblOrder = GetOrderByContactID(contactId, OrderStatus.ShoppingCart);
+            orderObject.CreationTime = DateTime.Now;
 
-            if (tblOrder == null)
-                orderID = CreateNewOrder(customerID, contactId,company,org,prefix,orderTitle);
+            orderObject.Order_CreationDateTime = DateTime.Now;
+
+            if (prefix != null)
+            {
+                orderObject.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                prefix.OrderNext = prefix.OrderNext + 1;
+            }
+
+            db.Estimates.Add(orderObject);
+
+            if (db.SaveChanges() > 0)
+            {
+                return orderObject.EstimateId;
+            }
             else
-                orderID = tblOrder.EstimateId;
-            tblOrder = null;
+            {
+                return 0;
+            }
+        }
+     
+        public long GetOrderID(long CustomerId, long ContactId, string orderTitle, long OrganisationId)
+        {
+            long orderID = 0;
+
+            orderID = GetOrderByContactID(ContactId, OrderStatus.ShoppingCart);
+
+            if (orderID == 0)
+            {
+                orderID = CreateNewOrder(CustomerId, ContactId, OrganisationId, orderTitle);
+            }
 
             return orderID;
         }
 
-        public Estimate GetOrderByContactID(int contactID, OrderStatus orderStatus)
+        private long GetOrderByContactID(long contactID, OrderStatus orderStatus)
         {
             int orderStatusID = (int)orderStatus;
             List<Estimate> ordesList = db.Estimates.Include("tbl_items").Where(order => order.ContactId == contactID && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
             if (ordesList.Count > 0)
-                return ordesList[0];
+                return ordesList[0].EstimateId;
             else
-                return null;
-           
+                return 0;
+
         }
 
         public long GetUserShopCartOrderID(int status)
@@ -181,16 +158,16 @@ namespace MPC.Repository.Repositories
                 {
                     custID = (int)_myClaimHelper.loginContactCompanyID();
                     OrderId = (from order in db.Estimates
-                               where order.ContactCompanyId == custID && order.StatusId == status && order.isEstimate == false
+                               where order.CompanyId == custID && order.StatusId == status && order.isEstimate == false
                                select order.EstimateId).FirstOrDefault();
                 }
                 return OrderId;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-           
+
         }
         public bool IsUserLoggedIn()
         {
@@ -212,14 +189,14 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                    int Orderid = Convert.ToInt32(orderID);
-                    
-                    tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid && estm.StatusId == orderStsID).FirstOrDefault();
-                    if (tblOrder != null)
-                    {
-                        shopCart = ExtractShoppingCart(tblOrder);
-                    }
-               
+                int Orderid = Convert.ToInt32(orderID);
+
+                tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid && estm.StatusId == orderStsID).FirstOrDefault();
+                if (tblOrder != null)
+                {
+                    shopCart = ExtractShoppingCart(tblOrder);
+                }
+
             }
             catch (Exception ex)
             {
@@ -232,7 +209,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-              
+
                 return (from c in db.DiscountVouchers
                         where c.DiscountVoucherId == VId
                         select c).FirstOrDefault();
@@ -246,34 +223,34 @@ namespace MPC.Repository.Repositories
 
         private ShoppingCart ExtractShoppingCart(Estimate tblEstimate)
         {
-          
-                    ShoppingCart shopCart = new ShoppingCart();
-                    List<AddOnCostsCenter> childrenRecordsAllProductItemAddons = null;
-                    List<Item> ItemsOfOrder = GetOrderItems(Convert.ToInt32(tblEstimate.EstimateId));
-              try
-              { 
 
-                    //1. Get All Items and Its Attament in a Singe Instant
-                    shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, out childrenRecordsAllProductItemAddons);
+            ShoppingCart shopCart = new ShoppingCart();
+            List<AddOnCostsCenter> childrenRecordsAllProductItemAddons = null;
+            List<Item> ItemsOfOrder = GetOrderItems(Convert.ToInt32(tblEstimate.EstimateId));
+            try
+            {
 
-                    //2. Get All Addons Used in that Items
-                    shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
+                //1. Get All Items and Its Attament in a Singe Instant
+                shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, out childrenRecordsAllProductItemAddons);
 
-                    //3. Extract company address if any
-                    shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
+                //2. Get All Addons Used in that Items
+                shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
+
+                //3. Extract company address if any
+                shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
 
 
-                    //4. Set Order Level Fields
-                    shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
-                    shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
-                    shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
-                    shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
-                    //5. get delivery item 
-                    Item DeliveryItemOfOrder = GetDeliveryOrderItem(Convert.ToInt32(tblEstimate.EstimateId));
-                    if (DeliveryItemOfOrder != null)
-                    {
-                        shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
-                    }
+                //4. Set Order Level Fields
+                shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
+                shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
+                shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
+                shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
+                //5. get delivery item 
+                Item DeliveryItemOfOrder = GetDeliveryOrderItem(Convert.ToInt32(tblEstimate.EstimateId));
+                if (DeliveryItemOfOrder != null)
+                {
+                    shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
+                }
 
             }
             catch (Exception ex)
@@ -296,7 +273,7 @@ namespace MPC.Repository.Repositories
                 (
                     item =>
                     {
-                        
+
                         if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value) //gets only attatchments which are added to cart
                         {
                             var Section = db.ItemSections.Where(i => i.ItemId == item.RefItemId & i.SectionNo == 1).FirstOrDefault();
@@ -306,7 +283,7 @@ namespace MPC.Repository.Repositories
                             else
                                 StockID = 0;
                             StockName = db.ItemStockOptions.Where(i => i.StockId == StockID && i.ItemId == item.RefItemId).Select(o => o.StockLabel).FirstOrDefault();
-                          
+
 
                             prodItem = CreateProductItem(item, StockName);
                             prodItem.Attatchment = this.ExtractAttachment(item);
@@ -510,7 +487,7 @@ namespace MPC.Repository.Repositories
                         where r.EstimateId == OrderId && r.ItemType == itemType
                         select r).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -520,9 +497,9 @@ namespace MPC.Repository.Repositories
 
             try
             {
-               
-                    return db.Estimates.Where(order => order.EstimateId == orderId && order.isEstimate == false).FirstOrDefault();
-                
+
+                return db.Estimates.Where(order => order.EstimateId == orderId && order.isEstimate == false).FirstOrDefault();
+
             }
             catch (Exception ex)
             {
@@ -573,86 +550,86 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
         public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
         {
-           
+
             double QtyNewTotal = 0;
             double QtyTaxVal = 0;
-            
-                List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && c.Qty1CostCentreProfit != null).ToList();
-                if (tblOrder != null)
+
+            List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && c.Qty1CostCentreProfit != null).ToList();
+            if (tblOrder != null)
+            {
+                foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
                 {
-                    foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
+                    SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
+                    if (Mode == StoreMode.Broker)
                     {
-                        SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
-                        if (Mode == StoreMode.Broker)
-                        {
-                            QtyNewTotal = (double)item.NetTotalBroker + (double)item.CostCentreProfitBroker;
-                            QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                            item.NetTotalBroker = QtyNewTotal;
-                            item.BaseChargeBroker = QtyNewTotal;
-                            item.TaxValueBroker = QtyTaxVal;
-                            item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
-                            item.ItemSections.FirstOrDefault().BaseCharge1Broker += (double)item.CostCentreProfitBroker;
-                            if (SC != null)
-                            {
-                                SC.QtyChargeBroker += (double)item.CostCentreProfitBroker;
-                                // SC.Qty1MarkUpValue = 0;
-                            }
-                            item.CostCentreProfitBroker = 0;
-                        }
-                        QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
+                        QtyNewTotal = (double)item.NetTotalBroker + (double)item.CostCentreProfitBroker;
                         QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                        item.Qty1NetTotal = QtyNewTotal;
-                        item.Qty1BaseCharge1 = QtyNewTotal;
-                        item.Qty1Tax1Value = QtyTaxVal;
-                        item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
-                        item.ItemSections.FirstOrDefault().BaseCharge1 += (double)item.Qty1CostCentreProfit;
+                        item.NetTotalBroker = QtyNewTotal;
+                        item.BaseChargeBroker = QtyNewTotal;
+                        item.TaxValueBroker = QtyTaxVal;
+                        item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
+                        item.ItemSections.FirstOrDefault().BaseCharge1Broker += (double)item.CostCentreProfitBroker;
                         if (SC != null)
                         {
-                            SC.Qty1NetTotal += (double)item.Qty1CostCentreProfit;
+                            SC.QtyChargeBroker += (double)item.CostCentreProfitBroker;
                             // SC.Qty1MarkUpValue = 0;
                         }
-                        item.Qty1CostCentreProfit = 0;
+                        item.CostCentreProfitBroker = 0;
                     }
-                    if (db.SaveChanges() > 0)
+                    QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
+                    QtyTaxVal = (QtyNewTotal * StateTax) / 100;
+                    item.Qty1NetTotal = QtyNewTotal;
+                    item.Qty1BaseCharge1 = QtyNewTotal;
+                    item.Qty1Tax1Value = QtyTaxVal;
+                    item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
+                    item.ItemSections.FirstOrDefault().BaseCharge1 += (double)item.Qty1CostCentreProfit;
+                    if (SC != null)
                     {
-                        return true;
+                        SC.Qty1NetTotal += (double)item.Qty1CostCentreProfit;
+                        // SC.Qty1MarkUpValue = 0;
                     }
-                    else
-                    {
-                        return false;
-                    }
+                    item.Qty1CostCentreProfit = 0;
+                }
+                if (db.SaveChanges() > 0)
+                {
+                    return true;
                 }
                 else
                 {
                     return false;
                 }
             }
+            else
+            {
+                return false;
+            }
+        }
 
         public double SaveVoucherCodeAndRate(int orderId, string VCode)
         {
             try
             {
-               
-                    Estimate record = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
-                    DiscountVoucher discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == VCode && discVoucher.IsEnabled).FirstOrDefault();
-                    if (record != null)
-                    {
-                        record.DiscountVoucherID = Convert.ToInt16(discountVocher.DiscountVoucherId);
-                        record.VoucherDiscountRate = discountVocher.DiscountRate;
-                    }
-                    if (db.SaveChanges() > 0)
-                    {
-                        return discountVocher.DiscountRate;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                
+
+                Estimate record = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
+                DiscountVoucher discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == VCode && discVoucher.IsEnabled).FirstOrDefault();
+                if (record != null)
+                {
+                    record.DiscountVoucherID = Convert.ToInt16(discountVocher.DiscountVoucherId);
+                    record.VoucherDiscountRate = discountVocher.DiscountRate;
+                }
+                if (db.SaveChanges() > 0)
+                {
+                    return discountVocher.DiscountRate;
+                }
+                else
+                {
+                    return 0;
+                }
+
             }
             catch (Exception e)
             {
@@ -661,7 +638,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate,StoreMode Mode)
+        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode)
         {
             short status = (short)orderStatus;
             double DiscountedAmount = 0;
@@ -669,68 +646,68 @@ namespace MPC.Repository.Repositories
             double TotalDiscAmountBroker = 0;
             double QtyNewTotal = 0;
             double QtyTaxVal = 0;
-            
-          
-                List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && (c.ItemType == null || c.ItemType != 2) && (c.Qty1CostCentreProfit == null || c.Qty1CostCentreProfit == 0)).ToList();
-                if (tblOrder != null)
+
+
+            List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && (c.ItemType == null || c.ItemType != 2) && (c.Qty1CostCentreProfit == null || c.Qty1CostCentreProfit == 0)).ToList();
+            if (tblOrder != null)
+            {
+                foreach (var item in tblOrder)
                 {
-                    foreach (var item in tblOrder)
+                    SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
+                    if (Mode == StoreMode.Broker)
                     {
-                        SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
-                        if (Mode == StoreMode.Broker)
-                        {
-                            DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.BaseChargeBroker), VDiscountRate);
-                            item.CostCentreProfitBroker = DiscountedAmount;
-                            TotalDiscAmountBroker += DiscountedAmount;
-                            QtyNewTotal = item.NetTotalBroker - DiscountedAmount ?? 0;
-                            QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                            item.NetTotalBroker = QtyNewTotal;
-                            item.BaseChargeBroker = QtyNewTotal;
-                            item.TaxValueBroker = QtyTaxVal;
-                            item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
-                            item.ItemSections.FirstOrDefault().BaseCharge1Broker -= DiscountedAmount;
-                            if (SC != null)
-                            {
-                                SC.QtyChargeBroker -= DiscountedAmount;
-                            }
-                        }
-                        DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
-                        item.Qty1CostCentreProfit = DiscountedAmount;
-                        TotalDiscAmount += DiscountedAmount;
-                        QtyNewTotal = item.Qty1NetTotal - DiscountedAmount ?? 0;
+                        DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.BaseChargeBroker), VDiscountRate);
+                        item.CostCentreProfitBroker = DiscountedAmount;
+                        TotalDiscAmountBroker += DiscountedAmount;
+                        QtyNewTotal = item.NetTotalBroker - DiscountedAmount ?? 0;
                         QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                        item.Qty1NetTotal = QtyNewTotal;
-                        item.Qty1BaseCharge1 = QtyNewTotal;
-                        item.Qty1Tax1Value = QtyTaxVal;
-                        item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
-                        item.ItemSections.FirstOrDefault().BaseCharge1 -= DiscountedAmount;
+                        item.NetTotalBroker = QtyNewTotal;
+                        item.BaseChargeBroker = QtyNewTotal;
+                        item.TaxValueBroker = QtyTaxVal;
+                        item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
+                        item.ItemSections.FirstOrDefault().BaseCharge1Broker -= DiscountedAmount;
                         if (SC != null)
                         {
-                            SC.Qty1NetTotal -= DiscountedAmount;
-                            //SC.Qty1MarkUpValue = -DiscountedAmount;
+                            SC.QtyChargeBroker -= DiscountedAmount;
                         }
                     }
-                    if (db.SaveChanges() > 0)
+                    DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
+                    item.Qty1CostCentreProfit = DiscountedAmount;
+                    TotalDiscAmount += DiscountedAmount;
+                    QtyNewTotal = item.Qty1NetTotal - DiscountedAmount ?? 0;
+                    QtyTaxVal = (QtyNewTotal * StateTax) / 100;
+                    item.Qty1NetTotal = QtyNewTotal;
+                    item.Qty1BaseCharge1 = QtyNewTotal;
+                    item.Qty1Tax1Value = QtyTaxVal;
+                    item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
+                    item.ItemSections.FirstOrDefault().BaseCharge1 -= DiscountedAmount;
+                    if (SC != null)
                     {
-                        if (Mode == StoreMode.Broker)
-                        {
-                            return TotalDiscAmountBroker;
-                        }
-                        else
-                        {
-                            return TotalDiscAmount;
-                        }
+                        SC.Qty1NetTotal -= DiscountedAmount;
+                        //SC.Qty1MarkUpValue = -DiscountedAmount;
+                    }
+                }
+                if (db.SaveChanges() > 0)
+                {
+                    if (Mode == StoreMode.Broker)
+                    {
+                        return TotalDiscAmountBroker;
                     }
                     else
                     {
-                        return 0;
+                        return TotalDiscAmount;
                     }
                 }
                 else
                 {
                     return 0;
                 }
-            
+            }
+            else
+            {
+                return 0;
+            }
+
         }
         private double CalCulateVoucherDiscount(double subTotal, double VoucherRate)
         {
@@ -743,7 +720,7 @@ namespace MPC.Repository.Repositories
             }
             return discountedAmount;
         }
-       
+
         public static double CalculatePercentage(double itemValue, double percentageValue)
         {
             double percentValue = 0;
@@ -754,7 +731,7 @@ namespace MPC.Repository.Repositories
         }
         public bool ResetOrderVoucherCode(int orderId)
         {
-           
+
             Estimate OrderRecord = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
             if (OrderRecord != null)
             {

@@ -477,7 +477,7 @@ namespace MPC.Implementation.MISServices
                                 CmsSkinPageWidgetParam skinPageWidgetParam =
                                     cmsSkinPageWidget.CmsSkinPageWidgetParams != null
                                         ? cmsSkinPageWidget.CmsSkinPageWidgetParams.FirstOrDefault(
-                                            p => p.PageWidgetParamId == cmsSkinPageWidget.PageWidgetId)
+                                            p => p.PageWidgetId == cmsSkinPageWidget.PageWidgetId)
                                         : null;
 
                                 if (skinPageWidgetParam != null)

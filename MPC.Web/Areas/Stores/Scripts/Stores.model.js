@@ -72,43 +72,43 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             };
             return self;
         };
-        StoreListView.CreateFromClientModel = function (source) {
-            var result = new StoreListView(
-                source.companyId,
-                source.name,
-                source.status,
-                source.image,
-                source.url,
-                source.isCustomer
-            );
-            return result;
-        };
-        StoreListView.Create = function (source) {
-            var store = new StoreListView(
-                source.CompanyId,
-                source.Name,
-                source.Status,
-                source.Image,
-                source.URL,
-                source.IsCustomer
-            );
+    StoreListView.CreateFromClientModel = function (source) {
+        var result = new StoreListView(
+            source.companyId,
+            source.name,
+            source.status,
+            source.image,
+            source.url,
+            source.isCustomer
+        );
+        return result;
+    };
+    StoreListView.Create = function (source) {
+        var store = new StoreListView(
+            source.CompanyId,
+            source.Name,
+            source.Status,
+            source.Image,
+            source.URL,
+            source.IsCustomer
+        );
 
-            //if (source.IsCustomer == 0) {
-            //    store.type("Supplier");
+        //if (source.IsCustomer == 0) {
+        //    store.type("Supplier");
+        //}
+        if (source.IsCustomer == 1) {
+            store.type("Retail Customer");
+        }
+            //else if (source.IsCustomer == 2) {
+            //    store.type("Prospect");
             //}
-            if (source.IsCustomer == 1) {
-                store.type("Retail Customer");
-            }
-                //else if (source.IsCustomer == 2) {
-                //    store.type("Prospect");
-                //}
-            else if (source.IsCustomer == 3) {
-                store.type("Corporate");
-            }
+        else if (source.IsCustomer == 3) {
+            store.type("Corporate");
+        }
 
-            return store;
-        };
-        // #endregion _________ S T O R E   L I S T    V I E W____________________
+        return store;
+    };
+    // #endregion _________ S T O R E   L I S T    V I E W____________________
 
     // #region _____________________ S T O R E ______________________________
 
@@ -2647,7 +2647,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 WidgetId: widgetId(),
                 Sequence: sequence(),
                 CompanyId: companyId(),
-                CmsSkinPageWidgetParam:cmsSkinPageWidgetParam().convertToServerData(),
+                CmsSkinPageWidgetParam: cmsSkinPageWidgetParam().convertToServerData(),
                 CmsSkinPageWidgetParams: []
             };
         };
