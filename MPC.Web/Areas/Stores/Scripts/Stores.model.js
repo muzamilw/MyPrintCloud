@@ -568,11 +568,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         _.each(source.ProductCategoriesListView, function (item) {
             store.productCategories.push(ProductCategory.Create(item));
         });
-        //Add Store Products/Items in store product model
-        var mapper = new storeProductModel.Item();
-        _.each(source.ItemsResponse.Items, function (item) {
-            ist.stores.viewModel.products.push(mapper.Create(item));
-        });
+        ////Add Store Products/Items in store product model
+        //var mapper = new storeProductModel.Item();
+        //_.each(source.ItemsResponse.Items, function (item) {
+        //    ist.stores.viewModel.products.push(mapper.Create(item));
+        //});
         return store;
     };
     // #endregion _____________________ S T O R E ______________________________

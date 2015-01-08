@@ -37,5 +37,9 @@ namespace MPC.Interfaces.MISServices
         /// Get Cms Page Widget By Page Id
         /// </summary>
         IEnumerable<CmsSkinPageWidget> GetCmsPageWidgetByPageId(long pageId, long companyId);
+        /// <summary>
+        /// Load Items, based on search filters
+        /// </summary>
+        ItemListViewSearchResponse GetItems(CompanyProductSearchRequestModel request);
     }
 }

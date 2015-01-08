@@ -1830,7 +1830,15 @@ define("stores/stores.viewModel",
                     },
                     //#endregion
 
-                
+                    //#region _______________ P R O D U C T S ______________________
+                    isProductTabVisited = ko.observable(false),
+                    getProducts = function () {
+                        if (!isProductTabVisited()){
+                            isProductTabVisited(true);
+                            ist.storeProduct.viewModel.initialize(selectedStore().companyId());
+                        }
+                    },
+                    //#endregion 
 
                     selectWidget = function (widget) {
                         this.selectedWidget(widget);
@@ -1939,7 +1947,7 @@ define("stores/stores.viewModel",
                          }
                      },
                     //Get Widget detail on drag drop
-                        getWidgetDetail = function (widget) {
+                    getWidgetDetail = function (widget) {
                             dataservice.getWidgetDetail({
                                 widgetControlName: widget.widgetControlName(),
                             }, {
@@ -1961,14 +1969,14 @@ define("stores/stores.viewModel",
                             });
                         },
                     // Returns the item being dragged
-                        dragged = function (source) {
+                    dragged = function (source) {
                             return {
                                 row: source.$parent,
                                 widget: source.$data
                             };
                         },
                     //Add Widget To Page Layout
-                        addWidgetToPageLayout = function (widget) {
+                    addWidgetToPageLayout = function (widget) {
                             if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetControlName !== undefined && widget.widgetControlName() !== "") {
                             if (widget.widgetId() === 14) {
                                 var newWidget = new model.CmsSkingPageWidget();
@@ -1988,7 +1996,7 @@ define("stores/stores.viewModel",
                             }
                         },
                     //Click on plus sign , add widget to page
-                        getWidgetDetailOnAdd = function (widget) {
+                    getWidgetDetailOnAdd = function (widget) {
                             dataservice.getWidgetDetail({
                                 widgetControlName: widget.widgetControlName(),
                             }, {
@@ -2010,19 +2018,19 @@ define("stores/stores.viewModel",
                             });
                         },
                     //Delete Page Layout Widget
-                        deletePageLayoutWidget = function (widget) {
+                    deletePageLayoutWidget = function (widget) {
                             if (widget !== undefined && widget !== null) {
                                 pageSkinWidgets.remove(widget);
                             }
                         },
-                //show Ck Editor Dialog
+                    //show Ck Editor Dialog
                     showCkEditorDialog = function (widget) {
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
                         //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
                         selectedWidget(widget.cmsSkinPageWidgetParam());
                         view.showCkEditorDialogDialog();
                     },
-                //Save Widget Params That are set in CkEditor
+                    //Save Widget Params That are set in CkEditor
                     onSaveWidgetParamFromCkEditor = function (widgetParams) {
                         var param = CKEDITOR.instances.content.getData();
                         _.each(pageSkinWidgets(), function (item) {
@@ -2034,7 +2042,7 @@ define("stores/stores.viewModel",
                         selectedWidget(undefined);
                         view.hideCkEditorDialogDialog();
                     },
-                //#endregion
+                    //#endregion
 
                     highPriorityTasks = ko.observableArray([
                         { Text: "Text1" },
@@ -2086,6 +2094,10 @@ define("stores/stores.viewModel",
                     getStoreForEditting: getStoreForEditting,
                     closeEditDialog: closeEditDialog,
                     resetFilterSection: resetFilterSection,
+                    //#region Products
+                    getProducts: getProducts,
+                    isProductTabVisited: isProductTabVisited,
+                    //#endregion
                     //#region Rave Reviews
                     templateToUseRaveReviews: templateToUseRaveReviews,
                     selectedRaveReview: selectedRaveReview,
