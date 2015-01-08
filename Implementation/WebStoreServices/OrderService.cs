@@ -41,51 +41,40 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public int ProcessPublicUserOrder(string orderTitle,Organisation org)
-        {
-            int customerID = 0;
+        // if user order cookie is null the we process the order
+        public long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId)
+        { // update but save this function changes 
+            long dummyRetailCustomerId = 0;
             long orderID = 0;
             if (!IsUserLoggedIn())
             {
                 if (!CheckCustomerCookie()) // need to update
                 {
-                    customerID = CreateCustomer();
-                    int CID = _myCompanyContact.GetContactIdByCustomrID(customerID);
-                    Company company = _myCompanyService.GetCompanyByCompanyID(customerID);
-                    Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                    orderID = _OrderRepository.CreateNewOrder(customerID, CID, company, org, prefix, orderTitle);
-                    //Here Ofcourse for new Customer There shall not be an order exists so we need to create one
+                    if (storeMode == 1) // retail
+                    {
+                        dummyRetailCustomerId = CreateCustomer();
+                        long dummyContactId = _myCompanyContact.GetContactIdByCustomrID(dummyRetailCustomerId);
+                        orderID = _OrderRepository.CreateNewOrder(dummyRetailCustomerId, dummyContactId, OrganisationId, orderTitle);
+                    }
+                    else  // corporate
+                    {
+                        // create dummy contact only in case of corporate
+                        long dummyContactId = 0; //_myCompanyContact.GetContactIdByCustomrID(dummyRetailCustomerId);
+                        orderID = _OrderRepository.CreateNewOrder(CompanyId, dummyContactId, OrganisationId, orderTitle);
+                    }
                 }
                 else
                 {
-                    customerID = (int)_myClaimHelper.loginContactCompanyID(); //dummy customer
-                    Company tblCustomer = _myCompanyService.GetCompanyByCompanyID((Int64)customerID);
-                    if (tblCustomer == null)
-                        customerID = this.CreateCustomer();
-                     Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                    int CID = _myCompanyContact.GetContactIdByCustomrID(customerID);
-
-
-                    // start from here
-
-                    orderID = _OrderRepository.GetOrderID(customerID, CID, orderTitle, tblCustomer, org, prefix);
+                   // user cookie is exists
                 }
             }
             else
             {
-                //user is Loggged in
-                //Then get customer
-                 Company tblCustomer = _myCompanyService.GetCompanyByCompanyID((Int64)customerID);
-                
-                 Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                customerID = (int)_myClaimHelper.loginContactCompanyID();
-                int contactID = (int)_myClaimHelper.loginContactID();
-                // When user is logged in then we have the contact id why to get order by customer id.
-                orderID = _OrderRepository.GetOrderID(customerID, contactID, orderTitle, tblCustomer,org,prefix);
-              //  customerID = SessionParameters.CustomerID;
+                orderID = _OrderRepository.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationId, orderTitle);
+                 
             }
 
-            return (int)orderID;
+            return orderID;
                  
         }
 

@@ -324,13 +324,13 @@ namespace MPC.Webstore.Controllers
                 isCorp = false;
              int TempDesignerID = 0;
             string ProductName = string.Empty;
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse baseResponseorg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            int ContactID = (int)_myClaimHelper.loginContactID();
-            int OrderID = ProcessOrder(baseResponseorg);
+            MyCompanyDomainBaseResponse companyBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            long ContactID = _myClaimHelper.loginContactID();
+            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, companyBaseResponse.Company.CompanyId); //ProcessOrder(baseResponseorg);
                 if (OrderID > 0)
                 {
-                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, false, false, ContactID);
+                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)companyBaseResponse.Company.CompanyId, 0, 0, 0, null, false, false, ContactID);
 
                     if (item != null)
                     {
@@ -354,7 +354,7 @@ namespace MPC.Webstore.Controllers
 
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //PartialViews/TempDesigner/ItemID/TemplateID/IsCalledFrom/CV2/ProductName/ContactID/CompanyID/IsEmbaded;
-            string URL = "PartialViews/TempDesigner/" + ItemID + "/" + TemplateID + "/" + isCalledFrom + "/" + TempDesignerID + "/" + ProductName + "/" + ContactID + "/" + (int)baseResponse.Company.CompanyId + "/" + isEmbaded;
+            string URL = "PartialViews/TempDesigner/" + ItemID + "/" + TemplateID + "/" + isCalledFrom + "/" + TempDesignerID + "/" + ProductName + "/" + ContactID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + isEmbaded;
            
             // ItemID ok
             // TemplateID ok
@@ -366,20 +366,7 @@ namespace MPC.Webstore.Controllers
             // isembaded ook
             return View(URL);
         }
-
-        public int ProcessOrder(MyCompanyDomainBaseResponse baseResponse)
-        {
-
-            int orderID = 0;
-            
-            int ordID = (int)baseResponse.Organisation.OrganisationId;
-
-            Organisation org = _myCompanyService.getOrganisatonByID(ordID);
-            
-            orderID =  _orderService.ProcessPublicUserOrder(string.Empty,org);
-            return orderID;
-        }
-
+        
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
         {
 
