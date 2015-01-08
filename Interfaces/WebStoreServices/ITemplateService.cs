@@ -10,9 +10,9 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplateService
     {
-        Template GetTemplate(int productID);
+        Template GetTemplate(long productID);
 
-        Template GetTemplateInDesigner(int productID);
+        Template GetTemplateInDesigner(long productID);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
         string GetTemplateNameByTemplateID(int tempID);

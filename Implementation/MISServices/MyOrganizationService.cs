@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
 using MPC.Interfaces.Repository;
@@ -27,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
         private readonly IStateRepository stateRepository;
         private readonly ICountryRepository countryRepository;
+        private readonly IPrefixRepository prefixRepository;
 
         #endregion
 
@@ -37,7 +39,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
          IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
-            ICountryRepository countryRepository, IStateRepository stateRepository)
+            ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository)
         {
             if (mpcFileTableViewRepository == null)
             {
@@ -49,6 +51,7 @@ namespace MPC.Implementation.MISServices
             this.mpcFileTableViewRepository = mpcFileTableViewRepository;
             this.countryRepository = countryRepository;
             this.stateRepository = stateRepository;
+            this.prefixRepository = prefixRepository;
         }
 
         #endregion
@@ -177,8 +180,6 @@ namespace MPC.Implementation.MISServices
         {
             organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
             organisation.MISLogo = organisationDbVersion.MISLogo;
-            organisationRepository.Update(organisation);
-            organisationRepository.SaveChanges();
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
             #region Markup
@@ -242,6 +243,20 @@ namespace MPC.Implementation.MISServices
                     missingMarkupListItems.Add(dbversionMarkupItem);
                 }
             }
+
+            //Check whether deleted markup used in prefix
+            foreach (Markup missingMarkupItem in missingMarkupListItems)
+            {
+                Markup dbVersionMissingItem = markupsDbVersion.First(x => x.MarkUpId == missingMarkupItem.MarkUpId);
+                if (dbVersionMissingItem.MarkUpId > 0)
+                {
+                    if (prefixRepository.PrefixUseMarkupId(dbVersionMissingItem.MarkUpId))
+                    {
+                        throw new MPCException("Deleted Markup used in Prefix.", 0);
+                    }
+                }
+            }
+
             //remove missing items
             foreach (Markup missingMarkupItem in missingMarkupListItems)
             {
@@ -313,6 +328,8 @@ namespace MPC.Implementation.MISServices
                 }
             }
             #endregion
+            organisationRepository.Update(organisation);
+            organisationRepository.SaveChanges();
 
             return new MyOrganizationSaveResponse
             {

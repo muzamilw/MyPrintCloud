@@ -113,31 +113,11 @@ namespace MPC.MIS.Areas.Api.Models
 
         public List<RaveReview> RaveReviews { get; set; }
         public List<CompanyCMYKColor> CompanyCmykColors { get; set; }
-        public ICollection<CompanyTerritory> CompanyTerritories { get; set; }
-        public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }
-        // Maintaining List for POST call to determine new Added List Of Territories
-        public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }
-        public ICollection<CompanyTerritory> DeletedCompanyTerritories { get; set; }
-        public ICollection<Address> NewAddedAddresses { get; set; }
-        // Maintaining List for POST call to determine new Added List Of Addresses
-        public ICollection<Address> EdittedAddresses { get; set; }
-        public ICollection<Address> DeletedAddresses { get; set; }
-        public ICollection<ProductCategory> NewProductCategories { get; set; }
-        // Maintaining List for POST call to determine new Added List Of Addresses
-        public ICollection<ProductCategory> EdittedProductCategories { get; set; }
-        public ICollection<ProductCategory> DeletedProductCategories { get; set; }
-        public ICollection<CompanyContact> NewAddedCompanyContacts { get; set; }
-        public ICollection<CompanyContact> EdittedCompanyContacts { get; set; }
-        public ICollection<CompanyContact> DeletedCompanyContacts { get; set; }
         public ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual CompanyType CompanyType { get; set; }
-        public List<Address> Addresses { get; set; }
         public List<CompanyContact> CompanyContacts { get; set; }
         public List<CompanyBannerSet> CompanyBannerSets { get; set; }
         public List<CmsPageForListView> CmsPages { get; set; }
-        public List<CmsPage> NewAddedCmsPages { get; set; }
-        public List<CmsPage> EditCmsPages { get; set; }
-        public List<CmsPage> DeletedCmsPages { get; set; }
         public List<PageCategory> PageCategories { get; set; }
         public List<Campaign> Campaigns { get; set; }
         public List<ProductCategoryListViewModel> ProductCategoriesListView { get; set; }
@@ -150,7 +130,60 @@ namespace MPC.MIS.Areas.Api.Models
         /// Have Items/Products List
         /// </summary>
         public ItemSearchResponse ItemsResponse { get; set; }
-        
+
+        #region CMS Pages
+
+        public List<CmsPage> NewAddedCmsPages { get; set; }
+        public List<CmsPage> EditCmsPages { get; set; }
+        public List<CmsPage> DeletedCmsPages { get; set; }
+
+        #endregion
+
+        #region Company Territories
+
+        public ICollection<CompanyTerritory> CompanyTerritories { get; set; }
+        public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }
+        // Maintaining List for POST call to determine new Added List Of Territories
+        public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }
+        public ICollection<CompanyTerritory> DeletedCompanyTerritories { get; set; }
+
+        #endregion
+
+        #region Addresses
+
+        public List<Address> Addresses { get; set; }
+        public ICollection<Address> NewAddedAddresses { get; set; }
+        // Maintaining List for POST call to determine new Added List Of Addresses
+        public ICollection<Address> EdittedAddresses { get; set; }
+        public ICollection<Address> DeletedAddresses { get; set; }
+
+        #endregion
+
+        #region Product Categories
+
+        public ICollection<ProductCategory> NewProductCategories { get; set; }
+        // Maintaining List for POST call to determine new Added List Of Addresses
+        public ICollection<ProductCategory> EdittedProductCategories { get; set; }
+        public ICollection<ProductCategory> DeletedProductCategories { get; set; }
+
+        #endregion
+
+        #region Company Contacts
+
+        public ICollection<CompanyContact> NewAddedCompanyContacts { get; set; }
+        public ICollection<CompanyContact> EdittedCompanyContacts { get; set; }
+        public ICollection<CompanyContact> DeletedCompanyContacts { get; set; }
+
+        #endregion
+
+        #region Products
+
+        public ICollection<Item> NewAddedProducts { get; set; }
+        public ICollection<Item> EdittedProducts { get; set; }
+        public ICollection<Item> Deletedproducts { get; set; }
+
+        #endregion
+
         #endregion
 
         #region Public Image Source

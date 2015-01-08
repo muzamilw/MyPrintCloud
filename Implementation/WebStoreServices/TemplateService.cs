@@ -25,7 +25,7 @@ namespace MPC.Implementation.WebStoreServices
 
         #region public
         // called from webstore usually for coping template
-        public Template GetTemplate(int productID)
+        public Template GetTemplate(long productID)
         {
             var product= _templateRepository.GetTemplate(productID);
             if (product.Orientation == 2) //rotating the canvas in case of vert orientation
@@ -38,7 +38,7 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from designer, all the units are converted to pixel before sending 
-        public Template GetTemplateInDesigner(int productID)
+        public Template GetTemplateInDesigner(long productID)
         {
             var product = _templateRepository.GetTemplate(productID);
 

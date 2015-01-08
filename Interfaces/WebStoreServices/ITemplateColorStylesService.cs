@@ -9,9 +9,9 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplateColorStylesService
     {
-        List<TemplateColorStyle> GetColorStyle(int ProductId, int CustomerID);
-        List<TemplateColorStyle> GetColorStyle(int ProductId);
-        int SaveCorpColor(int C, int M, int Y, int K, string Name, int CustomerID);
-        string UpdateCorpColor(int id, string type);
+        List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerID);
+        List<TemplateColorStyle> GetColorStyle(long ProductId);
+        int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID);
+        string UpdateCorpColor(long id, string type);
     }
 }

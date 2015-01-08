@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ITemplateObjectRepository : IBaseRepository<TemplateObject, int>
     {
-        List<TemplateObject> GetProductObjects(int productId);
+        List<TemplateObject> GetProductObjects(long productId);
     }
 }
