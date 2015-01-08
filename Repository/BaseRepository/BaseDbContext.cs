@@ -359,6 +359,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<TemplateFont> TemplateFonts { get; set; }
 
         /// <summary>
+        /// Product Categories View DbSet
+        /// </summary>
+        public DbSet<ProductCategoriesView> ProductCategoriesViews { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)
