@@ -14,6 +14,7 @@ using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System.IO;
 using MPC.Webstore.Models;
+using Newtonsoft.Json;
 
 namespace MPC.Webstore.Controllers
 {
@@ -27,6 +28,8 @@ namespace MPC.Webstore.Controllers
 
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
+        private readonly IOrderService _orderService;
+
         #endregion
 
 
@@ -34,7 +37,8 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProductOptionsController(IItemService myItemService, ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public ProductOptionsController(IItemService myItemService, ICompanyService myCompanyService,
+            IWebstoreClaimsHelperService webstoreAuthorizationChecker, IOrderService orderService)
         {
             if (myItemService == null)
             {
@@ -50,21 +54,34 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("webstoreAuthorizationChecker");
             }
+
+            if (orderService == null)
+            {
+                throw new ArgumentNullException("orderService");
+            }
             this._myItemService = myItemService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+            this._orderService = orderService;
         }
 
         #endregion
         // GET: ProductOptions
         public ActionResult Index(string Cid, string Itemid, string Mode)
         {
-            // add falg idd
+            
 
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
 
             List<AddOnCostCenterViewModel> AddonObjectList = null;
 
+            //  
+            if (Mode == "UploadDesign") 
+            {
+                //MyCompanyDomainBaseResponse baseResponseorg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+               // int OrderID = _orderService.ProcessPublicUserOrder(string.Empty, baseResponseorg);
+            }
+            // get reference item, stocks, addons, price matrix
             Item referenceItem = _myItemService.GetItemById(Convert.ToInt64(Itemid));
 
             ViewData["StckOptions"] = _myItemService.GetStockList(Convert.ToInt64(Itemid), UserCookieManager.StoreId);
@@ -233,10 +250,11 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ItemCartViewModel item)
+        public ActionResult Index(ItemCartViewModel cartObject)
         {
-            // add falg idd
-            //string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+            ProductPriceMatrixViewModel selectedPriceMatrix = JsonConvert.DeserializeObject<ProductPriceMatrixViewModel>(cartObject.JsonPriceMatrix);
+
+            AddOnCostCenterViewModel selectedAddOns = JsonConvert.DeserializeObject<AddOnCostCenterViewModel>(cartObject.JsonPriceMatrix);
 
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
 

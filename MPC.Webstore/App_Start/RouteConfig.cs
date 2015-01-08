@@ -14,11 +14,7 @@ namespace MPC.Webstore
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-               "Error",
-               "Error/{controller}/{action}/{id}",
-               new { controller = "Home", action = "Error", id = UrlParameter.Optional }
-           );
+
 
             routes.MapRoute("clear"
                  , "clear/{name}"
@@ -35,6 +31,7 @@ namespace MPC.Webstore
                 "Login/{controller}/{action}/{FirstName}/{LastName}/{Email}/{IsMarketing}",
                 new { controller = "Home", action = "Index", FirstName = UrlParameter.Optional, LastName = UrlParameter.Optional, Email = UrlParameter.Optional, IsMarketing = UrlParameter.Optional }
             );
+
             routes.MapRoute(
             "SignUp",
             "SignUp/{controller}/{action}/{id}",
@@ -69,15 +66,22 @@ namespace MPC.Webstore
    new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
      );
 
-             routes.MapRoute(
-              "CloneItem",
-              "CloneItem/{id}",
-              new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
-                );
+            routes.MapRoute(
+             "CloneItem",
+             "CloneItem/{id}",
+             new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
+               );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+               "Error",
+               "Error/{controller}/{action}/{id}",
+               new { controller = "Home", action = "Error", id = UrlParameter.Optional }
             );
         }
     }

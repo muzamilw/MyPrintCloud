@@ -242,7 +242,7 @@
                     else
                     {
                         <div class="InStockContainer" style="background:#f3f3f3; color:black;">
-                            <label>@Resources.MyResource.lblItemInStock @ViewBag.InStock</label>
+                            <label>@Resources.MyResource.lblitemInStock @ViewBag.InStock</label>
                         </div>
                     }
 
@@ -255,12 +255,13 @@
                 <div class="float_right">
                     @using (Html.BeginForm())
                     {
+                        
                         @Html.HiddenFor(m => m.ItemId, new { id = "VMItemId" })
-                        @Html.HiddenFor(m => m.OrderId, new { id = "VMOrderId" })
                         @Html.HiddenFor(m => m.JsonPriceMatrix, new { id = "VMJsonMatrix" })
                         @Html.HiddenFor(m => m.JsonAddOnsPrice, new { id = "VMJsonAddOns" })
-                        @Html.HiddenFor(m => m.TaxRate, new { id = "VMTaxRate" })
-                        @Html.HiddenFor(m => m.isTaxApplied, new { id = "VMTaxApplied" })
+                        @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
+                        @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
+                        @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
                         <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
                     }
                    
@@ -718,7 +719,8 @@
                         }
 
                     }
-
+                    
+                    
                     if (OrderedJasonObject != null) {
 
                         selectedStockType = selectedStockType + '_PriceMatrixID_' + OrderedJasonObject.ItemID;
@@ -732,7 +734,10 @@
 
 
                         this.displayTotalPrice(Price, calculateAddOns());
+                   
                     }
+                    $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
+                   
                 }
             }
             else {
@@ -752,8 +757,8 @@
             var price = "";
 
             price = parseFloat($('#' + selectedStockNo).attr("title"));
-
-
+           
+            $("#VMJsonMatrix").val(JSON.stringify(JsonData));
 
             this.displayTotalPrice(price, calculateAddOns());
         }
@@ -782,6 +787,9 @@
                         $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
                     }
                 });
+
+                $("#VMStockId").val($('input:radio[class=' + classname + ']').attr("data-Id"));
+
                 hideShowPriceColumns(classname);
 
             }
@@ -868,12 +876,16 @@
             $(columnsListObj).css("display", "none");
         }
 
-        function displayTotalPrice(productPrice, addOnPrice) {
+        function displayTotalPrice(itemPrice, addOnPrice) {
 
-            var productPriceTotal = parseFloat(productPrice);
-            var addonPriceTotal = parseFloat(addOnPrice);
+            itemPrice = parseFloat(itemPrice);
+            addOnPrice = parseFloat(addOnPrice);
 
-            TotalItemPrice = productPrice;
+            $("#VMPrice").val(itemPrice);
+            $("#VMAddOnrice").val(addOnPrice);
+             
+
+            
 
             var culturee = 1;
 
@@ -895,23 +907,23 @@
 
             }
 
-            productPriceTotal = productPriceTotal + addonPriceTotal;
-            productPriceTotal = productPriceTotal.toFixed(2);
+            TotalItemPrice = productPriceTotal + addonPriceTotal;
+            TotalItemPrice = TotalItemPrice.toFixed(2);
 
-           
+
             var isShowPricing = 1;//'<%=isCorporatePricingshown %>';
             
             if (isShowPricing == 1) {
                     if (IsInt == -1) {
-                        $('#lblGrossTotal').text(@ViewBag.Currency +productPriceTotal);
+                        $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
                     } else {
-                        $('#lblGrossTotal').text(@ViewBag.Currency +productPriceTotal);
+                        $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
                     }
                 }
                 else {
                     $('#lblGrossTotal').css("display", "none");
             }
-            if (productPriceTotal > 0) {
+            if (TotalItemPrice > 0) {
                 isPriceSelected = 1;
             }
             
@@ -987,7 +999,7 @@
 
                         // check the costcenter if its type is fixed then we will take its setup cost
                         //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-
+                        
                         var actualPrice = checkBoxJasonData.ActualPrice;
 
                         if (checkBoxJasonData.Type == 2) {
@@ -1011,7 +1023,7 @@
 
                         }
                         checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice); //Gets Actual non discounted Price
-
+                        $("#VMJsonAddOns").val(JSON.stringify(checkBoxJasonData));
                     }
                 } else {
                     $(this).parent().css("background-image", "url('../../images/square-final.png')");

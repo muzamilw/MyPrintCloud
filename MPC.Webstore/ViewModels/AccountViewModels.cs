@@ -48,9 +48,9 @@ namespace MPC.Webstore.Models
 
         public string JsonAddOnsPrice { get; set; }
 
-        public string isTaxApplied { get; set; }
+        public string ItemPrice { get; set; }
 
-        public string TaxRate { get; set; }
+        public string AddOnPrice { get; set; }
 
         public string StockId { get; set; }
     }

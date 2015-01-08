@@ -50,9 +50,6 @@ function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID) {
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }
-<<<<<<< HEAD
-
-=======
 function ConfirmDeleteItemPopUP(htmlRemove)
 {
 
@@ -77,7 +74,6 @@ function ConfirmDeleteItemPopUP(htmlRemove)
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }
->>>>>>> 44786481bc9a62109263bad9e44600dc56b5d5e2
 function getBrowserHeight() {
     var intH = 0;
     var intW = 0;
@@ -113,7 +109,6 @@ function RedirectToSignUp(ReturnURL)
 {
     window.location.href = "/SignUp?ReturnURL=" + ReturnURL;
 }
-<<<<<<< HEAD
 function ShowLoader() {
 
     var container = '<div><img src="~/Content/Images/fancybox_loading.gif" /></div>';
@@ -137,7 +132,7 @@ function ShowLoader() {
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }
-function ShowArtWorkPopup(Type,panelHtml) {
+function ShowArtWorkPopup(Type, panelHtml) {
 
     var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
 
@@ -159,10 +154,9 @@ function ShowArtWorkPopup(Type,panelHtml) {
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
-=======
+}
 function ConfirmRemove(Path)
 {
  
     window.location.href = Path;
->>>>>>> 44786481bc9a62109263bad9e44600dc56b5d5e2
 }

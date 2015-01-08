@@ -1683,77 +1683,6 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to Upload your own home page banners.
         /// </summary>
-        internal static string lblGL1Heading {
-            get {
-                return ResourceManager.GetString("lblGL1Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bleed Area:.
-        /// </summary>
-        internal static string lblGL2Heading {
-            get {
-                return ResourceManager.GetString("lblGL2Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Safe Area:.
-        /// </summary>
-        internal static string lblGL3Heading {
-            get {
-                return ResourceManager.GetString("lblGL3Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to File formats:.
-        /// </summary>
-        internal static string lblGL4Heading {
-            get {
-                return ResourceManager.GetString("lblGL4Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resolutions:.
-        /// </summary>
-        internal static string lblGL5Heading {
-            get {
-                return ResourceManager.GetString("lblGL5Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to File size:.
-        /// </summary>
-        internal static string lblGL6Heading {
-            get {
-                return ResourceManager.GetString("lblGL6Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Crop Marks:.
-        /// </summary>
-        internal static string lblGL7Heading {
-            get {
-                return ResourceManager.GetString("lblGL7Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pre-flight:.
-        /// </summary>
-        internal static string lblGL8Heading {
-            get {
-                return ResourceManager.GetString("lblGL8Heading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// </summary>
         internal static string lblBannerDesc {
             get {
                 return ResourceManager.GetString("lblBannerDesc", resourceCulture);
@@ -1985,15 +1914,77 @@ namespace Resources {
             }
         }
         
-    
+        /// <summary>
+        ///   Looks up a localized string similar to Trim Size:.
+        /// </summary>
+        internal static string lblGL1Heading {
+            get {
+                return ResourceManager.GetString("lblGL1Heading", resourceCulture);
+            }
+        }
         
-     
-     
-    
+        /// <summary>
+        ///   Looks up a localized string similar to Bleed Area:.
+        /// </summary>
+        internal static string lblGL2Heading {
+            get {
+                return ResourceManager.GetString("lblGL2Heading", resourceCulture);
+            }
+        }
         
-      
+        /// <summary>
+        ///   Looks up a localized string similar to Safe Area:.
+        /// </summary>
+        internal static string lblGL3Heading {
+            get {
+                return ResourceManager.GetString("lblGL3Heading", resourceCulture);
+            }
+        }
         
-    
+        /// <summary>
+        ///   Looks up a localized string similar to File formats:.
+        /// </summary>
+        internal static string lblGL4Heading {
+            get {
+                return ResourceManager.GetString("lblGL4Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resolutions:.
+        /// </summary>
+        internal static string lblGL5Heading {
+            get {
+                return ResourceManager.GetString("lblGL5Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File size:.
+        /// </summary>
+        internal static string lblGL6Heading {
+            get {
+                return ResourceManager.GetString("lblGL6Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crop Marks:.
+        /// </summary>
+        internal static string lblGL7Heading {
+            get {
+                return ResourceManager.GetString("lblGL7Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-flight:.
+        /// </summary>
+        internal static string lblGL8Heading {
+            get {
+                return ResourceManager.GetString("lblGL8Heading", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Google analytic snippet.
@@ -3535,78 +3526,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check the diagram for artwork size guides.
-        /// </summary>
-        internal static string ltrlGL1Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL1Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Allow bleed runs off for all images that cut.
-        /// </summary>
-        internal static string ltrlGL2Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL2Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to place your text and logos 5 mm inside the trim edges.
-        /// </summary>
-        internal static string ltrlGL3Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL3Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Photoshop, illustrator, Indesign, Pdf and Jpeg file formats..
-        /// </summary>
-        internal static string ltrlGL4Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL4Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save your file in 300 dpi resolution with embedded fonts &amp; images..
-        /// </summary>
-        internal static string ltrlGL5Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL5Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to File greater than 10 mb are not permitted for upload..
-        /// </summary>
-        internal static string ltrlGL6Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL6Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Do not include registration or crop marks..
-        /// </summary>
-        internal static string ltrlGL7Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL7Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pre-flight your PDFs using the Adobe PDF/ X-1a preset..
-        /// </summary>
-        internal static string ltrlGL8Desc {
-            get {
-                return ResourceManager.GetString("ltrlGL8Desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Reference:.
         /// </summary>
         internal static string ltlReference {
@@ -4136,7 +4055,78 @@ namespace Resources {
                 return ResourceManager.GetString("ltrlgetintouch", resourceCulture);
             }
         }
-      
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check the diagram for artwork size guides.
+        /// </summary>
+        internal static string ltrlGL1Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL1Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow bleed runs off for all images that cut.
+        /// </summary>
+        internal static string ltrlGL2Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL2Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to place your text and logos 5 mm inside the trim edges.
+        /// </summary>
+        internal static string ltrlGL3Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL3Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photoshop, illustrator, Indesign, Pdf and Jpeg file formats..
+        /// </summary>
+        internal static string ltrlGL4Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL4Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save your file in 300 dpi resolution with embedded fonts &amp; images..
+        /// </summary>
+        internal static string ltrlGL5Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL5Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File greater than 10 mb are not permitted for upload..
+        /// </summary>
+        internal static string ltrlGL6Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL6Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not include registration or crop marks..
+        /// </summary>
+        internal static string ltrlGL7Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL7Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-flight your PDFs using the Adobe PDF/ X-1a preset..
+        /// </summary>
+        internal static string ltrlGL8Desc {
+            get {
+                return ResourceManager.GetString("ltrlGL8Desc", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to to go back to your cart..
