@@ -971,7 +971,7 @@ namespace MPC.Repository.Repositories
                     IsOptionalExtra = 1,
                     Qty1Charge = BAddOnPrice,
                     Qty1NetTotal = BAddOnPrice,
-                    QtyChargeBroker = addOn.ActualPrice,
+                   // QtyChargeBroker = addOn.ActualPrice,
                 };
 
                 return tblISectionCostCenteres;
