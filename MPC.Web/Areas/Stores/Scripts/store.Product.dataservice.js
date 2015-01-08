@@ -18,6 +18,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get item by id
+                    amplify.request.define('getItem', 'ajax', {
+                        url: ist.siteUrl + '/Api/Item',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -26,6 +33,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get Item by id 
+            getItem = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getItem',
+                    data: params,
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -44,6 +61,7 @@
 
         return {
             getBaseData: getBaseData,
+            getItem: getItem,
             getCompanyProduct: getCompanyProduct
         };
     })();

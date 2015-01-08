@@ -1510,9 +1510,8 @@ define("stores/stores.viewModel",
                     //Save Store
                     saveStore = function () {
                         if (doBeforeSave()) {
-
                             var storeToSave = model.Store().convertToServerData(selectedStore());
-
+                            //#region Company Territories
                             _.each(newCompanyTerritories(), function (territory) {
                                 storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
                             });
@@ -1522,7 +1521,7 @@ define("stores/stores.viewModel",
                             _.each(deletedCompanyTerritories(), function (territory) {
                                 storeToSave.DeletedCompanyTerritories.push(territory.convertToServerData());
                             });
-
+                            //#endregion
                             //Secondary Pages
                             _.each(newAddedSecondaryPage(), function (sPage) {
                                 storeToSave.NewAddedCmsPages.push(sPage.convertToServerData(sPage));
@@ -1537,11 +1536,11 @@ define("stores/stores.viewModel",
                             _.each(pageCategories(), function (pageCategory) {
                                 storeToSave.PageCategories.push(pageCategory.convertToServerData(pageCategory));
                             });
-                            //Emails (Campaigns)
+                            //#region Emails (Campaigns)
                             _.each(emails(), function (email) {
                                 storeToSave.Campaigns.push(email.convertToServerData(email));
                             });
-
+                            //#endregion
                             _.each(companyBannerSetList(), function (bannerSet) {
                                 var bannerSetServer = bannerSet.convertToServerData(bannerSet);
                                 var banners = [];
@@ -1554,7 +1553,7 @@ define("stores/stores.viewModel",
                                 storeToSave.CompanyBannerSets.push(bannerSetServer);
                             });
                             currentPageWidgets();
-                            //Page widgets
+                            //#region Page widgets
                             _.each(allPagesWidgets(), function (pageItem) {
                                 var page = pageItem.convertToServerData();
                                 var widgetList = [];
@@ -1570,7 +1569,8 @@ define("stores/stores.viewModel",
                                 ko.utils.arrayPushAll(page.CmsSkinPageWidgets, widgetList);
                                 storeToSave.CmsPageWithWidgetList.push(page);
                             });
-                            //Addresses
+                            //#endregion
+                            //#region Addresses
                             _.each(newAddresses(), function (address) {
                                 storeToSave.NewAddedAddresses.push(address.convertToServerData());
                             });
@@ -1580,8 +1580,8 @@ define("stores/stores.viewModel",
                             _.each(deletedAddresses(), function (address) {
                                 storeToSave.DeletedAddresses.push(address.convertToServerData());
                             });
-
-                            //Product Categories
+                            //#endregion
+                            //#region Product Categories
                             _.each(newProductCategories(), function (productCategory) {
                                 if (productCategory.productCategoryId() < 0) {
                                     productCategory.productCategoryId(undefined);
@@ -1600,7 +1600,8 @@ define("stores/stores.viewModel",
                                 }
                                 storeToSave.DeletedProductCategories.push(productCategory.convertToServerData());
                             });
-                            //Company Contacts
+                            //#endregion
+                            // #region Company Contacts
                             _.each(newCompanyContacts(), function (companyContact) {
                                 storeToSave.NewAddedCompanyContacts.push(companyContact.convertToServerData());
                             });
@@ -1610,6 +1611,23 @@ define("stores/stores.viewModel",
                             _.each(deletedCompanyContacts(), function (companyContact) {
                                 storeToSave.DeletedCompanyContacts.push(companyContact.convertToServerData());
                             });
+                            //#endregion
+                            //#region Products
+                            debugger;
+                            _.each(ist.storeProduct.viewModel.newAddedProducts(), function (product) {
+                                if (product.id() < 0) {
+                                    product.id(undefined);
+                                }
+                                storeToSave.NewAddedProducts.push(product.convertToServerData());
+                            });
+                            _.each(ist.storeProduct.viewModel.edittedProducts(), function (product) {
+                                storeToSave.EdittedProducts.push(product.convertToServerData());
+                            });
+                            _.each(ist.storeProduct.viewModel.deletedproducts(), function (product) {
+                                storeToSave.Deletedproducts.push(product.convertToServerData());
+                            });
+                            
+                            //#endregion
                             dataservice.saveStore(
                                 storeToSave, {
                                     success: function (data) {
@@ -1623,17 +1641,6 @@ define("stores/stores.viewModel",
                                         isEditorVisible(false);
                                         toastr.success("Successfully save.");
                                         resetObservableArrays();
-                                        newAddedSecondaryPage.removeAll();
-                                        editedSecondaryPage.removeAll();
-                                        deletedSecondaryPage.removeAll();
-                                        allPagesWidgets.removeAll();
-                                        pageSkinWidgets.removeAll();
-                                        deletedProductCategories.removeAll();
-                                        edittedProductCategories.removeAll();
-                                        newProductCategories.removeAll();
-                                        selectedCurrentPageId(undefined);
-                                        selectedCurrentPageCopy(undefined);
-
                                     },
                                     error: function (response) {
                                         toastr.error("Failed to Update . Error: " + response);
@@ -1826,6 +1833,18 @@ define("stores/stores.viewModel",
                         edittedCompanyContacts.removeAll();
                         newCompanyContacts.removeAll();
                         parentCategories.removeAll();
+                        
+                        newAddedSecondaryPage.removeAll();
+                        editedSecondaryPage.removeAll();
+                        deletedSecondaryPage.removeAll();
+                        allPagesWidgets.removeAll();
+                        pageSkinWidgets.removeAll();
+                        deletedProductCategories.removeAll();
+                        edittedProductCategories.removeAll();
+                        newProductCategories.removeAll();
+                        selectedCurrentPageId(undefined);
+                        selectedCurrentPageCopy(undefined);
+                        isProductTabVisited(false);
 
                     },
                     //#endregion
@@ -1839,6 +1858,7 @@ define("stores/stores.viewModel",
                         }
                     },
                     //#endregion 
+                    
                     // #region _______________  LAYOUT WIDGET _________________
 
 

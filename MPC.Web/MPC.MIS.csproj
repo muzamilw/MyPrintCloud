@@ -1399,6 +1399,11 @@
     <Content Include="Areas\Settings\Views\Home\MachinesList.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductAddVideo.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductRelatedProductDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductStockDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StockProductItemAddonCostCentre.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
