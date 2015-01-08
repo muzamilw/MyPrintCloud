@@ -17,14 +17,13 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
 
-  
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, int TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID);
 
-        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct,  long ObjContactID, Company NewCustomer);
         Item GetItemById(long RefitemId);
 
         ProductItem GetItemAndDetailsByItemID(int itemId);
@@ -36,5 +35,7 @@ namespace MPC.Interfaces.Repository
         void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
+
+        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
     }
 }

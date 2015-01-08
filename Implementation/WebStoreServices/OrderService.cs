@@ -93,7 +93,7 @@ namespace MPC.Implementation.WebStoreServices
         public bool CheckCustomerCookie()
         {
 
-            bool result = true;
+            bool result = false;
             //HttpCookie customerCookie = null;
 
 

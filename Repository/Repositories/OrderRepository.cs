@@ -77,7 +77,7 @@ namespace MPC.Repository.Repositories
 
             orderObject.isEstimate = false;
 
-            orderObject.StatusId = 3;
+            orderObject.StatusId = (short)OrderStatus.ShoppingCart;
 
             orderObject.SectionFlagId = 145;
 

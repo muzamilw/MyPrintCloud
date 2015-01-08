@@ -53,6 +53,9 @@ namespace MPC.Webstore.Models
         public string AddOnPrice { get; set; }
 
         public string StockId { get; set; }
+
+        public double QuantityOrdered { get; set; }
+
     }
 
 

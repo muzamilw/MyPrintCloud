@@ -262,6 +262,8 @@
                         @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
                         @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
                         @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
+                        @Html.HiddenFor(m => m.StockId, new { id = "VMQuantityOrdered" })
+                        
                         <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
                     }
                    
@@ -736,6 +738,7 @@
                         this.displayTotalPrice(Price, calculateAddOns());
                    
                     }
+                    $("#VMQuantityOrdered").val(QuantityOrdered);
                     $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
                    
                 }
@@ -765,6 +768,7 @@
 
         $(".dropdownQtyListClass").change(function () {
 
+            $("#VMQuantityOrdered").val($(this).find(":selected").val());
             CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
         });
 
@@ -883,7 +887,7 @@
 
             $("#VMPrice").val(itemPrice);
             $("#VMAddOnrice").val(addOnPrice);
-             
+            $("#VMItemId").val(@ViewBag.ClonedItemId);
 
             
 
