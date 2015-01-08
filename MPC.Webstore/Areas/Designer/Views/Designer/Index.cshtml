@@ -1,4 +1,970 @@
-﻿
-<script>
-    alert(window.location.search.substring(1));
-</script>
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Template Designer</title>
+    <meta charset="utf-8" />
+    @*@Styles.Render("~/Content/DesignerCss")*@
+    @*@Scripts.Render("~/bundles/designerPreloadScripts")*@
+
+    <link href="~/Content/Designer/DSv2.css" rel="stylesheet" />
+    <link href="~/Content/Designer/jquery-sunny/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
+    <link href="~/Content/Designer/p103.css" rel="stylesheet" />
+    <link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
+    <script src="~/Scripts/Designer/p55.js"></script>
+    <script src="~/Scripts/Designer/p55-ease.js"></script>
+    <script src="~/Scripts/Designer/p40.js"></script>
+    <script src="~/Scripts/Designer/pvcc1.js"></script>
+    <script src="~/Scripts/Designer/pcf01-v2.js"></script>
+    <script src="~/Scripts/Designer/p64test.js"></script>
+    <script src="~/Scripts/Designer/p21-v2.js"></script>
+    <script src="~/Scripts/Designer/p15-v2.js"></script>
+
+</head>
+<body>
+
+    <section id="content" class="preparing ">
+        <section id="objectPanel" class="locked stage2" data-num-cols="4">
+
+            <span id="selectedTab"><span></span><span></span></span>
+            <menu class="mainLeftMenu">
+              
+                <li class="search on" style="display:none;"><a>Images</a></li>
+                <li id="Template" class="layout"><a>Templates</a></li>
+                <li id="Quick" class="QuickTxt"><a>Quick</a></li>
+                <li id="btnAdd" class="text btnAdd"><a>Add</a></li>
+                <li id="backgrounds" class="backgrounds"><a>Bkgrounds</a></li>
+                <li id="uploads" class="uploads" style="display:none;"><a>Uploads</a></li>
+                <li id="layersPanel" class="layersPanel"><a>Layers</a></li>
+                <li class="layoutsPanel" style="display:none;"><a>Layouts</a></li>
+            </menu>
+
+            <section class="content mainContainer">
+                <section id="resultsSearch" class="results infinite">  </section>
+
+                <section id="resultsLayout" class="results infinite twoCol">
+                    <section class="layer  resultLayoutsScroller ">
+                        <div class="inner">
+                            <div class="searchGroup hasContent templateListULSG">
+                                <ul class="gallery infoPanelGallery templateGallery laidOut templateListUL"></ul>
+
+                            </div>
+                        </div>
+                    </section>
+
+                </section>
+                <section id="resultsQText" class="results infinite">
+                    <section class="layer scrollPane">
+                        <div class="inner">
+                            <ul class=" textControls">
+                                <li><a class="add QuickTextTitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>
+                            </ul>
+                            <div class="QuickTextFields textControls">
+
+                            </div>
+
+                        </div>
+                    </section>
+
+                </section>
+                <section id="resultsText" class="results infinite">
+                    <section class="layer scrollPaneImgDam infinite">
+                        <div class="inner browseCategories ">
+                            <div class="AddBrowserCategories">
+                                <ul class="gallery photoGallery albumGallery categories laidOut UlAddMain" style="height: 258px;">
+                                    <li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c1">
+                                        <a title="Upload Images" id="uploadImagesMB">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            @*<%--<img src="assets-v2/upload_folder_thumbnail.png" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />--%>*@
+                                            <img src="" id="uploadImage" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                            <span class="text">Upload</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 109px; top: 0px;" class="AddBLr1c2">
+                                        <a title="Add text" class="btnAtext">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img id="AddText" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                            <span class="text">Add Text</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 218px; top: 0px;" class="AddBLr1c3">
+                                        <a title="Add Images" class="btnAFrames">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img id="Image" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                            <span class="text">Images</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 0px; top: 129px;" class="AddBLr1c3">
+                                        <a title="Add Images" class="CustomRectangleObj">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/btn-rect-main.png" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                            <span class="text">Rectangle</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 109px; top: 129px;" class="AddBLr1c3">
+                                        <a title="Add Images" class="CustomCircleObj">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/btn-Circle-main.png" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                            <span class="text">Circle</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <section class="ImagesScrollContainer">
+                                <section class="UploadsContainer AddPanels disappearing Addr1c1">
+                                    <div class="inlineFolderPointer" style="left: 84.5px;"></div>
+                                    <div class="inlineFolderGroup searchGroup hasContent" style=" border-bottom:none;">
+                                        <ul class="gallery infoPanelGallery photoGallery  " id="Ul1"></ul>
+                                    </div>
+                                </section>
+                                <section class="Textcontainer AddPanels disappearing Addr1c2">
+                                    <div class="inlineFolderPointer" style="left: 193.5px;"></div>
+                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-bottom:none;">
+                                        <button class="btnBackFromTxt bkbtnIphone">Add</button>
+         
+                                        <ul class=" textControls">
+                                            <li class="ThemeColor">
+                                                <textarea name="txtareaAddTxt" id="txtareaAddTxt" placeholder="Add text to template" class="qTextInput" maxlength="500" style="height: 190px;"></textarea>
+
+                                            </li>
+                                            <li>
+                                                <a class=" SampleBtn btntxt" id="btnAddheading">Add heading</a>
+                                                <a class=" SampleBtn btntxt" id="btnAddSubtitle">Add as subtitle</a>
+                                                <a class=" SampleBtn btntxt" id="btnaddbody">Add as body</a>
+                                                @*<%--<a id="btnAddTxt" title="Save" style="width: 299px;" class="SampleBtn"><span class="onText">Add to canvas</span> </a>--%>*@
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </section>
+                                <section class="ImagesContainer AddPanels disappearing Addr1c3">
+                                    <div class="inlineFolderPointe r " style="left: 302.5px;"></div>
+                                    <section class=" ">
+                                        <div class="inner">
+                                            <div class="inlineFolderGroup searchGroup hasContent browseCategories ImgsBrowserCategories " style="overflow: visible; border-bottom: none;">
+                                                <div class="ulImagesSecTop">
+                                                    <button class="btnBackFromImgs bkbtnIphone">Add</button>Back to Add
+                                                    <ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
+                                                        <li style="width: 109px; left: 0px; top: 0px;" class="ImgLr1c1">
+                                                            <a title="Free Images" class="btnFreeImgs">
+                                                                <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                                                <img id="FreeImages" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                                                <span class="text">Free Images</span>
+                                                            </a>
+                                                        </li>
+                                                        <li style="width: 109px; left: 109px; top: 0px;" class="ImgLr1c2">
+                                                            <a title="Illustrations" class="btnIllustrations">
+                                                                <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                                                <img id="MyImages" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                                                <span class="text">My Images</span>
+                                                            </a>
+                                                        </li>
+                                                        <li style="width: 109px; left: 218px; top: 0px;" class="ImgLr1c3">
+                                                            <a title="Frames" class="btnFrames">
+                                                                <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                                                <img id="MyLogos" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                                                <span class="text">My Logos</span>
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                                <section class="ImagesScrollContainer  ">
+                                                    <section class="freeImgsContainer ImgPanels disappearing Imr1c1">
+                                                        @*<%--<div class="inlineFolderPointer" style="left: 84.5px;"></div>--%>*@
+                                                        <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                                            <button class="btnBackGlImgs bkbtnIphone">Images</button>
+                                                            <input type="text" placeholder="Search 1,000,000 images…" autocomplete="off" id="inputSearchTImg" class="searchBtn" />
+                                                            <ul class="gallery infoPanelGallery photoGallery listDamImages divGlobImgContainer" id="divGlobImgContainer"></ul>
+                                                        </div>
+                                                    </section>
+                                                    <section class="illustrationsContainer ImgPanels disappearing Imr1c2">
+                                                        @*<%--  <div class="inlineFolderPointer" style="left: 193.5px;"></div>--%>*@
+                                                        <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                                            <button class="btnBackMyImg  bkbtnIphone">Images</button>
+                                                            <section class="uploadButtonAndMessage">
+                                                                <button class="button buttonBlock fileUploadButton" id="uploadImages">Upload your own images / logos</button><p>Recommended 300 dpi CMYK JPeg or PDF files.</p>
+                                                            </section>
+                                                            <ul class="gallery infoPanelGallery photoGallery listDamImages divPersImgContainer" id="divPersImgContainer"></ul>
+                                                        </div>
+                                                    </section>
+                                                    <section class="framesContainer ImgPanels disappearing Imr1c3">
+                                                        @*<%--<div class="inlineFolderPointer" style="left: 302.5px;"></div>--%>*@
+                                                        <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                                            <button class="btnBackMyLogos bkbtnIphone">Images</button>
+                                                            <section class="uploadButtonAndMessage">
+                                                                <button class="button buttonBlock fileUploadButton" id="uploadLogos">Upload your own logos</button><p>Recommended 300 dpi CMYK JPeg or PDF files.</p>
+                                                            </section>
+                                                            <ul class="gallery infoPanelGallery photoGallery listDamImages divPLogosContainer" id="divPLogosContainer"></ul>
+                                                        </div>
+                                                    </section>
+                                                </section>
+                                                <ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
+                                                    <li style="width: 109px; left: 0px; top: 0px;" class="ImgLr3c1">
+                                                        <a title="Template Images" class="btnTemplateImages">
+                                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                                            <img id="TemplateImages" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                                            <span class="text">Template Images</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <section class="ImagesScrollContainer ">
+                                                    <section class="templateImagesContainer ImgPanels disappearing Imr3c1">
+                                                        @*<%--<div class="inlineFolderPointer" style="left: 84.5px;"></div>--%>*@
+                                                        <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                                            <button class="btnBackTimgs bkbtnIphone">Images</button>
+                                                            <ul id="Ul5" class="gallery infoPanelGallery photoGallery listDamImages divTempImgContainer"></ul>
+                                                        </div>
+                                                    </section>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </section>
+                            </section>
+
+                        </div>
+                    </section>
+
+                </section>
+                <section id="resultsBackground" class="results infinite">
+                    <section class="layer bkDamScroller">
+                        <div class="inner">
+                     
+                            <div class="browseCategories bKimgBrowseCategories">
+                                <ul class="gallery photoGallery albumGallery categories laidOut bkMainPanels" style="height: 129px;">
+                                    <li style="width: 109px; left: 0px; top: 0px;" class="bkr1c1">
+                                        <a title="Free Backgrounds" class="freeBackgrounds">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/grids.png" width="200" height="200" alt="Upload folder thumbnail" style="height: 81px;" /><span class="text">Free Backgrounds</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 109px; top: 0px;" class="bkr1c2">
+                                        <a title="My Backgrounds" class="myBackgrounds">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/technology.jpg" width="200" height="200" alt="Facebook folder thumbnail" style="height: 81px;" /><span class="text">My Backgrounds</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 218px; top: 0px;" class="bkr1c3">
+                                        <a title="Template Backgrounds" class="templateBackgrounds">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/frames.png" width="200" height="200" alt="Facebook folder thumbnail" style="height: 81px;" /><span class="text">Template Backgrounds</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <section class="ImagesScrollContainer">
+                                    <section class="freeBkImgsContainer BkImgPanels disappearing bkImr1c1 ">
+                                        
+                                        <button class="btnBkBkimgs bkbtnIphone">Backgrounds</button>
+                                        <br />
+                                        <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+
+                                            <ul class="gallery infoPanelGallery photoGallery listDamImages divGlobBkImgContainer" id="divGlobBkImgContainer"> </ul>
+                                        </div>
+                                    </section>
+                                    <section class="myBkImgsContainer BkImgPanels disappearing bkImr1c2">
+                                       
+                                        <button class="btnBkmyBk bkbtnIphone">Backgrounds</button>
+                                        <br />
+                                        <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                            <ul class="gallery infoPanelGallery photoGallery listDamImages divPersBkImgContainer" id="divPersBkImgContainer"></ul>
+                                        </div>
+                                    </section>
+                                    <section class="tempBackgroundImages BkImgPanels disappearing bkImr1c3">
+                                      
+                                        <button class="btnBkTempBk bkbtnIphone">Backgrounds</button>
+                                        <br />
+                                        <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                            <ul class="gallery infoPanelGallery photoGallery listDamImages divTempBkImgContainer" id="divTempBkImgContainer"></ul>
+                                        </div>
+                                    </section>
+                                </section>
+                                <ul class="gallery photoGallery albumGallery categories laidOut bkMainPanels" style="height: 129px;">
+                                    <li style="width: 109px; left: 0px; top: 0px;" class="bkr2c1">
+                                        <a title="Background colours" class="BkColors">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/bkColor.jpg" width="200" height="200" alt="Background colours" style="height: 81px;" /><span class="text">Background  colours</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 109px; top: 0px;" class="bkr2c2">
+                                        <a title="Upload Backgrounds" class="" id="uploadBackgroundMn">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/upload_folder_thumbnail.png" width="200" height="200" alt="Upload Backgrounds" style="height: 81px;" /><span class="text">Upload Backgrounds</span>
+                                        </a>
+                                    </li>
+                                    <li style="width: 109px; left: 218px; top: 0px;" class="bkr2c3">
+                                        <a title="Clear Backgrounds" class="" id="clearBackground">
+                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                            <img src="assets-v2/white.jpg" width="200" height="200" alt="Clear Backgrounds" style="height: 81px;" /><span class="text">Clear Background</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <section class="ImagesScrollContainer">
+                                    <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
+                                        <div class="inlineFolderPointer" style="left: 84.5px;"></div>
+                                        <div class="inlineFolderGroup searchGroup hasContent" style="">
+                                            <div class="">
+                                                <div class="paletteToolbarWrapper static" style="display: block;">
+                                                    <menu class="paletteToolbar colorToolBarBk">
+                                                        <li class="colorOption" style="background-color: #020302"><a href="#" onclick="f2(0,0,0,100,'#020302','Black');">#020302</a></li>
+                                                        <li class="colorOption" style="background-color: #ffffff"><a href="#" onclick='f2(0,0,0,0,"#ffffff");'>#ffffff</a></li>
+                                                        <li class="colorOption" style="background-color: #EF4123"><a href="#" onclick='f2(0,88,100,0,"#EF4123","Orange 021");'>#EF4123</a></li>
+                                                        <li class="colorOption" style="background-color: #FFF200"><a href="#" onclick="f2(0,100,100,0,'#FFF200','Yellow');">#FFF200</a></li>
+                                                        <li class="colorOption" style="background-color: #04B14B"><a href="#" onclick="f2(75,0,100,0,'#04B14B','Green');">#04B14B</a></li>
+                                                        <li class="colorOption" style="background-color: #034EA2"><a href="#" onclick='f2(100,82,0,2,"#034EA2","Reflex Blue");'>#034EA2</a></li>
+                                                        <li class="colorOption" style="background-color: #EE2B76"><a onclick='f2(0,92,18,0,"#EE2B76","Pink 213");'>#EE2B76</a></li>
+                                                        <li class="picker" style="display: inline-block;"><a id="AddBkColorRetailNew">Add a color</a></li>
+                                                    </menu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="myBkImgsContainer BkImgPanels disappearing bkImr2c2">
+                                        <div class="inlineFolderPointer" style="left: 193.5px;"></div>
+                                        <div class="inlineFolderGroup searchGroup hasContent" style="">
+                                            <ul class="gallery infoPanelGallery photoGallery listDamImages divPersBkImgContainer" id="Ul3"></ul>
+                                        </div>
+                                    </section>
+                                    <section class="tempBackgroundImages BkImgPanels disappearing bkImr2c3">
+                                        <div class="inlineFolderPointer" style="left: 302.5px;"></div>
+                                        <div class="inlineFolderGroup searchGroup hasContent" style="">
+                                            <section class="uploadButtonAndMessage">
+                                                <button class="button buttonBlock fileUploadButton " id="uploadBackground">Upload your own backgrounds</button><p>Recommended 300 dpi CMYK JPeg or PDF files.</p>
+                                                <section class="uploadButtonAndMessage">
+                                                    <button class="button buttonBlock fileUploadButton ">Clear Background</button><p></p>
+                                                </section>
+                                            </section>
+                                        </div>
+                                    </section>
+                                </section>
+
+                            </div>
+                            <div class="searchGroup" style="">
+                                <ul class="gallery infoPanelGallery backgroundGallery"></ul>
+                            </div>
+                        </div>
+
+                    </section>
+
+                </section>
+                <section id="resultsUpload" class="results infinite">
+                    <section class="layer upDamScroller">
+                        <div class="inner">
+                  
+                 
+                        </div>
+                    </section>
+
+                </section>
+                <section id="imageDetail" class="results infinite">
+                    <section class="layer  scrollPane ">
+                        <div class="inner">
+                            <div class="searchGroup hasContent templateListULSG">
+                                <div class="ImageContainer">
+                                    <p><a class="add QuickTextTitle ThemeColor" style="" data-style="title">Image Information</a></p>
+
+                                    <div class="pnlImgBank">
+                                        <div class="ImgLbl" style="">Image Title</div>
+                                        <input type="text" name="InputImgTitle" id="InputImgTitle" class="qTextInput" placeholder="Image Title" maxlength="500" />
+                                    </div>
+                                    <div class="pnlImgBank">
+                                        <div class="ImgLbl" style="">Image Description</div>
+                                        <input type="text" name="InputImgDescription" id="InputImgDescription" class="qTextInput" placeholder="Image Description" maxlength="500" />
+                                    </div>
+                                    <div class="pnlImgBank">
+                                        <div class="ImgLbl" style="">Image </div>
+                                        <img id="ImgDAMDetail" src="" />
+                                    </div>
+
+                                    <div class="pnlImgBank">
+                                        <div class="ImgLbl" style="">Image Keywords</div>
+                                        <textarea name="InputImgKeywords" id="InputImgKeywords" placeholder="Image Keywords" class="qTextInput" maxlength="500"></textarea>
+                                    </div>
+                                    <div class="divImageTypes">
+
+                                        <div class="ImgLbl" style="">Image Type</div>
+                                        <div class="radioBtnRow">
+                                            <input id="radioImagePicture" type="radio" name="imageTypes" checked="checked" value="Picture" />
+                                            <label for="radioImagePicture" id="Label2">
+                                                Pictures
+                                            </label>
+                                        </div>
+                                        <div class="radioBtnRow">
+                                            <input id="radioImageLogo" type="radio" name="imageTypes" value="Logo" />
+                                            <label for="radioImageLogo" id="Label4">
+                                                Logos
+                                            </label>
+                                        </div>
+
+                                        <div class="clearBoth"></div>
+                                        <br />
+                                    </div>
+                                  
+                                    <div class="pnlImgBank" style="text-align:center;">
+                                        <button id="btnUpdateImgProp" class="button">Update</button>
+                                        <button id="btnDeleteImg" class="button">Delete</button> <br /><br />
+                                        <p><a class="add QuickTextTitle ThemeColor returnToLib" style="" data-style="title">Return to Library</a></p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                </section>
+                <section id="sectionLayers" class="results infinite">
+                    <section class="layer scrollPane">
+                        <div class="inner">
+                            <ul class="textControls">
+                                <li><a class=" QuickTextTitle ThemeColor" id="a1" style="font-size: 159%;">Manage template layers</a></li>
+                            </ul>
+                            <div id="LayerObjectsContainerRetail" class="searchGroup hasContent ">
+                                <ul class="" id="sortableLayers"></ul>
+
+                            </div>
+
+                        </div>
+                    </section>
+
+                </section>
+                <section id="sectionPropertyPanels" class="results infinite">
+                    <section class="layer  scrollPane ">
+                        <div class="inner">
+                            <div class="searchGroup hasContent templateListULSG">
+                                <div id="objPropertyPanel" class="ImageContainer">
+                                    <div class="textPropertyPanel1">
+                                        <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="padding-left: 72px;">
+                                            <img id="imgThumbPreview" height="60px" />
+
+                                        </div>
+
+                                        <div class="propertyPanelControlDiv">
+                                            <p class="largeText RotateLbl3" id="P2">
+                                                Scale
+                                            </p>
+                                            <button id="BtnImgScaleIN" title="Scale in"></button>
+                                            <button id="BtnImgScaleOut" title="Scale out"></button>
+                                        </div>
+                                        <div class="propertyPanelControlDiv">
+                                            <div class="imgtool">
+                                                <p class="largeText RotateLbl3" id="LbImgCrop">
+                                                    Crop
+                                                </p>
+                                                <button id="BtnCropImg" title="Crop object" style="display:none;"></button>
+                                                <button id="BtnCropImg2" title="Crop object"></button>
+                                            </div><div class="shapeTools">
+                                                <p id="AddColorShapeLbl" class="largeText RotateLbl3">
+                                                    Colour
+                                                </p>
+                                                <button id="AddColorShape" class="" title="Colour picker"></button>
+                                            </div>
+                                        </div>
+                                        <div class="propertyPanelControlDiv">
+                                            <br />
+                                        </div>
+                                    </div>
+                                    <div class="textPropertyPanel2">
+                                        <div class="propertyPanelControlDiv">
+                                           
+                                            <span class="marginRight5 largeText">W </span>
+                                            <input name="inputObjectWidth" id="inputObjectWidth" class="width28 zindex100" />
+                                            <span class="marginLeft15 marginRight7 largeText">H</span>
+                                            <input name="inputObjectHeight" id="inputObjectHeight" class="width28 zindex100" />
+                                        </div>
+                                        <div class="propertyPanelControlDiv largeText" style="padding-bottom: 0px;padding-top: 20px;">
+                                            <span style="margin-left: 4px;">To front </span><span style="margin-left: 23px;">
+                                                +
+                                            </span><span style="margin-left: 36px;">- </span><span style="margin-left: 22px;">
+                                                To
+                                                back
+                                            </span>
+                                        </div>
+                                        <div class="propertyPanelControlDiv" style="padding-top: 20px;">
+                                            <button id="BtnImageArrangeOrdr1" title="Bring object to front"></button>
+                                            <button id="BtnImageArrangeOrdr2" title="Bring object a step front"></button>
+                                            <button id="BtnImageArrangeOrdr3" title="Send object a step back"></button>
+                                            <button id="BtnImageArrangeOrdr4" title="Send object to back"></button>
+                                       
+                                        </div>
+                                        <div class="propertyPanelControlDiv" style="padding-top: 20px;">
+                                            <label style="width:60px">Opacity</label>  <div class="inputObjectAlphaSlider"></div>
+                                        </div>
+                                        <div class="propertyPanelControlDiv" style="padding-top: 20px;">
+                                            <label style="width:60px">Rotate</label>  <div class="rotateSlider" style="margin-left: 22px;"></div>
+                                        </div>
+                                        <div class="DivBlockWithNoHeight vertLine" style="width: 313px;"></div>
+                                        <div class="propertyPanelControlDiv">
+                                            <div class="divTxtAlignmentControls">
+                                                <button id="btnImgCanvasAlignLeft" class="btnCj1" title=""></button>
+                                                <button id="BtnImgCanvasAlignCenter" class="btnCj2" title=""></button>
+                                                <button id="BtnImgCanvasAlignMiddle" class="btnCj5" title=""></button>
+                                                <button id="BtnImgCanvasAlignRight" class="btnCj3" title=""></button>
+                                            </div>
+                                            <div class="divTxtPositioningCotnrols">
+                                                <span class="marginLeft15 marginRight5" style="margin-right: 25px;">X </span>
+                                                <input name="inputPositionX" id="inputPositionX" class="width28 zindex100" />
+                                                <br />
+                                                <br />
+                                                <span class="marginLeft15 marginRight5" style="margin-right: 25px;">Y </span>
+                                                <input name="inputPositionY" id="inputPositionY" class="width28 zindex100" />
+
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                        </div>
+                                        <div class="DivBlockWithNoHeight vertLine" style="width: 313px;margin-top: 10px;"></div>
+                                        <div class="propertyPanelControlDiv" style="width:303px; text-align:center;">
+                                            <button id="btnReplaceImage" title="Delete Object" class="button  imgthumbPreviewSliderBtn">
+                                                Replace Image
+                                            </button>
+                                            <button id="btnDeleteImage" title="Delete Object" class="button  " style="width:127px;">
+                                                Remove
+                                            </button>
+                                            <p style="text-align: center;margin-top: 12px;">
+                                                <a class="add QuickTextTitle ThemeColor returnToLayers" style="" data-style="title">Return to Layers</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="textPropertyPanel" class="ImageContainer">
+                                    <div class="textPropertyPanel1">
+                                        <div class="propertyPanelControlDiv">
+                                            <label class="largeText  lbtTxtArea" for="EditTXtArea">
+                                                Dobule click text object on canvas to modify text.
+                                            </label>
+
+                                            <label class="largeText  lblEditTxtTxt" for="">
+                                            </label>
+                                        </div>
+                                        <div class="propertyPanelControlDiv">
+                                            <select id="BtnSelectFonts" title="Select Font" class="styledBorder">
+                                                <option value="(select)">(select)</option>
+                                            </select>
+                                        </div>
+                                        <div class="propertyPanelControlDiv" style="padding-top: 25px;">
+                                            <img src="assets/increase_font.png" class="iconsPropPanel imgCharHeight" />
+                                            <input id="BtnFontSize" style="" class="inputCharSpacing zindex100" />/>
+                                            <img src="assets/lineHeight.png" class="iconsPropPanel imgLineHeight" />
+                                            <input name="txtLineHeight" id="txtLineHeight" class="inputCharSpacing zindex100" />
+                                            <img src="assets/imgCharSpace.png" class="iconsPropPanel imgLineHeight" />
+                                            <input name="inputcharSpacing" id="inputcharSpacing" class="inputCharSpacing zindex100" />
+
+
+                                        </div>
+                                        <div class="propertyPanelControlDiv" style="padding-top: 20px;">
+                                            <button id="BtnBoldTxt" class="" title="Bold"></button>
+                                            <button id="BtnItalicTxt" title="Italic"></button>
+                                            <button id="BtnChngeClr" class="BtnColorPicker" title="Colour picker"></button>
+                                            <button id="BtnJustifyTxt1" title="Justify text left"></button>
+                                            <button id="BtnJustifyTxt2" title="Justify text center"></button>
+                                            <button id="BtnJustifyTxt3" title="Justify text right"></button>
+
+                                        </div>
+                                      
+
+                                    </div>
+                                    <div class="textPropertyPanel2" style="padding-top: 20px;">
+                                        <div class="propertyPanelControlDiv">
+                                            <span class="largeText RotateLbl3" id="lblArrangeOrderTxt">Layer</span> <span class="marginLeft15 marginRight5 largeText"
+                                                                                                                          style="margin-left: 47px;">Width</span>
+                                            <input name="inputObjectWidthTxt" id="inputObjectWidthTxt" class="width28 zindex100" />
+                                            <span class="marginLeft15 marginRight7 largeText">Height</span>
+                                            <input name="inputObjectHeightTxt" id="inputObjectHeightTxt" class="width28 zindex100" />
+                                        </div>
+                                        <div class="propertyPanelControlDiv largeText" style="padding-bottom: 0px;padding-top: 20px;">
+                                            <span style="margin-left: 4px;" id="lblTxtArrange4">To front </span><span style="margin-left: 23px;">
+                                                +
+                                            </span><span style="margin-left: 36px;">- </span><span style="margin-left: 22px;" id="lblTxtArrange1">
+                                                To
+                                                back
+                                            </span>
+                                        </div>
+                                        <div class="propertyPanelControlDiv" style="padding-top: 20px;">
+                                            <button id="BtnTxtarrangeOrder1" title="Bring text to front"></button>
+                                            <button id="BtnTxtarrangeOrder2" title="Bring text a step front"></button>
+                                            <button id="BtnTxtarrangeOrder3" title="Send text a step back"></button>
+                                            <button id="BtnTxtarrangeOrder4" title="Send text to back"></button>
+                                      
+                                        </div>
+                                        <div class="propertyPanelControlDiv" style="padding-top: 20px;">
+                                            <label>Rotate</label>  <div class="rotateSliderTxt"></div>
+                                        </div>
+                                        <div class="DivBlockWithNoHeight vertLine" style="width: 313px;"></div>
+                                        <div class="propertyPanelControlDiv">
+                                            <div class="divTxtAlignmentControls">
+                                                <button id="BtnTxtCanvasAlignLeft" class="btnCj1" title=""></button>
+                                                <button id="BtnTxtCanvasAlignCenter" class="btnCj2" title=""></button>
+                                                <button id="BtnTxtCanvasAlignMiddle" class="btnCj5" title=""></button>
+                                                <button id="BtnTxtCanvasAlignRight" class="btnCj3" title=""></button>
+                                            </div>
+                                            <div class="divTxtPositioningCotnrols">
+                                                <span class="marginLeft15 marginRight5" style="margin-right: 25px;">X </span>
+                                                <input name="inputPositionXTxt" id="inputPositionXTxt" class="width28 zindex100" />
+                                                <br />
+                                                <br />
+                                                <span class="marginLeft15 marginRight5" style="margin-right: 25px;">Y </span>
+                                                <input name="inputPositionYTxt" id="inputPositionYTxt" class="width28 zindex100" />
+
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                        </div>
+                                        <div class="DivBlockWithNoHeight vertLine" style="width: 313px;margin-top: 10px;"></div>
+                                        <div class="propertyPanelControlDiv" style="width:303px;">
+
+                                            <button id="BtnDeleteTxtObj" title="Delete text" class="button buttonBlock ">
+                                                Remove
+                                            </button>
+                                            <p style="text-align: center;margin-top: 12px;">
+                                                <a class="add QuickTextTitle ThemeColor returnToLayers" style="" data-style="title">Return to Layers</a>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+                <section id="sectionLayouts" class="results infinite">
+                    <section class="layer scrollPane">
+                        <div class="inner">
+                            <ul class=" textControls">
+                                <li><a class=" QuickTextTitle ThemeColor" style="" data-style="title">Layouts</a></li>
+                            </ul>
+                            <div class="divLayoutBtnContainer"></div>
+                        </div>
+                    </section>
+
+                </section>
+            </section>
+        </section>
+        <section id="canvaDocument" class="scrollPane2 multiPage" style="left: 430px;">
+
+            <section id="canvasSection" class="page selected on" style="width: 326.9368785071841px; height: 462.4056858483221px; top: 103px; left: 20px;">
+                <canvas id="canvas">
+                    Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
+                </canvas>
+            
+            </section>
+          
+        </section>
+
+        <section id="editorControls">
+            <a id="editorLogo" href="#" class=""><span id="editorLogoImage">Proof</span></a>
+            <div>
+                <menu id="Menu1" class="documentMenu documentCopyPaste">
+                    <li id="documentMenuCopy"><button class="button" id="btnMenuCopy" title="Copy"></button></li>
+                    <li id="documentMenuPaste"><button class="button" id="btnMenuPaste" title="Paste"></button></li>
+                    <li id="Li1" class="zoomBtns" style="margin-top:10px"><button class="button" id="zoomIn" title="Zoom In">+</button></li>
+                    <li id="Li2" class="zoomBtns"><button class="button" id="zoomOut" title="Zoom out">-</button></li>
+
+                </menu>
+            </div>
+            <div id="documentTitleAndMenu" class="">
+                <menu id="mainTopMenu" class="documentMenu">
+                    <li id="documentMenuUndo"><button class="button" id="BtnUndo" title="Undo"></button></li>
+                    <li id="documentMenuRedo"><button class="button" id="BtnRedo" title="Redo"></button></li>
+                    <li id="documentMenuGuides"><button class="button" id="BtnGuides" title="Show / Hide Trim Line"></button></li>
+                </menu>
+                <menu id="documentMenu" class="documentMenu dark">
+                    <span class="marker" style="left: 0px; width: 72px;"></span>
+                </menu>
+
+                <h1 id="documentTitle" spellcheck="false" title="Click to rename your design">
+                    <input type="text" value="Untitled design" style="width: 300px;" id="txtTemplateTitle" />
+                </h1>
+            </div>
+
+            <a id="documentMenuHelp" href="/" target="_blank" class="">Need help?</a>
+            <section id="zoomer" class="">
+           
+            </section>
+
+        </section>
+
+    </section>
+    <section id="MainLoader" class="dialogContainer dialogProof">
+        <div class="mask on"></div>
+        <div class="dialog" style="top: 93.5px; height: 184px;">
+            <h2>Preparing your Template…</h2>
+            <div class="content">
+                <div class="exporting">
+                    <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="inner"></span></span></div>
+                    <p id="paraLoaderMsg">You can add different layouts to your design, you can also add images, text content,  background colour and image to your design. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="menusContainer">
+        <div id="divTxtPropPanelRetail" class=" divTxtPropPanelRetail retailPropPanels " style="display: none;">
+            <menu class="tooltipToolbar textToolbar realToolbar txtMenuDiv firstMenuDiv">
+                <li class="textToolbarFont">
+                    <select id="BtnSelectFontsRetail" title="Select Font" class="styledBorder retailStoreSelect">
+                        <option value="">(select)</option>
+                    </select>
+                    <input id="BtnFontSizeRetail" style="" />
+                </li>
+                <li class="textToolbarColor">
+                    <a id="AddColorTxtRetailNew" class="pickAColor" href="#" title="Pick a color">
+                        <span style="background-color: orange;" class="spanTxtcolour">Pick a color</span>
+                    </a>
+                </li>
+                <li class="elementToolbarDelete enabled"><a title="Delete" id="btnDeleteTxt">Delete</a></li>
+                <li class="textToolbarMore "><a onclick="pcL02_main();">More</a></li>
+            </menu>
+            <menu class="toolbarMoreGroup toolbarReferencePoint downwards on txtMenuDiv secondMenuDiv toolbarText" style="top: 42px; left: 340px; display: none;">
+                <li id="BtnBoldTxtRetail" class="textToolbarBold enabled"><a>Bold</a></li>
+                <li id="BtnItalicTxtRetail" class="textToolbarItalic enabled"><a>Italic</a></li>
+                <li id="BtnJustifyTxt1Retail" class="textToolbarLeft enabled on"><a href="#">Left –</a></li>
+                <li id="BtnJustifyTxt2Retail" class="textToolbarCenter enabled"><a href="#">– Center –</a></li>
+                <li id="BtnJustifyTxt3Retail" class="textToolbarRight enabled"><a>– Right</a></li>
+                <li id="BtnCopyObjTxtRetail" class="dividerAbove elementToolbarCopy enabled"><a>Copy</a></li>
+                <li id="BtnRotateTxtLftRetail" class="elementToolbarLink enabled AnchorRotateLeft"><a>Rotate left</a></li>
+                <li id="BtnRotateTxtRightRetail" class="elementToolbarLink enabled AnchorRotateRight"><a>Rotate right</a></li>
+                <li id="BtnTxtarrangeOrder1Retail" class="elementToolbarLink enabled AnchorMoveUp" style="margin-top: 0px;"><a>Bring forward</a></li>
+                <li id="BtnTxtarrangeOrder2Retail" class="elementToolbarLink enabled AnchorMoveUp" style="margin-top: 0px;"><a>Forward</a></li>
+                <li id="BtnTxtarrangeOrder3Retail" class="elementToolbarLink enabled AnchorMoveDown" style="margin-top: 0px;"><a>Back</a></li>
+                <li id="BtnTxtarrangeOrder4Retail" class="elementToolbarLink enabled AnchorMoveDown" style="margin-top: 0px;"><a>Send back</a></li>
+            </menu>
+
+
+        </div>
+
+        <div id="divImgPropPanelRetail" class="imageToolbar divTxtPropPanelRetail retailPropPanels " style="display: none;">
+            <menu class="tooltipToolbar elementToolbar " id="">
+
+
+                <li class="elementToolbarCopy "><a id="BtnCopyObjImgRetail" title="Copy">Copy</a></li>
+                <li class="elementToolbarForward "><a id="BtnImageArrangeOrdr2Retail" title="Forward">Forward</a></li>
+                <li class="elementToolbarBackward "><a id="BtnImageArrangeOrdr3Retail" title="Back">Back</a></li>
+                <li class="elementToolbarDelete enabled"><a id="btnDelImgRetail" href="#" title="Delete">Delete</a></li>
+                <li class="elementToolbarCrop  elementCrop"><a id="BtnCropImgRetail" href="#" title="Crop">Crop</a></li>
+                <li class="elementToolbarColor elementColorImg">
+                    <a id="AddColorImgRetailNew" class="pickAColor" href="#" title="Pick a color">
+                        <span class="spanRectColour" style="background-color: rgb(0, 0, 0);">Pick a color</span>
+                    </a>
+                </li>
+
+                <li class="elementToolbarMore">
+                    <a class="more" onclick="pcL01(2);">More</a>
+
+                </li>
+            </menu>
+            <menu class="toolbarMoreGroup toolbarReferencePoint toolbarImage" style="top: 45px; left: 264px;">
+                <li id="BtnImgScaleINRetail" class="elementToolbarLink enabled AnchorMoveUp"><a>Scale up</a></li>
+                <li id="BtnImgScaleOutRetail" class="elementToolbarLink enabled AnchorMoveUp"><a>Scale down</a></li>
+                <li id="BtnImgRotateLeftRetail" class="elementToolbarLink enabled AnchorMoveUp"><a>Rotate left</a></li>
+                <li id="BtnImgRotateRightRetail" class="elementToolbarLink enabled AnchorMoveUp"><a>Rotate right</a></li>
+                <li id="BtnImageArrangeOrdr1Retail" class="elementToolbarLink enabled AnchorMoveUp"><a>Bring forward</a></li>
+                <li id="BtnImageArrangeOrdr4Retail" class="elementToolbarLink enabled AnchorMoveUp"><a>Send back</a></li>
+                <li id="btnImgTransparency" class="elementToolbarLink enabled AnchorMoveUp" onclick="pcL01(3);"><a>Transparency</a></li>
+            </menu>
+            <menu class="toobarTransparency retailPropPanelsSubMenu toolbarImageTransparency">
+                <span>Transparency</span>
+                <span style="margin-left: 10px;">0 </span>
+                <div class="transparencySlider"></div>
+                <span>100</span>
+            </menu>
+        </div>
+        <div id="DivColorPickerDraggable" class="DivColorPickerDraggable">
+            <div class="paletteToolbarWrapper upwards" style="height: 224px; display: block;">
+                <menu class="paletteToolbar ">
+                    <div class="inner ColorOptionContainer">
+                        <menu></menu>
+
+
+                    </div>
+                </menu>
+            </div>
+            <div class="paletteToolbarWedge upwards" style="top: 224px; left: 0px; display: block;"></div>
+            <div id="DivAdvanceColorPanel" class="colorPicker showColorCode" style="top: 215px; left: 82px;">
+                <div class="panelItemsRightAligned">
+                    <div class="closePanelButtonQuickText" onclick="pcL36('hide','#DivAdvanceColorPanel')">
+                        <br />
+                    </div>
+                </div>
+                <div id="DivLblMoveSlider" class="largeText" style="margin-top: 14px; margin-left: 10px;">
+                    Move the Slider to Change Colour Percentage
+                </div>
+                <div id="sliders">
+                    <div id="DivColorC">
+                    </div>
+                    <div id="DivColorM">
+                    </div>
+                    <div id="DivColorY">
+                    </div>
+                    <div id="DivColorK">
+                    </div>
+                </div>
+                <div id="ColorPickerPercentageContainer">
+                    <label for="DivColorC" id="LblDivColorC">
+                        0%
+                    </label>
+                    <label for="DivColorM" id="LblDivColorM">
+                        0%
+                    </label>
+                    <label for="DivColorY" id="LblDivColorY">
+                        0%
+                    </label>
+                    <label for="DivColorK" id="LblDivColorK">
+                        0%
+                    </label>
+                </div>
+                <div class="clear"></div>
+                <div id="ColorPickerPalletContainer" class="largeText" style="margin-top: 20px;">
+
+                    <label for="ColorPalletr" id="LblCollarPalet">
+                        Click on button to apply
+                    </label>
+                    <div class="ColorPalletr btnClrPallet" style="background-color: White; margin-top: -12px;" onclick="f2(0,0,0,0,&quot;#ffffff&quot;);f6(0,0,0,0,&quot;#ffffff&quot;);">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="DivAlignObjs" class="DivAlignObjs colorPicker">
+            <div class="closePanelButton" onclick="pcL36('hide','#DivAlignObjs');">
+                <br />
+            </div>
+            <div class="DivTitleLbl">
+                <label class="lblGroupProperties titletxt">
+                    Group Properties
+                </label>
+            </div>
+            <div class="AlignObjsDiv">
+                <label class="largeText panelTextPropertyRow  ">
+                    Align Objects
+                </label>
+            </div>
+            <div>
+                <button id="BtnAlignObjLeft"></button>
+                <button id="BtnAlignObjCenter"></button>
+                <button id="BtnAlignObjRight"></button>
+                <button id="BtnAlignObjTop"></button>
+                <button id="BtnAlignObjMiddle"></button>
+                <button id="BtnAlignObjBottom"></button>
+            </div>
+            <div id="divRetailColorGroup" class="propertyPanelControlDiv" style="display:none;">
+                <div class="ColorPallet" style="background-color: rgb(2, 3, 2); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(0,0,0,100,&quot;#020302&quot;,&quot;null&quot;);"></div>
+                <div class="ColorPallet" style="background-color: rgb(158, 40, 14); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(0,90,100,40,&quot;#9E280E&quot;,&quot;40&quot;);"></div>
+                <div class="ColorPallet" style="background-color: rgb(138, 113, 60); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(30,40,80,30,&quot;#8A713C&quot;,&quot;null&quot;);"></div>
+                <div class="ColorPallet" style="background-color: rgb(0, 114, 54); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(100,0,100,40,&quot;#007236&quot;,&quot;null&quot;);"></div>
+                <div class="ColorPallet" style="background-color: rgb(0, 125, 151); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(100,5,20,30,&quot;#007D97&quot;,&quot;null&quot;);"></div>
+                <button id="AddColorGroupRetail" class="" title="Colour picker">MORE</button>
+            </div>
+        </div>
+      
+        <img id="placeHolderTxt" src="assets/placeholderTxt.png" />
+        <div id="divBkCropTool" class="divBkCropTool">
+        </div>
+        <div class="NewCropToolCotainer" id="NewCropToolCotainer">
+            <div class="CropControls">
+                <menu class="crop CroptoolBar underneath" style="transform: translate3d(-3px, -47px, 0px);">
+                    <li class="enabled confirmationToolbarOk"><a class="cropButton">Ok</a></li>
+                    <li class="enabled confirmationToolbarCancel"><a onclick="pcl20_newCropCls();">Cancel</a></li>
+                </menu>
+             
+                <img class="cropimage" alt="" src="" cropwidth="200" cropheight="200" />
+
+                <div class="overlayHoverboxContainer"></div>
+                <div class="overlayHoverbox">
+                    <img class="imgOrignalCrop" alt="" src="" />
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="proofsContainer">
+        <div id="DivShadow" class="opaqueLayer"></div>
+        <div id="LargePreviewer" class="LargePreviewer" title="Full Size Image" style="display:none">
+            <iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>
+        </div>
+        <div id="PreviewerContainer" class="ui-corner-all propertyPanel">
+            <a class="PreviewerDownloadPDF" onclick="k9()" target="_blank">Download PDF </a>
+            <div class="PreviewerContainerClose button" onclick="e6()">
+                Close
+            </div>
+            <div class="previewerTitle">
+                <span class="lightGray">Preview :</span>
+            </div>
+            <div class="sliderLine">
+            </div>
+            <div id="Previewer" class="ui-corner-all">
+                <div id="sliderFrame">
+                </div>
+                <div class="sliderLine sliderLineBtm">
+                </div>
+                <div id="previewProofing">
+                    <div class="divTxtProofing">
+                        <div class="ConfirmPopupProof">
+                            <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings">
+                                Confirm spelling and details
+                            </label>
+                            <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
+                                   type="checkbox" />
+                            <label for="chkCheckSpelling" style="display: inline;">
+                            </label>
+                        </div>
+                        <div style="margin-top: 17px;">
+                            <label style="visibility: hidden;">
+                                <span class="">Send </span>email proofs to
+                            </label>
+                            <input type="email" name="userEmail1" id="userEmail1" class="clssInputProofing" style="visibility: hidden;" />
+                            <input type="email" name="userEmail2" id="userEmail2" class="clssInputProofing" style="display: none;" />
+                        </div>
+                    </div>
+                    <button id="btnNextProofing" class="btnBlueProofing button">
+                        NEXT
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="searchLoaderHolder on">
+            <span class="g1"></span>
+            <span class="g1"></span>
+            <span class="g1"></span>
+            <span class="g2 on"></span>
+            <span class="g2 on"></span>
+            <span class="g2 on"></span>
+            <span class="g2 on"></span>
+            <span class="g1"></span>
+
+        </div>
+        <form id="form1" runat="server" class="imageUploadForm" style="display:none;">
+            <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true">
+            </asp:ScriptManager>
+            <div id="uploader">
+                <p class="textWhite">
+                    You browser doesn't have Flash, Silverlight or HTML5 support.
+                </p>
+            </div>
+            <div id="uploaderButtonDiv" style="display: none;">
+                <a id="uploadImgFileBtn1" href="#" onclick="SubmitItem(this)">Click to upload</a>
+            </div>
+        </form>
+    </section>
+
+
+    <input id="getCopied" style="position:absolute;left:-115px;top:-25px;height:20px;width:100px;" />
+
+    @*@Scripts.Render("~/bundles/designerScripts")*@
+
+    <script src="~/Scripts/Designer/p71.js"></script>
+    <script src="~/Scripts/Designer/p19.js"></script>
+    <script src="~/Scripts/Designer/XMLWriter.js"></script>
+    <script src="~/Scripts/Designer/pc1.js"></script>
+    <script src="~/Scripts/Designer/pc2.js"></script>
+    <script src="~/Scripts/Designer/pc3.js"></script>
+    <script src="~/Scripts/Designer/a12/aj9.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/a12/aj21-v2.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/a12/aj12.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/a12/aj1.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/p1.js"></script>
+    <script src="~/Scripts/Designer/p10-v2.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/p35-v2.js"></script>
+    <script src="~/Scripts/Designer/pcf01-35.js"></script>
+</body>
+</html>
