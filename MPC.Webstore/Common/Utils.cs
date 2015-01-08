@@ -69,5 +69,10 @@ namespace MPC.Webstore.Common
             }
             return Estimateddate;
         }
+        public static double CalculateVATOnPrice(double ActualPrice, double TaxValue)
+        {
+            double Price = ActualPrice + ((ActualPrice * TaxValue) / 100);
+            return Price;
+        }
     }
 }

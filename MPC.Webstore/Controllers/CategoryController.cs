@@ -316,7 +316,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult CloneItem(int id)
         {
             int ItemID = 0;
-            int TemplateID = 0;
+            long TemplateID = 0;
             bool isCorp = true;
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 isCorp = true;
@@ -324,13 +324,13 @@ namespace MPC.Webstore.Controllers
                 isCorp = false;
              int TempDesignerID = 0;
             string ProductName = string.Empty;
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse baseResponseorg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            int ContactID = (int)_myClaimHelper.loginContactID();
-            int OrderID = ProcessOrder(baseResponseorg);
+            MyCompanyDomainBaseResponse companyBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            long ContactID = _myClaimHelper.loginContactID();
+            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, companyBaseResponse.Company.CompanyId); //ProcessOrder(baseResponseorg);
                 if (OrderID > 0)
                 {
-                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)baseResponse.Company.CompanyId, 0, 0, 0, null, false, false, ContactID);
+                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)companyBaseResponse.Company.CompanyId, 0, 0, 0, null, false, false, ContactID);
 
                     if (item != null)
                     {
@@ -346,15 +346,21 @@ namespace MPC.Webstore.Controllers
             else
                 isCalledFrom = 3;
 
-            bool isEmbaded;
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp ||  UserCookieManager.StoreMode == (int)StoreMode.Retail)
-              isEmbaded = true;
-            else
-                isEmbaded = false;
+            bool isEmbedded;
+            bool printWaterMark = true;
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+            {
+                isEmbedded = true;
+            }
+            else {
+                printWaterMark = false;
+                isEmbedded = false;
+            }
 
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
-            //PartialViews/TempDesigner/ItemID/TemplateID/IsCalledFrom/CV2/ProductName/ContactID/CompanyID/IsEmbaded;
-            string URL = "PartialViews/TempDesigner/" + ItemID + "/" + TemplateID + "/" + isCalledFrom + "/" + TempDesignerID + "/" + ProductName + "/" + ContactID + "/" + (int)baseResponse.Company.CompanyId + "/" + isEmbaded;
+            //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
+            bool printCropMarks = true;
+            string URL = "~/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + ContactID + "/" + printCropMarks + "/" + printWaterMark + "/" + isCalledFrom + "/" + isEmbedded;
            
             // ItemID ok
             // TemplateID ok
@@ -366,20 +372,7 @@ namespace MPC.Webstore.Controllers
             // isembaded ook
             return View(URL);
         }
-
-        public int ProcessOrder(MyCompanyDomainBaseResponse baseResponse)
-        {
-
-            int orderID = 0;
-            
-            int ordID = (int)baseResponse.Organisation.OrganisationId;
-
-            Organisation org = _myCompanyService.getOrganisatonByID(ordID);
-            
-            orderID =  _orderService.ProcessPublicUserOrder(string.Empty,org);
-            return orderID;
-        }
-
+        
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
         {
 

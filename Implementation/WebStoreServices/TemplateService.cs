@@ -1,6 +1,7 @@
 ﻿using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace MPC.Implementation.WebStoreServices
 
         #region public
         // called from webstore usually for coping template
-        public Template GetTemplate(int productID)
+        public Template GetTemplate(long productID)
         {
             var product= _templateRepository.GetTemplate(productID);
             if (product.Orientation == 2) //rotating the canvas in case of vert orientation
@@ -37,7 +38,7 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from designer, all the units are converted to pixel before sending 
-        public Template GetTemplateInDesigner(int productID)
+        public Template GetTemplateInDesigner(long productID)
         {
             var product = _templateRepository.GetTemplate(productID);
 
@@ -49,8 +50,24 @@ namespace MPC.Implementation.WebStoreServices
             return product;
         }
 
-     
+        public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
+        { 
+            return _templateRepository.BindTemplatesList(TemplateName,pageNumber,CustomerID,CompanyID);
+        }
+        
+        public string GetTemplateNameByTemplateID(int tempID)
+        {
+            return _templateRepository.GetTemplateNameByTemplateID(tempID);
+        }
 
+        public ProductCategoriesView GetMappedCategory(string CatName, int CID)
+        {
+            return _templateRepository.GetMappedCategory(CatName,CID);
+        }
+        public int CloneTemplateByTemplateID(int TempID)
+        {
+            return _templateRepository.CloneTemplateByTemplateID(TempID);
+        }
         #endregion
     }
 }

@@ -9,6 +9,6 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplateObjectService
     {
-        List<TemplateObject> GetProductObjects(int productId);
+        List<TemplateObject> GetProductObjects(long productId);
     }
 }

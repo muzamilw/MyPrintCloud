@@ -11823,11 +11823,11 @@ a.PinkRegBack:active
 
 .DesgnFormatelbl
 {
-    border-bottom: 3px dotted #E385b9;
-    text-align: left;
-    width: 175px;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
+  border-bottom: 3px dotted #E385b9;
+text-align: left;
+width: 137px;
+padding-bottom: 0px;
+margin-bottom: 15px;
 }
 
 
@@ -11839,7 +11839,7 @@ a.PinkRegBack:active
     width: 150px;
     padding-bottom: 5px;
     margin-bottom: 25px;
-    display: none;
+    display: block;
 }
 
 .FirstGLContiner
@@ -14854,11 +14854,14 @@ ul.LogBar li a
 
     .UploadsGuidLineContainer
     {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: relative !important;
         margin-left: 0px !important;
         text-align: left;
-        float: left !important;
+        float: left !important;*/
+       width: 160px;
+text-align: left;
+margin-left: 10px;
     }
 
     .UploadPanel
@@ -16061,7 +16064,7 @@ ul.LogBar li a
     .GLHeadingContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
         width: 90px;
@@ -16080,7 +16083,7 @@ ul.LogBar li a
     .GLHeadDescContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
     }
@@ -18224,11 +18227,14 @@ ul.LogBar li a
 
     .UploadsGuidLineContainer
     {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: absolute !important;
         margin-left: 430px !important;
         text-align: left;
-        float: right !important;
+        float: right !important;*/
+        width: 160px;
+text-align: left;
+margin-left: 10px;
     }
 
     .UploadPanel
@@ -19316,7 +19322,7 @@ ul.LogBar li a
     .GLHeadDescContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
     }
@@ -19334,7 +19340,7 @@ ul.LogBar li a
     .GLHeadingContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
         width: 90px;
@@ -19733,11 +19739,14 @@ ul.LogBar li a
 
     .UploadsGuidLineContainer
     {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: absolute !important;
         margin-left: 470px !important;
         text-align: left;
-        float: right !important;
+        float: right !important;*/
+        width: 160px;
+text-align: left;
+margin-left: 10px;
     }
 
     .UploadPanel
@@ -20886,7 +20895,7 @@ ul.LogBar li a
     .GLHeadDescContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
     }
@@ -20904,7 +20913,7 @@ ul.LogBar li a
     .GLHeadingContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
         width: 90px;
@@ -21303,11 +21312,14 @@ ul.LogBar li a
 
     .UploadsGuidLineContainer
     {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: absolute !important;
         margin-left: 470px !important;
         text-align: left;
-        float: right !important;
+        float: right !important;*/
+       width: 160px;
+text-align: left;
+margin-left: 10px;
     }
 
     .UploadPanel
@@ -22833,7 +22845,7 @@ ul.LogBar li a
     .GLHeadDescContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
     }
@@ -22851,7 +22863,7 @@ ul.LogBar li a
     .GLHeadingContainer
     {
         text-align: left;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 5px;
         line-height: 2;
         width: 90px;
@@ -23242,11 +23254,14 @@ ul.LogBar li a
 
     .UploadsGuidLineContainer
     {
-        margin-top: -2px;
+        /*margin-top: -2px;
         position: absolute !important;
         margin-left: 470px !important;
         text-align: left;
-        float: right !important;
+        float: right !important;*/
+      width: 160px;
+text-align: left;
+margin-left: 10px;
     }
 
     .UploadPanel

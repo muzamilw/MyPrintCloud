@@ -584,13 +584,13 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public int GetContactIdByCustomrID(int customerID)
+        public long GetContactIdByCustomrID(long customerID)
         {
             
             CompanyContact contact = db.CompanyContacts.Where(i => i.CompanyId == customerID).FirstOrDefault();
             if (contact != null)
             {
-                        return (int)contact.ContactId;
+                        return contact.ContactId;
             }
             else
              {

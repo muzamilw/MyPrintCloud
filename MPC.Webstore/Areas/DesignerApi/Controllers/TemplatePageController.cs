@@ -36,7 +36,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public HttpResponseMessage GetTemplatePages(int id)
+        public HttpResponseMessage GetTemplatePages(long id)
         {
             var template = templatePageService.GetTemplatePages(id);
             var formatter = new JsonMediaTypeFormatter();
@@ -46,7 +46,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
          
         }
-        public HttpResponseMessage GetTemplatePagesSP(int id)
+        public HttpResponseMessage GetTemplatePagesSP(long id)
         {
             var template = templatePageService.GetTemplatePages(id);
             var formatter = new JsonMediaTypeFormatter();

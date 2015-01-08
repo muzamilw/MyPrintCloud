@@ -364,6 +364,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ProductCategoriesView> ProductCategoriesViews { get; set; }
 
         /// <summary>
+        /// Image Permission DbSet
+        /// </summary>
+        public DbSet<ImagePermission> ImagePermissions { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)
@@ -440,16 +445,16 @@ namespace MPC.Repository.BaseRepository
         /// GetUsedFonts Updated 
         /// </summary>
 // ReSharper disable InconsistentNaming
-        public IEnumerable<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(int? templateID, int? customerID)
+        public IEnumerable<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(long? templateID, long? customerID)
 // ReSharper restore InconsistentNaming
         {
             var templateIdParameter = templateID.HasValue ?
                 new ObjectParameter("TemplateID", templateID) :
-                new ObjectParameter("TemplateID", typeof(int));
+                new ObjectParameter("TemplateID", typeof(long));
 
             var customerIdParameter = customerID.HasValue ?
                 new ObjectParameter("CustomerID", customerID) :
-                new ObjectParameter("CustomerID", typeof(int));
+                new ObjectParameter("CustomerID", typeof(long));
 
             ObjectResult<sp_GetUsedFontsUpdated_Result> templateFontsUpdatedResults = 
                 ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("BaseDbContext.sp_GetUsedFontsUpdated", templateIdParameter, 

@@ -105,6 +105,7 @@
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\MatchingSets.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\ImagePermission.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />

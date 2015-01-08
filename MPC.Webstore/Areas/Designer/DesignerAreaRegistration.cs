@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Http;
 
 namespace MPC.Webstore.Areas.Designer
 {
@@ -14,10 +15,11 @@ namespace MPC.Webstore.Areas.Designer
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
+            //string designName, int categoryIDV2, int templateID, int itemID, int customerID, int contactID, bool printCropMarks, bool printWaterMarks,int isCalledFrom ,bool isEmbedded)
             context.MapRoute(
-                "Designer_default",
-                "Designer/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                  "DesignerDefault_MultiParams",
+                  AreaName + "/{designName}/{categoryIDV2}/{templateID}/{itemID}/{customerID}/{contactID}/{printCropMarks}/{printWaterMarks}/{isCalledFrom}/{isEmbedded}",
+                  new { controller = "Designer", action = "Index", designName = RouteParameter.Optional, categoryID = RouteParameter.Optional, categoryIDV2 = RouteParameter.Optional, templateID = RouteParameter.Optional, itemID = RouteParameter.Optional, customerID = RouteParameter.Optional, contactID = RouteParameter.Optional, printCropMarks = RouteParameter.Optional, printWaterMarks = RouteParameter.Optional, isCalledFrom = RouteParameter.Optional, isEmbedded = RouteParameter.Optional }
             );
         }
     }
