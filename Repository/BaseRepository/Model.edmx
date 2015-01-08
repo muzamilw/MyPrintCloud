@@ -2649,6 +2649,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="isUploadImage" Type="bit" />
+          <Property Name="CompanyId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.MediaFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -4055,7 +4056,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
     [GetItemsListView].[isTemplateDesignMode] AS [isTemplateDesignMode], 
     [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax], 
-    [GetItemsListView].[isUploadImage] AS [isUploadImage]
+    [GetItemsListView].[isUploadImage] AS [isUploadImage], 
+    [GetItemsListView].[CompanyId] AS [CompanyId]
     FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="MediaFileTableView" EntityType="Self.MediaFileTableView" store:Type="Views" store:Schema="dbo">
@@ -7782,6 +7784,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="ProductType" Type="Int32" />
           <Property Name="IsUploadImage" Type="Boolean" />
+          <Property Name="CompanyId" Type="Int64" />
         </EntityType>
         <Association Name="FK_CompanyCMYKColor_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -11030,6 +11033,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="IsUploadImage" ColumnName="isUploadImage" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
