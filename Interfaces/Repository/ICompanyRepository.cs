@@ -32,6 +32,11 @@ namespace MPC.Interfaces.Repository
         /// Get Company Price Flag id for Price Matrix in webstore
         /// </summary>
         int? GetPriceFlagIdByCompany(long CompanyId);
-        
+
+        /// <summary>
+        /// Get All Suppliers For Current Organisation
+        /// </summary>
+        IEnumerable<Company> GetAllSuppliers();
+
     }
 }

@@ -39,6 +39,8 @@ namespace MPC.Implementation.MISServices
         private readonly ICountryRepository countryRepository;
         private readonly IStateRepository stateRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
+        private readonly ICompanyRepository companyRepository;
+        private readonly IItemProductDetailRepository itemProductDetailRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -186,6 +188,16 @@ namespace MPC.Implementation.MISServices
             return line;
         }
 
+        /// <summary>
+        /// Create Item Product Detail
+        /// </summary>
+        private ItemProductDetail CreateItemProductDetail()
+        {
+            ItemProductDetail line = itemProductDetailRepository.Create();
+            itemProductDetailRepository.Add(line);
+            return line;
+        }
+
         #endregion
 
         #region Constructor
@@ -198,7 +210,8 @@ namespace MPC.Implementation.MISServices
             ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
             IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository, 
             IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
-            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository)
+            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository, 
+            IItemProductDetailRepository itemProductDetailRepository)
         {
             if (itemRepository == null)
             {
@@ -268,6 +281,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionFlagRepository");
             }
+            if (companyRepository == null)
+            {
+                throw new ArgumentNullException("companyRepository");
+            }
+            if (itemProductDetailRepository == null)
+            {
+                throw new ArgumentNullException("itemProductDetailRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -286,6 +307,8 @@ namespace MPC.Implementation.MISServices
             this.countryRepository = countryRepository;
             this.stateRepository = stateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
+            this.companyRepository = companyRepository;
+            this.itemProductDetailRepository = itemProductDetailRepository;
         }
 
         #endregion
@@ -413,7 +436,8 @@ namespace MPC.Implementation.MISServices
                 DeleteItemAddonCostCentre = DeleteItemAddonCostCentre,
                 CreateItemStateTax = CreateItemStateTax,
                 DeleteItemStateTax = DeleteItemStateTax,
-                CreateItemPriceMatrix = CreateItemPriceMatrix
+                CreateItemPriceMatrix = CreateItemPriceMatrix,
+                CreateItemProductDetail = CreateItemProductDetail
             });
 
             // Save Changes
@@ -452,7 +476,8 @@ namespace MPC.Implementation.MISServices
                 CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
                 SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
                 Countries = countryRepository.GetAll(),
-                States = stateRepository.GetAll()
+                States = stateRepository.GetAll(),
+                Suppliers = companyRepository.GetAllSuppliers()
             };
         }
         

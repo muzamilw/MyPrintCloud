@@ -286,6 +286,7 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CountryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemPriceMatrix.cs" />
     <Compile Include="Areas\Api\Models\ItemPriceMatrixSearchRequest.cs" />
+    <Compile Include="Areas\Api\Models\ItemProductDetail.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />

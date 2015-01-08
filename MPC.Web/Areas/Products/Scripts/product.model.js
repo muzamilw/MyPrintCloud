@@ -13,7 +13,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescription4, specifiedJobDescriptionTitle5, specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
         specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
         specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
-        specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, callbacks, constructorParams) {
+        specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, specifiedSupplierId, specifiedSupplierId2,
+        specifiedEstimateProductionTime, specifiedItemProductDetail, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -198,6 +199,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             packagingWeight = ko.observable(specifiedPackagingWeight || undefined),
             // Default Item Tax
             defaultItemTax = ko.observable(specifiedDefaultItemTax || undefined),
+            // supplier id
+            internalSupplierId = ko.observable(specifiedSupplierId || undefined),
+            // supplier id 2
+            internalSupplierId2 = ko.observable(specifiedSupplierId2 || undefined),
+            // Estimate Production Time
+            estimateProductionTime = ko.observable(specifiedEstimateProductionTime || undefined),
+            // Item Product Detail
+            itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
             // Item Vdp Prices
             itemVdpPrices = ko.observableArray([]),
             // Item Videos
@@ -220,6 +229,141 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return itemPriceMatrix.flagId() === flagId() && (!id() || itemPriceMatrix.itemId() === id()) && !itemPriceMatrix.supplierId();
                 });
             }),
+            // Item Price Matrices for Supplier Id 1
+            itemPriceMatricesForSupplierId1 = ko.computed(function () {
+                if (!internalSupplierId()) {
+                    return [];
+                }
+
+                return itemPriceMatrices.filter(function (itemPriceMatrix) {
+                    return (!id() || itemPriceMatrix.itemId() === id()) && itemPriceMatrix.supplierId() === internalSupplierId() &&
+                        itemPriceMatrix.supplierSequence() === 1;
+                });
+            }),
+            // Item Price Matrices for Supplier Id 2
+            itemPriceMatricesForSupplierId2 = ko.computed(function () {
+                if (!internalSupplierId2()) {
+                    return [];
+                }
+
+                return itemPriceMatrices.filter(function (itemPriceMatrix) {
+                    return (!id() || itemPriceMatrix.itemId() === id()) && itemPriceMatrix.supplierId() === internalSupplierId2() &&
+                        itemPriceMatrix.supplierSequence() === 2;
+                });
+            }),
+            // Item Price Matrices for Supplier Sequence 1
+            itemPriceMatricesForSupplierSequence1 = ko.computed(function () {
+                if (!internalSupplierId()) {
+                    return [];
+                }
+
+                return itemPriceMatrices.filter(function (itemPriceMatrix) {
+                    return (!id() || itemPriceMatrix.itemId() === id()) && itemPriceMatrix.supplierId() &&
+                        itemPriceMatrix.supplierSequence() === 1;
+                });
+            }),
+            // Item Price Matrices for Supplier Sequence 2
+            itemPriceMatricesForSupplierSequence2 = ko.computed(function () {
+                if (!internalSupplierId2()) {
+                    return [];
+                }
+
+                return itemPriceMatrices.filter(function (itemPriceMatrix) {
+                    return (!id() || itemPriceMatrix.itemId() === id()) && itemPriceMatrix.supplierId() &&
+                        itemPriceMatrix.supplierSequence() === 2;
+                });
+            }),
+            // Supplier Id
+            supplierId = ko.computed({
+                read: function () {
+                    return internalSupplierId();
+                },
+                write: function (value) {
+                    if (!value || value === internalSupplierId()) {
+                        return;
+                    }
+
+                    // Update Supplier Prices for Sequence 1
+                    updateSupplierForSequence1(value, 1);
+
+                    // Update SupplierId1
+                    internalSupplierId(value);
+                }
+            }),
+            // Supplier Id2
+            supplierId2 = ko.computed({
+                read: function () {
+                    return internalSupplierId2();
+                },
+                write: function (value) {
+                    if (!value || value === internalSupplierId2()) {
+                        return;
+                    }
+
+                    // Update Supplier Prices for Sequence 2
+                    updateSupplierForSequence2(value, 2);
+
+                    // Update SupplierId2
+                    internalSupplierId2(value);
+                }
+            }),
+            // Update Supplier in Item Price Matrix
+            updateSupplierForSequence1 = function (suppId, suppSequence) {
+                if (itemPriceMatricesForSupplierId1().length > 0) {
+                    _.each(itemPriceMatricesForSupplierId1(), function (itemPriceMatrix) {
+                        itemPriceMatrix.supplierId(suppId);
+                    });
+                }
+                else if (itemPriceMatricesForSupplierSequence1().length > 0) {
+                    _.each(itemPriceMatricesForSupplierSequence1(), function (itemPriceMatrix) {
+                        itemPriceMatrix.supplierId(suppId);
+                    });
+                }
+                else {
+                    // Copy From Current Flag & Add New
+                    addPricesForSupplier(suppId, suppSequence);
+                }
+            },
+            // Update Supplier in Item Price Matrix
+            updateSupplierForSequence2 = function (suppId, suppSequence) {
+                if (itemPriceMatricesForSupplierId2().length > 0) {
+                    _.each(itemPriceMatricesForSupplierId2(), function (itemPriceMatrix) {
+                        itemPriceMatrix.supplierId(suppId);
+                    });
+                }
+                else if (itemPriceMatricesForSupplierSequence2().length > 0) {
+                    _.each(itemPriceMatricesForSupplierSequence2(), function (itemPriceMatrix) {
+                        itemPriceMatrix.supplierId(suppId);
+                    });
+                }
+                else {
+                    // Copy From Current Flag & Add New
+                    addPricesForSupplier(suppId, suppSequence);
+                }
+            },
+            // Add Supplier 
+            addPricesForSupplier = function(suppId, suppSequence) {
+                // Copy 15 from Current Flag
+                if (itemPriceMatricesForCurrentFlag().length > 0) {
+                    _.each(itemPriceMatricesForCurrentFlag(), function (itemPriceMatrix) {
+                        var itemMatrix = itemPriceMatrix.convertToServerData();
+                        itemMatrix.PriceMatrixId = 0;
+                        itemMatrix.SupplierId = suppId;
+                        itemMatrix.SupplierSequence = suppSequence;
+                        itemPriceMatrices.push(ItemPriceMatrix.Create(itemMatrix));
+                    });
+                }
+                else {
+                    // Add 15 New
+                    for (var i = 0; i < 15; i++) {
+                        itemPriceMatrices.push(ItemPriceMatrix.Create({
+                            SupplierId: suppId,
+                            SupplierSequence: suppSequence,
+                            ItemId: id()
+                        }));
+                    }
+                }
+            },
             // Item State Taxes
             itemStateTaxes = ko.observableArray([]),
             // Active Stock Option
@@ -416,6 +560,34 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             chooseTemplateForPriceMatrix = function(priceMatrixItem) {
                 return selectedPriceMatrixItem() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
             },
+            // Selected Price Matrix Item For Supplier 1
+            selectedPriceMatrixItemForSupplier1 = ko.observable(),
+            // Select Price Matrix Item
+            selectPriceMatrixItemForSupplier1 = function (priceMatrixItem) {
+                if (selectedPriceMatrixItemForSupplier1() === priceMatrixItem) {
+                    return;
+                }
+
+                selectedPriceMatrixItemForSupplier1(priceMatrixItem);
+            },
+            // Choose Template for Price Matrix
+            chooseTemplateForSupplier1PriceMatrix = function (priceMatrixItem) {
+                return selectedPriceMatrixItemForSupplier1() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
+            },
+            // Selected Price Matrix Item For Supplier 2
+            selectedPriceMatrixItemForSupplier2 = ko.observable(),
+            // Select Price Matrix Item
+            selectPriceMatrixItemForSupplier2 = function (priceMatrixItem) {
+                if (selectedPriceMatrixItemForSupplier2() === priceMatrixItem) {
+                    return;
+                }
+
+                selectedPriceMatrixItemForSupplier2(priceMatrixItem);
+            },
+            // Choose Template for Price Matrix
+            chooseTemplateForSupplier2PriceMatrix = function (priceMatrixItem) {
+                return selectedPriceMatrixItemForSupplier2() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
+            },
             // Selected State Tax Item
             selectedStateTaxItem = ko.observable(),
             // Select State Tax Item
@@ -536,6 +708,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 isQtyRanged: isQtyRanged,
                 packagingWeight: packagingWeight,
                 defaultItemTax: defaultItemTax,
+                supplierId: supplierId,
+                supplierId2: supplierId2,
+                estimateProductionTime: estimateProductionTime,
+                itemProductDetail: itemProductDetail,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
                 itemRelatedItems: itemRelatedItems,
@@ -577,7 +753,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Has Changes
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty() || itemVdpPriceListHasChanges() || itemVideosHasChanges() || template().hasChanges() || itemStockOptionHasChanges() ||
-                    itemPriceMatrixHasChanges() || itemStateTaxesHasChanges();
+                    itemPriceMatrixHasChanges() || itemStateTaxesHasChanges() || itemProductDetail().hasChanges();
             }),
             // Reset
             reset = function () {
@@ -597,6 +773,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return itemStateTax.reset();
                 });
                 template().reset();
+                itemProductDetail().reset();
                 dirtyFlag.reset();
             },
             // Convert To Server Data
@@ -645,6 +822,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsQtyRanged: isQtyRanged() === 2 ? false : true,
                     PackagingWeight: packagingWeight(),
                     DefaultItemTax: defaultItemTax(),
+                    SupplierId: supplierId(),
+                    SupplierId2: supplierId2(),
+                    EstimateProductionTime: estimateProductionTime(),
                     ItemVdpPrices: itemVdpPrices.map(function (itemVdpPrice) {
                         return itemVdpPrice.convertToServerData();
                     }),
@@ -665,7 +845,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ItemStateTaxes: itemStateTaxes.map(function (itemStateTax) {
                         return itemStateTax.convertToServerData();
                     }),
-                    Template: template().convertToServerData()
+                    Template: template().convertToServerData(),
+                    ItemProductDetail: itemProductDetail().convertToServerData()
                 }
             };
 
@@ -727,6 +908,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isQtyRanged: isQtyRanged,
             packagingWeight: packagingWeight,
             defaultItemTax: defaultItemTax,
+            supplierId: supplierId,
+            supplierId2: supplierId2,
+            estimateProductionTime: estimateProductionTime,
+            itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
             itemRelatedItems: itemRelatedItems,
             canAddItemVdpPrice: canAddItemVdpPrice,
@@ -752,6 +937,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStateTaxes: itemStateTaxes,
             itemPriceMatrices: itemPriceMatrices,
             itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
+            itemPriceMatricesForSupplierId1: itemPriceMatricesForSupplierId1,
+            itemPriceMatricesForSupplierId2: itemPriceMatricesForSupplierId2,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
             chooseStockItem: chooseStockItem,
@@ -765,6 +952,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             chooseTemplateForPriceMatrix: chooseTemplateForPriceMatrix,
             selectedPriceMatrixItem: selectedPriceMatrixItem,
             selectPriceMatrixItem: selectPriceMatrixItem,
+            chooseTemplateForSupplier1PriceMatrix: chooseTemplateForSupplier1PriceMatrix,
+            selectedPriceMatrixItemForSupplier1: selectedPriceMatrixItemForSupplier1,
+            selectPriceMatrixItemForSupplier1: selectPriceMatrixItemForSupplier1,
+            chooseTemplateForSupplier2PriceMatrix: chooseTemplateForSupplier2PriceMatrix,
+            selectedPriceMatrixItemForSupplier2: selectedPriceMatrixItemForSupplier2,
+            selectPriceMatrixItemForSupplier2: selectPriceMatrixItemForSupplier2,
             chooseTemplateForStateTax: chooseTemplateForStateTax,
             selectedStateTaxItem: selectedStateTaxItem,
             selectStateTaxItem: selectStateTaxItem,
@@ -1370,10 +1563,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         }
     },
 
+    // Company Entity        
+    Company = function (specifiedId, specifiedName) {
+        return {
+            id: specifiedId,
+            name: specifiedName
+        }
+    },
+
     // Item Price Matrix Entity
     ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
         specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
-        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedItemId) {
+        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -1387,6 +1588,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             flagId = ko.observable(specifiedFlagId || undefined),
             // Supplier Id
             supplierId = ko.observable(specifiedSupplierId || undefined),
+            // Supplier Sequence
+            supplierSequence = ko.observable(specifiedSupplierSequence || undefined),
             // Price Paper Type1
             pricePaperType1 = ko.observable(specifiedPricePaperType1 || undefined),
             // Price Paper Type1 Ui
@@ -1514,6 +1717,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qtyRangedTo: qtyRangedTo,
                 flagId: flagId,
                 supplierId: supplierId,
+                supplierSequence: supplierSequence,
                 pricePaperType1: pricePaperType1,
                 pricePaperType2: pricePaperType2,
                 pricePaperType3: pricePaperType3,
@@ -1544,6 +1748,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     QtyRangedTo: qtyRangedTo(),
                     FlagId: flagId(),
                     SupplierId: supplierId(),
+                    SupplierSequence: supplierSequence(),
                     PricePaperType1: pricePaperType1(),
                     PricePaperType2: pricePaperType2(),
                     PricePaperType3: pricePaperType3(),
@@ -1566,6 +1771,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qtyRangedTo: qtyRangedTo,
             flagId: flagId,
             supplierId: supplierId,
+            supplierSequence: supplierSequence,
             pricePaperType1: pricePaperType1,
             pricePaperType2: pricePaperType2,
             pricePaperType3: pricePaperType3,
@@ -1730,6 +1936,97 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             reset: reset,
             convertToServerData: convertToServerData
         };
+    },
+        
+    // Item Product Detail Entity
+    ItemProductDetail = function (specifiedId, specifiedIsInternalActivity, specifiedIsAutoCreateSupplierPO, specifiedIsQtyLimit, specifiedQtyLimit,
+        specifiedDeliveryTimeSupplier1, specifiedDeliveryTimeSupplier2, specifiedItemId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Is Internal Activity
+            isInternalActivity = ko.observable(specifiedIsInternalActivity || false),
+            // Is Auto Create Supplier PO
+            isAutoCreateSupplierPo = ko.observable(specifiedIsAutoCreateSupplierPO || true),
+            // Is Qty Limit
+            isQtyLimit = ko.observable(specifiedIsQtyLimit || true),
+            // Qty Limit
+            qtyLimit = ko.observable(specifiedQtyLimit || undefined),
+            // Delivery Time Supplier1
+            deliveryTimeSupplier1 = ko.observable(specifiedDeliveryTimeSupplier1 || undefined),
+            // Delivery Time Supplier2
+            deliveryTimeSupplier2 = ko.observable(specifiedDeliveryTimeSupplier2 || undefined),
+            // Is Internal Activity Ui
+            isInternalActivityUi = ko.computed({
+                read: function() {
+                    return '' + isInternalActivity();
+                },
+                write: function(value) {
+                    if (!value || value === isInternalActivity()) {
+                        return;
+                    }
+
+                    isInternalActivity(value);
+                }
+            }),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || 0),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item State Tax has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                isInternalActivity: isInternalActivity,
+                isAutoCreateSupplierPo: isAutoCreateSupplierPo,
+                isQtyLimit: isQtyLimit,
+                qtyLimit: qtyLimit,
+                deliveryTimeSupplier1: deliveryTimeSupplier1,
+                deliveryTimeSupplier2: deliveryTimeSupplier2
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ItemDetailId: id(),
+                    ItemId: itemId(),
+                    IsInternalActivity: isInternalActivity(),
+                    IsAutoCreateSupplierPO: isAutoCreateSupplierPo(),
+                    IsQtyLimit: isQtyLimit(),
+                    QtyLimit: qtyLimit(),
+                    DeliveryTimeSupplier1: deliveryTimeSupplier1(),
+                    DeliveryTimeSupplier2: deliveryTimeSupplier2()
+                }
+            };
+
+        return {
+            id: id,
+            itemId: itemId,
+            isInternalActivity: isInternalActivity,
+            isInternalActivityUi: isInternalActivityUi,
+            isAutoCreateSupplierPo: isAutoCreateSupplierPo,
+            isQtyLimit: isQtyLimit,
+            qtyLimit: qtyLimit,
+            deliveryTimeSupplier1: deliveryTimeSupplier1,
+            deliveryTimeSupplier2: deliveryTimeSupplier2,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
     };
 
     // Item Vdp Price Factory
@@ -1827,7 +2124,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ItemPriceMatrix.Create = function (source) {
         return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangedFrom, source.QtyRangedTo, source.PricePaperType1, source.PricePaperType2,
             source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
-            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.ItemId);
+            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
+    }
+
+    // Item Product Detail Factory
+    ItemProductDetail.Create = function (source) {
+        var itemProductDetail = new ItemProductDetail(source.ItemDetailId, source.IsInternalActivity, source.IsAutoCreateSupplierPO, source.IsQtyLimit, source.QtyLimit,
+            source.DeliveryTimeSupplier1, source.DeliveryTimeSupplier2, source.ItemId);
+
+        return itemProductDetail;
     }
 
     // Item Factory
@@ -1840,7 +2145,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
             source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.FlagId,
-            source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax, callbacks, constructorParams);
+            source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax, source.SupplierId, source.SupplierId2, source.EstimateProductionTime,
+            source.ItemProductDetail, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {
@@ -1956,6 +2262,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
     }
 
+    // Company Factory
+    Company.Create = function (source) {
+        return new Company(source.SupplierId, source.Name);
+    }
+
     return {
         // Item Constructor
         Item: Item,
@@ -1982,6 +2293,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // State Constructor
         State: State,
         // Section Flag Constructor
-        SectionFlag: SectionFlag
+        SectionFlag: SectionFlag,
+        // Company Constructor
+        Company: Company,
+        // Item Product Detail Constructor
+        ItemProductDetail: ItemProductDetail
     };
 });

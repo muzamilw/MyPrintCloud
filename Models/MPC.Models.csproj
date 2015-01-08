@@ -252,6 +252,7 @@
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
+    <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />

@@ -26,6 +26,8 @@ define("product/product.viewModel",
                     countries = ko.observableArray([]),
                     // States
                     states = ko.observableArray([]),
+                    // Suppliers
+                    suppliers = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
@@ -430,6 +432,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(sectionFlags(), itemsList);
                         sectionFlags.valueHasMutated();
                     },
+                    // Map Suppliers
+                    mapSuppliers = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.Company.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(suppliers(), itemsList);
+                        suppliers.valueHasMutated();
+                    },
                     // Set Item Price Matrices to Current Item against selected Flag
                     setItemPriceMatricesToItem = function(itemPriceMatrices) {
                         if (!itemPriceMatrices || itemPriceMatrices.length === 0) {
@@ -461,6 +474,9 @@ define("product/product.viewModel",
 
                                     // Map Section Flags
                                     mapSectionFlags(data.SectionFlags);
+
+                                    // Map Suppliers
+                                    mapSuppliers(data.Suppliers);
 
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
@@ -646,6 +662,7 @@ define("product/product.viewModel",
                     stockItems: stockItems,
                     costCentres: costCentres,
                     sectionFlags: sectionFlags,
+                    suppliers: suppliers,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
