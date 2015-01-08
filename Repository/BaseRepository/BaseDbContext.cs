@@ -364,6 +364,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ProductCategoriesView> ProductCategoriesViews { get; set; }
 
         /// <summary>
+        /// Image Permission DbSet
+        /// </summary>
+        public DbSet<ImagePermission> ImagePermissions { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)

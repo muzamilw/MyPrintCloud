@@ -5,8 +5,8 @@
     /// </summary>
     public class TemplateFont
     {
-        public int ProductFontId { get; set; }
-        public int? ProductId { get; set; }
+        public long ProductFontId { get; set; }
+        public long? ProductId { get; set; }
         public string FontName { get; set; }
         public string FontDisplayName { get; set; }
         public string FontFile { get; set; }
@@ -15,7 +15,7 @@
         public bool? IsEnable { get; set; }
         public byte[] FontBytes { get; set; }
         public string FontPath { get; set; }
-        public int? CustomerId { get; set; }
+        public long? CustomerId { get; set; }
 
         public virtual Template Template { get; set; }
     }

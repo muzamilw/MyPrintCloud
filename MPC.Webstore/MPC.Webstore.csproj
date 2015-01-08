@@ -257,6 +257,7 @@
     <Compile Include="Areas\DesignerApi\Controllers\TemplatePageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateSPController.cs" />
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
+    <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
@@ -435,6 +436,9 @@
     <Content Include="Content\designer\assets-v2\fonts\icomoon.eot" />
     <Content Include="Content\designer\assets-v2\fonts\icomoon.ttf" />
     <Content Include="Content\designer\assets-v2\fonts\icomoon.woff" />
+    <Content Include="Areas\Designer\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Designer\a12\a66.css" />
     <Content Include="Scripts\Designer\a12\a99.swf" />
@@ -563,9 +567,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
-    <Folder Include="Areas\Designer\Controllers\" />
     <Folder Include="Areas\Designer\Models\" />
-    <Folder Include="Areas\Designer\Views\Shared\" />
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
     <Folder Include="Views\ShopCart\" />

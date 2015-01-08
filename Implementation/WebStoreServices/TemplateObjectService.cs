@@ -105,7 +105,6 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.Allignment = 1;
             oTempItem.ColorName = "";
             oTempItem.SpotColorName = "";
-            oTempItem.TCtlName = "";
             oTempItem.ExField1 = "";
             oTempItem.ExField2 = "";
             oTempItem.Opacity = 1;

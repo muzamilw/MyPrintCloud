@@ -11,5 +11,6 @@
         public double MinPrice { get; set; }
         public string CategoryName { get; set; }
         public long? CompanyId { get; set; }
+        public double? DefaultItemTax { get; set; }
     }
 }

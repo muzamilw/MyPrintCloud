@@ -5,8 +5,8 @@
     /// </summary>
     public class TemplatePage
     {
-        public int ProductPageId { get; set; }
-        public int? ProductId { get; set; }
+        public long ProductPageId { get; set; }
+        public long? ProductId { get; set; }
         public int? PageNo { get; set; }
         public int? PageType { get; set; }
         public int? Orientation { get; set; }
