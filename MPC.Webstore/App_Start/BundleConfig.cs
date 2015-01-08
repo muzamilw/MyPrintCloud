@@ -39,6 +39,40 @@ namespace MPC.Webstore
             bundles.Add(new StyleBundle("~/Content/CSS").Include(
                       "~/Content/bootstrap.css"
                       ));
+            bundles.Add(new StyleBundle("~/Content/DesignerCss").Include(
+                      "~/Content/Designer/DSv2.css",
+                        "~/Content/Designer/jquery-sunny/jquery-ui-1.10.4.custom.min.css",
+                        "~/Content/Designer/a66.css",
+                        "~/Content/Designer/p103.css",
+                         "~/Content/Designer/jquery.cropbox.css"
+                      ));
+            bundles.Add(new ScriptBundle("~/bundles/designerPreloadScripts").Include(
+                  "~/Scripts/Designer/p55.js",
+                  "~/Scripts/Designer/p55-ease.js",
+                  "~/Scripts/Designer/p40.js",
+                  "~/Scripts/Designer/pvcc1.js",
+                  "~/Scripts/Designer/pcf01-v2.js",
+                  "~/Scripts/Designer/p64test.js",
+                  "~/Scripts/Designer/p21-v2.js",
+                  "~/Scripts/Designer/p15-v2.js"
+                  ));
+              bundles.Add(new ScriptBundle("~/bundles/designerScripts").Include(
+                  "~/Scripts/Designer/p71.js",
+                  "~/Scripts/Designer/p19.js",
+                  "~/Scripts/Designer/XMLWriter.js",
+                  "~/Scripts/Designer/pc1.js",
+                  "~/Scripts/Designer/pc2.js",
+                  "~/Scripts/Designer/pc3.js",
+                  "~/Scripts/Designer/aj9.js",
+                  "~/Scripts/Designer/aj21-v2.js",
+                  "~/Scripts/Designer/aj12.js",
+                  "~/Scripts/Designer/aj1.js",
+                  "~/Scripts/Designer/p101.js",
+                  "~/Scripts/Designer/p1.js",
+                  "~/Scripts/Designer/p10-v2.js",
+                  "~/Scripts/Designer/p35-v2.js",
+                  "~/Scripts/Designer/pcf01-35.js"
+                  ));
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
