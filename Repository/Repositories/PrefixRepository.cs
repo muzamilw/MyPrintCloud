@@ -67,14 +67,21 @@ namespace MPC.Repository.Repositories
 
         public Prefix GetDefaultPrefix()
         {
-            
-            return db.Prefixes.Where(c => c.SystemSiteId == 1).FirstOrDefault();
-           
+
+            return db.Prefixes.FirstOrDefault(c => c.SystemSiteId == 1);
+
         }
 
+        /// <summary>
+        /// Markup use in Prefix 
+        /// </summary>
+        public bool PrefixUseMarkupId(long markupId)
+        {
+            return db.Prefixes.Count(p => p.MarkupId == markupId) > 0;
+        }
         #endregion
 
 
-        
+
     }
 }
