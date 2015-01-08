@@ -42,4 +42,27 @@ namespace MPC.Models.Common
         public int DisplayOrder { get; set; }
 
     }
+
+    public class MappedCategoriesName
+    {
+        public string CategoryName { get; set; }
+        public long ProductID { get; set; }
+
+        public long CategoryID { get; set; }
+
+        public long ItemID { get; set; }
+
+        public int ProductType { get; set; }
+        public int IsCalledFrom { get; set; }
+        public string ProductName { get; set; }
+        public string CompanyID { get; set; }
+        public string ContactID { get; set; }
+
+        public bool IsEmbaded { get; set; }
+
+        public double defaultItemTax { get; set; }
+
+        public double MinPrice { get; set; }
+       
+    }
 }
