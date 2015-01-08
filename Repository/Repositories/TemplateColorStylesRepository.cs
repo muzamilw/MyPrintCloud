@@ -80,7 +80,7 @@ namespace MPC.Repository.Repositories
 
             db.TemplateColorStyles.Add(obj);
             db.SaveChanges();
-            return obj.PelleteId;
+            return (int)obj.PelleteId;
         }
         public string UpdateCorpColor(int id, string type)
         {

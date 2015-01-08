@@ -121,6 +121,8 @@ namespace MPC.Models.DomainModels
 
         public long? StoreId { get; set; }
 
+        public bool? isAddCropMarks { get; set; }
+
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
         public virtual ICollection<CompanyCMYKColor> CompanyCMYKColors { get; set; }

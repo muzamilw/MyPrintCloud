@@ -424,6 +424,7 @@
           <Property Name="MapImageURL" Type="varchar" MaxLength="200" />
           <Property Name="PickupAddressId" Type="bigint" />
           <Property Name="TaxLabel" Type="varchar" MaxLength="30" />
+          <Property Name="isAddCropMarks" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -938,6 +939,14 @@
           <Property Name="uiCulture" Type="varchar" MaxLength="50" />
           <Property Name="culture" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="ImagePermissions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TerritoryID" Type="bigint" />
+          <Property Name="ImageId" Type="bigint" />
+        </EntityType>
         <EntityType Name="Inquiry">
           <Key>
             <PropertyRef Name="InquiryId" />
@@ -1301,8 +1310,8 @@
           <Property Name="FactSheetFileName" Type="nvarchar" MaxLength="100" />
           <Property Name="IsArchived" Type="bit" />
           <Property Name="NominalCodeId" Type="int" />
-          <Property Name="RefItemId" Type="int" />
-          <Property Name="TemplateId" Type="int" />
+          <Property Name="RefItemId" Type="bigint" />
+          <Property Name="TemplateId" Type="bigint" />
           <Property Name="WebDescription" Type="varchar(max)" />
           <Property Name="ItemTypeId" Type="int" />
           <Property Name="IsOrderedItem" Type="bit" />
@@ -2255,30 +2264,15 @@
           <Key>
             <PropertyRef Name="ProductId" />
           </Key>
-          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="255" />
           <Property Name="Description" Type="text" />
-          <Property Name="LowResPDFTemplates" Type="text" />
-          <Property Name="BackgroundArtwork" Type="text" />
-          <Property Name="Side2LowResPDFTemplates" Type="text" />
-          <Property Name="Side2BackgroundArtwork" Type="text" />
           <Property Name="Thumbnail" Type="text" />
           <Property Name="Image" Type="text" />
           <Property Name="IsDisabled" Type="bit" />
-          <Property Name="PTempId" Type="int" />
-          <Property Name="IsDoubleSide" Type="bit" Nullable="false" />
-          <Property Name="IsUsePDFFile" Type="bit" Nullable="false" />
           <Property Name="PDFTemplateWidth" Type="float" />
           <Property Name="PDFTemplateHeight" Type="float" />
-          <Property Name="IsUseBackGroundColor" Type="bit" />
-          <Property Name="BgR" Type="int" />
-          <Property Name="BgG" Type="int" />
-          <Property Name="BgB" Type="int" />
-          <Property Name="IsUseSide2BackGroundColor" Type="bit" />
-          <Property Name="Side2BgR" Type="int" />
-          <Property Name="Side2BgG" Type="int" />
-          <Property Name="Side2BgB" Type="int" />
           <Property Name="CuttingMargin" Type="float" />
           <Property Name="MultiPageCount" Type="int" />
           <Property Name="Orientation" Type="int" />
@@ -2317,8 +2311,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductId" Type="int" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" />
           <Property Name="ImageName" Type="varchar" MaxLength="300" />
           <Property Name="Name" Type="varchar" MaxLength="300" />
           <Property Name="flgPhotobook" Type="bit" />
@@ -2332,15 +2326,15 @@
           <Property Name="ImageDescription" Type="nvarchar(max)" />
           <Property Name="ImageKeywords" Type="nvarchar(max)" />
           <Property Name="UploadedFrom" Type="int" />
-          <Property Name="ContactCompanyId" Type="int" />
-          <Property Name="ContactId" Type="int" />
+          <Property Name="ContactCompanyId" Type="bigint" />
+          <Property Name="ContactId" Type="bigint" />
         </EntityType>
         <EntityType Name="TemplateColorStyle">
           <Key>
             <PropertyRef Name="PelleteId" />
           </Key>
-          <Property Name="PelleteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductId" Type="int" />
+          <Property Name="PelleteId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="ColorC" Type="int" />
           <Property Name="ColorM" Type="int" />
@@ -2351,14 +2345,14 @@
           <Property Name="Field1" Type="int" />
           <Property Name="ColorHex" Type="nvarchar" MaxLength="30" />
           <Property Name="IsColorActive" Type="bit" />
-          <Property Name="CustomerId" Type="int" />
+          <Property Name="CustomerId" Type="bigint" />
         </EntityType>
         <EntityType Name="TemplateFont">
           <Key>
             <PropertyRef Name="ProductFontId" />
           </Key>
-          <Property Name="ProductFontId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductId" Type="int" />
+          <Property Name="ProductFontId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" />
           <Property Name="FontName" Type="nvarchar" MaxLength="50" />
           <Property Name="FontDisplayName" Type="nvarchar" MaxLength="50" />
           <Property Name="FontFile" Type="nvarchar" MaxLength="200" />
@@ -2367,13 +2361,13 @@
           <Property Name="IsEnable" Type="bit" />
           <Property Name="FontBytes" Type="image" />
           <Property Name="FontPath" Type="nvarchar(max)" />
-          <Property Name="CustomerId" Type="int" />
+          <Property Name="CustomerId" Type="bigint" />
         </EntityType>
         <EntityType Name="TemplateObject">
           <Key>
             <PropertyRef Name="ObjectId" />
           </Key>
-          <Property Name="ObjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ObjectId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ObjectType" Type="int" />
           <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="IsEditable" Type="bit" />
@@ -2389,7 +2383,6 @@
           <Property Name="IsFontNamePrivate" Type="bit" />
           <Property Name="FontName" Type="varchar" MaxLength="200" />
           <Property Name="FontSize" Type="float" />
-          <Property Name="FontStyleId" Type="int" />
           <Property Name="IsBold" Type="bit" />
           <Property Name="IsItalic" Type="bit" />
           <Property Name="Allignment" Type="int" />
@@ -2397,8 +2390,6 @@
           <Property Name="Indent" Type="float" />
           <Property Name="IsUnderlinedText" Type="bit" />
           <Property Name="ColorType" Type="int" />
-          <Property Name="ColorStyleId" Type="int" />
-          <Property Name="PalleteId" Type="int" />
           <Property Name="ColorName" Type="varchar" MaxLength="50" />
           <Property Name="ColorC" Type="int" />
           <Property Name="ColorM" Type="int" />
@@ -2409,21 +2400,17 @@
           <Property Name="SpotColorName" Type="varchar" MaxLength="150" />
           <Property Name="ContentString" Type="nvarchar(max)" />
           <Property Name="ContentCaseType" Type="int" />
-          <Property Name="ProductId" Type="int" />
+          <Property Name="ProductId" Type="bigint" />
           <Property Name="DisplayOrderPdf" Type="int" />
           <Property Name="DisplayOrderTxtControl" Type="int" />
-          <Property Name="IsRequireNumericValue" Type="bit" />
           <Property Name="RColor" Type="int" />
           <Property Name="GColor" Type="int" />
           <Property Name="BColor" Type="int" />
-          <Property Name="isSide2Object" Type="bit" />
           <Property Name="LineSpacing" Type="float" />
-          <Property Name="ProductPageId" Type="int" />
-          <Property Name="ParentId" Type="int" />
+          <Property Name="ProductPageId" Type="bigint" />
+          <Property Name="ParentId" Type="bigint" />
           <Property Name="CircleRadiusX" Type="float" />
           <Property Name="Opacity" Type="float" />
-          <Property Name="IsNewLine" Type="bit" />
-          <Property Name="TCtlName" Type="nvarchar" MaxLength="50" />
           <Property Name="ExField1" Type="nvarchar" MaxLength="50" />
           <Property Name="ExField2" Type="nvarchar" MaxLength="50" />
           <Property Name="IsPositionLocked" Type="bit" />
@@ -2443,8 +2430,8 @@
           <Key>
             <PropertyRef Name="ProductPageId" />
           </Key>
-          <Property Name="ProductPageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductId" Type="int" />
+          <Property Name="ProductPageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" />
           <Property Name="PageNo" Type="int" />
           <Property Name="PageType" Type="int" />
           <Property Name="Orientation" Type="int" />
@@ -2696,6 +2683,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="MinPrice" Type="float" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="50" />
           <Property Name="CompanyId" Type="bigint" />
+          <Property Name="DefaultItemTax" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.ProductFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2797,6 +2785,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__ImagePerm__Image__60D4A69D">
+          <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="0..1" />
+          <End Role="ImagePermissions" Type="Self.ImagePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TemplateBackgroundImage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImagePermissions">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Items__TemplateI__5D0415B9">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Organisat__Count__16719D3F">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
@@ -2821,7 +2833,19 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ColorStyles_Products">
+        <Association Name="FK__TemplateB__Produ__593384D5">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateBackgroundImage">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TemplateC__Produ__5B1BCD47">
           <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
           <End Role="TemplateColorStyle" Type="Self.TemplateColorStyle" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2829,6 +2853,42 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               <PropertyRef Name="ProductId" />
             </Principal>
             <Dependent Role="TemplateColorStyle">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TemplateF__Produ__5A27A90E">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplateFont" Type="Self.TemplateFont" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateFont">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TemplateO__Produ__574B3C63">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplateObject" Type="Self.TemplateObject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplateObject">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TemplateP__Produ__5C0FF180">
+          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
+          <End Role="TemplatePage" Type="Self.TemplatePage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Template">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="TemplatePage">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -3013,18 +3073,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Objects_Products">
-          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
-          <End Role="TemplateObject" Type="Self.TemplateObject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Template">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="TemplateObject">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PageCategory_CmsPage">
           <End Role="PageCategory" Type="Self.PageCategory" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -3049,18 +3097,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProductBackgroundImages_Products">
-          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
-          <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Template">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="TemplateBackgroundImage">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProductCategoryItem_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ProductCategoryItem" Type="Self.ProductCategoryItem" Multiplicity="*" />
@@ -3082,18 +3118,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="ProductCategoryItem">
               <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductFonts_Products">
-          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
-          <End Role="TemplateFont" Type="Self.TemplateFont" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Template">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="TemplateFont">
-              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3735,30 +3759,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Template_Items">
-          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
-          <End Role="Items" Type="Self.Items" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Template">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="Items">
-              <PropertyRef Name="TemplateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Templates_TemplatePages">
-          <End Role="Template" Type="Self.Template" Multiplicity="0..1" />
-          <End Role="TemplatePage" Type="Self.TemplatePage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Template">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="TemplatePage">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -3885,6 +3885,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FieldVariable" EntityType="Self.FieldVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryItem" EntityType="Self.InquiryItem" Schema="dbo" store:Type="Tables" />
@@ -4087,7 +4088,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [ProductCategoriesView].[ItemId] AS [ItemId], 
     [ProductCategoriesView].[MinPrice] AS [MinPrice], 
     [ProductCategoriesView].[CategoryName] AS [CategoryName], 
-    [ProductCategoriesView].[CompanyId] AS [CompanyId]
+    [ProductCategoriesView].[CompanyId] AS [CompanyId], 
+    [ProductCategoriesView].[DefaultItemTax] AS [DefaultItemTax]
     FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ProductFileTableView" EntityType="Self.ProductFileTableView" store:Type="Views" store:Schema="dbo">
@@ -4142,6 +4144,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="CmsPage" EntitySet="CmsPage" />
             <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
           </AssociationSet>
+          <AssociationSet Name="FK__ImagePerm__Image__60D4A69D" Association="Self.FK__ImagePerm__Image__60D4A69D">
+            <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
+            <End Role="ImagePermissions" EntitySet="ImagePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Items__TemplateI__5D0415B9" Association="Self.FK__Items__TemplateI__5D0415B9">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
           <AssociationSet Name="FK__Organisat__Count__16719D3F" Association="Self.FK__Organisat__Count__16719D3F">
             <End Role="Country" EntitySet="Country" />
             <End Role="Organisation" EntitySet="Organisation" />
@@ -4150,9 +4160,25 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="State" EntitySet="State" />
             <End Role="Organisation" EntitySet="Organisation" />
           </AssociationSet>
-          <AssociationSet Name="FK_ColorStyles_Products" Association="Self.FK_ColorStyles_Products">
+          <AssociationSet Name="FK__TemplateB__Produ__593384D5" Association="Self.FK__TemplateB__Produ__593384D5">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TemplateC__Produ__5B1BCD47" Association="Self.FK__TemplateC__Produ__5B1BCD47">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplateColorStyle" EntitySet="TemplateColorStyle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TemplateF__Produ__5A27A90E" Association="Self.FK__TemplateF__Produ__5A27A90E">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplateFont" EntitySet="TemplateFont" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TemplateO__Produ__574B3C63" Association="Self.FK__TemplateO__Produ__574B3C63">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplateObject" EntitySet="TemplateObject" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TemplateP__Produ__5C0FF180" Association="Self.FK__TemplateP__Produ__5C0FF180">
+            <End Role="Template" EntitySet="Template" />
+            <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
@@ -4214,10 +4240,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
           </AssociationSet>
-          <AssociationSet Name="FK_Objects_Products" Association="Self.FK_Objects_Products">
-            <End Role="Template" EntitySet="Template" />
-            <End Role="TemplateObject" EntitySet="TemplateObject" />
-          </AssociationSet>
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategory" />
             <End Role="CmsPage" EntitySet="CmsPage" />
@@ -4226,10 +4248,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Company" EntitySet="Company" />
             <End Role="PaymentGateway" EntitySet="PaymentGateway" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductBackgroundImages_Products" Association="Self.FK_ProductBackgroundImages_Products">
-            <End Role="Template" EntitySet="Template" />
-            <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProductCategoryItem_Items" Association="Self.FK_ProductCategoryItem_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
@@ -4237,10 +4255,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_ProductCategoryItem_ProductCategory" Association="Self.FK_ProductCategoryItem_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductFonts_Products" Association="Self.FK_ProductFonts_Products">
-            <End Role="Template" EntitySet="Template" />
-            <End Role="TemplateFont" EntitySet="TemplateFont" />
           </AssociationSet>
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
@@ -4449,14 +4463,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_tbl_systemusers_tbl_company_sites" Association="Self.FK_tbl_systemusers_tbl_company_sites">
             <End Role="Organisation" EntitySet="Organisation" />
             <End Role="SystemUser" EntitySet="SystemUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Template_Items" Association="Self.FK_Template_Items">
-            <End Role="Template" EntitySet="Template" />
-            <End Role="Items" EntitySet="Items" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Templates_TemplatePages" Association="Self.FK_Templates_TemplatePages">
-            <End Role="Template" EntitySet="Template" />
-            <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="Self.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Company" />
@@ -4966,6 +4972,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Company" EntitySet="Companies" />
             <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
+          <EntitySet Name="ImagePermissions" EntityType="DomainModels.ImagePermission" />
+          <AssociationSet Name="FK__ImagePerm__Image__60D4A69D" Association="DomainModels.FK__ImagePerm__Image__60D4A69D">
+            <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImages" />
+            <End Role="ImagePermission" EntitySet="ImagePermissions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5088,6 +5099,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="TaxLabel" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="StoreId" Type="Int64" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
+          <Property Name="isAddCropMarks" Type="Boolean" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6293,7 +6305,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsArchived" Type="Boolean" />
           <Property Name="NominalCodeId" Type="Int32" />
           <Property Name="RefItemId" Type="Int32" />
-          <Property Name="TemplateId" Type="Int32" />
+          <Property Name="TemplateId" Type="Int64" />
           <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ItemTypeId" Type="Int32" />
           <Property Name="IsOrderedItem" Type="Boolean" />
@@ -8019,30 +8031,15 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Key>
             <PropertyRef Name="ProductId" />
           </Key>
-          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LowResPDFTemplates" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="BackgroundArtwork" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Side2LowResPDFTemplates" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Side2BackgroundArtwork" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Thumbnail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsDisabled" Type="Boolean" />
-          <Property Name="PTempId" Type="Int32" />
-          <Property Name="IsDoubleSide" Type="Boolean" Nullable="false" />
-          <Property Name="IsUsePDFFile" Type="Boolean" Nullable="false" />
           <Property Name="PDFTemplateWidth" Type="Double" />
           <Property Name="PDFTemplateHeight" Type="Double" />
-          <Property Name="IsUseBackGroundColor" Type="Boolean" />
-          <Property Name="BgR" Type="Int32" />
-          <Property Name="BgG" Type="Int32" />
-          <Property Name="BgB" Type="Int32" />
-          <Property Name="IsUseSide2BackGroundColor" Type="Boolean" />
-          <Property Name="Side2BgR" Type="Int32" />
-          <Property Name="Side2BgG" Type="Int32" />
-          <Property Name="Side2BgB" Type="Int32" />
           <Property Name="CuttingMargin" Type="Double" />
           <Property Name="MultiPageCount" Type="Int32" />
           <Property Name="Orientation" Type="Int32" />
@@ -8087,8 +8084,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Key>
             <PropertyRef Name="ProductPageId" />
           </Key>
-          <Property Name="ProductPageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" />
+          <Property Name="ProductPageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" />
           <Property Name="PageNo" Type="Int32" />
           <Property Name="PageType" Type="Int32" />
           <Property Name="Orientation" Type="Int32" />
@@ -8302,8 +8299,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" />
           <Property Name="ImageName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="flgPhotobook" Type="Boolean" />
@@ -8317,15 +8314,16 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="ImageDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ImageKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UploadedFrom" Type="Int32" />
-          <Property Name="ContactCompanyId" Type="Int32" />
-          <Property Name="ContactId" Type="Int32" />
+          <Property Name="ContactCompanyId" Type="Int64" />
+          <Property Name="ContactId" Type="Int64" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_ProductBackgroundImages_Products" FromRole="TemplateBackgroundImage" ToRole="Template" />
+          <NavigationProperty Name="ImagePermissions" Relationship="DomainModels.FK__ImagePerm__Image__60D4A69D" FromRole="TemplateBackgroundImage" ToRole="ImagePermission" />
         </EntityType>
         <EntityType Name="TemplateObject">
           <Key>
             <PropertyRef Name="ObjectId" />
           </Key>
-          <Property Name="ObjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ObjectId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ObjectType" Type="Int32" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="IsEditable" Type="Boolean" />
@@ -8341,7 +8339,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsFontNamePrivate" Type="Boolean" />
           <Property Name="FontName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="FontSize" Type="Double" />
-          <Property Name="FontStyleId" Type="Int32" />
           <Property Name="IsBold" Type="Boolean" />
           <Property Name="IsItalic" Type="Boolean" />
           <Property Name="Allignment" Type="Int32" />
@@ -8349,8 +8346,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Indent" Type="Double" />
           <Property Name="IsUnderlinedText" Type="Boolean" />
           <Property Name="ColorType" Type="Int32" />
-          <Property Name="ColorStyleId" Type="Int32" />
-          <Property Name="PalleteId" Type="Int32" />
           <Property Name="ColorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ColorC" Type="Int32" />
           <Property Name="ColorM" Type="Int32" />
@@ -8361,21 +8356,17 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SpotColorName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="ContentString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ContentCaseType" Type="Int32" />
-          <Property Name="ProductId" Type="Int32" />
+          <Property Name="ProductId" Type="Int64" />
           <Property Name="DisplayOrderPdf" Type="Int32" />
           <Property Name="DisplayOrderTxtControl" Type="Int32" />
-          <Property Name="IsRequireNumericValue" Type="Boolean" />
           <Property Name="RColor" Type="Int32" />
           <Property Name="GColor" Type="Int32" />
           <Property Name="BColor" Type="Int32" />
-          <Property Name="isSide2Object" Type="Boolean" />
           <Property Name="LineSpacing" Type="Double" />
-          <Property Name="ProductPageId" Type="Int32" />
-          <Property Name="ParentId" Type="Int32" />
+          <Property Name="ProductPageId" Type="Int64" />
+          <Property Name="ParentId" Type="Int64" />
           <Property Name="CircleRadiusX" Type="Double" />
           <Property Name="Opacity" Type="Double" />
-          <Property Name="IsNewLine" Type="Boolean" />
-          <Property Name="TCtlName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ExField1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ExField2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsPositionLocked" Type="Boolean" />
@@ -8834,8 +8825,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Key>
             <PropertyRef Name="PelleteId" />
           </Key>
-          <Property Name="PelleteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" />
+          <Property Name="PelleteId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ColorC" Type="Int32" />
           <Property Name="ColorM" Type="Int32" />
@@ -8846,7 +8837,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Field1" Type="Int32" />
           <Property Name="ColorHex" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="IsColorActive" Type="Boolean" />
-          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="CustomerId" Type="Int64" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_ColorStyles_Products" FromRole="TemplateColorStyle" ToRole="Template" />
         </EntityType>
         <Association Name="FK_ColorStyles_Products">
@@ -8865,8 +8856,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Key>
             <PropertyRef Name="ProductFontId" />
           </Key>
-          <Property Name="ProductFontId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" />
+          <Property Name="ProductFontId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" />
           <Property Name="FontName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FontDisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FontFile" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -8875,7 +8866,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsEnable" Type="Boolean" />
           <Property Name="FontBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="FontPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="CustomerId" Type="Int64" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_ProductFonts_Products" FromRole="TemplateFont" ToRole="Template" />
         </EntityType>
         <Association Name="FK_ProductFonts_Products">
@@ -8938,6 +8929,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="MinPrice" Type="Double" Nullable="false" />
           <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CompanyId" Type="Int64" />
+          <Property Name="DefaultItemTax" Type="Double" />
         </EntityType>
         <Association Name="FK_tbl_estimates_tbl_contactcompanies1">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="1" />
@@ -8951,6 +8943,27 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ImagePermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TerritoryID" Type="Int64" />
+          <Property Name="ImageId" Type="Int64" />
+          <NavigationProperty Name="TemplateBackgroundImage" Relationship="DomainModels.FK__ImagePerm__Image__60D4A69D" FromRole="ImagePermission" ToRole="TemplateBackgroundImage" />
+        </EntityType>
+        <Association Name="FK__ImagePerm__Image__60D4A69D">
+          <End Type="DomainModels.TemplateBackgroundImage" Role="TemplateBackgroundImage" Multiplicity="0..1" />
+          <End Type="DomainModels.ImagePermission" Role="ImagePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TemplateBackgroundImage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImagePermission">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8960,6 +8973,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="isAddCropMarks" ColumnName="isAddCropMarks" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
                 <ScalarProperty Name="PickupAddressId" ColumnName="PickupAddressId" />
@@ -11243,26 +11257,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Orientation" ColumnName="Orientation" />
                 <ScalarProperty Name="MultiPageCount" ColumnName="MultiPageCount" />
                 <ScalarProperty Name="CuttingMargin" ColumnName="CuttingMargin" />
-                <ScalarProperty Name="Side2BgB" ColumnName="Side2BgB" />
-                <ScalarProperty Name="Side2BgG" ColumnName="Side2BgG" />
-                <ScalarProperty Name="Side2BgR" ColumnName="Side2BgR" />
-                <ScalarProperty Name="IsUseSide2BackGroundColor" ColumnName="IsUseSide2BackGroundColor" />
-                <ScalarProperty Name="BgB" ColumnName="BgB" />
-                <ScalarProperty Name="BgG" ColumnName="BgG" />
-                <ScalarProperty Name="BgR" ColumnName="BgR" />
-                <ScalarProperty Name="IsUseBackGroundColor" ColumnName="IsUseBackGroundColor" />
                 <ScalarProperty Name="PDFTemplateHeight" ColumnName="PDFTemplateHeight" />
                 <ScalarProperty Name="PDFTemplateWidth" ColumnName="PDFTemplateWidth" />
-                <ScalarProperty Name="IsUsePDFFile" ColumnName="IsUsePDFFile" />
-                <ScalarProperty Name="IsDoubleSide" ColumnName="IsDoubleSide" />
-                <ScalarProperty Name="PTempId" ColumnName="PTempId" />
                 <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
-                <ScalarProperty Name="Side2BackgroundArtwork" ColumnName="Side2BackgroundArtwork" />
-                <ScalarProperty Name="Side2LowResPDFTemplates" ColumnName="Side2LowResPDFTemplates" />
-                <ScalarProperty Name="BackgroundArtwork" ColumnName="BackgroundArtwork" />
-                <ScalarProperty Name="LowResPDFTemplates" ColumnName="LowResPDFTemplates" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -11434,18 +11433,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="IsPositionLocked" ColumnName="IsPositionLocked" />
                 <ScalarProperty Name="ExField2" ColumnName="ExField2" />
                 <ScalarProperty Name="ExField1" ColumnName="ExField1" />
-                <ScalarProperty Name="TCtlName" ColumnName="TCtlName" />
-                <ScalarProperty Name="IsNewLine" ColumnName="IsNewLine" />
                 <ScalarProperty Name="Opacity" ColumnName="Opacity" />
                 <ScalarProperty Name="CircleRadiusX" ColumnName="CircleRadiusX" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="ProductPageId" ColumnName="ProductPageId" />
                 <ScalarProperty Name="LineSpacing" ColumnName="LineSpacing" />
-                <ScalarProperty Name="isSide2Object" ColumnName="isSide2Object" />
                 <ScalarProperty Name="BColor" ColumnName="BColor" />
                 <ScalarProperty Name="GColor" ColumnName="GColor" />
                 <ScalarProperty Name="RColor" ColumnName="RColor" />
-                <ScalarProperty Name="IsRequireNumericValue" ColumnName="IsRequireNumericValue" />
                 <ScalarProperty Name="DisplayOrderTxtControl" ColumnName="DisplayOrderTxtControl" />
                 <ScalarProperty Name="DisplayOrderPdf" ColumnName="DisplayOrderPdf" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
@@ -11459,8 +11454,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="ColorM" ColumnName="ColorM" />
                 <ScalarProperty Name="ColorC" ColumnName="ColorC" />
                 <ScalarProperty Name="ColorName" ColumnName="ColorName" />
-                <ScalarProperty Name="PalleteId" ColumnName="PalleteId" />
-                <ScalarProperty Name="ColorStyleId" ColumnName="ColorStyleId" />
                 <ScalarProperty Name="ColorType" ColumnName="ColorType" />
                 <ScalarProperty Name="IsUnderlinedText" ColumnName="IsUnderlinedText" />
                 <ScalarProperty Name="Indent" ColumnName="Indent" />
@@ -11468,7 +11461,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Allignment" ColumnName="Allignment" />
                 <ScalarProperty Name="IsItalic" ColumnName="IsItalic" />
                 <ScalarProperty Name="IsBold" ColumnName="IsBold" />
-                <ScalarProperty Name="FontStyleId" ColumnName="FontStyleId" />
                 <ScalarProperty Name="FontSize" ColumnName="FontSize" />
                 <ScalarProperty Name="FontName" ColumnName="FontName" />
                 <ScalarProperty Name="IsFontNamePrivate" ColumnName="IsFontNamePrivate" />
@@ -11955,12 +11947,22 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="ProductCategoriesViews">
             <EntityTypeMapping TypeName="DomainModels.ProductCategoriesView">
               <MappingFragment StoreEntitySet="ProductCategoriesView">
+                <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="TemplateDesignerMappedCategoryName" ColumnName="TemplateDesignerMappedCategoryName" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImagePermissions">
+            <EntityTypeMapping TypeName="DomainModels.ImagePermission">
+              <MappingFragment StoreEntitySet="ImagePermissions">
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="TerritoryID" ColumnName="TerritoryID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

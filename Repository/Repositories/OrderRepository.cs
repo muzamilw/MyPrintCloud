@@ -346,7 +346,7 @@ namespace MPC.Repository.Repositories
                 Qty1Tax3Value = tblItem.Qty1Tax3Value,
                 Qty1GrossTotal = tblItem.Qty1GrossTotal,
                 RefItemID = tblItem.RefItemId,
-                TemplateID = tblItem.TemplateId,
+                TemplateID = tblItem.TemplateId.HasValue ? (int)tblItem.TemplateId : (int?)null,
                 EstimateProductionTime = tblItem.EstimateProductionTime,
                 BaseChargeBroker = tblItem.BaseChargeBroker,
                 NetTotalBroker = tblItem.NetTotalBroker,

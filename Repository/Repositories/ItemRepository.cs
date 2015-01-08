@@ -225,9 +225,9 @@ namespace MPC.Repository.Repositories
             {
                 if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
                 {
-                    int result = db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
+                    long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
                   //  System.Data.Objects.ObjectResult<int?> result = db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
-                    int? clonedTemplateID = result;
+                    long? clonedTemplateID = result;
                     clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
 
                     var oCutomer = NewCustomer;
@@ -247,7 +247,7 @@ namespace MPC.Repository.Repositories
                         List<Models.Common.TemplateVariable> lstPageControls = new List<Models.Common.TemplateVariable>();
                         CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == objContactID).FirstOrDefault();
                         lstPageControls = ResolveVariables(lstFieldVariabes, contact);
-                        ResolveTemplateVariables(clonedTemplate.ProductId, contact, StoreMode.Corp,lstPageControls);
+                        ResolveTemplateVariables((int)clonedTemplate.ProductId, contact, StoreMode.Corp,lstPageControls);
                     }
 
                 }
@@ -260,7 +260,7 @@ namespace MPC.Repository.Repositories
                 if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
                 {
                     newItem.TemplateId = clonedTemplate.ProductId;
-                    TemplateID = clonedTemplate.ProductId;
+                    TemplateID = (int)clonedTemplate.ProductId;
 
                   //  CopyTemplatePaths(clonedTemplate);
                 }
@@ -367,7 +367,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                result = clonedTemplate.ProductId;
+                result = (int)clonedTemplate.ProductId;
 
                 string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
                 //result = dbContext.sp_cloneTemplate(ProductID, SubmittedBy, SubmittedByName).First().Value;
@@ -495,7 +495,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                result = clonedTemplate.ProductId;
+                result = (int)clonedTemplate.ProductId;
 
                 string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
 
@@ -1282,7 +1282,7 @@ namespace MPC.Repository.Repositories
 
                     //Remove the Templates if he has designed any
                     if (!ValidateIfTemplateIDIsAlreadyBooked(tblItem.ItemId, tblItem.TemplateId))
-                        clonedTemplate = RemoveTemplates(tblItem.TemplateId);
+                        clonedTemplate = RemoveTemplates(tblItem.TemplateId.HasValue ? (int)tblItem.TemplateId : (int?)null);
 
                     //Section cost centeres
                     tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
