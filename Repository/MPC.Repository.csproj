@@ -240,6 +240,11 @@
     <Compile Include="Repositories\UserManagerRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="Repositories\WidgetRepository.cs" />
+    <Compile Include="Service References\GlobalTemplateDesigner\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="TypeRegistrations.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +263,79 @@
       <LastGenOutput>Model.Views.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.BaseColors.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.CategoryRegions.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.CategoryTypes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.sp_GetTemplateIndustryTags_Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.sp_GetTemplateThemeTags_Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.sp_SearchTemplate_Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.Tags.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.tbl_ProductCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.tbl_ProductCategoryFoldLines.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.TemplateBackgroundImages.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.TemplateFonts.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.TemplateObjects.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.TemplatePages.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.Templates.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.vw_ProductCategoriesLeafNodes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.vw_ProductCategoriesLeafNodesWithRes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Repository.GlobalTemplateDesigner.vw_WebStore_MatchingSets.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.wsdl" />
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP6.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExceptionHandling\MPC.ExceptionHandling.csproj">
@@ -286,6 +364,27 @@
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\GlobalTemplateDesigner\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

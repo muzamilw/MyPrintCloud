@@ -23,22 +23,22 @@ namespace MPC.Implementation.WebStoreServices
 
         #region public
 
-        public List<TemplateColorStyle> GetColorStyle(int ProductId, int CustomerID)
+        public List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerID)
         {
             var colors= _templateColorStyleRepository.GetColorStyle(ProductId,CustomerID);
             return colors;
         }
-        
-        public List<TemplateColorStyle> GetColorStyle(int ProductId)
+
+        public List<TemplateColorStyle> GetColorStyle(long ProductId)
         {
             var colors = _templateColorStyleRepository.GetColorStyle(ProductId);
             return colors;
         }
-        public int SaveCorpColor(int C, int M, int Y, int K, string Name, int CustomerID)
+        public int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID)
         {
             return _templateColorStyleRepository.SaveCorpColor(C, M, Y, K, Name, CustomerID);
         }
-        public string UpdateCorpColor(int id, string type)
+        public string UpdateCorpColor(long id, string type)
         {
             return _templateColorStyleRepository.UpdateCorpColor(id,type);
         }

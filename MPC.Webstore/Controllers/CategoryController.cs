@@ -316,7 +316,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult CloneItem(int id)
         {
             int ItemID = 0;
-            int TemplateID = 0;
+            long TemplateID = 0;
             bool isCorp = true;
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 isCorp = true;
@@ -346,15 +346,21 @@ namespace MPC.Webstore.Controllers
             else
                 isCalledFrom = 3;
 
-            bool isEmbaded;
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp ||  UserCookieManager.StoreMode == (int)StoreMode.Retail)
-              isEmbaded = true;
-            else
-                isEmbaded = false;
+            bool isEmbedded;
+            bool printWaterMark = true;
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+            {
+                isEmbedded = true;
+            }
+            else {
+                printWaterMark = false;
+                isEmbedded = false;
+            }
 
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
-            //PartialViews/TempDesigner/ItemID/TemplateID/IsCalledFrom/CV2/ProductName/ContactID/CompanyID/IsEmbaded;
-            string URL = "PartialViews/TempDesigner/" + ItemID + "/" + TemplateID + "/" + isCalledFrom + "/" + TempDesignerID + "/" + ProductName + "/" + ContactID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + isEmbaded;
+            //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
+            bool printCropMarks = true;
+            string URL = "~/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + ContactID + "/" + printCropMarks + "/" + printWaterMark + "/" + isCalledFrom + "/" + isEmbedded;
            
             // ItemID ok
             // TemplateID ok

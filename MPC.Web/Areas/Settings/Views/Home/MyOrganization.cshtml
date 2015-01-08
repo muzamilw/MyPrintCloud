@@ -422,11 +422,11 @@
                                                         <h2>Markups</h2>
                                                         <div class="filter-block pull-right">
                                                             <div class="form-group pull-left">
-                                                                <input type="text" class="form-control" placeholder="Search...">
-                                                                <i class="fa fa-search search-icon"></i>
+                                                                <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.markupSearchString">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchMarkup"></i>
                                                             </div>
                                                             <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewMarkup">
-                                                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Markup
+                                                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer"></i>&nbsp;Add Markup
                                                             </a>
                                                         </div>
                                                     </header>
@@ -438,11 +438,10 @@
                                                                         <th> <span>Markup Code<span></span></span></th>
                                                                         <th> <span>% Rate<span></span></span></th>
                                                                         <th>&nbsp;</th>
-                                                                        <th>&nbsp;</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.markups } -->
+                                                                    <!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.filteredMarkups } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
                                                             </table>
@@ -467,8 +466,8 @@
                                                             <h2>Nominal Codes</h2>
                                                             <div class="filter-block pull-right">
                                                                 <div class="form-group pull-left">
-                                                                    <input type="text" class="form-control" placeholder="Search...">
-                                                                    <i class="fa fa-search search-icon"></i>
+                                                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.nominalCodeSearchString">
+                                                                    <i class="fa fa-search search-icon" data-bind="click:$root.searchNominalCode"></i>
                                                                 </div>
                                                                 <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateChartOfAccounts">
                                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Nominal Code
@@ -487,7 +486,7 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <!-- ko template: { name: $root.templateToUseChartOfAccounts , foreach: $root.chartOfAccounts } -->
+                                                                        <!-- ko template: { name: $root.templateToUseChartOfAccounts , foreach: $root.filteredNominalCodes } -->
                                                                         <!-- /ko -->
                                                                     </tbody>
                                                                 </table>
@@ -649,9 +648,9 @@
     </script>
     <script id="itemMarkupTemplate" type="text/html">
         <tr>
-            <td data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
-            <td data-bind="text: rate"></td>
-            <td>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: rate"></td>
+            <td style="width: 20%">
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
                 <!-- /ko -->
                 <!-- ko template: { name: 'deleteActionMarkupTemplate' } -->
@@ -694,9 +693,9 @@
     </script>
     <script id="itemChartOfAccountsTemplate" type="text/html">
         <tr>
-            <td data-bind="text: name, attr: { id: 'nominalCodeName' + $index() }"></td>
-            <td data-bind="text: accountNo"></td>
-            <td>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'nominalCodeName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: accountNo"></td>
+            <td style="width: 20%">
                 <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
                 <!-- /ko -->
                 <!-- ko template: { name: 'deleteActionChartOfAccountsTemplate' } -->

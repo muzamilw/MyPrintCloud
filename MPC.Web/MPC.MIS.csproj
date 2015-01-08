@@ -1400,6 +1400,7 @@
     <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductDetail.cshtml" />
+    <Content Include="Content\less\Organisation.less" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductAddVideo.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductRelatedProductDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductStockDialog.cshtml" />

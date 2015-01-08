@@ -2,6 +2,7 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @using System.Linq;
+@using MPC.Webstore.ViewModels;
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -298,49 +299,13 @@
         &nbsp;
     </div>
     @*matching set*@
-
-    <label ID="lblMesg"  class="errorMsgClss">No Matching set found</label>
-    <div id="MainContainerDiv" class="rounded_corners order_container cntMatchingSet"  style="padding:5px;">
-
-        <div class="pad20 col-md-4 col-lg-4 col-xs-12 matchingSetsleftPanel" style="text-align:left;">
-            <div class="custom_color confirm_design">
-                <label ID="ltrlmatchingset" >Matching Set</label>
-            </div>
-            <br />
-            <label ID="ltrlhere">Here are other products with the</label>
-
-            <label ID="ltrlsameasdesignconcept">same design concepts</label>
-        </div>
-        <div class="white_background rounded_corners pad10 col-md-8 col-lg-8 col-xs-12 matchingSetsrightPanel">
-            <asp:Repeater ID="rptMatchingSets" runat="server" OnItemCommand="rptMatchingSets_ItemCommand" OnItemDataBound="rptMatchingSets_ItemDataBound">
-                <itemtemplate>
-                    <div style="width:200px; float:left; text-align:left;height:225px;">
-
-
-                        <a ID="hlImage1"  CommandName="DesignOnline" CommandArgument='<%#Eval("ProductID","{0}") %>'>
-                            <div id="divShd" class="matching_set_image_container">
-                                <img ID="imgPic1" src='<%#Eval("Thumbnail","{0}") %>' class="matching_set_image"
-                                          style="border-style:none;" />
-                            </div>
-                        </a>
-                        <input type="hidden" ID="hfCategoryId"  />
-                        <input type="hidden" ID="hfItemID"  />
-                        <br />
-                        <label ID="lblProductName"></label><br />
-                        <div id="DivOfPriceCircle" class="fontSyleBold">
-                            <label ID="lblMinPrice" ></label>
-                        </div>
-                    </div>
-                </itemtemplate>
-            </asp:Repeater>
-            <div class="clearBoth">
-                &nbsp;
-            </div>
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-    </div>
+    
+    @{
+        MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
+        MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
+        @Html.Partial("MatchingSet",MSViewModel);
+    }
+   
     
     <br />
     <input type="hidden" id="hfIsCallFrom" name="hfIsCallFrom" value="0" />

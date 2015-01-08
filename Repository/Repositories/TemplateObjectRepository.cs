@@ -48,7 +48,7 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
 
-        public List<TemplateObject> GetProductObjects(int productId)
+        public List<TemplateObject> GetProductObjects(long productId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;

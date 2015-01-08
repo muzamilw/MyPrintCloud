@@ -332,7 +332,7 @@ namespace MPC.Models.DomainModels
         public bool? IsArchived { get; set; }
         public int? NominalCodeId { get; set; }
         public int? RefItemId { get; set; }
-        public int? TemplateId { get; set; }
+        public long? TemplateId { get; set; }
         public string WebDescription { get; set; }
         public int? ItemTypeId { get; set; }
         public bool? IsOrderedItem { get; set; }

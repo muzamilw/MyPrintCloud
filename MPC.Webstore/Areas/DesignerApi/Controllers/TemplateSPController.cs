@@ -33,7 +33,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         // old function name GetTemplate
 
-        public HttpResponseMessage GetTemplate(int id)
+        public HttpResponseMessage GetTemplate(long id)
         {
 
             var template = templateService.GetTemplate(id);

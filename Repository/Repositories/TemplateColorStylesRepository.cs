@@ -43,7 +43,7 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Find(id);
         }
-        public List<TemplateColorStyle> GetColorStyle(int ProductId, int CustomerId)
+        public List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerId)
         {
           
             db.Configuration.LazyLoadingEnabled = false;
@@ -58,7 +58,7 @@ namespace MPC.Repository.Repositories
             }
             return oStyles;
         }
-        public List<TemplateColorStyle> GetColorStyle(int ProductId)
+        public List<TemplateColorStyle> GetColorStyle(long ProductId)
         {
 
             db.Configuration.LazyLoadingEnabled = false;
@@ -66,7 +66,7 @@ namespace MPC.Repository.Repositories
             oStyles = db.TemplateColorStyles.Where(g => g.ProductId == ProductId || g.ProductId == null).ToList();
             return oStyles;
         }
-        public int SaveCorpColor(int C, int M, int Y, int K, string Name, int CustomerID)
+        public int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID)
         {
             TemplateColorStyle obj = new TemplateColorStyle();
             obj.ColorC =C;
@@ -80,9 +80,9 @@ namespace MPC.Repository.Repositories
 
             db.TemplateColorStyles.Add(obj);
             db.SaveChanges();
-            return obj.PelleteId;
+            return (int)obj.PelleteId;
         }
-        public string UpdateCorpColor(int id, string type)
+        public string UpdateCorpColor(long id, string type)
         {
             string result = "";
             var obj = db.TemplateColorStyles.Where(g => g.PelleteId == id).SingleOrDefault();

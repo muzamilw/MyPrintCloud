@@ -265,7 +265,7 @@ namespace MPC.Repository.Repositories
             List<ProductItem> productItemsList = new List<ProductItem>();
             List<AddOnCostsCenter> allItemsAddOnsList = new List<AddOnCostsCenter>();
 
-            int? StockID = 0;
+            long? StockID = 0;
             string StockName = null;
             ProductItem prodItem = null;
 
@@ -346,7 +346,7 @@ namespace MPC.Repository.Repositories
                 Qty1Tax3Value = tblItem.Qty1Tax3Value,
                 Qty1GrossTotal = tblItem.Qty1GrossTotal,
                 RefItemID = tblItem.RefItemId,
-                TemplateID = tblItem.TemplateId,
+                TemplateID = tblItem.TemplateId.HasValue ? (int)tblItem.TemplateId : (int?)null,
                 EstimateProductionTime = tblItem.EstimateProductionTime,
                 BaseChargeBroker = tblItem.BaseChargeBroker,
                 NetTotalBroker = tblItem.NetTotalBroker,
@@ -572,10 +572,10 @@ namespace MPC.Repository.Repositories
                         item.BaseChargeBroker = QtyNewTotal;
                         item.TaxValueBroker = QtyTaxVal;
                         item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
-                        item.ItemSections.FirstOrDefault().BaseCharge1Broker += (double)item.CostCentreProfitBroker;
+                        //item.ItemSections.FirstOrDefault().BaseCharge1Broker += (double)item.CostCentreProfitBroker;
                         if (SC != null)
                         {
-                            SC.QtyChargeBroker += (double)item.CostCentreProfitBroker;
+                           // SC.QtyChargeBroker += (double)item.CostCentreProfitBroker;
                             // SC.Qty1MarkUpValue = 0;
                         }
                         item.CostCentreProfitBroker = 0;
@@ -665,10 +665,10 @@ namespace MPC.Repository.Repositories
                         item.BaseChargeBroker = QtyNewTotal;
                         item.TaxValueBroker = QtyTaxVal;
                         item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
-                        item.ItemSections.FirstOrDefault().BaseCharge1Broker -= DiscountedAmount;
+                        //item.ItemSections.FirstOrDefault().BaseCharge1Broker -= DiscountedAmount;
                         if (SC != null)
                         {
-                            SC.QtyChargeBroker -= DiscountedAmount;
+                           // SC.QtyChargeBroker -= DiscountedAmount;
                         }
                     }
                     DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
