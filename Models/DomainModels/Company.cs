@@ -138,5 +138,6 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Campaign> Campaigns { get; set; }
 
         public virtual ICollection<PaymentGateway> PaymentGateways { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
     }
 }

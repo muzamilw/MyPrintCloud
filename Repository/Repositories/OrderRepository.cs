@@ -158,7 +158,7 @@ namespace MPC.Repository.Repositories
                 {
                     custID = (int)_myClaimHelper.loginContactCompanyID();
                     OrderId = (from order in db.Estimates
-                               where order.ContactCompanyId == custID && order.StatusId == status && order.isEstimate == false
+                               where order.CompanyId == custID && order.StatusId == status && order.isEstimate == false
                                select order.EstimateId).FirstOrDefault();
                 }
                 return OrderId;
