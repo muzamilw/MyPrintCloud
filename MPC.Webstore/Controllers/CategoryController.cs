@@ -316,7 +316,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult CloneItem(int id)
         {
             int ItemID = 0;
-            int TemplateID = 0;
+            long TemplateID = 0;
             bool isCorp = true;
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 isCorp = true;
