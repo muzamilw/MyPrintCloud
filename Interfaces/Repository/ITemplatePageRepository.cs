@@ -8,6 +8,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ITemplatePageRepository : IBaseRepository<TemplatePage, int>
     {
-        List<TemplatePage> GetTemplatePages(int productId);
+        List<TemplatePage> GetTemplatePages(long productId);
     }
 }

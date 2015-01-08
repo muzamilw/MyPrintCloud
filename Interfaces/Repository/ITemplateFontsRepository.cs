@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ITemplateFontsRepository : IBaseRepository<TemplateFont, int>
     {
-        List<TemplateFont> GetFontList(int productId, int customerId);
+        List<TemplateFont> GetFontList(long productId, long customerId);
     }
 }

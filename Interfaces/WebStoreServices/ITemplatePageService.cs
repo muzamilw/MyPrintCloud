@@ -9,7 +9,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplatePageService
     {
-        List<TemplatePage> GetTemplatePages(int productId);
-        List<TemplatePage> GetTemplatePagesSP(int productId);
+        List<TemplatePage> GetTemplatePages(long productId);
+        List<TemplatePage> GetTemplatePagesSP(long productId);
     }
 }

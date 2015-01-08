@@ -9,8 +9,8 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplateService
     {
-        Template GetTemplate(int productID);
+        Template GetTemplate(long productID);
 
-        Template GetTemplateInDesigner(int productID);
+        Template GetTemplateInDesigner(long productID);
     }
 }
