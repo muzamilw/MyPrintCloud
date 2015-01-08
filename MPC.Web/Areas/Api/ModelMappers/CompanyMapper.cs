@@ -91,23 +91,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 RaveReviews =
-                    source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
+                    source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
                     source.CompanyCMYKColors != null
                         ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
                         : null,
                 CompanyTerritories =
                     source.CompanyTerritories != null
-                        ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList()
+                        ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
                         : null,
-                Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
+                Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(),
                 CompanyContacts =
-                    source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.CreateFrom()).ToList() : null,
+                    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
-                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList(): null,
-                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x=> x.ParentCategoryId == null).Select( x=> x.ListViewModelCreateFrom()).ToList(): null,
-                CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null
+                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Take(10).Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
+                CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
+                //Items = source.produ
             };
         }
 
