@@ -377,10 +377,15 @@ define("product/product.viewModel",
                     doBeforeSave = function () {
                         var flag = true;
                         if (!selectedProduct().isValid()) {
-                            selectedProduct().errors.showAllMessages();
+                            selectedProduct().showAllErrors();
+                            selectedProduct().setValidationSummary(errorList);
                             flag = false;
                         }
                         return flag;
+                    },
+                    // Go To Element
+                    gotoElement = function(validation) {
+                        view.gotoElement(validation.element);
                     },
                     // Get Item From List
                     getItemFromList = function (id) {
@@ -688,7 +693,8 @@ define("product/product.viewModel",
                     openStockItemDialog: openStockItemDialog,
                     closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
-                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog
+                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
+                    gotoElement: gotoElement
                     // Utility Methods
 
                 };

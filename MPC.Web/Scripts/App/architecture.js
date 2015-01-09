@@ -490,6 +490,19 @@ require(["ko", "knockout-validation"], function (ko) {
         }
     };
 
+
+    // Knockout Extender for Element
+    ko.extenders.element = function (target, element) {
+        target.domElement = element;
+    }
+
+    // Custom Binding for handling validation elements
+    ko.bindingHandlers.validationOnElement = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            valueAccessor().extend({ element: element });
+        }
+    };
+
     //Custom binding for handling validation messages in tooltip
     ko.bindingHandlers.tooltip = {
         update: function (element, valueAccessor) {
