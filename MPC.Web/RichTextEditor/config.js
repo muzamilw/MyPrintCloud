@@ -12,5 +12,6 @@ CKEDITOR.editorConfig = function (config) {
     //config.fullPage = true;
     config.allowedContent = true;
     config.baseFloatZIndex = 10000;
+    config.removeDialogTabs = 'image:advanced';
     //config.extraPlugins = 'wysiwygarea';
 };

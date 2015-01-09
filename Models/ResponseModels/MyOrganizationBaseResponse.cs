@@ -47,5 +47,10 @@ namespace MPC.Models.ResponseModels
         /// Weight Units
         /// </summary>
         public IEnumerable<WeightUnit> WeightUnits { get; set; }
+
+        /// <summary>
+        /// Global Language
+        /// </summary>
+        public IEnumerable<GlobalLanguage> GlobalLanguages { get; set; }
     }
 }
