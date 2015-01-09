@@ -172,7 +172,23 @@
                 // On Archive
                 onArchiveProduct = function (item) {
                     confirmation.afterProceed(function () {
-                        archiveProduct(item.id());
+                        products.remove(item);
+                        //#region If Product Is New
+                        if (item.id() > 0) {
+                            deletedproducts.push(item);
+                            _.each(edittedProducts(), function (product) {
+                                if (product.id() == item.id()) {
+                                    edittedProducts.remove(product);
+                                }
+                            });
+                        }
+                        //#endregion
+                        //#region If Product Is Coming from DB
+                        if (item.id() < 0) {
+                            newAddedProducts.remove(item);
+                        }
+                        //#endregion
+                       
                     });
                     confirmation.show();
                 },
@@ -618,7 +634,7 @@
                         selectedProduct(data);
                     }
                 },
-                    addNewAddedStoreProductId = function() {
+                addNewAddedStoreProductId = function() {
                         newAddedStoreProductId = newAddedStoreProductId - 1;
                     },
                 saveProduct = function () {
@@ -688,6 +704,14 @@
                     });
                     return result;
                 },
+                //Reset Observables
+                resetObservables = function() {
+                        products.removeAll();
+                        edittedProducts.removeAll();
+                        newAddedProducts.removeAll();
+                        deletedproducts.removeAll();
+                    isProductDetailsVisible(false);
+                },
                 //#endregion
                 //#region Initialize
 
@@ -734,6 +758,7 @@
                     edittedProducts: edittedProducts,
                     deletedproducts: deletedproducts,
                     selectProduct: selectProduct,
+                    resetObservables: resetObservables,
                     //#endregion
                     // #region Utility Methods
                     initialize: initialize,
