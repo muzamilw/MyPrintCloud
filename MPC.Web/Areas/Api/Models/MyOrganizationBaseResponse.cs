@@ -31,5 +31,20 @@ namespace MPC.MIS.Areas.Api.Models
         /// Countries
         /// </summary>
         public List<CountryDropDown> Countries { get; set; }
+
+        /// <summary>
+        /// Currencies
+        /// </summary>
+        public IEnumerable<CurrencyDropDown> Currencies { get; set; }
+
+        /// <summary>
+        /// Length Units
+        /// </summary>
+        public IEnumerable<LengthUnitDropDown> LengthUnits { get; set; }
+
+        /// <summary>
+        /// Weight Units
+        /// </summary>
+        public IEnumerable<WeightUnitDropDown> WeightUnits { get; set; }
     }
 }

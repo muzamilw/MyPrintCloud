@@ -297,6 +297,7 @@ define("inventory/inventory.viewModel",
                                 inventory.stockCostAndPriceListInInventory.push(item.convertToServerData());
                             });
                             saveInventory(inventory);
+                            supplierVm.selectedSupplier(undefined);
                         }
                     },
                      // Do Before Logic
@@ -394,6 +395,7 @@ define("inventory/inventory.viewModel",
                     },
                     //Create New Inventory Item
                     createInventory = function () {
+                        supplierVm.selectedSupplier(undefined);
                         costPriceList.removeAll();
                         errorList.removeAll();
                         selectedInventory(model.StockItem.Create());

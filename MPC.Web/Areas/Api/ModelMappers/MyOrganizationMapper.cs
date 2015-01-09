@@ -22,6 +22,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 Countries = source.Countries != null ? source.Countries.Select(c => c.CreateFromDropDown()).ToList() : null,
                 States = source.States != null ? source.States.Select(s => s.CreateFromDropDown()).ToList() : null,
+                Currencies = source.Currencies != null ? source.Currencies.Select(s => s.CreateFromDropDown()).ToList() : null,
+                LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(s => s.CreateFromDropDown()).ToList() : null,
+                WeightUnits = source.WeightUnits != null ? source.WeightUnits.Select(s => s.CreateFromDropDown()).ToList() : null,
             };
         }
 
