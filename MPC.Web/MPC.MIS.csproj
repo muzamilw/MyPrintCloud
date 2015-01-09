@@ -288,6 +288,7 @@
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CurrencyMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GlobalLanguageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CountryMapper.cs" />
@@ -342,6 +343,7 @@
     <Compile Include="Areas\Api\Models\CountryDropDown.cs" />
     <Compile Include="Areas\Api\Models\CurrencyDropDown.cs" />
     <Compile Include="Areas\Api\Models\EmailEvent.cs" />
+    <Compile Include="Areas\Api\Models\GlobalLanguageDropDown.cs" />
     <Compile Include="Areas\Api\Models\ItemBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />

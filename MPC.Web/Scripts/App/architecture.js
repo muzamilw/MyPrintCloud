@@ -346,49 +346,6 @@ require(["ko", "knockout-validation"], function (ko) {
         }
     };
 
-    var windowURL = window.URL || window.webkitURL;
-    ko.bindingHandlers.file = {
-        init: function (element, valueAccessor) {
-            $(element).change(function () {
-                var file = this.files[0];
-                if (ko.isObservable(valueAccessor())) {
-                    valueAccessor()(file);
-                }
-            });
-        },
-
-        update: function (element, valueAccessor, allBindingsAccessor) {
-            var file = ko.utils.unwrapObservable(valueAccessor());
-            var bindings = allBindingsAccessor();
-
-            if (bindings.imageBase64 && ko.isObservable(bindings.imageBase64)) {
-                if (!file) {
-                    bindings.imageBase64(null);
-                    bindings.imageType(null);
-                } else {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var result = e.target.result || {};
-                        var resultParts = result.split(",");
-                        if (resultParts.length === 2) {
-                            bindings.imageBase64(resultParts[1]);
-                            bindings.imageType(resultParts[0]);
-                        }
-
-                        //Now update fileObjet, we do this last thing as implementation detail, it triggers post
-                        if (bindings.fileObjectURL && ko.isObservable(bindings.fileObjectURL)) {
-                            var oldUrl = bindings.fileObjectURL();
-                            if (oldUrl) {
-                                windowURL.revokeObjectURL(oldUrl);
-                            }
-                            bindings.fileObjectURL(file && windowURL.createObjectURL(file));
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-    };
     ko.bindingHandlers.files = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var allBindings = allBindingsAccessor();
@@ -666,27 +623,7 @@ function handleSorting(tableId, sortOn, sortAsc, callback) {
     });
 }
 
-//Unit length
-unitLengthsGlobal = [{ Id: 1, Text: 'mm' },
-    { Id: 2, Text: 'cm' },
-    { Id: 3, Text: 'inch' }
-];
-//Currency Symbol
-currencySymbolsGlobal = [{ Id: 1, Text: 'USD $' },
-    { Id: 2, Text: 'GBD ' },
-    { Id: 3, Text: 'AUD A$' },
-    { Id: 3, Text: 'CAD C$' }
-];
-//Language Pack
-languagePacksGlobal = [{ Id: 1, Text: 'English' },
-    { Id: 2, Text: 'Frech' },
-    { Id: 3, Text: 'Dutch' }
-];
-//Unit Weights
-unitWeightsGlobal = [{ Id: 1, Text: 'lbs' },
-    { Id: 2, Text: 'gsm' },
-    { Id: 3, Text: 'kg' }
-];
+
 $(function () {
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {
