@@ -1453,6 +1453,7 @@
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery-ui-sliderAccess.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.sortable.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

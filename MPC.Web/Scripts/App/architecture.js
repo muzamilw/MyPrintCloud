@@ -43,6 +43,7 @@ var spinnerVisibleCounter = 0;
 function showProgress() {
     ++spinnerVisibleCounter;
     if (spinnerVisibleCounter > 0) {
+        $.blockUI({ message: "" });
         $("div#spinner").fadeIn("fast");
     }
 };
@@ -55,6 +56,7 @@ function hideProgress() {
         var spinner = $("div#spinner");
         spinner.stop();
         spinner.fadeOut("fast");
+        $.unblockUI(spinner);
     }
 };
 
