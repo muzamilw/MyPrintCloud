@@ -84,19 +84,19 @@ define("myOrganization/myOrganization.viewModel",
                             success: function (data) {
                                 //Currency
                                 currencySymbols.removeAll();
-                                ko.utils.arrayPushAll(currencySymbols(), currencySymbolsGlobal);
+                                ko.utils.arrayPushAll(currencySymbols(), data.Currencies);
                                 currencySymbols.valueHasMutated();
                                 //Language Packs
                                 languagePacks.removeAll();
-                                ko.utils.arrayPushAll(languagePacks(), languagePacksGlobal);
+                                ko.utils.arrayPushAll(languagePacks(), data.GlobalLanguages);
                                 languagePacks.valueHasMutated();
                                 //unit Lengths
                                 unitLengths.removeAll();
-                                ko.utils.arrayPushAll(unitLengths(), unitLengthsGlobal);
+                                ko.utils.arrayPushAll(unitLengths(), data.LengthUnits);
                                 unitLengths.valueHasMutated();
                                 //unit Weights
                                 unitWeights.removeAll();
-                                ko.utils.arrayPushAll(unitWeights(), unitWeightsGlobal);
+                                ko.utils.arrayPushAll(unitWeights(), data.WeightUnits);
                                 unitWeights.valueHasMutated();
                                 //Countries 
                                 countries.removeAll();

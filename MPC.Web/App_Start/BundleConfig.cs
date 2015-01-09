@@ -34,6 +34,7 @@ namespace MPC.MIS
 
             bundles.Add(new ScriptBundle("~/Bundle/BaseLibs")
                 .Include("~/Scripts/jquery-ui-1.10.4.js")
+                .Include("~/Scripts/jquery.blockUI.js")
                 .Include("~/Scripts/json2.js")
                 .Include("~/Scripts/knockout-3.1.0.js")
                 .Include("~/Scripts/knockout.mapping-latest.js")

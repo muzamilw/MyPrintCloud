@@ -303,12 +303,14 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <div class="col-md-6">
-                                                                <input type="file" class="form-control" id="orgLogo" name="file" onchange="readURL(this);" />
+                                                            <div class="fileUpload btn btn-primary col-md-2">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary">Upload</button>
+                                                            <div class="col-md-3">
+                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary"> Upload</button>
                                                             </div>
+
                                                             <div class="col-md-12" style="margin-top: 10px;">
                                                                 <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: $root.orgnizationImage }" />
                                                             </div>
@@ -347,7 +349,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="currency" class="form-control" data-bind="options: $root.currencySymbols, optionsText: 'Text', optionsValue: 'Id' ,value:currencyId,validationtooltip:currencyId"></select>
+                                                        <select id="currency" class="form-control" data-bind="options: $root.currencySymbols, optionsText: 'CurrencyName', optionsValue: 'CurrencyId' ,value:currencyId,validationtooltip:currencyId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -367,7 +369,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="language" class="form-control" data-bind="options: $root.languagePacks, optionsText: 'Text', optionsValue: 'Id' ,value:languageId,validationtooltip:languageId"></select>
+                                                        <select id="language" class="form-control" data-bind="options: $root.languagePacks, optionsText: 'FriendlyName', optionsValue: 'LanguageId' ,value:languageId,validationtooltip:languageId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -387,7 +389,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="lengthUnit" class="form-control" data-bind="options: $root.unitLengths, optionsText: 'Text', optionsValue: 'Id' ,value:lengthUnitId,validationtooltip:lengthUnitId"></select>
+                                                        <select id="lengthUnit" class="form-control" data-bind="options: $root.unitLengths, optionsText: 'UnitName', optionsValue: 'Id' ,value:lengthUnitId,validationtooltip:lengthUnitId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -407,7 +409,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="currency" class="form-control" data-bind="options: $root.unitWeights, optionsText: 'Text', optionsValue: 'Id' ,value:weightUnitId,validationtooltip:weightUnitId"></select>
+                                                        <select id="currency" class="form-control" data-bind="options: $root.unitWeights, optionsText: 'UnitName', optionsValue: 'Id' ,value:weightUnitId,validationtooltip:weightUnitId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 

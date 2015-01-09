@@ -29,6 +29,10 @@ namespace MPC.Implementation.MISServices
         private readonly IStateRepository stateRepository;
         private readonly ICountryRepository countryRepository;
         private readonly IPrefixRepository prefixRepository;
+        private readonly ICurrencyRepository currencyRepository;
+        private readonly IWeightUnitRepository weightUnitRepository;
+        private readonly ILengthUnitRepository lengthUnitRepository;
+        private readonly IGlobalLanguageRepository globalLanguageRepository;
 
         #endregion
 
@@ -39,7 +43,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
          IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
-            ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository)
+            ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository,
+           ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository,
+            IGlobalLanguageRepository globalLanguageRepository)
         {
             if (mpcFileTableViewRepository == null)
             {
@@ -52,6 +58,10 @@ namespace MPC.Implementation.MISServices
             this.countryRepository = countryRepository;
             this.stateRepository = stateRepository;
             this.prefixRepository = prefixRepository;
+            this.currencyRepository = currencyRepository;
+            this.weightUnitRepository = weightUnitRepository;
+            this.lengthUnitRepository = lengthUnitRepository;
+            this.globalLanguageRepository = globalLanguageRepository;
         }
 
         #endregion
@@ -68,6 +78,10 @@ namespace MPC.Implementation.MISServices
                 Markups = markupRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
+                Currencies = currencyRepository.GetAll(),
+                LengthUnits = lengthUnitRepository.GetAll(),
+                WeightUnits = weightUnitRepository.GetAll(),
+                GlobalLanguages = globalLanguageRepository.GetAll(),
             };
         }
 
@@ -346,9 +360,9 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Save File to File Table
+        /// Save File Path
         /// </summary>
-        public void SaveFileToFileTable(string fileName, byte[] fileStream)
+        public void SaveFilePath(string path)
         {
             // Update Organisation MISLogoStreamId
             Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
@@ -358,35 +372,8 @@ namespace MPC.Implementation.MISServices
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.MyOrganisationService_OrganisationNotFound,
                     organisationRepository.OrganisationId));
             }
-
-            string pathLocator = "\\Organisation" + organisation.OrganisationId;
-            if (string.IsNullOrEmpty(mpcFileTableViewRepository.GetNewPathLocator(pathLocator, FileTableCaption.Organisation)))
-            {
-                OrganisationFileTableView mpcFile = mpcFileTableViewRepository.Create();
-                mpcFileTableViewRepository.Add(mpcFile);
-                mpcFile.Name = "Organisation" + organisation.OrganisationId;
-                mpcFile.UncPath = pathLocator;
-                mpcFile.IsDirectory = true;
-                mpcFile.FileTableName = FileTableCaption.Organisation;
-                // Save to File Table
-                mpcFileTableViewRepository.SaveChanges();
-            }
-
-            // Add File
-            OrganisationFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
-            mpcFileTableViewRepository.Add(mpcFileTableView);
-            mpcFileTableView.Name = fileName;
-            mpcFileTableView.FileStream = fileStream;
-            mpcFileTableView.FileTableName = FileTableCaption.Organisation;
-            mpcFileTableView.UncPath = pathLocator;
-
-            // Save to File Table
-            mpcFileTableViewRepository.SaveChanges();
-
-            organisation.MISLogoStreamId = mpcFileTableView.StreamId;
-
-            // Save Changes to Organisation
-            mpcFileTableViewRepository.SaveChanges();
+            organisation.MISLogo = path;
+            organisationRepository.SaveChanges();
         }
 
         #endregion

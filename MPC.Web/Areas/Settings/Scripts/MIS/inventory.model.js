@@ -63,9 +63,9 @@
             //Item Code
             itemCode = ko.observable(specifiedItemCode),
             //Supplier Id
-            supplierId = ko.observable(specifiedSupplierId),
+            supplierId = ko.observable(specifiedSupplierId).extend({ required: true }),
             //SupplierName
-            supplierName = ko.observable(),
+            supplierName = ko.observable().extend({ required: true }),
             //Category Id
             categoryId = ko.observable(specifiedCategoryId),
             //Sub Category Id
@@ -152,6 +152,8 @@
             reorderQty: reorderQty,
             itemWeight: itemWeight,
             inkAbsorption: inkAbsorption,
+            supplierId: supplierId,
+            supplierName: supplierName,
         }),
         // Is Valid 
         isValid = ko.computed(function () {
