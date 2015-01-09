@@ -1411,6 +1411,9 @@
     <Content Include="Areas\Stores\Views\Stores\_StoreProductRelatedProductDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductStockDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StockProductItemAddonCostCentre.cshtml" />
+    <Content Include="Areas\Stores\Views\Home\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
