@@ -485,7 +485,7 @@
                                     <div class="col-lg-12" style="margin-bottom:10px; margin-left:19%;">
 
                                         <div id="mainDivSections">
-                                            <div class="col-xs-2">
+                                            <div class="col-xs-3">
                                                 <div id="Sec1">
 
                                                     <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 1">
@@ -982,7 +982,7 @@
                                                 <label id="stateTaxSectionLabel" class="control-label text-right">State Taxes</label>
 
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-10">
                                                 <header class="clearfix">
                                                     <div class="filter-block pull-right">
                                                         <a data-bind="click: addItemStateTax" class="btn btn-primary pull-right">
@@ -2258,7 +2258,7 @@
                             <!-- /ko -->
                             <!-- /ko -->
 
-                            <div class="tab-pane clearfix fade" id="tab-imageManagment">
+                            <div class="tab-pane clearfix fade" id="tab-imageManagment" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Image Management</h3>
                                     <div class="col-lg-9">
@@ -2276,12 +2276,12 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div id="dropzone1" class="dropzonepl">
-                                                    <form id="demoUpload1" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
-                                                        </div>
-                                                    </form>
+                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: storeProductThumbnailFileBinary }" />
+                                                <div class="col-lg-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $parent.storeProductThumbnailFileCallback, fileFilter: 'image.*'}" />
+                                                    </div>
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -2300,17 +2300,17 @@
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Product Page Banner</label>
 
                                             </div>
-
                                             <div class="col-lg-6">
-                                                <div id="dropzone2" class="dropzonepl">
-                                                    <form id="demoUpload2" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
-                                                        </div>
-                                                    </form>
+                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: storeProductPageBannerFileBinary }" />
+                                                <div class="col-lg-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $parent.storeProductPageBannerFileCallback, fileFilter: 'image.*'}" />
+                                                    </div>
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
+
 
                                         </div>
                                         <div class="form-group">
@@ -2330,12 +2330,12 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div id="dropzone3" class="dropzonepl">
-                                                    <form id="demoUpload3" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload (200 x 200 pixels)</span>
-                                                        </div>
-                                                    </form>
+                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: storeProductGridImageLayoutFileBinary }" />
+                                                <div class="col-lg-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $parent.storeProductGridImageLayoutFileCallback, fileFilter: 'image.*'}" />
+                                                    </div>
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>

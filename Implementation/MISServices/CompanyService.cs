@@ -49,7 +49,6 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
             return company;
         }
-
         private Company UpdateRaveReviewsOfUpdatingCompany(Company company)
         {
             var companyDbVersion = companyRepository.Find(company.CompanyId);
@@ -150,7 +149,6 @@ namespace MPC.Implementation.MISServices
             #endregion
             return company;
         }
-
         private Company UpdateCmykColorsOfUpdatingCompany(Company company)
         {
             var companyDbVersion = companyRepository.Find(company.CompanyId);
@@ -201,7 +199,6 @@ namespace MPC.Implementation.MISServices
             #endregion
             return company;
         }
-
         private void UpdateCompanyTerritoryOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             //Add New Company Territories
@@ -271,6 +268,33 @@ namespace MPC.Implementation.MISServices
                 productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);
             }
         }
+        private void UpdateProductsOfUpdatingCompany(CompanySavingModel companySavingModel)
+        {
+            if (companySavingModel.NewAddedProducts != null)
+            {
+                //Add New Products
+                foreach (var product in companySavingModel.NewAddedProducts)
+                {
+                    product.CompanyId = companySavingModel.Company.CompanyId;
+                    product.OrganisationId = itemRepository.OrganisationId;
+                    itemRepository.Add(product);
+                }
+                SaveCompanyProductImages(companySavingModel.NewAddedProducts);
+            }
+            if (companySavingModel.EdittedProducts != null)
+                //Update Products
+                foreach (var product in companySavingModel.EdittedProducts)
+                {
+                    itemRepository.Update(product);
+                }
+            if (companySavingModel.Deletedproducts != null)
+                //Delete Products
+                foreach (var product in companySavingModel.Deletedproducts)
+                {
+                    var productToDelete = itemRepository.Find(product.ItemId);
+                    itemRepository.Delete(productToDelete);
+                }
+        }
         private void UpdateProductCategoriesOfUpdatingCompany(CompanySavingModel companySavingModel, List<ProductCategory> productCategories)
         {
             if (companySavingModel.NewProductCategories != null)
@@ -304,7 +328,6 @@ namespace MPC.Implementation.MISServices
                     //companyToBeUpdated.ProductCategories.Delete(productCategory);
                 }
         }
-
         private void UpdateCompanyContactOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             if (companySavingModel.NewAddedCompanyContacts != null)
@@ -355,6 +378,7 @@ namespace MPC.Implementation.MISServices
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
+            UpdateProductsOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
@@ -822,6 +846,25 @@ namespace MPC.Implementation.MISServices
             companyBannerRepository.SaveChanges();
 
         }
+        private void SaveCompanyProductImages(IEnumerable<Item> items)
+        {
+            foreach (var item in items)
+            {
+                //todo asad
+                if (item.ThumbnailImage != null)
+                {
+
+                }
+                if (item.GridImageBytes != null)
+                {
+
+                }
+                if (item.ImagePathImage != null)
+                {
+
+                }
+            }
+        }
 
         /// <summary>
         /// Save Images for CMS Page
@@ -990,12 +1033,10 @@ namespace MPC.Implementation.MISServices
                 return UpdateCompany(companyModel, companyDbVersion);
             }
         }
-
         public long GetOrganisationId()
         {
             return companyRepository.OrganisationId;
         }
-
         public void UpdateAddressesOnCompanyContactUpdation(CompanySavingModel model)
         {
             var allCompanyAddresses = addressRepository.GetAllDefaultAddressByStoreID(model.Company.CompanyId);

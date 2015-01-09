@@ -1846,6 +1846,7 @@ define("stores/stores.viewModel",
                         selectedCurrentPageId(undefined);
                         selectedCurrentPageCopy(undefined);
                         isProductTabVisited(false);
+                        ist.storeProduct.viewModel.resetObservables();
 
                     },
                     //#endregion

@@ -251,8 +251,8 @@
                 <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        @*<a href="#" class="table-link danger" title="Archive" data-bind="click: $root.onArchiveProduct.bind($data), visible: !isArchived()">*@
-        <a href="#" class="table-link danger" title="Archive" data-bind="visible: !isArchived()">
+        
+        <a href="#" class="table-link danger" title="Archive" data-bind="click: $parent.onArchiveProduct.bind($data), visible: !isArchived()">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
