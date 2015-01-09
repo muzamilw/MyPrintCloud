@@ -29,6 +29,9 @@ namespace MPC.Implementation.MISServices
         private readonly IStateRepository stateRepository;
         private readonly ICountryRepository countryRepository;
         private readonly IPrefixRepository prefixRepository;
+        private readonly ICurrencyRepository currencyRepository;
+        private readonly IWeightUnitRepository weightUnitRepository;
+        private readonly ILengthUnitRepository lengthUnitRepository;
 
         #endregion
 
@@ -39,7 +42,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
          IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
-            ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository)
+            ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository,
+           ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository)
         {
             if (mpcFileTableViewRepository == null)
             {
@@ -52,6 +56,9 @@ namespace MPC.Implementation.MISServices
             this.countryRepository = countryRepository;
             this.stateRepository = stateRepository;
             this.prefixRepository = prefixRepository;
+            this.currencyRepository = currencyRepository;
+            this.weightUnitRepository = weightUnitRepository;
+            this.lengthUnitRepository = lengthUnitRepository;
         }
 
         #endregion
@@ -68,6 +75,9 @@ namespace MPC.Implementation.MISServices
                 Markups = markupRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
+                Currencies = currencyRepository.GetAll(),
+                LengthUnits = lengthUnitRepository.GetAll(),
+                WeightUnits = weightUnitRepository.GetAll(),
             };
         }
 
