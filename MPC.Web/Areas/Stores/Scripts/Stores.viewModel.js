@@ -755,7 +755,6 @@ define("stores/stores.viewModel",
                                     if (!match) {
                                         edittedAddresses.push(selectedAddress());
                                     }
-
                                 }
                             }
                             view.hideAddressDialog();
@@ -807,6 +806,7 @@ define("stores/stores.viewModel",
                             _.each(newAddedSecondaryPage(), function (item) {
                                 if (item.id() === secondaryPage.pageId())
                                     selectedSecondaryPage(item);
+                                view.showSecondoryPageDialog();
                             });
                         } else {
                             dataservice.getSecondryPageById({
@@ -861,6 +861,8 @@ define("stores/stores.viewModel",
                     //Save Secondary Page
                     onSaveSecondaryPage = function (sPage) {
                         if (doBeforeSaveSecondaryPage()) {
+                            var pageHtml = CKEDITOR.instances.content.getData();
+                            sPage.pageHTML(pageHtml);
                             //Newly Added, Edit 
                             if (sPage.id() < 0) {
                                 _.each(newAddedSecondaryPage(), function (item) {
@@ -1613,7 +1615,6 @@ define("stores/stores.viewModel",
                             });
                             //#endregion
                             //#region Products
-                            debugger;
                             _.each(ist.storeProduct.viewModel.newAddedProducts(), function (product) {
                                 if (product.id() < 0) {
                                     product.id(undefined);
@@ -1626,7 +1627,7 @@ define("stores/stores.viewModel",
                             _.each(ist.storeProduct.viewModel.deletedproducts(), function (product) {
                                 storeToSave.Deletedproducts.push(product.convertToServerData());
                             });
-                            
+
                             //#endregion
                             dataservice.saveStore(
                                 storeToSave, {
@@ -1833,7 +1834,7 @@ define("stores/stores.viewModel",
                         edittedCompanyContacts.removeAll();
                         newCompanyContacts.removeAll();
                         parentCategories.removeAll();
-                        
+
                         newAddedSecondaryPage.removeAll();
                         editedSecondaryPage.removeAll();
                         deletedSecondaryPage.removeAll();
@@ -1845,6 +1846,7 @@ define("stores/stores.viewModel",
                         selectedCurrentPageId(undefined);
                         selectedCurrentPageCopy(undefined);
                         isProductTabVisited(false);
+                        ist.storeProduct.viewModel.resetObservables();
 
                     },
                     //#endregion
@@ -1852,13 +1854,13 @@ define("stores/stores.viewModel",
                     //#region _______________ P R O D U C T S ______________________
                     isProductTabVisited = ko.observable(false),
                     getProducts = function () {
-                        if (!isProductTabVisited()){
+                        if (!isProductTabVisited()) {
                             isProductTabVisited(true);
                             ist.storeProduct.viewModel.initialize(selectedStore().companyId());
                         }
                     },
                     //#endregion 
-                    
+
                     // #region _______________  LAYOUT WIDGET _________________
 
 
@@ -1969,81 +1971,81 @@ define("stores/stores.viewModel",
                      },
                     //Get Widget detail on drag drop
                     getWidgetDetail = function (widget) {
-                          dataservice.getWidgetDetail({
-                              widgetControlName: widget.widgetControlName(),
-                          }, {
-                              success: function (data) {
-                                  if (data !== "" && data !== null) {
-                                      var newWidget = new model.CmsSkingPageWidget();
-                                      newWidget.htmlData(data);
-                                      newWidget.widgetName(widget.widgetName());
-                                      newWidget.pageId(selectedCurrentPageId());
-                                      newWidget.widgetId(widget.widgetId());
-                                      pageSkinWidgets.push(newWidget);
-                                  }
-                                  isLoadingStores(false);
-                              },
-                              error: function (response) {
-                                  isLoadingStores(false);
-                                  toastr.error("Failed to Load Page Widgets . Error: " + response);
-                              }
-                          });
-                      },
+                        dataservice.getWidgetDetail({
+                            widgetControlName: widget.widgetControlName(),
+                        }, {
+                            success: function (data) {
+                                if (data !== "" && data !== null) {
+                                    var newWidget = new model.CmsSkingPageWidget();
+                                    newWidget.htmlData(data);
+                                    newWidget.widgetName(widget.widgetName());
+                                    newWidget.pageId(selectedCurrentPageId());
+                                    newWidget.widgetId(widget.widgetId());
+                                    pageSkinWidgets.push(newWidget);
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            }
+                        });
+                    },
                     // Returns the item being dragged
                     dragged = function (source) {
-                          return {
-                              row: source.$parent,
-                              widget: source.$data
-                          };
-                      },
+                        return {
+                            row: source.$parent,
+                            widget: source.$data
+                        };
+                    },
                     //Add Widget To Page Layout
                     addWidgetToPageLayout = function (widget) {
-                            if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetControlName !== undefined && widget.widgetControlName() !== "") {
-                                if (widget.widgetId() === 14) {
+                        if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetControlName !== undefined && widget.widgetControlName() !== "") {
+                            if (widget.widgetId() === 14) {
+                                var newWidget = new model.CmsSkingPageWidget();
+                                //newWidget.htmlData(data);
+                                newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
+                                newWidget.widgetName(widget.widgetName());
+                                newWidget.pageId(selectedCurrentPageId());
+                                newWidget.widgetId(widget.widgetId());
+                                pageSkinWidgets.splice(0, 0, newWidget);
+                                newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
+                            } else {
+                                getWidgetDetailOnAdd(widget);
+                            }
+                        }
+                        if (selectedCurrentPageId() === undefined) {
+                            toastr.error("Before add widget please select page !");
+                        }
+                    },
+                    //Click on plus sign , add widget to page
+                    getWidgetDetailOnAdd = function (widget) {
+                        dataservice.getWidgetDetail({
+                            widgetControlName: widget.widgetControlName(),
+                        }, {
+                            success: function (data) {
+                                if (data !== "" && data !== null) {
                                     var newWidget = new model.CmsSkingPageWidget();
-                                    //newWidget.htmlData(data);
-                                    newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
+                                    newWidget.htmlData(data);
                                     newWidget.widgetName(widget.widgetName());
                                     newWidget.pageId(selectedCurrentPageId());
                                     newWidget.widgetId(widget.widgetId());
                                     pageSkinWidgets.splice(0, 0, newWidget);
-                                    newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
-                                } else {
-                                    getWidgetDetailOnAdd(widget);
                                 }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Page Widgets . Error: " + response);
                             }
-                            if (selectedCurrentPageId() === undefined) {
-                                toastr.error("Before add widget please select page !");
-                            }
-                        },
-                    //Click on plus sign , add widget to page
-                    getWidgetDetailOnAdd = function (widget) {
-                          dataservice.getWidgetDetail({
-                              widgetControlName: widget.widgetControlName(),
-                          }, {
-                              success: function (data) {
-                                  if (data !== "" && data !== null) {
-                                      var newWidget = new model.CmsSkingPageWidget();
-                                      newWidget.htmlData(data);
-                                      newWidget.widgetName(widget.widgetName());
-                                      newWidget.pageId(selectedCurrentPageId());
-                                      newWidget.widgetId(widget.widgetId());
-                                      pageSkinWidgets.splice(0, 0, newWidget);
-                                  }
-                                  isLoadingStores(false);
-                              },
-                              error: function (response) {
-                                  isLoadingStores(false);
-                                  toastr.error("Failed to Load Page Widgets . Error: " + response);
-                              }
-                          });
-                      },
+                        });
+                    },
                     //Delete Page Layout Widget
                     deletePageLayoutWidget = function (widget) {
-                         if (widget !== undefined && widget !== null) {
-                             pageSkinWidgets.remove(widget);
-                         }
-                     },
+                        if (widget !== undefined && widget !== null) {
+                            pageSkinWidgets.remove(widget);
+                        }
+                    },
                     //show Ck Editor Dialog
                     showCkEditorDialog = function (widget) {
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());

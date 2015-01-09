@@ -88,7 +88,7 @@ define("myOrganization/myOrganization.viewModel",
                                 currencySymbols.valueHasMutated();
                                 //Language Packs
                                 languagePacks.removeAll();
-                                ko.utils.arrayPushAll(languagePacks(), languagePacksGlobal);
+                                ko.utils.arrayPushAll(languagePacks(), data.GlobalLanguages);
                                 languagePacks.valueHasMutated();
                                 //unit Lengths
                                 unitLengths.removeAll();

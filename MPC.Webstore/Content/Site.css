@@ -1590,7 +1590,7 @@ ul.nav li.selectedLava a
 
 .blue_cicle_container
 {
-    display:none;
+    
     position: relative;
     height: 0px;
     width: 0px;
@@ -2102,7 +2102,6 @@ ul.nav li.selectedLava a
 .product_detail_image_Pricing
 {
     color: #a8a8a8;
-    display:none;
     font-size: 13px;
 }
 
@@ -7425,7 +7424,7 @@ img
 .errorMsgClss
 {
     position: fixed;
-    display: none;
+   
     top: 217px;
     left: 300px;
     z-index: 10000;

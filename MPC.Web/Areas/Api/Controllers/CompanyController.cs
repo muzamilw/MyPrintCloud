@@ -102,6 +102,11 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.PageCategories = company.PageCategories != null ? company.PageCategories.Select(x => x.CreateFrom()).ToList() : null;
             companySavingModel.CmsPageWithWidgetList = company.CmsPageWithWidgetList != null ? company.CmsPageWithWidgetList.Select(x => x.CreateFrom()).ToList() : null;
 
+            companySavingModel.NewAddedProducts = company.NewAddedProducts != null ? company.NewAddedProducts.Select(x => x.CreateFrom()) : null;
+            companySavingModel.EdittedProducts = company.EdittedProducts != null ? company.EdittedProducts.Select(x => x.CreateFrom()) : null;
+            companySavingModel.Deletedproducts = company.Deletedproducts != null ? company.Deletedproducts.Select(x => x.CreateFrom()) : null;
+
+
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
 

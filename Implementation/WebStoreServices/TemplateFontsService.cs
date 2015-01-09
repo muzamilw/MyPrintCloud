@@ -45,8 +45,22 @@ namespace MPC.Implementation.WebStoreServices
             return objToReturn;
         }
 
-       
+        // called from mis to delete template fonts against company(Store) and organization
+        public void DeleteTemplateFonts(long Companyid, long organizationID)
+        {
+            _templateFontRepository.DeleteTemplateFonts(Companyid);
+            string drUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/WebFonts/" + Companyid.ToString());
+            if (System.IO.Directory.Exists(drUrl))
+            {
 
+                foreach (string item in System.IO.Directory.GetFiles(drUrl))
+                {
+                    System.IO.File.Delete(item);
+                }
+
+                System.IO.Directory.Delete(drUrl);
+            }
+        }
      
 
         #endregion

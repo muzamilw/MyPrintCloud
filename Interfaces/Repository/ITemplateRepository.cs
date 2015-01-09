@@ -16,5 +16,7 @@ namespace MPC.Interfaces.Repository
         string GetTemplateNameByTemplateID(int tempID);
 
         int CloneTemplateByTemplateID(int TempID);
+
+        bool DeleteTemplate(long ProductID, out long CategoryID);
     }
 }

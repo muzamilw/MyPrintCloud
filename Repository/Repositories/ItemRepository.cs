@@ -1000,7 +1000,7 @@ namespace MPC.Repository.Repositories
            
         }
 
-        public ProductItem GetItemAndDetailsByItemID(int itemId)
+        public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
 
             var query = 
@@ -1326,7 +1326,7 @@ namespace MPC.Repository.Repositories
                     tblTemplate.TemplateBackgroundImages.ToList().ForEach(tempBGImages => db.TemplateBackgroundImages.Remove(tempBGImages));
 
                     //font
-                //    tblTemplate.templat.ToList().ForEach(tempFonts => db dbContext.DeleteObject(tempFonts));
+                    tblTemplate.TemplateFonts.ToList().ForEach(tempFonts => db.TemplateFonts.Remove(tempFonts));
                      
                     
                     //object
@@ -1377,6 +1377,42 @@ namespace MPC.Repository.Repositories
 
             return result;
         }
+
+        // Get Related Items List
+        public List<ProductItem> GetRelatedItemsList()
+        {
+          
+                var query = from productsList in db.GetCategoryProducts
+                            join tblRelItems in db.ItemRelatedItems on productsList.ItemId
+                            equals tblRelItems.ItemId into tblRelatedGroupJoin
+                            where productsList.IsPublished == true && productsList.EstimateId == null && productsList.IsEnabled == true
+
+                            from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
+                            select new ProductItem
+                            {
+                                ItemID = productsList.ItemId,
+                                RelatedItemID = JTble.RelatedItemId.HasValue ? JTble.RelatedItemId.Value : 0,
+                                EstimateID = productsList.EstimateId,
+                                ProductName = productsList.ProductName,
+                                ProductCategoryName = productsList.ProductCategoryName,
+                                ProductCategoryID = productsList.ProductCategoryId,
+                                MinPrice = productsList.MinPrice,
+                                ImagePath = productsList.ImagePath,
+                                ThumbnailPath = productsList.ThumbnailPath,
+                                IconPath = productsList.IconPath,
+                                IsEnabled = productsList.IsEnabled,
+                                IsSpecialItem = productsList.IsSpecialItem,
+                                IsPopular = productsList.IsPopular,
+                                IsFeatured = productsList.IsFeatured,
+                                IsPromotional = productsList.IsPromotional,
+                                IsPublished = productsList.IsPublished,
+                                ProductSpecification = productsList.ProductSpecification,
+                                CompleteSpecification = productsList.CompleteSpecification,
+                                 ProductType = productsList.ProductType
+                            };
+                return query.ToList<ProductItem>();
+        }
+
        
         #endregion
     }

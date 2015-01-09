@@ -57,11 +57,54 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public Template GetTemplate(long productID)
         {
-           // db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.LazyLoadingEnabled = false;
             var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
             return template;
 
         }
+        // delete template from database
+        public bool DeleteTemplate(long ProductID, out long CategoryID)
+        {
+            try
+            {
+                CategoryID = 0;
+                bool result = false;
+                    //deleting objects
+                foreach (TemplateObject c in db.TemplateObjects.Where(g => g.ProductId == ProductID))
+                {
+                    db.TemplateObjects.Remove(c);
+                }
+                    //background Images
+                foreach (TemplateBackgroundImage c in db.TemplateBackgroundImages.Where(g => g.ProductId == ProductID))
+                {
+
+                    db.TemplateBackgroundImages.Remove(c);
+                }
+                    //delete template pages
+                foreach (TemplatePage c in db.TemplatePages.Where(g => g.ProductId == ProductID))
+                {
+
+                    db.TemplatePages.Remove(c);
+                }
+                    //deleting the template
+                foreach (Template c in db.Templates.Where(g => g.ProductId == ProductID))
+                {
+                    if(c.ProductCategoryId.HasValue)
+                        CategoryID = c.ProductCategoryId.Value;
+                    db.Templates.Remove(c);
+                }
+                db.SaveChanges();
+                result = true;
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                //Util.LogException(ex);
+                throw ex;
+            }
+        }
+
 
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {

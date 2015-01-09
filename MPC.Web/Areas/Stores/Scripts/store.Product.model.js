@@ -10,7 +10,7 @@
         specifiedJobDescription4, specifiedJobDescriptionTitle5, specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
         specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
         specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
-        specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, callbacks, constructorParams) {
+        specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, callbacks, constructorParams,s_StoreProductThumbnailFileBinary,s_StoreProductPageBannerFileBinary,s_StoreProductGridImageLayoutFileBinary) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -475,6 +475,14 @@
                     itemPriceMatrices.removeAll(itemPriceMatricesForExistingFlag());
                 }
             },
+            //#region Store Product Images
+            storeProductThumbnailFileBinary = ko.observable(s_StoreProductThumbnailFileBinary),
+            storeProductPageBannerFileBinary = ko.observable(s_StoreProductPageBannerFileBinary),
+            storeProductGridImageLayoutFileBinary = ko.observable(s_StoreProductGridImageLayoutFileBinary),
+            storeProductThumbnailFileName = ko.observable(),
+            storeProductPageBannerFileName = ko.observable(),
+            storeProductGridImageLayoutFileName = ko.observable(),
+            //#endregion
             // Errors
             errors = ko.validation.group({
             }),
@@ -539,7 +547,13 @@
                 template: template,
                 itemStockOptions: itemStockOptions,
                 itemPriceMatrices: itemPriceMatrices,
-                itemStateTaxes: itemStateTaxes
+                itemStateTaxes: itemStateTaxes,
+                storeProductThumbnailFileBinary: storeProductThumbnailFileBinary,
+                storeProductPageBannerFileBinary: storeProductPageBannerFileBinary,
+                storeProductGridImageLayoutFileBinary: storeProductGridImageLayoutFileBinary,
+                storeProductThumbnailFileName: storeProductThumbnailFileName,
+                storeProductPageBannerFileName: storeProductPageBannerFileName,
+                storeProductGridImageLayoutFileName: storeProductGridImageLayoutFileName
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -598,7 +612,7 @@
             },
             // Convert To Server Data
             convertToServerData = function () {
-                return {
+                var result = {
                     ItemId: id(),
                     ItemCode: code(),
                     ProductCode: productCode(),
@@ -642,28 +656,41 @@
                     IsQtyRanged: isQtyRanged() === 2 ? false : true,
                     PackagingWeight: packagingWeight(),
                     DefaultItemTax: defaultItemTax(),
-                    ItemVdpPrices: itemVdpPrices.map(function (itemVdpPrice) {
+                    ItemVdpPrices: itemVdpPrices.map(function(itemVdpPrice) {
                         return itemVdpPrice.convertToServerData();
                     }),
-                    ItemVideos: itemVideos.map(function (itemVideo) {
+                    ItemVideos: itemVideos.map(function(itemVideo) {
                         return itemVideo.convertToServerData();
                     }),
-                    ItemRelatedItems: itemRelatedItems.map(function (itemRelatedItem) {
+                    ItemRelatedItems: itemRelatedItems.map(function(itemRelatedItem) {
                         return itemRelatedItem.convertToServerData();
                     }),
-                    ItemStockOptions: itemStockOptions.map(function (itemStockOption, index) {
+                    ItemStockOptions: itemStockOptions.map(function(itemStockOption, index) {
                         var stockOption = itemStockOption.convertToServerData();
                         stockOption.OptionSequence = index + 1;
                         return stockOption;
                     }),
-                    ItemPriceMatrices: itemPriceMatrices.map(function (itemPriceMatrix) {
+                    ItemPriceMatrices: itemPriceMatrices.map(function(itemPriceMatrix) {
                         return itemPriceMatrix.convertToServerData();
                     }),
-                    ItemStateTaxes: itemStateTaxes.map(function (itemStateTax) {
+                    ItemStateTaxes: itemStateTaxes.map(function(itemStateTax) {
                         return itemStateTax.convertToServerData();
                     }),
                     Template: template().convertToServerData()
-                }
+                };
+                //result.StoreProductThumbnailFileName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
+                //result.StoreProductPageBannerFileName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
+                //result.StoreProductGridImageLayoutFileName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
+                //result.StoreProductThumbnailFileBytes = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
+                //result.StoreProductPageBannerFileBytes = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
+                //result.StoreProductGridImageLayoutFileBytes = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
+                result.ThumbnailImageName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
+                result.ImagePathImageName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
+                result.GridImageSourceName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
+                result.ThumbnailImage = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
+                result.ImagePathImage = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
+                result.GridImageSource = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
+                return result;
             };
 
         return {
@@ -767,6 +794,12 @@
             selectStateTaxItem: selectStateTaxItem,
             setItemPriceMatrices: setItemPriceMatrices,
             removeExistingPriceMatrices: removeExistingPriceMatrices,
+            storeProductThumbnailFileBinary: storeProductThumbnailFileBinary,
+            storeProductPageBannerFileBinary: storeProductPageBannerFileBinary,
+            storeProductGridImageLayoutFileBinary: storeProductGridImageLayoutFileBinary,
+            storeProductThumbnailFileName: storeProductThumbnailFileName,
+            storeProductPageBannerFileName: storeProductPageBannerFileName,
+            storeProductGridImageLayoutFileName: storeProductGridImageLayoutFileName,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
