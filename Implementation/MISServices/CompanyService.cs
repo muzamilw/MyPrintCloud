@@ -38,6 +38,8 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
         private readonly IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository;
+        private readonly IGetItemsListViewRepository itemsListViewRepository;
+        private readonly IItemRepository itemRepository;
         /// <summary>
         /// Save Company
         /// </summary>
@@ -871,7 +873,8 @@ namespace MPC.Implementation.MISServices
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
              IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
             IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository,
-            IOrganisationRepository organisationRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository, IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository)
+            IOrganisationRepository organisationRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository, IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository,
+            IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -894,6 +897,8 @@ namespace MPC.Implementation.MISServices
             this.organisationRepository = organisationRepository;
             this.mpcFileTableViewRepository = mpcFileTableViewRepository;
             this.productCategoryFileTableViewRepository = productCategoryFileTableViewRepository;
+            this.itemRepository = itemRepository;
+            this.itemsListViewRepository = itemsListViewRepository;
         }
         #endregion
 
@@ -1029,6 +1034,14 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<CmsSkinPageWidget> GetCmsPageWidgetByPageId(long pageId, long companyId)
         {
             return cmsSkinPageWidgetRepository.GetByPageId(pageId, companyId);
+        }
+
+        /// <summary>
+        /// Load Items, based on search filters
+        /// </summary>
+        public ItemListViewSearchResponse GetItems(CompanyProductSearchRequestModel request)
+        {
+            return itemsListViewRepository.GetItemsForCompany(request);
         }
         #endregion
     }

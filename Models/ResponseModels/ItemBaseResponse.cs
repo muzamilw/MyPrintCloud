@@ -27,5 +27,10 @@ namespace MPC.Models.ResponseModels
         /// Section Flags
         /// </summary>
         public IEnumerable<SectionFlag> SectionFlags { get; set; }
+
+        /// <summary>
+        /// Suppliers
+        /// </summary>
+        public IEnumerable<Company> Suppliers { get; set; }
     }
 }

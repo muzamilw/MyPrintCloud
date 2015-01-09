@@ -22,6 +22,14 @@ namespace MPC.Interfaces.Repository
         List<ProductCategory> GetChildCategories(int categoryId);
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId);
+
+        List<ProductCategoriesView> GetMappedCategoryNames(bool isClearCache, int companyID);
+
+        List<ProductCategoriesView> GetProductDesignerMappedCategoryNames(int CompanyID);
+
+      
+
+        ProductCategoriesView GetMappedCategory(string CatName, int CID);
         
     }
 }

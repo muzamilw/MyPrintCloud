@@ -155,6 +155,15 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(c => c.CompanyId == CompanyId).Select(f => f.PriceFlagId).FirstOrDefault();
         }
+
+        /// <summary>
+        /// Get All Suppliers For Current Organisation
+        /// </summary>
+        public IEnumerable<Company> GetAllSuppliers()
+        {
+            return DbSet.Where(supplier => supplier.OrganisationId == OrganisationId && supplier.IsCustomer == 0).ToList();
+        }
+
         public int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter,Markup zeroMarkup, CompanyContact regContact = null)
         {
             Address tblAddress = null;

@@ -43,7 +43,8 @@ namespace MPC.Webstore.Controllers
             List<CostCentre> deliveryCostCentersList = null;
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
+            //long OID = baseResponseCompany.Company.OrganisationId ?? 0;
+            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
 
             ViewBag.Currency = baseResponseCurrency.Currency;
@@ -488,7 +489,7 @@ namespace MPC.Webstore.Controllers
                                    
                                     foreach(var set in res)
                                     {
-                                        ProductCategoriesView pCat = _TemplateService.GetMappedCategory(set.CategoryName,(int)_myClaimHelper.loginContactCompanyID());
+                                        ProductCategoriesView pCat = _ItemService.GetMappedCategory(set.CategoryName,(int)_myClaimHelper.loginContactCompanyID());
 
                                         MappedCategoriesName mcn = new MappedCategoriesName();
 

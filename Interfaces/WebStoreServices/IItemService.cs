@@ -30,5 +30,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<AddOnCostsCenter> GetStockOptionCostCentres(long itemId, long companyId);
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
+        ProductCategoriesView GetMappedCategory(string CatName, int CID);
+
     }
 }

@@ -22,6 +22,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyRepository _CompanyRepository;
         private readonly IItemStockControlRepository _StockRepository;
         private readonly IItemAddOnCostCentreRepository _AddOnRepository;
+        private readonly IProductCategoryRepository _ProductCategoryRepository;
 
         #region Constructor
 
@@ -29,7 +30,7 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
-            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository)
+            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -37,6 +38,7 @@ namespace MPC.Implementation.WebStoreServices
             this._CompanyRepository = CompanyRepository;
             this._StockRepository = StockRepository;
             this._AddOnRepository = AddOnRepository;
+            this._ProductCategoryRepository = ProductCategoryRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -179,6 +181,10 @@ namespace MPC.Implementation.WebStoreServices
         public ItemStockControl GetStockItem(long itemId)
         {
             return _StockRepository.GetStockOfItemById(itemId);
+        }
+        public ProductCategoriesView GetMappedCategory(string CatName, int CID)
+        {
+            return _ProductCategoryRepository.GetMappedCategory(CatName, CID);
         }
     }
 }

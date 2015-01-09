@@ -63,7 +63,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber,long CustomerID,int CompanyID)
+        public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace MPC.Repository.Repositories
                 int SearchCount = 0;
 
 
-                List<MatchingSets> templatesList = GetTemplateDataFromService(TemplateName, pageNumber - 1, out totalPagesCount, out SearchCount,CustomerID,CompanyID);
+                List<MatchingSets> templatesList = GetTemplateDataFromService(TemplateName, pageNumber - 1, out totalPagesCount, out SearchCount,CustomerID,CompanyID,PCview);
 
 
                 if (templatesList.Count > 0)
@@ -105,13 +105,13 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        private List<MatchingSets> GetTemplateDataFromService(string templateName, int pageNumber, out int totalPagesCount, out int SearchCount, long CustomerID,int CompanyID)
+        private List<MatchingSets> GetTemplateDataFromService(string templateName, int pageNumber, out int totalPagesCount, out int SearchCount, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
           
             using (GlobalTemplateDesigner.TemplateSvcSPClient tsc = new GlobalTemplateDesigner.TemplateSvcSPClient())
             {
 
-                string[] categoryNames = (from c in GetMappedCategoryNames(false, CompanyID).ToList()
+                string[] categoryNames = (from c in PCview
                                           select c.TemplateDesignerMappedCategoryName).ToArray();
                 string NewTemplateName = templateName.Replace("Copy", "");
                 List<MatchingSets> objList = new List<MatchingSets>();
@@ -155,59 +155,15 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public List<ProductCategoriesView> GetMappedCategoryNames(bool isClearCache,int companyID)
-        {
-            List<ProductCategoriesView> mappedCategories = null;
-            //if (HttpContext.Current.Cache["MappedCategoryNames"] == null || isClearCache == true)
-            //{
-            mappedCategories = GetProductDesignerMappedCategoryNames(companyID);
-            //    HttpContext.Current.Cache["MappedCategoryNames"] = mappedCategories;
-            //}
-            //else
-            //{
-            //    mappedCategories = HttpContext.Current.Cache["MappedCategoryNames"] as List<vw_ProductCategories>;
-            //}
 
-            return mappedCategories;
-        }
-
-        public List<ProductCategoriesView> GetProductDesignerMappedCategoryNames(int CompanyID)
-        {
-            try
-            {
-
-                return (from c in db.ProductCategoriesViews
-                        where !string.IsNullOrEmpty(c.TemplateDesignerMappedCategoryName) && c.CompanyId == CompanyID
-                        select c).ToList();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public ProductCategoriesView GetMappedCategory(string CatName,int CID)
-        {
-            try
-            {
-                return (from c in GetMappedCategoryNames(false,CID).ToList()
-                        where c.TemplateDesignerMappedCategoryName == CatName
-                                                  select c).FirstOrDefault();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public ProductCategory GetDisplayOrderAndSave(int pCID)
         {
-           
+
             return (from c in db.ProductCategories
                     where c.ProductCategoryId == pCID
                     select c).FirstOrDefault();
         }
-
+      
         public string GetTemplateNameByTemplateID(int tempID)
         {
             try
