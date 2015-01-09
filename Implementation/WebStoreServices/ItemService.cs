@@ -136,7 +136,7 @@ namespace MPC.Implementation.WebStoreServices
             return value;
         }
 
-        public ProductItem GetItemAndDetailsByItemID(int itemId)
+        public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
            return _ItemRepository.GetItemAndDetailsByItemID(itemId);
         }
@@ -185,6 +185,11 @@ namespace MPC.Implementation.WebStoreServices
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
             return _ProductCategoryRepository.GetMappedCategory(CatName, CID);
+        }
+        //get related items list
+        public List<ProductItem> GetRelatedItemsList()
+        {
+            return _ItemRepository.GetRelatedItemsList();
         }
     }
 }

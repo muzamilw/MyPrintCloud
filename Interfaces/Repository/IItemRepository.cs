@@ -27,7 +27,7 @@ namespace MPC.Interfaces.Repository
         Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct,  long ObjContactID, Company NewCustomer);
         Item GetItemById(long RefitemId);
 
-        ProductItem GetItemAndDetailsByItemID(int itemId);
+        ProductItem GetItemAndDetailsByItemID(long itemId);
 
         List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
 
@@ -36,5 +36,8 @@ namespace MPC.Interfaces.Repository
         void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
+
+        // get related Items
+        List<ProductItem> GetRelatedItemsList();
     }
 }

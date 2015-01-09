@@ -2618,12 +2618,12 @@
     <Folder Include="MPC_Content\Categories\" />
     <Folder Include="MPC_Content\CompanyBanners\" />
     <Folder Include="MPC_Content\CostCentres\" />
+    <Folder Include="MPC_Content\Designer\" />
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
     <Folder Include="MPC_Content\SecondaryPages\" />
     <Folder Include="MPC_Content\Stores\" />
-    <Folder Include="MPC_Content\Templates\" />
     <Folder Include="Reports\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />

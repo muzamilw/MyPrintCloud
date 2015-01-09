@@ -76,6 +76,16 @@ namespace MPC.Repository.Repositories
 
         }
 
+
+        // delete template fonts from database against company ID
+        public void DeleteTemplateFonts(long Companyid)
+        {
+            foreach (TemplateFont c in  db.TemplateFonts.Where(c => c.CustomerId == Companyid))
+            {
+                db.TemplateFonts.Remove(c);
+            }
+            db.SaveChanges();
+        }
         #endregion
     }
 }
