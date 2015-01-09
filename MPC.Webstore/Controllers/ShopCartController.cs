@@ -43,7 +43,8 @@ namespace MPC.Webstore.Controllers
             List<CostCentre> deliveryCostCentersList = null;
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
+            //long OID = baseResponseCompany.Company.OrganisationId ?? 0;
+            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
 
             ViewBag.Currency = baseResponseCurrency.Currency;
