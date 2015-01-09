@@ -307,6 +307,7 @@
     <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
+    <Compile Include="ViewModels\RelatedItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -562,6 +563,7 @@
     <Content Include="Views\Shared\PartialViews\MarketingBrief.cshtml" />
     <Content Include="Views\Shared\PartialViews\ShopCart.cshtml" />
     <Content Include="Views\Shared\PartialViews\MatchingSet.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RelatedItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
