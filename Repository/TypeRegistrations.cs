@@ -79,6 +79,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ITemplateColorStylesRepository, TemplateColorStylesRepository>();
             unityContainer.RegisterType<IProductCategoryFileTableViewRepository, ProductCategoryFileTableViewRepository>();
             unityContainer.RegisterType<ITemplateFontsRepository, TemplateFontsRepository>();
+            unityContainer.RegisterType<IItemProductDetailRepository, ItemProductDetailRepository>();
         }
     }
 }

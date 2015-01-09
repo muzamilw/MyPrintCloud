@@ -27,6 +27,7 @@ namespace MPC.Models.ModelMappers
             target.ItemId = source.ItemId;
             target.SupplierId = source.SupplierId;
             target.SupplierSequence = source.SupplierSequence;
+            target.FlagId = source.FlagId;
             
             if (targetItem.IsQtyRanged.HasValue && targetItem.IsQtyRanged.Value)
             {

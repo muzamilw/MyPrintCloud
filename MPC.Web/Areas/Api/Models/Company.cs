@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {

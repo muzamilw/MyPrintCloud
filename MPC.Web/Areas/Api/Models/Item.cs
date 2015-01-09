@@ -475,6 +475,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         public IEnumerable<ItemPriceMatrix> ItemPriceMatrices { get; set; }
 
+        public ItemProductDetail ItemProductDetail { get; set; }
+
         #endregion
     }
 }

@@ -65,6 +65,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsQtyRanged = source.IsQtyRanged,
                 PackagingWeight = source.PackagingWeight,
                 DefaultItemTax = source.DefaultItemTax,
+                SupplierId = source.SupplierId,
+                SupplierId2 = source.SupplierId2,
+                EstimateProductionTime = source.EstimateProductionTime,
+                ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ? 
+                source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()) : new List<ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()) : new List<ItemVideo>(),
@@ -176,6 +181,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsQtyRanged = source.IsQtyRanged,
                 PackagingWeight = source.PackagingWeight,
                 DefaultItemTax = source.DefaultItemTax,
+                SupplierId = source.SupplierId,
+                SupplierId2 = source.SupplierId2,
+                EstimateProductionTime = source.EstimateProductionTime,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
@@ -186,7 +194,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()).ToList() : 
                 new List<DomainModels.ItemStateTax>(),
                 ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()).ToList() : 
-                new List<DomainModels.ItemPriceMatrix>()
+                new List<DomainModels.ItemPriceMatrix>(),
+                ItemProductDetails = source.ItemProductDetail != null ? new List<DomainModels.ItemProductDetail>{ source.ItemProductDetail.CreateFrom() } : 
+                new List<DomainModels.ItemProductDetail>() 
             };
         }
     }

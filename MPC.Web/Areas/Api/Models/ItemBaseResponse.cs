@@ -26,5 +26,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Section Flags
         /// </summary>
         public IEnumerable<SectionFlagDropDown> SectionFlags { get; set; }
+
+        /// <summary>
+        /// Suppliers
+        /// </summary>
+        public IEnumerable<SupplierForInventory> Suppliers { get; set; }
     }
 }

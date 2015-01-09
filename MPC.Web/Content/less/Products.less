@@ -46,25 +46,28 @@
         }
     }
 
+    .form-group
+    {
+        .input-group-addon
+        {
+            text-decoration: none; 
+            border: 0; 
+            cursor: pointer;
+        }
+
+        .input-group
+        {
+            .input-group-addon
+            {
+                border: 1px solid #ccc;
+            }
+        }
+    }
+
     #tab-pricetable
     {
         .form-group
         {
-            .input-group-addon
-            {
-                text-decoration: none; 
-                border: 0; 
-                cursor: pointer;
-            }
-
-            .input-group
-            {
-                .input-group-addon
-                {
-                    border: 1px solid #ccc;
-                }
-            }
-
             #txtDiscountsContainer
             {
                 padding: 0;
@@ -106,6 +109,64 @@
                 }
             }
             
+        }
+    }
+
+    #tab-supplierPrice
+    {
+        .labelBold
+        {
+            font-weight: bold;
+        }
+
+        #estProductionTimeContainer 
+        {
+            #txtEstProductionTime
+            {
+                width: 30%;
+            }
+
+            span
+            {
+                width: 30%;
+            }
+        }
+
+        #switchAutoCreateGraterContainer
+        {
+            padding-left: 0; 
+            padding-right: 0;
+            width: 12%;
+        }
+
+        .deliveryTimeContiner
+        {
+            input, span
+            {
+                width: 40%;
+            }
+        }
+
+        #supplierTabs
+        {
+            border: dotted;
+            border-width: 1px; 
+            border-color: lightgray; 
+        }
+
+        #qtyLimitLabel
+        {
+            width: 17%;
+        }
+
+        #qtyLimitInputContainer
+        {
+            width: 15%;
+
+            input
+            {
+                width: 100px;
+            }
         }
     }
 }

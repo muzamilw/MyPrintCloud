@@ -11,11 +11,9 @@ namespace MPC.Interfaces.Repository
     {
         Template GetTemplate(long productID);
 
-        List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
+        List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview);
 
         string GetTemplateNameByTemplateID(int tempID);
-
-        ProductCategoriesView GetMappedCategory(string CatName, int CID);
 
         int CloneTemplateByTemplateID(int TempID);
     }

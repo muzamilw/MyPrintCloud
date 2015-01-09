@@ -36,7 +36,7 @@
                                     </div>
                                     <label for="supplier" class="control-label h5 col-sm-2">Supplier</label>
                                     <div class="col-md-2">
-                                        <span class="form-control" id="supplier" data-bind="text:supplierName"></span>
+                                        <input type="text" class="form-control" id="supplier" disabled data-bind="value:supplierName, validationTooltip: supplierName" />
                                     </div><button type="button" data-bind="click:$root.onAddSupplier">..</button>
                                 </div>
                                 <div class="form-group">

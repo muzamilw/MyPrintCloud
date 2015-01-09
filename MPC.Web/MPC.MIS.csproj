@@ -287,6 +287,8 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CurrencyMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CountryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
@@ -338,6 +340,7 @@
     <Compile Include="Areas\Api\Models\CostCentre.cs" />
     <Compile Include="Areas\Api\Models\Country.cs" />
     <Compile Include="Areas\Api\Models\CountryDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CurrencyDropDown.cs" />
     <Compile Include="Areas\Api\Models\EmailEvent.cs" />
     <Compile Include="Areas\Api\Models\ItemBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
@@ -345,6 +348,7 @@
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemPriceMatrix.cs" />
     <Compile Include="Areas\Api\Models\ItemPriceMatrixSearchRequest.cs" />
+    <Compile Include="Areas\Api\Models\ItemProductDetail.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
@@ -2591,8 +2595,19 @@
     <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Models\" />
+    <Folder Include="MPC_Content\Artworks\" />
+    <Folder Include="MPC_Content\Attachments\" />
+    <Folder Include="MPC_Content\Categories\" />
+    <Folder Include="MPC_Content\CompanyBanners\" />
+    <Folder Include="MPC_Content\CostCentres\" />
+    <Folder Include="MPC_Content\Media\" />
+    <Folder Include="MPC_Content\Organisations\" />
+    <Folder Include="MPC_Content\Products\" />
+    <Folder Include="MPC_Content\Resources\" />
+    <Folder Include="MPC_Content\SecondaryPages\" />
+    <Folder Include="MPC_Content\Stores\" />
+    <Folder Include="MPC_Content\Templates\" />
     <Folder Include="Reports\" />
-    <Folder Include="Resources\Organisations\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
   </ItemGroup>

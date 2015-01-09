@@ -59,19 +59,20 @@ namespace MPC.Repository.Repositories
            // db.Configuration.LazyLoadingEnabled = true;
             db.Configuration.LazyLoadingEnabled = false;
             List<TemplateFont> lFont = new List<TemplateFont>();
-        //    var res =  db.sp_GetUsedFontsUpdated(productId, customerId);
-        //    lFont = res.Select(g => new TemplateFont{ 
-        //        ProductFontId = g.ProductFontId,
-        //        ProductId = g.ProductId, 
-        //        FontName = g.FontName,
-        //        FontDisplayName = g.FontDisplayName,
-        //        FontFile = g.FontFile ,
-        //        DisplayIndex =g.DisplayIndex,
-        //        IsPrivateFont = g.IsPrivateFont,
-        //        IsEnable = g.IsEnable,
-        //        CustomerId = g.CustomerID,
-        //        FontPath = g.FontPath
-        //}).ToList();
+            var res = db.sp_GetUsedFontsUpdated(productId, customerId);
+            lFont = res.Select(g => new TemplateFont
+            {
+                ProductFontId = g.ProductFontId,
+                ProductId = g.ProductId,
+                FontName = g.FontName,
+                FontDisplayName = g.FontDisplayName,
+                FontFile = g.FontFile,
+                DisplayIndex = g.DisplayIndex,
+                IsPrivateFont = g.IsPrivateFont,
+                IsEnable = g.IsEnable,
+                CustomerId = g.CustomerID,
+                FontPath = g.FontPath
+            }).ToList();
             return lFont;
 
         }
