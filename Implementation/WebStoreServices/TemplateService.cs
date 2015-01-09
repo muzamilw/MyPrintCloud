@@ -1,10 +1,13 @@
 ﻿using MPC.Common;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +54,58 @@ namespace MPC.Implementation.WebStoreServices
 
             return product;
         }
+        // delete template and all references 
+        public bool DeleteTemplate(long ProductID, out long CategoryID, long organizationID)
+        {
+            var result = false;
+            try
+            {
+                result=  _templateRepository.DeleteTemplate(ProductID, out CategoryID);
+                var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/" + ProductID.ToString());
+                if (Directory.Exists(drURL))
+                {
+                      foreach (string item in System.IO.Directory.GetFiles(drURL))
+                        {
+                            System.IO.File.Delete(item);
+                        }
 
+                    Directory.Delete(drURL);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
+            }
+            return result;
+        }
+        public bool DeleteTemplateFiles(long ProductID, long organizationID)
+        {
+            try
+            {
+
+                bool result = false;
+
+                var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/" + ProductID.ToString());
+                if (Directory.Exists(drURL))
+                {
+                    foreach (string item in System.IO.Directory.GetFiles(drURL))
+                    {
+                        System.IO.File.Delete(item);
+                    }
+
+                    Directory.Delete(drURL);
+                }
+
+                result = true;
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
+            }
+        }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
             List<ProductCategoriesView> PCview = _ProductCategoryRepository.GetMappedCategoryNames(false, CompanyID);

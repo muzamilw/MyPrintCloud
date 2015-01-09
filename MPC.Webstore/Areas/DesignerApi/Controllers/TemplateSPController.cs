@@ -43,15 +43,19 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
         }
+        //public List<TemplatePages> GetTemplatePages(int TemplateID) // moved to template page controller new function name = GetTemplatePagesSP
+        //public List<TemplateColorStyles> GetColorStyle(int ProductId) // moved to TemplateColorStyleController
+        //public bool DeleteTemplate(int ProductID, out int CategoryID)// moved to templates service in implementation project
+        //public bool DeleteTemporaryFiles(int ProductID)  // moved to templates service as DeleteTemplateFiles 
+        //public void DeleteTemplateFonts(int Companyid) // moved to templates font service
 
         // public MatchingSets GetMatchingSetbyID(int MatchingSetID)  //not used in webstore called from v2
-        //public List<TemplateColorStyles> GetColorStyle(int ProductId) // moved to TemplateColorStyleController
         // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)//not used in webstore called from v2
         //public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo) // not implemented as not used in webstore 
         // public Templates GetTemplateWebStore(int TemplateID) //not implemented as we call this function from v2
         // public List<TemplateFonts> GetTemplateFonts(int TemplateID)//not implemented as we call this function from v2
         //public List<TemplatePages> GetTemplatePages(int TemplateID) // not implemented as we call this function from v2
-        //public List<TemplatePages> GetTemplatePages(int TemplateID) // moved to template page controller new function name = GetTemplatePagesSP
+        
         //public List<TemplatePages> UpdateTemplatePages(int TemplateID, int pageId, string operation) // not immplemented
         //public bool UpdateTemplatePage(int pageId, string PageName, string Orientation)// not implemented 
         //public bool UpdateTemplatePageBackground(int productID, int PageID, string path, string backgroundtype)// not implemented
