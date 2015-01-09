@@ -53,6 +53,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             markupsInMyOrganization = ko.observableArray([]),
                //Chart Of Accounts In My Organization
             chartOfAccountsInMyOrganization = ko.observableArray([]),
+            //Flag for change 
+            flagForChanges = ko.observable(),
              // Errors
              errors = ko.validation.group({
                  email: email
@@ -82,7 +84,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  lengthUnitId: lengthUnitId,
                  weightUnitIdrl: weightUnitId,
                  taxRegistrationNo: taxRegistrationNo,
-                 markupId: markupId
+                 markupId: markupId,
+                 flagForChanges: flagForChanges
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -116,6 +119,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              markupId: markupId,
              markupsInMyOrganization: markupsInMyOrganization,
              chartOfAccountsInMyOrganization: chartOfAccountsInMyOrganization,
+             flagForChanges: flagForChanges,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,

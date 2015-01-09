@@ -488,7 +488,7 @@ namespace MPC.Webstore.Controllers
                                    
                                     foreach(var set in res)
                                     {
-                                        ProductCategoriesView pCat = _TemplateService.GetMappedCategory(set.CategoryName,(int)_myClaimHelper.loginContactCompanyID());
+                                        ProductCategoriesView pCat = _ItemService.GetMappedCategory(set.CategoryName,(int)_myClaimHelper.loginContactCompanyID());
 
                                         MappedCategoriesName mcn = new MappedCategoriesName();
 

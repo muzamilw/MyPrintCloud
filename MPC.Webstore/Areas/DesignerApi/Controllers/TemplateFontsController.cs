@@ -31,7 +31,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetFontsList(int parameter1, int parameter2)
+        public HttpResponseMessage GetFontsList(long parameter1, long parameter2)
         {
             var result = templateFontSvc.GetFontList(parameter1,parameter2);
             var formatter = new JsonMediaTypeFormatter();

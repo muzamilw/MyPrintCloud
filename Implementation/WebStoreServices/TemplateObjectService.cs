@@ -24,7 +24,7 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public 
-        public List<TemplateObject> GetProductObjects(int productId)
+        public List<TemplateObject> GetProductObjects(long productId)
         {
             // values used to change the display order
             int productPageId = -1;

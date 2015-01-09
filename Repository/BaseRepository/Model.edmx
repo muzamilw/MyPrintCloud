@@ -1515,14 +1515,13 @@
           <Property Name="Qty1MarkUpID" Type="int" />
           <Property Name="Qty2MarkUpID" Type="int" />
           <Property Name="Qty3MarkUpID" Type="int" />
-          <Property Name="StockItemID1" Type="int" />
+          <Property Name="StockItemID1" Type="bigint" />
           <Property Name="StockItemID2" Type="int" />
           <Property Name="StockItemID3" Type="int" />
           <Property Name="Side1PlateQty" Type="int" />
           <Property Name="IsPortrait" Type="bit" />
           <Property Name="Side2PlateQty" Type="int" />
           <Property Name="InkColorType" Type="int" />
-          <Property Name="BaseCharge1Broker" Type="float" />
           <Property Name="PlateInkId" Type="int" />
           <Property Name="SimilarSections" Type="int" />
         </EntityType>
@@ -2020,8 +2019,6 @@
           <Property Name="CostingActualTime" Type="float" />
           <Property Name="CostingActualQty" Type="float" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
-          <Property Name="QtyChargeBroker" Type="float" />
-          <Property Name="MarkUpValueBroker" Type="float" />
           <Property Name="Qty1" Type="int" />
           <Property Name="Qty2" Type="int" />
           <Property Name="Qty3" Type="int" />
@@ -3847,8 +3844,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="submittedByName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_GetUsedFontsUpdated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="TemplateID" Type="int" Mode="In" />
-          <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="TemplateID" Type="bigint" Mode="In" />
+          <Parameter Name="CustomerID" Type="bigint" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
@@ -4956,8 +4953,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="TemplateFont" EntitySet="TemplateFonts" />
           </AssociationSet>
           <FunctionImport Name="sp_GetUsedFontsUpdated" ReturnType="Collection(DomainModels.sp_GetUsedFontsUpdated_Result)">
-            <Parameter Name="TemplateID" Mode="In" Type="Int32" />
-            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="TemplateID" Mode="In" Type="Int64" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int64" />
           </FunctionImport>
           <AssociationSet Name="FK_ItemProductDetail_Items" Association="DomainModels.FK_ItemProductDetail_Items">
             <End Role="Item" EntitySet="Items" />
@@ -6528,14 +6525,13 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Qty1MarkUpID" Type="Int32" />
           <Property Name="Qty2MarkUpID" Type="Int32" />
           <Property Name="Qty3MarkUpID" Type="Int32" />
-          <Property Name="StockItemID1" Type="Int32" />
+          <Property Name="StockItemID1" Type="Int64" />
           <Property Name="StockItemID2" Type="Int32" />
           <Property Name="StockItemID3" Type="Int32" />
           <Property Name="Side1PlateQty" Type="Int32" />
           <Property Name="IsPortrait" Type="Boolean" />
           <Property Name="Side2PlateQty" Type="Int32" />
           <Property Name="InkColorType" Type="Int32" />
-          <Property Name="BaseCharge1Broker" Type="Double" />
           <Property Name="PlateInkId" Type="Int32" />
           <Property Name="SimilarSections" Type="Int32" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="ItemSection" ToRole="Item" />
@@ -6832,8 +6828,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CostingActualTime" Type="Double" />
           <Property Name="CostingActualQty" Type="Double" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="QtyChargeBroker" Type="Double" />
-          <Property Name="MarkUpValueBroker" Type="Double" />
           <Property Name="Qty1" Type="Int32" />
           <Property Name="Qty2" Type="Int32" />
           <Property Name="Qty3" Type="Int32" />
@@ -10084,7 +10078,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               <MappingFragment StoreEntitySet="ItemSection">
                 <ScalarProperty Name="SimilarSections" ColumnName="SimilarSections" />
                 <ScalarProperty Name="PlateInkId" ColumnName="PlateInkId" />
-                <ScalarProperty Name="BaseCharge1Broker" ColumnName="BaseCharge1Broker" />
                 <ScalarProperty Name="InkColorType" ColumnName="InkColorType" />
                 <ScalarProperty Name="Side2PlateQty" ColumnName="Side2PlateQty" />
                 <ScalarProperty Name="IsPortrait" ColumnName="IsPortrait" />
@@ -10346,8 +10339,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Qty3" ColumnName="Qty3" />
                 <ScalarProperty Name="Qty2" ColumnName="Qty2" />
                 <ScalarProperty Name="Qty1" ColumnName="Qty1" />
-                <ScalarProperty Name="MarkUpValueBroker" ColumnName="MarkUpValueBroker" />
-                <ScalarProperty Name="QtyChargeBroker" ColumnName="QtyChargeBroker" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CostingActualQty" ColumnName="CostingActualQty" />
                 <ScalarProperty Name="CostingActualTime" ColumnName="CostingActualTime" />

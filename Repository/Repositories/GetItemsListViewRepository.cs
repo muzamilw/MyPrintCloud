@@ -23,7 +23,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Item Orderby clause
         /// </summary>
-        private readonly Dictionary<ItemByColumn, Func<GetItemsListView, object>> stockItemOrderByClause = 
+        private readonly Dictionary<ItemByColumn, Func<GetItemsListView, object>> stockItemOrderByClause =
             new Dictionary<ItemByColumn, Func<GetItemsListView, object>>
                     {
                          { ItemByColumn.Name, c => c.ProductName },
@@ -76,6 +76,34 @@ namespace MPC.Repository.Repositories
             Expression<Func<GetItemsListView, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
+                    item.OrganisationId == OrganisationId);
+
+            IEnumerable<GetItemsListView> items = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderBy(stockItemOrderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(stockItemOrderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+
+            return new ItemListViewSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
+        }
+        /// <summary>
+        /// Get Items For Company/Store
+        /// </summary>
+        public ItemListViewSearchResponse GetItemsForCompany(CompanyProductSearchRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+
+            Expression<Func<GetItemsListView, bool>> query =
+                item =>
+                    ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
+                    (item.CompanyId == request.CompanyId) &&
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<GetItemsListView> items = request.IsAsc

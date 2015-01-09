@@ -1,0 +1,66 @@
+﻿
+<div class="modal fade" id="relatedProductDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width:838px;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Related Products</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row clear-fix">
+                        <div class="col-lg-12 filter-block clear-fix">
+                            <div class="pull-left spanfilterlbl">
+                                Code/Name: &nbsp;
+                            </div>
+                            <div class="form-group pull-left">
+                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: $parent.filterTextForRelatedItems">
+                                <i class="fa fa-search search-icon" data-bind="click: $parent.filterProductsToRelate"></i>
+                            </div>
+                            <div class="form-group pull-left">
+                                <button class="btn btn-primary" data-bind="click: $parent.resetFilteredProducts">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clear-fix">
+                        <div class="col-lg-12">
+                            <div class="main-box no-header clearfix">
+                                <div class="main-box-body clearfix">
+                                    <div class="table-responsive">
+                                        <table id="supplierTablle" class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>&nbsp;</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- ko template: { name: 'relatedProductDialogItemTemplate', foreach: $root.productsToRelate } -->
+                                                <!-- /ko -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pagerDiv">
+                                <!-- ko with: $root.itemRelaterPager -->
+                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<script id="relatedProductDialogItemTemplate" type="text/html">
+    <tr data-bind="click: $parent.onSelectRelatedItem">
+        <td>
+            <span style="font-size: 1.105em; color: black;" data-bind="text: relatedItemCode"></span>
+            <br />
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: relatedItemName"></span>
+        </td>
+    </tr>
+</script>

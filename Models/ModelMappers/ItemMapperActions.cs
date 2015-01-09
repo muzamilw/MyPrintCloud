@@ -90,6 +90,11 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Action<ItemStateTax> DeleteItemStateTax { get; set; }
 
+        /// <summary>
+        /// Action to create a Item Product Detail
+        /// </summary>
+        public Func<ItemProductDetail> CreateItemProductDetail { get; set; }
+
         #endregion
     }
 }

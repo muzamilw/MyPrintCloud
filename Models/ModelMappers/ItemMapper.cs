@@ -612,7 +612,56 @@ namespace MPC.Models.ModelMappers
             UpdateOrAddItemStateTaxs(source, target, actions);
             DeleteItemStateTaxs(source, target, actions);
         }
-        
+
+        /// <summary>
+        /// Initialize Item Product Detail
+        /// </summary>
+        private static void InitializeItemProductDetails(Item item)
+        {
+            if (item.ItemProductDetails == null)
+            {
+                item.ItemProductDetails = new List<ItemProductDetail>();
+            }
+        }
+
+        /// <summary>
+        /// True if the ItemProductDetail is new
+        /// </summary>
+        private static bool IsNewItemProductDetail(ItemProductDetail sourceItemProductDetail)
+        {
+            return sourceItemProductDetail.ItemDetailId == 0;
+        }
+
+        /// <summary>
+        /// Update Item Product Detail
+        /// </summary>
+        private static void UpdateOrAddItemProductDetail(ItemProductDetail sourceItemProductDetail, Item target, ItemMapperActions actions)
+        {
+            ItemProductDetail targetLine;
+            if (IsNewItemProductDetail(sourceItemProductDetail))
+            {
+                targetLine = actions.CreateItemProductDetail();
+                target.ItemProductDetails.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemProductDetails.FirstOrDefault(vdp => vdp.ItemDetailId == sourceItemProductDetail.ItemDetailId);
+            }
+
+            sourceItemProductDetail.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Update Item Product Detail
+        /// </summary>
+        private static void UpdateItemProductDetail(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemProductDetails(source);
+            InitializeItemProductDetails(target);
+
+            UpdateOrAddItemProductDetail(source.ItemProductDetails.FirstOrDefault() ?? new ItemProductDetail(), target, actions);
+        }
+
         /// <summary>
         /// Update the header
         /// </summary>
@@ -635,6 +684,9 @@ namespace MPC.Models.ModelMappers
 
             // Update Price Table Defaults
             UpdatePriceTableDefaultsHeader(source, target);
+
+            // Update Supplier Prices
+            UpdateSupplierPricesHeader(source, target);
         }
 
         /// <summary>
@@ -691,6 +743,16 @@ namespace MPC.Models.ModelMappers
             target.PackagingWeight = source.PackagingWeight;
             target.DefaultItemTax = source.DefaultItemTax;
         }
+        
+        /// <summary>
+        /// Update Supplier Prices Headers
+        /// </summary>
+        private static void UpdateSupplierPricesHeader(Item source, Item target)
+        {
+            target.EstimateProductionTime = source.EstimateProductionTime;
+            target.SupplierId = source.SupplierId;
+            target.SupplierId2 = source.SupplierId2;
+        }
 
         #endregion
         #region Public
@@ -730,6 +792,7 @@ namespace MPC.Models.ModelMappers
             UpdateItemStockOptions(source, target, actions);
             UpdateItemPriceMatrices(source, target, actions);
             UpdateItemStateTaxes(source, target, actions);
+            UpdateItemProductDetail(source, target, actions);
         }
 
         #endregion
