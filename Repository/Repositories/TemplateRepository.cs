@@ -57,7 +57,7 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public Template GetTemplate(long productID)
         {
-           // db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.LazyLoadingEnabled = false;
             var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
             return template;
 

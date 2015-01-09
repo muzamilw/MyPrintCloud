@@ -56,7 +56,6 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public List<TemplateFont> GetFontList(long productId, long customerId)
         {
-           // db.Configuration.LazyLoadingEnabled = true;
             db.Configuration.LazyLoadingEnabled = false;
             List<TemplateFont> lFont = new List<TemplateFont>();
             var res = db.sp_GetUsedFontsUpdated(productId, customerId);
