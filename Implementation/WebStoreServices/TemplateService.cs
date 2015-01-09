@@ -15,11 +15,13 @@ namespace MPC.Implementation.WebStoreServices
     {
         #region private
         public readonly ITemplateRepository _templateRepository;
+        public readonly IProductCategoryRepository _ProductCategoryRepository;
         #endregion
         #region constructor
-        public TemplateService(ITemplateRepository templateRepository)
+        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository)
         {
             this._templateRepository = templateRepository;
+            this._ProductCategoryRepository = ProductCategoryRepository;
         }
         #endregion
 
@@ -51,8 +53,9 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
-        { 
-            return _templateRepository.BindTemplatesList(TemplateName,pageNumber,CustomerID,CompanyID);
+        {
+            List<ProductCategoriesView> PCview = _ProductCategoryRepository.GetMappedCategoryNames(false, CompanyID);
+            return _templateRepository.BindTemplatesList(TemplateName, pageNumber, CustomerID, CompanyID, PCview);
         }
         
         public string GetTemplateNameByTemplateID(int tempID)
@@ -60,10 +63,7 @@ namespace MPC.Implementation.WebStoreServices
             return _templateRepository.GetTemplateNameByTemplateID(tempID);
         }
 
-        public ProductCategoriesView GetMappedCategory(string CatName, int CID)
-        {
-            return _templateRepository.GetMappedCategory(CatName,CID);
-        }
+      
         public int CloneTemplateByTemplateID(int TempID)
         {
             return _templateRepository.CloneTemplateByTemplateID(TempID);

@@ -17,7 +17,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
         string GetTemplateNameByTemplateID(int tempID);
 
-        ProductCategoriesView GetMappedCategory(string CatName, int CID);
+        
 
         int CloneTemplateByTemplateID(int TempID);
     }
