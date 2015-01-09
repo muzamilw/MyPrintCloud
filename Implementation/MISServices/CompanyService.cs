@@ -279,6 +279,7 @@ namespace MPC.Implementation.MISServices
                     product.OrganisationId = itemRepository.OrganisationId;
                     itemRepository.Add(product);
                 }
+                SaveCompanyProductImages(companySavingModel.NewAddedProducts);
             }
             if (companySavingModel.EdittedProducts != null)
                 //Update Products
@@ -844,6 +845,25 @@ namespace MPC.Implementation.MISServices
 
             companyBannerRepository.SaveChanges();
 
+        }
+        private void SaveCompanyProductImages(IEnumerable<Item> items)
+        {
+            foreach (var item in items)
+            {
+                //todo asad
+                if (item.ThumbnailImage != null)
+                {
+
+                }
+                if (item.GridImageBytes != null)
+                {
+
+                }
+                if (item.ImagePathImage != null)
+                {
+
+                }
+            }
         }
 
         /// <summary>

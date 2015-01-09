@@ -712,6 +712,25 @@
                         deletedproducts.removeAll();
                     isProductDetailsVisible(false);
                 },
+                //#region Maintaining Byte Arrays Function
+                //Product Category Thumbnail Files Loaded Callback
+                    
+                    storeProductThumbnailFileCallback = function (file, data) {
+                        selectedProduct().storeProductThumbnailFileBinary(data);
+                        selectedProduct().storeProductThumbnailFileName(file.name);
+                    },
+                    
+                    storeProductPageBannerFileCallback = function (file, data) {
+                        selectedProduct().storeProductPageBannerFileBinary(data);
+                        selectedProduct().storeProductPageBannerFileName(file.name);
+                    },
+                    
+                    storeProductGridImageLayoutFileCallback = function (file, data) {
+                        selectedProduct().storeProductGridImageLayoutFileBinary(data);
+                        selectedProduct().storeProductGridImageLayoutFileName(file.name);
+                    },
+
+                //#endregion
                 //#endregion
                 //#region Initialize
 
@@ -759,6 +778,9 @@
                     deletedproducts: deletedproducts,
                     selectProduct: selectProduct,
                     resetObservables: resetObservables,
+                    storeProductThumbnailFileCallback: storeProductThumbnailFileCallback,
+                    storeProductPageBannerFileCallback: storeProductPageBannerFileCallback ,
+                    storeProductGridImageLayoutFileCallback: storeProductGridImageLayoutFileCallback,
                     //#endregion
                     // #region Utility Methods
                     initialize: initialize,
