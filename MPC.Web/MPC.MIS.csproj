@@ -2596,8 +2596,19 @@
     <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Models\" />
+    <Folder Include="MPC_Content\Artworks\" />
+    <Folder Include="MPC_Content\Attachments\" />
+    <Folder Include="MPC_Content\Categories\" />
+    <Folder Include="MPC_Content\CompanyBanners\" />
+    <Folder Include="MPC_Content\CostCentres\" />
+    <Folder Include="MPC_Content\Media\" />
+    <Folder Include="MPC_Content\Organisations\" />
+    <Folder Include="MPC_Content\Products\" />
+    <Folder Include="MPC_Content\Resources\" />
+    <Folder Include="MPC_Content\SecondaryPages\" />
+    <Folder Include="MPC_Content\Stores\" />
+    <Folder Include="MPC_Content\Templates\" />
     <Folder Include="Reports\" />
-    <Folder Include="Resources\Organisations\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
   </ItemGroup>
