@@ -66,15 +66,17 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             List<TemplatePage> objList = new List<TemplatePage>();
             TemplatePage objpage = new TemplatePage();
             TemplatePage objpag2e = new TemplatePage();
+            objpage.BackgroundFileName = "1030///Side1.pdf";
+            objpag2e.BackgroundFileName = "1030///Side2.pdf";
             objList.Add(objpage); objList.Add(objpag2e);
             
-            bool result = templatePageService.CreateBlankBackgroundPDFsByPages(1078,100,100,1,objList,0);
-            string res = templatePageService.CreatePageBlankBackgroundPDFs(1079, objpage, 100, 100, 0);
+            bool result = templatePageService.DeleteBlankBackgroundPDFsByPages(1078,objList,0);
+            result = templatePageService.DeleteBlankBackgroundPDFsByPages(1978, objList, 0);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return res.ToString();
+            return result.ToString();
 
         }
         #endregion

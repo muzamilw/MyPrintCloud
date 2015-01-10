@@ -174,6 +174,40 @@ namespace MPC.Implementation.WebStoreServices
                 return TemplateID.ToString() + "/" + oPage.PageName + oPage.PageNo.ToString() + ".pdf";
             }
         }
+
+        // called from MIS to delete background files of the given template pages 
+        public bool DeleteBlankBackgroundPDFsByPages(long TemplateID, List<TemplatePage> PagesList, long organizationID)
+        {
+
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            string basePath = drURL + TemplateID.ToString() + "/";
+            try
+            {
+                if (Directory.Exists(basePath))
+                {
+                    foreach (var objPage in PagesList)
+                    {
+                        //if (File.Exists(basePath + "Side" + objPage.PageNo.ToString() + ".pdf"))  // commented becasue we have page name in page list
+                        //{
+                        //    File.Delete(basePath + "Side" + objPage.PageNo.ToString() + ".pdf");
+                        //}
+                        if (File.Exists(drURL + objPage.BackgroundFileName.ToString())) 
+                        {
+                            File.Delete(drURL + objPage.BackgroundFileName.ToString());
+                        }
+                        if (File.Exists(basePath + "templatImgBk" + objPage.PageNo.ToString() + ".jpg"))
+                        {
+                            File.Delete(basePath + "templatImgBk" + objPage.PageNo.ToString() + ".jpg");
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+               throw new MPCException(ex.ToString(), organizationID);
+            }
+        }
         #endregion
     }
 }
