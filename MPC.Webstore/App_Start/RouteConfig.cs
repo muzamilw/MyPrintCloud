@@ -62,8 +62,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
    "ShopCart",
-   "ShopCart/{OrderID}",
-   new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+   "ShopCart/{optionalOrderId}",
+   new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
      );
 
             routes.MapRoute(

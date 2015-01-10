@@ -751,5 +751,17 @@ namespace MPC.Repository.Repositories
                 return false;
             }
         }
+        /// <summary>
+        /// returns the order id of a logged in user if order exist in cart
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+
+        public long GetCartOrderId(long contactId, long CompanyId)
+        {
+
+            return db.Estimates.Where(c => c.ContactId == contactId && c.CompanyId == CompanyId && c.StatusId == (int)OrderStatus.ShoppingCart).Select(i => i.EstimateId).FirstOrDefault();
+           
+        }
     }
 }

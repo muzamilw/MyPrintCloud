@@ -30,6 +30,11 @@ namespace MPC.Interfaces.WebStoreServices
         double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
 
         bool ResetOrderVoucherCode(int orderId);
-        
+         /// <summary>
+        /// Get the OrderId by login User 
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        long GetOrderIdByContactId(long contactId, long CompanyId);
     }
 }

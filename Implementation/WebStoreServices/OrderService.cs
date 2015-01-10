@@ -188,5 +188,22 @@ namespace MPC.Implementation.WebStoreServices
                throw ex;
            }
        }
+
+        /// <summary>
+        /// Get the OrderId by login User 
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+       public long GetOrderIdByContactId(long contactId, long CompanyId)
+       {
+           try
+           {
+               return _OrderRepository.GetCartOrderId(contactId, CompanyId);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
     }
 }
