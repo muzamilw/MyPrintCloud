@@ -49,6 +49,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         //public bool DeleteTemporaryFiles(int ProductID)  // moved to templates service as DeleteTemplateFiles 
         //public void DeleteTemplateFonts(int Companyid) // moved to templates font service
         //public int CopyTemplate(int ProductID, int SubmittedBy, string SubmittedByName) moved to template service 
+        //public List<int?> CopyTemplateList(List<int?> productIDList, int SubmittedBy, string SubmittedByName) moved to template service
 
         // public MatchingSets GetMatchingSetbyID(int MatchingSetID)  //not used in webstore called from v2
         // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)//not used in webstore called from v2

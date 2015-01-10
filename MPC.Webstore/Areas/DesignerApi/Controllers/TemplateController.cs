@@ -54,8 +54,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         // Important: if called from MIS call implementation function instead of this function because organizationID will not exist in cookie when called from MIS
         public string testTemplate(long id)
         {
+            List<long?> obj= new List<long?>();
+            obj.Add(861); obj.Add(1035);
             long organizationId = UserCookieManager.OrganisationID;
-            long result = templateService.CopyTemplate(id,organizationId,"",organizationId);
+            List<long?> result = templateService.CopyTemplateList(obj, organizationId, "", organizationId);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
