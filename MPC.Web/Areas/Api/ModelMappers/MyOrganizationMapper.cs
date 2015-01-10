@@ -101,6 +101,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SystemWeightUnit = source.SystemWeightUnit,
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
+                LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
             };
         }
 

@@ -114,11 +114,15 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public MyOrganizationSaveResponse SaveOrganization(Organisation organisation)
         {
+
             Organisation organisationDbVersion = organisationRepository.Find(organisation.OrganisationId);
+
             if (organisationDbVersion == null)
             {
                 return Save(organisation);
             }
+
+
             //Set updated fields
             return Update(organisation, organisationDbVersion);
         }
@@ -179,6 +183,7 @@ namespace MPC.Implementation.MISServices
 
             #endregion
 
+            UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
             {
                 OrganizationId = organisation.OrganisationId,
@@ -344,7 +349,7 @@ namespace MPC.Implementation.MISServices
             #endregion
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
-
+            UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
             {
                 OrganizationId = organisation.OrganisationId,
@@ -376,6 +381,19 @@ namespace MPC.Implementation.MISServices
             organisationRepository.SaveChanges();
         }
 
+        /// <summary>
+        /// Add/Update Lanuage Resource File
+        /// </summary>
+        /// <param name="organisation"></param>
+        private void UpdateLanguageResource(Organisation organisation)
+        {
+
+            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" + organisation.OrganisationId);
+            if (directoryPath != null && Directory.Exists(directoryPath))
+            {
+
+            }
+        }
         #endregion
 
     }
