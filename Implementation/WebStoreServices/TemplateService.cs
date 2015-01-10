@@ -106,6 +106,76 @@ namespace MPC.Implementation.WebStoreServices
                 throw new MPCException(ex.ToString(), organizationID);
             }
         }
+        //copy template and all physical files 
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName,long organizationID)
+        {
+            List<TemplatePage> objPages;
+            List<TemplateBackgroundImage> objImages;
+            long result = _templateRepository.CopyTemplate(ProductID, SubmittedBy, SubmittedByName, out objPages, organizationID,out objImages);
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            string targetFolder = drURL + result.ToString();
+            //create template directory
+            if (!System.IO.Directory.Exists(targetFolder))
+            {
+                System.IO.Directory.CreateDirectory(targetFolder);
+            }
+            foreach (TemplatePage oTemplatePage in objPages)
+            {
+                //copy background pdfs and images
+                if (oTemplatePage.BackGroundType == 1 || oTemplatePage.BackGroundType == 3)
+                {
+                    string filename = oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/"));
+                    string destinationPath = Path.Combine(drURL + result.ToString() + "/" + filename);
+                    string sourcePath = Path.Combine(drURL, ProductID.ToString() + "/" + filename);
+                    if (!File.Exists(destinationPath)&& File.Exists(sourcePath))
+                    {
+                        //copy side 1
+                        File.Copy(sourcePath, destinationPath);
+                    }
+                    // copy side 1 image file if exist in case of pdf template
+                    if (File.Exists(drURL + ProductID.ToString() + "/templatImgBk" + oTemplatePage.PageNo.ToString() + ".jpg"))
+                    {
+                        File.Copy(drURL + ProductID.ToString() + "/templatImgBk" + oTemplatePage.PageNo.ToString() + ".jpg", drURL + result.ToString() + "/templatImgBk" + oTemplatePage.PageNo.ToString() + ".jpg", true);
+                    }
+                }
+
+            }
+            //copy the template images
+
+            foreach (TemplateBackgroundImage item in objImages)
+            {
+                string ext = Path.GetExtension(item.ImageName);
+                string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
+                string[] names = results[0].Split('/');
+                string filePath = drURL + "/" + ProductID.ToString() + "/" + names[names.Length - 1]  + ext;
+                string filename;
+
+                
+
+                // copy thumbnail 
+                if (!ext.Contains("svg"))
+                {
+                    
+                    string imgName = names[names.Length-1] + "_thumb" + ext;
+
+                    string ThumbPath = drURL + "/" + ProductID.ToString() + "/" + imgName;
+                    FileInfo oFileThumb = new FileInfo(ThumbPath);
+                    if (oFileThumb.Exists)
+                    {
+                        string oThumbName = oFileThumb.Name;
+                        oFileThumb.CopyTo((drURL + result.ToString() + "/" + oThumbName), true);
+                    }
+                }
+                FileInfo oFile = new FileInfo(filePath);
+
+                if (oFile.Exists)
+                {
+                    filename = oFile.Name;
+                    oFile.CopyTo((drURL + result.ToString() + "/" + filename), true);
+                }
+            }
+            return result;
+        }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
             List<ProductCategoriesView> PCview = _ProductCategoryRepository.GetMappedCategoryNames(false, CompanyID);

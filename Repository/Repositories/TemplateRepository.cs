@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using MPC.Models.Common;
+using System.IO;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -106,6 +107,68 @@ namespace MPC.Repository.Repositories
         }
 
 
+        // copy a single template and update file paths in db 
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages)
+        {
+            long result = 0;
+            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            result = db.sp_cloneTemplate(Convert.ToInt32( ProductID), Convert.ToInt32( SubmittedBy), SubmittedByName);
+            var pages = db.TemplatePages.Where(g => g.ProductId == result).ToList() ;
+            objPages = pages;
+            foreach (TemplatePage oTemplatePage in pages)
+            {
+
+                if (oTemplatePage.BackGroundType == 1 || oTemplatePage.BackGroundType == 3)
+                {
+                    string name = oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/"));
+                    oTemplatePage.BackgroundFileName = result.ToString() + "/" + name;
+                }
+
+            }
+            foreach (var item in db.TemplateObjects.Where(g => g.ProductId == result))
+            {
+                if (item.IsPositionLocked == null)
+                {
+                    item.IsPositionLocked = false;
+                }
+                if (item.IsHidden == null)
+                {
+                    item.IsHidden = false;
+                }
+                if (item.IsEditable == null)
+                {
+                    item.IsEditable = true;
+                }
+                if (item.IsTextEditable == null)
+                {
+                    item.IsTextEditable = true;
+                }
+
+                if (item.ObjectType == 3)
+                {
+                    string[] content = item.ContentString.Split('/');
+                    string fileName = content[content.Length - 1];
+                    if (!item.ContentString.Contains("assets/Imageplaceholder"))
+                    {
+                        item.ContentString = "Designer/Organization" + organizationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
+                    }
+                }
+            }
+            var backimgs = db.TemplateBackgroundImages.Where(g => g.ProductId == result).ToList();
+            objImages = backimgs;
+            foreach (TemplateBackgroundImage item in backimgs)
+            {
+                string filePath = drURL+ item.ImageName;
+                string filename;
+                FileInfo oFile = new FileInfo(filePath);
+                filename = oFile.Name;
+                item.ImageName = result.ToString() + "/" + filename;
+            }
+
+            db.SaveChanges();
+
+            return result;
+        }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
             try

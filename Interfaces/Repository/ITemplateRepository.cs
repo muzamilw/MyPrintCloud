@@ -18,5 +18,6 @@ namespace MPC.Interfaces.Repository
         int CloneTemplateByTemplateID(int TempID);
 
         bool DeleteTemplate(long ProductID, out long CategoryID);
+        long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages);
     }
 }
