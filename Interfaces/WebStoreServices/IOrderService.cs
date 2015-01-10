@@ -12,7 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         int GetFirstItemIDByOrderId(int orderId);
 
-        long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId);
+        long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId);
 
         long GetUserShopCartOrderID(int status);
 

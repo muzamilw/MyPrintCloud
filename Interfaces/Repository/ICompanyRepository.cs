@@ -27,7 +27,7 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         Company GetStoreById(long companyId);
 
-        int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, Markup zeroMarkup, CompanyContact regContact = null);
+        long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null);
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
         /// </summary>

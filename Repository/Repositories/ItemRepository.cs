@@ -139,7 +139,7 @@ namespace MPC.Repository.Repositories
             return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
         }
 
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, int TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
         {
             Template clonedTemplate = new Template();
 
@@ -163,8 +163,6 @@ namespace MPC.Repository.Repositories
             newItem.IsEnabled = false;
 
             newItem.EstimateId = OrderID;
-
-            newItem.CompanyId = 0; //customerid
 
             newItem.StatusId = (short)ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
 
@@ -198,14 +196,14 @@ namespace MPC.Repository.Repositories
             newItem.ProductType = 0;
 
             // Default Mark up rate will be always 0 ...
+            // when updating clone item we are getting markups from organisation ask sir naveed to change needed here also 
+            //Markup markup = (from c in db.Markups
+            //                 where c.MarkUpId == 1 && c.MarkUpRate == 0
+            //                 select c).FirstOrDefault();
 
-            Markup markup = (from c in db.Markups
-                             where c.MarkUpId == 1 && c.MarkUpRate == 0
-                             select c).FirstOrDefault();
-
-            if (markup.MarkUpId != null)
-                newItem.Qty1MarkUpId1 = (int)markup.MarkUpId;  //markup id
-            newItem.Qty1MarkUp1Value = markup.MarkUpRate;
+            //if (markup.MarkUpId != null)
+            //    newItem.Qty1MarkUpId1 = (int)markup.MarkUpId;  //markup id
+            //newItem.Qty1MarkUp1Value = markup.MarkUpRate;
 
             db.Items.Add(newItem); //dbcontext added
 
@@ -227,6 +225,14 @@ namespace MPC.Repository.Repositories
                         tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
                         db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
                     }
+                    
+                }
+                else // add web order section Cost center to item
+                {
+                    tblISectionCostCenteresCloned.SectionCostcentreId = 0;
+                    tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                    tblISectionCostCenteresCloned.CostCentre = db.CostCentres.Where(c => c.CostCentreId == 206).FirstOrDefault();
+                    db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
                 }
             }
             //Copy Template if it does exists
@@ -235,9 +241,9 @@ namespace MPC.Repository.Repositories
             {
                 if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
                 {
-                    int result = db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
+                    long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
 
-                    int? clonedTemplateID = result;
+                    long? clonedTemplateID = result;
                     clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
 
                     var oCutomer = db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
@@ -264,6 +270,8 @@ namespace MPC.Repository.Repositories
                 }
 
             }
+
+            // add section of 20 type cost center which is web order cost center
 
 
             if (db.SaveChanges() > 0)
@@ -376,7 +384,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                result = clonedTemplate.ProductId;
+                result = (int)clonedTemplate.ProductId;
 
                 string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
                 //result = dbContext.sp_cloneTemplate(ProductID, SubmittedBy, SubmittedByName).First().Value;
@@ -504,7 +512,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                result = clonedTemplate.ProductId;
+                result = (int)clonedTemplate.ProductId;
 
                 string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
 
@@ -635,7 +643,7 @@ namespace MPC.Repository.Repositories
 
         #region "dynamic resolve template Variables"
         // resolve variables in templates
-        public bool ResolveTemplateVariables(int productID, CompanyContact objContact, StoreMode objMode, List<Models.Common.TemplateVariable> lstPageControls)
+        public bool ResolveTemplateVariables(long productID, CompanyContact objContact, StoreMode objMode, List<Models.Common.TemplateVariable> lstPageControls)
         {
 
             string CompanyLogo = "";
@@ -939,10 +947,12 @@ namespace MPC.Repository.Repositories
                     for (int i = 0; i < selectedAddonsList.Count; i++)
                     {
                         AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+                       
                         SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
-                        SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn                 
+                        SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
+                        
                         SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
-
+                        
                     }
                 }
             }
@@ -965,6 +975,7 @@ namespace MPC.Repository.Repositories
                 IsOptionalExtra = 1,
                 Qty1Charge = addOn.ActualPrice,
                 Qty1NetTotal = addOn.Qty1NetTotal
+
             };
 
             return tblISectionCostCenteres;
@@ -1263,7 +1274,7 @@ namespace MPC.Repository.Repositories
 
                     //Remove the Templates if he has designed any
                     if (!ValidateIfTemplateIDIsAlreadyBooked(tblItem.ItemId, tblItem.TemplateId))
-                        clonedTemplate = RemoveTemplates(tblItem.TemplateId);
+                        clonedTemplate = RemoveTemplates(tblItem.TemplateId.HasValue ? (int)tblItem.TemplateId : (int?)null);
 
                     //Section cost centeres
                     tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
@@ -1375,13 +1386,13 @@ namespace MPC.Repository.Repositories
                 Item clonedItem = null;
 
                 clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
+                // markup id is not mapped
+                //long? markupid = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(m => m.MarkupId).FirstOrDefault();
 
-                long? markupid = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(m => m.MarkupId).FirstOrDefault();
-
-                if (markupid != null || markupid > 0)
-                {
-                    markupRate = db.Markups.Where(m => m.MarkUpId == markupid).Select(r => r.MarkUpRate).FirstOrDefault();
-                }
+                //if (markupid != null || markupid > 0)
+                //{
+                //    markupRate = db.Markups.Where(m => m.MarkUpId == markupid).Select(r => r.MarkUpRate).FirstOrDefault();
+                //}
 
                 if (CountOfUploads > 0)
                 {
@@ -1425,30 +1436,32 @@ namespace MPC.Repository.Repositories
                 FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
 
 
-                if (markupid != null || markupid > 0)
-                {
-                    FirstItemSection.Qty1MarkUpID = (int)markupid;
-                }
-                else
-                {
+                //if (markupid != null || markupid > 0)
+                //{
+                //    FirstItemSection.Qty1MarkUpID = (int)markupid;
+                //}
+                //else
+                //{
                     FirstItemSection.Qty1MarkUpID = 1;
-                }
+                //}
 
                 bool isNewSectionCostCenter = false;
 
                 SectionCostcentre sectionCC = FirstItemSection.SectionCostcentres.Where(c => c.CostCentre.Type == 29).FirstOrDefault();
 
+
+
                 if (sectionCC == null)
                 {
                     sectionCC = new SectionCostcentre();
-                    if (markupid != null || markupid > 0)
-                    {
-                        sectionCC.Qty1MarkUpID = (int)markupid;
-                    }
-                    else
-                    {
+                    //if (markupid != null || markupid > 0)
+                    //{
+                    //    sectionCC.Qty1MarkUpID = (int)markupid;
+                    //}
+                    //else
+                    //{
                         sectionCC.Qty1MarkUpID = 1;
-                    }
+                   // }
 
                     isNewSectionCostCenter = true;
                 }
@@ -1477,6 +1490,11 @@ namespace MPC.Repository.Repositories
         private double GetTaxPercentage(double netTotal, double TaxRate)
         {
             return  (netTotal * TaxRate) / 100;
+        }
+
+        public Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId)
+        {
+            return db.Items.Where(i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false).FirstOrDefault();
         }
 
         #endregion

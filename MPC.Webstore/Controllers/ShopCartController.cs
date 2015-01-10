@@ -10,19 +10,20 @@ using MPC.Models.DomainModels;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
-
+using MPC.Webstore.ViewModels;
 namespace MPC.Webstore.Controllers
 {
     public class ShopCartController : Controller
     {
         private readonly IOrderService _OrderService;
+        private readonly ITemplateService _TemplateService;
         private readonly IItemService _ItemService;
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private List<AddOnCostsCenter> _selectedItemsAddonsList = null;
         private double _deliveryCost = 0;
         private int NumberOfRecords = 0;
-        public ShopCartController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService)
+        public ShopCartController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService, ITemplateService TemplateService)
         {
             if (OrderService == null)
             {
@@ -32,16 +33,22 @@ namespace MPC.Webstore.Controllers
             this._myClaimHelper = myClaimHelper;
             this._myCompanyService = myCompanyService;
             this._ItemService = ItemService;
-      
+            this._TemplateService = TemplateService;
         }
 
         // GET: ShopCart
-        public ActionResult Index(int OrderID)
+        public ActionResult Index(long OrderID)
         {
+           
+
             ShoppingCart shopCart = null;
+
             List<CostCentre> deliveryCostCentersList = null;
+
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+
 
             ViewBag.Currency = baseResponseCurrency.Currency;
             if (OrderID > 0)
@@ -107,7 +114,8 @@ namespace MPC.Webstore.Controllers
                   //  cntRightPricing1.Visible = false;
             }
             
-              //  SetLastItemTemplateMatchingSets(shopCart);
+            if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+              SetLastItemTemplateMatchingSets(shopCart,baseResponseOrg,baseResponseCurrency,baseResponseCompany);
 
                
             if (baseResponseCompany.Company.isIncludeVAT.Value == false)
@@ -203,6 +211,8 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
             _ItemService.CloneItem(ItemID, 0, 0, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID());
+            MyCompanyDomainBaseResponse baseResponeOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
+
 
              Estimate objOrder = _OrderService.GetOrderByID(OrderID);
              _ItemService.CopyAttachments(ItemID, newCloneditem, objOrder.Order_Code, true, objOrder.CreationDate ?? DateTime.Now);
@@ -220,7 +230,7 @@ namespace MPC.Webstore.Controllers
 
 
           
-             //  SetLastItemTemplateMatchingSets(shopCart);
+           
 
              if (baseResponseCompany.Company.isIncludeVAT.Value == false)
              {
@@ -233,8 +243,8 @@ namespace MPC.Webstore.Controllers
              ShoppingCart shopCart = LoadShoppingCart(OrderID,0);
              
              BindGridView(shopCart);
-
-
+             if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                 SetLastItemTemplateMatchingSets(shopCart, baseResponeOrg, baseResponseCurrency, baseResponseCompany);
              return View("PartialViews/ShopCart", shopCart);
         }
 
@@ -245,6 +255,7 @@ namespace MPC.Webstore.Controllers
             Template clonedTempldateFiles = null;
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
 
             result =   _ItemService.RemoveCloneItem(ItemID, out itemAttatchments, out clonedTempldateFiles);
 
@@ -272,9 +283,6 @@ namespace MPC.Webstore.Controllers
             }
 
 
-            //  SetLastItemTemplateMatchingSets(shopCart);
-
-
             
             if (baseResponseCompany.Company.isIncludeVAT.Value == false)
             {
@@ -287,7 +295,8 @@ namespace MPC.Webstore.Controllers
 
             ShoppingCart shopCart = LoadShoppingCart(OrderID, 0);
             BindGridView(shopCart);
-
+            if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+              SetLastItemTemplateMatchingSets(shopCart, baseResponseOrg, baseResponseCurrency, baseResponseCompany);
             return View("PartialViews/ShopCart", shopCart);
         }
         public ActionResult ApplyDiscountVoucherCode(string DiscountVoucher,int OrderID)
@@ -426,7 +435,112 @@ namespace MPC.Webstore.Controllers
             BindGridView(shopCart);
             return View("PartialViews/ShopCart", shopCart);
         }
-     
+
+        private void SetLastItemTemplateMatchingSets(ShoppingCart shopCart, MyCompanyDomainBaseResponse baseresponseOrg, MyCompanyDomainBaseResponse baseresponseCurrency, MyCompanyDomainBaseResponse baseresponseCompany)
+        {
+           
+            MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
+            List<MappedCategoriesName> mappedCatList = new List<MappedCategoriesName>();
+            try     
+            {
+                if (shopCart != null && shopCart.CartItemsList != null)
+                {
+                    //Model.ProductItem item = shopCart.CartItemsList.Where(c => c.TemplateID.Value > 0 && c.Attatchment.FileTitle != null && !c.Attatchment.FileTitle.Contains("Uploaded ArtWork")).LastOrDefault();
+                    ProductItem item = shopCart.CartItemsList.Where(c => c.TemplateID != null && c.TemplateID > 0).LastOrDefault();
+                    if (item != null)
+                    {
+
+                           string TemplateName = _TemplateService.GetTemplateNameByTemplateID((int)item.TemplateID);
+                            if (!string.IsNullOrEmpty(TemplateName))
+                            {
+                              
+                                List<MatchingSets> res = _TemplateService.BindTemplatesList(TemplateName, 1,baseresponseOrg.Organisation.OrganisationId,(int)_myClaimHelper.loginContactCompanyID());
+
+                                int isCalledFrom = 0;
+                                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                    isCalledFrom = 4;
+                                else
+                                    isCalledFrom = 3;
+
+                                bool isEmbaded;
+                                if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                                    isEmbaded = true;
+                                else
+                                    isEmbaded = false;
+
+                                bool isIncludeVAT;
+                                if (UserCookieManager.isIncludeTax == false)
+                                {
+                                   isIncludeVAT = false;
+                                }
+                                else
+                                {
+                                    isIncludeVAT = true;
+                                }
+
+                                bool isShowPrices;
+                                if (baseresponseCompany.Company.ShowPrices ?? true)
+                                {
+                                    isShowPrices = true;
+                                }
+                                else
+                                {
+                                    isShowPrices = false;
+                                }
+                               
+                                if (res != null && res.Count > 0)
+                                {
+                                   
+                                    foreach(var set in res)
+                                    {
+                                        ProductCategoriesView pCat = _TemplateService.GetMappedCategory(set.CategoryName,(int)_myClaimHelper.loginContactCompanyID());
+
+                                        MappedCategoriesName mcn = new MappedCategoriesName();
+
+                                        mcn.CategoryName = pCat.CategoryName;
+                                        mcn.ProductID = set.ProductID;
+                                        mcn.CategoryID = pCat.ProductCategoryId ?? 0;
+                                        mcn.ItemID = pCat.ItemId;
+                                        mcn.IsCalledFrom = isCalledFrom;
+                                        mcn.ProductName = set.ProductName;
+                                        mcn.IsEmbaded = isEmbaded;
+                                        mcn.MinPrice = pCat.MinPrice;
+                                       // mcn.defaultItemTax = pCat.de
+                                        mappedCatList.Add(mcn);
+
+                                        ViewData["MappedCategoryName"] = mappedCatList;
+
+                                        //PartialViews/TempDesigner/ItemID/TemplateID/IsCalledFrom/CV2/ProductName/ContactID/CompanyID/IsEmbaded;
+
+                                    }
+                                   
+                                    MSViewModel.MatchingSetsList = res;
+                                    MSViewModel.MappedCategoriesName = mappedCatList;
+                                    MSViewModel.IsIncludeVAT = isIncludeVAT;
+                                    MSViewModel.Currency = baseresponseCurrency.Currency;
+                                    MSViewModel.IsShowPrices = isShowPrices;
+                                    ViewData["MSViewModel"] = MSViewModel;
+                                }
+                                else
+                                {
+                                   
+                                    MSViewModel = null;
+                                }
+                               
+                            }
+                            MSViewModel = null;
+                    }
+                    MSViewModel = null;
+                }
+                MSViewModel = null;
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
 
     }
 }

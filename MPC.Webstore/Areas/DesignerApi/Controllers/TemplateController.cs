@@ -36,7 +36,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public HttpResponseMessage GetTemplate(int id)
+        public HttpResponseMessage GetTemplate(long id)
         {
             var template = templateService.GetTemplateInDesigner(id);
             var formatter = new JsonMediaTypeFormatter();

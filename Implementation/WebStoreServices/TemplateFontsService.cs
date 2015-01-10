@@ -22,8 +22,8 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-       
-        public List<TemplateFont> GetFontList(int productId, int customerId)
+
+        public List<TemplateFont> GetFontList(long productId, long customerId)
         {
             var fonts = _templateFontRepository.GetFontList(productId, customerId);
             List<TemplateFont> objToReturn = new List<TemplateFont>();

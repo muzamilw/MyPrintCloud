@@ -180,9 +180,14 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _StockRepository.GetStockOfItemById(itemId);
         }
-        public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
         {
-            return UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
+        }
+
+        public Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId)
+        {
+            return _ItemRepository.GetClonedItemByOrderId(OrderId, ReferenceItemId);
         }
     }
 }

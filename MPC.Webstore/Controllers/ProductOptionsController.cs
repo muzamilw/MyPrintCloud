@@ -75,32 +75,40 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: ProductOptions
-        public ActionResult Index(string Cid, string Itemid, string Mode)
+        public ActionResult Index(string CategoryId, string ReferenceItemId, string ItemMode)
         {
 
-            if (Mode == "UploadDesign")
+            if (ItemMode == "UploadDesign")
             {
                 Item clonedItem = null;
                 if (UserCookieManager.OrderId == 0)
                 {
+                    long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
                     // create new order
                     MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, UserCookieManager.StoreId);
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
                         UserCookieManager.OrderId = OrderID;
-                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(Itemid), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ReferenceItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
                     }
                 }
                 else
                 {
-                    clonedItem = _myItemService.CloneItem(Convert.ToInt64(Itemid), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                    clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ReferenceItemId));
+                    if (clonedItem == null)
+                    {
+                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ReferenceItemId), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                    }
+
                 }
 
                 ViewBag.ClonedItemId = clonedItem.ItemId;
             }
 
-            DefaultSettings(Itemid);
+            DefaultSettings(ReferenceItemId);
 
             return View("PartialViews/ProductOptions");
         }
@@ -112,52 +120,54 @@ namespace MPC.Webstore.Controllers
             {
                 MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
-                ProductPriceMatrixViewModel selectedPriceMatrix = JsonConvert.DeserializeObject<ProductPriceMatrixViewModel>(cartObject.JsonPriceMatrix);
-
-
-                AddOnCostCenterViewModel selectedAddOns = JsonConvert.DeserializeObject<AddOnCostCenterViewModel>(cartObject.JsonPriceMatrix);
+                List<AddOnCostCenterViewModel> selectedAddOnsList = JsonConvert.DeserializeObject<List<AddOnCostCenterViewModel>>(cartObject.JsonAddOnsPrice);
 
                 List<AddOnCostsCenter> ccObjectList = new List<AddOnCostsCenter>();
 
                 AddOnCostsCenter ccObject = null;
-                //foreach (var addOn in selectedAddOns)
-                //{
-                //    ccObject = new AddOnCostsCenter();
 
-                //    if (addOn.Type == 2) //per quantity
-                //    {
-                //        ccObject.Qty1NetTotal = (Convert.ToDouble(cartObject.QuantityOrdered) * addOn.ActualPrice) + addOn.SetupCost;
-                //        if (ccObject.Qty1NetTotal < addOn.MinimumCost && addOn.MinimumCost != 0)
-                //        {
-                //            ccObject.Qty1NetTotal = addOn.MinimumCost;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        ccObject.Qty1NetTotal = addOn.ActualPrice;
-                //    }
-                //    ccObjectList.Add(ccObject);
-                //}
+                foreach (var addOn in selectedAddOnsList)
+                {
+                    ccObject = new AddOnCostsCenter();
+                    ccObject.CostCenterID = addOn.CostCenterId;
+                    if (addOn.Type == 2) //per quantity
+                    {
+                        ccObject.Qty1NetTotal = (Convert.ToDouble(cartObject.QuantityOrdered) * addOn.ActualPrice) + addOn.SetupCost;
+                        if (ccObject.Qty1NetTotal < addOn.MinimumCost && addOn.MinimumCost != 0)
+                        {
+                            ccObject.Qty1NetTotal = addOn.MinimumCost;
+                        }
+                    }
+                    else
+                    {
+                        ccObject.Qty1NetTotal = addOn.ActualPrice;
+                    }
+                    ccObjectList.Add(ccObject);
+                }
 
 
                 if (true) // upload design
                 {
                     if (false) // calculate tax by service
                     {
-                        _myItemService.UpdateCloneItem(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), 0, 0); // set files count
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), 0, 0); // set files count
                     }
                     else
                     {
-                        _myItemService.UpdateCloneItem(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0, 0); // set files count
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0, 0); // set files count
                     }
                 }
                 else
                 {
-                    _myItemService.UpdateCloneItem(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0);
+                    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0);
                 }
+                selectedAddOnsList = null;
+                ccObjectList = null;
+                ccObject = null;
+                Response.Redirect("/ShopCart/" + UserCookieManager.OrderId);
 
-                ControllerContext.HttpContext.Response.Redirect("/ShopCart");
                 return null;
+
             }
             else
             {
@@ -166,7 +176,7 @@ namespace MPC.Webstore.Controllers
                 return View("PartialViews/ProductOptions");
             }
 
-            
+
         }
 
         private void DefaultSettings(string Itemid)
@@ -190,6 +200,7 @@ namespace MPC.Webstore.Controllers
                 AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
                 {
                     Id = addOn.ProductAddOnID,
+                    CostCenterId = addOn.CostCenterID,
                     Type = addOn.Type,
                     SetupCost = addOn.SetupCost,
                     MinimumCost = addOn.MinimumCost,

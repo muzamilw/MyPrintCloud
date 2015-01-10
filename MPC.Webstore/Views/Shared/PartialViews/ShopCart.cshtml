@@ -2,6 +2,7 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @using System.Linq;
+@using MPC.Webstore.ViewModels;
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,7 +27,7 @@
             <table width="1000px">
                 <tr>
                     <td width="500px">
-                        <label ID="lblTitle"  class="sign_in_heading">Shopping cart</label>
+                        <label id="lblTitle" class="sign_in_heading">Shopping cart</label>
                     </td>
                     <td width="220px"></td>
                     <td width="180px"></td>
@@ -35,7 +36,7 @@
                 <tr id="ErrorDisplyMes" style="display: none; width: 1000px;">
                     <td colspan="3" width="1000px">
                         <div style="background-color: red; border: 1px solid red; padding: 10px;" class="rounded_corners">
-                            <label ID="ErrorMEsSummry" Style="color: White; font-size: 16px; font-weight: bold;"></label>
+                            <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;"></label>
                         </div>
                     </td>
 
@@ -68,8 +69,8 @@
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
                                         <th align="center" scope="col">&nbsp;</th>
-                                        <th align="left" scope="col">@Resources.MyResource.lblProductTxt</th>
-                                        <th align="left" scope="col">@Resources.MyResource.lblQuantityHeaderTxt</th>
+                                        <th align="left" scope="col">lblProductTxt</th>
+                                        <th align="left" scope="col">lblQuantityHeaderTxt</th>
                                         @if (ViewBag.IsShowPrices)
                                         {
                                             <th align="left" scope="col">Price</th>
@@ -192,9 +193,9 @@
 
                                             <td align="left" style="width:20%;">
 
-                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">@Resources.MyResource.lblRemove</a>
+                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">lblRemove</a>
                                                 <br>
-                                                @Html.ActionLink(Resources.MyResource.btnCopyincarttxt, "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
+                                                @Html.ActionLink("btnCopyincarttxt", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
 
                                             </td>
                                         </tr>
@@ -262,7 +263,7 @@
                             <button id="btnContinueShopping" onclick="ContinueShopping();"
                                     class="btn_brown  rounded_corners5" value="CONTINUE SHOPPING" style="float: right;" />
                         </div>
-                       
+
                     </div>
                     <div class="clearBoth">
                         &nbsp;
@@ -283,30 +284,38 @@
 
             </div>
         }
-          
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-        <div style="padding-top: 5px; text-align: left; font-size: 18px; line-height: 4;">
-            <label ID="lblYoumightLke"  Visible="false"></label>
-        </div>
 
-     
-       
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-
-        <br />
-            <input type="hidden" id="hfIsCallFrom" name="hfIsCallFrom" value="0" />
-            <input type="hidden" id="hfIsItemID" name="hfIsItemID" value="0" />
-       
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-        <br />
     </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+    <div style="padding-top: 5px; text-align: left; font-size: 18px; line-height: 4;">
+        <label id="lblYoumightLke" visible="false"></label>
+    </div>
+
+
+
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+    @*matching set*@
+    
+    @{
+        MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
+        MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
+        @Html.Partial("MatchingSet",MSViewModel);
+    }
+   
+    
+    <br />
+    <input type="hidden" id="hfIsCallFrom" name="hfIsCallFrom" value="0" />
+    <input type="hidden" id="hfIsItemID" name="hfIsItemID" value="0" />
+
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+    <br />
+</div>
 </div>
 <div class="opaqueLayer">
 </div>
@@ -321,7 +330,7 @@
     <table class="normalTextStyle" width="400px" cellpadding="2">
         <tr>
             <td align="right">
-                <label ID="ltrlEmail1" >E-mail Address 1</label>
+                <label id="ltrlEmail1">E-mail Address 1</label>
             </td>
             <td class="tdtextbox">
                 <input type="email" name="userEmail1" id="userEmail1" class="text_box200 rounded_corners5">
@@ -330,7 +339,7 @@
         </tr>
         <tr>
             <td align="right" class="H4B">
-                <label ID="ltrlconfirmpass"  >E-mail Address 2</label>
+                <label id="ltrlconfirmpass">E-mail Address 2</label>
             </td>
             <td class="tdtextbox">
                 <input type="email" name="userEmail2" id="userEmail2" class="text_box200 rounded_corners5">
@@ -360,14 +369,14 @@
         <div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp();>&times;</button><h4 class="modal-title">Message</h4></div><div class="modal-body">Are you sure you want to remove this item from your shopping cart?<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" value="Yes" /><input type="button" onclick=HideMessagePopUp(); class="btn btn-primary" value="No"></div></div></div>
     </div>
 </div>
-<label ID="lblDesgnHeaderTxt"  Visible="false"></label>
-<label ID="lblProductHeaderTxt"  Visible="false"></label>
-<label ID="lblQuantityHeaderTxt"  Visible="false"></label>
-<label ID="lblPriceHeaderTxt"  Visible="false"></label>
-<button ID="btnYesNO"  Style="display: none; width: 0px; height: 0px" />
-@section scripts 
+<label id="lblDesgnHeaderTxt" visible="false"></label>
+<label id="lblProductHeaderTxt" visible="false"></label>
+<label id="lblQuantityHeaderTxt" visible="false"></label>
+<label id="lblPriceHeaderTxt" visible="false"></label>
+<button id="btnYesNO" style="display: none; width: 0px; height: 0px" />
+@section scripts
 {
-<script src="~/Scripts/PopUp.js"></script>
+    <script src="~/Scripts/PopUp.js"></script>
     <script>
         function EmailProofClick() {
             if ($('#hfIsUserLoggedIn.ClientID').val() == "true") {
@@ -465,7 +474,7 @@
             {
                 window.location.href = "/ProductOptions/" + TempID + "/" + CategoryID + "/" + ItemID;
             }
-          
+
         }
         function ContinueShopping()
         {
@@ -487,7 +496,7 @@
             var html = $("div.RemoveProductDiv").html();
             alert(html);
             ConfirmDeleteItemPopUP(html);
-           
+
         }
     </script>
 }

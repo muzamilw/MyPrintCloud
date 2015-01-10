@@ -152,6 +152,8 @@ namespace MPC.Webstore
                     UserCookieManager.StoreMode = baseResponse.Company.IsCustomer;
                     UserCookieManager.isIncludeTax = baseResponse.Company.isIncludeVAT ?? false;
                     UserCookieManager.TaxRate = baseResponse.Company.TaxRate ?? 0;
+                    UserCookieManager.OrganisationID = baseResponse.Company.OrganisationId ?? 0;
+                    UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
                     // set global language of store
 
                     string languageName =

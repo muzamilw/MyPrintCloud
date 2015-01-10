@@ -24,7 +24,7 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public 
-        public List<TemplateObject> GetProductObjects(int productId)
+        public List<TemplateObject> GetProductObjects(long productId)
         {
             // values used to change the display order
             int productPageId = -1;
@@ -105,7 +105,6 @@ namespace MPC.Implementation.WebStoreServices
             oTempItem.Allignment = 1;
             oTempItem.ColorName = "";
             oTempItem.SpotColorName = "";
-            oTempItem.TCtlName = "";
             oTempItem.ExField1 = "";
             oTempItem.ExField2 = "";
             oTempItem.Opacity = 1;

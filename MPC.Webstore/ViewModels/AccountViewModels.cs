@@ -54,7 +54,7 @@ namespace MPC.Webstore.Models
 
         public string StockId { get; set; }
 
-        public double QuantityOrdered { get; set; }
+        public int QuantityOrdered { get; set; }
 
     }
 

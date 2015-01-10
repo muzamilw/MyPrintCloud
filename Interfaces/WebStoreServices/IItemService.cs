@@ -31,7 +31,14 @@ namespace MPC.Interfaces.WebStoreServices
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
         //long CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, int TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID);
-
-        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
+    
+        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
+            /// <summary>
+            /// In Webstore when ordering an item in case of upload design this function checks if the same item exists in the order already.
+            /// </summary>
+            /// <param name="OrderId"></param>
+            /// <param name="ReferenceItemId"></param>
+            /// <returns></returns>
+        Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId);
     }
 }

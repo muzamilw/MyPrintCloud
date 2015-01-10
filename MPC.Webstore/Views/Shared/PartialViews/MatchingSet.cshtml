@@ -1,0 +1,148 @@
+﻿@model MPC.Webstore.ViewModels.MatchingSetViewModel
+@using MPC.Models.Common;
+@using System.Linq;
+@using MPC.Webstore.Common;
+
+@if (Model != null)
+{
+     if (Model.MatchingSetsList != null && Model.MatchingSetsList.Count > 0)
+    {
+         <div id="MainContainerDiv" class="rounded_corners order_container cntMatchingSet" style="padding:5px;">
+
+        <div class="pad20 col-md-4 col-lg-4 col-xs-12 matchingSetsleftPanel" style="text-align:left;">
+            <div class="custom_color confirm_design">
+                <label id="ltrlmatchingset">Matching Set</label>
+            </div>
+            <br />
+            <label id="ltrlhere">Here are other products with the</label>
+
+            <label id="ltrlsameasdesignconcept">same design concepts</label>
+        </div>
+        <div class="white_background rounded_corners pad10 col-md-8 col-lg-8 col-xs-12 matchingSetsrightPanel">
+
+            @{
+
+    foreach (var matchSet in Model.MatchingSetsList)
+    {
+
+        MappedCategoriesName objMCN = null;
+        objMCN = Model.MappedCategoriesName.Where(n => n.ProductID == matchSet.ProductID).FirstorDefault();
+        <div style="width:200px; float:left; text-align:left;height:225px;">
+            @*here set href*@
+            <a id="hlImage1" href="#">
+                <div id="divShd" class="matching_set_image_container">
+                    @{
+                            if (matchSet.Orientation != null)
+                            {
+                                if (matchSet.Orientation == 1) // Portrait
+                                {
+
+                                    <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image_horizontal"
+                                         style="border-style:none;" />
+                                }
+                                else if (matchSet.Orientation == 2)
+                                {
+                                    // Landescape
+                                    <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image_vertical"
+                                         style="border-style:none;" />
+                                }
+                                else  // Fixed both if it doesn't have a valid Orientation
+                                {
+
+                                    <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image_fixed"
+                                         style="border-style:none;" />
+                                }
+                            }
+                            else
+                            {
+                                <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image"
+                                     style="border-style:none;" />
+                            }
+}
+
+                </div>
+            </a>
+            <input type="hidden" id="hfCategoryId" value="@objMCN.CategoryID" />
+            <input type="hidden" id="hfItemID" value="@objMCN.ItemID" />
+            <br />
+            <label id="lblProductName">@objMCN.CategoryName</label><br />
+            @if(Model.IsShowPrices)
+            {
+                 <div id="DivOfPriceCircle" class="fontSyleBold">
+                @{
+        double PriceIncVat = 0;
+        string PriceTotal = string.Empty;
+        if (!string.IsNullOrEmpty(Model.Currency))
+        {
+            if (Model.IsIncludeVAT == true)
+            {
+
+                if (objMCN.DefaultItemTax != null)
+                {
+                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), Convert.ToDouble(objMCN.DefaultItemTax));
+                }
+                else
+                {
+                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), UserCookieManager.TaxRate);
+                }
+
+                PriceTotal = Model.Currency + PriceIncVat.ToString();
+            }
+            else
+            {
+                PriceTotal = Model.Currency + objMCN.MinPrice.ToString();
+            }
+
+        }
+        else
+        {
+            if (Model.IsIncludeVAT == true)
+            {
+
+                if (objMCN.DefaultItemTax != null)
+                {
+                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), Convert.ToDouble(objMCN.DefaultItemTax));
+                }
+                else
+                {
+                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), UserCookieManager.TaxRate);
+                }
+
+                PriceTotal = PriceIncVat.ToString();
+            }
+            else
+            {
+                PriceTotal = objMCN.MinPrice.ToString();
+            }
+
+        }
+                }
+                <label id="lblMinPrice">@PriceTotal</label>
+            </div>
+            }
+        </div>
+    }
+
+
+            }
+
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+    </div>
+    }
+     else
+     {
+        <label id="lblMesg" class="errorMsgClss">No Matching set found</label>
+     }
+
+}
+else
+{
+    <label id="lblMesg" class="errorMsgClss">No Matching set found</label>
+}
+

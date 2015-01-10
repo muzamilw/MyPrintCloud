@@ -51,7 +51,7 @@ namespace MPC.Webstore
           );
             routes.MapRoute(
   "ProductOptions",
-  "ProductOptions/{Cid}/{Itemid}/{Mode}",
+  "ProductOptions/{CategoryId}/{ReferenceItemId}/{ItemMode}",
   new { controller = "Home", action = "Index", Cid = UrlParameter.Optional, Itemid = UrlParameter.Optional, Mode = UrlParameter.Optional }
     );
             routes.MapRoute(
@@ -59,7 +59,7 @@ namespace MPC.Webstore
      "MarketingBrief/{ProductName}/{ItemID}",
      new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, ItemID = UrlParameter.Optional }
        );
-         
+
             routes.MapRoute(
    "ShopCart",
    "ShopCart/{OrderID}",

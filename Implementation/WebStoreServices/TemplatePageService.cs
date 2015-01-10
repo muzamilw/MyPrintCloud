@@ -22,7 +22,7 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-        public List<TemplatePage> GetTemplatePages(int productId)
+        public List<TemplatePage> GetTemplatePages(long productId)
         {
             var list = _templatePageRepository.GetTemplatePages(productId);
 
@@ -44,7 +44,7 @@ namespace MPC.Implementation.WebStoreServices
             //}
             return list;
         }
-        public List<TemplatePage> GetTemplatePagesSP(int productId)
+        public List<TemplatePage> GetTemplatePagesSP(long productId)
         {
             var list = _templatePageRepository.GetTemplatePages(productId);
 

@@ -181,7 +181,7 @@ namespace MPC.Webstore.Controllers
                 UserCookieManager.ContactLastName = user.LastName;
                 UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
                 UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
-                UserCookieManager.ContactId = user.ContactId;
+                
                 UserCookieManager.Email = user.Email;
 
                 if (ReturnURL == "Social")
