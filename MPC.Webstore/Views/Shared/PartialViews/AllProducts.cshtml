@@ -1,9 +1,15 @@
-﻿@{
+﻿@using MPC.Webstore.Common;
+@{
     int counter = 0;
+    
 }
 <div class="container content_area">
     <h1 class="allprodHead">
-        <label>All Products</label>
+        <label>All Products
+            
+        @Html.GetResource("SignInRegister")
+       
+        </label>
     </h1>
     @foreach (var topCat in ViewData["ParentCats"] as List<MPC.Models.DomainModels.ProductCategory>)
     {

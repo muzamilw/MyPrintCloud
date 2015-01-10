@@ -36,7 +36,7 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("myCompanyService");
             }
-           
+
             this._myCompanyService = myCompanyService;
             this._myClaimHelper = myClaimHelper;
             this._IItemService = itemService;
@@ -46,7 +46,7 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: Category
-        public ActionResult Index(string name,string id)
+        public ActionResult Index(string name, string id)
         {
             List<ProductPriceMatrixViewModel> ProductPriceMatrix = new List<ProductPriceMatrixViewModel>();
             string StockLabel = string.Empty;
@@ -63,18 +63,18 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             includeVAT = baseResponse.Company.isIncludeVAT ?? false;
             TaxRate = baseResponse.Company.TaxRate ?? 0;
-          
+
             int CategoryID = Convert.ToInt32(id);
             ProductCategory Category = _myCompanyService.GetCategoryById(CategoryID);
 
             if (Category != null)
             {
 
-               SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle,baseResponse);
+                SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle, baseResponse);
 
                 List<ProductCategory> subCategoryList = new List<ProductCategory>();
 
-                if(UserCookieManager.StoreMode == (int)StoreMode.Corp) // corporate case
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp) // corporate case
                 {
                     if (_myClaimHelper.loginContactRoleID() == Convert.ToInt32(Roles.Adminstrator))
                     {
@@ -82,7 +82,7 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        subCategoryList = _myCompanyService.GetAllChildCorporateCatalogByTerritory((int)_myClaimHelper.loginContactCompanyID(),(int) _myClaimHelper.loginContactID(), CategoryID);
+                        subCategoryList = _myCompanyService.GetAllChildCorporateCatalogByTerritory((int)_myClaimHelper.loginContactCompanyID(), (int)_myClaimHelper.loginContactID(), CategoryID);
                     }
 
                 }
@@ -93,10 +93,10 @@ namespace MPC.Webstore.Controllers
 
                 BindCategoryData(subCategoryList);
 
-                var productList =  _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
+                var productList = _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
 
 
-              //  pnlAllProductTopLevel.Visible = true;
+                //  pnlAllProductTopLevel.Visible = true;
                 if (productList != null && productList.Count > 0)
                 {
 
@@ -183,7 +183,7 @@ namespace MPC.Webstore.Controllers
                                     isDiscounted = false;
                                 }
 
-                             
+
                                 ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
                                 ppm.Quantity = Quantity;
                                 ppm.ItemID = (int)product.ItemId;
@@ -293,53 +293,76 @@ namespace MPC.Webstore.Controllers
                             {
                                 ViewBag.IsUserLogin = false;
                             }
-                          
+
                         }
-                        }
-                    
-               
-                    
+                    }
+
+
+
                 }
 
-                 ViewData["Products"] = productList;
-              
+                ViewData["Products"] = productList;
+
             }
             else
             {
 
             }
 
-            return View("PartialViews/Category",Category);
+            return View("PartialViews/Category", Category);
         }
 
 
-        public ActionResult CloneItem(int id)
+        public ActionResult CloneItem(long id)
         {
-            int ItemID = 0;
+            long ItemID = 0;
             long TemplateID = 0;
             bool isCorp = true;
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 isCorp = true;
             else
                 isCorp = false;
-             int TempDesignerID = 0;
+            int TempDesignerID = 0;
             string ProductName = string.Empty;
             MyCompanyDomainBaseResponse companyBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
             MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
             long ContactID = _myClaimHelper.loginContactID();
-            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, companyBaseResponse.Company.CompanyId); //ProcessOrder(baseResponseorg);
+
+            if (UserCookieManager.OrderId == 0)
+            {
+                long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+                // create new order
+
+                long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                 if (OrderID > 0)
                 {
-                    Item item = _IItemService.CloneItem(id, 0, 0, OrderID, (int)companyBaseResponse.Company.CompanyId, 0, 0, 0, null, false, false, ContactID);
+
+                    UserCookieManager.OrderId = OrderID;
+                    Item item = _IItemService.CloneItem(id, 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
 
                     if (item != null)
                     {
-                        ItemID = (int)item.ItemId;
+                        ItemID = item.ItemId;
                         TemplateID = item.TemplateId ?? 0;
                         TempDesignerID = item.DesignerCategoryId ?? 0;
                         ProductName = item.ProductName;
                     }
                 }
+            }
+            else
+            {
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
+
+                if (item != null)
+                {
+                    ItemID = item.ItemId;
+                    TemplateID = item.TemplateId ?? 0;
+                    TempDesignerID = item.DesignerCategoryId ?? 0;
+                    ProductName = item.ProductName;
+                }
+            }
+
             int isCalledFrom = 0;
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 isCalledFrom = 4;
@@ -361,7 +384,7 @@ namespace MPC.Webstore.Controllers
             //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
             bool printCropMarks = true;
             string URL = "~/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + ContactID + "/" + printCropMarks + "/" + printWaterMark + "/" + isCalledFrom + "/" + isEmbedded;
-           
+
             // ItemID ok
             // TemplateID ok
             // iscalledfrom ok
@@ -372,13 +395,13 @@ namespace MPC.Webstore.Controllers
             // isembaded ook
             return View(URL);
         }
-        
+
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
         {
 
             Address DefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.StoreId);
-          
-            string[] MetaTags  = _myCompanyService.CreatePageMetaTags(Title, CatDes, Keywords, StoreMode.Retail, baseResponse.Company.Name, DefaultAddress);
+
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(Title, CatDes, Keywords, StoreMode.Retail, baseResponse.Company.Name, DefaultAddress);
 
             ViewBag.MetaTitle = MetaTags[0];
             ViewBag.MetaKeywords = MetaTags[1];
@@ -390,14 +413,14 @@ namespace MPC.Webstore.Controllers
             {
                 if (productCatList.Count > 0)
                 {
-                   
+
                     productCatList = productCatList.OrderBy(c => c.DisplayOrder).ToList();
-                   
+
                 }
-               
+
             }
             ViewData["ProductCategory"] = productCatList;
         }
-       
+
     }
 }

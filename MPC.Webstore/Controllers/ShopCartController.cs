@@ -39,13 +39,16 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: ShopCart
-        public ActionResult Index(int OrderID)
+        public ActionResult Index(long OrderID)
         {
+           
+
             ShoppingCart shopCart = null;
+
             List<CostCentre> deliveryCostCentersList = null;
+
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            //long OID = baseResponseCompany.Company.OrganisationId ?? 0;
             MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
 
@@ -203,9 +206,11 @@ namespace MPC.Webstore.Controllers
 
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+
+           
             MyCompanyDomainBaseResponse baseResponeOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
 
-            newCloneditem = _ItemService.CloneItem(ItemID, 0.0, 0, 0, 0, 0, 0, 0, null, false, true, (int)_myClaimHelper.loginContactID());
+            newCloneditem = _ItemService.CloneItem(ItemID, 0, 0, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID());
 
             Estimate objOrder = _OrderService.GetOrderByID(OrderID);
             _ItemService.CopyAttachments(ItemID, newCloneditem, objOrder.Order_Code, true, objOrder.CreationDate ?? DateTime.Now);

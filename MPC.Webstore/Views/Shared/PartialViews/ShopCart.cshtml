@@ -69,8 +69,8 @@
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
                                         <th align="center" scope="col">&nbsp;</th>
-                                        <th align="left" scope="col">@Resources.MyResource.lblProductTxt</th>
-                                        <th align="left" scope="col">@Resources.MyResource.lblQuantityHeaderTxt</th>
+                                        <th align="left" scope="col">lblProductTxt</th>
+                                        <th align="left" scope="col">lblQuantityHeaderTxt</th>
                                         @if (ViewBag.IsShowPrices)
                                         {
                                             <th align="left" scope="col">Price</th>
@@ -193,9 +193,9 @@
 
                                             <td align="left" style="width:20%;">
 
-                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">@Resources.MyResource.lblRemove</a>
+                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">lblRemove</a>
                                                 <br>
-                                                @Html.ActionLink(Resources.MyResource.btnCopyincarttxt, "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
+                                                @Html.ActionLink("btnCopyincarttxt", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
 
                                             </td>
                                         </tr>

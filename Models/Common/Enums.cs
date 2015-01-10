@@ -13,12 +13,9 @@ namespace MPC.Models.Common
         NotSet = 99
 
     }
-    public enum ContactCompanyTypes
+    public enum CompanyTypes
     {
-      
         TemporaryCustomer = 53,
-
-       
         SalesCustomer = 57
     }
 

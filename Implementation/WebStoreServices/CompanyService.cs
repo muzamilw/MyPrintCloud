@@ -399,11 +399,9 @@ namespace MPC.Implementation.WebStoreServices
             return (price - (price * (discountPrecentage / 100)));
         }
 
-        public int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null)
+        public long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, CompanyContact regContact = null)
         {
-            Markup zeroMarkup = _markupRepository.GetZeroMarkup();
-        
-            return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, zeroMarkup,regContact);
+            return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, OrganisationId, regContact);
         }
 
         public Organisation getOrganisatonByID(int OID)
@@ -411,7 +409,7 @@ namespace MPC.Implementation.WebStoreServices
             return _organisationRepository.GetOrganizatiobByID(OID);
             
         }
-        public string GetContactMobile(int CID)
+        public string GetContactMobile(long CID)
         {
             return _CompanyContactRepository.GetContactMobile(CID);
         }
