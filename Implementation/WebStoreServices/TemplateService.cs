@@ -19,6 +19,31 @@ namespace MPC.Implementation.WebStoreServices
         #region private
         public readonly ITemplateRepository _templateRepository;
         public readonly IProductCategoryRepository _ProductCategoryRepository;
+
+        private bool CovertPdfToBackgroundWithObjects(string physicalPath, long ProductID, long organizationID)
+        {
+            bool result = false;
+            return result;
+        }
+        private bool CovertPdfToBackground(string physicalPath, long ProductID, long organizationID)
+        {
+            bool result = false;
+            try
+            {
+                
+                _templateRepository.DeleteTemplatePagesAndObjects(ProductID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        private bool generatePdfAsBackground(string PDFDoc, string savePath, string ThumbnailFileName, double CuttingMargin, long TemplateID)
+        {
+            bool result = true;
+            return result;
+        }
         #endregion
         #region constructor
         public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository)
@@ -199,26 +224,54 @@ namespace MPC.Implementation.WebStoreServices
         public List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName,long organizationID)
         {
             List<long?> newTemplateList = new List<long?>();
-            foreach (long? ProductID in productIDList)
+            try
             {
-                if (ProductID != null && ProductID.HasValue)
+                foreach (long? ProductID in productIDList)
                 {
-                    long result = CopyTemplate(ProductID.Value, SubmittedBy, SubmittedByName, organizationID);
-                    if( result != 0 )
+                    if (ProductID != null && ProductID.HasValue)
                     {
-                        newTemplateList.Add(result);
-                    } else
-                    {
-                        newTemplateList.Add(null);
+                        long result = CopyTemplate(ProductID.Value, SubmittedBy, SubmittedByName, organizationID);
+                        if (result != 0)
+                        {
+                            newTemplateList.Add(result);
+                        }
+                        else
+                        {
+                            newTemplateList.Add(null);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
             }
             return newTemplateList;
         }
         // generate template from the given pdf file,called from MIS // added by saqib ali
         public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long CustomerID, long organizationID)
         {
-            return true;
+            bool result = false;
+            try
+            {
+                if (mode == 2)
+                {
+                   result =  CovertPdfToBackgroundWithObjects(filePhysicalPath, templateID, organizationID);
+                }
+                else
+                {
+                   result =  CovertPdfToBackground(filePhysicalPath, templateID,organizationID);
+                }
+                if (File.Exists(filePhysicalPath))
+                {
+                    File.Delete(filePhysicalPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
+            }
+            return result;
         }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {

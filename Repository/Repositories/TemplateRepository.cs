@@ -101,7 +101,6 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                //Util.LogException(ex);
                 throw ex;
             }
         }
@@ -177,7 +176,31 @@ namespace MPC.Repository.Repositories
 
             return result;
         }
-       
+
+        // delete template all pages and its objects // added by saqib ali
+        public void DeleteTemplatePagesAndObjects(long ProductID)
+        {
+            try
+            {
+
+                //deleting objects
+                foreach (TemplateObject c in db.TemplateObjects.Where(g => g.ProductId == ProductID))
+                {
+                    db.TemplateObjects.Remove(c);
+                }
+                //delete template pages
+                foreach (TemplatePage c in db.TemplatePages.Where(g => g.ProductId == ProductID))
+                {
+
+                    db.TemplatePages.Remove(c);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
