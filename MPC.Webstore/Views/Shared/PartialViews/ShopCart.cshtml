@@ -220,7 +220,7 @@
 
                                     @if (ViewBag.isIncludeVAT)
                                     {
-                                        <label id="lblTaxLabel" class="LightGrayLabels displayClear">@ViewBag.TaxRate</label>
+                                        <label id="lblTaxLabel" class="LightGrayLabels displayClear"></label>
                                     }
 
                                     <label id="lblTotalpayable" class="colorBlack total_payable">Total Payable</label>
@@ -254,14 +254,14 @@
                             </div>
                             <div class="clearBoth">
                             </div>
+                          
+                            <button id="btnCheckout" onclick="return CanCheckOut(this);" class="start_creating_btn_checkout float_right  rounded_corners5"
+                                    >CHECKOUT</button><br />
+                            <button id="btnContinueShopping" onclick="ContinueShopping();"
+                                    class="btn_brown  rounded_corners5" style="float: right;" >CONTINUE SHOPPING </button>
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
-                            <button value="CHECKOUT" id="btnCheckout"
-                                    onclientclick="return CanCheckOut(this);" class="start_creating_btn_checkout float_right  rounded_corners5"
-                                    onclick="btnCheckout_Click" style="" /><br />
-                            <button id="btnContinueShopping" onclick="ContinueShopping();"
-                                    class="btn_brown  rounded_corners5" value="CONTINUE SHOPPING" style="float: right;" />
                         </div>
 
                     </div>
