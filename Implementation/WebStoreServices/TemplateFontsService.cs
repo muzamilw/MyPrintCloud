@@ -22,7 +22,7 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-
+        // get fonts list ,called from designer // added by saqib ali
         public List<TemplateFont> GetFontList(long productId, long customerId)
         {
             var fonts = _templateFontRepository.GetFontList(productId, customerId);
@@ -45,7 +45,7 @@ namespace MPC.Implementation.WebStoreServices
             return objToReturn;
         }
 
-        // called from mis to delete template fonts against company(Store) and organization
+        // called from mis to delete template fonts against company(Store) and organization // added by saqib ali
         public void DeleteTemplateFonts(long Companyid, long organizationID)
         {
             _templateFontRepository.DeleteTemplateFonts(Companyid);

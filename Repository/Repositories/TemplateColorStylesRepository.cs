@@ -43,6 +43,7 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Find(id);
         }
+        // get color styles list based on product id and customer id(corporate store id) // added by saqib ali
         public List<TemplateColorStyle> GetColorStyle(long ProductId, long CustomerId)
         {
           
@@ -58,6 +59,7 @@ namespace MPC.Repository.Repositories
             }
             return oStyles;
         }
+        // get color list based on product id // added by saqib ali
         public List<TemplateColorStyle> GetColorStyle(long ProductId)
         {
 
@@ -66,6 +68,7 @@ namespace MPC.Repository.Repositories
             oStyles = db.TemplateColorStyles.Where(g => g.ProductId == ProductId || g.ProductId == null).ToList();
             return oStyles;
         }
+        // add new corporate color // added by saqib ali
         public int SaveCorpColor(int C, int M, int Y, int K, string Name, long CustomerID)
         {
             TemplateColorStyle obj = new TemplateColorStyle();
@@ -82,6 +85,7 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
             return (int)obj.PelleteId;
         }
+        // activate or deactivate corporate color // // added by saqib ali
         public string UpdateCorpColor(long id, string type)
         {
             string result = "";

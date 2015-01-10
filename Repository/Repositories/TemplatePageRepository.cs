@@ -49,6 +49,7 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Find(id);
         }
+        // get list of template pages called from designer// added by saqib ali
         public List<TemplatePage> GetTemplatePages(long productId)
         {
             db.Configuration.LazyLoadingEnabled = false;

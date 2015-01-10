@@ -48,6 +48,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<webstoreInterfaces.ITemplatePageService, webstoreImplementation.TemplatePageService>();
             unityContainer.RegisterType<webstoreInterfaces.ITemplateObjectService, webstoreImplementation.TemplateObjectService>();
             unityContainer.RegisterType<webstoreInterfaces.ITemplateFontsService, webstoreImplementation.TemplateFontsService>();
+            unityContainer.RegisterType<webstoreInterfaces.ITemplateBackgroundImagesService, webstoreImplementation.TemplateBackgroundImagesService>();
         }
     }
 }
