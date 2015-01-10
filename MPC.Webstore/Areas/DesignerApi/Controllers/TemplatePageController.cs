@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,26 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
+
+        }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        // Important: if called from MIS call implementation function instead of this function because organizationID will not exist in cookie when called from MIS
+        public string testTemplate(long id)
+        {
+            List<TemplatePage> objList = new List<TemplatePage>();
+            TemplatePage objpage = new TemplatePage();
+            TemplatePage objpag2e = new TemplatePage();
+            objList.Add(objpage); objList.Add(objpag2e);
+            
+            bool result = templatePageService.CreateBlankBackgroundPDFsByPages(1078,100,100,1,objList,0);
+            string res = templatePageService.CreatePageBlankBackgroundPDFs(1079, objpage, 100, 100, 0);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return res.ToString();
 
         }
         #endregion
