@@ -78,7 +78,17 @@ namespace MPC.Webstore.Common
             return Price;
         }
 
-      
+        public static string FormatDecimalValueToZeroDecimal(string valueToFormat, string currenctySymbol)
+        {
+            return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToZeroDecimal(valueToFormat));
+        }
+        public static string FormatDecimalValueToZeroDecimal(string valueToFormat)
+        {
+
+            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
+            return string.Format("{0:0}", Math.Round(Convert.ToDouble(valueToFormat), 2));
+
+        }
     }
     public static class CommonHtmlExtensions
     {
@@ -111,16 +121,6 @@ namespace MPC.Webstore.Common
         }
 
 
-        public static string FormatDecimalValueToZeroDecimal(string valueToFormat, string currenctySymbol)
-        {
-            return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToZeroDecimal(valueToFormat));
-        }
-        public static string FormatDecimalValueToZeroDecimal(string valueToFormat)
-        {
-
-            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
-            return string.Format("{0:0}", Math.Round(Convert.ToDouble(valueToFormat), 2));
-
-        }
+     
     }
 }
