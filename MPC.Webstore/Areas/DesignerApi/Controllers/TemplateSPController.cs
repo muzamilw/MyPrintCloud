@@ -54,6 +54,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         //public bool CreateBlankBackgroundPDFsByPages(int TemplateID, double height, double width, int Orientation, List<TemplatePages> PagesList) // moved to template page service
         // public string CreatePageBlankBackgroundPDFs(int TemplateID, TemplatePages oPage, double height, double width) // moved to template page svc
         // public bool DeleteBlankBackgroundPDFsByPages(int TemplateID, List<TemplatePages> PagesList) // moved to template page svc
+        //public bool generateTemplateFromPDF(string filePhysicalPath, int mode, int templateID, int CustomerID) // moved to template svc
 
         // public MatchingSets GetMatchingSetbyID(int MatchingSetID)  //not used in webstore called from v2
         // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)//not used in webstore called from v2

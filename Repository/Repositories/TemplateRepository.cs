@@ -52,7 +52,7 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
         /// <summary>
-        ///  Get template object by template id 
+        ///  Get template object by template id // added by saqib ali
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
@@ -63,7 +63,7 @@ namespace MPC.Repository.Repositories
             return template;
 
         }
-        // delete template from database
+        // delete template from database // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID)
         {
             try
@@ -107,7 +107,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        // copy a single template and update file paths in db 
+        // copy a single template and update file paths in db // added by saqib ali
         public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages)
         {
             long result = 0;
@@ -177,6 +177,8 @@ namespace MPC.Repository.Repositories
 
             return result;
         }
+       
+        
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
             try

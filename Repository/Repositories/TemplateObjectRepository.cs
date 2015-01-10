@@ -47,6 +47,7 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Find(id);
         }
+        //get list of template objects // added by saqib ali
 
         public List<TemplateObject> GetProductObjects(long productId)
         {

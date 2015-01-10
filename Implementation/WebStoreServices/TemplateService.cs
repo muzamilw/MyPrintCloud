@@ -29,7 +29,12 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-        // called from webstore usually for coping template
+
+        /// <summary>
+        /// called from webstore usually for coping template  // added by saqib ali
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
         public Template GetTemplate(long productID)
         {
             var product= _templateRepository.GetTemplate(productID);
@@ -42,7 +47,7 @@ namespace MPC.Implementation.WebStoreServices
             return product;
         }
 
-        // called from designer, all the units are converted to pixel before sending 
+        // called from designer, all the units are converted to pixel before sending  // added by saqib ali
         public Template GetTemplateInDesigner(long productID)
         {
             var product = _templateRepository.GetTemplate(productID);
@@ -54,7 +59,7 @@ namespace MPC.Implementation.WebStoreServices
 
             return product;
         }
-        // delete template and all references 
+        // delete template and all references   // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID, long organizationID)
         {
             var result = false;
@@ -106,7 +111,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw new MPCException(ex.ToString(), organizationID);
             }
         }
-        //copy template and all physical files 
+        //copy template and all physical files  // added by saqib ali
         public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName,long organizationID)
         {
             long result = 0;
@@ -190,7 +195,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             return result;
         }
-
+        // copy list of templates called from MIS returns list of copied ids if id is null template is not copied  // added by saqib ali
         public List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName,long organizationID)
         {
             List<long?> newTemplateList = new List<long?>();
@@ -209,6 +214,11 @@ namespace MPC.Implementation.WebStoreServices
                 }
             }
             return newTemplateList;
+        }
+        // generate template from the given pdf file,called from MIS // added by saqib ali
+        public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long CustomerID, long organizationID)
+        {
+            return true;
         }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
