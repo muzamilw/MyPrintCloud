@@ -21,12 +21,12 @@
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
   width: 838px;
 }
-#productBinding #tab-pricetable .form-group .input-group-addon {
+#productBinding .form-group .input-group-addon {
   text-decoration: none;
   border: 0;
   cursor: pointer;
 }
-#productBinding #tab-pricetable .form-group .input-group .input-group-addon {
+#productBinding .form-group .input-group .input-group-addon {
   border: 1px solid #ccc;
 }
 #productBinding #tab-pricetable .form-group #txtDiscountsContainer {
@@ -50,4 +50,36 @@
 }
 #productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th.paperStockType {
   width: 10%;
+}
+#productBinding #tab-supplierPrice .labelBold {
+  font-weight: bold;
+}
+#productBinding #tab-supplierPrice #estProductionTimeContainer #txtEstProductionTime {
+  width: 30%;
+}
+#productBinding #tab-supplierPrice #estProductionTimeContainer span {
+  width: 30%;
+}
+#productBinding #tab-supplierPrice #switchAutoCreateGraterContainer {
+  padding-left: 0;
+  padding-right: 0;
+  width: 12%;
+}
+#productBinding #tab-supplierPrice .deliveryTimeContiner input,
+#productBinding #tab-supplierPrice .deliveryTimeContiner span {
+  width: 40%;
+}
+#productBinding #tab-supplierPrice #supplierTabs {
+  border: dotted;
+  border-width: 1px;
+  border-color: lightgray;
+}
+#productBinding #tab-supplierPrice #qtyLimitLabel {
+  width: 17%;
+}
+#productBinding #tab-supplierPrice #qtyLimitInputContainer {
+  width: 15%;
+}
+#productBinding #tab-supplierPrice #qtyLimitInputContainer input {
+  width: 100px;
 }

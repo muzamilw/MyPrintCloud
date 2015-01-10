@@ -26,6 +26,8 @@ define("product/product.viewModel",
                     countries = ko.observableArray([]),
                     // States
                     states = ko.observableArray([]),
+                    // Suppliers
+                    suppliers = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
@@ -375,10 +377,15 @@ define("product/product.viewModel",
                     doBeforeSave = function () {
                         var flag = true;
                         if (!selectedProduct().isValid()) {
-                            selectedProduct().errors.showAllMessages();
+                            selectedProduct().showAllErrors();
+                            selectedProduct().setValidationSummary(errorList);
                             flag = false;
                         }
                         return flag;
+                    },
+                    // Go To Element
+                    gotoElement = function(validation) {
+                        view.gotoElement(validation.element);
                     },
                     // Get Item From List
                     getItemFromList = function (id) {
@@ -430,6 +437,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(sectionFlags(), itemsList);
                         sectionFlags.valueHasMutated();
                     },
+                    // Map Suppliers
+                    mapSuppliers = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.Company.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(suppliers(), itemsList);
+                        suppliers.valueHasMutated();
+                    },
                     // Set Item Price Matrices to Current Item against selected Flag
                     setItemPriceMatricesToItem = function(itemPriceMatrices) {
                         if (!itemPriceMatrices || itemPriceMatrices.length === 0) {
@@ -461,6 +479,9 @@ define("product/product.viewModel",
 
                                     // Map Section Flags
                                     mapSectionFlags(data.SectionFlags);
+
+                                    // Map Suppliers
+                                    mapSuppliers(data.Suppliers);
 
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
@@ -646,6 +667,7 @@ define("product/product.viewModel",
                     stockItems: stockItems,
                     costCentres: costCentres,
                     sectionFlags: sectionFlags,
+                    suppliers: suppliers,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -671,7 +693,8 @@ define("product/product.viewModel",
                     openStockItemDialog: openStockItemDialog,
                     closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
-                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog
+                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
+                    gotoElement: gotoElement
                     // Utility Methods
 
                 };

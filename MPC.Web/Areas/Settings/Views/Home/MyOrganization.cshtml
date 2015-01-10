@@ -303,12 +303,14 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <div class="col-md-6">
-                                                                <input type="file" class="form-control" id="orgLogo" name="file" onchange="readURL(this);" />
+                                                            <div class="fileUpload btn btn-primary col-md-2">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary">Upload</button>
+                                                            <div class="col-md-3">
+                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary"> Upload</button>
                                                             </div>
+
                                                             <div class="col-md-12" style="margin-top: 10px;">
                                                                 <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: $root.orgnizationImage }" />
                                                             </div>
@@ -347,7 +349,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="currency" class="form-control" data-bind="options: $root.currencySymbols, optionsText: 'Text', optionsValue: 'Id' ,value:currencyId,validationtooltip:currencyId"></select>
+                                                        <select id="currency" class="form-control" data-bind="options: $root.currencySymbols, optionsText: 'CurrencyName', optionsValue: 'CurrencyId' ,value:currencyId,validationtooltip:currencyId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -367,7 +369,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="language" class="form-control" data-bind="options: $root.languagePacks, optionsText: 'Text', optionsValue: 'Id' ,value:languageId,validationtooltip:languageId"></select>
+                                                        <select id="language" class="form-control" data-bind="options: $root.languagePacks, optionsText: 'FriendlyName', optionsValue: 'LanguageId' ,value:languageId,validationtooltip:languageId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -387,7 +389,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="lengthUnit" class="form-control" data-bind="options: $root.unitLengths, optionsText: 'Text', optionsValue: 'Id' ,value:lengthUnitId,validationtooltip:lengthUnitId"></select>
+                                                        <select id="lengthUnit" class="form-control" data-bind="options: $root.unitLengths, optionsText: 'UnitName', optionsValue: 'Id' ,value:lengthUnitId,validationtooltip:lengthUnitId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -407,7 +409,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="currency" class="form-control" data-bind="options: $root.unitWeights, optionsText: 'Text', optionsValue: 'Id' ,value:weightUnitId,validationtooltip:weightUnitId"></select>
+                                                        <select id="currency" class="form-control" data-bind="options: $root.unitWeights, optionsText: 'UnitName', optionsValue: 'Id' ,value:weightUnitId,validationtooltip:weightUnitId"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 
@@ -422,11 +424,11 @@
                                                         <h2>Markups</h2>
                                                         <div class="filter-block pull-right">
                                                             <div class="form-group pull-left">
-                                                                <input type="text" class="form-control" placeholder="Search...">
-                                                                <i class="fa fa-search search-icon"></i>
+                                                                <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.markupSearchString">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchMarkup"></i>
                                                             </div>
                                                             <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewMarkup">
-                                                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Markup
+                                                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer"></i>&nbsp;Add Markup
                                                             </a>
                                                         </div>
                                                     </header>
@@ -438,11 +440,10 @@
                                                                         <th> <span>Markup Code<span></span></span></th>
                                                                         <th> <span>% Rate<span></span></span></th>
                                                                         <th>&nbsp;</th>
-                                                                        <th>&nbsp;</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.markups } -->
+                                                                    <!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.filteredMarkups } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
                                                             </table>
@@ -467,8 +468,8 @@
                                                             <h2>Nominal Codes</h2>
                                                             <div class="filter-block pull-right">
                                                                 <div class="form-group pull-left">
-                                                                    <input type="text" class="form-control" placeholder="Search...">
-                                                                    <i class="fa fa-search search-icon"></i>
+                                                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.nominalCodeSearchString">
+                                                                    <i class="fa fa-search search-icon" data-bind="click:$root.searchNominalCode"></i>
                                                                 </div>
                                                                 <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateChartOfAccounts">
                                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Nominal Code
@@ -487,7 +488,7 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <!-- ko template: { name: $root.templateToUseChartOfAccounts , foreach: $root.chartOfAccounts } -->
+                                                                        <!-- ko template: { name: $root.templateToUseChartOfAccounts , foreach: $root.filteredNominalCodes } -->
                                                                         <!-- /ko -->
                                                                     </tbody>
                                                                 </table>
@@ -500,7 +501,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="tab-pane clearfix fade" id="tab-languageeditor">
+                                    <div class="tab-pane clearfix fade" id="tab-languageeditor" data-bind="with:languageEditor">
                                         <h3 class="group-header">Edit Regional Languages</h3>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -524,7 +525,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption" placeholder="Enter Caption" value="Default Address" />
+                                                                <input type="text" class="form-control" id="txtCaption" placeholder="Default Address" data-bind="value:defaultAddress" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 Default Address
@@ -533,7 +534,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption4" placeholder="Enter Caption" value="Default Shipping Address" />
+                                                                <input type="text" class="form-control" id="txtCaption4" placeholder="Default Shipping Address" data-bind="value:defaultShippingAddress" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 Default Shipping Address
@@ -542,7 +543,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption5" placeholder="Enter Caption" value="PO number is required when ordering" />
+                                                                <input type="text" class="form-control" id="txtCaption5" placeholder="PO Number" data-bind="value:pONumber" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 PO Number is required when ordering
@@ -551,7 +552,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption6" placeholder="Enter Caption" value="Show Prices to user" />
+                                                                <input type="text" class="form-control" id="txtCaption6" placeholder="Prices" data-bind="value:prices" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 Show Prices to Users
@@ -560,7 +561,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption7" placeholder="Enter Caption" value="User can create shipping address" />
+                                                                <input type="text" class="form-control" id="txtCaption7" placeholder="User Shipping Addresses" data-bind="value:userShippingAddress" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 Users can create Shipping Addresses
@@ -569,7 +570,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption8" placeholder="Enter Caption" value="JPG, TIF, eps, PDF" />
+                                                                <input type="text" class="form-control" id="txtCaption8" placeholder="Detail" data-bind="value:details" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 Detail
@@ -578,7 +579,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption9" placeholder="Enter Caption" value="To Our Newsletter" />
+                                                                <input type="text" class="form-control" id="txtCaption9" data-bind="value:newsLetter" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 // NewsLetter subscriber page
@@ -588,7 +589,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" class="form-control" id="txtCaption10" placeholder="Enter Caption" value="1. Confirm Design" />
+                                                                <input type="text" class="form-control" id="txtCaption10" placeholder="Confirm Design" data-bind="value:confirmDesign" />
                                                             </td>
                                                             <td style="width: 442px;">
                                                                 1. Confirm Design //ProductconfirmSelection
@@ -649,9 +650,9 @@
     </script>
     <script id="itemMarkupTemplate" type="text/html">
         <tr>
-            <td data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
-            <td data-bind="text: rate"></td>
-            <td>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: rate"></td>
+            <td style="width: 20%">
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
                 <!-- /ko -->
                 <!-- ko template: { name: 'deleteActionMarkupTemplate' } -->
@@ -694,9 +695,9 @@
     </script>
     <script id="itemChartOfAccountsTemplate" type="text/html">
         <tr>
-            <td data-bind="text: name, attr: { id: 'nominalCodeName' + $index() }"></td>
-            <td data-bind="text: accountNo"></td>
-            <td>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'nominalCodeName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: accountNo"></td>
+            <td style="width: 20%">
                 <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
                 <!-- /ko -->
                 <!-- ko template: { name: 'deleteActionChartOfAccountsTemplate' } -->

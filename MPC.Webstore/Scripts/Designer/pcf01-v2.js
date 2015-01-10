@@ -1661,7 +1661,7 @@ function fu09() {
          // load image size 
          if (tcListCc == 1) {
              for (var line in DT[0]) {
-                 var html = '<li id="demotestcsss" style="width: 153px; left: 0px; top: 0px;"><a  >' +
+                 var html = '<li id="demotestcsss" style="width: 200px; left: 0px; top: 0px;"><a  >' +
                                 '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '"  style="max-height: 208.005px;" class="imgsdtsss"> </a></li>'
                  $(".templateListUL").append(html);
                  $("img.imgsdtsss").load(function () {
@@ -1695,13 +1695,13 @@ function fu09_1(DT) {
                 tcImThh += tcImHh;
             }
             var top = tcImThh;
-            var left = tcLltemp * 153
+            var left = tcLltemp * 200
             if (tcLltemp % 2 == 0) {
-                left = 153;
+                left = 200;
             } else {
                 left = 0;
             }
-            var html = '<li class="" style="width: 153px; left: ' + left + 'px; top: ' + top + 'px;"><a title="' + val[line] + '" onClick="fu10(this,' + line + ')">' +
+            var html = '<li class="" style="width: 200px; left: ' + left + 'px; top: ' + top + 'px;"><a title="' + val[line] + '" onClick="fu10(this,' + line + ')">' +
                      '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '"  style="max-height: 208.005px;" class="imgs' + line + '"> </a></li>'
             $(".templateListUL").append(html);
             tcLltemp++;
@@ -2028,6 +2028,7 @@ function j1(oI) {
     $.each(OBS, function (i, ite) {
         if (ite.ObjectID == oI) {
             canvas.setActiveObject(ite);
+
             return false;
         }
     });

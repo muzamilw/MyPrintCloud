@@ -301,10 +301,37 @@
     @*matching set*@
     
     @{
-        MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
-        MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
-        @Html.Partial("MatchingSet",MSViewModel);
-    }
+        if(UserCookieManager.StoreMode != (int)StoreMode.Corp)
+        {
+           
+            // call matching set partial view to show matching sets
+            MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
+            
+            MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
+            if(MSViewModel != null)
+            {
+                @Html.Partial("PartialViews/MatchingSet", MSViewModel);
+            }
+            else
+            {
+                <label id="lblMesg" class="errorMsgClss">No Matching set found</label>
+            }
+
+            
+            // call related items to show lists of related items
+            RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
+            RIViewModel = ViewData["RIViewModel"] as RelatedItemViewModel;
+            if(RIViewModel != null)
+            {
+                @Html.Partial("PartialViews/RelatedItems", RIViewModel);
+            }
+            else
+            {
+                <label id="lblMesg" class="errorMsgClss">No Related Items found</label>
+            }
+        }
+
+}
    
     
     <br />

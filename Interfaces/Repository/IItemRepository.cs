@@ -26,7 +26,7 @@ namespace MPC.Interfaces.Repository
 
         Item GetItemById(long RefitemId);
 
-        ProductItem GetItemAndDetailsByItemID(int itemId);
+        ProductItem GetItemAndDetailsByItemID(long itemId);
 
         List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
 
@@ -38,6 +38,8 @@ namespace MPC.Interfaces.Repository
 
         bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
         
+        // get related Items
+        List<ProductItem> GetRelatedItemsList();
         /// <summary>
         /// Gets the Item which is not added to cart but exists in order
         /// </summary>

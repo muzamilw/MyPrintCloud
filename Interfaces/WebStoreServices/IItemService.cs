@@ -19,7 +19,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         string specialCharactersEncoder(string value);
 
-        ProductItem GetItemAndDetailsByItemID(int itemId);
+        ProductItem GetItemAndDetailsByItemID(long itemId);
 
         List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
 
@@ -29,6 +29,11 @@ namespace MPC.Interfaces.WebStoreServices
         ItemStockControl GetStockItem(long itemId);
         List<AddOnCostsCenter> GetStockOptionCostCentres(long itemId, long companyId);
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
+
+        ProductCategoriesView GetMappedCategory(string CatName, int CID);
+
+        // get related items
+        List<ProductItem> GetRelatedItemsList();
 
         //long CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, int TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID);
     

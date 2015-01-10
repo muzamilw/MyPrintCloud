@@ -32,5 +32,25 @@ namespace MPC.Models.ResponseModels
         /// States
         /// </summary>
         public IEnumerable<State> States { get; set; }
+
+        /// <summary>
+        /// Currencies
+        /// </summary>
+        public IEnumerable<Currency> Currencies { get; set; }
+
+        /// <summary>
+        /// Length Units
+        /// </summary>
+        public IEnumerable<LengthUnit> LengthUnits { get; set; }
+
+        /// <summary>
+        /// Weight Units
+        /// </summary>
+        public IEnumerable<WeightUnit> WeightUnits { get; set; }
+
+        /// <summary>
+        /// Global Language
+        /// </summary>
+        public IEnumerable<GlobalLanguage> GlobalLanguages { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -405,6 +406,22 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
         public virtual ICollection<ItemProductDetail> ItemProductDetails { get; set; }
+
+        #endregion
+        #region Additional Properties
+
+        [NotMapped]
+        public string ThumbnailImageName { get; set; }
+        [NotMapped]
+        public string ImagePathImageName { get; set; }
+        [NotMapped]
+        public string GridImageSourceName { get; set; }
+        [NotMapped]
+        public byte[] ThumbnailImage { get; set; }
+        [NotMapped]
+        public byte[] GridImageBytes { get; set; }
+        [NotMapped]
+        public byte[] ImagePathImage { get; set; }
 
         #endregion
     }

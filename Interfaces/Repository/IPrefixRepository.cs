@@ -13,5 +13,10 @@ namespace MPC.Interfaces.Repository
         string GetNextItemCodePrefix();
 
         Prefix GetDefaultPrefix();
+
+        /// <summary>
+        /// Markup use in Prefix 
+        /// </summary>
+        bool PrefixUseMarkupId(long markupId);
     }
 }

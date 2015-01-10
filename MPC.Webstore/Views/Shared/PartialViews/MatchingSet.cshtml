@@ -26,7 +26,7 @@
     {
 
         MappedCategoriesName objMCN = null;
-        objMCN = Model.MappedCategoriesName.Where(n => n.ProductID == matchSet.ProductID).FirstorDefault();
+        objMCN = Model.MappedCategoriesName.Where(n => n.ProductID == matchSet.ProductID).FirstOrDefault();
         <div style="width:200px; float:left; text-align:left;height:225px;">
             @*here set href*@
             <a id="hlImage1" href="#">
@@ -77,9 +77,9 @@
             if (Model.IsIncludeVAT == true)
             {
 
-                if (objMCN.DefaultItemTax != null)
+                if (objMCN.defaultItemTax != null)
                 {
-                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), Convert.ToDouble(objMCN.DefaultItemTax));
+                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), Convert.ToDouble(objMCN.defaultItemTax));
                 }
                 else
                 {
@@ -99,9 +99,9 @@
             if (Model.IsIncludeVAT == true)
             {
 
-                if (objMCN.DefaultItemTax != null)
+                if (objMCN.defaultItemTax != null)
                 {
-                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), Convert.ToDouble(objMCN.DefaultItemTax));
+                    PriceIncVat = Utils.CalculateVATOnPrice(Convert.ToDouble(objMCN.MinPrice), Convert.ToDouble(objMCN.defaultItemTax));
                 }
                 else
                 {

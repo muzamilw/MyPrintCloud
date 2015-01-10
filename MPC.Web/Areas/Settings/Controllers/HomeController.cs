@@ -44,28 +44,33 @@ namespace MPC.MIS.Areas.Settings.Controllers
             if (file != null && file.InputStream != null)
             {
                 // Before attempting to save the file, verify
-                SaveFile(file);
+                SaveFile(file, organizationId);
 
             }
             return null;
         }
 
         //upload Files
-        private void SaveFile(HttpPostedFileBase file)
+        private void SaveFile(HttpPostedFileBase file, long organizationId)
         {
             if (file == null || file.InputStream == null)
             {
                 return;
             }
 
-            byte[] fileBytes;
-            using (var memoryStream = new MemoryStream())
+            string path = Server.MapPath("~/MPC_Content/Organisations/Organisation" + organizationId);
+            if (!Directory.Exists(path))
             {
-                file.InputStream.CopyTo(memoryStream);
-                fileBytes = memoryStream.ToArray();
+                Directory.CreateDirectory(path);
             }
 
-            myOrganizationService.SaveFileToFileTable(file.FileName, fileBytes);
+            path = path + "\\" + "Organisation_" + organizationId + ".jpeg";
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            file.SaveAs(path);
+            myOrganizationService.SaveFilePath(path);
         }
 
         public ActionResult MyOrganization()

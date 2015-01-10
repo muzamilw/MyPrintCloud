@@ -5,6 +5,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -95,6 +96,54 @@ namespace MPC.Repository.Repositories
                 return query.OrderBy(i => i.DisplayOrder).ToList();
            
         }
+
+        public List<ProductCategoriesView> GetMappedCategoryNames(bool isClearCache, int companyID)
+        {
+            List<ProductCategoriesView> mappedCategories = null;
+            //if (HttpContext.Current.Cache["MappedCategoryNames"] == null || isClearCache == true)
+            //{
+            mappedCategories = GetProductDesignerMappedCategoryNames(companyID);
+            //    HttpContext.Current.Cache["MappedCategoryNames"] = mappedCategories;
+            //}
+            //else
+            //{
+            //    mappedCategories = HttpContext.Current.Cache["MappedCategoryNames"] as List<vw_ProductCategories>;
+            //}
+
+            return mappedCategories;
+        }
+        public List<ProductCategoriesView> GetProductDesignerMappedCategoryNames(int CompanyID)
+        {
+            try
+            {
+
+                return (from c in db.ProductCategoriesViews
+                        where !string.IsNullOrEmpty(c.TemplateDesignerMappedCategoryName) && c.CompanyId == CompanyID
+                        select c).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+       
+        public ProductCategoriesView GetMappedCategory(string CatName, int CID)
+        {
+            try
+            {
+                return (from c in GetMappedCategoryNames(false, CID).ToList()
+                        where c.TemplateDesignerMappedCategoryName == CatName
+                        select c).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       
 
     }
 }

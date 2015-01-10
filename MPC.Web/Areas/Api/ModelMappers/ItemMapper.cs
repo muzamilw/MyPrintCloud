@@ -65,6 +65,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsQtyRanged = source.IsQtyRanged,
                 PackagingWeight = source.PackagingWeight,
                 DefaultItemTax = source.DefaultItemTax,
+                SupplierId = source.SupplierId,
+                SupplierId2 = source.SupplierId2,
+                EstimateProductionTime = source.EstimateProductionTime,
+                ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
+                source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()) : new List<ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()) : new List<ItemVideo>(),
@@ -72,7 +77,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(vdp => vdp.CreateFrom()) : new List<ItemStockOption>(),
                 ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()) : new List<ItemStateTax>(),
                 ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()) : new List<ItemPriceMatrix>()
-            }; 
+            };
 
             // Load Thumbnail Image
             if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
@@ -176,17 +181,28 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsQtyRanged = source.IsQtyRanged,
                 PackagingWeight = source.PackagingWeight,
                 DefaultItemTax = source.DefaultItemTax,
+                SupplierId = source.SupplierId,
+                SupplierId2 = source.SupplierId2,
+                EstimateProductionTime = source.EstimateProductionTime,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
-                ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()).ToList() : 
+                ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()).ToList() :
                 new List<DomainModels.ItemRelatedItem>(),
-                ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(stockOption => stockOption.CreateFrom()).ToList() : 
+                ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(stockOption => stockOption.CreateFrom()).ToList() :
                 new List<DomainModels.ItemStockOption>(),
-                ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()).ToList() : 
+                ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()).ToList() :
                 new List<DomainModels.ItemStateTax>(),
-                ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()).ToList() : 
-                new List<DomainModels.ItemPriceMatrix>()
+                ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()).ToList() :
+                new List<DomainModels.ItemPriceMatrix>(),
+                ItemProductDetails = source.ItemProductDetail != null ? new List<DomainModels.ItemProductDetail> { source.ItemProductDetail.CreateFrom() } :
+                new List<DomainModels.ItemProductDetail>(),
+                ThumbnailImageName = source.ThumbnailImageName,
+                ImagePathImageName = source.ImagePathImageName,
+                GridImageSourceName = source.GridImageSourceName,
+                ThumbnailImage = source.ThumbnailImage,
+                GridImageBytes = source.GridImageBytes,
+                ImagePathImage = source.ImagePathImage
             };
         }
     }

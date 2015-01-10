@@ -22,6 +22,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyRepository _CompanyRepository;
         private readonly IItemStockControlRepository _StockRepository;
         private readonly IItemAddOnCostCentreRepository _AddOnRepository;
+        private readonly IProductCategoryRepository _ProductCategoryRepository;
 
         #region Constructor
 
@@ -29,7 +30,7 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
-            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository)
+            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -37,6 +38,7 @@ namespace MPC.Implementation.WebStoreServices
             this._CompanyRepository = CompanyRepository;
             this._StockRepository = StockRepository;
             this._AddOnRepository = AddOnRepository;
+            this._ProductCategoryRepository = ProductCategoryRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -134,7 +136,7 @@ namespace MPC.Implementation.WebStoreServices
             return value;
         }
 
-        public ProductItem GetItemAndDetailsByItemID(int itemId)
+        public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
            return _ItemRepository.GetItemAndDetailsByItemID(itemId);
         }
@@ -184,10 +186,21 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
         }
+        public ProductCategoriesView GetMappedCategory(string CatName, int CID)
+        {
+            
+            return _ProductCategoryRepository.GetMappedCategory(CatName, CID);
+        }
 
-        public Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId)
+        public Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId) 
         {
             return _ItemRepository.GetClonedItemByOrderId(OrderId, ReferenceItemId);
+        }
+        //get related items list
+        public List<ProductItem> GetRelatedItemsList()
+        {
+            
+            return _ItemRepository.GetRelatedItemsList();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using MPC.Models.Common;
+using System.IO;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -57,13 +58,126 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public Template GetTemplate(long productID)
         {
-           // db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.LazyLoadingEnabled = false;
             var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
             return template;
 
         }
+        // delete template from database
+        public bool DeleteTemplate(long ProductID, out long CategoryID)
+        {
+            try
+            {
+                CategoryID = 0;
+                bool result = false;
+                    //deleting objects
+                foreach (TemplateObject c in db.TemplateObjects.Where(g => g.ProductId == ProductID))
+                {
+                    db.TemplateObjects.Remove(c);
+                }
+                    //background Images
+                foreach (TemplateBackgroundImage c in db.TemplateBackgroundImages.Where(g => g.ProductId == ProductID))
+                {
 
-        public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber,long CustomerID,int CompanyID)
+                    db.TemplateBackgroundImages.Remove(c);
+                }
+                    //delete template pages
+                foreach (TemplatePage c in db.TemplatePages.Where(g => g.ProductId == ProductID))
+                {
+
+                    db.TemplatePages.Remove(c);
+                }
+                    //deleting the template
+                foreach (Template c in db.Templates.Where(g => g.ProductId == ProductID))
+                {
+                    if(c.ProductCategoryId.HasValue)
+                        CategoryID = c.ProductCategoryId.Value;
+                    db.Templates.Remove(c);
+                }
+                db.SaveChanges();
+                result = true;
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                //Util.LogException(ex);
+                throw ex;
+            }
+        }
+
+
+        // copy a single template and update file paths in db 
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages)
+        {
+            long result = 0;
+            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            long? test = db.sp_cloneTemplate(Convert.ToInt32(ProductID), Convert.ToInt32(SubmittedBy), SubmittedByName);
+            if (test.HasValue)
+            {
+                result = test.Value;
+                var pages = db.TemplatePages.Where(g => g.ProductId == result).ToList();
+                objPages = pages;
+                foreach (TemplatePage oTemplatePage in pages)
+                {
+
+                    if (oTemplatePage.BackGroundType == 1 || oTemplatePage.BackGroundType == 3)
+                    {
+                        string name = oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/"));
+                        oTemplatePage.BackgroundFileName = result.ToString() + "/" + name;
+                    }
+
+                }
+                foreach (var item in db.TemplateObjects.Where(g => g.ProductId == result))
+                {
+                    if (item.IsPositionLocked == null)
+                    {
+                        item.IsPositionLocked = false;
+                    }
+                    if (item.IsHidden == null)
+                    {
+                        item.IsHidden = false;
+                    }
+                    if (item.IsEditable == null)
+                    {
+                        item.IsEditable = true;
+                    }
+                    if (item.IsTextEditable == null)
+                    {
+                        item.IsTextEditable = true;
+                    }
+
+                    if (item.ObjectType == 3)
+                    {
+                        string[] content = item.ContentString.Split('/');
+                        string fileName = content[content.Length - 1];
+                        if (!item.ContentString.Contains("assets/Imageplaceholder"))
+                        {
+                            item.ContentString = "Designer/Organization" + organizationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
+                        }
+                    }
+                }
+                var backimgs = db.TemplateBackgroundImages.Where(g => g.ProductId == result).ToList();
+                objImages = backimgs;
+                foreach (TemplateBackgroundImage item in backimgs)
+                {
+                    string filePath = drURL + item.ImageName;
+                    string filename;
+                    FileInfo oFile = new FileInfo(filePath);
+                    filename = oFile.Name;
+                    item.ImageName = result.ToString() + "/" + filename;
+                }
+
+                db.SaveChanges();
+            } else
+            {
+                objPages = null;
+                objImages = null;
+            }
+
+            return result;
+        }
+        public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
             try
             {
@@ -74,7 +188,7 @@ namespace MPC.Repository.Repositories
                 int SearchCount = 0;
 
 
-                List<MatchingSets> templatesList = GetTemplateDataFromService(TemplateName, pageNumber - 1, out totalPagesCount, out SearchCount,CustomerID,CompanyID);
+                List<MatchingSets> templatesList = GetTemplateDataFromService(TemplateName, pageNumber - 1, out totalPagesCount, out SearchCount,CustomerID,CompanyID,PCview);
 
 
                 if (templatesList.Count > 0)
@@ -105,13 +219,13 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        private List<MatchingSets> GetTemplateDataFromService(string templateName, int pageNumber, out int totalPagesCount, out int SearchCount, long CustomerID,int CompanyID)
+        private List<MatchingSets> GetTemplateDataFromService(string templateName, int pageNumber, out int totalPagesCount, out int SearchCount, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
           
             using (GlobalTemplateDesigner.TemplateSvcSPClient tsc = new GlobalTemplateDesigner.TemplateSvcSPClient())
             {
 
-                string[] categoryNames = (from c in GetMappedCategoryNames(false, CompanyID).ToList()
+                string[] categoryNames = (from c in PCview
                                           select c.TemplateDesignerMappedCategoryName).ToArray();
                 string NewTemplateName = templateName.Replace("Copy", "");
                 List<MatchingSets> objList = new List<MatchingSets>();
@@ -155,59 +269,15 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public List<ProductCategoriesView> GetMappedCategoryNames(bool isClearCache,int companyID)
-        {
-            List<ProductCategoriesView> mappedCategories = null;
-            //if (HttpContext.Current.Cache["MappedCategoryNames"] == null || isClearCache == true)
-            //{
-            mappedCategories = GetProductDesignerMappedCategoryNames(companyID);
-            //    HttpContext.Current.Cache["MappedCategoryNames"] = mappedCategories;
-            //}
-            //else
-            //{
-            //    mappedCategories = HttpContext.Current.Cache["MappedCategoryNames"] as List<vw_ProductCategories>;
-            //}
 
-            return mappedCategories;
-        }
-
-        public List<ProductCategoriesView> GetProductDesignerMappedCategoryNames(int CompanyID)
-        {
-            try
-            {
-
-                return (from c in db.ProductCategoriesViews
-                        where !string.IsNullOrEmpty(c.TemplateDesignerMappedCategoryName) && c.CompanyId == CompanyID
-                        select c).ToList();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public ProductCategoriesView GetMappedCategory(string CatName,int CID)
-        {
-            try
-            {
-                return (from c in GetMappedCategoryNames(false,CID).ToList()
-                        where c.TemplateDesignerMappedCategoryName == CatName
-                                                  select c).FirstOrDefault();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public ProductCategory GetDisplayOrderAndSave(int pCID)
         {
-           
+
             return (from c in db.ProductCategories
                     where c.ProductCategoryId == pCID
                     select c).FirstOrDefault();
         }
-
+      
         public string GetTemplateNameByTemplateID(int tempID)
         {
             try

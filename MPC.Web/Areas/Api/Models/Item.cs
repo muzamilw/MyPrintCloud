@@ -373,7 +373,9 @@ namespace MPC.MIS.Areas.Api.Models
         public long? OrganisationId { get; set; }
         public double? PackagingWeight { get; set; }
         public bool? IsVdpProduct { get; set; }
-
+        public string ThumbnailImageName { get; set; }
+        public string ImagePathImageName { get; set; }
+        public string GridImageSourceName { get; set; }
         /// <summary>
         /// Thumbnail Image
         /// </summary>
@@ -474,6 +476,8 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ItemStateTax> ItemStateTaxes { get; set; }
 
         public IEnumerable<ItemPriceMatrix> ItemPriceMatrices { get; set; }
+
+        public ItemProductDetail ItemProductDetail { get; set; }
 
         #endregion
     }

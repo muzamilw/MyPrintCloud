@@ -80,9 +80,6 @@ namespace MPC.Webstore
         #endregion
         protected void Application_Start()
         {
-
-            
-
             RegisterIoC();
             ConfigureLogger();
             AreaRegistration.RegisterAllAreas();

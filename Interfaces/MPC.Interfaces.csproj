@@ -91,6 +91,7 @@
     <Compile Include="Repository\IItemStockOptionRepository.cs" />
     <Compile Include="Repository\ICostCentreRepository.cs" />
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
+    <Compile Include="Repository\IItemProductDetailRepository.cs" />
     <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
     <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />

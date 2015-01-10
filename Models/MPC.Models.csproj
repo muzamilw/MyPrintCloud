@@ -252,6 +252,7 @@
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
+    <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
@@ -265,6 +266,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RequestModels\AddressRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
+    <Compile Include="ResponseModels\LanguageEditor.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />

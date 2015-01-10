@@ -8876,15 +8876,15 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           </ReferentialConstraint>
         </Association>
         <ComplexType Name="sp_GetUsedFontsUpdated_Result">
-          <Property Type="Int32" Name="ProductFontId" Nullable="false" />
-          <Property Type="Int32" Name="ProductId" Nullable="true" />
+          <Property Type="Int64" Name="ProductFontId" Nullable="false" />
+          <Property Type="Int64" Name="ProductId" Nullable="true" />
           <Property Type="String" Name="FontName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="FontDisplayName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="FontFile" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="DisplayIndex" Nullable="true" />
           <Property Type="Boolean" Name="IsPrivateFont" Nullable="false" />
           <Property Type="Boolean" Name="IsEnable" Nullable="true" />
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="Int64" Name="CustomerID" Nullable="true" />
           <Property Type="String" Name="FontPath" Nullable="true" />
           <Property Type="Int32" Name="FontBytes" Nullable="true" />
         </ComplexType>

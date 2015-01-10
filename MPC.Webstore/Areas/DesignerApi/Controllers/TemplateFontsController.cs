@@ -41,6 +41,18 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage testSpFunction(long parameter1, long parameter2)
+        {
+             templateFontSvc.DeleteTemplateFonts(parameter1, parameter2);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, "", formatter);
+
+        }
         #endregion
     }
 }

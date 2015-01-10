@@ -1,4 +1,108 @@
-﻿<div class="row" data-bind="visible: !isProductDetailsVisible()">
+﻿@section Scripts{
+    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
+
+    <script>
+        $(function () {
+            $('#liProducts').addClass('active');
+        });
+    </script>
+
+    <script>
+        function redirectToProductDetail() {
+            window.location.href = '/Products/ProductDetail';
+        }
+        function changeToListView() {
+            $("#listViewIcon").css("background-color", "#ff7e47");
+            $("#gridViewIcon").css("background-color", "#ffffff");
+            $("#gridViewIcon").css("color", "black");
+            $("#listViewIcon").css("color", "white");
+            $("#gridForm").css("display", "none");
+            $("#ListForm").css("display", "block");
+        }
+        function changeToGridView() {
+            $("#gridViewIcon").css("background-color", "#ff7e47");
+            $("#listViewIcon").css("background-color", "#ffffff");
+            $("#gridViewIcon").css("color", "white");
+            $("#listViewIcon").css("color", "black");
+            $("#gridForm").css("display", "block");
+            $("#ListForm").css("display", "none");
+        }
+
+        function enableProductBoxes() {
+            $("#ProductDisableEditICon").css("display", "block");
+            $("#ProductEditICon").css("display", "none");
+            $(".editableName").css("display", "block");
+            $(".NoneditableName").css("display", "none");
+        }
+        function DisableProductBoxes() {
+            $("#ProductDisableEditICon").css("display", "none");
+            $("#ProductEditICon").css("display", "block");
+            $(".editableName").css("display", "none");
+            $(".NoneditableName").css("display", "block");
+        }
+        function enablePriceBoxes() {
+            $("#PriceDisableEditICon").css("display", "block");
+            $("#PriceEditICon").css("display", "none");
+            $(".editablePrice").css("display", "block");
+            $(".NoneditablePrice").css("display", "none");
+        }
+        function DisablePriceBoxes() {
+            $("#PriceDisableEditICon").css("display", "none");
+            $("#PriceEditICon").css("display", "block");
+            $(".editablePrice").css("display", "none");
+            $(".NoneditablePrice").css("display", "block");
+        }
+        function enableCategoryBoxes() {
+            $("#CategoryDisableEditICon").css("display", "block");
+            $("#CategoryEditICon").css("display", "none");
+            $(".editableCat").css("display", "block");
+            $(".NoneditableCat").css("display", "none");
+        }
+        function DisableCategoryBoxes() {
+            $("#CategoryDisableEditICon").css("display", "none");
+            $("#CategoryEditICon").css("display", "block");
+            $(".editableCat").css("display", "none");
+            $(".NoneditableCat").css("display", "block");
+        }
+        $(document).ready(function () {
+            //min/max slider
+            $('.slider-minmax').noUiSlider({
+                range: [0, 100],
+                start: [100],
+                handles: 1,
+                connect: 'upper',
+                slide: function () {
+
+
+                },
+                set: function () {
+                    var val = $(this).val();
+                    if (val >= 60) {
+
+                        $('.Top_Cat_Body').css("width", "22%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "239px");
+                    } else if (val >= 40) {
+
+                        $('.Top_Cat_Body').css("width", "18%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "194px");
+                    } else if (val <= 20) {
+
+                        $('.Top_Cat_Body').css("width", "13%");
+                        $('.FI_TL').css("height", "140px");
+                        $('.productListIcons').css("width", "139px");
+                    }
+                }
+
+            });
+            $('.slider-minmax').val(100, true);
+            $('.productListIcons').css("width", "153px");
+        });
+    </script>
+}
+<div class="row" data-bind="visible: !isProductDetailsVisible()">
     <div class="col-lg-12">
         <div id="changeViewSection" class="pull-left col-lg-5">
             <a id="listViewIcon" class="productListGrayIcon pull-left" data-bind="click: toggleView, css: { inactiveView: isGridViewVisible, activeView: isListViewVisible }">
@@ -48,10 +152,10 @@
                         <div class="productHeadingsCnt width12Perc">
                             Product Code
                         </div>
-                        <div class="productHeadingsCnt width24Perc">
+                        <div class="productHeadingsCnt width24Perc" style="min-height: 76px;">
                             Main Image
                         </div>
-                        <div class="productHeadingsCnt width25Perc">
+                        <div class="productHeadingsCnt width25Perc" style="min-height: 76px;">
                             Product Name
                         </div>
                         <div class="productHeadingsCnt width13Per">
@@ -119,7 +223,7 @@
                 <div class="PDTC_TL FI_TL">
                     <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/thumbnail2.png")" alt="image" class="Top_Cat_ThumbnailPath" />
                 </div>
-                <div class="productListIcons">
+                <div class="productListIcons" style="width: 153px;" >
                     <!-- ko template: { name: 'productActionTemplate' } -->
                     <!-- /ko -->
                 </div>
@@ -135,7 +239,7 @@
 
     @* Action Template *@
     <script id="productActionTemplate" type="text/html">
-        <a href="#" class="table-link" title="Edit" data-bind="click: $root.editProduct">
+        <a class="table-link" title="Edit" data-bind="click: $parent.editProduct.bind($data)">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
@@ -147,7 +251,8 @@
                 <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a href="#" class="table-link danger" title="Archive" data-bind="click: $root.onArchiveProduct.bind($data), visible: !isArchived()">
+        
+        <a href="#" class="table-link danger" title="Archive" data-bind="click: $parent.onArchiveProduct.bind($data), visible: !isArchived()">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -159,7 +264,7 @@
     <script id="listViewTemplate" type="text/html">
         <tr>
             <td class="width12Perc text-center">
-                <a data-bind="click: $root.editProduct"><span data-bind="text: productCode"></span></a>
+                <a data-bind="click: $parent.editProduct"><span data-bind="text: productCode"></span></a>
             </td>
             <td class="width24Perc text-center">
                 <div class="LCLB Product-Body-List">

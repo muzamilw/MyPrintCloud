@@ -193,6 +193,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             // ReSharper restore InconsistentNaming
             //Product Categories
             productCategories = ko.observableArray([]),
+            //Products
+            products = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -323,6 +325,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 _.each(source.users(), function (item) {
                     result.CompanyContacts.push(item.convertToServerData());
                 });
+                //#region Arrays
                 result.NewAddedCompanyTerritories = [];
                 result.EdittedCompanyTerritories = [];
                 result.DeletedCompanyTerritories = [];
@@ -341,10 +344,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.EdittedProductCategories = [];
                 result.DeletedProductCategories = [];
                 result.NewProductCategories = [];
+                result.NewAddedProducts = [];
+                result.EdittedProducts = [];
+                result.Deletedproducts = [];
                 result.Campaigns = [];
                 _.each(source.paymentGateway(), function (item) {
                     result.PaymentGateways.push(item.convertToServerData());
                 });
+                //#endregion
                 return result;
             },
             // Reset
@@ -405,6 +412,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             paymentGateway: paymentGateway,
             paymentMethod: paymentMethod,
             productCategories: productCategories,
+            products: products,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -568,7 +576,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         _.each(source.ProductCategoriesListView, function (item) {
             store.productCategories.push(ProductCategory.Create(item));
         });
-
+        ////Add Store Products/Items in store product model
+        //var mapper = new storeProductModel.Item();
+        //_.each(source.ItemsResponse.Items, function (item) {
+        //    ist.stores.viewModel.products.push(mapper.Create(item));
+        //});
         return store;
     };
     // #endregion _____________________ S T O R E ______________________________
@@ -1601,7 +1613,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             metaLanguageContent = ko.observable(specifiedMetaLanguageContent),
             metaRevisitAfterContent = ko.observable(specifiedMetaRevisitAfterContent),
             categoryId = ko.observable(specifiedCategoryId),
-            pageHTML = ko.observable(specifiedPageHTML),
+            pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),

@@ -109,5 +109,18 @@ namespace MPC.Webstore.Common
                 return null;
             return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
         }
+
+
+        public static string FormatDecimalValueToZeroDecimal(string valueToFormat, string currenctySymbol)
+        {
+            return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToZeroDecimal(valueToFormat));
+        }
+        public static string FormatDecimalValueToZeroDecimal(string valueToFormat)
+        {
+
+            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
+            return string.Format("{0:0}", Math.Round(Convert.ToDouble(valueToFormat), 2));
+
+        }
     }
 }

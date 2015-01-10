@@ -11,10 +11,16 @@ define("myOrganization/myOrganization.viewModel",
                     view,
                     // Active
                     selectedMyOrganization = ko.observable(),
+                    //Counter
+                    idCounter = ko.observable(-1),
                     //Active markup
                     selectedMarkup = ko.observable(),
+                    //Active Markup Copy
+                    selectedMarkupCopy = ko.observable(),
                     //Active Chart Of Accounts
                     selectedChartOfAccounts = ko.observable(),
+                    //Active Chart Of Accounts Copy
+                    selectedChartOfAccountsCopy = ko.observable(),
                     //Orgnization Image
                     orgnizationImage = ko.observable(),
                     // #region Arrays
@@ -38,6 +44,14 @@ define("myOrganization/myOrganization.viewModel",
                     states = ko.observableArray([]),
                     //Filtered States
                     filteredStates = ko.observableArray([]),
+                    //Filtered Markups
+                    filteredMarkups = ko.observableArray([]),
+                    //Filtered Nominal Codes
+                    filteredNominalCodes = ko.observableArray([]),
+                    //Mark up search string 
+                    markupSearchString = ko.observable(),
+                    //Nominal Code Search String
+                    nominalCodeSearchString = ko.observable(),
                     //Markup List For Drop Down
                     markupsForDropDown = ko.observableArray([]),
                     // #endregion Arrays
@@ -60,30 +74,29 @@ define("myOrganization/myOrganization.viewModel",
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
+                        selectedMyOrganization(new model.CompanySites());
                         getBase();
-                        //selectedMyOrganization(new model.CompanySites());
-                        //selectedMyOrganization().id(2);
                         view.initializeForm();
                     },
-                    // Get Base
+                    //Get Base
                     getBase = function (callBack) {
                         dataservice.getMyOrganizationBase({
                             success: function (data) {
                                 //Currency
                                 currencySymbols.removeAll();
-                                ko.utils.arrayPushAll(currencySymbols(), currencySymbolsGlobal);
+                                ko.utils.arrayPushAll(currencySymbols(), data.Currencies);
                                 currencySymbols.valueHasMutated();
                                 //Language Packs
                                 languagePacks.removeAll();
-                                ko.utils.arrayPushAll(languagePacks(), languagePacksGlobal);
+                                ko.utils.arrayPushAll(languagePacks(), data.GlobalLanguages);
                                 languagePacks.valueHasMutated();
                                 //unit Lengths
                                 unitLengths.removeAll();
-                                ko.utils.arrayPushAll(unitLengths(), unitLengthsGlobal);
+                                ko.utils.arrayPushAll(unitLengths(), data.LengthUnits);
                                 unitLengths.valueHasMutated();
                                 //unit Weights
                                 unitWeights.removeAll();
-                                ko.utils.arrayPushAll(unitWeights(), unitWeightsGlobal);
+                                ko.utils.arrayPushAll(unitWeights(), data.WeightUnits);
                                 unitWeights.valueHasMutated();
                                 //Countries 
                                 countries.removeAll();
@@ -116,6 +129,14 @@ define("myOrganization/myOrganization.viewModel",
                                 markupsForDropDown.removeAll();
                                 ko.utils.arrayPushAll(markupsForDropDown(), data.Markups);
                                 markupsForDropDown.valueHasMutated();
+                                //Filtered Markups
+                                filteredMarkups.removeAll();
+                                ko.utils.arrayPushAll(filteredMarkups(), markups());
+                                filteredMarkups.valueHasMutated();
+                                //Filtered Markups
+                                filteredNominalCodes.removeAll();
+                                ko.utils.arrayPushAll(filteredNominalCodes(), chartOfAccounts());
+                                filteredNominalCodes.valueHasMutated();
 
                                 getMyOrganizationById();
 
@@ -128,7 +149,7 @@ define("myOrganization/myOrganization.viewModel",
                             }
                         });
                     },
-                       // Template Chooser For Markup
+                    // Template Chooser For Markup
                     templateToUseMarkup = function (markup) {
                         return (markup === selectedMarkup() ? 'editMarkupTemplate' : 'itemMarkupTemplate');
                     },
@@ -136,57 +157,110 @@ define("myOrganization/myOrganization.viewModel",
                     templateToUseChartOfAccounts = function (chartOfAcc) {
                         return (chartOfAcc === selectedChartOfAccounts() ? 'editChartOfAccountsTemplate' : 'itemChartOfAccountsTemplate');
                     },
-                        // Select a Markup
+                    // Select a Markup
                     selectMarkup = function (markup) {
                         if (selectedMarkup() !== markup) {
+                            //update previous selected item to orginal markup list
+                            if (selectedMarkup() !== undefined) {
+                                _.each(markups(), function (item) {
+                                    if ((item.id() === selectedMarkup().id())) {
+                                        item.name(selectedMarkup().name());
+                                        item.rate(selectedMarkup().rate());
+                                    }
+                                });
+                            }
+                            var markupCopy = new model.Markup();
+                            markupCopy.id(markup.id());
+                            markupCopy.name(markup.name());
+                            markupCopy.rate(markup.rate());
+                            selectedMarkupCopy(markupCopy);
                             selectedMarkup(markup);
                         }
                     },
-                     // Select a Chart Of Accounts
+                    // Select a Chart Of Accounts
                     selectChartOfAccounts = function (chartOfAcc) {
                         if (selectedChartOfAccounts() !== chartOfAcc) {
+                            //update previous selected item to orginal Chart of Account list
+                            if (selectedChartOfAccounts() !== undefined) {
+                                _.each(chartOfAccounts(), function (item) {
+                                    if ((item.id() === selectedChartOfAccounts().id()) && (item.name() !== selectedChartOfAccountsCopy().name() || item.accountNo() !== selectedChartOfAccountsCopy().accountNo())) {
+                                        item.name(selectedChartOfAccounts().name());
+                                        item.accountNo(selectedChartOfAccounts().accountNo());
+                                    }
+                                });
+                            }
+
+                            var nominalCodeCopy = model.ChartOfAccount();
+                            nominalCodeCopy.accountNo(chartOfAcc.accountNo());
+                            nominalCodeCopy.name(chartOfAcc.name());
+                            nominalCodeCopy.id(chartOfAcc.id());
+                            selectedChartOfAccountsCopy(nominalCodeCopy);
                             selectedChartOfAccounts(chartOfAcc);
                         }
+
                     },
-                       //Create Markup
-                     onCreateNewMarkup = function () {
-                         var markup = markups()[0];
-                         if (markup.name() !== undefined && markup.rate() !== undefined && markup.isValid()) {
-                             markups.splice(0, 0, model.Markup());
-                             selectedMarkup(markups()[0]);
-                         }
-                     },
-                     //Create Chart Of Account
+                    //Create Markup
+                    onCreateNewMarkup = function () {
+                        var markup = filteredMarkups()[0];
+                        if ((filteredMarkups().length === 0) || (markup !== undefined && markup !== null && markup.name() !== undefined && markup.rate() !== undefined && markup.isValid())) {
+                            var newMarkup = model.Markup();
+                            newMarkup.id(idCounter() - 1);
+                            newMarkup.rate(0);
+                            //New Id
+                            idCounter(idCounter() - 1);
+                            markups.splice(0, 0, newMarkup);
+                            filteredMarkups.splice(0, 0, newMarkup);
+                            selectedMarkup(filteredMarkups()[0]);
+                            selectedMyOrganization().flagForChanges("Changes occur");
+                        }
+                        if (markup !== undefined && markup !== null && !markup.isValid()) {
+                            markup.errors.showAllMessages();
+                        }
+                    },
+                    //Create Chart Of Account
                     onCreateChartOfAccounts = function () {
-                        var chartOfAcc = chartOfAccounts()[0];
-                        if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
-                            chartOfAccounts.splice(0, 0, model.ChartOfAccount());
-                            selectedChartOfAccounts(chartOfAccounts()[0]);
+                        //var chartOfAcc = chartOfAccounts()[0];
+                        //if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
+                        //    chartOfAccounts.splice(0, 0, model.ChartOfAccount());
+                        //    selectedChartOfAccounts(chartOfAccounts()[0]);
+                        //    selectedMyOrganization().flagForChanges("Changes occur");
+                        //}
+
+                        var chartOfAcc = filteredNominalCodes()[0];
+                        if ((filteredNominalCodes().length === 0) || (chartOfAcc !== undefined && chartOfAcc !== null && chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined && chartOfAcc.isValid())) {
+                            var newChartOfAccount = model.ChartOfAccount();
+                            newChartOfAccount.id(idCounter() - 1);
+                            newChartOfAccount.accountNo(0);
+                            //New Id
+                            idCounter(idCounter() - 1);
+                            chartOfAccounts.splice(0, 0, newChartOfAccount);
+                            filteredNominalCodes.splice(0, 0, newChartOfAccount);
+                            selectedChartOfAccounts(filteredNominalCodes()[0]);
+                            selectedMyOrganization().flagForChanges("Changes occur");
+                        }
+                        if (chartOfAcc !== undefined && chartOfAcc !== null && !chartOfAcc.isValid()) {
+                            chartOfAcc.errors.showAllMessages();
                         }
                     },
                     // Delete a Chart Of Accounts
                     onDeleteChartOfAccounts = function (chartOfAcc) {
-                        if (!chartOfAcc.id()) {
-                            chartOfAccounts.remove(chartOfAcc);
-                            return;
-                        }
-                        // Ask for confirmation
-                        confirmation.afterProceed(function () {
-                            chartOfAccounts.remove(chartOfAcc);
+                        filteredNominalCodes.remove(chartOfAcc);
+                        _.each(chartOfAccounts(), function (item) {
+                            if ((item.id() === chartOfAcc.id())) {
+                                chartOfAccounts.remove(item);
+                            }
                         });
-                        confirmation.show();
+                        selectedMyOrganization().flagForChanges("Changes occur");
                     },
-                   // Delete a Markup
+                    // Delete a Markup
                     onDeleteMarkup = function (markup) {
-                        if (!markup.id()) {
-                            markups.remove(markup);
-                            return;
-                        }
-                        // Ask for confirmation
-                        confirmation.afterProceed(function () {
-                            markups.remove(markup);
+                        filteredMarkups.remove(markup);
+                        _.each(markups(), function (item) {
+                            if ((item.id() === markup.id())) {
+                                markups.remove(item);
+                            }
                         });
-                        confirmation.show();
+                        selectedMyOrganization().flagForChanges("Changes occur");
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {
@@ -196,6 +270,8 @@ define("myOrganization/myOrganization.viewModel",
                                 filteredStates.removeAll();
                                 var org = model.CompanySitesClientMapper(data);
                                 selectedMyOrganization(org);
+                                selectedMyOrganization().reset();
+
                                 orgnizationImage(data.ImageSource);
                                 view.initializeForm();
                                 isLoadingMyOrganization(false);
@@ -209,6 +285,25 @@ define("myOrganization/myOrganization.viewModel",
                     // Save My Organization
                     onSaveMyOrganization = function (myOrg) {
                         errorList.removeAll();
+                        //Selected Markup update in markup list
+                        if (selectedMarkup() !== undefined) {
+                            _.each(markups(), function (item) {
+                                if ((item.id() === selectedMarkup().id())) {
+                                    item.name(selectedMarkup().name());
+                                    item.rate(selectedMarkup().rate());
+                                }
+                            });
+                        }
+                        //Selected Markup update in Chart Of Accounts list
+                        if (selectedChartOfAccounts() !== undefined) {
+                            _.each(chartOfAccounts(), function (item) {
+                                if ((item.id() === selectedChartOfAccounts().id())) {
+                                    item.name(selectedChartOfAccounts().name());
+                                    item.accountNo(selectedChartOfAccounts().accountNo());
+                                }
+                            });
+                        }
+
                         if (doBeforeSave() & doBeforeSaveMarkups() & doBeforeSaveChartOfAccounts()) {
                             //Markup List
                             if (myOrg.markupsInMyOrganization.length !== 0) {
@@ -251,7 +346,7 @@ define("myOrganization/myOrganization.viewModel",
                         });
                         return flag;
                     },
-                     // Do Before Logic
+                    // Do Before Logic
                     doBeforeSaveChartOfAccounts = function () {
                         var flag = true;
                         _.each(chartOfAccounts(), function (chartofAcc, index) {
@@ -268,7 +363,7 @@ define("myOrganization/myOrganization.viewModel",
 
                         return flag;
                     },
-
+                    //Select tab click on error link
                     selectTab = function (property) {
                         //$('#myTab li:eq(2) a').tab('show');
                         if (property.tabId === 1) {
@@ -287,7 +382,7 @@ define("myOrganization/myOrganization.viewModel",
                         }
 
                     },
-                     //Filter States based on Country
+                    //Filter States based on Country
                     filterStates = ko.computed(function () {
                         if (selectedMyOrganization() !== undefined && selectedMyOrganization().country() !== undefined) {
                             filteredStates.removeAll();
@@ -308,7 +403,7 @@ define("myOrganization/myOrganization.viewModel",
                                     _.each(data.ChartOfAccounts, function (item) {
                                         var chartOfAcc = new model.ChartOfAccountClientMapper(item);
                                         _.each(chartOfAccounts(), function (chartOfAccount) {
-                                            if (chartOfAccount.id() === undefined) {
+                                            if (chartOfAccount.id() < 0) {
                                                 if (chartOfAcc.name() === chartOfAccount.name() && chartOfAcc.accountNo() === chartOfAccount.accountNo()) {
                                                     chartOfAccount.id(chartOfAcc.id());
                                                 }
@@ -317,11 +412,11 @@ define("myOrganization/myOrganization.viewModel",
                                     });
                                     //Update IDs of Newly added Markups
                                     _.each(data.Markups, function (item) {
-                                        var markup = new model.MarkupClientMapper(item);
+                                        var markupServer = new model.MarkupClientMapper(item);
                                         _.each(markups(), function (markupListItem) {
-                                            if (markupListItem.id() === undefined) {
-                                                if (markup.name() === markupListItem.name() && markup.rate() === markupListItem.rate()) {
-                                                    markupListItem.id(markup.id());
+                                            if (markupListItem.id() < 0) {
+                                                if (markupServer.name() === markupListItem.name() && markupServer.rate() === markupListItem.rate()) {
+                                                    markupListItem.id(markupServer.id());
                                                 }
                                             }
                                         });
@@ -347,6 +442,71 @@ define("myOrganization/myOrganization.viewModel",
 
                             }
                         });
+                    },
+
+                    //If change occour in any makup item then save button enable(save button show changes occur)
+                    markupChange = ko.computed(function () {
+                        if (selectedMarkup() !== undefined && selectedMarkupCopy() !== undefined) {
+                            if ((selectedMarkup().id() === selectedMarkupCopy().id()) && (selectedMarkup().name() !== selectedMarkupCopy().name() || selectedMarkup().rate() !== selectedMarkupCopy().rate())) {
+                                selectedMyOrganization().flagForChanges("Changes occur");
+                            }
+                        }
+                    }, this),
+                     //If change occour in any Nominal Code item then save button enable(save button show changes occur)
+                    nominalCodeChange = ko.computed(function () {
+                        if (selectedChartOfAccounts() !== undefined && selectedChartOfAccountsCopy() !== undefined) {
+                            if ((selectedChartOfAccounts().id() === selectedChartOfAccountsCopy().id()) && (selectedChartOfAccounts().name() !== selectedChartOfAccountsCopy().name() || selectedChartOfAccounts().accountNo() !== selectedChartOfAccountsCopy().accountNo())) {
+                                selectedMyOrganization().flagForChanges("Changes occur");
+                            }
+                        }
+                    }, this),
+                   //Search Markup 
+                    searchMarkup = function () {
+                        var markup = filteredMarkups()[0];
+                        //New Added item remove on search, if item not have code
+                        if (markup != undefined && (markup.name() === undefined || markup.name() === "") && markup.id() < 0) {
+                            _.each(markups(), function (item) {
+                                if (item.id() === markup.id()) {
+                                    markups.remove(item);
+                                }
+                            });
+                        }
+                        filteredMarkups.removeAll();
+                        if (markupSearchString() !== undefined && markupSearchString().trim() !== "") {
+                            _.each(markups(), function (item) {
+                                if ((item.name().toLowerCase().indexOf((markupSearchString().toLowerCase()))) !== -1) {
+                                    filteredMarkups.push(item);
+                                }
+                            });
+                        } else {
+                            filteredMarkups.removeAll();
+                            ko.utils.arrayPushAll(filteredMarkups(), markups());
+                            filteredMarkups.valueHasMutated();
+                        }
+                    },
+                    //Search Nominal Code
+                    searchNominalCode = function () {
+                        var nominalCode = filteredNominalCodes()[0];
+                        //New Added item remove on search, if item not have code
+                        if (nominalCode != undefined && (nominalCode.name() === undefined || nominalCode.name() === "") && nominalCode.id() < 0) {
+                            _.each(chartOfAccounts(), function (item) {
+                                if (item.id() === nominalCode.id()) {
+                                    chartOfAccounts.remove(item);
+                                }
+                            });
+                        }
+                        filteredNominalCodes.removeAll();
+                        if (nominalCodeSearchString() !== undefined && nominalCodeSearchString().trim() !== "") {
+                            _.each(chartOfAccounts(), function (item) {
+                                if ((item.name().toLowerCase().indexOf((nominalCodeSearchString().toLowerCase()))) !== -1) {
+                                    filteredNominalCodes.push(item);
+                                }
+                            });
+                        } else {
+                            filteredNominalCodes.removeAll();
+                            ko.utils.arrayPushAll(filteredNominalCodes(), chartOfAccounts());
+                            filteredNominalCodes.valueHasMutated();
+                        }
                     };
                 // #endregion Service Calls
 
@@ -360,6 +520,8 @@ define("myOrganization/myOrganization.viewModel",
                     sortIsAsc: sortIsAsc,
                     sortOnHg: sortOnHg,
                     sortIsAscHg: sortIsAscHg,
+                    markupSearchString: markupSearchString,
+                    nominalCodeSearchString: nominalCodeSearchString,
                     //Arrays
                     currencySymbols: currencySymbols,
                     languagePacks: languagePacks,
@@ -371,6 +533,8 @@ define("myOrganization/myOrganization.viewModel",
                     errorList: errorList,
                     countries: countries,
                     filteredStates: filteredStates,
+                    filteredMarkups: filteredMarkups,
+                    filteredNominalCodes: filteredNominalCodes,
                     // Utility Methods
                     initialize: initialize,
                     pager: pager,
@@ -385,6 +549,8 @@ define("myOrganization/myOrganization.viewModel",
                     onCreateNewMarkup: onCreateNewMarkup,
                     onCreateChartOfAccounts: onCreateChartOfAccounts,
                     selectTab: selectTab,
+                    searchNominalCode: searchNominalCode,
+                    searchMarkup: searchMarkup,
                 };
             })()
         };
