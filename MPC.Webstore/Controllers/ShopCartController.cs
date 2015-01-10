@@ -79,7 +79,7 @@ namespace MPC.Webstore.Controllers
 
                 int status = (int)OrderStatus.ShoppingCart;
 
-                long sOrderID = _OrderService.GetUserShopCartOrderID(status);
+               // long sOrderID = _OrderService.GetUserShopCartOrderID(status);
 
 
                 shopCart = LoadShoppingCart(OrderId);
