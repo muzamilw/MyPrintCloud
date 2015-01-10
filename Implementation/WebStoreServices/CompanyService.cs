@@ -104,7 +104,7 @@ namespace MPC.Implementation.WebStoreServices
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
@@ -112,7 +112,7 @@ namespace MPC.Implementation.WebStoreServices
          
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
-                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                 oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
@@ -183,7 +183,7 @@ namespace MPC.Implementation.WebStoreServices
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                 Company oCompany = GetCompanyByCompanyID(companyId);
 

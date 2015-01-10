@@ -564,22 +564,7 @@ namespace MPC.Repository.Repositories
                 foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
                 {
                     SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
-                    if (Mode == StoreMode.Broker)
-                    {
-                        QtyNewTotal = (double)item.NetTotalBroker + (double)item.CostCentreProfitBroker;
-                        QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                        item.NetTotalBroker = QtyNewTotal;
-                        item.BaseChargeBroker = QtyNewTotal;
-                        item.TaxValueBroker = QtyTaxVal;
-                        item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
-                        //item.ItemSections.FirstOrDefault().BaseCharge1Broker += (double)item.CostCentreProfitBroker;
-                        if (SC != null)
-                        {
-                           // SC.QtyChargeBroker += (double)item.CostCentreProfitBroker;
-                            // SC.Qty1MarkUpValue = 0;
-                        }
-                        item.CostCentreProfitBroker = 0;
-                    }
+             
                     QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
                     QtyTaxVal = (QtyNewTotal * StateTax) / 100;
                     item.Qty1NetTotal = QtyNewTotal;
@@ -654,23 +639,7 @@ namespace MPC.Repository.Repositories
                 foreach (var item in tblOrder)
                 {
                     SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
-                    if (Mode == StoreMode.Broker)
-                    {
-                        DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.BaseChargeBroker), VDiscountRate);
-                        item.CostCentreProfitBroker = DiscountedAmount;
-                        TotalDiscAmountBroker += DiscountedAmount;
-                        QtyNewTotal = item.NetTotalBroker - DiscountedAmount ?? 0;
-                        QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                        item.NetTotalBroker = QtyNewTotal;
-                        item.BaseChargeBroker = QtyNewTotal;
-                        item.TaxValueBroker = QtyTaxVal;
-                        item.GrossTotalBroker = QtyNewTotal + QtyTaxVal;
-                        //item.ItemSections.FirstOrDefault().BaseCharge1Broker -= DiscountedAmount;
-                        if (SC != null)
-                        {
-                           // SC.QtyChargeBroker -= DiscountedAmount;
-                        }
-                    }
+               
                     DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
                     item.Qty1CostCentreProfit = DiscountedAmount;
                     TotalDiscAmount += DiscountedAmount;
@@ -689,14 +658,9 @@ namespace MPC.Repository.Repositories
                 }
                 if (db.SaveChanges() > 0)
                 {
-                    if (Mode == StoreMode.Broker)
-                    {
-                        return TotalDiscAmountBroker;
-                    }
-                    else
-                    {
+                  
                         return TotalDiscAmount;
-                    }
+                   
                 }
                 else
                 {

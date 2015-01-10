@@ -111,15 +111,15 @@ function RedirectToSignUp(ReturnURL)
 }
 function ShowLoader() {
 
-    var container = '<div><img src="~/Content/Images/fancybox_loading.gif" /></div>';
+    var container = '<div class="fancyLoaderCs"><img src="/Content/Images/fancybox_loading.gif" /></div>';
 
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 500) / 2);
-    var top = parseInt((bws.height - 170) / 2);
+    var left = parseInt((bws.width - 40) / 2);
+    var top = parseInt((bws.height - 40) / 2);
 
     document.getElementById("innerLayer").innerHTML = container;
 
