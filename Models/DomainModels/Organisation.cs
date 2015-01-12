@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Models.DomainModels
 {
@@ -146,21 +147,33 @@ namespace MPC.Models.DomainModels
         public long? LanguageId { get; set; }
 
         /// <summary>
-        /// User Domain Key
-        /// </summary>
-        public int UserDomainKey { get; set; }
-
-        /// <summary>
         /// MIS Logo Stream Id
         /// </summary>
         public Guid? MISLogoStreamId { get; set; }
 
+        /// <summary>
+        /// Bleed Area Size
+        /// </summary>
+        public double? BleedAreaSize { get; set; }
+
+        /// <summary>
+        /// Show Bleed Area
+        /// </summary>
+        public bool? ShowBleedArea { get; set; }
+
         #endregion
+        
         #region Reference Properties
 
+        /// <summary>
+        /// Country
+        /// </summary>
         public virtual Country Country { get; set; }
 
-        public virtual State State { get; set; } 
+        /// <summary>
+        /// State
+        /// </summary>
+        public virtual State State { get; set; }
 
         /// <summary>
         /// Cms Skin Page Widgets
@@ -178,6 +191,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<SystemUser> SystemUsers { get; set; }
 
         #endregion
+        
         #region Additional Properties
 
         // <summary>
@@ -203,6 +217,12 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public byte[] MisLogoBytes { get; set; }
+
+        /// <summary>
+        /// Language Editor
+        /// </summary>
+        [NotMapped]
+        public LanguageEditor LanguageEditor { get; set; }
 
         #endregion
     }

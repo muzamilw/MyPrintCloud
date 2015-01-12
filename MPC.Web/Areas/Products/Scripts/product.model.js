@@ -23,7 +23,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Code
             code = ko.observable(specifiedCode || undefined),
             // Product Name
-            productName = ko.observable(specifiedProductName || undefined),
+            productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
             // Product Name For Grid
             productNameForGrid = ko.computed(function () {
                 if (!productName()) {
@@ -32,7 +32,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return productName().length > 30 ? productName().substring(0, 29) : productName();
             }),
             // Product Code
-            productCode = ko.observable(specifiedProductCode || undefined),
+            productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
             // thumbnail
             thumbnail = ko.observable(specifiedThumbnail || undefined),
             // grid image
@@ -149,7 +149,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return isFinishedGoodsUi() === '1';
             }),
             // Flag Id
-            internalFlagId = ko.observable(specifiedFlagId || undefined),
+            internalFlagId = ko.observable(specifiedFlagId || undefined).extend({ required: true }),
             // Item Price Matrices For Existing flag
             itemPriceMatricesForExistingFlag = ko.observableArray([]),
             // Flag Id
@@ -284,7 +284,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
 
                     // Update Supplier Prices for Sequence 1
-                    updateSupplierForSequence1(value, 1);
+                    updateSupplierForSequence(value, 1, itemPriceMatricesForSupplierId1, itemPriceMatricesForSupplierSequence1);
 
                     // Update SupplierId1
                     internalSupplierId(value);
@@ -301,38 +301,21 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
 
                     // Update Supplier Prices for Sequence 2
-                    updateSupplierForSequence2(value, 2);
+                    updateSupplierForSequence(value, 2, itemPriceMatricesForSupplierId2, itemPriceMatricesForSupplierSequence2);
 
                     // Update SupplierId2
                     internalSupplierId2(value);
                 }
             }),
             // Update Supplier in Item Price Matrix
-            updateSupplierForSequence1 = function (suppId, suppSequence) {
-                if (itemPriceMatricesForSupplierId1().length > 0) {
-                    _.each(itemPriceMatricesForSupplierId1(), function (itemPriceMatrix) {
+            updateSupplierForSequence = function (suppId, suppSequence, itemPriceMatricesForSupplier, itemPriceMatricesForSupplierSequence) {
+                if (itemPriceMatricesForSupplier().length > 0) {
+                    _.each(itemPriceMatricesForSupplier(), function (itemPriceMatrix) {
                         itemPriceMatrix.supplierId(suppId);
                     });
                 }
-                else if (itemPriceMatricesForSupplierSequence1().length > 0) {
-                    _.each(itemPriceMatricesForSupplierSequence1(), function (itemPriceMatrix) {
-                        itemPriceMatrix.supplierId(suppId);
-                    });
-                }
-                else {
-                    // Copy From Current Flag & Add New
-                    addPricesForSupplier(suppId, suppSequence);
-                }
-            },
-            // Update Supplier in Item Price Matrix
-            updateSupplierForSequence2 = function (suppId, suppSequence) {
-                if (itemPriceMatricesForSupplierId2().length > 0) {
-                    _.each(itemPriceMatricesForSupplierId2(), function (itemPriceMatrix) {
-                        itemPriceMatrix.supplierId(suppId);
-                    });
-                }
-                else if (itemPriceMatricesForSupplierSequence2().length > 0) {
-                    _.each(itemPriceMatricesForSupplierSequence2(), function (itemPriceMatrix) {
+                else if (itemPriceMatricesForSupplierSequence().length > 0) {
+                    _.each(itemPriceMatricesForSupplierSequence(), function (itemPriceMatrix) {
                         itemPriceMatrix.supplierId(suppId);
                     });
                 }
@@ -652,6 +635,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Errors
             errors = ko.validation.group({
+                productCode: productCode,
+                productName: productName,
+                internalFlagId: internalFlagId
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -662,6 +648,32 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return !itemStockOption.isValid();
                 }).length === 0;
             }),
+            // Show All Error Messages
+            showAllErrors = function () {
+                // Show Item Errors
+                errors.showAllMessages();
+                // Show Item Stock Option Errors
+                var itemStockOptionErrors = itemStockOptions.filter(function(itemStockOption) {
+                    return !itemStockOption.isValid();
+                });
+                if (itemStockOptionErrors.length > 0) {
+                    _.each(itemStockOptionErrors, function (itemStockOption) {
+                        itemStockOption.errors.showAllMessages();
+                    });
+                }
+            },
+            // Set Validation Summary
+            setValidationSummary = function(validationSummaryList) {
+                if (productName.error) {
+                    validationSummaryList.push({ name: productName.domElement.name, element: productName.domElement });
+                }
+                if (productCode.error) {
+                    validationSummaryList.push({ name: productCode.domElement.name, element: productCode.domElement });
+                }
+                if (internalFlagId.error) {
+                    validationSummaryList.push({ name: internalFlagId.domElement.name, element: internalFlagId.domElement });
+                }
+            },
             // True if the product has been changed
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
@@ -904,6 +916,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription10: jobDescription10,
             isTemplateTabsVisible: isTemplateTabsVisible,
             flagId: flagId,
+            internalFlagId: internalFlagId,
             isQtyRangedUi: isQtyRangedUi,
             isQtyRanged: isQtyRanged,
             packagingWeight: packagingWeight,
@@ -963,8 +976,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             selectStateTaxItem: selectStateTaxItem,
             setItemPriceMatrices: setItemPriceMatrices,
             removeExistingPriceMatrices: removeExistingPriceMatrices,
+            setValidationSummary: setValidationSummary,
             errors: errors,
             isValid: isValid,
+            showAllErrors: showAllErrors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             itemVdpPriceListHasChanges: itemVdpPriceListHasChanges,
@@ -1307,7 +1322,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var // Unique key
             id = ko.observable(specifiedId),
             // Label
-            label = ko.observable(specifiedStockLabel || undefined),
+            label = ko.observable(specifiedStockLabel || undefined).extend({ required: true }),
             // Stock Item Id
             stockItemId = ko.observable(specifiedStockId || undefined),
             // Stock Item Name
@@ -1362,6 +1377,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Errors
             errors = ko.validation.group({
+                label: label
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -2196,13 +2212,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
             var itemStockOptions = [];
 
-            _.each(source.ItemStockOptions, function (itemStockOption) {
+            _.each(source.ItemStockOptions, function(itemStockOption) {
                 itemStockOptions.push(ItemStockOption.Create(itemStockOption, callbacks));
             });
 
             // Push to Original Item
             ko.utils.arrayPushAll(item.itemStockOptions(), itemStockOptions);
             item.itemStockOptions.valueHasMutated();
+        }
+        else {
+            // Add one atleast if Newly Created Product
+            if (!item.id()) {
+                item.addItemStockOption();
+            }
         }
 
         // Map Item Related Items if any
@@ -2229,6 +2251,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Push to Original Item
             ko.utils.arrayPushAll(item.itemStateTaxes(), itemStateTaxes);
             item.itemStateTaxes.valueHasMutated();
+        }
+
+        // Return item with dirty state if New
+        if (!item.id()) {
+            return item;
         }
 
         // Reset State to Un-Modified

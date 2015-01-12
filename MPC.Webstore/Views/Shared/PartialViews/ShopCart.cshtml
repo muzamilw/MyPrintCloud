@@ -69,8 +69,8 @@
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
                                         <th align="center" scope="col">&nbsp;</th>
-                                        <th align="left" scope="col">@Resources.MyResource.lblProductTxt</th>
-                                        <th align="left" scope="col">@Resources.MyResource.lblQuantityHeaderTxt</th>
+                                        <th align="left" scope="col">lblProductTxt</th>
+                                        <th align="left" scope="col">lblQuantityHeaderTxt</th>
                                         @if (ViewBag.IsShowPrices)
                                         {
                                             <th align="left" scope="col">Price</th>
@@ -193,9 +193,9 @@
 
                                             <td align="left" style="width:20%;">
 
-                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">@Resources.MyResource.lblRemove</a>
+                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">lblRemove</a>
                                                 <br>
-                                                @Html.ActionLink(Resources.MyResource.btnCopyincarttxt, "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
+                                                @Html.ActionLink("btnCopyincarttxt", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
 
                                             </td>
                                         </tr>
@@ -220,7 +220,7 @@
 
                                     @if (ViewBag.isIncludeVAT)
                                     {
-                                        <label id="lblTaxLabel" class="LightGrayLabels displayClear">@ViewBag.TaxRate</label>
+                                        <label id="lblTaxLabel" class="LightGrayLabels displayClear"></label>
                                     }
 
                                     <label id="lblTotalpayable" class="colorBlack total_payable">Total Payable</label>
@@ -254,14 +254,14 @@
                             </div>
                             <div class="clearBoth">
                             </div>
+                          
+                            <button id="btnCheckout" onclick="return CanCheckOut(this);" class="start_creating_btn_checkout float_right  rounded_corners5"
+                                    >CHECKOUT</button><br />
+                            <button id="btnContinueShopping" onclick="ContinueShopping();"
+                                    class="btn_brown  rounded_corners5" style="float: right;" >CONTINUE SHOPPING </button>
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
-                            <button value="CHECKOUT" id="btnCheckout"
-                                    onclientclick="return CanCheckOut(this);" class="start_creating_btn_checkout float_right  rounded_corners5"
-                                    onclick="btnCheckout_Click" style="" /><br />
-                            <button id="btnContinueShopping" onclick="ContinueShopping();"
-                                    class="btn_brown  rounded_corners5" value="CONTINUE SHOPPING" style="float: right;" />
                         </div>
 
                     </div>
@@ -301,10 +301,37 @@
     @*matching set*@
     
     @{
-        MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
-        MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
-        @Html.Partial("PartialViews/MatchingSet", MSViewModel);
-    }
+        if(UserCookieManager.StoreMode != (int)StoreMode.Corp)
+        {
+           
+            // call matching set partial view to show matching sets
+            MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
+            
+            MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
+            if(MSViewModel != null)
+            {
+                @Html.Partial("PartialViews/MatchingSet", MSViewModel);
+            }
+            else
+            {
+                <label id="lblMesg" class="errorMsgClss">No Matching set found</label>
+            }
+
+            
+            // call related items to show lists of related items
+            RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
+            RIViewModel = ViewData["RIViewModel"] as RelatedItemViewModel;
+            if(RIViewModel != null)
+            {
+                @Html.Partial("PartialViews/RelatedItems", RIViewModel);
+            }
+            else
+            {
+                <label id="lblMesg" class="errorMsgClss">No Related Items found</label>
+            }
+        }
+
+}
    
     
     <br />

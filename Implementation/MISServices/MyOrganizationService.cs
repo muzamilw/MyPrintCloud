@@ -32,6 +32,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICurrencyRepository currencyRepository;
         private readonly IWeightUnitRepository weightUnitRepository;
         private readonly ILengthUnitRepository lengthUnitRepository;
+        private readonly IGlobalLanguageRepository globalLanguageRepository;
 
         #endregion
 
@@ -43,7 +44,8 @@ namespace MPC.Implementation.MISServices
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
          IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
             ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository,
-           ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository)
+           ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository,
+            IGlobalLanguageRepository globalLanguageRepository)
         {
             if (mpcFileTableViewRepository == null)
             {
@@ -59,6 +61,7 @@ namespace MPC.Implementation.MISServices
             this.currencyRepository = currencyRepository;
             this.weightUnitRepository = weightUnitRepository;
             this.lengthUnitRepository = lengthUnitRepository;
+            this.globalLanguageRepository = globalLanguageRepository;
         }
 
         #endregion
@@ -78,6 +81,7 @@ namespace MPC.Implementation.MISServices
                 Currencies = currencyRepository.GetAll(),
                 LengthUnits = lengthUnitRepository.GetAll(),
                 WeightUnits = weightUnitRepository.GetAll(),
+                GlobalLanguages = globalLanguageRepository.GetAll(),
             };
         }
 
@@ -110,11 +114,15 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public MyOrganizationSaveResponse SaveOrganization(Organisation organisation)
         {
+
             Organisation organisationDbVersion = organisationRepository.Find(organisation.OrganisationId);
+
             if (organisationDbVersion == null)
             {
                 return Save(organisation);
             }
+
+
             //Set updated fields
             return Update(organisation, organisationDbVersion);
         }
@@ -143,7 +151,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Save(Organisation organisation)
         {
-            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
+            organisation.OrganisationId = organisationRepository.OrganisationId;
             organisationRepository.Add(organisation);
             organisationRepository.SaveChanges();
 
@@ -153,7 +161,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in organisation.Markups)
                 {
-                    item.UserDomainKey = (int)organisationRepository.OrganisationId;
+                    item.OrganisationId = organisationRepository.OrganisationId;
                     markupRepository.Add(item);
                     markupRepository.SaveChanges();
                 }
@@ -175,6 +183,7 @@ namespace MPC.Implementation.MISServices
 
             #endregion
 
+            UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
             {
                 OrganizationId = organisation.OrganisationId,
@@ -188,7 +197,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
-            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
+            organisation.OrganisationId = organisationRepository.OrganisationId;
             organisation.MISLogo = organisationDbVersion.MISLogo;
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
@@ -217,7 +226,7 @@ namespace MPC.Implementation.MISServices
                                 x.MarkUpId != item.MarkUpId ||
                                 item.MarkUpId == 0))
                     {
-                        item.UserDomainKey = (int)organisationRepository.OrganisationId;
+                        item.OrganisationId = organisationRepository.OrganisationId;
                         markupRepository.Add(item);
                         markupRepository.SaveChanges();
                     }
@@ -340,7 +349,7 @@ namespace MPC.Implementation.MISServices
             #endregion
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
-
+            UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
             {
                 OrganizationId = organisation.OrganisationId,
@@ -356,9 +365,9 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Save File to File Table
+        /// Save File Path
         /// </summary>
-        public void SaveFileToFileTable(string fileName, byte[] fileStream)
+        public void SaveFilePath(string path)
         {
             // Update Organisation MISLogoStreamId
             Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
@@ -368,37 +377,23 @@ namespace MPC.Implementation.MISServices
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.MyOrganisationService_OrganisationNotFound,
                     organisationRepository.OrganisationId));
             }
-
-            string pathLocator = "\\Organisation" + organisation.OrganisationId;
-            if (string.IsNullOrEmpty(mpcFileTableViewRepository.GetNewPathLocator(pathLocator, FileTableCaption.Organisation)))
-            {
-                OrganisationFileTableView mpcFile = mpcFileTableViewRepository.Create();
-                mpcFileTableViewRepository.Add(mpcFile);
-                mpcFile.Name = "Organisation" + organisation.OrganisationId;
-                mpcFile.UncPath = pathLocator;
-                mpcFile.IsDirectory = true;
-                mpcFile.FileTableName = FileTableCaption.Organisation;
-                // Save to File Table
-                mpcFileTableViewRepository.SaveChanges();
-            }
-
-            // Add File
-            OrganisationFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
-            mpcFileTableViewRepository.Add(mpcFileTableView);
-            mpcFileTableView.Name = fileName;
-            mpcFileTableView.FileStream = fileStream;
-            mpcFileTableView.FileTableName = FileTableCaption.Organisation;
-            mpcFileTableView.UncPath = pathLocator;
-
-            // Save to File Table
-            mpcFileTableViewRepository.SaveChanges();
-
-            organisation.MISLogoStreamId = mpcFileTableView.StreamId;
-
-            // Save Changes to Organisation
-            mpcFileTableViewRepository.SaveChanges();
+            organisation.MISLogo = path;
+            organisationRepository.SaveChanges();
         }
 
+        /// <summary>
+        /// Add/Update Lanuage Resource File
+        /// </summary>
+        /// <param name="organisation"></param>
+        private void UpdateLanguageResource(Organisation organisation)
+        {
+
+            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" + organisation.OrganisationId);
+            if (directoryPath != null && Directory.Exists(directoryPath))
+            {
+
+            }
+        }
         #endregion
 
     }

@@ -46,5 +46,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Weight Units
         /// </summary>
         public IEnumerable<WeightUnitDropDown> WeightUnits { get; set; }
+
+        /// <summary>
+        /// Global Language
+        /// </summary>
+        public IEnumerable<GlobalLanguageDropDown> GlobalLanguages { get; set; }
     }
 }

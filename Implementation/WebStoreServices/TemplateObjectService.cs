@@ -24,6 +24,7 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public 
+        // get list of template objects, called from designer // added by saqib ali
         public List<TemplateObject> GetProductObjects(long productId)
         {
             // values used to change the display order

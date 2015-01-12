@@ -50,10 +50,11 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
         /// <summary>
-        ///  Get template object by template id 
+        ///  Get template fonts list by template id and customer ID (store id) // added by saqib ali
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
+        /// 
         public List<TemplateFont> GetFontList(long productId, long customerId)
         {
             db.Configuration.LazyLoadingEnabled = false;
@@ -76,6 +77,16 @@ namespace MPC.Repository.Repositories
 
         }
 
+
+        // delete template fonts from database against company ID // added by saqib ali
+        public void DeleteTemplateFonts(long Companyid)
+        {
+            foreach (TemplateFont c in  db.TemplateFonts.Where(c => c.CustomerId == Companyid))
+            {
+                db.TemplateFonts.Remove(c);
+            }
+            db.SaveChanges();
+        }
         #endregion
     }
 }

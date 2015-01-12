@@ -33,14 +33,14 @@
                                 {
                                     <div class=float_left_simple style="height:55px;">
                                         <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStock('@stockClassName');> @stock.StockLabel </label>
+                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
                                     </div>
                                 }
                                 else
                                 {
                                     <div class=float_left_simple style="height:55px;">
                                         <input type=radio name=StockPaper data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStock('@stockClassName');> @stock.StockLabel </label>
+                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
                                     </div>
                                 }
 
@@ -231,18 +231,18 @@
                     { <div class="InStockContainer" style="background:red; color:white;">
                         @if (ViewBag.ItemStock.isAllowBackOrder ?? false) // back ordering allowed
                         {
-                            <label>@Resources.MyResource.lblBackOrder</label>
+                            <label>Back ordering allowed</label>
                         }
                         else
                         {
-                            <label>@Resources.MyResource.lblItemOutOfStock</label>
+                            <label>item out of stock</label>
                         }
                     </div>
                     }
                     else
                     {
                         <div class="InStockContainer" style="background:#f3f3f3; color:black;">
-                            <label>@Resources.MyResource.lblitemInStock @ViewBag.InStock</label>
+                            <label>In stock: @ViewBag.InStock</label>
                         </div>
                     }
 
@@ -262,6 +262,8 @@
                         @Html.HiddenFor(m => m.ItemPrice, new { id = "VMPrice" })
                         @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
                         @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
+                        @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
+                        
                         <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
                     }
                    
@@ -285,24 +287,24 @@
                     @if (ViewBag.Item.IsQtyRanged == true)
                     {
                         <div class="confirm_design divtxtalgn MLR">
-                            <label>@Resources.MyResource.lblQuantity</label>
+                            <label>Quantity</label>
                         </div>
                         <br />}
                     <div class="width50p">
                         @if (ViewBag.Item.IsQtyRanged == true)
                         {
                             <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -40px;">
-                                <label>@Resources.MyResource.lblQtyFrom</label>
+                                <label>From</label>
                             </div>
                             <div class="Fsize13 divtxtalgn float_left_simple">
 
-                                <label>@Resources.MyResource.lblQtyTo</label>
+                                <label>To</label>
                             </div>
                         }
                         else
                         {
                             <div class="Fsize13 divtxtalgn_CS width70pixel float_left_simple">
-                                <label>@Resources.MyResource.lblQuantity</label>
+                                <label>Quantity</label>
                             </div>
                         }
 
@@ -510,60 +512,60 @@
         <div style="float:left; width:420px;">
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL1Heading" class="GLHeading">@Resources.MyResource.lblGL1Heading</label>
+                <label id="lblGL1Heading" class="GLHeading">Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
 
-                <label id="ltrlGL1Desc">@Resources.MyResource.ltrlGL1Desc</label>
+                <label id="ltrlGL1Desc">1Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL2Heading" class="GLHeading">@Resources.MyResource.lblGL2Heading</label>
+                <label id="lblGL2Heading" class="GLHeading">GL2Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL2Desc">@Resources.MyResource.ltrlGL2Desc</label>
+                <label id="ltrlGL2Desc">GL2Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL3Heading" class="GLHeading">@Resources.MyResource.lblGL3Heading</label>
+                <label id="lblGL3Heading" class="GLHeading">3Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL3Desc">@Resources.MyResource.ltrlGL3Desc</label>
+                <label id="ltrlGL3Desc">3Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL4Heading" class="GLHeading">@Resources.MyResource.lblGL4Heading</label>
+                <label id="lblGL4Heading" class="GLHeading">4Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL4Desc">@Resources.MyResource.ltrlGL4Desc</label>
+                <label id="ltrlGL4Desc">4Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL5Heading" class="GLHeading">@Resources.MyResource.lblGL5Heading</label>
+                <label id="lblGL5Heading" class="GLHeading">5Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple" style="width: 318px;">
-                <label id="ltrlGL5Desc">@Resources.MyResource.ltrlGL5Desc</label>
+                <label id="ltrlGL5Desc">5Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL6Heading" class="GLHeading">@Resources.MyResource.lblGL6Heading</label>
+                <label id="lblGL6Heading" class="GLHeading">6Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL6Desc">@Resources.MyResource.ltrlGL6Desc</label>
+                <label id="ltrlGL6Desc">6Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL7Heading" class="GLHeading">@Resources.MyResource.lblGL7Heading</label>
+                <label id="lblGL7Heading" class="GLHeading">7Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL7Desc">@Resources.MyResource.ltrlGL7Desc</label>
+                <label id="ltrlGL7Desc">7Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL8Heading" class="GLHeading">@Resources.MyResource.lblGL8Heading</label>
+                <label id="lblGL8Heading" class="GLHeading">8Heading</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL8Desc">@Resources.MyResource.ltrlGL8Desc</label>
+                <label id="ltrlGL8Desc">8Desc</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
 
@@ -609,10 +611,10 @@
         var isPriceSelected = 0;
 
         $(document).ready(function () {
-            $("#AddonssMatrixValue").val("iqra");
+
             $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
             $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
-
+          
             hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
 
             MatrixToggle();
@@ -621,7 +623,11 @@
             } else {
                 CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
             }
-            SetAddOnsPrice();
+
+            SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
+
+            SetAddOnsPriceOnPageLaod();
+
         });
 
         $("#priceToggle").click(function () {
@@ -732,12 +738,15 @@
 
                         Price = Price * QuantityOrdered;
 
+                        alert(QuantityOrdered);
+
+                        $("#VMQuantityOrdered").val(QuantityOrdered);
+                        $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
+
 
                         this.displayTotalPrice(Price, calculateAddOns());
                    
                     }
-                    $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
-                   
                 }
             }
             else {
@@ -765,10 +774,11 @@
 
         $(".dropdownQtyListClass").change(function () {
 
+            $("#VMQuantityOrdered").val($(this).find(":selected").val());
             CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
         });
 
-        function SelectStock(classname) {
+        function SelectStockOption(classname) {
 
             $('input:radio[class=' + classname + ']').prop('checked', true);
 
@@ -788,7 +798,9 @@
                     }
                 });
 
-                $("#VMStockId").val($('input:radio[class=' + classname + ']').attr("data-Id"));
+                var stockID = $('input:radio[class=' + classname + ']').attr("data-Id");
+                alert(stockID);
+                $("#VMStockId").val(stockID);
 
                 hideShowPriceColumns(classname);
 
@@ -883,14 +895,14 @@
 
             $("#VMPrice").val(itemPrice);
             $("#VMAddOnrice").val(addOnPrice);
-             
+            $("#VMItemId").val(@ViewBag.ClonedItemId);
 
             
 
             var culturee = 1;
 
             var IsInt = "";
-            IsInt = productPrice;
+            IsInt = itemPrice;
 
             if (IsInt == 0) {
             } else {
@@ -907,7 +919,7 @@
 
             }
 
-            TotalItemPrice = productPriceTotal + addonPriceTotal;
+            TotalItemPrice = itemPrice + addOnPrice;
             TotalItemPrice = TotalItemPrice.toFixed(2);
 
 
@@ -971,14 +983,17 @@
 
             var checkedPriceTotal = 0;
 
-            var checkBoxJasonData = null;
+            var selectedCheckBox = null;
+
+            var JsonToSubmit = [];
 
             var itemsList = '';
 
             var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
 
+            var selectedAddonsList = "";
             $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-
+                
                 //  $(this).css("height", "18px");
                 // $(this).css("width", "21px");
 
@@ -990,7 +1005,8 @@
 
                         for (var i = 0; i < $(addOnJasonData).length; i++) {
                             if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
-                                checkBoxJasonData = $(addOnJasonData)[i];
+                                JsonToSubmit.push($(addOnJasonData)[i]); 
+                                selectedCheckBox = $(addOnJasonData)[i];
                                 break;
                             }
                         }
@@ -1000,35 +1016,40 @@
                         // check the costcenter if its type is fixed then we will take its setup cost
                         //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
                         
-                        var actualPrice = checkBoxJasonData.ActualPrice;
+                        var actualPrice = selectedCheckBox.ActualPrice;
 
-                        if (checkBoxJasonData.Type == 2) {
+                        if (selectedCheckBox.Type == 2) {
 
                             if (isRanged) {
                                 var quantityOrdered = $("#rangedQuantityOrdered").val();
-                                actualPrice = (quantityOrdered * actualPrice) + checkBoxJasonData.SetupCost;
-                                if (actualPrice < checkBoxJasonData.MinimumCost && checkBoxJasonData.MinimumCost != 0) {
-                                    actualPrice = checkBoxJasonData.MinimumCost;
+                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
+                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                                    actualPrice = selectedCheckBox.MinimumCost;
                                 }
                             }
                             else {
                                 var quantityOrdered = $(".dropdownQtyListClass").find(":selected").val();
 
-                                actualPrice = (quantityOrdered * actualPrice) + checkBoxJasonData.SetupCost;
-                                if (actualPrice < checkBoxJasonData.MinimumCost && checkBoxJasonData.MinimumCost != 0) {
-                                    actualPrice = checkBoxJasonData.MinimumCost;
+                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
+                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                                    actualPrice = selectedCheckBox.MinimumCost;
 
                                 }
                             }
 
                         }
                         checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice); //Gets Actual non discounted Price
-                        $("#VMJsonAddOns").val(JSON.stringify(checkBoxJasonData));
+
+                        selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
+                       
                     }
                 } else {
                     $(this).parent().css("background-image", "url('../../images/square-final.png')");
                 }
-                checkBoxJasonData = null;
+
+                $("#VMJsonAddOns").val(JSON.stringify(JsonToSubmit)); 
+                selectedCheckBox = null;
+                //JsonToSubmit = [];
             });
 
             $('#lblExtra').html(itemsList);
@@ -1044,19 +1065,18 @@
         });
 
 
-        function SetAddOnsPrice() {
+        function SetAddOnsPriceOnPageLaod() {
 
-            var checkBoxJasonData = null;
+            var selectedCheckBox = null;
 
             var itemsList = '';
 
             var orderedQuantity = $(".dropdownQtyListClass").find(":selected").val();
+
             if (isRanged) {
                 orderedQuantity = $("#rangedQuantityOrdered").val();
 
             }
-
-
 
             var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
 
@@ -1066,7 +1086,7 @@
 
                     for (var i = 0; i < $(addOnJasonData).length; i++) {
                         if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
-                            checkBoxJasonData = $(addOnJasonData)[i];
+                            selectedCheckBox = $(addOnJasonData)[i];
                             break;
                         }
                     }
@@ -1075,14 +1095,14 @@
 
                     // check the costcenter if its type is fixed then we will take its setup cost
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-                    var actualPrice = checkBoxJasonData.ActualPrice;
+                    var actualPrice = selectedCheckBox.ActualPrice;
 
-                    if (checkBoxJasonData.Type == 2) {
+                    if (selectedCheckBox.Type == 2) {
 
-                        actualPrice = (orderedQuantity * actualPrice) + checkBoxJasonData.SetupCost;
+                        actualPrice = (orderedQuantity * actualPrice) + selectedCheckBox.SetupCost;
 
-                        if (actualPrice < checkBoxJasonData.MinimumCost && checkBoxJasonData.MinimumCost != 0) {
-                            actualPrice = checkBoxJasonData.MinimumCost;
+                        if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                            actualPrice = selectedCheckBox.MinimumCost;
 
                         }
 
@@ -1090,6 +1110,8 @@
                     }
                 }
             });
+
+            selectedCheckBox = null;
         }
 
         function ShowArtworkPanel() {

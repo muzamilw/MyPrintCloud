@@ -887,20 +887,23 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private string SaveCmsPageImage(CmsPage cmsPage)
         {
-            string base64 = cmsPage.Bytes.Substring(cmsPage.Bytes.IndexOf(',') + 1);
-            base64 = base64.Trim('\0');
-            byte[] data = Convert.FromBase64String(base64);
-
-            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CMSPages");
-            if (directoryPath != null && !Directory.Exists(directoryPath))
+            if (cmsPage.Bytes != null)
             {
-                Directory.CreateDirectory(directoryPath);
-            }
-            Guid newGuid = Guid.NewGuid();
-            string savePath = directoryPath + "\\" + newGuid + "_" + cmsPage.FileName;
-            File.WriteAllBytes(savePath, data);
-            return savePath;
+                string base64 = cmsPage.Bytes.Substring(cmsPage.Bytes.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
 
+                string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CMSPages");
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                Guid newGuid = Guid.NewGuid();
+                string savePath = directoryPath + "\\" + newGuid + "_" + cmsPage.FileName;
+                File.WriteAllBytes(savePath, data);
+                return savePath;
+            }
+            return null;
         }
         /// <summary>
         /// Save Images for Company Contact Profile Image

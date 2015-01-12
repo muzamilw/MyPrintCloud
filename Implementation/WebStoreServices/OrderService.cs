@@ -42,38 +42,40 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // if user order cookie is null the we process the order
-        public long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId)
-        { // update but save this function changes 
-            long dummyRetailCustomerId = 0;
+        public long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId)
+        {
             long orderID = 0;
             if (!IsUserLoggedIn())
             {
-                if (!CheckCustomerCookie()) // need to update
+                if (TemporaryRetailCompanyId == 0) // temporary customer doesn't exists in cookie
                 {
                     if (storeMode == 1) // retail
                     {
-                        dummyRetailCustomerId = CreateCustomer();
-                        long dummyContactId = _myCompanyContact.GetContactIdByCustomrID(dummyRetailCustomerId);
-                        orderID = _OrderRepository.CreateNewOrder(dummyRetailCustomerId, dummyContactId, OrganisationId, orderTitle);
-                    }
-                    else  // corporate
-                    {
-                        // create dummy contact only in case of corporate
-                        long dummyContactId = 0; //_myCompanyContact.GetContactIdByCustomrID(dummyRetailCustomerId);
-                        orderID = _OrderRepository.CreateNewOrder(CompanyId, dummyContactId, OrganisationId, orderTitle);
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                        long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
+                        orderID = _OrderRepository.CreateNewOrder(TemporaryRetailCompanyId, TemporaryContactId, OrganisationId, orderTitle);
                     }
                 }
                 else
                 {
-                   // user cookie is exists
+                   // temporary customer exists in cookie
+                    Company temporaryCompany = _myCompanyService.GetCompanyByCompanyID(TemporaryRetailCompanyId);
+                    if (temporaryCompany == null)
+                    {
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                    }
+
+                    long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
+                    orderID = _OrderRepository.GetOrderID(TemporaryRetailCompanyId, TemporaryContactId, orderTitle, OrganisationId);
                 }
             }
             else
             {
-                orderID = _OrderRepository.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationId, orderTitle);
+                orderID = _OrderRepository.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), orderTitle, OrganisationId);
                  
             }
 
+            TemporaryRetailCompanyId = TemporaryRetailCompanyId;
             return orderID;
                  
         }
@@ -90,45 +92,10 @@ namespace MPC.Implementation.WebStoreServices
 
             }
         }
-        public bool CheckCustomerCookie()
-        {
-
-            bool result = true;
-            //HttpCookie customerCookie = null;
-
-
-            //customerCookie = Request.Cookies[CUSTOMER_COOKIE];
-            //if (customerCookie != null && !string.IsNullOrWhiteSpace(customerCookie.Value) && customerCookie.Value != "0")
-            //    result = true;
-
-
-            return result;
-        }
-        public int CreateCustomer()
-        {
-            int customerID = 0;
-          
-           
-                customerID = _myCompanyService.CreateCustomer("Web Store Customer", true, false, ContactCompanyTypes.TemporaryCustomer, "");
-                if (customerID > 0)
-                    this.SetCustomerCookie(customerID); // sets the customer into the cookie
-          
-
-            return customerID;
-        }
-        public bool SetCustomerCookie(int customerID)
-        {
-            bool result = false;
-            HttpCookie customerCookie = null;
      
-                //customerCookie = new HttpCookie(CUSTOMER_COOKIE, customerID.ToString());
-                //customerCookie.Expires = DateTime.Today.AddDays(365);
-                //Response.Cookies.Add(customerCookie);
-                //result = true;
-           
-          
-
-            return result;
+        private long CreateTemporaryCustomer(long OrganisationId)
+        {
+            return _myCompanyService.CreateCustomer("Web Store Customer", true, false, CompanyTypes.TemporaryCustomer, "", OrganisationId);
         }
         public long GetUserShopCartOrderID(int status)
         {
@@ -215,6 +182,23 @@ namespace MPC.Implementation.WebStoreServices
            try
            {
                return _OrderRepository.ResetOrderVoucherCode(orderId);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
+
+        /// <summary>
+        /// Get the OrderId by login User 
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+       public long GetOrderIdByContactId(long contactId, long CompanyId)
+       {
+           try
+           {
+               return _OrderRepository.GetCartOrderId(contactId, CompanyId);
            }
            catch (Exception ex)
            {
