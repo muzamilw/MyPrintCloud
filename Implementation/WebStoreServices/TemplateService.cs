@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebSupergoo.ABCpdf8;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -19,19 +20,202 @@ namespace MPC.Implementation.WebStoreServices
         #region private
         public readonly ITemplateRepository _templateRepository;
         public readonly IProductCategoryRepository _ProductCategoryRepository;
+        public readonly ITemplateBackgroundImagesService _templateBackgroundImagesService;
 
-        private bool CovertPdfToBackgroundWithObjects(string physicalPath, long ProductID, long organizationID)
-        {
-            bool result = false;
-            return result;
-        }
         private bool CovertPdfToBackground(string physicalPath, long ProductID, long organizationID)
         {
             bool result = false;
             try
             {
-                
+                using (Doc theDoc = new Doc())
+                {
+                    try
+                    {
+                            List<TemplateObject> listTobjs = new List<TemplateObject>();
+                            List<TemplatePage> listTpages = new List<TemplatePage>();
+                            List<TemplatePage> listNewTemplatePages = new List<TemplatePage>();
+                            double cuttingMargins = 0;
+                            _templateRepository.DeleteTemplatePagesAndObjects(ProductID, out listTobjs,out listTpages);
+                            theDoc.Read(physicalPath);
+                            int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
+                            int srcDocRot = theDoc.GetInfoInt(srcPagesID, "/Rotate");
+                            // create template pages
+                            for (int i = 1; i <= theDoc.PageCount; i++)
+                            {
+                                theDoc.PageNumber = i;
+                                theDoc.Rect.String = theDoc.CropBox.String;
+                                theDoc.Rect.Inset(cuttingMargins, cuttingMargins);
+                                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+                                //check if folder exist
+                                string tempFolder = drURL + ProductID.ToString();
+                                if (!System.IO.Directory.Exists(tempFolder))
+                                {
+                                    System.IO.Directory.CreateDirectory(tempFolder);
+                                }
+                                // generate image 
+                                string ThumbnailFileName = "/templatImgBk";
+                                theDoc.Rendering.DotsPerInch = 150;
+                                theDoc.Rendering.Save(System.IO.Path.Combine(tempFolder, ThumbnailFileName) + i.ToString() + ".jpg");
+                                // save template page 
+                                TemplatePage objPage = new TemplatePage();
+                                objPage.PageNo = i;
+                                objPage.ProductId = ProductID;
+                                objPage.PageName = "Front";
+                                objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
+                                listNewTemplatePages.Add(objPage);
+                               
+                                // save pdf 
+                                Doc singlePagePdf = new Doc();
+                                try
+                                {
+                                    singlePagePdf.Rect.String = singlePagePdf.MediaBox.String = theDoc.MediaBox.String;
+                                    singlePagePdf.AddPage();
+                                    singlePagePdf.AddImageDoc(theDoc, i, null);
+                                    singlePagePdf.FrameRect();
+
+                                    int srcPageRot = theDoc.GetInfoInt(theDoc.Page, "/Rotate");
+                                    if (srcDocRot != 0)
+                                    {
+                                        singlePagePdf.SetInfo(singlePagePdf.Page, "/Rotate", srcDocRot);
+                                    }
+                                    if (srcPageRot != 0)
+                                    {
+                                        singlePagePdf.SetInfo(singlePagePdf.Page, "/Rotate", srcPageRot);
+                                    }
+                                    string targetFolder = drURL;
+                                    if (File.Exists(targetFolder + ProductID + "/Side" + i.ToString() + ".pdf"))
+                                    {
+                                        File.Delete(targetFolder + ProductID + "/Side" + i.ToString() + ".pdf");
+                                    }
+                                    singlePagePdf.Save(targetFolder + ProductID + "/Side" + i.ToString() + ".pdf");
+                                    singlePagePdf.Clear();
+                                }
+                                catch (Exception e)
+                                {
+                                    throw new Exception("GenerateTemplateBackground", e);
+                                }
+                                finally
+                                {
+                                    if (singlePagePdf != null)
+                                        singlePagePdf.Dispose();
+                                }
+                            }
+                        theDoc.Dispose();
+                        return true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("GeneratePDfPreservingObjects", ex);
+                    }
+                    finally
+                    {
+                        if (theDoc != null)
+                            theDoc.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        private bool CovertPdfToBackgroundWithoutObjects(string physicalPath, long ProductID, long organizationID)
+        {
+            bool result = false;
+            try
+            {
+                int CuttingMargin = 0;
+                double pdfHeight, pdfWidth = 0;
                 _templateRepository.DeleteTemplatePagesAndObjects(ProductID);
+                _templateBackgroundImagesService.DeleteTemplateBackgroundImages(ProductID,organizationID);
+                using (Doc theDoc = new Doc())
+                {
+
+                    try
+                    {
+                        theDoc.Read(physicalPath);
+                        int tID = 0;
+                        pdfWidth = theDoc.MediaBox.Width;
+                        pdfHeight = theDoc.MediaBox.Height;
+                        List<TemplatePage> listPages = new List<TemplatePage>();
+                        int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
+                        int srcDocRot = theDoc.GetInfoInt(srcPagesID, "/Rotate");
+                        string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/" );
+                        for (int i = 1; i <= theDoc.PageCount; i++)
+                        {
+                            theDoc.PageNumber = i;
+                            theDoc.Rect.String = theDoc.CropBox.String;
+                            theDoc.Rect.Inset(CuttingMargin, CuttingMargin);
+                            //check if folder exist
+                            string tempFolder = drURL + ProductID.ToString();
+                            if (!System.IO.Directory.Exists(tempFolder))
+                            {
+                                System.IO.Directory.CreateDirectory(tempFolder);
+                            }
+                            // generate image 
+                            string ThumbnailFileName = "/templatImgBk";
+                            theDoc.Rendering.DotsPerInch = 150;
+                            theDoc.Rendering.Save(System.IO.Path.Combine(tempFolder, ThumbnailFileName) + i.ToString() + ".jpg");
+                            // save template page 
+                            TemplatePage objPage = new TemplatePage();
+                            objPage.PageNo = i;
+                            objPage.ProductId = ProductID;
+                            objPage.PageName = "Front";
+                            objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
+                            listPages.Add(objPage);
+                            //int templatePage = SaveTemplatePage(i, TemplateID, "Front", TemplateID + "/Side" + (i).ToString() + ".pdf");
+                            // save pdf 
+                            using (Doc singlePagePdf = new Doc())
+                            {
+                                try
+                                {
+                                    singlePagePdf.Rect.String = singlePagePdf.MediaBox.String = theDoc.MediaBox.String;
+                                    singlePagePdf.AddPage();
+                                    singlePagePdf.AddImageDoc(theDoc, i, null);
+                                    singlePagePdf.FrameRect();
+
+                                    int srcPageRot = theDoc.GetInfoInt(theDoc.Page, "/Rotate");
+                                    if (srcDocRot != 0)
+                                    {
+                                        singlePagePdf.SetInfo(singlePagePdf.Page, "/Rotate", srcDocRot);
+                                    }
+                                    if (srcPageRot != 0)
+                                    {
+                                        singlePagePdf.SetInfo(singlePagePdf.Page, "/Rotate", srcPageRot);
+                                    }
+                                    string targetFolder = drURL;
+                                    if (File.Exists(targetFolder + ProductID + "/Side" + i.ToString() + ".pdf"))
+                                    {
+                                        File.Delete(targetFolder + ProductID + "/Side" + i.ToString() + ".pdf");
+                                    }
+                                    singlePagePdf.Save(targetFolder + ProductID + "/Side" + i.ToString() + ".pdf");
+                                    singlePagePdf.Clear();
+                                }
+                                catch (Exception e)
+                                {
+                                    throw new Exception("GenerateTemplateBackground", e);
+                                }
+                                finally
+                                {
+                                    if (singlePagePdf != null)
+                                        singlePagePdf.Dispose();
+                                }
+                            }
+                            result = _templateRepository.updateTemplate(ProductID, pdfWidth, pdfHeight, listPages);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("GenerateTemplateThumbnail", ex);
+                    }
+                    finally
+                    {
+                        if (theDoc != null)
+                            theDoc.Dispose();
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -39,17 +223,14 @@ namespace MPC.Implementation.WebStoreServices
             }
             return result;
         }
-        private bool generatePdfAsBackground(string PDFDoc, string savePath, string ThumbnailFileName, double CuttingMargin, long TemplateID)
-        {
-            bool result = true;
-            return result;
-        }
+
         #endregion
         #region constructor
-        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository)
+        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages)
         {
             this._templateRepository = templateRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
+            this._templateBackgroundImagesService = templateBackgroundImages;
         }
         #endregion
 
@@ -249,18 +430,21 @@ namespace MPC.Implementation.WebStoreServices
             return newTemplateList;
         }
         // generate template from the given pdf file,called from MIS // added by saqib ali
-        public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long CustomerID, long organizationID)
+        // filePhysicalPath = 'MPC_Content/Products/organization1/Templates/random__CorporateTemplateUpload.pdf'  // can be changed but it should be in mpcContent 
+        // mode = 1 for creating template and removing all the existing objects  and images
+        // mode = 2 for creating template and preserving template objects and images
+        public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long organizationID)
         {
             bool result = false;
             try
             {
                 if (mode == 2)
                 {
-                   result =  CovertPdfToBackgroundWithObjects(filePhysicalPath, templateID, organizationID);
+                   result =  CovertPdfToBackground(filePhysicalPath, templateID, organizationID);
                 }
                 else
                 {
-                   result =  CovertPdfToBackground(filePhysicalPath, templateID,organizationID);
+                   result =  CovertPdfToBackgroundWithoutObjects(filePhysicalPath, templateID,organizationID);
                 }
                 if (File.Exists(filePhysicalPath))
                 {

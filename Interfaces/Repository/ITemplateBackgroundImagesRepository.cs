@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ITemplateBackgroundImagesRepository : IBaseRepository<TemplateBackgroundImage, int>
     {
-        void DeleteTemplateBackgroundImages(long productID);
+        void DeleteTemplateBackgroundImages(long productID, out List<TemplateBackgroundImage> objTemplateImages);
     }
 }

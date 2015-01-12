@@ -21,8 +21,9 @@ namespace MPC.Interfaces.WebStoreServices
         bool DeleteTemplateFiles(long ProductID, long organizationID);
         long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, long organizationID);
         List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName, long organizationID);
-        bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long CustomerID, long organizationID);
+        bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long organizationID);
         int CloneTemplateByTemplateID(int TempID);
 
+        
     }
 }
