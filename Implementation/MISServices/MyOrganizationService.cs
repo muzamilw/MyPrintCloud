@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -6,9 +7,10 @@ using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
 using MPC.Interfaces.Repository;
-using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
+using System.Resources;
+
 
 namespace MPC.Implementation.MISServices
 {
@@ -106,8 +108,10 @@ namespace MPC.Implementation.MISServices
             {
                 organization.MarkupId = markupRepository.GetAll().First(x => x.IsDefault != null).MarkUpId;
             }
-            return organization;
+            return SetLanguageEditor(organization);
         }
+
+
 
         /// <summary>
         /// Add/Update Organization
@@ -121,8 +125,6 @@ namespace MPC.Implementation.MISServices
             {
                 return Save(organisation);
             }
-
-
             //Set updated fields
             return Update(organisation, organisationDbVersion);
         }
@@ -381,18 +383,176 @@ namespace MPC.Implementation.MISServices
             organisationRepository.SaveChanges();
         }
 
+        public LanguageEditor ReadResourceFileByLanguageId(long organisationId, long lanuageId)
+        {
+            LanguageEditor languageEditor = new LanguageEditor();
+            GlobalLanguage globalLanguage = globalLanguageRepository.Find(lanuageId);
+            string sResxPath = null;
+            if (globalLanguage != null)
+            {
+                sResxPath =
+                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" +
+                                                                  organisationId);
+                sResxPath = sResxPath + "\\" + globalLanguage.culture + "\\LanguageResource.resx";
+            }
+            if (sResxPath != null && File.Exists(sResxPath))
+            {
+                //Get existing resources
+                ResXResourceReader reader = new ResXResourceReader(sResxPath);
+                foreach (DictionaryEntry d in reader)
+                {
+                    switch (d.Key.ToString())
+                    {
+                        case "DefaultAddress":
+                            languageEditor.DefaultAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "DefaultShippingAddress":
+                            languageEditor.DefaultShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "PONumber":
+                            languageEditor.PONumber = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Prices":
+                            languageEditor.Prices = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "UserShippingAddress":
+                            languageEditor.UserShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Details":
+                            languageEditor.Details = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "NewsLetter":
+                            languageEditor.NewsLetter = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "ConfirmDesign":
+                            languageEditor.ConfirmDesign = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+
+                    }
+                }
+                reader.Close();
+            }
+
+            return languageEditor;
+        }
+
         /// <summary>
         /// Add/Update Lanuage Resource File
         /// </summary>
         /// <param name="organisation"></param>
         private void UpdateLanguageResource(Organisation organisation)
         {
-
-            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" + organisation.OrganisationId);
-            if (directoryPath != null && Directory.Exists(directoryPath))
+            if (organisation.LanguageId != null)
             {
-
+                GlobalLanguage globalLanguage = globalLanguageRepository.Find(organisation.LanguageId.Value);
+                string sResxPath =
+                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" +
+                                                                  organisation.OrganisationId);
+                if (globalLanguage != null)
+                {
+                    sResxPath = sResxPath + "\\" + globalLanguage.culture + "\\LanguageResource.resx";
+                }
+                if (sResxPath != null && File.Exists(sResxPath))
+                {
+                    Hashtable data = new Hashtable();
+                    data.Add("DefaultAddress", organisation.LanguageEditor.DefaultAddress);
+                    data.Add("DefaultShippingAddress", organisation.LanguageEditor.DefaultShippingAddress);
+                    data.Add("PONumber", organisation.LanguageEditor.PONumber);
+                    data.Add("Prices", organisation.LanguageEditor.Prices);
+                    data.Add("UserShippingAddress", organisation.LanguageEditor.UserShippingAddress);
+                    data.Add("Details", organisation.LanguageEditor.Details);
+                    data.Add("NewsLetter", organisation.LanguageEditor.NewsLetter);
+                    data.Add("ConfirmDesign", organisation.LanguageEditor.ConfirmDesign);
+                    UpdateResourceFile(data, sResxPath);
+                }
             }
+        }
+
+        /// <summary>
+        /// Write Resource File
+        /// </summary>
+        public static void UpdateResourceFile(Hashtable data, String path)
+        {
+            Hashtable resourceEntries = new Hashtable();
+            //Modify resources here...
+            foreach (String key in data.Keys)
+            {
+                if (!resourceEntries.ContainsKey(key))
+                {
+                    String value = data[key] == null ? "" : data[key].ToString();
+                    resourceEntries.Add(key, value);
+                }
+                else
+                {
+                    String value = data[key] == null ? "" : data[key].ToString();
+                    resourceEntries.Remove(key);
+                    resourceEntries.Add(key, value);
+                }
+            }
+            //Write the combined resource file
+            ResXResourceWriter resourceWriter = new ResXResourceWriter(path);
+            foreach (String key in resourceEntries.Keys)
+            {
+                resourceWriter.AddResource(key, resourceEntries[key]);
+            }
+            resourceWriter.Generate();
+            resourceWriter.Close();
+        }
+
+        /// <summary>
+        /// Set Properites Language Editor(Read Resource File)
+        /// </summary>
+        private Organisation SetLanguageEditor(Organisation organisation)
+        {
+            LanguageEditor languageEditor = new LanguageEditor();
+            organisation.LanguageEditor = languageEditor;
+            string sResxPath = null;
+            if (organisation.GlobalLanguage != null)
+            {
+                sResxPath =
+                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" +
+                                                                  organisation.OrganisationId);
+                sResxPath = sResxPath + "\\" + organisation.GlobalLanguage.culture + "\\LanguageResource.resx";
+            }
+            if (sResxPath != null && File.Exists(sResxPath))
+            {
+                //Get existing resources
+                ResXResourceReader reader = new ResXResourceReader(sResxPath);
+                foreach (DictionaryEntry d in reader)
+                {
+                    switch (d.Key.ToString())
+                    {
+                        case "DefaultAddress":
+                            organisation.LanguageEditor.DefaultAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "DefaultShippingAddress":
+                            organisation.LanguageEditor.DefaultShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "PONumber":
+                            organisation.LanguageEditor.PONumber = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Prices":
+                            organisation.LanguageEditor.Prices = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "UserShippingAddress":
+                            organisation.LanguageEditor.UserShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Details":
+                            organisation.LanguageEditor.Details = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "NewsLetter":
+                            organisation.LanguageEditor.NewsLetter = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "ConfirmDesign":
+                            organisation.LanguageEditor.ConfirmDesign = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+
+                    }
+                }
+                reader.Close();
+            }
+
+            return organisation;
         }
         #endregion
 
