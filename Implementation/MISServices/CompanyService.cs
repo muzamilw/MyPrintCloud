@@ -279,7 +279,7 @@ namespace MPC.Implementation.MISServices
                     product.OrganisationId = itemRepository.OrganisationId;
                     itemRepository.Add(product);
                 }
-                SaveCompanyProductImages(companySavingModel.NewAddedProducts);
+                SaveCompanyProductImages(companySavingModel.NewAddedProducts, companySavingModel.Company.CompanyId);
             }
             if (companySavingModel.EdittedProducts != null)
                 //Update Products
@@ -378,7 +378,6 @@ namespace MPC.Implementation.MISServices
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
-            UpdateProductsOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
             UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
@@ -387,10 +386,12 @@ namespace MPC.Implementation.MISServices
             companyRepository.Update(companyToBeUpdated);
             companyRepository.SaveChanges();
 
+            //Update products
+            UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
-
+           
             return companySavingModel.Company;
         }
 
@@ -846,13 +847,28 @@ namespace MPC.Implementation.MISServices
             companyBannerRepository.SaveChanges();
 
         }
-        private void SaveCompanyProductImages(IEnumerable<Item> items)
+        private void SaveCompanyProductImages(IEnumerable<Item> items,long companyId)
         {
+            List<Item> itemsList = itemRepository.GetAll().ToList();
             foreach (var item in items)
             {
-                //todo asad
                 if (item.ThumbnailImage != null)
                 {
+                    string base64 = item.ThumbnailImage.Substring(item.ThumbnailImage.IndexOf(',') + 1);
+                    base64 = base64.Trim('\0');
+                    byte[] data = Convert.FromBase64String(base64);
+                    string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Products/"+ companyId) ;
+                    if (directoryPath != null && !Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath);
+                    }
+                    string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.ThumbnailImageName;
+                    File.WriteAllBytes(savePath, data);
+                    Item itemUpdating = itemsList.FirstOrDefault(x => x.CompanyId == item.CompanyId);
+                    if (itemUpdating != null)
+                    {
+                        item.ImagePath = savePath;
+                    }
 
                 }
                 if (item.GridImageBytes != null)

@@ -417,11 +417,11 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string GridImageSourceName { get; set; }
         [NotMapped]
-        public byte[] ThumbnailImage { get; set; }
+        public string ThumbnailImage { get; set; }
         [NotMapped]
-        public byte[] GridImageBytes { get; set; }
+        public string GridImageBytes { get; set; }
         [NotMapped]
-        public byte[] ImagePathImage { get; set; }
+        public string ImagePathImage { get; set; }
 
         #endregion
     }

@@ -678,18 +678,19 @@
                     }),
                     Template: template().convertToServerData()
                 };
-                //result.StoreProductThumbnailFileName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
-                //result.StoreProductPageBannerFileName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
-                //result.StoreProductGridImageLayoutFileName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
-                //result.StoreProductThumbnailFileBytes = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
-                //result.StoreProductPageBannerFileBytes = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
-                //result.StoreProductGridImageLayoutFileBytes = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
+               
+                //result.ThumbnailImageName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
+                //result.ImagePathImageName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
+                //result.GridImageSourceName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
+                //result.ThumbnailImage = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
+                //result.ImagePathImage = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
+                //result.GridImageSource = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary(); 
                 result.ThumbnailImageName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
                 result.ImagePathImageName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
                 result.GridImageSourceName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
-                result.ThumbnailImage = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
-                result.ImagePathImage = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
-                result.GridImageSource = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
+                result.ThumbnailImageByte = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
+                result.ImagePathImageByte = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
+                result.GridImageSourceByte = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
                 return result;
             };
 

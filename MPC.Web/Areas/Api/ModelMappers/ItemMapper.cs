@@ -200,9 +200,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbnailImageName = source.ThumbnailImageName,
                 ImagePathImageName = source.ImagePathImageName,
                 GridImageSourceName = source.GridImageSourceName,
-                ThumbnailImage = source.ThumbnailImage,
-                GridImageBytes = source.GridImageBytes,
-                ImagePathImage = source.ImagePathImage
+                ThumbnailImage = source.ThumbnailImageByte,
+                GridImageBytes = source.GridImageSourceByte,
+                ImagePathImage = source.ImagePathImageByte
             };
         }
     }

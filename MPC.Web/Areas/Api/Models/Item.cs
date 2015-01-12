@@ -376,6 +376,10 @@ namespace MPC.MIS.Areas.Api.Models
         public string ThumbnailImageName { get; set; }
         public string ImagePathImageName { get; set; }
         public string GridImageSourceName { get; set; }
+        
+        public string ThumbnailImageByte { get; set; }
+        public string ImagePathImageByte { get; set; }
+        public string GridImageSourceByte { get; set; }
         /// <summary>
         /// Thumbnail Image
         /// </summary>
