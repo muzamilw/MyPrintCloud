@@ -369,7 +369,7 @@
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <select id="language" class="form-control" data-bind="options: $root.languagePacks, optionsText: 'FriendlyName', optionsValue: 'LanguageId' ,value:languageId,validationtooltip:languageId"></select>
+                                                        <select id="language" class="form-control" data-bind="options: $root.languagePacks, optionsText: 'FriendlyName', optionsValue: 'LanguageId' ,value:languageId,validationtooltip:languageId, event: { change : $root.getLanguageEditorDataByLanguageId}"></select>
                                                         <span class="help-block text-right"></span>
                                                     </div>
 

@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PONumber" xml:space="preserve">
-    <value />
+    <value>123</value>
   </data>
   <data name="Prices" xml:space="preserve">
-    <value />
+    <value>54$</value>
   </data>
   <data name="NewsLetter" xml:space="preserve">
-    <value />
+    <value>news letter</value>
   </data>
   <data name="ConfirmDesign" xml:space="preserve">
-    <value />
+    <value>compaing ty[ednlakd </value>
   </data>
   <data name="DefaultShippingAddress" xml:space="preserve">
-    <value />
+    <value>Johar town</value>
   </data>
   <data name="UserShippingAddress" xml:space="preserve">
-    <value />
+    <value>User can create shipping address</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value />
+    <value>detail </value>
   </data>
   <data name="DefaultAddress" xml:space="preserve">
-    <value>test1 5</value>
+    <value>h#10 trgtrh</value>
   </data>
 </root>
