@@ -176,6 +176,11 @@ namespace MPC.Models.DomainModels
         public virtual State State { get; set; }
 
         /// <summary>
+        /// Global Language
+        /// </summary>
+        public virtual GlobalLanguage GlobalLanguage { get; set; }
+
+        /// <summary>
         /// Cms Skin Page Widgets
         /// </summary>
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
