@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,9 @@ using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
+using System.Resources;
+using System.Web;
+
 
 namespace MPC.Implementation.MISServices
 {
@@ -391,8 +395,97 @@ namespace MPC.Implementation.MISServices
             string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" + organisation.OrganisationId);
             if (directoryPath != null && Directory.Exists(directoryPath))
             {
+                //Write the combined resource file
+                //ResourceWriter resourceWriter = new ResourceWriter(directoryPath + "/en-US/LanguageResource.resx");
+
+                //foreach (String key in resourceEntries.Keys)
+                //{
+                //    resourceWriter.AddResource(key, resourceEntries[key]);
+                //}
+                // resourceWriter.AddResource("abc", "test21");
+                // resourceWriter.Generate();
+                //resourceWriter.Close();
+
+                //resourceWriter.AddResource("myString", "test");
+               // resourceWriter.Close();
+
+                string sResxPath = directoryPath + "\\en-US\\LanguageResource.resx";
+
+                Hashtable data = new Hashtable();
+                data.Add("name", "sunil");
+                UpdateResourceFile(data, sResxPath);
+
 
             }
+        }
+        public static void UpdateResourceFile(Hashtable data, String path)
+        {
+            Hashtable resourceEntries = new Hashtable();
+            //string FILE_NAME = PATH + "Resource." + aCultureID + ".resx";
+
+            FileStream cultureFile = File.Open(path, FileMode.Open);
+
+            try
+            {
+                IResourceReader reader1 = new ResourceReader(cultureFile); // <<< Exception!
+
+                IDictionaryEnumerator cultureInfo = reader1.GetEnumerator();
+
+                while (cultureInfo.MoveNext())
+                {
+                    //MessageBox.Show("<br>");
+                    //MessageBox.Show("Name: " + cultureInfo.Key.ToString());
+                    //MessageBox.Show("Value: " + cultureInfo.Value.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(METHOD + "unexpected exception" + ex);
+                throw ex;
+            }
+           //ResXResourceReader resXResource = new ResXResourceReader();
+            var fs = new System.IO.FileStream(path,
+                                  System.IO.FileMode.Open);
+            //Get existing resources
+            ResourceReader reader = new ResourceReader(fs);
+                 if (reader != null)
+            {
+                IDictionaryEnumerator id = reader.GetEnumerator();
+                foreach (DictionaryEntry d in reader)
+                {
+                    if (d.Value == null)
+                        resourceEntries.Add(d.Key.ToString(), "");
+                    else
+                        resourceEntries.Add(d.Key.ToString(), d.Value.ToString());
+                } reader.Close();
+            }
+            //Modify resources here...
+            foreach (String key in data.Keys)
+            {
+                if (!resourceEntries.ContainsKey(key))
+                {
+                    String value = data[key].ToString();
+                    if (value == null)
+                        value = "";
+                    resourceEntries.Add(key, value);
+                }
+                else
+                {
+                    String value = data[key].ToString();
+                    if (value == null)
+                        value = "";
+                    resourceEntries.Remove(key);
+                    resourceEntries.Add(key, data[key].ToString());
+                }
+            }
+            //Write the combined resource file
+            ResourceWriter resourceWriter = new ResourceWriter(path);
+            foreach (String key in resourceEntries.Keys)
+            {
+                resourceWriter.AddResource(key, resourceEntries[key]);
+            }
+            resourceWriter.Generate();
+            resourceWriter.Close();
         }
         #endregion
 

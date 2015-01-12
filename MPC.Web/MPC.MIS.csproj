@@ -437,10 +437,10 @@
     <Compile Include="Areas\Api\Models\TaxRate.cs" />
     <Compile Include="Areas\Api\Models\WeightUnitDropDown.cs" />
     <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
-    <Compile Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource.Designer.cs">
+    <Compile Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource..Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LanguageResource.resx</DependentUpon>
+      <DependentUpon>LanguageResource..resources</DependentUpon>
     </Compile>
     <Compile Include="MPC_Content\Resources\Organisation1\fr-FR\LanguageResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -2667,9 +2667,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LanguageResource.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource..resources">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResource..Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MPC_Content\Resources\Organisation1\fr-FR\LanguageResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
