@@ -8,6 +8,6 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplateBackgroundImagesService
     {
-        void DeleteTemplateBackgroundImages(long productID);
+        void DeleteTemplateBackgroundImages(long productID, long organizationID);
     }
 }

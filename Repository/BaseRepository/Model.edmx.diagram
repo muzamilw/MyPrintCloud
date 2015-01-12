@@ -201,6 +201,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies1" />
         <EntityTypeShape EntityType="DomainModels.ImagePermission" Width="1.5" PointX="11.375" PointY="64.25" />
         <AssociationConnector Association="DomainModels.FK__ImagePerm__Image__60D4A69D" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_GlobalLanguage" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
