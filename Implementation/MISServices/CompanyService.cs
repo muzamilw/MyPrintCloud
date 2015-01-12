@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -278,14 +279,16 @@ namespace MPC.Implementation.MISServices
                     product.CompanyId = companySavingModel.Company.CompanyId;
                     product.OrganisationId = itemRepository.OrganisationId;
                     itemRepository.Add(product);
+                    itemRepository.SaveChanges();
+                    SaveStoreProductImage(product);
                 }
-                SaveCompanyProductImages(companySavingModel.NewAddedProducts, companySavingModel.Company.CompanyId);
             }
             if (companySavingModel.EdittedProducts != null)
                 //Update Products
                 foreach (var product in companySavingModel.EdittedProducts)
                 {
                     itemRepository.Update(product);
+                    SaveStoreProductImage(product);
                 }
             if (companySavingModel.Deletedproducts != null)
                 //Delete Products
@@ -391,7 +394,7 @@ namespace MPC.Implementation.MISServices
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
-           
+
             return companySavingModel.Company;
         }
 
@@ -847,41 +850,62 @@ namespace MPC.Implementation.MISServices
             companyBannerRepository.SaveChanges();
 
         }
-        private void SaveCompanyProductImages(IEnumerable<Item> items,long companyId)
+
+        private void SaveStoreProductImage(Item item)
         {
-            List<Item> itemsList = itemRepository.GetAll().ToList();
-            foreach (var item in items)
+            string directoryPath =
+                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
+                                                                  itemRepository.OrganisationId + "/Company" +
+                                                                  item.CompanyId + "/Products/Product" + item.ItemId);
+            if (item.ThumbnailImage != null)
             {
-                if (item.ThumbnailImage != null)
+                string base64 = item.ThumbnailImage.Substring(item.ThumbnailImage.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+                
+                if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
-                    string base64 = item.ThumbnailImage.Substring(item.ThumbnailImage.IndexOf(',') + 1);
-                    base64 = base64.Trim('\0');
-                    byte[] data = Convert.FromBase64String(base64);
-                    string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Products/"+ companyId) ;
-                    if (directoryPath != null && !Directory.Exists(directoryPath))
-                    {
-                        Directory.CreateDirectory(directoryPath);
-                    }
-                    string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.ThumbnailImageName;
-                    File.WriteAllBytes(savePath, data);
-                    Item itemUpdating = itemsList.FirstOrDefault(x => x.CompanyId == item.CompanyId);
-                    if (itemUpdating != null)
-                    {
-                        item.ImagePath = savePath;
-                    }
-
+                    Directory.CreateDirectory(directoryPath);
                 }
-                if (item.GridImageBytes != null)
-                {
-
-                }
-                if (item.ImagePathImage != null)
-                {
-
-                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.ThumbnailImageName;
+                File.WriteAllBytes(savePath, data);
+               
+                item.ThumbnailPath = savePath;
+               
             }
-        }
+            if (item.GridImageBytes != null)
+            {
+                string base64 = item.GridImageBytes.Substring(item.GridImageBytes.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+               
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.GridImageSourceName;
+                File.WriteAllBytes(savePath, data);
 
+                item.GridImage = savePath;
+            }
+            if (item.ImagePathImage != null)
+            {
+                string base64 = item.ImagePathImage.Substring(item.ImagePathImage.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+               
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.ImagePathImageName;
+                File.WriteAllBytes(savePath, data);
+
+                item.ImagePath = savePath;
+            }
+            itemRepository.SaveChanges();
+        }
+        
         /// <summary>
         /// Save Images for CMS Page
         /// </summary>

@@ -476,9 +476,9 @@
                 }
             },
             //#region Store Product Images
-            storeProductThumbnailFileBinary = ko.observable(s_StoreProductThumbnailFileBinary),
-            storeProductPageBannerFileBinary = ko.observable(s_StoreProductPageBannerFileBinary),
-            storeProductGridImageLayoutFileBinary = ko.observable(s_StoreProductGridImageLayoutFileBinary),
+            storeProductThumbnailFileBinary = ko.observable(specifiedThumbnail || undefined),
+            storeProductPageBannerFileBinary = ko.observable(specifiedGridImage || undefined),
+            storeProductGridImageLayoutFileBinary = ko.observable(specifiedImagePath || undefined),
             storeProductThumbnailFileName = ko.observable(),
             storeProductPageBannerFileName = ko.observable(),
             storeProductGridImageLayoutFileName = ko.observable(),
