@@ -142,7 +142,7 @@
     <value>Shopping Cart</value>
   </data>
   <data name="SignInRegister" xml:space="preserve">
-    <value>SignIn / Register</value>
+    <value>SignIn / Register     _____2____</value>
   </data>
   <data name="TermsAndConditions" xml:space="preserve">
     <value>Terms &amp; Conditions</value>
@@ -154,23 +154,24 @@
     <value>Show Price Table</value>
   </data>
   <data name="lblBackOrder" xml:space="preserve">
-    <value>Out of Stock &lt;br/&gt; Back Ordering Allowed</value></data>
+    <value>Out of Stock &lt;br/&gt; Back Ordering Allowed</value>
+  </data>
   <data name="AccAlreadyExist" xml:space="preserve">
     <value>You indicated you are a new customer, but an account already exists with the e-mail</value>
   </data>
- 
   <data name="WlSumMesg" xml:space="preserve">
-    <value>Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. &lt;br /&gt; &lt;br /&gt; If your brief is not approved, marketing will be in contact with you.</value>
+    <value>Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. &lt;/br&gt; &lt;/br&gt; If your brief is not approved, marketing will be in contact with you.</value>
   </data>
   <data name="lblItemOutOfStock" xml:space="preserve">
     <value>Out of Stock</value>
   </data>
   <data name="lblRemove" xml:space="preserve">
-    <value>Are you sure you want to remove this item from your shopping cart?</value>
+    <value>Remove</value>
+    <comment>Remove</comment>
   </data>
- 
   <data name="btnCopyincarttxt" xml:space="preserve">
     <value>Copy in cart</value>
+    <comment>// shooping cart</comment>
   </data>
   <data name="lblPriceHeaderTxt" xml:space="preserve">
     <value>Price</value>
@@ -182,9 +183,8 @@
   </data>
   <data name="lblQuantityHeaderTxt" xml:space="preserve">
     <value>Quantity</value>
-    <comment>Quantity </comment>
+    <comment>Quantity</comment>
   </data>
-
   <data name="btnfrench" xml:space="preserve">
     <value>Button french</value>
     <comment>Button french</comment>
@@ -1649,25 +1649,9 @@
     <value>Lets us design it for you</value>
     <comment>Lets us design it for you</comment>
   </data>
-  <data name="lblPriceHeaderTxt" xml:space="preserve">
-    <value>Price</value>
-    <comment>Price</comment>
-  </data>
   <data name="lblProductCatHeading2" xml:space="preserve">
     <value>Rave Review</value>
     <comment>Rave Review</comment>
-  </data>
-  <data name="lblProductTxt" xml:space="preserve">
-    <value>Product</value>
-    <comment>Product</comment>
-  </data>
-  <data name="lblQuantityHeaderTxt" xml:space="preserve">
-    <value>Quantity</value>
-    <comment>Quantity</comment>
-  </data>
-  <data name="lblRemove" xml:space="preserve">
-    <value>Remove</value>
-    <comment>Remove</comment>
   </data>
   <data name="lblStatusHeadingTxt" xml:space="preserve">
     <value>Status</value>
@@ -2269,10 +2253,6 @@
   <data name="ltrlUploadTypes" xml:space="preserve">
     <value>&amp;nbsp;JPG, TIF, eps, PDF</value>
   </data>
-  <data name="btnCopyincarttxt" xml:space="preserve">
-    <value>Copy in cart</value>
-    <comment>// shooping cart</comment>
-  </data>
   <data name="lnkBillShipto" xml:space="preserve">
     <value>Bill &amp; Ship to:</value>
     <comment>// checkout page</comment>
@@ -2383,9 +2363,6 @@
   </data>
   <data name="btnBuyNow" xml:space="preserve">
     <value>Buy Now</value>
-  </data>
-  <data name="WlSumMesg" xml:space="preserve">
-    <value>Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. &lt;/br&gt; &lt;/br&gt; If your brief is not approved, marketing will be in contact with you.</value>
   </data>
   <data name="ClearBaseColor" xml:space="preserve">
     <value>All</value>
@@ -2702,14 +2679,8 @@
     <value>Additional Field 5</value>
     <comment>user profile page</comment>
   </data>
-  <data name="lblBackOrder" xml:space="preserve">
-    <value>Out of Stock &lt;br/&gt; Back Ordering Allowed</value>
-  </data>
   <data name="lblitemInStock" xml:space="preserve">
     <value>Items in Stock : </value>
-  </data>
-  <data name="lblItemOutOfStock" xml:space="preserve">
-    <value>Out of Stock</value>
   </data>
   <data name="btnDirectDeposit" xml:space="preserve">
     <value>Pay Via Direct Deposite</value>

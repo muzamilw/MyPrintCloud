@@ -52,11 +52,12 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         //[System.Web.Http.AcceptVerbs("GET", "POST")]
         //[System.Web.Http.HttpGet]
         //// Important: if called from MIS call implementation function instead of this function because organizationID will not exist in cookie when called from MIS
-        //public string DeleteTemplate(long id)
+        //public string testTemplate(long id)
         //{
-        //    long categoryID = 0;
+        //    List<long?> obj= new List<long?>();
+        //    obj.Add(861); obj.Add(1035);
         //    long organizationId = UserCookieManager.OrganisationID;
-        //    bool result = templateService.DeleteTemplateFiles(id,organizationId) ;
+        //    List<long?> result = templateService.CopyTemplateList(obj, organizationId, "", organizationId);
         //    var formatter = new JsonMediaTypeFormatter();
         //    var json = formatter.SerializerSettings;
         //    json.Formatting = Newtonsoft.Json.Formatting.Indented;

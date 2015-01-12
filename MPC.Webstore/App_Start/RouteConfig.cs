@@ -14,7 +14,11 @@ namespace MPC.Webstore
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-
+            routes.MapRoute(
+              "Error",
+              "Error",
+              new { controller = "Home", action = "Error", id = UrlParameter.Optional }
+           );
 
             routes.MapRoute("clear"
                  , "clear/{name}"
@@ -25,7 +29,18 @@ namespace MPC.Webstore
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
 
+            routes.MapRoute(
+             "AllProducts",
+             "AllProducts",
+             new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+          );
 
+
+            routes.MapRoute(
+             "ContactUs",
+             "ContactUs",
+             new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+          );
             routes.MapRoute(
                 "Login",
                 "Login/{controller}/{action}/{FirstName}/{LastName}/{Email}/{IsMarketing}",
@@ -39,32 +54,32 @@ namespace MPC.Webstore
               );
 
             routes.MapRoute(
-          "ForgotPassword",
-          "ForgotPassword/{controller}/{action}/{id}",
-          new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+              "ForgotPassword",
+              "ForgotPassword/{controller}/{action}/{id}",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
-        "Category",
-        "Category/{name}/{id}",
-        new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            "Category",
+            "Category/{name}/{id}",
+            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
             routes.MapRoute(
-  "ProductOptions",
-  "ProductOptions/{Cid}/{Itemid}/{Mode}",
-  new { controller = "Home", action = "Index", Cid = UrlParameter.Optional, Itemid = UrlParameter.Optional, Mode = UrlParameter.Optional }
-    );
+              "ProductOptions",
+              "ProductOptions/{CategoryId}/{ReferenceItemId}/{ItemMode}",
+              new { controller = "Home", action = "Index", Cid = UrlParameter.Optional, Itemid = UrlParameter.Optional, Mode = UrlParameter.Optional }
+             );
             routes.MapRoute(
-     "MarketingBrief",
-     "MarketingBrief/{ProductName}/{ItemID}",
-     new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, ItemID = UrlParameter.Optional }
-       );
+             "MarketingBrief",
+             "MarketingBrief/{ProductName}/{ItemID}",
+             new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, ItemID = UrlParameter.Optional }
+               );
 
             routes.MapRoute(
-   "ShopCart",
-   "ShopCart/{OrderID}",
-   new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
-     );
+           "ShopCart",
+           "ShopCart/{optionalOrderId}",
+           new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
+             );
 
             routes.MapRoute(
              "CloneItem",
@@ -72,17 +87,12 @@ namespace MPC.Webstore
              new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
                );
 
+      
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
-               "Error",
-               "Error/{controller}/{action}/{id}",
-               new { controller = "Home", action = "Error", id = UrlParameter.Optional }
-            );
+               "Default", // Route name
+               "",        // URL with parameters
+               new { controller = "Home", action = "Index", id = UrlParameter.Optional }  // Parameter defaults
+           );
         }
     }
 }

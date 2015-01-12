@@ -56,7 +56,7 @@ namespace MPC.Webstore.Controllers
            
 
             ViewBag.Email = UserCookieManager.Email;
-            string ContactMobile = _ICompanyService.GetContactMobile((int)UserCookieManager.ContactId);
+            string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
             ViewBag.Phone = ContactMobile;
             ProductItem Product = _IItemService.GetItemAndDetailsByItemID(ItemID);
@@ -127,7 +127,7 @@ namespace MPC.Webstore.Controllers
 
             MyCompanyDomainBaseResponse baseResponseorg = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
-            string ContactMobile = _ICompanyService.GetContactMobile((int)UserCookieManager.ContactId);
+            string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
             Organisation org = _ICompanyService.getOrganisatonByID((int)baseResponseorg.Organisation.OrganisationId);
             if (Item != null)
@@ -166,16 +166,16 @@ namespace MPC.Webstore.Controllers
             Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry);
 
             CampaignEmailParams EmailParams = new CampaignEmailParams();
-            EmailParams.ContactId = (int)UserCookieManager.ContactId;
-            EmailParams.CompanyId = (int)UserCookieManager.StoreId;
+            EmailParams.ContactId = _myClaimHelper.loginContactID();
+            EmailParams.CompanyId = UserCookieManager.StoreId;
             EmailParams.CompanySiteID = 1;
 
             EmailParams.MarketingID = 1;
 
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
             {
-                EmailParams.StoreID = (int)UserCookieManager.StoreId; 
-                EmailParams.SalesManagerContactID = (int)UserCookieManager.ContactId;
+                EmailParams.StoreID = (int)UserCookieManager.StoreId;
+                EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
                 int OID = (int)org.OrganisationId;
                 _ICampaignService.emailBodyGenerator(EventCampaign, org, EmailParams, null, StoreMode.Retail, OID, "", "", "", baseResponse.Company.MarketingBriefRecipient, baseResponse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
                 
@@ -196,7 +196,7 @@ namespace MPC.Webstore.Controllers
                   
                 }
                 EmailParams.StoreID = baseResponseorg.Organisation.OrganisationId;
-                EmailParams.SalesManagerContactID = UserCookieManager.ContactId;
+                EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
                
                  
                 int OID = (int)org.OrganisationId;
@@ -213,7 +213,8 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    ViewBag.WlSumMesg = Resources.MyResource.WlSumMesg; // Resources.MyResource.
+                    ViewBag.WlSumMesg = Common.CommonHtmlExtensions.GetResource("WlSumMesg");
+                    //ViewBag.WlSumMesg = Resources.MyResource.WlSumMesg; // Resources.MyResource.
                 }
             }
 

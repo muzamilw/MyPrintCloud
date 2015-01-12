@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using MPC.Models.Common;
+using System.IO;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -51,7 +52,7 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
         /// <summary>
-        ///  Get template object by template id 
+        ///  Get template object by template id // added by saqib ali
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
@@ -62,7 +63,7 @@ namespace MPC.Repository.Repositories
             return template;
 
         }
-        // delete template from database
+        // delete template from database // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID)
         {
             try
@@ -100,12 +101,107 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                //Util.LogException(ex);
                 throw ex;
             }
         }
 
 
+        // copy a single template and update file paths in db // added by saqib ali
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages)
+        {
+            long result = 0;
+            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            long? test = db.sp_cloneTemplate(Convert.ToInt32(ProductID), Convert.ToInt32(SubmittedBy), SubmittedByName);
+            if (test.HasValue)
+            {
+                result = test.Value;
+                var pages = db.TemplatePages.Where(g => g.ProductId == result).ToList();
+                objPages = pages;
+                foreach (TemplatePage oTemplatePage in pages)
+                {
+
+                    if (oTemplatePage.BackGroundType == 1 || oTemplatePage.BackGroundType == 3)
+                    {
+                        string name = oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/"));
+                        oTemplatePage.BackgroundFileName = result.ToString() + "/" + name;
+                    }
+
+                }
+                foreach (var item in db.TemplateObjects.Where(g => g.ProductId == result))
+                {
+                    if (item.IsPositionLocked == null)
+                    {
+                        item.IsPositionLocked = false;
+                    }
+                    if (item.IsHidden == null)
+                    {
+                        item.IsHidden = false;
+                    }
+                    if (item.IsEditable == null)
+                    {
+                        item.IsEditable = true;
+                    }
+                    if (item.IsTextEditable == null)
+                    {
+                        item.IsTextEditable = true;
+                    }
+
+                    if (item.ObjectType == 3)
+                    {
+                        string[] content = item.ContentString.Split('/');
+                        string fileName = content[content.Length - 1];
+                        if (!item.ContentString.Contains("assets/Imageplaceholder"))
+                        {
+                            item.ContentString = "Designer/Organization" + organizationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
+                        }
+                    }
+                }
+                var backimgs = db.TemplateBackgroundImages.Where(g => g.ProductId == result).ToList();
+                objImages = backimgs;
+                foreach (TemplateBackgroundImage item in backimgs)
+                {
+                    string filePath = drURL + item.ImageName;
+                    string filename;
+                    FileInfo oFile = new FileInfo(filePath);
+                    filename = oFile.Name;
+                    item.ImageName = result.ToString() + "/" + filename;
+                }
+
+                db.SaveChanges();
+            } else
+            {
+                objPages = null;
+                objImages = null;
+            }
+
+            return result;
+        }
+
+        // delete template all pages and its objects // added by saqib ali
+        public void DeleteTemplatePagesAndObjects(long ProductID)
+        {
+            try
+            {
+
+                //deleting objects
+                foreach (TemplateObject c in db.TemplateObjects.Where(g => g.ProductId == ProductID))
+                {
+                    db.TemplateObjects.Remove(c);
+                }
+                //delete template pages
+                foreach (TemplatePage c in db.TemplatePages.Where(g => g.ProductId == ProductID))
+                {
+
+                    db.TemplatePages.Remove(c);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
             try
@@ -219,12 +315,12 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
-        public int CloneTemplateByTemplateID(int TempID)
+        public long CloneTemplateByTemplateID(long TempID)
         {
 
             try
             {
-                int result = db.sp_cloneTemplate(TempID, 0, "");
+                long result = db.sp_cloneTemplate(TempID, 0, "");
                 return result;
             }
             catch (Exception ex)

@@ -89,7 +89,7 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user != null)
                 {
-                    return VerifyUser(user, returnUrl, ReturnURL);
+                    return VerifyUser(user, returnUrl);
 
                 }
                 else
@@ -133,7 +133,7 @@ namespace MPC.Webstore.Controllers
                 if (user != null)
                 {
                     string ReturnURL = Request.Form["hfReturnURL"];
-                    return VerifyUser(user, returnUrl, model.ReturnURL);
+                    return VerifyUser(user, returnUrl);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl, string ReturnURL)
+        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl)
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
@@ -181,13 +181,13 @@ namespace MPC.Webstore.Controllers
                 UserCookieManager.ContactLastName = user.LastName;
                 UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
                 UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
-                UserCookieManager.ContactId = user.ContactId;
+                
                 UserCookieManager.Email = user.Email;
 
-                if (ReturnURL == "Social")
+                if (ReturnUrl == "Social")
                     RedirectToLocal(ReturnUrl);
                 else
-                    ControllerContext.HttpContext.Response.Redirect(ReturnURL);
+                    Response.Redirect("/");// ControllerContext.HttpContext.Response.Redirect("");
 
                 return null;
                

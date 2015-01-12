@@ -26438,3 +26438,11 @@ position: relative;
 border-radius: 3px;
 margin: 0 auto;
 }
+.fancyLoaderCs
+{
+    width: 40px;
+height: 40px;
+background: black;
+padding: 7px;
+border-radius: 5px;
+}

@@ -232,15 +232,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIControllers\SignUpController.cs" />
-    <Compile Include="App_GlobalResources\MyResource.designer.cs">
+    <Compile Include="App_GlobalResources\1\1.fr-FR.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyResource.resx</DependentUpon>
+      <DependentUpon>1.fr-FR.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\MyResource.fr-FR.designer.cs">
+    <Compile Include="App_GlobalResources\2\2.fr-FR.designer.cs">
+      <DependentUpon>2.fr-FR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyResource.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\2\2.designer.cs">
+      <DependentUpon>2.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\1\1.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>1.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -608,20 +618,34 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\MyResource.resx">
+    <Content Include="App_GlobalResources\1\1.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>MyResource.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\MyResource.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MyResource.fr-FR.designer.cs</LastGenOutput>
+      <LastGenOutput>1.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\2\2.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>2.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\2\2.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>2.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\1\1.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>1.fr-FR.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

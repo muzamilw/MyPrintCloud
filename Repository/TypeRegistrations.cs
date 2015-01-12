@@ -80,6 +80,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IProductCategoryFileTableViewRepository, ProductCategoryFileTableViewRepository>();
             unityContainer.RegisterType<ITemplateFontsRepository, TemplateFontsRepository>();
             unityContainer.RegisterType<IItemProductDetailRepository, ItemProductDetailRepository>();
+            unityContainer.RegisterType<ITemplateBackgroundImagesRepository, TemplateBackgroundImagesRepository>();
         }
     }
 }

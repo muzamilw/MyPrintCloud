@@ -19,6 +19,31 @@ namespace MPC.Implementation.WebStoreServices
         #region private
         public readonly ITemplateRepository _templateRepository;
         public readonly IProductCategoryRepository _ProductCategoryRepository;
+
+        private bool CovertPdfToBackgroundWithObjects(string physicalPath, long ProductID, long organizationID)
+        {
+            bool result = false;
+            return result;
+        }
+        private bool CovertPdfToBackground(string physicalPath, long ProductID, long organizationID)
+        {
+            bool result = false;
+            try
+            {
+                
+                _templateRepository.DeleteTemplatePagesAndObjects(ProductID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        private bool generatePdfAsBackground(string PDFDoc, string savePath, string ThumbnailFileName, double CuttingMargin, long TemplateID)
+        {
+            bool result = true;
+            return result;
+        }
         #endregion
         #region constructor
         public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository)
@@ -29,7 +54,12 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-        // called from webstore usually for coping template
+
+        /// <summary>
+        /// called from webstore usually for coping template  // added by saqib ali
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
         public Template GetTemplate(long productID)
         {
             var product= _templateRepository.GetTemplate(productID);
@@ -42,7 +72,7 @@ namespace MPC.Implementation.WebStoreServices
             return product;
         }
 
-        // called from designer, all the units are converted to pixel before sending 
+        // called from designer, all the units are converted to pixel before sending  // added by saqib ali
         public Template GetTemplateInDesigner(long productID)
         {
             var product = _templateRepository.GetTemplate(productID);
@@ -54,7 +84,7 @@ namespace MPC.Implementation.WebStoreServices
 
             return product;
         }
-        // delete template and all references 
+        // delete template and all references   // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID, long organizationID)
         {
             var result = false;
@@ -106,6 +136,143 @@ namespace MPC.Implementation.WebStoreServices
                 throw new MPCException(ex.ToString(), organizationID);
             }
         }
+        //copy template and all physical files  // added by saqib ali
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName,long organizationID)
+        {
+            long result = 0;
+            try 
+            { 
+                List<TemplatePage> objPages;
+                List<TemplateBackgroundImage> objImages;
+                 result = _templateRepository.CopyTemplate(ProductID, SubmittedBy, SubmittedByName, out objPages, organizationID,out objImages);
+                 if (result != 0)
+                 {
+                     string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+                     string targetFolder = drURL + result.ToString();
+                     //create template directory
+                     if (!System.IO.Directory.Exists(targetFolder))
+                     {
+                         System.IO.Directory.CreateDirectory(targetFolder);
+                     }
+                     foreach (TemplatePage oTemplatePage in objPages)
+                     {
+                         //copy background pdfs and images
+                         if (oTemplatePage.BackGroundType == 1 || oTemplatePage.BackGroundType == 3)
+                         {
+                             string filename = oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/"));
+                             string destinationPath = Path.Combine(drURL + result.ToString() + "/" + filename);
+                             string sourcePath = Path.Combine(drURL, ProductID.ToString() + "/" + filename);
+                             if (!File.Exists(destinationPath) && File.Exists(sourcePath))
+                             {
+                                 //copy side 1
+                                 File.Copy(sourcePath, destinationPath);
+                             }
+                             // copy side 1 image file if exist in case of pdf template
+                             if (File.Exists(drURL + ProductID.ToString() + "/templatImgBk" + oTemplatePage.PageNo.ToString() + ".jpg"))
+                             {
+                                 File.Copy(drURL + ProductID.ToString() + "/templatImgBk" + oTemplatePage.PageNo.ToString() + ".jpg", drURL + result.ToString() + "/templatImgBk" + oTemplatePage.PageNo.ToString() + ".jpg", true);
+                             }
+                         }
+
+                     }
+                     //copy the template images
+
+                     foreach (TemplateBackgroundImage item in objImages)
+                     {
+                         string ext = Path.GetExtension(item.ImageName);
+                         string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
+                         string[] names = results[0].Split('/');
+                         string filePath = drURL + "/" + ProductID.ToString() + "/" + names[names.Length - 1] + ext;
+                         string filename;
+
+
+
+                         // copy thumbnail 
+                         if (!ext.Contains("svg"))
+                         {
+
+                             string imgName = names[names.Length - 1] + "_thumb" + ext;
+
+                             string ThumbPath = drURL + "/" + ProductID.ToString() + "/" + imgName;
+                             FileInfo oFileThumb = new FileInfo(ThumbPath);
+                             if (oFileThumb.Exists)
+                             {
+                                 string oThumbName = oFileThumb.Name;
+                                 oFileThumb.CopyTo((drURL + result.ToString() + "/" + oThumbName), true);
+                             }
+                         }
+                         FileInfo oFile = new FileInfo(filePath);
+
+                         if (oFile.Exists)
+                         {
+                             filename = oFile.Name;
+                             oFile.CopyTo((drURL + result.ToString() + "/" + filename), true);
+                         }
+                     }
+                 } else
+                 {
+                     throw new MPCException("Clone template failed due to store procedure. 'sp_cloneTemplate'", organizationID);
+                 }
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
+            }
+            return result;
+        }
+        // copy list of templates called from MIS returns list of copied ids if id is null template is not copied  // added by saqib ali
+        public List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName,long organizationID)
+        {
+            List<long?> newTemplateList = new List<long?>();
+            try
+            {
+                foreach (long? ProductID in productIDList)
+                {
+                    if (ProductID != null && ProductID.HasValue)
+                    {
+                        long result = CopyTemplate(ProductID.Value, SubmittedBy, SubmittedByName, organizationID);
+                        if (result != 0)
+                        {
+                            newTemplateList.Add(result);
+                        }
+                        else
+                        {
+                            newTemplateList.Add(null);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
+            }
+            return newTemplateList;
+        }
+        // generate template from the given pdf file,called from MIS // added by saqib ali
+        public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long CustomerID, long organizationID)
+        {
+            bool result = false;
+            try
+            {
+                if (mode == 2)
+                {
+                   result =  CovertPdfToBackgroundWithObjects(filePhysicalPath, templateID, organizationID);
+                }
+                else
+                {
+                   result =  CovertPdfToBackground(filePhysicalPath, templateID,organizationID);
+                }
+                if (File.Exists(filePhysicalPath))
+                {
+                    File.Delete(filePhysicalPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
+            }
+            return result;
+        }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
             List<ProductCategoriesView> PCview = _ProductCategoryRepository.GetMappedCategoryNames(false, CompanyID);
@@ -118,7 +285,7 @@ namespace MPC.Implementation.WebStoreServices
         }
 
       
-        public int CloneTemplateByTemplateID(int TempID)
+        public long CloneTemplateByTemplateID(long TempID)
         {
             return _templateRepository.CloneTemplateByTemplateID(TempID);
         }

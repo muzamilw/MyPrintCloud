@@ -9,8 +9,8 @@ namespace MPC.Models.Common
     public class CampaignEmailParams
     {
         public Int64 AddressID { get; set; }
-        public int ContactId { get; set; }
-        public int CompanyId { get; set; }
+        public long ContactId { get; set; }
+        public long CompanyId { get; set; }
         public int EstimateID { get; set; }
         public int ItemID { get; set; }
         public int BrokerID { get; set; }

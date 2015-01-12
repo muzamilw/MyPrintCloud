@@ -22,7 +22,7 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private List<AddOnCostsCenter> _selectedItemsAddonsList = null;
         RelatedItemViewModel RIviewModel = new RelatedItemViewModel();
- 
+
         private double _deliveryCost = 0;
         private int NumberOfRecords = 0;
         public ShopCartController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService, ITemplateService TemplateService)
@@ -39,93 +39,113 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: ShopCart
-        public ActionResult Index(int OrderID)
+        public ActionResult Index(string optionalOrderId)
         {
+            long OrderId = 0;
             ShoppingCart shopCart = null;
-            List<CostCentre> deliveryCostCentersList = null;
-            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            //long OID = baseResponseCompany.Company.OrganisationId ?? 0;
-            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
-
-            ViewBag.Currency = baseResponseCurrency.Currency;
-            if (OrderID > 0)
+            if (string.IsNullOrEmpty(optionalOrderId)) // check if parameter have order id
             {
-                UserCookieManager.OrderId = OrderID;
+                if (UserCookieManager.OrderId == 0) // cookie contains order id
+                {
+                    if (_myClaimHelper.loginContactID() > 0) // is user logged in
+                    {
+                        OrderId = _OrderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
+                        UserCookieManager.OrderId = OrderId;
+                    }
+                }
+                else
+                {
+                    OrderId = UserCookieManager.OrderId;
+                }
+
             }
             else
             {
+                OrderId = Convert.ToInt64(optionalOrderId);
+            }
+
+            if (OrderId > 0)
+            {
+                List<CostCentre> deliveryCostCentersList = null;
+
+                MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+                MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+                MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+
+
+                ViewBag.Currency = baseResponseCurrency.Currency;
+
 
                 int status = (int)OrderStatus.ShoppingCart;
-                long sOrderID = _OrderService.GetUserShopCartOrderID(status);
 
-                UserCookieManager.OrderId = (int)OrderID;
+               // long sOrderID = _OrderService.GetUserShopCartOrderID(status);
 
+
+                shopCart = LoadShoppingCart(OrderId);
+
+                string Messege = ""; // if error comes ....... //HttpContext.Current.Request.QueryString["Error"];
+                if (!string.IsNullOrEmpty(Messege))
+                {
+                    //ErrorDisplyMes.Style.Add(HtmlTextWriterStyle.Display, "block");
+                    //if (Messege == "UserCancelled")
+                    //{
+                    //    ErrorMEsSummry.Text = (string)GetGlobalResourceObject("MyResource", "lnkPaymentCancelled");
+                    //}
+                    //else if (Messege == "Failed")
+                    //{
+                    //    ErrorMEsSummry.Text = HttpContext.Current.Request.QueryString["ErrorMessage"];
+                    //}
+                }
+                else
+                {
+                    //ErrorDisplyMes.Style.Add(HtmlTextWriterStyle.Display, "none");
+                }
+
+
+                // setProofInfo();
+
+                if (shopCart != null)
+                {
+                    BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
+
+                }
+
+                if (baseResponseCompany.Company.TaxRate != null)
+                    ViewBag.TaxRate = baseResponseCompany.Company.TaxRate;
+                else
+                    ViewBag.TaxRate = "N/A";
+
+                // start from here 
+
+                //  MatchingSet1.Visible = false;
+                // no Redeem Voucher options AT ALL for corporate customers
+
+                if (baseResponseCompany.Company.ShowPrices ?? true)
+                {
+                    ViewBag.IsShowPrices = true;
+                    //do nothing because pricing are already visible.
+                }
+                else
+                {
+                    ViewBag.IsShowPrices = false;
+                    //  cntRightPricing1.Visible = false;
+                }
+
+                if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                    SetLastItemTemplateMatchingSets(shopCart, baseResponseOrg, baseResponseCurrency, baseResponseCompany);
+
+
+                if (baseResponseCompany.Company.isIncludeVAT.Value == false)
+                {
+                    ViewBag.isIncludeVAT = false;
+                }
+                else
+                {
+                    ViewBag.isIncludeVAT = true;
+                }
             }
 
-            shopCart = LoadShoppingCart(OrderID, 0);
-
-            string Messege = ""; // if error comes ....... //HttpContext.Current.Request.QueryString["Error"];
-            if (!string.IsNullOrEmpty(Messege))
-            {
-                //ErrorDisplyMes.Style.Add(HtmlTextWriterStyle.Display, "block");
-                //if (Messege == "UserCancelled")
-                //{
-                //    ErrorMEsSummry.Text = (string)GetGlobalResourceObject("MyResource", "lnkPaymentCancelled");
-                //}
-                //else if (Messege == "Failed")
-                //{
-                //    ErrorMEsSummry.Text = HttpContext.Current.Request.QueryString["ErrorMessage"];
-                //}
-            }
-            else
-            {
-                //ErrorDisplyMes.Style.Add(HtmlTextWriterStyle.Display, "none");
-            }
-
-
-            // setProofInfo();
-
-            if (shopCart != null)
-            {
-                BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
-
-            }
-
-            if (baseResponseCompany.Company.TaxRate != null)
-                ViewBag.TaxRate = baseResponseCompany.Company.TaxRate;
-            else
-                ViewBag.TaxRate = "N/A";
-
-            // start from here 
-
-            //  MatchingSet1.Visible = false;
-            // no Redeem Voucher options AT ALL for corporate customers
-
-            if (baseResponseCompany.Company.ShowPrices ?? true)
-            {
-                ViewBag.IsShowPrices = true;
-                //do nothing because pricing are already visible.
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                //  cntRightPricing1.Visible = false;
-            }
-
-            if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
-                SetLastItemTemplateMatchingSets(shopCart, baseResponseOrg, baseResponseCurrency, baseResponseCompany);
-
-
-            if (baseResponseCompany.Company.isIncludeVAT.Value == false)
-            {
-                ViewBag.isIncludeVAT = false;
-            }
-            else
-            {
-                ViewBag.isIncludeVAT = true;
-            }
 
             return View("PartialViews/ShopCart", shopCart);
         }
@@ -136,7 +156,7 @@ namespace MPC.Webstore.Controllers
 
             return View("PartialViews/ShopCart", shopCart);
         }
-        private ShoppingCart LoadShoppingCart(long orderID, int BrokerID)
+        private ShoppingCart LoadShoppingCart(long orderID)
         {
             ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(orderID, OrderStatus.ShoppingCart);
             if (shopCart != null)
@@ -190,7 +210,7 @@ namespace MPC.Webstore.Controllers
             // if store is not corp then related items
             if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
             {
-                LoadRelatedItems(itemsList, baseResponseCurrency,IsShowPrices);
+                LoadRelatedItems(itemsList, baseResponseCurrency, IsShowPrices);
 
             }
             #endregion
@@ -203,9 +223,11 @@ namespace MPC.Webstore.Controllers
 
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+
+
             MyCompanyDomainBaseResponse baseResponeOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
 
-            newCloneditem = _ItemService.CloneItem(ItemID, 0.0, 0, 0, 0, 0, 0, 0, null, false, true, (int)_myClaimHelper.loginContactID());
+            newCloneditem = _ItemService.CloneItem(ItemID, 0, 0, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID());
 
             Estimate objOrder = _OrderService.GetOrderByID(OrderID);
             _ItemService.CopyAttachments(ItemID, newCloneditem, objOrder.Order_Code, true, objOrder.CreationDate ?? DateTime.Now);
@@ -229,9 +251,9 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.isIncludeVAT = true;
             }
-            ShoppingCart shopCart = LoadShoppingCart(OrderID, 0);
+            ShoppingCart shopCart = LoadShoppingCart(OrderID);
 
-            BindGridView(shopCart, baseResponseCurrency,baseResponseCompany.Company.ShowPrices ?? false);
+            BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
             if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
                 SetLastItemTemplateMatchingSets(shopCart, baseResponeOrg, baseResponseCurrency, baseResponseCompany);
             return View("PartialViews/ShopCart", shopCart);
@@ -282,7 +304,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.isIncludeVAT = true;
             }
 
-            ShoppingCart shopCart = LoadShoppingCart(OrderID, 0);
+            ShoppingCart shopCart = LoadShoppingCart(OrderID);
             BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
             if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
                 SetLastItemTemplateMatchingSets(shopCart, baseResponseOrg, baseResponseCurrency, baseResponseCompany);
@@ -366,7 +388,7 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.isIncludeVAT = true;
                     }
-                    shopCart = LoadShoppingCart(OrderID, 0);
+                    shopCart = LoadShoppingCart(OrderID);
                     BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
 
 
@@ -395,7 +417,7 @@ namespace MPC.Webstore.Controllers
                 _OrderService.ResetOrderVoucherCode(OrderID);
             }
 
-            BindGridView(LoadShoppingCart(OrderID, 0), baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
+            BindGridView(LoadShoppingCart(OrderID), baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
             if (baseResponseCompany.Company.ShowPrices ?? true)
             {
                 ViewBag.IsShowPrices = true;
@@ -420,7 +442,7 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.isIncludeVAT = true;
             }
-            shopCart = LoadShoppingCart(OrderID, 0);
+            shopCart = LoadShoppingCart(OrderID);
             BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
             return View("PartialViews/ShopCart", shopCart);
         }
@@ -533,11 +555,11 @@ namespace MPC.Webstore.Controllers
 
 
         #region RelatedItems
-        public void LoadRelatedItems(List<ProductItem> itemsList, MyCompanyDomainBaseResponse baseResponseCurrency,bool IsShowPrices)
+        public void LoadRelatedItems(List<ProductItem> itemsList, MyCompanyDomainBaseResponse baseResponseCurrency, bool IsShowPrices)
         {
 
             List<ProductItem> allRelatedItemsList = new List<ProductItem>();
-        
+
             allRelatedItemsList = _ItemService.GetRelatedItemsList();
 
             allRelatedItemsList = FilterRelatedItems(RemoveDuplicatesItems(itemsList), allRelatedItemsList);
@@ -639,13 +661,13 @@ namespace MPC.Webstore.Controllers
         {
             if (filteredList != null && filteredList.Count > 0)
             {
-              
+
                 filteredList = filteredList.OrderBy(i => i.SortOrder).ToList();
 
                 RIviewModel.ProductItems = filteredList;
                 ViewData["RIViewModel"] = RIviewModel;
             }
-            
+
         }
         #endregion
     }

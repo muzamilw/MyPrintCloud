@@ -50,11 +50,11 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
-        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, int TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
         {
-            Models.DomainModels.Company company = _CompanyRepository.GetStoreById((int)CustomerID);
-            return _ItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID, company);
+            return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID);
         }
+
         public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
         {
             int flagId = 0;
@@ -182,13 +182,24 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _StockRepository.GetStockOfItemById(itemId);
         }
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
+        {
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
+        }
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
+            
             return _ProductCategoryRepository.GetMappedCategory(CatName, CID);
+        }
+
+        public Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId) 
+        {
+            return _ItemRepository.GetClonedItemByOrderId(OrderId, ReferenceItemId);
         }
         //get related items list
         public List<ProductItem> GetRelatedItemsList()
         {
+            
             return _ItemRepository.GetRelatedItemsList();
         }
     }
