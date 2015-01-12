@@ -5,6 +5,7 @@
     int StockCount = 1;
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
+    
 }
 
 <link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
@@ -28,22 +29,42 @@
 
                             @foreach (var stock in ViewData["StckOptions"] as List<MPC.Models.DomainModels.ItemStockOption>)
                             {
-                                string stockClassName = "rbStockType" + StockCount;
-                                if (StockCount == 1)
+                                if (ViewBag.SelectedStockItemId != null)
                                 {
-                                    <div class=float_left_simple style="height:55px;">
-                                        <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
-                                    </div>
+                                    string stockClassName = "rbStockType" + StockCount;
+                                    if (ViewBag.SelectedStockItemId == stock.StockId)
+                                    {
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
                                 }
                                 else
                                 {
-                                    <div class=float_left_simple style="height:55px;">
-                                        <input type=radio name=StockPaper data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
-                                        <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
-                                    </div>
+                                    string stockClassName = "rbStockType" + StockCount;
+                                    if (StockCount == 1)
+                                    {
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class=float_left_simple style="height:55px;">
+                                            <input type=radio name=StockPaper data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
+                                        </div>
+                                    }
                                 }
-
                                 StockCount++;
                             }
                         </div>
@@ -95,72 +116,95 @@
                 </div>
                 <div>
                     <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
-                    @*<img id="imgpng"  alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
+                    @*<img id="imgpng"  alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
                     <img id="imgjpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple FormatedImgs" />
-                    @*<img id="imggif"  alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
+                    @*<img id="imggif"  alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
                 </div>
             </div>
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px H4B
                      UplodArkworkContainer">
                 <div class="white_background rounded_corners padding10 SidesContainerCS">
-                    <div class="rptContainers">
-                        <div onclick="return ShowArtworkPanel();" id="ArtWorkUploadContainer" class="artworkarrow">
-                            <img id="ImgArrow" alt="" src="~/images/artwork_arrow_icons.png" style="width: 60px;" /><br />
-                            <label style="font-size: 16px;
+
+                    @if (ViewData["Templates"] == null)
+                    {
+                        <div class="rptContainers">
+                            @if (ViewData["ArtworkAttachments"] == null)
+                            {
+                            <div onclick="return ShowArtworkPanel();" class="artworkarrow">
+                                <img id="ImgArrow" alt="" src="~/images/artwork_arrow_icons.png" style="width: 60px;" /><br />
+                                <label style="font-size: 16px;
                                         font-weight: bold;">Supply your own artwork</label><br />
-                            <label style="font-size: 13px;">Add multiple files</label>
-                        </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
-                        @*foreach (var templateItem in rptTemplte){*@
-                        <div id="DivSide1" class="LGBC BD_PCS rounded_corners" style="display:none;">
-                            <asp:hyperlink id="hlSide1">
-                                <div class="PDTC_LP FI_PCS">
-                                    <asp:image id="imgSide1" cssclass="full_img_ThumbnailPath_LP" />
-                                </div>
-                            </asp:hyperlink>
-                            <div class="confirm_design LGBC" style="display: none;">
-                                <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6"></label>
+                                <label style="font-size: 13px;">Add multiple files</label>
                             </div>
-                            <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                            }
+                            else
+                            {
+                            foreach (var artworkFile in ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>)
+                            {
+                                    <div id="DivSide1" class="LGBC BD_PCS rounded_corners" style="display:none;">
+                                        <div class="DeleteIconPP">
+                                            <asp:button id="DeleteBtn2" cssclass="delete_icon_img " onclientclick="return confirm('Are you sure you want to delete this Design?');"
+                                                        commandname="DeleteDesign" />
+                                        </div>
+                                        <asp:hyperlink id="hlSide1">
+                                            <div class="PDTC_LP FI_PCS">
+                                                <img class="full_img_ThumbnailPath_LP" />
+                                            </div>
+                                        </asp:hyperlink>
+                                        <div class="confirm_design LGBC height40_LP ">
+                                            <label id="lblFront" class="">front</label>
+                                        </div>
+                                    </div>
+                            }
+                            }
+
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                    </div>
+                        <div class="float_left_simple cntuploadfilebtns">
+                            <input type="button" class="btn_upload_files_Prod_Land rounded_corners5" onclick="ShowArtworkPanel();" value="Upload File" />
+
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="rptContainers">
+                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Models.DomainModels.TemplatePage>
+                )
+                            {
+
+                                <div class="LGBC BD_PCS rounded_corners">
+                                <asp:hyperlink id="hlSide1">
+                                <div class="PDTC_LP FI_PCS">
+                                <img class="full_img_ThumbnailPath_LP" />
+
+                                </div>
+                                </asp:hyperlink>
+                                <div class="confirm_design LGBC" style="display: none;">
+                                <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6">templateItem.PageName</label>
+                                </div>
+                                <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
                                 <div>
-                                    <asp:button id="btnSide1Modify" cssclass="btn_brown_small" text="Modify"
-                                                onclick="lnkBtnSide_Modify_Click" />
+                                @Html.ActionLink("Modify", "ModifyTemplate", "ProductOptions", new { ItemId = ViewBag.ClonedItemId, TemplateId = templateItem.ProductId, ProductName = templateItem.Template.ProductName, CategoryId = templateItem.Template.ProductCategoryId }, new { @class = "btn_brown_small" })
+
                                 </div>
-                            </div>
-                        </div>
-                        @*}@foreach (var artworkFile in rptUploadFiles){*@
-                        <div id="DivSide1" class="LGBC BD_PCS rounded_corners" style="display:none;">
-                            <div class="DeleteIconPP">
-                                <asp:button id="DeleteBtn2" cssclass="delete_icon_img " onclientclick="return confirm('Are you sure you want to delete this Design?');"
-                                            commandname="DeleteDesign" />
-                            </div>
-                            <asp:hyperlink id="hlSide1">
-                                <div class="PDTC_LP FI_PCS">
-                                    <asp:image id="imgSide1" cssclass="full_img_ThumbnailPath_LP" />
                                 </div>
-                            </asp:hyperlink>
-                            <div class="confirm_design LGBC height40_LP ">
-                                <label id="lblFront" class="">front</label>
-                            </div>
+                                </div>
+                            }
                         </div>
-                        @*}*@
-                        <div class="clearBoth">
-                            &nbsp;
+                        <div id="MoreSidesCont" class="ViewTemSidesCS" style="display:none;">
+                            <label id="ViewMore">View more sides</label><br />
+                            <label id="imDesgMode">in designer mode</label>
                         </div>
-                    </div>
-                    <div class="float_left_simple cntuploadfilebtns">
-                        <input type="button" class="btn_upload_files_Prod_Land rounded_corners5" onclick="ShowArtworkPanel();" value="Upload File" />
-                        <br />
-                        <button class="btn_BackTo_Tem_Prod_Land rounded_corners5">
-                            Back to templates
-                        </button>
-                    </div>
-                    <div id="MoreSidesCont" class="ViewTemSidesCS" style="display:none;">
-                        <label id="ViewMore">View more sides</label><br />
-                        <label id="imDesgMode">in designer mode</label>
-                    </div>
+                    }
+
+
+
                     <asp:image id="imgDesignSize" cssclass="DesgnFormteImg" />
                 </div>
             </div>
@@ -181,7 +225,15 @@
                 <div>
                     @if (ViewBag.Item.IsQtyRanged == true)
                     {
-                        <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
+                        if (ViewBag.SelectedQuantity != null)
+                        {
+                            <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" value="@ViewBag.SelectedQuantity" />
+                        }
+                        else
+                        {
+                            <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
+                        }
+
                         <input type="button" onclick="CalculatePriceBaseOnRangedQuantity(); return false;" class="go_button rounded_corners5 width35pix"
                                value="Go" />
                     }
@@ -190,7 +242,19 @@
                         <select class="dropdownBorderCS dropdown190 rounded_corners5 template_designing float_right dropdownQtyListClass clearRight ">
                             @foreach (var quantity in ViewBag.Item.ItemPriceMatrices as List<MPC.Models.DomainModels.ItemPriceMatrix>)
                             {
+                                if (ViewBag.SelectedQuantity != null)
+                                {
+                                    if(ViewBag.SelectedQuantity == quantity.Quantity)
+                                    {
+                                        <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
+                                    }
+                                    
+                                }
+                                else 
+                                {
                                     <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
+                                }
+                                    
                             }
 
                     </select>
@@ -251,11 +315,11 @@
 
                 <div class="clearBoth">
                     &nbsp;
-                </div>   
+                </div>
                 <div class="float_right">
                     @using (Html.BeginForm())
                     {
-                        
+
                         @Html.HiddenFor(m => m.ItemId, new { id = "VMItemId" })
                         @Html.HiddenFor(m => m.JsonPriceMatrix, new { id = "VMJsonMatrix" })
                         @Html.HiddenFor(m => m.JsonAddOnsPrice, new { id = "VMJsonAddOns" })
@@ -263,10 +327,10 @@
                         @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
                         @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
                         @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
-                        
+
                         <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
                     }
-                   
+
 
                 </div>
                 <div class="clearBoth">
@@ -614,7 +678,7 @@
 
             $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
             $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
-          
+
             hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
 
             MatrixToggle();
@@ -725,8 +789,8 @@
                         }
 
                     }
-                    
-                    
+
+
                     if (OrderedJasonObject != null) {
 
                         selectedStockType = selectedStockType + '_PriceMatrixID_' + OrderedJasonObject.ItemID;
@@ -745,7 +809,7 @@
 
 
                         this.displayTotalPrice(Price, calculateAddOns());
-                   
+
                     }
                 }
             }
@@ -766,7 +830,7 @@
             var price = "";
 
             price = parseFloat($('#' + selectedStockNo).attr("title"));
-           
+
             $("#VMJsonMatrix").val(JSON.stringify(JsonData));
 
             this.displayTotalPrice(price, calculateAddOns());
@@ -897,7 +961,7 @@
             $("#VMAddOnrice").val(addOnPrice);
             $("#VMItemId").val(@ViewBag.ClonedItemId);
 
-            
+
 
             var culturee = 1;
 
@@ -924,21 +988,21 @@
 
 
             var isShowPricing = 1;//'<%=isCorporatePricingshown %>';
-            
+
             if (isShowPricing == 1) {
-                    if (IsInt == -1) {
-                        $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
-                    } else {
-                        $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
-                    }
+                if (IsInt == -1) {
+                    $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
+                } else {
+                    $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
                 }
-                else {
-                    $('#lblGrossTotal').css("display", "none");
+            }
+            else {
+                $('#lblGrossTotal').css("display", "none");
             }
             if (TotalItemPrice > 0) {
                 isPriceSelected = 1;
             }
-            
+
         }
 
         // returns the the selected stock no
@@ -993,7 +1057,7 @@
 
             var selectedAddonsList = "";
             $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-                
+
                 //  $(this).css("height", "18px");
                 // $(this).css("width", "21px");
 
@@ -1005,7 +1069,7 @@
 
                         for (var i = 0; i < $(addOnJasonData).length; i++) {
                             if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
-                                JsonToSubmit.push($(addOnJasonData)[i]); 
+                                JsonToSubmit.push($(addOnJasonData)[i]);
                                 selectedCheckBox = $(addOnJasonData)[i];
                                 break;
                             }
@@ -1015,7 +1079,7 @@
 
                         // check the costcenter if its type is fixed then we will take its setup cost
                         //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-                        
+
                         var actualPrice = selectedCheckBox.ActualPrice;
 
                         if (selectedCheckBox.Type == 2) {
@@ -1041,13 +1105,13 @@
                         checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice); //Gets Actual non discounted Price
 
                         selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
-                       
+
                     }
                 } else {
                     $(this).parent().css("background-image", "url('../../images/square-final.png')");
                 }
 
-                $("#VMJsonAddOns").val(JSON.stringify(JsonToSubmit)); 
+                $("#VMJsonAddOns").val(JSON.stringify(JsonToSubmit));
                 selectedCheckBox = null;
                 //JsonToSubmit = [];
             });
