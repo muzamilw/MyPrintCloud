@@ -7,11 +7,9 @@ using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
 using MPC.Interfaces.Repository;
-using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using System.Resources;
-using System.Web;
 
 
 namespace MPC.Implementation.MISServices
@@ -110,8 +108,42 @@ namespace MPC.Implementation.MISServices
             {
                 organization.MarkupId = markupRepository.GetAll().First(x => x.IsDefault != null).MarkUpId;
             }
-            return organization;
+
+
+            return SetLanguageEditor(organization); ;
         }
+
+        private Organisation SetLanguageEditor(Organisation organisation)
+        {
+            string sResxPath = null;
+            //if (organisation.GlobalLanguage != null)
+            //{
+            //sResxPath=System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" + organisation.OrganisationId)
+            //    sResxPath = sResxPath + "\\" + organisation.GlobalLanguage.culture + "\\LanguageResource.resx";
+            //}
+            if (sResxPath != null && Directory.Exists(sResxPath))
+            {
+                Hashtable resourceEntries = new Hashtable();
+                //Get existing resources
+                ResXResourceReader reader = new ResXResourceReader(sResxPath);
+                if (reader != null)
+                {
+                    //IDictionaryEnumerator id = reader.GetEnumerator();
+                    foreach (DictionaryEntry d in reader)
+                    {
+                        if (d.Value == null)
+                            resourceEntries.Add(d.Key.ToString(), "");
+                        else
+                            resourceEntries.Add(d.Key.ToString(), d.Value.ToString());
+                    }
+                    reader.Close();
+                }
+                // organisation.LanguageEditor.DefaultAddress = resourceEntries.Keys;
+            }
+            return organisation;
+
+        }
+
 
         /// <summary>
         /// Add/Update Organization
@@ -391,95 +423,51 @@ namespace MPC.Implementation.MISServices
         /// <param name="organisation"></param>
         private void UpdateLanguageResource(Organisation organisation)
         {
-
-            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" + organisation.OrganisationId);
-            if (directoryPath != null && Directory.Exists(directoryPath))
+            if (organisation.LanguageId != null)
             {
-                //Write the combined resource file
-                //ResourceWriter resourceWriter = new ResourceWriter(directoryPath + "/en-US/LanguageResource.resx");
-
-                //foreach (String key in resourceEntries.Keys)
-                //{
-                //    resourceWriter.AddResource(key, resourceEntries[key]);
-                //}
-                // resourceWriter.AddResource("abc", "test21");
-                // resourceWriter.Generate();
-                //resourceWriter.Close();
-
-                //resourceWriter.AddResource("myString", "test");
-               // resourceWriter.Close();
-
-                string sResxPath = directoryPath + "\\en-US\\LanguageResource.resx";
-
-                Hashtable data = new Hashtable();
-                data.Add("name", "sunil");
-                UpdateResourceFile(data, sResxPath);
-
-
+                GlobalLanguage globalLanguage = globalLanguageRepository.Find(organisation.LanguageId.Value);
+                string sResxPath =
+                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" +
+                                                                  organisation.OrganisationId);
+                if (globalLanguage != null)
+                {
+                    sResxPath = sResxPath + "\\" + globalLanguage.culture + "\\LanguageResource.resx";
+                }
+                if (sResxPath != null && File.Exists(sResxPath))
+                {
+                    Hashtable data = new Hashtable();
+                    data.Add("DefaultAddress", organisation.LanguageEditor.DefaultAddress);
+                    data.Add("DefaultShippingAddress", organisation.LanguageEditor.DefaultShippingAddress);
+                    data.Add("PONumber", organisation.LanguageEditor.PONumber);
+                    data.Add("Prices", organisation.LanguageEditor.Prices);
+                    data.Add("UserShippingAddress", organisation.LanguageEditor.UserShippingAddress);
+                    data.Add("Details", organisation.LanguageEditor.Details);
+                    data.Add("NewsLetter", organisation.LanguageEditor.NewsLetter);
+                    data.Add("ConfirmDesign", organisation.LanguageEditor.ConfirmDesign);
+                    UpdateResourceFile(data, sResxPath);
+                }
             }
         }
         public static void UpdateResourceFile(Hashtable data, String path)
         {
             Hashtable resourceEntries = new Hashtable();
-            //string FILE_NAME = PATH + "Resource." + aCultureID + ".resx";
-
-            FileStream cultureFile = File.Open(path, FileMode.Open);
-
-            try
-            {
-                IResourceReader reader1 = new ResourceReader(cultureFile); // <<< Exception!
-
-                IDictionaryEnumerator cultureInfo = reader1.GetEnumerator();
-
-                while (cultureInfo.MoveNext())
-                {
-                    //MessageBox.Show("<br>");
-                    //MessageBox.Show("Name: " + cultureInfo.Key.ToString());
-                    //MessageBox.Show("Value: " + cultureInfo.Value.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                //MessageBox.Show(METHOD + "unexpected exception" + ex);
-                throw ex;
-            }
-           //ResXResourceReader resXResource = new ResXResourceReader();
-            var fs = new System.IO.FileStream(path,
-                                  System.IO.FileMode.Open);
-            //Get existing resources
-            ResourceReader reader = new ResourceReader(fs);
-                 if (reader != null)
-            {
-                IDictionaryEnumerator id = reader.GetEnumerator();
-                foreach (DictionaryEntry d in reader)
-                {
-                    if (d.Value == null)
-                        resourceEntries.Add(d.Key.ToString(), "");
-                    else
-                        resourceEntries.Add(d.Key.ToString(), d.Value.ToString());
-                } reader.Close();
-            }
             //Modify resources here...
             foreach (String key in data.Keys)
             {
                 if (!resourceEntries.ContainsKey(key))
                 {
-                    String value = data[key].ToString();
-                    if (value == null)
-                        value = "";
+                    String value = data[key] == null ? "" : data[key].ToString();
                     resourceEntries.Add(key, value);
                 }
                 else
                 {
-                    String value = data[key].ToString();
-                    if (value == null)
-                        value = "";
+                    String value = data[key] == null ? "" : data[key].ToString();
                     resourceEntries.Remove(key);
-                    resourceEntries.Add(key, data[key].ToString());
+                    resourceEntries.Add(key, value);
                 }
             }
             //Write the combined resource file
-            ResourceWriter resourceWriter = new ResourceWriter(path);
+            ResXResourceWriter resourceWriter = new ResXResourceWriter(path);
             foreach (String key in resourceEntries.Keys)
             {
                 resourceWriter.AddResource(key, resourceEntries[key]);

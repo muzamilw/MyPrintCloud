@@ -67,7 +67,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                Url = source.URL,
                MisLogo = source.MISLogo,
                TaxRegistrationNo = source.TaxRegistrationNo,
-               Image = bytes
+               Image = bytes,
+               LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
            };
         }
 
