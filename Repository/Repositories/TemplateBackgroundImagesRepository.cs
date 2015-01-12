@@ -49,9 +49,16 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
    
-        public void DeleteTemplateBackgroundImages(long productID)
+        public void DeleteTemplateBackgroundImages(long productID,out List<TemplateBackgroundImage> objTemplateImages)
         {
 
+            objTemplateImages = db.TemplateBackgroundImages.Where(g => g.ProductId == productID).ToList();
+            foreach (TemplateBackgroundImage c in objTemplateImages)
+            {
+
+                db.TemplateBackgroundImages.Remove(c);
+            }
+            db.SaveChanges();
         }
 
         #endregion
