@@ -1640,7 +1640,7 @@
           <Property Name="MarkUpRate" Type="float" />
           <Property Name="IsFixed" Type="int" />
           <Property Name="IsDefault" Type="bit" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Organisation">
           <Key>
@@ -1673,8 +1673,9 @@
           <Property Name="SystemWeightUnit" Type="bigint" />
           <Property Name="CurrencyId" Type="bigint" />
           <Property Name="LanguageId" Type="bigint" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
           <Property Name="MISLogoStreamId" Type="uniqueidentifier" />
+          <Property Name="BleedAreaSize" Type="float" />
+          <Property Name="ShowBleedArea" Type="bit" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -3070,6 +3071,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_GlobalLanguage">
+          <End Role="GlobalLanguage" Type="Self.GlobalLanguage" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalLanguage">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PageCategory_CmsPage">
           <End Role="PageCategory" Type="Self.PageCategory" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -3839,8 +3852,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="fileTableName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_cloneTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="TemplateID" Type="int" Mode="In" />
-          <Parameter Name="submittedBy" Type="int" Mode="In" />
+          <Parameter Name="TemplateID" Type="bigint" Mode="In" />
+          <Parameter Name="submittedBy" Type="bigint" Mode="In" />
           <Parameter Name="submittedByName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_GetUsedFontsUpdated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -4236,6 +4249,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_ItemVideo_Items" Association="Self.FK_ItemVideo_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="Self.FK_Organisation_GlobalLanguage">
+            <End Role="GlobalLanguage" EntitySet="GlobalLanguage" />
+            <End Role="Organisation" EntitySet="Organisation" />
           </AssociationSet>
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategory" />
@@ -4839,9 +4856,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="FieldVariables" EntityType="DomainModels.FieldVariable" />
           <EntitySet Name="TemplateVariables" EntityType="DomainModels.TemplateVariable" />
           <EntitySet Name="VariableSections" EntityType="DomainModels.VariableSection" />
-          <FunctionImport Name="sp_cloneTemplate" ReturnType="Collection(Int32)" >
-            <Parameter Name="TemplateID" Mode="In" Type="Int32" />
-            <Parameter Name="submittedBy" Mode="In" Type="Int32" />
+          <FunctionImport Name="sp_cloneTemplate" ReturnType="Collection(Int64)" >
+            <Parameter Name="TemplateID" Mode="In" Type="Int64" />
+            <Parameter Name="submittedBy" Mode="In" Type="Int64" />
             <Parameter Name="submittedByName" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="TemplateBackgroundImages" EntityType="DomainModels.TemplateBackgroundImage" />
@@ -4973,6 +4990,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK__ImagePerm__Image__60D4A69D" Association="DomainModels.FK__ImagePerm__Image__60D4A69D">
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImages" />
             <End Role="ImagePermission" EntitySet="ImagePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="DomainModels.FK_Organisation_GlobalLanguage">
+            <End Role="GlobalLanguage" EntitySet="GlobalLanguages" />
+            <End Role="Organisation" EntitySet="Organisations" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -5195,8 +5216,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="MarkUpRate" Type="Double" />
           <Property Name="IsFixed" Type="Int32" />
           <Property Name="IsDefault" Type="Boolean" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Prefixes" Relationship="DomainModels.FK_tbl_prefixes_tbl_markup" FromRole="Markup" ToRole="prefix" />
+          <Property Name="OrganisationId" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="Organisation">
           <Key>
@@ -5227,7 +5248,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SystemWeightUnit" Type="Int64" />
           <Property Name="CurrencyId" Type="Int64" />
           <Property Name="LanguageId" Type="Int64" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="Organisation" ToRole="CmsSkinPageWidget" />
           <NavigationProperty Name="SystemUsers" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="Organisation" ToRole="SystemUser" />
           <Property Name="MISLogoStreamId" Type="Guid" />
@@ -5235,6 +5255,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CountryId" Type="Int64" />
           <NavigationProperty Name="Country" Relationship="DomainModels.FK__Organisat__Count__16719D3F" FromRole="Organisation" ToRole="Country" />
           <NavigationProperty Name="State" Relationship="DomainModels.FK__Organisat__State__157D7906" FromRole="Organisation" ToRole="State" />
+          <Property Name="BleedAreaSize" Type="Double" />
+          <Property Name="ShowBleedArea" Type="Boolean" />
+          <NavigationProperty Name="GlobalLanguage" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="Organisation" ToRole="GlobalLanguage" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -8128,6 +8151,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="FriendlyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="uiCulture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="culture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="GlobalLanguage" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="CampaignEmailQueue">
           <Key>
@@ -8958,6 +8982,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_GlobalLanguage">
+          <End Type="DomainModels.GlobalLanguage" Role="GlobalLanguage" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalLanguage">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9160,7 +9196,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Markups">
             <EntityTypeMapping TypeName="DomainModels.Markup">
               <MappingFragment StoreEntitySet="Markup">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
                 <ScalarProperty Name="MarkUpRate" ColumnName="MarkUpRate" />
@@ -9172,10 +9208,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="ShowBleedArea" ColumnName="ShowBleedArea" />
+                <ScalarProperty Name="BleedAreaSize" ColumnName="BleedAreaSize" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="MISLogoStreamId" ColumnName="MISLogoStreamId" />
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="SystemWeightUnit" ColumnName="SystemWeightUnit" />

@@ -147,14 +147,19 @@ namespace MPC.Models.DomainModels
         public long? LanguageId { get; set; }
 
         /// <summary>
-        /// User Domain Key
-        /// </summary>
-        public int UserDomainKey { get; set; }
-
-        /// <summary>
         /// MIS Logo Stream Id
         /// </summary>
         public Guid? MISLogoStreamId { get; set; }
+
+        /// <summary>
+        /// Bleed Area Size
+        /// </summary>
+        public double? BleedAreaSize { get; set; }
+
+        /// <summary>
+        /// Show Bleed Area
+        /// </summary>
+        public bool? ShowBleedArea { get; set; }
 
         #endregion
         
@@ -169,6 +174,11 @@ namespace MPC.Models.DomainModels
         /// State
         /// </summary>
         public virtual State State { get; set; }
+
+        /// <summary>
+        /// Global Language
+        /// </summary>
+        public virtual GlobalLanguage GlobalLanguage { get; set; }
 
         /// <summary>
         /// Cms Skin Page Widgets

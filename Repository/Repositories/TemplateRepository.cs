@@ -105,7 +105,90 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        // update template height and width and add new template pages, called while uploading pdf as template from MIS // added by saqib
+        public bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listPages)
+        { 
+            bool result = false;
+            Template objTemplate = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            if (objTemplate != null)
+            {
+                objTemplate.PDFTemplateWidth = pdfWidth;
+                objTemplate.PDFTemplateHeight = pdfHeight;
+                objTemplate.CuttingMargin = 14.173228345;
+                foreach(TemplatePage obj in listPages)
+                {
+                    TemplatePage objPage = new TemplatePage();
+                     objPage.ProductId = productID;
+                    objPage.PageNo = obj.PageNo;
+                    objPage.PageName = obj.PageName;
+                    objPage.IsPrintable = true;
+                    objPage.Orientation = 1;
+                    objPage.BackGroundType = 1;
+                    objPage.BackgroundFileName = obj.BackgroundFileName;
+                    objPage.PageType = 1;  // pageType(1 = without color 2 = with color )  Color C  Color M  Color Y Color K   
+                    db.TemplatePages.Add(objPage);
 
+                }
+                db.SaveChanges();
+                result = true;
+            }
+            
+            return result;
+        }
+        // update template height and width, add new page and link old template objects with new pages, called while uploading pdf as template from MIS // added by saqib
+        public bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listNewPages, List<TemplatePage> listOldPages, List<TemplateObject> listObjects)
+        {
+            bool result = false;
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Template objTemplate = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+                    if (objTemplate != null)
+                    {
+                        objTemplate.PDFTemplateWidth = pdfWidth;
+                        objTemplate.PDFTemplateHeight = pdfHeight;
+                        objTemplate.CuttingMargin = 14.173228345;
+                        foreach (TemplatePage obj in listNewPages)
+                        {
+                            TemplatePage objPage = new TemplatePage();
+                            objPage.ProductId = productID;
+                            objPage.PageNo = obj.PageNo;
+                            objPage.PageName = obj.PageName;
+                            objPage.IsPrintable = true;
+                            objPage.Orientation = 1;
+                            objPage.BackGroundType = 1;
+                            objPage.BackgroundFileName = obj.BackgroundFileName;
+                            objPage.PageType = 1;  // pageType(1 = without color 2 = with color )  Color C  Color M  Color Y Color K   
+                            db.TemplatePages.Add(objPage);
+                            db.SaveChanges();
+                            // get old page
+                            var oldTemplatePage = listOldPages.Where(g => g.PageNo == obj.PageNo).SingleOrDefault();
+                            // add old objects to new  template page
+                            if (oldTemplatePage != null)
+                            {
+                                long oldPageID = oldTemplatePage.ProductPageId;
+                                List<TemplateObject> oldObjs = listObjects.Where(g => g.ProductPageId == oldPageID).ToList();
+                                foreach (var tempObj in oldObjs)
+                                {
+                                    tempObj.ProductPageId = objPage.ProductPageId;
+                                    db.TemplateObjects.Add(tempObj);
+                                }
+                            }
+                        }
+                        db.SaveChanges();
+                        dbContextTransaction.Commit(); 
+                        result = true;
+
+                    }
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                } 
+            }
+            return result;
+        }
         // copy a single template and update file paths in db // added by saqib ali
         public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages)
         {
@@ -201,7 +284,31 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        
+        // delete template all pages and its objects, called from mis while uploading pdf as template // added by saqib ali
+        public void DeleteTemplatePagesAndObjects(long ProductID,out List<TemplateObject> listObjs,out List<TemplatePage> listPages)
+        {
+            try
+            {
+                listObjs = db.TemplateObjects.Where(g => g.ProductId == ProductID).ToList();
+                //deleting objects
+                foreach (TemplateObject c in listObjs)
+                {
+                    db.TemplateObjects.Remove(c);
+                }
+                //delete template pages
+                listPages = db.TemplatePages.Where(g => g.ProductId == ProductID).ToList();
+                foreach (TemplatePage c in listPages)
+                {
+
+                    db.TemplatePages.Remove(c);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
             try
@@ -315,12 +422,12 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
-        public int CloneTemplateByTemplateID(int TempID)
+        public long CloneTemplateByTemplateID(long TempID)
         {
 
             try
             {
-                int result = db.sp_cloneTemplate(TempID, 0, "");
+                long result = db.sp_cloneTemplate(TempID, 0, "");
                 return result;
             }
             catch (Exception ex)

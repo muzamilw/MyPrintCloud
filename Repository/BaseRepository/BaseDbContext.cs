@@ -371,14 +371,14 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
-        public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)
+        public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
         {
             ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
             ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
-            ObjectResult<int?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
+            ObjectResult<long?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
                 submittedByNameParameter);
-            int? newTemplateId = result.FirstOrDefault();
+            long? newTemplateId = result.FirstOrDefault();
 
             return newTemplateId.HasValue ? newTemplateId.Value : 0;
         }

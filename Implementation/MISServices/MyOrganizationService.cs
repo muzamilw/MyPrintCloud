@@ -151,7 +151,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Save(Organisation organisation)
         {
-            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
+            organisation.OrganisationId = organisationRepository.OrganisationId;
             organisationRepository.Add(organisation);
             organisationRepository.SaveChanges();
 
@@ -161,7 +161,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in organisation.Markups)
                 {
-                    item.UserDomainKey = (int)organisationRepository.OrganisationId;
+                    item.OrganisationId = organisationRepository.OrganisationId;
                     markupRepository.Add(item);
                     markupRepository.SaveChanges();
                 }
@@ -197,7 +197,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
-            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
+            organisation.OrganisationId = organisationRepository.OrganisationId;
             organisation.MISLogo = organisationDbVersion.MISLogo;
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
@@ -226,7 +226,7 @@ namespace MPC.Implementation.MISServices
                                 x.MarkUpId != item.MarkUpId ||
                                 item.MarkUpId == 0))
                     {
-                        item.UserDomainKey = (int)organisationRepository.OrganisationId;
+                        item.OrganisationId = organisationRepository.OrganisationId;
                         markupRepository.Add(item);
                         markupRepository.SaveChanges();
                     }

@@ -15,9 +15,12 @@ namespace MPC.Interfaces.Repository
 
         string GetTemplateNameByTemplateID(int tempID);
 
-        int CloneTemplateByTemplateID(int TempID);
+        long CloneTemplateByTemplateID(long TempID);
         void DeleteTemplatePagesAndObjects(long ProductID);
+        void DeleteTemplatePagesAndObjects(long ProductID, out List<TemplateObject> listObjs,out List<TemplatePage> listPages);
         bool DeleteTemplate(long ProductID, out long CategoryID);
+        bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listPages);
+        bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listNewPages, List<TemplatePage> listOldPages, List<TemplateObject> listObjects);
         long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages);
     }
 }
