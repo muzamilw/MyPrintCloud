@@ -857,52 +857,170 @@ namespace MPC.Implementation.MISServices
                     System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
                                                                   itemRepository.OrganisationId + "/Company" +
                                                                   item.CompanyId + "/Products/Product" + item.ItemId);
+
+            #region ThumbNail
+
             if (item.ThumbnailImage != null)
             {
                 string base64 = item.ThumbnailImage.Substring(item.ThumbnailImage.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
-                
+
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.ThumbnailImageName;
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.ThumbnailImageName;
                 File.WriteAllBytes(savePath, data);
-               
+
                 item.ThumbnailPath = savePath;
-               
+
             }
+
+            #endregion
+
+            #region Grid Image
+
             if (item.GridImageBytes != null)
             {
                 string base64 = item.GridImageBytes.Substring(item.GridImageBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
-               
+
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.GridImageSourceName;
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.GridImageSourceName;
                 File.WriteAllBytes(savePath, data);
 
                 item.GridImage = savePath;
             }
+
+            #endregion
+
+            #region Image 
+
             if (item.ImagePathImage != null)
             {
                 string base64 = item.ImagePathImage.Substring(item.ImagePathImage.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
-               
+
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" + item.ImagePathImageName;
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.ImagePathImageName;
                 File.WriteAllBytes(savePath, data);
 
                 item.ImagePath = savePath;
             }
+
+            #endregion
+
+            #region File1
+
+            if (item.File1 != null)
+            {
+                string base64 = item.File1.Substring(item.File1.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.File1Name;
+                File.WriteAllBytes(savePath, data);
+
+                item.GridImage = savePath;
+            }
+
+            #endregion
+            #region File2
+
+            if (item.File2 != null)
+            {
+                string base64 = item.File2.Substring(item.File2.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.File2Name;
+                File.WriteAllBytes(savePath, data);
+
+                item.GridImage = savePath;
+            }
+            #endregion
+            #region File3
+
+            if (item.File3 != null)
+            {
+                string base64 = item.File3.Substring(item.File3.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.File3Name;
+                File.WriteAllBytes(savePath, data);
+
+                item.GridImage = savePath;
+            }
+            #endregion
+            #region File4
+
+            if (item.File4 != null)
+            {
+                string base64 = item.File4.Substring(item.File4.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.File4Name;
+                File.WriteAllBytes(savePath, data);
+
+                item.GridImage = savePath;
+            }
+            #endregion
+            #region File5
+
+            if (item.File5 != null)
+            {
+                string base64 = item.File5.Substring(item.File5.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + item.ProductCode + "_" + item.ItemId + "_" +
+                                  item.File5Name;
+                File.WriteAllBytes(savePath, data);
+
+                item.GridImage = savePath;
+            }
+             #endregion
+
+            #endregion
+
             itemRepository.SaveChanges();
         }
         
@@ -949,7 +1067,7 @@ namespace MPC.Implementation.MISServices
             return savePath;
 
         }
-        #endregion
+        
 
         #region Constructor
 
