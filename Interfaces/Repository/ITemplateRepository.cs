@@ -15,7 +15,7 @@ namespace MPC.Interfaces.Repository
 
         string GetTemplateNameByTemplateID(int tempID);
 
-        int CloneTemplateByTemplateID(int TempID);
+        long CloneTemplateByTemplateID(long TempID);
         void DeleteTemplatePagesAndObjects(long ProductID);
         void DeleteTemplatePagesAndObjects(long ProductID, out List<TemplateObject> listObjs,out List<TemplatePage> listPages);
         bool DeleteTemplate(long ProductID, out long CategoryID);

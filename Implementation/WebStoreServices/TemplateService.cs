@@ -469,7 +469,7 @@ namespace MPC.Implementation.WebStoreServices
         }
 
       
-        public int CloneTemplateByTemplateID(int TempID)
+        public long CloneTemplateByTemplateID(long TempID)
         {
             return _templateRepository.CloneTemplateByTemplateID(TempID);
         }

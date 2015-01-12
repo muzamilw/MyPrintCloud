@@ -58,6 +58,11 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        public List<CmsPage> GetSystemPagesAndSecondaryPages(long CompanyId)
+        {
 
+            return db.CmsPages.Where(p => (p.CompanyId == CompanyId || p.CompanyId == null) && p.isEnabled == true).ToList();
+
+        }
     }
 }

@@ -51,9 +51,7 @@ namespace MPC.Webstore.Controllers
             if (storeId == 0)
             {
                 Response.Redirect("/Error");
-                
-                //return RedirectToAction("Error", "Home"); //Response.Redirect("Home/Error");
-                //throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+              
             }
             else
             {
@@ -87,13 +85,17 @@ namespace MPC.Webstore.Controllers
                     {
                         Response.Redirect("/Login");
                     }
+                    else 
+                    {
+                        Response.Redirect("/");
+                    }
                 }
                 else
                 {
                     RedirectToAction("Error", "Home");
                 }
             }
-            Response.Redirect("/Home/Index");
+           
            // return RedirectToAction("Index", "Home");
           //  return View();
         }

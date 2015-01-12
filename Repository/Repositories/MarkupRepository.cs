@@ -41,12 +41,12 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<Markup> GetAll()
         {
-            return DbSet.Where(markup => markup.UserDomainKey == OrganisationId).ToList();
+            return DbSet.Where(markup => markup.OrganisationId == OrganisationId).ToList();
         }
 
         public Markup GetZeroMarkup()
         {
-            return db.Markups.Where(c => c.MarkUpRate.Value == 0).FirstOrDefault();
+            return db.Markups.FirstOrDefault(c => c.MarkUpRate.Value == 0);
         }
 
         #endregion

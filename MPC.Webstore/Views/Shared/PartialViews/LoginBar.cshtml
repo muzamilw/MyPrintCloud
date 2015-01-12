@@ -2,6 +2,8 @@
 @{ Layout = null;
    var LogOutLanguageIdentifier = Html.GetResource("LogOut");
    }
+@if ((UserCookieManager.StoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.StoreMode == 1)
+{
 <div class="container content_area">
     <div class="row left_right_padding">
         <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
@@ -19,7 +21,7 @@
                         <a id="lnkLogin" href="/Login" class="lnkSignInCs">@Html.GetResource("SignInRegister")</a>
                     </li>
                     <li class="ZeroRightMargin BlackBtnCS">
-                        <a href="#" class="top_sub_section_links hyperlinkCart ">
+                        <a href="/ShopCart" class="top_sub_section_links hyperlinkCart ">
                             <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
                             <span class="carttxtcolorSize classicthemeLoginMenu">@Html.GetResource("ShoppingCart")</span>
                             <div class="lblCartCounter" id="lblCartCount">
@@ -58,7 +60,7 @@
                     <li class="liMarginRight">
 
                         <div class="CartBtn">
-                            <a href="#" class="top_sub_section_links hyperlinkCart">
+                            <a href="/ShopCart" class="top_sub_section_links hyperlinkCart">
                                 <div class="lblItemsCartCounter" id="lblCartCounter">
                                 </div>
                             </a>
@@ -75,3 +77,4 @@
         </div>
     </div>
 </div>
+}

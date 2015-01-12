@@ -8,8 +8,7 @@ namespace MPC.Models.Common
     public enum StoreMode : int
     {
         Retail = 1,
-        Corp = 2,
-        Broker = 3,
+        Corp = 3,
         NotSet = 99
 
     }

@@ -27,11 +27,13 @@
     @Scripts.Render("~/bundles/Slider")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/modalEffects")
+    @Scripts.Render("~/bundles/PopUps")
     @RenderSection("scripts", required: false)
 
     <script type="text/javascript">
 
         $(document).ready(function () {
+     
             $('.bxslider').bxSlider({
                 auto: true,
                 speed: 2200

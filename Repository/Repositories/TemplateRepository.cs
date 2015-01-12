@@ -422,12 +422,12 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
-        public int CloneTemplateByTemplateID(int TempID)
+        public long CloneTemplateByTemplateID(long TempID)
         {
 
             try
             {
-                int result = db.sp_cloneTemplate(TempID, 0, "");
+                long result = db.sp_cloneTemplate(TempID, 0, "");
                 return result;
             }
             catch (Exception ex)
