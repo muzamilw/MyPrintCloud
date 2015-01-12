@@ -102,11 +102,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 item.File1Bytes = source.File1 != null ? File.ReadAllBytes(source.File1) : null;
             }
-            // Load File1
-            if (source.File1 != null && File.Exists(source.File1))
-            {
-                item.File1Bytes = source.File1 != null ? File.ReadAllBytes(source.File1) : null;
-            }
+            
             // Load File2
             if (source.File2 != null && File.Exists(source.File2))
             {
@@ -228,15 +224,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbnailImage = source.ThumbnailImageByte,
                 GridImageBytes = source.GridImageSourceByte,
                 ImagePathImage = source.ImagePathImageByte,
-                File1 = source.File1,
+                File1Byte = source.File1,
                 File1Name = source.File1Name,
-                File2 = source.File2,
+                File2Byte = source.File2,
                 File2Name = source.File2Name,
-                File3 = source.File3,
+                File3Byte = source.File3,
                 File3Name = source.File3Name,
-                File4 = source.File4,
+                File4Byte = source.File4,
                 File4Name = source.File4Name,
-                File5 = source.File5,
+                File5Byte = source.File5,
                 File5Name = source.File5Name
             };
         }

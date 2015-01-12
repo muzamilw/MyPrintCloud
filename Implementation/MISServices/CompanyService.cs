@@ -287,8 +287,12 @@ namespace MPC.Implementation.MISServices
                 //Update Products
                 foreach (var product in companySavingModel.EdittedProducts)
                 {
-                    itemRepository.Update(product);
+                    product.CompanyId = companySavingModel.Company.CompanyId;
+                    product.OrganisationId = itemRepository.OrganisationId;
+                    var prevProduct = itemRepository.Find(product.ItemId);
+                    updatePreviousImages(prevProduct, product);
                     SaveStoreProductImage(product);
+                    itemRepository.Update(product);
                 }
             if (companySavingModel.Deletedproducts != null)
                 //Delete Products
@@ -862,6 +866,10 @@ namespace MPC.Implementation.MISServices
 
             if (item.ThumbnailImage != null)
             {
+                if (item.ThumbnailPath != null)
+                {
+                    File.Delete(item.ThumbnailPath);
+                }
                 string base64 = item.ThumbnailImage.Substring(item.ThumbnailImage.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
@@ -884,6 +892,10 @@ namespace MPC.Implementation.MISServices
 
             if (item.GridImageBytes != null)
             {
+                if (item.GridImage != null)
+                {
+                    File.Delete(item.GridImage);
+                }
                 string base64 = item.GridImageBytes.Substring(item.GridImageBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
@@ -905,6 +917,10 @@ namespace MPC.Implementation.MISServices
 
             if (item.ImagePathImage != null)
             {
+                if (item.ImagePath != null)
+                {
+                    File.Delete(item.ImagePath);
+                }
                 string base64 = item.ImagePathImage.Substring(item.ImagePathImage.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
@@ -924,9 +940,13 @@ namespace MPC.Implementation.MISServices
 
             #region File1
 
-            if (item.File1 != null)
+            if (item.File1Byte != null)
             {
-                string base64 = item.File1.Substring(item.File1.IndexOf(',') + 1);
+                if (item.File1 != null)
+                {
+                    File.Delete(item.File1);
+                }
+                string base64 = item.File1Byte.Substring(item.File1Byte.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
@@ -938,15 +958,19 @@ namespace MPC.Implementation.MISServices
                                   item.File1Name;
                 File.WriteAllBytes(savePath, data);
 
-                item.GridImage = savePath;
+                item.File1 = savePath;
             }
 
             #endregion
             #region File2
 
-            if (item.File2 != null)
+            if (item.File2Byte != null)
             {
-                string base64 = item.File2.Substring(item.File2.IndexOf(',') + 1);
+                if (item.File2 != null)
+                {
+                    File.Delete(item.File2);
+                }
+                string base64 = item.File2Byte.Substring(item.File2Byte.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
@@ -958,14 +982,18 @@ namespace MPC.Implementation.MISServices
                                   item.File2Name;
                 File.WriteAllBytes(savePath, data);
 
-                item.GridImage = savePath;
+                item.File2 = savePath;
             }
             #endregion
             #region File3
 
-            if (item.File3 != null)
+            if (item.File3Byte != null)
             {
-                string base64 = item.File3.Substring(item.File3.IndexOf(',') + 1);
+                if (item.File3 != null)
+                {
+                    File.Delete(item.File3);
+                }
+                string base64 = item.File3Byte.Substring(item.File3Byte.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
@@ -977,14 +1005,18 @@ namespace MPC.Implementation.MISServices
                                   item.File3Name;
                 File.WriteAllBytes(savePath, data);
 
-                item.GridImage = savePath;
+                item.File3 = savePath;
             }
             #endregion
             #region File4
 
-            if (item.File4 != null)
+            if (item.File4Byte != null)
             {
-                string base64 = item.File4.Substring(item.File4.IndexOf(',') + 1);
+                if (item.File4 != null)
+                {
+                    File.Delete(item.File4);
+                }
+                string base64 = item.File4Byte.Substring(item.File4Byte.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
@@ -996,14 +1028,18 @@ namespace MPC.Implementation.MISServices
                                   item.File4Name;
                 File.WriteAllBytes(savePath, data);
 
-                item.GridImage = savePath;
+                item.File4 = savePath;
             }
             #endregion
             #region File5
 
-            if (item.File5 != null)
+            if (item.File5Byte != null)
             {
-                string base64 = item.File5.Substring(item.File5.IndexOf(',') + 1);
+                if (item.File5 != null)
+                {
+                    File.Delete(item.File5);
+                }
+                string base64 = item.File5Byte.Substring(item.File5Byte.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
@@ -1015,13 +1051,41 @@ namespace MPC.Implementation.MISServices
                                   item.File5Name;
                 File.WriteAllBytes(savePath, data);
 
-                item.GridImage = savePath;
+                item.File5 = savePath;
             }
              #endregion
+            
 
-            #endregion
+        #endregion
 
             itemRepository.SaveChanges();
+        }
+
+        private void updatePreviousImages(Item prevProduct, Item item)
+        {
+            #region Check Deleted Files
+
+            if (item.File1Byte == null && prevProduct.File1 != null)
+            {
+                File.Delete(prevProduct.File1);
+            }
+            if (item.File2Byte == null && prevProduct.File2 != null)
+            {
+                File.Delete(prevProduct.File2);
+            }
+            if (item.File3Byte == null && prevProduct.File3 != null)
+            {
+                File.Delete(prevProduct.File3);
+            }
+            if (item.File4Byte == null && prevProduct.File4 != null)
+            {
+                File.Delete(prevProduct.File4);
+            }
+            if (item.File5Byte == null && prevProduct.File5 != null)
+            {
+                File.Delete(prevProduct.File5);
+            }
+            #endregion
         }
         
         /// <summary>

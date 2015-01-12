@@ -1902,7 +1902,7 @@
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
-            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.FlagId,
+            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.File2BytesSource, source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId,
             source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any

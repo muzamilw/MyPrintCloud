@@ -422,6 +422,27 @@ namespace MPC.Models.DomainModels
         public string GridImageBytes { get; set; }
         [NotMapped]
         public string ImagePathImage { get; set; }
+        [NotMapped]
+        public string File1Name { get; set; }
+        [NotMapped]
+        public string File2Name { get; set; }
+        [NotMapped]
+        public string File3Name { get; set; }
+        [NotMapped]
+        public string File4Name { get; set; }
+        [NotMapped]
+        public string File5Name { get; set; }
+
+        [NotMapped]
+        public string File1Byte { get; set; }
+        [NotMapped]
+        public string File2Byte { get; set; }
+        [NotMapped]
+        public string File3Byte { get; set; }
+        [NotMapped]
+        public string File4Byte { get; set; }
+        [NotMapped]
+        public string File5Byte { get; set; }
 
         #endregion
     }
