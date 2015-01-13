@@ -59,5 +59,77 @@ namespace MPC.MIS.MPC_Content.Resources.Organisation1.en_US {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ConfirmDesign {
+            get {
+                return ResourceManager.GetString("ConfirmDesign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to test g dsfsdf.
+        /// </summary>
+        internal static string DefaultAddress {
+            get {
+                return ResourceManager.GetString("DefaultAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to shipping address.
+        /// </summary>
+        internal static string DefaultShippingAddress {
+            get {
+                return ResourceManager.GetString("DefaultShippingAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to deatail.
+        /// </summary>
+        internal static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string NewsLetter {
+            get {
+                return ResourceManager.GetString("NewsLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string PONumber {
+            get {
+                return ResourceManager.GetString("PONumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Prices {
+            get {
+                return ResourceManager.GetString("Prices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string UserShippingAddress {
+            get {
+                return ResourceManager.GetString("UserShippingAddress", resourceCulture);
+            }
+        }
     }
 }

@@ -3071,6 +3071,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_GlobalLanguage">
+          <End Role="GlobalLanguage" Type="Self.GlobalLanguage" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalLanguage">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PageCategory_CmsPage">
           <End Role="PageCategory" Type="Self.PageCategory" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -4238,6 +4250,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="Self.FK_Organisation_GlobalLanguage">
+            <End Role="GlobalLanguage" EntitySet="GlobalLanguage" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategory" />
             <End Role="CmsPage" EntitySet="CmsPage" />
@@ -4975,6 +4991,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImages" />
             <End Role="ImagePermission" EntitySet="ImagePermissions" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="DomainModels.FK_Organisation_GlobalLanguage">
+            <End Role="GlobalLanguage" EntitySet="GlobalLanguages" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5237,6 +5257,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="State" Relationship="DomainModels.FK__Organisat__State__157D7906" FromRole="Organisation" ToRole="State" />
           <Property Name="BleedAreaSize" Type="Double" />
           <Property Name="ShowBleedArea" Type="Boolean" />
+          <NavigationProperty Name="GlobalLanguage" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="Organisation" ToRole="GlobalLanguage" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -8130,6 +8151,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="FriendlyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="uiCulture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="culture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="GlobalLanguage" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="CampaignEmailQueue">
           <Key>
@@ -8957,6 +8979,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="ImagePermission">
               <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_GlobalLanguage">
+          <End Type="DomainModels.GlobalLanguage" Role="GlobalLanguage" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalLanguage">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="LanguageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

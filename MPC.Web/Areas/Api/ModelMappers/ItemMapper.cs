@@ -102,7 +102,28 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 item.File1Bytes = source.File1 != null ? File.ReadAllBytes(source.File1) : null;
             }
-
+            
+            // Load File2
+            if (source.File2 != null && File.Exists(source.File2))
+            {
+                item.File2Bytes = source.File2 != null ? File.ReadAllBytes(source.File2) : null;
+            }
+            // Load File3
+            if (source.File3 != null && File.Exists(source.File3))
+            {
+                item.File3Bytes = source.File3 != null ? File.ReadAllBytes(source.File3) : null;
+            }
+            // Load File4
+            if (source.File4 != null && File.Exists(source.File4))
+            {
+                item.File4Bytes = source.File4 != null ? File.ReadAllBytes(source.File4) : null;
+            }
+            // Load File5
+            if (source.File5 != null && File.Exists(source.File5))
+            {
+                item.File5Bytes = source.File5 != null ? File.ReadAllBytes(source.File5) : null;
+            }
+            
             return item;
         }
 
@@ -200,9 +221,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbnailImageName = source.ThumbnailImageName,
                 ImagePathImageName = source.ImagePathImageName,
                 GridImageSourceName = source.GridImageSourceName,
-                ThumbnailImage = source.ThumbnailImage,
-                GridImageBytes = source.GridImageBytes,
-                ImagePathImage = source.ImagePathImage
+                ThumbnailImage = source.ThumbnailImageByte,
+                GridImageBytes = source.GridImageSourceByte,
+                ImagePathImage = source.ImagePathImageByte,
+                File1Byte = source.File1,
+                File1Name = source.File1Name,
+                File2Byte = source.File2,
+                File2Name = source.File2Name,
+                File3Byte = source.File3,
+                File3Name = source.File3Name,
+                File4Byte = source.File4,
+                File4Name = source.File4Name,
+                File5Byte = source.File5,
+                File5Name = source.File5Name
             };
         }
     }
