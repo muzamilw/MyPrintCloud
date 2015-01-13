@@ -143,6 +143,8 @@
     <Compile Include="DomainModels\ListingLink.cs" />
     <Compile Include="DomainModels\ListingOFI.cs" />
     <Compile Include="DomainModels\ListingVendor.cs" />
+    <Compile Include="DomainModels\Phrase.cs" />
+    <Compile Include="DomainModels\PhraseField.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />

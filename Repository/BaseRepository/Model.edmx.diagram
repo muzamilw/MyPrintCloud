@@ -215,6 +215,10 @@
         <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="33.375" PointY="32" />
         <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" />
         <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_items" />
+        <EntityTypeShape EntityType="DomainModels.Phrase" Width="1.5" PointX="33.375" PointY="34.875" />
+        <EntityTypeShape EntityType="DomainModels.PhraseField" Width="1.5" PointX="15" PointY="75.25" />
+        <AssociationConnector Association="DomainModels.fk_sectionId" />
+        <AssociationConnector Association="DomainModels.FK_Phrase_PhraseField" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

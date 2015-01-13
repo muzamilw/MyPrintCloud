@@ -423,6 +423,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CustomCopy> CustomCopies { get; set; }
 
         /// <summary>
+        /// Phrase Field DbSet
+        /// </summary>
+        public DbSet<PhraseField> PhraseFields { get; set; }
+
+        /// <summary>
+        /// Phrase DbSet
+        /// </summary>
+        public DbSet<Phrase> Phrases { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
