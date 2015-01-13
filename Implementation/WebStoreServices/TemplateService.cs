@@ -22,6 +22,7 @@ namespace MPC.Implementation.WebStoreServices
         public readonly IProductCategoryRepository _ProductCategoryRepository;
         public readonly ITemplateBackgroundImagesService _templateBackgroundImagesService;
 
+        // it will convert pdf to template pages and will preserve template objects and images 
         private bool CovertPdfToBackground(string physicalPath, long ProductID, long organizationID)
         {
             bool result = false;
@@ -127,6 +128,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             return result;
         }
+        // it willl convert pdf to template pages and will delete all existing objects and images 
         private bool CovertPdfToBackgroundWithoutObjects(string physicalPath, long ProductID, long organizationID)
         {
             bool result = false;
