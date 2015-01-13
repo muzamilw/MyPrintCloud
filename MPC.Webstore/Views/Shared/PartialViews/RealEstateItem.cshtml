@@ -3,7 +3,6 @@
 <style type="text/css">
     .activeCampaigns {
         width: 25%;
-        height: 175px;
         background-color: #e9501d;
         float: right;
         padding-top: 25px;
@@ -22,17 +21,38 @@
     }
 </style>
 
-<div class="content_area container" id="bannerContainer">
-    <ul id="mycarousel" class="jcarousel-skin-tango"">
-        @foreach (var banner in ViewBag.ImageSource)
-        {
-            <li>
-                <a id="hlItemUrl">
-                    <img id="imgBanner" src="@banner" style="height: 100px; width: 150px;" />
-                </a>
-            </li>
-        }
-    </ul>
+<div class="content_area container" id="bannerContainer" style="width: 100%; height: 200px; position: relative; z-index: 50;">
+    <div style="float: left; width: 75%; z-index: 0; position: relative; top: -10px;text-align:center;">
+        <ul id="mycarousel" class="jcarousel-skin-tango">
+            @foreach (var banner in ViewBag.ImageSource)
+            {
+                <li>
+                    <a id="hlItemUrl">
+                        <div style="height: 120px;">
+                            <img id="imgBanner" src="@banner" style="height: 100px; width: 150px;" />
+                        </div>
+                    </a>
+                    <div>
+                        <label style="font-family: PT Sans; font-size: 17px; color: #e9501d;">Property Name</label>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="activeCampaigns" style="z-index: 1; position: relative;">
+        <div>
+            <label class="campaignsHeading">Active Campaigns</label>
+        </div>
+        <div style="padding-top:15px;">
+            <img src="~/Content/Images/SmartFormCart.png" /><br />
+        </div>
+        <div style="padding-top:20px;" class="campaignsLabel">
+            <label>You have </label>
+            <label>-</label>
+            <label> items  |  </label>
+            <a href="#">Check out</a>
+        </div>
+    </div>
 </div>
 
 @section scripts
