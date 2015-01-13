@@ -37,20 +37,23 @@ namespace MPC.Interfaces.Repository
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
         bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
-        
-        // get related Items
+
         List<ProductItem> GetRelatedItemsList();
-        /// <summary>
-        /// Gets the Item which is not added to cart but exists in order
-        /// </summary>
-        /// <param name="OrderId"></param>
-        /// <param name="ReferenceItemId"></param>
-        /// <returns></returns>
+    
+        Item GetItemByOrderAndItemID(long ItemID, long OrderID);
+
+        double FindMinimumPriceOfProduct(long itemID);
+
         Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId);
 
-        /// <summary>
-        /// Get Minimum product Value
-        /// </summary>
+        List<ProductItem> GetRelatedItemsByItemID(long ItemID);
+
+        List<ItemImage> getItemImagesByItemID(long ItemID);
+
+        int GetDefaultSectionPriceFlag();
+
         double GetMinimumProductValue(long itemId);
+
+
     }
 }

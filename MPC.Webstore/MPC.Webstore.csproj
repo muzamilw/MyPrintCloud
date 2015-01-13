@@ -274,6 +274,7 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
+    <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
@@ -580,6 +581,7 @@
     <Content Include="Views\Shared\PartialViews\ShopCart.cshtml" />
     <Content Include="Views\Shared\PartialViews\MatchingSet.cshtml" />
     <Content Include="Views\Shared\PartialViews\RelatedItems.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ProductDetail.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -587,6 +589,7 @@
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
+    <Folder Include="Views\Default\" />
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
     <Folder Include="Views\RealEstateItem\" />
