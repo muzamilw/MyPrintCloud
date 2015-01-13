@@ -5,6 +5,7 @@ using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -49,6 +50,27 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public List<ItemStockOption> GetAllStockListByItemID(long ItemID, long companyID)
+        {
+            try
+            {
+                if (companyID > 0)
+                {
+                    return db.ItemStockOptions.Where(i => i.ItemId == ItemID && i.CompanyId == companyID).OrderBy(g => g.OptionSequence).ToList();
+                }
+                else
+                {
+                    return db.ItemStockOptions.Where(i => i.ItemId == ItemID && i.CompanyId == null).OrderBy(g => g.OptionSequence).ToList();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            
+           
+        }
         #endregion
     }
 }

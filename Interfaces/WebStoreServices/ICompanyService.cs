@@ -22,7 +22,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByEmail(string Email);
 
-        long CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
+        long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID);
 
 
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
