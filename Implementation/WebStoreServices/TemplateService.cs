@@ -471,7 +471,7 @@ namespace MPC.Implementation.WebStoreServices
             return _templateRepository.BindTemplatesList(TemplateName, pageNumber, CustomerID, CompanyID, PCview);
         }
         
-        public string GetTemplateNameByTemplateID(int tempID)
+        public string GetTemplateNameByTemplateID(long tempID)
         {
             return _templateRepository.GetTemplateNameByTemplateID(tempID);
         }
@@ -481,6 +481,28 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _templateRepository.CloneTemplateByTemplateID(TempID);
         }
+
+        /// <summary>
+        /// To populate the template information base on template id and item rec by zohaib 10/1/2015
+        /// </summary>
+        /// <param name="templateID"></param>
+        /// <param name="ItemRecc"></param>
+        /// <param name="template"></param>
+        /// <param name="tempPages"></param>
+        public void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages)
+        {
+            try
+            {
+                _templateRepository.populateTemplateInfo(templateID, ItemRecc, out template, out tempPages);
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+       
         #endregion
     }
 }
