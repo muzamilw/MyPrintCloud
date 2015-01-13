@@ -31,10 +31,9 @@ namespace MPC.Implementation.WebStoreServices
             foreach (var obj in listImages)
             {
                 string sfilePath = drURL + "/"+  obj.ImageName;
-                if (Directory.Exists(drURL))
+                if (File.Exists(drURL))
                 {
-                    System.IO.File.Delete(sfilePath);
-
+                    File.Delete(sfilePath);
                 }
             }
         }

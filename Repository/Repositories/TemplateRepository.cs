@@ -63,6 +63,20 @@ namespace MPC.Repository.Repositories
             return template;
 
         }
+        // returns list of pages and objects along with template called while generating template pdf;
+        public Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            listPages = null;
+            listTemplateObjs = null;
+            if(template != null)
+            {
+                listPages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
+                listTemplateObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
+            }
+            return template;
+        }
         // delete template from database // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID)
         {

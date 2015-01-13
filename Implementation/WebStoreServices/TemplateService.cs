@@ -6,6 +6,7 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,11 +18,133 @@ namespace MPC.Implementation.WebStoreServices
 {
     class TemplateService : ITemplateService
     {
+        #region privateGeneratePdf
+        // helper functions to generate pdf 
+        //generate pdf function
+       // private byte[] generatePDF(Template objProduct, TemplatePage objProductPage, string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode)
+       // {
+
+       // }
+        // generate low res proof image from pdf file 
+        private string generatePagePreview(byte[] PDFDoc, string savePath, string PreviewFileName, double CuttingMargin, int DPI, bool RoundCorners)
+        {
+            using (Doc theDoc = new Doc())
+            {
+                Stream str = null;
+                try
+                {
+                    theDoc.Read(PDFDoc);
+                    theDoc.PageNumber = 1;
+                    theDoc.Rect.String = theDoc.CropBox.String;
+                    theDoc.Rect.Inset(CuttingMargin, CuttingMargin);
+                    
+                    if (System.IO.Directory.Exists(savePath) == false)
+                    {
+                        System.IO.Directory.CreateDirectory(savePath);
+                    }
+
+                    theDoc.Rendering.DotsPerInch = DPI;
+                    if (RoundCorners)
+                    {
+                        using (str = new MemoryStream())
+                        {
+                            theDoc.Rendering.Save(System.IO.Path.Combine(savePath, PreviewFileName) + ".png", str);
+                            generateRoundCorners(System.IO.Path.Combine(savePath, PreviewFileName) + ".png", System.IO.Path.Combine(savePath, PreviewFileName) + ".png", str);
+                        }
+                    }
+                    else
+                    {
+                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, PreviewFileName) + ".png");
+                    }
+
+                    theDoc.Dispose();
+
+                    return PreviewFileName + ".png";
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("generatePagePreview", ex);
+                }
+                finally
+                {
+                    if (theDoc != null)
+                        theDoc.Dispose();
+                    if(str != null)
+                       str.Dispose();
+                }
+            }
+
+        }
+        private void generateRoundCorners(string physicalPath, string pathToSave, Stream str)
+        {
+            string path = physicalPath;
+            int roundedDia = 30;
+            Bitmap bitmap = null;
+            using (Image imgin = Image.FromStream(str))//FromFile(path)
+            {
+                bitmap = new Bitmap(imgin.Width, imgin.Height);
+                Graphics g = Graphics.FromImage(bitmap);
+                try
+                {
+                    g.Clear(Color.Transparent);
+                    g.SmoothingMode = (System.Drawing.Drawing2D.SmoothingMode.AntiAlias);
+                    Brush brush = new System.Drawing.TextureBrush(imgin);
+                    FillRoundedRectangle(g, new Rectangle(0, 0, imgin.Width, imgin.Height), roundedDia, brush);
+                    if (File.Exists(pathToSave))
+                    {
+                        File.Delete(pathToSave);
+                    }
+                    bitmap.Save(pathToSave, System.Drawing.Imaging.ImageFormat.Png);
+
+                }
+                catch (Exception e)
+                {
+                    throw (e);
+                }
+                finally
+                {
+                    if(bitmap != null)
+                       bitmap.Dispose();
+                    if(imgin != null)
+                        imgin.Dispose();
+                    if(g != null)
+                        g.Dispose();
+                }
+            }
+        }
+        private static void FillRoundedRectangle(Graphics g, Rectangle r, int d, Brush b)
+        {
+            
+            System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
+            try
+            {
+                gp.AddArc(r.X, r.Y, d, d, 180, 90);
+                gp.AddArc(r.X + r.Width - d, r.Y, d, d, 270, 90);
+                gp.AddArc(r.X + r.Width - d, r.Y + r.Height - d, d, d, 0, 90);
+                gp.AddArc(r.X, r.Y + r.Height - d, d, d, 90, 90);
+
+                g.FillPath(b, gp);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if(gp != null)
+                  gp.Dispose();
+            }
+           
+        }
+        #endregion
         #region private
         public readonly ITemplateRepository _templateRepository;
         public readonly IProductCategoryRepository _ProductCategoryRepository;
         public readonly ITemplateBackgroundImagesService _templateBackgroundImagesService;
-
+       
         // it will convert pdf to template pages and will preserve template objects and images 
         private bool CovertPdfToBackground(string physicalPath, long ProductID, long organizationID)
         {
@@ -232,7 +355,45 @@ namespace MPC.Implementation.WebStoreServices
             }
             return result;
         }
+        // generate template pdf file called from MIS and webstore 
+        private bool GenerateTemplatePdf(long productID, long organizationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
+        {
+            bool result = false;
+            try
+            {
 
+                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+                string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/");
+                List<TemplatePage> oTemplatePages = new List<TemplatePage>();
+                List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
+                Template objProduct = _templateRepository.GetTemplate(productID, out oTemplatePages, out oTemplateObjects);
+              //  string targetFolder = "";
+                   // targetFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/Products/");
+                    foreach (TemplatePage objPage in oTemplatePages)
+                    {
+                        bool hasOverlayObject = false;
+                       // byte[] PDFFile = generatePDF(objProduct, objPage, drURL, fontsUrl, false, true, printCropMarks, printWaterMarks, out hasOverlayObject, false);
+                        //writing the PDF to FS
+                        System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
+                        //generate and write overlay image to FS 
+                        generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        if (hasOverlayObject)
+                        {
+                            // generate overlay PDF 
+                        //    byte[] overlayPDFFile = generatePDF(objProduct, objPage, drURL, fontsUrl, false, true, printCropMarks, printWaterMarks, out hasOverlayObject, true);
+                            // writing overlay pdf to FS 
+                            System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
+                            // generate and write overlay image to FS 
+                            generatePagePreview(overlayPDFFile, drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        }
+                    }
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), organizationID);
+            }
+            return result;
+        }
         #endregion
         #region constructor
         public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages)
@@ -466,6 +627,12 @@ namespace MPC.Implementation.WebStoreServices
                 throw new MPCException(ex.ToString(), organizationID);
             }
             return result;
+        }
+
+        // called from webstore and MIS to generate pdf file of the template.// added by saqib ali
+        public void processTemplatePDF(long TemplateID, long organizationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
+        {
+            GenerateTemplatePdf(TemplateID, organizationID, printCropMarks, printWaterMarks, isroundCorners);
         }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
