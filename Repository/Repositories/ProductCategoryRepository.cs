@@ -142,8 +142,42 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+          
         }
-       
+        /// <summary>
+        /// get name of parent categogry by ItemID
+        /// </summaery>
+        /// <param name="categoryID"></param>
+        /// <returns></returns>
+        public string GetImmidiateParentCategory(long ItemID, out string CurrentProductCategoryName)
+        {
+            try
+            {
+                long catID = db.ProductCategoryItems.Where(p => p.ItemId == ItemID).Select(s => s.CategoryId ?? 0).FirstOrDefault();
+                List<ProductCategory> LstCategories = this.GetPublicCategories(); //get all the categories
+
+                ProductCategory currCategory = LstCategories.Find(category => category.ProductCategoryId == catID); //finds itself
+                CurrentProductCategoryName = currCategory.CategoryName;
+                if (currCategory != null)
+                {
+
+                    if ((currCategory.ParentCategoryId ?? 0) > 0)
+                        currCategory = LstCategories.Find(cat => cat.ProductCategoryId == currCategory.ParentCategoryId.Value); // finds the first parent
+                }
+                if (currCategory != null)
+                    return currCategory.CategoryName;
+                else
+                    return string.Empty;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            
+
+        }
 
     }
 }

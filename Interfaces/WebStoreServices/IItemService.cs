@@ -35,5 +35,54 @@ namespace MPC.Interfaces.WebStoreServices
         // get related items
         List<ProductItem> GetRelatedItemsList();
 
+        /// <summary>
+        /// get an item according to usercookiemanager.orderid or itemid 
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="OrderID"></param>
+        /// <returns></returns>
+        Item GetItemByOrderAndItemID(long ItemID, long OrderID);
+        /// <summary>
+        /// to find the minimun price of specific Product by itemid
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        double FindMinimumPriceOfProduct(long itemID);
+
+        /// <summary>
+        /// get name of parent categogry by ItemID
+        /// </summaery>
+        /// <param name="categoryID"></param>
+        /// <returns></returns>
+        string GetImmidiateParentCategory(long ItemID,out string CurrentProductCategoryName);
+        /// <summary>
+        /// get list of stock options by item and company id
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        List<ItemStockOption> GetAllStockListByItemID(long ItemID, long companyID);
+        /// <summary>
+        /// get cost center list according to stock option id
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        List<string> GetProductItemAddOnCostCentres(long StockOptionID, long CompanyID);
+
+        List<ProductItem> GetRelatedItemsByItemID(long ItemID);
+        /// <summary>
+        /// get itemimages base on item ID
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <returns></returns>
+        List<ItemImage> getItemImagesByItemID(long ItemID);
+        /// <summary>
+        /// get default section price flag
+        /// </summary>
+        /// <returns></returns>
+        int GetDefaultSectionPriceFlag();
+        
+
     }
 }

@@ -277,12 +277,12 @@ namespace MPC.Repository.Repositories
 
             return salt;
         }
-        public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
+        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName,long SaleAndOrderManagerID)
         {
             Address address = null;
             CompanyContact tblContacts = null;
 
-            Int64 customerID = 0;
+            long customerID = 0;
 
             //CompanySiteManager companySiteManager = new CompanySiteManager();
             Company Company = new Company();
@@ -303,7 +303,8 @@ namespace MPC.Repository.Repositories
             Company.AccountManagerId = Company.AccountManagerId;
             Company.CreditLimit = 0;
             Company.IsCustomer = Convert.ToInt16(CustomerType);
-            Company.SalesAndOrderManagerId1 = 0;
+           
+            Company.SalesAndOrderManagerId1 = SaleAndOrderManagerID;
             //if (BrokerContactCompanyID != null)
             //{
             //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;

@@ -1413,7 +1413,126 @@ namespace MPC.Repository.Repositories
                 return query.ToList<ProductItem>();
         }
 
-       
+        /// <summary>
+        /// get an item according to usercookiemanager.orderid or itemid 
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="OrderID"></param>
+        /// <returns></returns>
+        public Item GetItemByOrderAndItemID(long ItemID, long OrderID)
+        {
+            return db.Items.Where(g => g.RefItemId == ItemID && g.EstimateId == OrderID && g.IsOrderedItem == false).FirstOrDefault();
+        }
+        /// <summary>
+        /// to find the minimun price of specific Product by itemid
+        /// </summary>
+        /// <param name="curProduct"></param>
+        /// <returns></returns>
+        public double FindMinimumPriceOfProduct(long itemID)
+        {
+            try
+            {
+                GetCategoryProduct products = (from c in db.GetCategoryProducts
+                                               where c.ItemId == itemID
+                                               select c).FirstOrDefault();
+                if (products != null)
+                {
+                    return products.MinPrice;
+                }
+                else
+                {
+                    return 0;
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+         
+           
+        }
+        public List<ProductItem> GetRelatedItemsByItemID(long ItemID)
+        {
+          try
+          {
+              var query = from productsList in db.GetCategoryProducts
+                          join tblRelItems in db.ItemRelatedItems on productsList.ItemId equals tblRelItems.RelatedItemId
+                          join r in db.Items on tblRelItems.ItemId equals r.ItemId   //into tblRelatedGroupJoin
+                          where r.ItemId == ItemID
+
+                          //from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
+                          select new ProductItem
+                          {
+                              ItemID = productsList.ItemId,
+                              //  RelatedItemID = JTble.RelatedItemID.HasValue ? JTble.RelatedItemID.Value : 0,
+                              EstimateID = productsList.EstimateId,
+                              ProductName = productsList.ProductName,
+                              ProductCategoryName = productsList.ProductCategoryName,
+                              ProductCategoryID = productsList.ProductCategoryId,
+                              MinPrice = productsList.MinPrice,
+                              ImagePath = productsList.ImagePath,
+                              ThumbnailPath = productsList.ThumbnailPath,
+                              IconPath = productsList.IconPath,
+                              IsEnabled = productsList.IsEnabled,
+                              IsSpecialItem = productsList.IsSpecialItem,
+                              IsPopular = productsList.IsPopular,
+                              IsFeatured = productsList.IsFeatured,
+                              IsPromotional = productsList.IsPromotional,
+                              IsPublished = productsList.IsPublished,
+                              ProductSpecification = productsList.ProductSpecification,
+                              CompleteSpecification = productsList.CompleteSpecification,
+                              //TipsAndHints = productsList.ti,
+                              ProductType = productsList.ProductType
+                          };
+
+
+              return query.ToList<ProductItem>();
+
+          }
+          catch(Exception ex)
+          {
+              throw ex;
+          }
+               
+
+
+        }
+        /// <summary>
+        /// get itemimages base on item ID
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <returns></returns>
+        public List<ItemImage> getItemImagesByItemID(long ItemID)
+        {
+            try
+            {
+                return db.ItemImages.Where(g => g.ItemId == ItemID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        /// <summary>
+        /// get default section price flag
+        /// </summary>
+        /// <returns></returns>
+        public int GetDefaultSectionPriceFlag()
+        {
+            try
+            {
+                return db.SectionFlags.Where(i => i.SectionId == 81 && i.isDefault == true).Select(o => o.SectionFlagId).FirstOrDefault();
+            }
+             catch (Exception ex)
+            {
+                throw ex;
+            }
+              
+            
+        }
         #endregion
     }
 }

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ViewModels;
 

@@ -39,5 +39,34 @@ namespace MPC.Interfaces.Repository
 
         // get related Items
         List<ProductItem> GetRelatedItemsList();
+        /// <summary>
+        /// get an item according to usercookiemanager.orderid or itemid 
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="OrderID"></param>
+        /// <returns></returns>
+        Item GetItemByOrderAndItemID(long ItemID, long OrderID);
+
+        /// <summary>
+        /// to find the minimun price of specific Product by itemid
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        double FindMinimumPriceOfProduct(long itemID);
+
+        List<ProductItem> GetRelatedItemsByItemID(long ItemID);
+        /// <summary>
+        /// get itemimages base on item ID
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <returns></returns>
+        List<ItemImage> getItemImagesByItemID(long ItemID);
+         /// <summary>
+        /// get default section price flag
+        /// </summary>
+        /// <returns></returns>
+        int GetDefaultSectionPriceFlag();
+
+
     }
 }

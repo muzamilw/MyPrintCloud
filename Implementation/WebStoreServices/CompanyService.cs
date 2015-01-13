@@ -233,9 +233,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetContactByEmail(Email);
         }
 
-        public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
+        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID)
         {
-            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName);
+            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName,SaleAndOrderManagerID);
         }
 
        

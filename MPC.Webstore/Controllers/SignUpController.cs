@@ -140,7 +140,7 @@ namespace MPC.Webstore.Controllers
 
             if (baseResponse.Company.IsCustomer == (int)StoreMode.Retail)
             {
-                CompanyID = _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName, 0, (int)ContactCompanyTypes.SalesCustomer, TwitterScreenName);
+                CompanyID = _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName, 0, (int)ContactCompanyTypes.SalesCustomer, TwitterScreenName,baseResponse.Company.SalesAndOrderManagerId1 ?? 0);
 
                 if (CompanyID > 0)
                 {

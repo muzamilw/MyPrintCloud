@@ -77,7 +77,7 @@
 
                             <div id="MessageBox"></div>
                          
-                            <div class="errorMesgLoginPage">
+                            @*<div class="errorMesgLoginPage">
                                 
                                 @Html.ValidationMessageFor(u => u.FirstName)<br />
                                 @Html.ValidationMessageFor(u => u.LastName)<br />
@@ -85,12 +85,13 @@
                                 @Html.ValidationMessageFor(u => u.Email)<br />
                                 @Html.ValidationMessageFor(u => u.Password)<br />
 
-                            </div>
+                            </div>*@
                             @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox cntRegisterFN", placeholder = ViewData.ModelMetadata.DisplayName })
                             @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", placeholder = "Last Name" })
                             @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", placeholder = "Phone" })
                             @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", placeholder = "Email" })
-                            @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
+                           @Html.ValidationMessageFor(u => u.Email)
+                             @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
                              
                             <br />
                             <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" onclick="return ValidateUSer();" value="CREATE ACCOUNT" /><br />
