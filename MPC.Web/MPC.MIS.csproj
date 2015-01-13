@@ -1427,6 +1427,7 @@
     <Content Include="Areas\Stores\Views\Home\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\Stores\Views\Stores\_AddEditSecondaryPage.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -637,7 +638,7 @@ namespace MPC.Implementation.MISServices
                     item.PageId = 0;
                     item.CompanyId = companySavingModel.Company.CompanyId;
                     item.OrganisationId = companyRepository.OrganisationId;
-                    item.PageBanner = SaveCmsPageImage(item);
+                    item.PageBanner = SaveCmsPageImage(item, companySavingModel.Company.CompanyId);
                     companyDbVersion.CmsPages.Add(item);
                 }
             }
@@ -666,7 +667,7 @@ namespace MPC.Implementation.MISServices
                                 //If already image exist
                                 File.Delete(dbItem.PageBanner);
                             }
-                            dbItem.PageBanner = SaveCmsPageImage(item);
+                            dbItem.PageBanner = SaveCmsPageImage(item, companySavingModel.Company.CompanyId);
                         }
                     }
                 }
@@ -806,12 +807,12 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             if (company.CompanyBannerSets != null)
-                SaveCompanyBannerImages(company.CompanyBannerSets);
+                SaveCompanyBannerImages(company.CompanyBannerSets, company.CompanyId);
         }
         /// <summary>
         /// Save Images
         /// </summary>
-        private void SaveCompanyBannerImages(IEnumerable<CompanyBannerSet> companyBannerSets)
+        private void SaveCompanyBannerImages(IEnumerable<CompanyBannerSet> companyBannerSets, long companyId)
         {
             List<CompanyBanner> companyBannersList = companyBannerRepository.GetAll().ToList();
 
@@ -826,14 +827,17 @@ namespace MPC.Implementation.MISServices
                             base64 = base64.Trim('\0');
                             byte[] data = Convert.FromBase64String(base64);
 
-                            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyBanners");
+                            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + companyId);
                             if (directoryPath != null && !Directory.Exists(directoryPath))
                             {
                                 Directory.CreateDirectory(directoryPath);
                             }
-                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "_" + img.FileName;
+                            string savePath = directoryPath + "\\" + "CompanyBanner" + img.CompanyBannerId + "_" + img.FileName + ".jpeg";
+                            if (File.Exists(savePath))
+                            {
+                                File.Delete(savePath);
+                            }
                             File.WriteAllBytes(savePath, data);
-
                             CompanyBanner companyBanner = companyBannersList.FirstOrDefault(x => x.CompanyBannerId == img.CompanyBannerId);
                             if (companyBanner != null)
                             {
@@ -867,9 +871,9 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Save Images for CMS Page
+        /// Save Images for CMS Page(Secondary Page Images)
         /// </summary>
-        private string SaveCmsPageImage(CmsPage cmsPage)
+        private string SaveCmsPageImage(CmsPage cmsPage, long companyId)
         {
             if (cmsPage.Bytes != null)
             {
@@ -877,13 +881,18 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CMSPages");
+                //string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CMSPages");
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + companyId);
+
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                Guid newGuid = Guid.NewGuid();
-                string savePath = directoryPath + "\\" + newGuid + "_" + cmsPage.FileName;
+                string savePath = directoryPath + "\\" + "CmsPage" + cmsPage.PageId + "_" + cmsPage.FileName + ".jpeg";
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
                 File.WriteAllBytes(savePath, data);
                 return savePath;
             }
@@ -898,7 +907,7 @@ namespace MPC.Implementation.MISServices
             base64 = base64.Trim('\0');
             byte[] data = Convert.FromBase64String(base64);
 
-            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyContactProfileImages");
+            string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CompanyContactProfileImages");
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);

@@ -64,7 +64,7 @@ namespace MPC.MIS.Areas.Settings.Controllers
                 Directory.CreateDirectory(path);
             }
 
-            path = path + "\\" + "Organisation_" + organizationId + ".jpeg";
+            path = path + "\\Organisation" + organizationId + "_" + file.FileName + ".jpeg";
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
