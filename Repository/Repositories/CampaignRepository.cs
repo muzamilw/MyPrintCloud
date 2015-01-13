@@ -36,7 +36,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Campaign GetCampaignRecordByEmailEvent(int iEmailEvent)
+        public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent)
         {
 
             return db.Campaigns.Where(c => c.EmailEvent == iEmailEvent).FirstOrDefault();

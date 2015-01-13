@@ -81,6 +81,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ITemplateFontsRepository, TemplateFontsRepository>();
             unityContainer.RegisterType<IItemProductDetailRepository, ItemProductDetailRepository>();
             unityContainer.RegisterType<ITemplateBackgroundImagesRepository, TemplateBackgroundImagesRepository>();
+            unityContainer.RegisterType<IItemAttachmentRepository, ItemAttachmentRepository>();
+            unityContainer.RegisterType<IFavoriteDesignRepository, FavoriteDesignRepository>();
         }
     }
 }

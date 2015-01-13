@@ -23,6 +23,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemStockControlRepository _StockRepository;
         private readonly IItemAddOnCostCentreRepository _AddOnRepository;
         private readonly IProductCategoryRepository _ProductCategoryRepository;
+        private readonly IItemAttachmentRepository _itemAtachement;
+        private readonly IFavoriteDesignRepository _favoriteDesign;
 
         #region Constructor
 
@@ -30,7 +32,8 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
-            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository)
+            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
+            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -39,6 +42,8 @@ namespace MPC.Implementation.WebStoreServices
             this._StockRepository = StockRepository;
             this._AddOnRepository = AddOnRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
+            this._itemAtachement = itemAtachement;
+            this._favoriteDesign = FavoriteDesign;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -180,7 +185,16 @@ namespace MPC.Implementation.WebStoreServices
         }
         public ItemStockControl GetStockItem(long itemId)
         {
-            return _StockRepository.GetStockOfItemById(itemId);
+            try
+            {
+                return _StockRepository.GetStockOfItemById(itemId);
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+         
         }
         public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
         {
@@ -201,6 +215,136 @@ namespace MPC.Implementation.WebStoreServices
         {
             
             return _ItemRepository.GetRelatedItemsList();
+        }
+
+        public List<ItemAttachment> GetArtwork(long ItemId)
+        {
+
+            return _itemAtachement.GetArtworkAttachments(ItemId);
+        }
+        /// <summary>
+        /// get an item according to usercookiemanager.orderid or itemid 
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="OrderID"></param>
+        /// <returns></returns>
+        public Item GetItemByOrderAndItemID(long ItemID, long OrderID)
+        {
+            return _ItemRepository.GetItemByOrderAndItemID(ItemID, OrderID);
+        }
+
+        /// <summary>
+        /// to find the minimun price of specific Product by itemid
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        public double FindMinimumPriceOfProduct(long itemID)
+        {
+            return _ItemRepository.FindMinimumPriceOfProduct(itemID);
+        }
+        /// <summary>
+        /// get name of parent categogry by categoryID
+        /// </summaery>
+        /// <param name="categoryID"></param>
+        /// <returns></returns>
+        public string GetImmidiateParentCategory(long categoryID,out string CategoryName)
+        {
+            try
+            {
+                return _ProductCategoryRepository.GetImmidiateParentCategory(categoryID, out CategoryName);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            
+        }
+        /// <summary>
+        /// get list of all stock options by item and company id 
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        public List<ItemStockOption> GetAllStockListByItemID(long ItemID, long companyID)
+        {
+            try
+            {
+                return _StockOptions.GetAllStockListByItemID(ItemID, companyID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+          
+        }
+
+        public List<string> GetProductItemAddOnCostCentres(long StockOptionID, long CompanyID)
+        {
+            try
+            {
+                return _AddOnRepository.GetProductItemAddOnCostCentres(StockOptionID, CompanyID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// get all related items according to item id
+        /// </summary>
+        /// <param name="ItemID"></param>
+        /// <returns></returns>
+        public List<ProductItem> GetRelatedItemsByItemID(long ItemID)
+        {
+            try
+            {
+                return _ItemRepository.GetRelatedItemsByItemID(ItemID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// get default section price flag 
+        /// </summary>
+        /// <returns></returns>
+        public int GetDefaultSectionPriceFlag()
+        {
+            try
+            {
+                return _ItemRepository.GetDefaultSectionPriceFlag();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ItemImage> getItemImagesByItemID(long ItemID)
+        {
+            try
+            {
+                return _ItemRepository.getItemImagesByItemID(ItemID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public FavoriteDesign GetFavContactDesign(long templateID, long contactID)
+        {
+            try
+            {
+                return _favoriteDesign.GetFavContactDesign(templateID, contactID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

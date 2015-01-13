@@ -148,7 +148,7 @@
                                            }
                                             @if (isUploadImage == false)
                                             {
-                                                <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })">
+                                                <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
                                                     <div class="PDTC_CatProd FI_CatProd">
                                                         @{
 
@@ -174,7 +174,7 @@
                                                 {
                                                     if (ViewBag.IsUserLogin == true) // check if user login or not ??
                                                     {
-                                                        <a id="hlProductDetail" href="@RedirectURL">
+                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -198,7 +198,7 @@
                                                     {
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
-                                    
+
                                                         <a id="hlProductDetail" href="#" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
@@ -222,7 +222,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <a id="hlProductDetail" href="@RedirectURL">
+                                                    <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
 
                                                         <div class="PDTC_CatProd FI_CatProd">
                                                             @{
@@ -307,7 +307,7 @@
                                         <tr class="trMoreDetailOfProductLnk">
                                             <td style="text-align: left;">
                                                 <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
-                                                    <a id="lnkPRoductdetail">more...</a>
+                                                    <a id="lnkPRoductdetail" href="#" >more...</a>
                                                 </p>
                                             </td>
                                         </tr>

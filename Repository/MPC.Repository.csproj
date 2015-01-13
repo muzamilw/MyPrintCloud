@@ -193,8 +193,10 @@
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
+    <Compile Include="Repositories\FavoriteDesignRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
+    <Compile Include="Repositories\ItemAttachmentRepository.cs" />
     <Compile Include="Repositories\ItemStateTaxRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />
     <Compile Include="Repositories\ItemAddonCostCentreRepository.cs" />
