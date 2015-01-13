@@ -10,9 +10,9 @@ namespace MPC.Interfaces.Repository
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
         Template GetTemplate(long productID);
-        Template GetTemplate(long productID, out List<TemplatePage> listPages,out List<TemplateObject> listTemplateObjs);
-        List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview);
 
+        List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview);
+        Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs);
         string GetTemplateNameByTemplateID(long tempID);
 
         long CloneTemplateByTemplateID(long TempID);

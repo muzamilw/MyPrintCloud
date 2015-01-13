@@ -63,7 +63,8 @@ namespace MPC.Repository.Repositories
             return template;
 
         }
-        // returns list of pages and objects along with template called while generating template pdf;
+
+         // returns list of pages and objects along with template called while generating template pdf;
         public Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs)
         {
             db.Configuration.LazyLoadingEnabled = false;
@@ -77,6 +78,7 @@ namespace MPC.Repository.Repositories
             }
             return template;
         }
+        
         // delete template from database // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID)
         {
