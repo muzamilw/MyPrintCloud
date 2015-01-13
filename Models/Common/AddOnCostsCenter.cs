@@ -75,6 +75,6 @@ namespace MPC.Models.Common
 
         public int Priority { get; set; }
 
-        public long ItemStockOptionId { get; set; }
+        public long ItemStockId { get; set; }
     }
 }

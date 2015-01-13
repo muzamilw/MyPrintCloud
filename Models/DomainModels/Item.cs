@@ -379,6 +379,9 @@ namespace MPC.Models.DomainModels
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
 
+        [NotMapped]
+        public double MinPrice { get; set; }
+
         #endregion
 
         #region Reference Properties

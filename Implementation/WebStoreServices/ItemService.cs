@@ -23,6 +23,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemStockControlRepository _StockRepository;
         private readonly IItemAddOnCostCentreRepository _AddOnRepository;
         private readonly IProductCategoryRepository _ProductCategoryRepository;
+        private readonly IItemAttachmentRepository _itemAtachement;
 
         #region Constructor
 
@@ -30,7 +31,8 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
-            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository)
+            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
+            , IItemAttachmentRepository itemAtachement)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -39,6 +41,7 @@ namespace MPC.Implementation.WebStoreServices
             this._StockRepository = StockRepository;
             this._AddOnRepository = AddOnRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
+            this._itemAtachement = itemAtachement;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -201,6 +204,12 @@ namespace MPC.Implementation.WebStoreServices
         {
             
             return _ItemRepository.GetRelatedItemsList();
+        }
+
+        public List<ItemAttachment> GetArtwork(long ItemId)
+        {
+
+            return _itemAtachement.GetArtworkAttachments(ItemId);
         }
     }
 }

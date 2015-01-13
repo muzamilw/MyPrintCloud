@@ -502,6 +502,7 @@ namespace MPC.Repository.Repositories
         public Item GetItemToClone(long itemID)
         {
             Item productItem = null;
+            db.Configuration.LazyLoadingEnabled = false;
             productItem = db.Items.Include("ItemSections.SectionCostcentres").Where(item => item.ItemId == itemID).FirstOrDefault<Item>();
             return productItem;
 
@@ -610,6 +611,7 @@ namespace MPC.Repository.Repositories
         }
         public T Clone<T>(T source)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             object item = Activator.CreateInstance(typeof(T));
             List<PropertyInfo> itemPropertyInfoCollection = source.GetType().GetProperties().ToList<PropertyInfo>();
             foreach (PropertyInfo propInfo in itemPropertyInfoCollection)
@@ -986,7 +988,7 @@ namespace MPC.Repository.Repositories
 
         public Item GetItemById(long itemId)
         {
-            return db.Items.Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
+            return db.Items.Include("ItemPriceMatrices").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
@@ -1531,6 +1533,15 @@ namespace MPC.Repository.Repositories
         public Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId)
         {
             return db.Items.Where(i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false).FirstOrDefault();
+        }
+ 
+
+        /// <summary>
+        /// Get Minimum product value
+        /// </summary>
+        public double GetMinimumProductValue(long itemId)
+        {
+            return db.GetMinimumProductValue(itemId);
         }
 
         #endregion
