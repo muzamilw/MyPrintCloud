@@ -35,6 +35,7 @@ namespace MPC.Webstore.ViewModels
         public double ActualPrice { get; set; }
 
         public long Id { get; set; }
-
+        public long CostCenterId { get; set; }
+        public long StockOptionId { get; set; }
     }
 }

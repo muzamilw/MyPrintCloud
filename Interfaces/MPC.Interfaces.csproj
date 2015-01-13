@@ -84,6 +84,7 @@
     <Compile Include="Repository\IEmailEventRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
+    <Compile Include="Repository\IItemAttachmentRepository.cs" />
     <Compile Include="Repository\IItemStateTaxRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\IItemAddOnCostCentreRepository.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
+    <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
     <Compile Include="Repository\ITemplateFontsRepository.cs" />
     <Compile Include="Repository\ITemplateObjectRepository.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
+    <Compile Include="WebStoreServices\ITemplateBackgroundImagesService.cs" />
     <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />
     <Compile Include="WebStoreServices\ITemplateFontsService.cs" />
     <Compile Include="WebStoreServices\ITemplateObjectService.cs" />

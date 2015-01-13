@@ -23,7 +23,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Code
             code = ko.observable(specifiedCode || undefined),
             // Product Name
-            productName = ko.observable(specifiedProductName || undefined),
+            productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
             // Product Name For Grid
             productNameForGrid = ko.computed(function () {
                 if (!productName()) {
@@ -32,7 +32,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return productName().length > 30 ? productName().substring(0, 29) : productName();
             }),
             // Product Code
-            productCode = ko.observable(specifiedProductCode || undefined),
+            productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
             // thumbnail
             thumbnail = ko.observable(specifiedThumbnail || undefined),
             // grid image
@@ -42,7 +42,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // file 1
             file1 = ko.observable(specifiedFile1 || undefined),
             // mini Price
-            miniPrice = ko.observable(specifiedMinPrice || undefined),
+            miniPrice = ko.observable(specifiedMinPrice || 0),
             // is archived
             isArchived = ko.observable(specifiedIsArchived || undefined),
             // Is Archived Ui
@@ -149,7 +149,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return isFinishedGoodsUi() === '1';
             }),
             // Flag Id
-            internalFlagId = ko.observable(specifiedFlagId || undefined),
+            internalFlagId = ko.observable(specifiedFlagId || undefined).extend({ required: true }),
             // Item Price Matrices For Existing flag
             itemPriceMatricesForExistingFlag = ko.observableArray([]),
             // Flag Id
@@ -284,7 +284,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
 
                     // Update Supplier Prices for Sequence 1
-                    updateSupplierForSequence1(value, 1);
+                    updateSupplierForSequence(value, 1, itemPriceMatricesForSupplierId1, itemPriceMatricesForSupplierSequence1);
 
                     // Update SupplierId1
                     internalSupplierId(value);
@@ -301,38 +301,21 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
 
                     // Update Supplier Prices for Sequence 2
-                    updateSupplierForSequence2(value, 2);
+                    updateSupplierForSequence(value, 2, itemPriceMatricesForSupplierId2, itemPriceMatricesForSupplierSequence2);
 
                     // Update SupplierId2
                     internalSupplierId2(value);
                 }
             }),
             // Update Supplier in Item Price Matrix
-            updateSupplierForSequence1 = function (suppId, suppSequence) {
-                if (itemPriceMatricesForSupplierId1().length > 0) {
-                    _.each(itemPriceMatricesForSupplierId1(), function (itemPriceMatrix) {
+            updateSupplierForSequence = function (suppId, suppSequence, itemPriceMatricesForSupplier, itemPriceMatricesForSupplierSequence) {
+                if (itemPriceMatricesForSupplier().length > 0) {
+                    _.each(itemPriceMatricesForSupplier(), function (itemPriceMatrix) {
                         itemPriceMatrix.supplierId(suppId);
                     });
                 }
-                else if (itemPriceMatricesForSupplierSequence1().length > 0) {
-                    _.each(itemPriceMatricesForSupplierSequence1(), function (itemPriceMatrix) {
-                        itemPriceMatrix.supplierId(suppId);
-                    });
-                }
-                else {
-                    // Copy From Current Flag & Add New
-                    addPricesForSupplier(suppId, suppSequence);
-                }
-            },
-            // Update Supplier in Item Price Matrix
-            updateSupplierForSequence2 = function (suppId, suppSequence) {
-                if (itemPriceMatricesForSupplierId2().length > 0) {
-                    _.each(itemPriceMatricesForSupplierId2(), function (itemPriceMatrix) {
-                        itemPriceMatrix.supplierId(suppId);
-                    });
-                }
-                else if (itemPriceMatricesForSupplierSequence2().length > 0) {
-                    _.each(itemPriceMatricesForSupplierSequence2(), function (itemPriceMatrix) {
+                else if (itemPriceMatricesForSupplierSequence().length > 0) {
+                    _.each(itemPriceMatricesForSupplierSequence(), function (itemPriceMatrix) {
                         itemPriceMatrix.supplierId(suppId);
                     });
                 }
@@ -628,6 +611,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
                         itemPriceMatrices.valueHasMutated();
                     }
+                    return;
                 }
 
                 // Set Already existing Items For Current Flag
@@ -652,6 +636,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Errors
             errors = ko.validation.group({
+                productCode: productCode,
+                productName: productName,
+                internalFlagId: internalFlagId
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -662,6 +649,43 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return !itemStockOption.isValid();
                 }).length === 0;
             }),
+            // Show All Error Messages
+            showAllErrors = function () {
+                // Show Item Errors
+                errors.showAllMessages();
+                // Show Item Stock Option Errors
+                var itemStockOptionErrors = itemStockOptions.filter(function(itemStockOption) {
+                    return !itemStockOption.isValid();
+                });
+                if (itemStockOptionErrors.length > 0) {
+                    _.each(itemStockOptionErrors, function (itemStockOption) {
+                        itemStockOption.errors.showAllMessages();
+                    });
+                }
+            },
+            // Set Validation Summary
+            setValidationSummary = function (validationSummaryList) {
+                validationSummaryList.removeAll();
+                if (productName.error) {
+                    validationSummaryList.push({ name: productName.domElement.name, element: productName.domElement });
+                }
+                if (productCode.error) {
+                    validationSummaryList.push({ name: productCode.domElement.name, element: productCode.domElement });
+                }
+                if (internalFlagId.error) {
+                    validationSummaryList.push({ name: internalFlagId.domElement.name, element: internalFlagId.domElement });
+                }
+                // Show Item Stock Option Errors
+                var itemStockOptionInvalid = itemStockOptions.find(function (itemStockOption) {
+                    return !itemStockOption.isValid();
+                });
+                if (itemStockOptionInvalid) {
+                    if (itemStockOptionInvalid.label.error) {
+                        var labelElement = itemStockOptionInvalid.label.domElement;
+                        validationSummaryList.push({ name: labelElement.name, element: labelElement });
+                    }
+                }
+            },
             // True if the product has been changed
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
@@ -904,6 +928,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription10: jobDescription10,
             isTemplateTabsVisible: isTemplateTabsVisible,
             flagId: flagId,
+            internalFlagId: internalFlagId,
             isQtyRangedUi: isQtyRangedUi,
             isQtyRanged: isQtyRanged,
             packagingWeight: packagingWeight,
@@ -963,8 +988,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             selectStateTaxItem: selectStateTaxItem,
             setItemPriceMatrices: setItemPriceMatrices,
             removeExistingPriceMatrices: removeExistingPriceMatrices,
+            setValidationSummary: setValidationSummary,
             errors: errors,
             isValid: isValid,
+            showAllErrors: showAllErrors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             itemVdpPriceListHasChanges: itemVdpPriceListHasChanges,
@@ -1307,7 +1334,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var // Unique key
             id = ko.observable(specifiedId),
             // Label
-            label = ko.observable(specifiedStockLabel || undefined),
+            label = ko.observable(specifiedStockLabel || undefined).extend({ required: true }),
             // Stock Item Id
             stockItemId = ko.observable(specifiedStockId || undefined),
             // Stock Item Name
@@ -1316,6 +1343,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockItemDescription = ko.observable(specifiedStockItemDescription || undefined),
             // image
             image = ko.observable(specifiedImage || undefined),
+            // file source
+            fileSource = ko.observable(),
+            // file name
+            fileName = ko.observable(),
             // Option Sequence
             optionSequence = ko.observable(specifiedOptionSequence || undefined),
             // Item Id
@@ -1360,12 +1391,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 stockItemName(stockItem.name);
                 stockItemDescription(stockItem.description);
             },
+            // On Select File
+            onSelectImage = function(file, data) {
+                image(data);
+                fileSource(data);
+                fileName(file.name);
+            },
             // Errors
             errors = ko.validation.group({
+                label: label
             }),
             // Is Valid
             isValid = ko.computed(function () {
-                return errors().length === 0 || itemAddonCostCentres.filter(function (itemAddonCostCentre) {
+                return errors().length === 0 && itemAddonCostCentres.filter(function (itemAddonCostCentre) {
                     return !itemAddonCostCentre.isValid();
                 }).length === 0;
             }),
@@ -1374,6 +1412,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag = new ko.dirtyFlag({
                 stockItemId: stockItemId,
                 label: label,
+                image: image,
                 itemAddonCostCentres: itemAddonCostCentres
             }),
             // Has Changes
@@ -1397,6 +1436,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     StockLabel: label(),
                     StockId: stockItemId(),
                     ItemId: itemId(),
+                    FileSource: fileSource(),
+                    FileName: fileName(),
                     OptionSequence: optionSequence(),
                     ItemAddOnCostCentres: itemAddonCostCentres.map(function (itemAddonCostCentre) {
                         return itemAddonCostCentre.convertToServerData();
@@ -1412,6 +1453,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockItemDescription: stockItemDescription,
             itemId: itemId,
             image: image,
+            fileSource: fileSource,
+            fileName: fileName,
             optionSequence: optionSequence,
             activeItemAddonCostCentre: activeItemAddonCostCentre,
             itemAddonCostCentres: itemAddonCostCentres,
@@ -1421,6 +1464,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onEditItemAddonCostCentre: onEditItemAddonCostCentre,
             saveItemAddonCostCentre: saveItemAddonCostCentre,
             selectStock: selectStock,
+            onSelectImage: onSelectImage,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -1577,13 +1621,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
-            id = ko.observable(specifiedId),
+            id = ko.observable(specifiedId || 0),
             // Quantity
-            quantity = ko.observable(specifiedQuantity || undefined),
+            quantity = ko.observable(specifiedQuantity || 0),
             // Qty Ranged From
-            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || undefined),
+            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || 0),
             // Qty Ranged To
-            qtyRangedTo = ko.observable(specifiedQtyRangedTo || undefined),
+            qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0),
             // Flag Id
             flagId = ko.observable(specifiedFlagId || undefined),
             // Supplier Id
@@ -1591,7 +1635,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Supplier Sequence
             supplierSequence = ko.observable(specifiedSupplierSequence || undefined),
             // Price Paper Type1
-            pricePaperType1 = ko.observable(specifiedPricePaperType1 || undefined),
+            pricePaperType1 = ko.observable(specifiedPricePaperType1 || 0),
             // Price Paper Type1 Ui
             pricePaperType1Ui = ko.computed(function () {
                 if (!pricePaperType1()) {
@@ -1601,7 +1645,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + pricePaperType1();
             }),
             // Price Paper Type2
-            pricePaperType2 = ko.observable(specifiedPricePaperType2 || undefined),
+            pricePaperType2 = ko.observable(specifiedPricePaperType2 || 0),
             // Price Paper Type2 Ui
             pricePaperType2Ui = ko.computed(function () {
                 if (!pricePaperType2()) {
@@ -1611,7 +1655,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + pricePaperType2();
             }),
             // Price Paper Type3
-            pricePaperType3 = ko.observable(specifiedPricePaperType3 || undefined),
+            pricePaperType3 = ko.observable(specifiedPricePaperType3 || 0),
             // Price Paper Type3 Ui
             pricePaperType3Ui = ko.computed(function () {
                 if (!pricePaperType3()) {
@@ -1621,7 +1665,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + pricePaperType3();
             }),
             // Price Stock Type4
-            priceStockType4 = ko.observable(specifiedPriceStockType4 || undefined),
+            priceStockType4 = ko.observable(specifiedPriceStockType4 || 0),
             // Price Stock Type4 Ui
             priceStockType4Ui = ko.computed(function () {
                 if (!priceStockType4()) {
@@ -1631,7 +1675,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + priceStockType4();
             }),
             // Price Stock Type5
-            priceStockType5 = ko.observable(specifiedPriceStockType5 || undefined),
+            priceStockType5 = ko.observable(specifiedPriceStockType5 || 0),
             // Price Stock Type5 Ui
             priceStockType5Ui = ko.computed(function () {
                 if (!priceStockType5()) {
@@ -1641,7 +1685,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + priceStockType5();
             }),
             // Price Stock Type6
-            priceStockType6 = ko.observable(specifiedPriceStockType6 || undefined),
+            priceStockType6 = ko.observable(specifiedPriceStockType6 || 0),
             // Price Stock Type6 Ui
             priceStockType6Ui = ko.computed(function () {
                 if (!priceStockType6()) {
@@ -1651,7 +1695,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + priceStockType6();
             }),
             // Price Stock Type7
-            priceStockType7 = ko.observable(specifiedPriceStockType7 || undefined),
+            priceStockType7 = ko.observable(specifiedPriceStockType7 || 0),
             // Price Stock Type7 Ui
             priceStockType7Ui = ko.computed(function () {
                 if (!priceStockType7()) {
@@ -1661,7 +1705,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + priceStockType7();
             }),
             // Price Stock Type8
-            priceStockType8 = ko.observable(specifiedPriceStockType8 || undefined),
+            priceStockType8 = ko.observable(specifiedPriceStockType8 || 0),
             // Price Stock Type8 Ui
             priceStockType8Ui = ko.computed(function () {
                 if (!priceStockType8()) {
@@ -1671,7 +1715,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + priceStockType8();
             }),
             // Price Stock Type9
-            priceStockType9 = ko.observable(specifiedPriceStockType9 || undefined),
+            priceStockType9 = ko.observable(specifiedPriceStockType9 || 0),
             // Price Stock Type9 Ui
             priceStockType9Ui = ko.computed(function () {
                 if (!priceStockType4()) {
@@ -1681,7 +1725,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + priceStockType9();
             }),
             // Price Stock Type10
-            priceStockType10 = ko.observable(specifiedPriceStockType10 || undefined),
+            priceStockType10 = ko.observable(specifiedPriceStockType10 || 0),
             // Price Stock Type10 Ui
             priceStockType10Ui = ko.computed(function () {
                 if (!priceStockType10()) {
@@ -1691,7 +1735,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return '$ ' + priceStockType10();
             }),
             // Price Stock Type11
-            priceStockType11 = ko.observable(specifiedPriceStockType11 || undefined),
+            priceStockType11 = ko.observable(specifiedPriceStockType11 || 0),
             // Price Stock Type11 Ui
             priceStockType11Ui = ko.computed(function () {
                 if (!priceStockType11()) {
@@ -2086,7 +2130,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Stock Option Factory
     ItemStockOption.Create = function (source, callbacks) {
         var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-            source.ImageSource, source.OptionSequence, source.ItemId, callbacks);
+            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks);
 
         // If Item Addon CostCentres exists then add
         if (source.ItemAddOnCostCentres) {
@@ -2196,13 +2240,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
             var itemStockOptions = [];
 
-            _.each(source.ItemStockOptions, function (itemStockOption) {
+            _.each(source.ItemStockOptions, function(itemStockOption) {
                 itemStockOptions.push(ItemStockOption.Create(itemStockOption, callbacks));
             });
 
             // Push to Original Item
             ko.utils.arrayPushAll(item.itemStockOptions(), itemStockOptions);
             item.itemStockOptions.valueHasMutated();
+        }
+        else {
+            // Add one atleast if Newly Created Product
+            if (!item.id()) {
+                item.addItemStockOption();
+            }
         }
 
         // Map Item Related Items if any
@@ -2229,6 +2279,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Push to Original Item
             ko.utils.arrayPushAll(item.itemStateTaxes(), itemStateTaxes);
             item.itemStateTaxes.valueHasMutated();
+        }
+
+        // Return item with dirty state if New
+        if (!item.id()) {
+            return item;
         }
 
         // Reset State to Un-Modified

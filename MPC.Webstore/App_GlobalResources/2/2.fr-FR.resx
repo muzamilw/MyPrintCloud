@@ -1,0 +1,3766 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!--<data name="btnfrench" xml:space="preserve">
+    <value>bouton françaises 1 2</value>
+  </data>
+  <data name="lnkContactUs" xml:space="preserve">
+    <value>Contactez-nous</value>
+  </data>
+  <data name="hlRequestQuote" xml:space="preserve">
+    <value>Demander un devis</value>
+  </data>
+  <data name="hlSpecialProducts" xml:space="preserve">
+    <value>Offres spéciales</value>
+  </data>
+  <data name="HyperLink4" xml:space="preserve">
+    <value>Tableau de bord</value>
+    <comment>//Header Control</comment>
+  </data>
+  <data name="lnkAboutUs" xml:space="preserve">
+    <value>A propos de nous</value>
+  </data>
+  <data name="lnkBtnViewMyCart" xml:space="preserve">
+    <value>Panier (0)</value>
+  </data>
+  <data name="lnkLogin" xml:space="preserve">
+    <value>Se connecter / S'inscrire</value>
+  </data>
+  <data name="lnkMyAccount" xml:space="preserve">
+    <value>Mon compte</value>
+  </data>
+  <data name="lnkProducts" xml:space="preserve">
+    <value>Produits &amp; Tarifs</value>
+  </data>
+  <data name="lnkRegisterInWPrint" xml:space="preserve">
+    <value>Inscription / S'inscrire</value>
+    <comment>//TopHeader</comment>
+  </data>
+  <data name="chkEmailMeOffers" xml:space="preserve">
+    <value>M'envoyer un mail</value>
+  </data>
+  <data name="chkSendMeNewsLetters" xml:space="preserve">
+    <value>Envoyez-moi Newsletters</value>
+  </data>
+  <data name="cmdRegister" xml:space="preserve">
+    <value>Cretae selon...</value>
+  </data>
+  <data name="ltrlFeaturedProducts" xml:space="preserve">
+    <value>Choisissez un design</value>
+  </data>
+  <data name="ltrlgetintouch" xml:space="preserve">
+    <value>Entrez en contact</value>
+  </data>
+  <data name="ltrlPopularProducts" xml:space="preserve">
+    <value>Produits populaires</value>
+  </data>
+  <data name="ltrlProductandServices" xml:space="preserve">
+    <value>Produits et Services</value>
+    <comment>//Default</comment>
+  </data>
+  <data name="ltrlSpecialOffers" xml:space="preserve">
+    <value>Offres spéciales</value>
+  </data>
+  <data name="ltrlsubscribelbl" xml:space="preserve">
+    <value>Abonnez-vous à notre Newsletter:</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Adresse E-Mail...</value>
+  </data>
+  <data name="EnterPassword" xml:space="preserve">
+    <value>Entrez Mot de passe...</value>
+  </data>
+  <data name="Fname" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
+  <data name="hlPrivacyPolicy" xml:space="preserve">
+    <value>Politique de confidentialité</value>
+  </data>
+  <data name="hlPweredBy" xml:space="preserve">
+    <value>Propulsé par MyPrintCloud</value>
+  </data>
+  <data name="hplinkTermsCondition" xml:space="preserve">
+    <value>Conditions générales de vente</value>
+    <comment>//Footer</comment>
+  </data>
+  <data name="lblPageTitle" xml:space="preserve">
+    <value>Nous contacter</value>
+  </data>
+  <data name="Lname" xml:space="preserve">
+    <value>nom de famille...</value>
+  </data>
+  <data name="ReTypeEmailAddress" xml:space="preserve">
+    <value>Type de Re Adresse E-Mail...</value>
+  </data>
+  <data name="RetypePassword" xml:space="preserve">
+    <value>Re Mot de passe de type</value>
+  </data>
+  <data name="SecretAnswer" xml:space="preserve">
+    <value>Réponse secrète</value>
+  </data>
+  <data name="SecretQuestion" xml:space="preserve">
+    <value>Question secrète</value>
+  </data>
+  <data name="ltrlenquiry" xml:space="preserve">
+    <value>Demande de renseignements</value>
+  </data>
+  <data name="ltrlnoi" xml:space="preserve">
+    <value>Nature de la demande</value>
+  </data>
+  <data name="ltrlcompany" xml:space="preserve">
+    <value>Votre entreprise</value>
+  </data>
+  <data name="ltrlemail" xml:space="preserve">
+    <value>Votre e-mail</value>
+  </data>
+  <data name="ltrlyourname" xml:space="preserve">
+    <value>Votre nom</value>
+  </data>
+  <data name="cmdNext" xml:space="preserve">
+    <value>PROCHAINE</value>
+  </data>
+  <data name="cmdSubmit" xml:space="preserve">
+    <value>ENVOYER MOT DE PASSE</value>
+  </data>
+  <data name="lblResetPwd" xml:space="preserve">
+    <value>Réinitialiser le mot de passe.</value>
+  </data>
+  <data name="lblSendBymail" xml:space="preserve">
+    <value>Envoyer le mot de passe par e-mail.</value>
+  </data>
+  <data name="lnkReturnLogin" xml:space="preserve">
+    <value>Retour à la page d'accueil</value>
+    <comment>//ForgotPassowrd</comment>
+  </data>
+  <data name="SpnChangePass" xml:space="preserve">
+    <value>changer mot de passe</value>
+  </data>
+  <data name="spnforgotPassord" xml:space="preserve">
+    <value>S'il vous plaît, entrez votre adresse e-mail enregistrée ci-dessous. Votre mot de passe sera envoyé à votre adresse e-mail lors de la vérification.</value>
+  </data>
+  <data name="btnAutoPostBackDiscountVoucherCode" xml:space="preserve">
+    <value>appliquer</value>
+  </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>annuler</value>
+  </data>
+  <data name="btnCheckOut1" xml:space="preserve">
+    <value>MON PANIER</value>
+  </data>
+  <data name="btnContinueShopping1" xml:space="preserve">
+    <value>CONTINUER SHOPPING</value>
+  </data>
+  <data name="btnReset" xml:space="preserve">
+    <value>effacer</value>
+  </data>
+  <data name="btnSelectTemplate1" xml:space="preserve">
+    <value>Sélectionnez un modèle</value>
+  </data>
+  <data name="btnSend" xml:space="preserve">
+    <value>envoyer</value>
+  </data>
+  <data name="btnSide1Modify" xml:space="preserve">
+    <value>modifier</value>
+  </data>
+  <data name="btnStartCreating" xml:space="preserve">
+    <value>Commencez à créer</value>
+  </data>
+  <data name="btnSubmit" xml:space="preserve">
+    <value>Rechercher</value>
+  </data>
+  <data name="ltrladdNewitem" xml:space="preserve">
+    <value>Ajouter un nouvel élément</value>
+  </data>
+  <data name="ltrlCdesign" xml:space="preserve">
+    <value>1. Confirmez conception</value>
+    <comment>//ProductconfirmSelection</comment>
+  </data>
+  <data name="divchecked" xml:space="preserve">
+    <value>Vérifié?</value>
+  </data>
+  <data name="ltrldeliverydate" xml:space="preserve">
+    <value>Livraison souhaitée:</value>
+  </data>
+  <data name="divform2createaccount" xml:space="preserve">
+    <value>Remplissez le formulaire ci-dessous pour vous inscrire et créer un compte ...</value>
+  </data>
+  <data name="divideastxt" xml:space="preserve">
+    <value>idées</value>
+  </data>
+  <data name="ltrlinquiryAttachement" xml:space="preserve">
+    <value>Enquête pièce jointe</value>
+  </data>
+  <data name="ltrlinquirytitle" xml:space="preserve">
+    <value>Titre enquête:</value>
+  </data>
+  <data name="ltrlitemnotes" xml:space="preserve">
+    <value>Notes sur les objets:</value>
+  </data>
+  <data name="ltrlitemtitle" xml:space="preserve">
+    <value>Titre de la publication:</value>
+  </data>
+  <data name="ltrlOpt1" xml:space="preserve">
+    <value>l'option 1</value>
+  </data>
+  <data name="ltrloptadedd" xml:space="preserve">
+    <value>options ont été ajoutées</value>
+  </data>
+  <data name="ltrlOrderOpt" xml:space="preserve">
+    <value>Options de commande</value>
+  </data>
+  <data name="ltrlOrderSumm" xml:space="preserve">
+    <value>3. Résumé de la commande</value>
+  </data>
+  <data name="ltrlordertotal" xml:space="preserve">
+    <value>Total de la commande</value>
+  </data>
+  <data name="ltrlProductsDetails" xml:space="preserve">
+    <value>détails sur le produit</value>
+  </data>
+  <data name="ltrlQuantity" xml:space="preserve">
+    <value>quantité</value>
+  </data>
+  <data name="divreorderq" xml:space="preserve">
+    <value>Re-commande rapidement</value>
+  </data>
+  <data name="divsaveurdeisgn" xml:space="preserve">
+    <value>Enregistrer vos créations</value>
+  </data>
+  <data name="ltrlSearchOrder" xml:space="preserve">
+    <value>Ordres de recherche</value>
+  </data>
+  <data name="ltrlselecctstock" xml:space="preserve">
+    <value>Sélectionner le Stock</value>
+  </data>
+  <data name="divsubs2newsl" xml:space="preserve">
+    <value>Abonnez-vous à nos bulletins d'information sur la commercialisation de produits nouveaux et les services</value>
+  </data>
+  <data name="ltrlsubtotal" xml:space="preserve">
+    <value>Sous-total:</value>
+  </data>
+  <data name="divviewntrackoh" xml:space="preserve">
+    <value>Voir et suivre l'historique des commandes</value>
+  </data>
+  <data name="divwhyregister" xml:space="preserve">
+    <value>Pourquoi s'inscrire?</value>
+  </data>
+  <data name="hlProductDetail" xml:space="preserve">
+    <value>Voir prix, les spécifications et les jeux de contrepartie</value>
+    <comment>//ProductDesignTemplate</comment>
+  </data>
+  <data name="Label1" xml:space="preserve">
+    <value>Téléchargez votre</value>
+  </data>
+  <data name="Label3" xml:space="preserve">
+    <value>Occassion</value>
+  </data>
+  <data name="lblBack" xml:space="preserve">
+    <value>Retour de la carte</value>
+  </data>
+  <data name="lblCategoriesLinks1" xml:space="preserve">
+    <value>designes sauvegardées</value>
+    <comment>//SavedDesignes</comment>
+  </data>
+  <data name="lblCheckSpelling" xml:space="preserve">
+    <value>Vérifié orthographe et les détails sur tous les côtés?</value>
+  </data>
+  <data name="LblDimenssionandspecs" xml:space="preserve">
+    <value>Dimensions et spécifications</value>
+  </data>
+  <data name="lblFront" xml:space="preserve">
+    <value>avant de la carte</value>
+  </data>
+  <data name="lblideas" xml:space="preserve">
+    <value>idées</value>
+    <comment>//ProductDetails</comment>
+  </data>
+  <data name="lblMessage" xml:space="preserve">
+    <value>Aucun enregistrement trouvé!</value>
+  </data>
+  <data name="lblMsg" xml:space="preserve">
+    <value>Votre panier est vide!</value>
+  </data>
+  <data name="lblNewCustomer" xml:space="preserve">
+    <value>Enregistrement de l'utilisateur Nouveau</value>
+  </data>
+  <data name="lblProdSelectOption" xml:space="preserve">
+    <value>Prix ​​en ligne</value>
+  </data>
+  <data name="lblRedeemHeading" xml:space="preserve">
+    <value>Échangez des codes promos</value>
+  </data>
+  <data name="lblRegistering" xml:space="preserve">
+    <value>En vous inscrivant vous êtes capable de:</value>
+    <comment>//Sign Up</comment>
+  </data>
+  <data name="lblStockHeaer" xml:space="preserve">
+    <value>Extras</value>
+  </data>
+  <data name="lblStyle" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="lblSubHeading" xml:space="preserve">
+    <value>Sélectionnez un modèle dans ci-dessous</value>
+  </data>
+  <data name="lblTitle" xml:space="preserve">
+    <value>Designs favoris</value>
+    <comment>//favourite Design</comment>
+  </data>
+  <data name="lblTitlePC" xml:space="preserve">
+    <value>Commander des options</value>
+  </data>
+  <data name="lblTitlePendingOrder" xml:space="preserve">
+    <value>Commandes en attente pour approvel</value>
+    <comment>// ProductPendingOrders</comment>
+  </data>
+  <data name="lblTitleRequestQuote" xml:space="preserve">
+    <value>Demande de devis</value>
+    <comment>//RequestQuote</comment>
+  </data>
+  <data name="lblTitleShopCart" xml:space="preserve">
+    <value>panier</value>
+  </data>
+  <data name="lblTotalRecords" xml:space="preserve">
+    <value>correspondances trouvées</value>
+  </data>
+  <data name="lblTotalSavingText" xml:space="preserve">
+    <value>économie totale</value>
+  </data>
+  <data name="lblVoucherDiscPercentageDisplay" xml:space="preserve">
+    <value>escompte</value>
+  </data>
+  <data name="ltrlClcktempnStart" xml:space="preserve">
+    <value>Cliquez sur un modèle ci-dessous et de commencer</value>
+  </data>
+  <data name="ltrlDesignonline" xml:space="preserve">
+    <value>la conception en ligne dès à présent gratuitement</value>
+  </data>
+  <data name="ltrlfrom" xml:space="preserve">
+    <value>DE</value>
+  </data>
+  <data name="ltrlMatchesfound" xml:space="preserve">
+    <value>correspondances trouvées</value>
+  </data>
+  <data name="ltrlUploaddesign" xml:space="preserve">
+    <value>Choisir un modèle que vous avez et que vous souhaitez</value>
+  </data>
+  <data name="ltrlustoprint" xml:space="preserve">
+    <value>nous à imprimer et / ou de modifier</value>
+  </data>
+  <data name="ltrlBaseColor" xml:space="preserve">
+    <value>Couleur de base</value>
+  </data>
+  <data name="tdfromdate" xml:space="preserve">
+    <value>De la date</value>
+  </data>
+  <data name="ltrlIndusrtyType" xml:space="preserve">
+    <value>type de l'Industrie</value>
+  </data>
+  <data name="tdorderref" xml:space="preserve">
+    <value>Réf Ordre</value>
+  </data>
+  <data name="tdorderstatus" xml:space="preserve">
+    <value>Suivi de commande</value>
+  </data>
+  <data name="ltrlSearchphrase" xml:space="preserve">
+    <value>Phrase Recherche</value>
+  </data>
+  <data name="tdshowing" xml:space="preserve">
+    <value>Résultats</value>
+  </data>
+  <data name="todate" xml:space="preserve">
+    <value>à ce jour</value>
+  </data>
+  <data name="spngohome" xml:space="preserve">
+    <value>Go Accueil</value>
+  </data>
+  <data name="btnAddNew" xml:space="preserve">
+    <value>Ajouter un nouveau</value>
+    <comment>//ManageAddressess</comment>
+  </data>
+  <data name="btnApplySetting" xml:space="preserve">
+    <value>Appliquer Réglage</value>
+  </data>
+  <data name="btnConfirmOrder" xml:space="preserve">
+    <value>FAIRE DE PAIEMENT</value>
+  </data>
+  <data name="BtnCreateacc" xml:space="preserve">
+    <value>CREER UN COMPTE</value>
+  </data>
+  <data name="btnSave" xml:space="preserve">
+    <value>sauver</value>
+  </data>
+  <data name="btnUploadFile" xml:space="preserve">
+    <value>Envoyer une image</value>
+  </data>
+  <data name="Button1" xml:space="preserve">
+    <value>Réinitialiser mot de passe</value>
+  </data>
+  <data name="chkBoxDeliverySameAsBilling" xml:space="preserve">
+    <value>Même que l'adresse de facturation</value>
+  </data>
+  <data name="chkCreatShippingAddress" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Les utilisateurs peuvent créer des adresses d'expédition</value>
+  </data>
+  <data name="chkIsDefaulShippingAddr" xml:space="preserve">
+    <value>Est-Adresse de livraison par défaut</value>
+  </data>
+  <data name="chkIsDefaultAddr" xml:space="preserve">
+    <value>Adresse de facturation par défaut est</value>
+  </data>
+  <data name="chkPayByCreditCard" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp; Les utilisateurs paient par carte de crédit personnelle</value>
+  </data>
+  <data name="chkPORequired" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Nombre PO est nécessaire lors de la commande</value>
+  </data>
+  <data name="chkShowPrices" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Afficher les prix pour les utilisateurs...</value>
+  </data>
+  <data name="cmdLogin" xml:space="preserve">
+    <value>CONNECTEZ</value>
+  </data>
+  <data name="ltrldepartname" xml:space="preserve">
+    <value>Nom du ministère</value>
+  </data>
+  <data name="designBarLeftPnl" xml:space="preserve">
+    <value>Commencez à personnaliser modèle ci-dessous</value>
+    <comment>//TempDesigner</comment>
+  </data>
+  <data name="designBarRightPnl" xml:space="preserve">
+    <value>Enregistrer le design comme</value>
+  </data>
+  <data name="ltrladdressdeatails" xml:space="preserve">
+    <value>Détails de l'adresse</value>
+  </data>
+  <data name="ltrladdressline1" xml:space="preserve">
+    <value>Adresse ligne 1</value>
+  </data>
+  <data name="ltrladdressline2" xml:space="preserve">
+    <value>Adresse ligne 2</value>
+  </data>
+  <data name="ltrlAllproducts" xml:space="preserve">
+    <value>Produits et Services</value>
+    <comment>//AllProductsControl</comment>
+  </data>
+  <data name="ltrlBillingname" xml:space="preserve">
+    <value>Nom de facturation</value>
+  </data>
+  <data name="ltrlcanapprove" xml:space="preserve">
+    <value>Il peut approuver</value>
+  </data>
+  <data name="ltrlcanorder" xml:space="preserve">
+    <value>peut Commander</value>
+  </data>
+  <data name="ltrlcellnumber" xml:space="preserve">
+    <value>Nombre de cellules</value>
+  </data>
+  <data name="ltrlchangepassword" xml:space="preserve">
+    <value>changer le mot de passe</value>
+  </data>
+  <data name="ltrlcheckoutfirstdiv" xml:space="preserve">
+    <value>Votre Réf / PO</value>
+    <comment>//ShopCartaddrSelect</comment>
+  </data>
+  <data name="ltrlchoosebillingadd" xml:space="preserve">
+    <value>Choisissez l'adresse de facturation</value>
+  </data>
+  <data name="ltrlchoosedeliveryadd" xml:space="preserve">
+    <value>Choisissez l'adresse de livraison</value>
+  </data>
+  <data name="ltrlcity" xml:space="preserve">
+    <value>ville</value>
+  </data>
+  <data name="divcompanyname" xml:space="preserve">
+    <value>Nom de l'entreprise</value>
+  </data>
+  <data name="ltrlconfirmurorderdetails" xml:space="preserve">
+    <value>Confirmez les détails de votre commande ...</value>
+  </data>
+  <data name="ltrlcontactdetails" xml:space="preserve">
+    <value>Coordonnées</value>
+    <comment>//DashBoard</comment>
+  </data>
+  <data name="ltrlcontactnum" xml:space="preserve">
+    <value>Contactez-Nombre</value>
+  </data>
+  <data name="ltrlcontacttelnum" xml:space="preserve">
+    <value>Votre Tel:</value>
+  </data>
+  <data name="ltrlcountry" xml:space="preserve">
+    <value>pays</value>
+  </data>
+  <data name="ltrlDelivery" xml:space="preserve">
+    <value>livraison</value>
+  </data>
+  <data name="ltrldepartment" xml:space="preserve">
+    <value>département</value>
+  </data>
+  <data name="ltrldepartcode" xml:space="preserve">
+    <value>code du ministère</value>
+    <comment>//CRUDDepartmentControl</comment>
+  </data>
+  <data name="ltrlDnthaveacc" xml:space="preserve">
+    <value>Ne pas disposer d'un compte</value>
+  </data>
+  <data name="ltrleditnuploadurdd" xml:space="preserve">
+    <value>Modifier et téléchargez vos détails de conception</value>
+  </data>
+  <data name="ltrlemailtxt" xml:space="preserve">
+    <value>Envoyer</value>
+  </data>
+  <data name="ltrlestimated" xml:space="preserve">
+    <value>Les options de livraison</value>
+  </data>
+  <data name="ltrlfax" xml:space="preserve">
+    <value>télécopier</value>
+  </data>
+  <data name="divfname" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
+  <data name="ltrlimgliblogoqt" xml:space="preserve">
+    <value>Bibliothèque d'images, de logo et le texte rapide</value>
+  </data>
+  <data name="ltrljobtitle" xml:space="preserve">
+    <value>Titre du poste</value>
+  </data>
+  <data name="ltrllname" xml:space="preserve">
+    <value>nom de famille</value>
+  </data>
+  <data name="ltrlloplaced" xml:space="preserve">
+    <value>La dernière commande placée</value>
+  </data>
+  <data name="ltrlmaincontent" xml:space="preserve">
+    <value>Personne-ressource principale</value>
+    <comment>//CRUDTerritory</comment>
+  </data>
+  <data name="ltrlmanagenviewsd" xml:space="preserve">
+    <value>Gérer et visualiser vos créations enregistrées</value>
+  </data>
+  <data name="ltrlmatchingset" xml:space="preserve">
+    <value>Assortiment</value>
+    <comment>//MatchinSetControl</comment>
+  </data>
+  <data name="ltrlmyfavd" xml:space="preserve">
+    <value>Mes modèles préférés</value>
+  </data>
+  <data name="ltrlname" xml:space="preserve">
+    <value>nom</value>
+    <comment>//CRUDUsers</comment>
+  </data>
+  <data name="ltrlnew" xml:space="preserve">
+    <value>nouveau</value>
+    <comment>//CRUDShippingcontrol</comment>
+  </data>
+  <data name="divnoresourcefound" xml:space="preserve">
+    <value>Aucune ressource trouvée - 404</value>
+  </data>
+  <data name="ltrlorderhistory" xml:space="preserve">
+    <value>historique des commandes</value>
+  </data>
+  <data name="ltrlorderlimit" xml:space="preserve">
+    <value>Limite Ordre</value>
+  </data>
+  <data name="ltrlorderpolicy" xml:space="preserve">
+    <value>Commande politique</value>
+  </data>
+  <data name="divpendingo" xml:space="preserve">
+    <value>Les commandes en attente</value>
+  </data>
+  <data name="ltrlpersonalinfo" xml:space="preserve">
+    <value>Détails personnels</value>
+    <comment>//PersonalInfoControl</comment>
+  </data>
+  <data name="divphonenumber" xml:space="preserve">
+    <value>Numéro de téléphone</value>
+  </data>
+  <data name="divprofilepic" xml:space="preserve">
+    <value>Image profil</value>
+  </data>
+  <data name="ltrlresetnchangeaccpassword" xml:space="preserve">
+    <value>Reset et changer votre mot de passe</value>
+  </data>
+  <data name="ltrlrole" xml:space="preserve">
+    <value>rôle</value>
+  </data>
+  <data name="ltrlroq" xml:space="preserve">
+    <value>Re-commande rapidement</value>
+  </data>
+  <data name="ltrlsavedesign" xml:space="preserve">
+    <value>dessins enregistrés</value>
+  </data>
+  <data name="ltrlsaveurdesign" xml:space="preserve">
+    <value>Enregistrer vos créations</value>
+  </data>
+  <data name="ltrlshippingaddresses" xml:space="preserve">
+    <value>Adresses de livraison</value>
+  </data>
+  <data name="ltrlshippingname" xml:space="preserve">
+    <value>Nom d'expédition</value>
+  </data>
+  <data name="ltrlshoppingcart" xml:space="preserve">
+    <value>panier</value>
+  </data>
+  <data name="divsorrypaypal" xml:space="preserve">
+    <value>Désolé! Votre paiement Paypal n'a pas réussi.</value>
+    <comment>//BlankDetails</comment>
+  </data>
+  <data name="ltrlstate" xml:space="preserve">
+    <value>état</value>
+  </data>
+  <data name="ltrlsubscribe2Nwzl" xml:space="preserve">
+    <value>Obtenez des promotions dernier bulletin.</value>
+  </data>
+  <data name="ltrlteritory" xml:space="preserve">
+    <value>territoire</value>
+  </data>
+  <data name="ltrlterritories" xml:space="preserve">
+    <value>territoires et</value>
+  </data>
+  <data name="ltrlterritorycode" xml:space="preserve">
+    <value>Territoire Code</value>
+  </data>
+  <data name="ltrlterritoryname" xml:space="preserve">
+    <value>Nom du territoire</value>
+  </data>
+  <data name="ltrlthnxordersuccessfull" xml:space="preserve">
+    <value>Merci, Vos commandes est placé avec succès!</value>
+    <comment>//ShopPayment</comment>
+  </data>
+  <data name="ltrlupdateurcontactdeatails" xml:space="preserve">
+    <value>Mettez à jour vos coordonnées</value>
+  </data>
+  <data name="ltrlviewdttulike" xml:space="preserve">
+    <value>Afficher les modèles de conception que vous aimez</value>
+  </data>
+  <data name="ltrlviewitemnshppngcart" xml:space="preserve">
+    <value>Voir les articles dans votre panier</value>
+  </data>
+  <data name="divviewnropo" xml:space="preserve">
+    <value>Voir et / ou de re-commande des commandes en cours</value>
+  </data>
+  <data name="ltrlviewrocompletedo" xml:space="preserve">
+    <value>Voir et / ou re-commande dûment rempli commandes</value>
+  </data>
+  <data name="ltrlviewtoh" xml:space="preserve">
+    <value>Voir et suivre l'historique des commandes</value>
+  </data>
+  <data name="divwebsite" xml:space="preserve">
+    <value>site Web</value>
+  </data>
+  <data name="divyourcompanylogo" xml:space="preserve">
+    <value>Votre logo de société</value>
+  </data>
+  <data name="ltrlywstore" xml:space="preserve">
+    <value>Vos utilisateurs WebStore</value>
+    <comment>//CorporateAdminHomeControl</comment>
+  </data>
+  <data name="ltrlzipcodeP" xml:space="preserve">
+    <value>Code postal / Code Postal</value>
+  </data>
+  <data name="FavrBtn" xml:space="preserve">
+    <value>Mes Favoris</value>
+  </data>
+  <data name="HistryBtn" xml:space="preserve">
+    <value>Historique des commandes</value>
+  </data>
+  <data name="hlShopingCart" xml:space="preserve">
+    <value>ici</value>
+  </data>
+  <data name="label11" xml:space="preserve">
+    <value>Votre Nom de l'entreprise</value>
+  </data>
+  <data name="label12" xml:space="preserve">
+    <value>adresse</value>
+  </data>
+  <data name="label15" xml:space="preserve">
+    <value>téléphone</value>
+  </data>
+  <data name="label18" xml:space="preserve">
+    <value>Adresse du site Web</value>
+  </data>
+  <data name="label19" xml:space="preserve">
+    <value>Société Message</value>
+  </data>
+  <data name="label9" xml:space="preserve">
+    <value>Votre Nom</value>
+  </data>
+  <data name="lblCheckout" xml:space="preserve">
+    <value>caisse</value>
+  </data>
+  <data name="lblCompanyMessage" xml:space="preserve">
+    <value>De définir un message Société pour Landing Page</value>
+  </data>
+  <data name="lblCorporateName" xml:space="preserve">
+    <value>coporate Nom</value>
+  </data>
+  <data name="lblFollowusText" xml:space="preserve">
+    <value>Nous Suivre:</value>
+    <comment>//FooterFollowus</comment>
+  </data>
+  <data name="lblMainControlHeading" xml:space="preserve">
+    <value>adresse de facturation</value>
+  </data>
+  <data name="lblMyaddresstitle" xml:space="preserve">
+    <value>Titre Adresse</value>
+    <comment>//MyaddressesControl</comment>
+  </data>
+  <data name="lblPassword" xml:space="preserve">
+    <value>mot de passe</value>
+  </data>
+  <data name="lblshipping" xml:space="preserve">
+    <value>transport maritime</value>
+  </data>
+  <data name="lblspecailinstruction" xml:space="preserve">
+    <value>Instructions spéciales</value>
+  </data>
+  <data name="lbltitlelogin" xml:space="preserve">
+    <value>Inscription En</value>
+    <comment>//Weblogin</comment>
+  </data>
+  <data name="lbltitlemyaddress" xml:space="preserve">
+    <value>Mes adresses</value>
+  </data>
+  <data name="lblUserProfile" xml:space="preserve">
+    <value>des renseignements personnels</value>
+    <comment>//UserProfile</comment>
+  </data>
+  <data name="lblUserquickinfo" xml:space="preserve">
+    <value>Texte de l'information rapide</value>
+    <comment>//UserQuicktextinfo</comment>
+  </data>
+  <data name="lnkForgotPassword" xml:space="preserve">
+    <value>Vous avez oublié votre mot de passe?</value>
+  </data>
+  <data name="lnkWhatisPassword" xml:space="preserve">
+    <value>Vous êtes déjà inscrit?</value>
+  </data>
+  <data name="ltrlapprovethisorder" xml:space="preserve">
+    <value>approuve cet ordre.</value>
+  </data>
+  <data name="ltrlclicktomodify" xml:space="preserve">
+    <value>Cliquez sur la ligne à modifier.</value>
+  </data>
+  <data name="ltrlcliclk" xml:space="preserve">
+    <value>Cliquez sur</value>
+  </data>
+  <data name="ltrlcopyrite" xml:space="preserve">
+    <value>Droits d'auteur 2012. Tous droits réservés.</value>
+    <comment>//FooterControl</comment>
+  </data>
+  <data name="ltrldepart" xml:space="preserve">
+    <value>Départements</value>
+  </data>
+  <data name="ltrlgoback2cart" xml:space="preserve">
+    <value>pour revenir à votre panier.</value>
+  </data>
+  <data name="ltrlhere" xml:space="preserve">
+    <value>Voici d'autres produits avec le</value>
+  </data>
+  <data name="ltrlmessgmemobox" xml:space="preserve">
+    <value>MESSAGE? BOÎTE MÉMO</value>
+  </data>
+  <data name="ltrlofferdelivered" xml:space="preserve">
+    <value>offre livrés à votre boîte de réception ...</value>
+  </data>
+  <data name="ltrlorderwillbed" xml:space="preserve">
+    <value>La commande sera livrée après</value>
+  </data>
+  <data name="ltrlpi1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlpi2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlpi3" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlpi4" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlsameasdesignconcept" xml:space="preserve">
+    <value>concepts mêmes</value>
+  </data>
+  <data name="ltrlselectacat" xml:space="preserve">
+    <value>Sélectionnez une catégorie ci-dessous, puis un produit à commander et personnaliser</value>
+    <comment>//CorporateProductsControl</comment>
+  </data>
+  <data name="ltrlsigninwithaccount" xml:space="preserve">
+    <value>Connectez-vous à mon compte</value>
+  </data>
+  <data name="ltrlsigninwithsocial" xml:space="preserve">
+    <value>Connectez-vous avec ces réseaux-</value>
+    <comment>//LoginControl</comment>
+  </data>
+  <data name="ltrlsubscribe" xml:space="preserve">
+    <value>Abonnez-vous et recevez les dernières exclusive</value>
+  </data>
+  <data name="rbHavePassword" xml:space="preserve">
+    <value>Oui, j'ai un mot de passe</value>
+  </data>
+  <data name="rbNoPassword" xml:space="preserve">
+    <value>Non, je suis un nouveau client</value>
+  </data>
+  <data name="spnbillingname" xml:space="preserve">
+    <value>Nom de facturation:</value>
+  </data>
+  <data name="spndileverydate" xml:space="preserve">
+    <value>Date de livraison:</value>
+  </data>
+  <data name="spngrndtotal" xml:space="preserve">
+    <value>Total général</value>
+  </data>
+  <data name="spnorderdate" xml:space="preserve">
+    <value>Commandez Date:</value>
+  </data>
+  <data name="spnordernum" xml:space="preserve">
+    <value>Numéro de commande:</value>
+    <comment>//OrderDeatailsControl</comment>
+  </data>
+  <data name="spnorderstatus" xml:space="preserve">
+    <value>État de la commande:</value>
+  </data>
+  <data name="spnshppingname" xml:space="preserve">
+    <value>Nom d'expédition:</value>
+  </data>
+  <data name="spnsubtotal" xml:space="preserve">
+    <value>Sous-total:</value>
+  </data>
+  <data name="spnvattotal" xml:space="preserve">
+    <value>Total de la TVA:</value>
+  </data>
+  <data name="SvdDsgnBtn" xml:space="preserve">
+    <value>Mes dessins enregistrés</value>
+  </data>
+  <data name="tdblack" xml:space="preserve">
+    <value>noir</value>
+  </data>
+  <data name="tdcanonlydesignorder" xml:space="preserve">
+    <value>ne peut concevoir et commander</value>
+  </data>
+  <data name="tdcolorpicker" xml:space="preserve">
+    <value>Sélecteur de couleur</value>
+    <comment>//DesignToolWin</comment>
+  </data>
+  <data name="tdcompanyopolicy" xml:space="preserve">
+    <value>POLITIQUE DE L'ENTREPRISE DE COMMANDE</value>
+  </data>
+  <data name="ltrlconfirmpass" xml:space="preserve">
+    <value>confirmer Mot de passe</value>
+    <comment>//Reset PasswordControl</comment>
+  </data>
+  <data name="tdcyan" xml:space="preserve">
+    <value>le cyan</value>
+  </data>
+  <data name="tddelivery" xml:space="preserve">
+    <value>Livraison:</value>
+  </data>
+  <data name="tdgrandtotal" xml:space="preserve">
+    <value>Grand total</value>
+  </data>
+  <data name="tdmagenta" xml:space="preserve">
+    <value>le magenta</value>
+  </data>
+  <data name="ltrlnewpass" xml:space="preserve">
+    <value>Nouveau mot de passe</value>
+  </data>
+  <data name="tdsigninwithacc" xml:space="preserve">
+    <value>autorisateur</value>
+  </data>
+  <data name="tdSubtotal" xml:space="preserve">
+    <value>Sous-total:</value>
+  </data>
+  <data name="tdsuperuser" xml:space="preserve">
+    <value>super-utilisateur</value>
+  </data>
+  <data name="tdUsername" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+    <comment>//CorpLogin</comment>
+  </data>
+  <data name="tdyellow" xml:space="preserve">
+    <value>jaune</value>
+  </data>
+  <data name="CPassNotM" xml:space="preserve">
+    <value>Confirmer mot de passe ne correspondent pas</value>
+  </data>
+  <data name="Cpasswordxreq" xml:space="preserve">
+    <value>Confirmer mot de passe est nécessaire.</value>
+  </data>
+  <data name="EnterAnswOfUQ" xml:space="preserve">
+    <value>Entrez réponse à votre question...</value>
+  </data>
+  <data name="passwordNotM" xml:space="preserve">
+    <value>Mot de passe correspondent pas!</value>
+  </data>
+  <data name="PlxenterCEmail" xml:space="preserve">
+    <value>S'il vous plaît entrez Confirmez votre adresse e-mail.</value>
+  </data>
+  <data name="plxenterCompanyName" xml:space="preserve">
+    <value>Nom de l'entreprise est nécessaire</value>
+  </data>
+  <data name="PlxenterCPass" xml:space="preserve">
+    <value>S'il vous plaît entrez Confirmer Mot de passe</value>
+  </data>
+  <data name="Plxenteremail" xml:space="preserve">
+    <value>S'il vous plaît entrer une adresse</value>
+  </data>
+  <data name="PlxenterEmailNotS" xml:space="preserve">
+    <value>Les adresses de courriel ne sont pas les mêmes</value>
+  </data>
+  <data name="PlxenterFname" xml:space="preserve">
+    <value>S'il vous plaît entrez Prénom</value>
+  </data>
+  <data name="PlxenterLname" xml:space="preserve">
+    <value>S'il vous plaît entrez le nom d'Dernière</value>
+  </data>
+  <data name="PlxenterPass" xml:space="preserve">
+    <value>S'il vous plaît entrer mot de passe</value>
+  </data>
+  <data name="PlxenterSecretAns" xml:space="preserve">
+    <value>S'il vous plaît entrez Réponse secrète</value>
+  </data>
+  <data name="PlxenterSQ" xml:space="preserve">
+    <value>S'il vous plaît entrez réponse secrète</value>
+  </data>
+  <data name="PlxenterVEmail" xml:space="preserve">
+    <value>S'il vous plaît entrer une adresse valide</value>
+  </data>
+  <data name="popupPasswordxreq" xml:space="preserve">
+    <value>Mot de passe est nécessaire.</value>
+  </data>
+  <data name="selectaSQ" xml:space="preserve">
+    <value>Sélectionnez une question secrète</value>
+  </data>
+  <data name="emailxreq" xml:space="preserve">
+    <value>Email est requis.</value>
+  </data>
+  <data name="Areusureuwnt2remove" xml:space="preserve">
+    <value>Etes-vous sûr. Vous souhaitez supprimer.</value>
+  </data>
+  <data name="btnSubmittxt" xml:space="preserve">
+    <value>soumettre</value>
+  </data>
+  <data name="hlMyFavorites" xml:space="preserve">
+    <value>mes Favoris</value>
+  </data>
+  <data name="hlSavedDesigns" xml:space="preserve">
+    <value>Motifs enregistrés</value>
+  </data>
+  <data name="inquirytitlexreq" xml:space="preserve">
+    <value>Titre enquête est nécessaire.</value>
+  </data>
+  <data name="itemtitle1xreq" xml:space="preserve">
+    <value>Titre de l'Article 1 est nécessaire.</value>
+  </data>
+  <data name="itemtitle2xreq" xml:space="preserve">
+    <value>Titre de l'Article 2 est nécessaire.</value>
+  </data>
+  <data name="itemtitle3xreq" xml:space="preserve">
+    <value>Titre de l'Article 3 est nécessaire.</value>
+  </data>
+  <data name="lblTotalpayable" xml:space="preserve">
+    <value>total à payer</value>
+  </data>
+  <data name="ltrlbusinessaddress" xml:space="preserve">
+    <value>Adresse de l'entreprise:</value>
+  </data>
+  <data name="ltrlcanapproveorder" xml:space="preserve">
+    <value>Peut approuver des commandes</value>
+  </data>
+  <data name="ltrlcplaceorder" xml:space="preserve">
+    <value>Pouvez passer commande</value>
+  </data>
+  <data name="ltrlcreditlimit" xml:space="preserve">
+    <value>Limite de crédit:</value>
+  </data>
+  <data name="ltrldirectline" xml:space="preserve">
+    <value>Ligne directe:</value>
+  </data>
+  <data name="ltrlmycompanyaddress" xml:space="preserve">
+    <value>Mon Adresse de la société</value>
+  </data>
+  <data name="ltrlnewShippingAddress" xml:space="preserve">
+    <value>Adresse de livraison Nouveau</value>
+  </data>
+  <data name="ltrlnewTerritory" xml:space="preserve">
+    <value>nouveau territoire</value>
+  </data>
+  <data name="ltrlnotes" xml:space="preserve">
+    <value>Remarques</value>
+  </data>
+  <data name="ltrloption2" xml:space="preserve">
+    <value>l'option 2</value>
+  </data>
+  <data name="ltrlreceipt" xml:space="preserve">
+    <value>réception</value>
+  </data>
+  <data name="ltrlShowingPdT" xml:space="preserve">
+    <value>projection</value>
+  </data>
+  <data name="Plxenteraddress1" xml:space="preserve">
+    <value>S'il vous plaît entrez l'adresse 1</value>
+  </data>
+  <data name="Plxenteraddressname" xml:space="preserve">
+    <value>S'il vous plaît entrez le nom de l'adresse</value>
+  </data>
+  <data name="Plxentercity" xml:space="preserve">
+    <value>S'il vous plaît entrer</value>
+  </data>
+  <data name="Plxenterterritoryname" xml:space="preserve">
+    <value>S'il vous plaît entrez le nom du territoire</value>
+  </data>
+  <data name="spnbilledto" xml:space="preserve">
+    <value>Facturé à:</value>
+  </data>
+  <data name="spndilevry" xml:space="preserve">
+    <value>Livraison:</value>
+  </data>
+  <data name="spnestimateddispatchdate" xml:space="preserve">
+    <value>Date d'envoi estimée:</value>
+  </data>
+  <data name="spngrandtotal" xml:space="preserve">
+    <value>Total général:</value>
+  </data>
+  <data name="spninvoicedate" xml:space="preserve">
+    <value>Date de la facture:</value>
+  </data>
+  <data name="spnitemordered" xml:space="preserve">
+    <value>Articles commande:</value>
+  </data>
+  <data name="spnpickupcollection" xml:space="preserve">
+    <value>ramassage / collecte</value>
+  </data>
+  <data name="spnplacedby" xml:space="preserve">
+    <value>Placé par:</value>
+  </data>
+  <data name="spnshippedto" xml:space="preserve">
+    <value>Expédié à:</value>
+  </data>
+  <data name="spnspeacilinstruction" xml:space="preserve">
+    <value>Instruction spéciale:</value>
+  </data>
+  <data name="spntotal" xml:space="preserve">
+    <value>total:</value>
+  </data>
+  <data name="spnyourref" xml:space="preserve">
+    <value>Votre référence:</value>
+  </data>
+  <data name="ltrlsubscribetxt" xml:space="preserve">
+    <value>souscrire</value>
+  </data>
+  <data name="plxloginorregisterfirst" xml:space="preserve">
+    <value>S'il vous plaît vous connecter / inscrire.</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>arrière</value>
+  </data>
+  <data name="btnOkMessageBox" xml:space="preserve">
+    <value>Bein</value>
+  </data>
+  <data name="btnUploadYourFile" xml:space="preserve">
+    <value>Téléchargez</value>
+  </data>
+  <data name="front" xml:space="preserve">
+    <value>avant</value>
+  </data>
+  <data name="lblimageepreviewr" xml:space="preserve">
+    <value>Prévisualiseur image</value>
+  </data>
+  <data name="lbluploadudesign" xml:space="preserve">
+    <value>Téléchargez votre design</value>
+  </data>
+  <data name="ltrlloadingplxwait" xml:space="preserve">
+    <value>S'il vous plaît attendre chargement ....</value>
+  </data>
+  <data name="proofcheked" xml:space="preserve">
+    <value>Preuve vérifié?</value>
+  </data>
+  <data name="proofchekeddeatail" xml:space="preserve">
+    <value>Vous devez sélectionner les Spellings &amp; Détails case à cocher pour continuer.</value>
+  </data>
+  <data name="uploaddesignside1" xml:space="preserve">
+    <value>S'il vous plaît Envoyez votre design</value>
+  </data>
+  <data name="uploaddesignside2" xml:space="preserve">
+    <value>Téléchargez une maquette pour la face 2</value>
+  </data>
+  <data name="btnUpdateOrder" xml:space="preserve">
+    <value>mettre à jour</value>
+  </data>
+  <data name="btnClear" xml:space="preserve">
+    <value>remettre</value>
+  </data>
+  <data name="btnHowToVideo" xml:space="preserve">
+    <value>Fichier Set Up</value>
+  </data>
+  <data name="btnIdeas" xml:space="preserve">
+    <value>composants</value>
+  </data>
+  <data name="btnLayoutGrid" xml:space="preserve">
+    <value>principales caractéristiques</value>
+  </data>
+  <data name="btnProductDetails" xml:space="preserve">
+    <value>caractéristiques</value>
+  </data>
+  <data name="btnSearchOrders" xml:space="preserve">
+    <value>aller</value>
+  </data>
+  <data name="lblAddres" xml:space="preserve">
+    <value>adresse</value>
+  </data>
+  <data name="lblChooseFrom" xml:space="preserve">
+    <value>Choisissez parmi</value>
+  </data>
+  <data name="lblComingSon" xml:space="preserve">
+    <value>Bientôt ....</value>
+  </data>
+  <data name="lblCompnyMesg" xml:space="preserve">
+    <value>Société Message</value>
+  </data>
+  <data name="lblDelivDateHeadingTxt" xml:space="preserve">
+    <value>date de livraison</value>
+  </data>
+  <data name="lblDesgnHeaderTxt" xml:space="preserve">
+    <value>dessin</value>
+  </data>
+  <data name="lblOrderDateHeadingTxt" xml:space="preserve">
+    <value>date de commande</value>
+  </data>
+  <data name="lblOrderNumHeadingTxt" xml:space="preserve">
+    <value>Numéro de commande</value>
+  </data>
+  <data name="lblPOHeadingTxt" xml:space="preserve">
+    <value>Votre référence PO</value>
+  </data>
+  <data name="lblpopIn" xml:space="preserve">
+    <value>Pop ou Appelez-nous</value>
+  </data>
+  <data name="lblPriceHeaderTxt" xml:space="preserve">
+    <value>​​prix</value>
+  </data>
+  <data name="lblProductCatHeading2" xml:space="preserve">
+    <value>Rave Review</value>
+  </data>
+  <data name="lblProductTxt" xml:space="preserve">
+    <value>produit</value>
+  </data>
+  <data name="lblQuantityHeaderTxt" xml:space="preserve">
+    <value>quantité</value>
+  </data>
+  <data name="lblRaveReview" xml:space="preserve">
+    <value>"Le meilleur service client que j'ai vécu, les plus grands prix, la qualité du travail et le shopping rapide, l'emballage est venu à moi comme promis."</value>
+  </data>
+  <data name="lblRefinngOpt" xml:space="preserve">
+    <value>options de Refinning</value>
+  </data>
+  <data name="lblRemove" xml:space="preserve">
+    <value>enlever</value>
+  </data>
+  <data name="lblStatusHeadingTxt" xml:space="preserve">
+    <value>statut</value>
+  </data>
+  <data name="lbltemplate" xml:space="preserve">
+    <value>modèles</value>
+  </data>
+  <data name="lblTemplatesFor" xml:space="preserve">
+    <value>modèles pour</value>
+  </data>
+  <data name="lblTitleMyAccount" xml:space="preserve">
+    <value>Mon compte</value>
+  </data>
+  <data name="lblWebAdd" xml:space="preserve">
+    <value>adresse du site Web</value>
+  </data>
+  <data name="lblYoumightLke" xml:space="preserve">
+    <value>vous aimerez aussi:</value>
+  </data>
+  <data name="lnkBtnSignOut" xml:space="preserve">
+    <value>Déconnexion</value>
+  </data>
+  <data name="ltrlSeendesignn" xml:space="preserve">
+    <value>Vu un concept conception que vous aimez mais vous voulez discuter</value>
+  </data>
+  <data name="ltrlWithUS" xml:space="preserve">
+    <value>d'abord avec nous?</value>
+  </data>
+  <data name="ltrOpt3" xml:space="preserve">
+    <value>l'option 3</value>
+  </data>
+  <data name="ReOrderBtn" xml:space="preserve">
+    <value>re ordonnance</value>
+  </data>
+  <data name="ViewBtn" xml:space="preserve">
+    <value>voir</value>
+  </data>
+  <data name="lblerrorMesge" xml:space="preserve">
+    <value>Une erreur s'est produite lors de l'enregistrement des donnees</value>
+  </data>
+  <data name="lblMesgSavedSuccesfully" xml:space="preserve">
+    <value>enregistre avec succes</value>
+  </data>
+  <data name="lblPassChangedSuccesfully" xml:space="preserve">
+    <value>mot de passe est modifie avec succes</value>
+  </data>
+  <data name="lblProdDescHeadingText" xml:space="preserve">
+    <value>description du produit</value>
+  </data>
+  <data name="lblTotalHeadingText" xml:space="preserve">
+    <value>total</value>
+  </data>
+  <data name="lblVatHeadingText" xml:space="preserve">
+    <value>cuve</value>
+  </data>
+  <data name="lblActionsheaderTxt" xml:space="preserve">
+    <value>acte(s)</value>
+  </data>
+  <data name="lblOdrCreatedByHeadingTxt" xml:space="preserve">
+    <value>order cree par</value>
+  </data>
+  <data name="lblOrderProductnBtn" xml:space="preserve">
+    <value>commande de la production</value>
+  </data>
+  <data name="lblPendingApprovalsBtn" xml:space="preserve">
+    <value>approbations en attente</value>
+  </data>
+  <data name="ApproverBtn" xml:space="preserve">
+    <value>approbateur</value>
+  </data>
+  <data name="chkDefaultAddress" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;adresse par défaut</value>
+  </data>
+  <data name="chkShippingAddress" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Adresse de livraison par défaut</value>
+  </data>
+  <data name="hfAddressDeleted" xml:space="preserve">
+    <value>Adresse supprimé avec succès.</value>
+  </data>
+  <data name="hfAddressIsInuse" xml:space="preserve">
+    <value>Adresse est utilisée, vous cann't le supprimer.</value>
+  </data>
+  <data name="hfAddressNameExist" xml:space="preserve">
+    <value>Nom Adresse existent déjà.</value>
+  </data>
+  <data name="hfAddressNotDeleted" xml:space="preserve">
+    <value>L'adresse n'a pas supprimé. Essayez à nouveau.</value>
+  </data>
+  <data name="hfDeprtCodeExist" xml:space="preserve">
+    <value>Code du ministère existent déjà.</value>
+  </data>
+  <data name="hfDeprtDeleted" xml:space="preserve">
+    <value>Département supprimé avec succès.</value>
+  </data>
+  <data name="hfDeprtIsInuse" xml:space="preserve">
+    <value>Ministère est en vous utilisé cann't le supprimer.</value>
+  </data>
+  <data name="hfDeprtNameExist" xml:space="preserve">
+    <value>Nom du ministère existent déjà.</value>
+  </data>
+  <data name="hfDeprtNotDeleted" xml:space="preserve">
+    <value>Département n'est pas supprimé. Essayez à nouveau.</value>
+  </data>
+  <data name="HfHome" xml:space="preserve">
+    <value>maison</value>
+  </data>
+  <data name="hfTeroryCodeExist" xml:space="preserve">
+    <value>Territoire Code existent déjà.</value>
+  </data>
+  <data name="hfTeroryNameExist" xml:space="preserve">
+    <value>Nom du territoire existent déjà.</value>
+  </data>
+  <data name="hfterroryIsInuse" xml:space="preserve">
+    <value>Le territoire est utilisé dans cann't vous le supprimer.</value>
+  </data>
+  <data name="hfterrtoryDeleted" xml:space="preserve">
+    <value>Territoire supprimé avec succès.</value>
+  </data>
+  <data name="hfterrtoryNotDeleted" xml:space="preserve">
+    <value>Territoire qui n'est pas supprimé. Essayez à nouveau.</value>
+  </data>
+  <data name="hfUserDeleted" xml:space="preserve">
+    <value>Utilisateur supprimé avec succès.</value>
+  </data>
+  <data name="hfUserIsInuse" xml:space="preserve">
+    <value>L'utilisateur est utilisé en vous cann't le supprimer.</value>
+  </data>
+  <data name="hfUserNameExist" xml:space="preserve">
+    <value>Contact Courriel existent déjà.</value>
+  </data>
+  <data name="hfUserNotDeleted" xml:space="preserve">
+    <value>L'utilisateur n'est pas supprimé. Essayez à nouveau.</value>
+  </data>
+  <data name="hfWebStorePanel" xml:space="preserve">
+    <value>Panneau de Web Administrator magasin</value>
+  </data>
+  <data name="RejectBtn" xml:space="preserve">
+    <value>rejeter</value>
+  </data>
+  <data name="hfRegister" xml:space="preserve">
+    <value>enregistrer</value>
+  </data>
+  <data name="hfAnswerIncorrect" xml:space="preserve">
+    <value>La réponse est inexacte. S'il vous plaît essayez de nouveau!</value>
+  </data>
+  <data name="hfEmailNotSent" xml:space="preserve">
+    <value>E-mail non envoyé. s'il vous plaît essayer à nouveau!</value>
+  </data>
+  <data name="hfPsswordSent" xml:space="preserve">
+    <value>Votre mot de passe est envoyé à Votre e-mail. S'il vous plaît consulter votre courrier électronique</value>
+  </data>
+  <data name="hfEmailNorRegistered" xml:space="preserve">
+    <value>Votre adresse e-mail n'est pas enregistré.</value>
+  </data>
+  <data name="chkCanByCredit" xml:space="preserve">
+    <value>Pouvez payer par carte de crédit</value>
+  </data>
+  <data name="chkShowPricesForProduct" xml:space="preserve">
+    <value>Afficher les tarifs sur les produits</value>
+  </data>
+  <data name="lblNewDepartText" xml:space="preserve">
+    <value>nouveau Département</value>
+  </data>
+  <data name="lnkContactUsForQuries" xml:space="preserve">
+    <value>Contactez-nous pour des quantités plus personnalisées des illustrations et des options</value>
+  </data>
+  <data name="lblCategoryHeader" xml:space="preserve">
+    <value>Sélectionnez une catégorie de produits ci-dessous</value>
+  </data>
+  <data name="lblProductHeader" xml:space="preserve">
+    <value>Sélectionner un produit ci-dessous</value>
+  </data>-->
+  <data name="btnfrench" xml:space="preserve">
+    <value>Button french</value>
+    <comment>Button french</comment>
+  </data>
+  <data name="lnkContactUs" xml:space="preserve">
+    <value>Contact</value>
+    <comment>Contact Us</comment>
+  </data>
+  <data name="hlRequestQuote" xml:space="preserve">
+    <value>Offerte aanvragen</value>
+    <comment>Request a Quote</comment>
+  </data>
+  <data name="hlSpecialProducts" xml:space="preserve">
+    <value>Speciale Aanbieding</value>
+    <comment>Special Offers</comment>
+  </data>
+  <data name="HyperLink4" xml:space="preserve">
+    <value>Dash Board</value>
+    <comment>Dash Board     //Header Control</comment>
+  </data>
+  <data name="lnkAboutUs" xml:space="preserve">
+    <value>Over Ons</value>
+    <comment>About Us</comment>
+  </data>
+  <data name="lnkBtnViewMyCart" xml:space="preserve">
+    <value>Winkelwagen(0)</value>
+    <comment>Cart(0)</comment>
+  </data>
+  <data name="lnkLogin" xml:space="preserve">
+    <value>Login / Registreer</value>
+    <comment>Sign In / Register</comment>
+  </data>
+  <data name="lnkMyAccount" xml:space="preserve">
+    <value>Mijn Account</value>
+    <comment>My Account // header.ascx</comment>
+  </data>
+  <data name="lnkProducts" xml:space="preserve">
+    <value>Alle Producten</value>
+    <comment>All Products   // header.ascx   Its the main menu 3rd item also shown on all products page menu</comment>
+  </data>
+  <data name="lnkRegisterInWPrint" xml:space="preserve">
+    <value>Registreer</value>
+    <comment>Sign Up / Register   //TopHeader</comment>
+  </data>
+  <data name="chkEmailMeOffers" xml:space="preserve">
+    <value>Houd me op de hoogte van acties</value>
+    <comment>Notify me of marketing and promotions   //UserProfile</comment>
+  </data>
+  <data name="chkSendMeNewsLetters" xml:space="preserve">
+    <value>Inschrijven voor Nieuwsbrieven</value>
+    <comment>Subscribe to Newsletters   //UserProfile Screen</comment>
+  </data>
+  <data name="cmdRegister" xml:space="preserve">
+    <value>MAAK ACCOUNT</value>
+    <comment>CREATE ACCOUNT</comment>
+  </data>
+  <data name="ltrlFeaturedProducts" xml:space="preserve">
+    <value>Kies een Ontwerp</value>
+    <comment>Choose a Design</comment>
+  </data>
+  <data name="ltrlgetintouch" xml:space="preserve">
+    <value>Neem contact met mij op...</value>
+    <comment>Get in touch...</comment>
+  </data>
+  <data name="ltrlPopularProducts" xml:space="preserve">
+    <value>Populaire Producten</value>
+    <comment>Popular Products</comment>
+  </data>
+  <data name="ltrlProductandServices" xml:space="preserve">
+    <value>Producten and Diensten</value>
+    <comment>Products and Services  //Default</comment>
+  </data>
+  <data name="ltrlSpecialOffers" xml:space="preserve">
+    <value>Speciale Aanbiedingen</value>
+    <comment>Special Offers  //speacialProducts page</comment>
+  </data>
+  <data name="ltrlsubscribelbl" xml:space="preserve">
+    <value>Inschrijven voor onze Nieuwsbrieven :</value>
+    <comment>Subscribe to our Newsletters :</comment>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email Adres</value>
+    <comment>Email Address</comment>
+  </data>
+  <data name="EnterPassword" xml:space="preserve">
+    <value>Voer Wachtwoord in</value>
+    <comment>Enter Password</comment>
+  </data>
+  <data name="Fname" xml:space="preserve">
+    <value>Voornaam</value>
+    <comment>First Name</comment>
+  </data>
+  <data name="hlPrivacyPolicy" xml:space="preserve">
+    <value>Privacy Beleid</value>
+    <comment>Privacy Policy</comment>
+  </data>
+  <data name="hlPweredBy" xml:space="preserve">
+    <value>Powered by Cloudprinter.com</value>
+    <comment>Powered by Cloudprinter.com   //top header.ascx</comment>
+  </data>
+  <data name="hplinkTermsCondition" xml:space="preserve">
+    <value>Algemene Voorwaarden</value>
+    <comment>Terms &amp; Conditions      //Footer</comment>
+  </data>
+  <data name="lblPageTitle" xml:space="preserve">
+    <value>Neem contact op</value>
+    <comment>Contact US   // contact us page</comment>
+  </data>
+  <data name="Lname" xml:space="preserve">
+    <value>Achternaam</value>
+    <comment>Last Name</comment>
+  </data>
+  <data name="ReTypeEmailAddress" xml:space="preserve">
+    <value>Voer E-Mail Adres opnieuw in</value>
+    <comment>Re type E-Mail Address</comment>
+  </data>
+  <data name="RetypePassword" xml:space="preserve">
+    <value>Voer Wachtwoord opnieuw in</value>
+    <comment>Re type Password</comment>
+  </data>
+  <data name="SecretAnswer" xml:space="preserve">
+    <value>Geheim antwoord</value>
+    <comment>Secret Answer</comment>
+  </data>
+  <data name="SecretQuestion" xml:space="preserve">
+    <value>Geheime vraag</value>
+    <comment>Secret Question</comment>
+  </data>
+  <data name="ltrlenquiry" xml:space="preserve">
+    <value>Prijs aanvraag</value>
+    <comment>Enquiry</comment>
+  </data>
+  <data name="ltrlnoi" xml:space="preserve">
+    <value>Soort aanvraag</value>
+    <comment>Nature of Enquiry</comment>
+  </data>
+  <data name="ltrlcompany" xml:space="preserve">
+    <value>Uw bedrijf</value>
+    <comment>Your company</comment>
+  </data>
+  <data name="ltrlemail" xml:space="preserve">
+    <value>Uw email</value>
+    <comment>Your email</comment>
+  </data>
+  <data name="ltrlyourname" xml:space="preserve">
+    <value>Uw naam</value>
+    <comment>Your name</comment>
+  </data>
+  <data name="cmdNext" xml:space="preserve">
+    <value>VOLGENDE</value>
+    <comment>NEXT</comment>
+  </data>
+  <data name="cmdSubmit" xml:space="preserve">
+    <value>VERSTUUR WACHTWOORD</value>
+    <comment>SEND PASSWORD</comment>
+  </data>
+  <data name="lblResetPwd" xml:space="preserve">
+    <value>Reset wachtwoord.</value>
+    <comment>Reset password.</comment>
+  </data>
+  <data name="lblSendBymail" xml:space="preserve">
+    <value>Verstuur wachtwoord per e-mail.</value>
+    <comment>Send password by e-mail.</comment>
+  </data>
+  <data name="lnkReturnLogin" xml:space="preserve">
+    <value>Terug naar de homepage</value>
+    <comment>Return to home Page   //ForgotPassowrd</comment>
+  </data>
+  <data name="SpnChangePass" xml:space="preserve">
+    <value>Verander wachtwoord</value>
+    <comment>Change Password</comment>
+  </data>
+  <data name="spnforgotPassord" xml:space="preserve">
+    <value>Vul uw e-mailadres hieronder in. Uw nieuwe wachtwoord zal naar uw e-mailadres worden verzonden na verificatie.</value>
+    <comment>Please enter your registered email address below. Your password will be mailed to your email address upon verification.</comment>
+  </data>
+  <data name="btnAutoPostBackDiscountVoucherCode" xml:space="preserve">
+    <value>Pas toe</value>
+    <comment>Apply</comment>
+  </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Annuleren</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="btnCheckOut1" xml:space="preserve">
+    <value>CHECKOUT</value>
+    <comment>CHECKOUT  //Shopcart Screen</comment>
+  </data>
+  <data name="btnContinueShopping1" xml:space="preserve">
+    <value>VERDER WINKELEN</value>
+    <comment>CONTINUE SHOPPING //Shopcart Screen</comment>
+  </data>
+  <data name="btnReset" xml:space="preserve">
+    <value>Legen</value>
+    <comment>Clear</comment>
+  </data>
+  <data name="btnSelectTemplate1" xml:space="preserve">
+    <value>Selecteer Template</value>
+    <comment>Select Template</comment>
+  </data>
+  <data name="btnSend" xml:space="preserve">
+    <value>Verzend</value>
+    <comment>Send</comment>
+  </data>
+  <data name="btnSide1Modify" xml:space="preserve">
+    <value>Pas aan</value>
+    <comment>Modify</comment>
+  </data>
+  <data name="btnStartCreating" xml:space="preserve">
+    <value>Begin met maken</value>
+    <comment>Start Creating  // Home Page Slider Button text</comment>
+  </data>
+  <data name="btnSubmit" xml:space="preserve">
+    <value>Zoek</value>
+    <comment>Search</comment>
+  </data>
+  <data name="ltrladdNewitem" xml:space="preserve">
+    <value>Voeg nieuw item toe</value>
+    <comment>Add New Item</comment>
+  </data>
+  <data name="ltrlCdesign" xml:space="preserve">
+    <value>1. Bevestig Ontwerp</value>
+    <comment>1. Confirm Design   //ProductconfirmSelection</comment>
+  </data>
+  <data name="divchecked" xml:space="preserve">
+    <value>Gecontroleerd?</value>
+    <comment>Checked?</comment>
+  </data>
+  <data name="ltrldeliverydate" xml:space="preserve">
+    <value>Gewenste aflevering :</value>
+    <comment>Desired Delivery :   //RequestQuote</comment>
+  </data>
+  <data name="divform2createaccount" xml:space="preserve">
+    <value>Vul het formulier hieronder in om te registreren en een account aan te maken...</value>
+    <comment>Complete the form below to register and create an account...</comment>
+  </data>
+  <data name="divideastxt" xml:space="preserve">
+    <value>Ideeën</value>
+    <comment>Ideas</comment>
+  </data>
+  <data name="ltrlinquiryAttachement" xml:space="preserve">
+    <value>Bijlagen bij aanvraag</value>
+    <comment>Inquiry Attachment's</comment>
+  </data>
+  <data name="ltrlinquirytitle" xml:space="preserve">
+    <value>Titel aanvraag :</value>
+    <comment>Inquiry Title :</comment>
+  </data>
+  <data name="ltrlitemnotes" xml:space="preserve">
+    <value>Item Notities :</value>
+    <comment>Item Notes :</comment>
+  </data>
+  <data name="ltrlitemtitle" xml:space="preserve">
+    <value>Item Titel :</value>
+    <comment>Item Title :</comment>
+  </data>
+  <data name="ltrlOpt1" xml:space="preserve">
+    <value>Specificatie</value>
+    <comment>Option 1</comment>
+  </data>
+  <data name="ltrloptadedd" xml:space="preserve">
+    <value>Opties toegevoegd:</value>
+    <comment>Options added:</comment>
+  </data>
+  <data name="ltrlOrderOpt" xml:space="preserve">
+    <value>Opties</value>
+    <comment>2. Options</comment>
+  </data>
+  <data name="ltrlOrderSumm" xml:space="preserve">
+    <value>3. Order Samenvatting</value>
+    <comment>3. Order Summary</comment>
+  </data>
+  <data name="ltrlordertotal" xml:space="preserve">
+    <value>Order Totaal:</value>
+    <comment>Order Total:</comment>
+  </data>
+  <data name="ltrlProductsDetails" xml:space="preserve">
+    <value>Product details</value>
+    <comment>Product details</comment>
+  </data>
+  <data name="ltrlQuantity" xml:space="preserve">
+    <value>Oplage</value>
+    <comment>Quantity</comment>
+  </data>
+  <data name="divreorderq" xml:space="preserve">
+    <value>Snel opnieuw bestellen</value>
+    <comment>Re-order quickly</comment>
+  </data>
+  <data name="divsaveurdeisgn" xml:space="preserve">
+    <value>Ontwerpen bewaren</value>
+    <comment>Save your designs</comment>
+  </data>
+  <data name="ltrlSearchOrder" xml:space="preserve">
+    <value>Zoek Orders</value>
+    <comment>Search Orders</comment>
+  </data>
+  <data name="ltrlselecctstock" xml:space="preserve">
+    <value>Voorraad Opties</value>
+    <comment>Stock Options</comment>
+  </data>
+  <data name="divsubs2newsl" xml:space="preserve">
+    <value>Abonneer u op onze nieuwsbrieven over betreffende nieuwe producten en diensten</value>
+    <comment>Subscribe to our Newsletters on new marketing products and services</comment>
+  </data>
+  <data name="ltrlsubtotal" xml:space="preserve">
+    <value>Subtotaal</value>
+    <comment>Sub Total</comment>
+  </data>
+  <data name="divviewntrackoh" xml:space="preserve">
+    <value>Bekijk bestelhistorie</value>
+    <comment>View and track order history</comment>
+  </data>
+  <data name="divwhyregister" xml:space="preserve">
+    <value>Waarom Registreren?</value>
+    <comment>Why Register?   //Sign Up or Register Page</comment>
+  </data>
+  <data name="hlProductDetail" xml:space="preserve">
+    <value>Bekijk prijzen, specificaties, hoeveelheden en extra opties</value>
+    <comment>See pricing, specification quantities and refining options</comment>
+  </data>
+  <data name="Label1" xml:space="preserve">
+    <value>Upload je ontwerp / bestanden</value>
+    <comment>Upload Your Design</comment>
+  </data>
+  <data name="Label3" xml:space="preserve">
+    <value>Occassion</value>
+    <comment>Occassion</comment>
+  </data>
+  <data name="lblBack" xml:space="preserve">
+    <value>Achterzijde van de kaart</value>
+    <comment>Back of the Card</comment>
+  </data>
+  <data name="lblCategoriesLinks1" xml:space="preserve">
+    <value>Opgeslagen ontwerpen</value>
+    <comment>Saved Designs     //SavedDesignes</comment>
+  </data>
+  <data name="lblCheckSpelling" xml:space="preserve">
+    <value>Zijn de spelling en details aan ALLE kanten gecontroleerd?</value>
+    <comment>Checked spellings and details on ALL sides?</comment>
+  </data>
+  <data name="LblDimenssionandspecs" xml:space="preserve">
+    <value>Afmetingen en specificaties</value>
+    <comment>Dimensions and specifications</comment>
+  </data>
+  <data name="lblFront" xml:space="preserve">
+    <value>Voorzijde van de kaart</value>
+    <comment>Front of the Card</comment>
+  </data>
+  <data name="lblideas" xml:space="preserve">
+    <value>Ideeën</value>
+    <comment>Ideas  //ProductDetails</comment>
+  </data>
+  <data name="lblMessage" xml:space="preserve">
+    <value>Geen gegevens gevonden!</value>
+    <comment>No Records found!    //Product Pending orders</comment>
+  </data>
+  <data name="lblMsg" xml:space="preserve">
+    <value>Uw winkelwagen is leeg!</value>
+    <comment>Your cart is empty!</comment>
+  </data>
+  <data name="lblNewCustomer" xml:space="preserve">
+    <value>Registratie nieuwe gebruiker</value>
+    <comment>New User Registration</comment>
+  </data>
+  <data name="lblProdSelectOption" xml:space="preserve">
+    <value>Online Prijzen</value>
+    <comment>Online Prices</comment>
+  </data>
+  <data name="lblRedeemHeading" xml:space="preserve">
+    <value>Kortingscodes</value>
+    <comment>Voucher codes</comment>
+  </data>
+  <data name="lblRegistering" xml:space="preserve">
+    <value>Wanneer u registreert kunt u:</value>
+    <comment>By registering you are able to:</comment>
+  </data>
+  <data name="lblStockHeaer" xml:space="preserve">
+    <value>Voeg extra (afwerkings-)opties toe</value>
+    <comment>Refining Options</comment>
+  </data>
+  <data name="lblStyle" xml:space="preserve">
+    <value>Stijl</value>
+    <comment>Style</comment>
+  </data>
+  <data name="lblSubHeading" xml:space="preserve">
+    <value>Selecteer een template hieronder</value>
+    <comment>Select a Template from below   // Product design template</comment>
+  </data>
+  <data name="lblTitle" xml:space="preserve">
+    <value>Favoriete ontwerpen</value>
+    <comment>Favorite Designs   //favourite Design</comment>
+  </data>
+  <data name="lblTitlePC" xml:space="preserve">
+    <value>Order opties</value>
+    <comment>Order Options</comment>
+  </data>
+  <data name="lblTitlePendingOrder" xml:space="preserve">
+    <value>Orders in afwachting voor goedkeuring</value>
+    <comment>Pending Orders For Approval   // ProductPendingOrders</comment>
+  </data>
+  <data name="lblTitleRequestQuote" xml:space="preserve">
+    <value>Vraag een offerte aan</value>
+    <comment>Request A Quote   //RequestQuote</comment>
+  </data>
+  <data name="lblTitleShopCart" xml:space="preserve">
+    <value>Winkelwagen</value>
+    <comment>Shopping cart</comment>
+  </data>
+  <data name="lblTotalRecords" xml:space="preserve">
+    <value>Gevonden resultaten</value>
+    <comment>matches found</comment>
+  </data>
+  <data name="lblTotalSavingText" xml:space="preserve">
+    <value>Totale besparing</value>
+    <comment>Total Saving</comment>
+  </data>
+  <data name="lblVoucherDiscPercentageDisplay" xml:space="preserve">
+    <value>Korting</value>
+    <comment>Discount</comment>
+  </data>
+  <data name="ltrlClcktempnStart" xml:space="preserve">
+    <value>Kies een template hieronder en start</value>
+    <comment>Click on a template below and start</comment>
+  </data>
+  <data name="ltrlDesignonline" xml:space="preserve">
+    <value>ontwerp nu gratis online</value>
+    <comment>designing online now for free</comment>
+  </data>
+  <data name="ltrlfrom" xml:space="preserve">
+    <value>Vanaf</value>
+    <comment>FROM</comment>
+  </data>
+  <data name="ltrlMatchesfound" xml:space="preserve">
+    <value>Gevonden resultaten</value>
+    <comment>matches found</comment>
+  </data>
+  <data name="ltrlUploaddesign" xml:space="preserve">
+    <value>Bestanden klaar om te uploaden (u kunt meerdere bestanden selecteren)</value>
+    <comment>Files ready for upload (you may select multiple files)</comment>
+  </data>
+  <data name="ltrlustoprint" xml:space="preserve">
+    <value>afdrukken en/of wijzigen</value>
+    <comment>us to print and/ or modify</comment>
+  </data>
+  <data name="ltrlBaseColor" xml:space="preserve">
+    <value>Basis kleur</value>
+    <comment>Base Color</comment>
+  </data>
+  <data name="tdfromdate" xml:space="preserve">
+    <value>vanaf datum</value>
+    <comment>From Date</comment>
+  </data>
+  <data name="ltrlIndusrtyType" xml:space="preserve">
+    <value>Bedrijfstype</value>
+    <comment>Industry Type</comment>
+  </data>
+  <data name="tdorderref" xml:space="preserve">
+    <value>Keyword</value>
+    <comment>Keyword</comment>
+  </data>
+  <data name="tdorderstatus" xml:space="preserve">
+    <value>Order Status</value>
+    <comment>Order Status</comment>
+  </data>
+  <data name="ltrlSearchphrase" xml:space="preserve">
+    <value>Zoeken</value>
+    <comment>Search Phrase</comment>
+  </data>
+  <data name="tdshowing" xml:space="preserve">
+    <value>Tonen</value>
+    <comment>Showing</comment>
+  </data>
+  <data name="todate" xml:space="preserve">
+    <value>Tot datum</value>
+    <comment>To Date</comment>
+  </data>
+  <data name="spngohome" xml:space="preserve">
+    <value>Ga naar Home</value>
+    <comment>Go Home</comment>
+  </data>
+  <data name="btnAddNew" xml:space="preserve">
+    <value>Nieuw adres toevoegen</value>
+    <comment>Add New  //ManageAddressess Screen</comment>
+  </data>
+  <data name="btnApplySetting" xml:space="preserve">
+    <value>Toepassen</value>
+    <comment>Apply Setting</comment>
+  </data>
+  <data name="btnConfirmOrder" xml:space="preserve">
+    <value>BETALEN</value>
+    <comment>MAKE PAYMENT   //Shopcart Screen</comment>
+  </data>
+  <data name="BtnCreateacc" xml:space="preserve">
+    <value>NIEUW ACCOUNT AANMAKEN</value>
+    <comment>CREATE ACCOUNT</comment>
+  </data>
+  <data name="btnSave" xml:space="preserve">
+    <value>Bewaar</value>
+    <comment>Save</comment>
+  </data>
+  <data name="btnUploadFile" xml:space="preserve">
+    <value>Upload plaatje</value>
+    <comment>Upload Image</comment>
+  </data>
+  <data name="Button1" xml:space="preserve">
+    <value>Reset Wachtwoord</value>
+    <comment>Reset Password</comment>
+  </data>
+  <data name="chkBoxDeliverySameAsBilling" xml:space="preserve">
+    <value>Zelfde als verzendadres</value>
+    <comment>Same as billing address</comment>
+  </data>
+  <data name="chkCreatShippingAddress" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Gebruikers kunnen verzendadressen maken</value>
+    <comment>&amp;nbsp;&amp;nbsp;&amp;nbsp;Users can create Shipping Addresses</comment>
+  </data>
+  <data name="chkIsDefaulShippingAddr" xml:space="preserve">
+    <value>Is Standaard Afleveradres</value>
+    <comment>Is Default Delivery Address</comment>
+  </data>
+  <data name="chkIsDefaultAddr" xml:space="preserve">
+    <value>Is Standaard Factuuradres</value>
+    <comment>Is Default Billing Address</comment>
+  </data>
+  <data name="chkPayByCreditCard" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Gebruikers betalen persoonlijk</value>
+    <comment>&amp;nbsp;&amp;nbsp;&amp;nbsp;Users pay by personal Credit Card</comment>
+  </data>
+  <data name="chkPORequired" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Referentie (PO/kostenplaats/etc.) is nodig bij het bestellen</value>
+    <comment>&amp;nbsp;&amp;nbsp;&amp;nbsp;PO Number is required when ordering</comment>
+  </data>
+  <data name="chkShowPrices" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Prijzen tonen aan gebruikers</value>
+    <comment>&amp;nbsp;&amp;nbsp;&amp;nbsp;Show Prices to Users</comment>
+  </data>
+  <data name="cmdLogin" xml:space="preserve">
+    <value>LOGIN</value>
+    <comment>LOGIN</comment>
+  </data>
+  <data name="ltrldepartname" xml:space="preserve">
+    <value>naam afdeling</value>
+    <comment>Department Name</comment>
+  </data>
+  <data name="designBarLeftPnl" xml:space="preserve">
+    <value>Start met het personaliseren van de template hieronder</value>
+    <comment>Start personalizing template below    //Retail Designer Screen</comment>
+  </data>
+  <data name="designBarRightPnl" xml:space="preserve">
+    <value>Bewaar ontwerp als</value>
+    <comment>Save design as</comment>
+  </data>
+  <data name="ltrladdressdeatails" xml:space="preserve">
+    <value>Adres details</value>
+    <comment>Address Details</comment>
+  </data>
+  <data name="ltrladdressline1" xml:space="preserve">
+    <value>Adres regel 1 :</value>
+    <comment>Address line 1 :  // OrderDetails</comment>
+  </data>
+  <data name="ltrladdressline2" xml:space="preserve">
+    <value>Adres regel 2 :</value>
+    <comment>Address line 2 :  // OrderDetails</comment>
+  </data>
+  <data name="ltrlAllproducts" xml:space="preserve">
+    <value>Producten en Diensten</value>
+    <comment>Products and Services  //AllProducts Widget Title</comment>
+  </data>
+  <data name="ltrlBillingname" xml:space="preserve">
+    <value>Titel factuuradres</value>
+    <comment>Billing Name</comment>
+  </data>
+  <data name="ltrlcanapprove" xml:space="preserve">
+    <value>kan goedkeuren</value>
+    <comment>Can Approve</comment>
+  </data>
+  <data name="ltrlcanorder" xml:space="preserve">
+    <value>kan order plaatsen</value>
+    <comment>Can Order</comment>
+  </data>
+  <data name="ltrlcellnumber" xml:space="preserve">
+    <value>Mobiel nummer</value>
+    <comment>Cell Number</comment>
+  </data>
+  <data name="ltrlchangepassword" xml:space="preserve">
+    <value>Verander wachtwoord</value>
+    <comment>Change password</comment>
+  </data>
+  <data name="ltrlcheckoutfirstdiv" xml:space="preserve">
+    <value>Uw referentie (PO/kostenplaats/etc.)</value>
+    <comment>Your Ref / PO</comment>
+  </data>
+  <data name="ltrlchoosebillingadd" xml:space="preserve">
+    <value>Kies factuuradres</value>
+    <comment>Choose Billing Address</comment>
+  </data>
+  <data name="ltrlchoosedeliveryadd" xml:space="preserve">
+    <value>Kies afleveradres</value>
+    <comment>Choose Delivery Address</comment>
+  </data>
+  <data name="ltrlcity" xml:space="preserve">
+    <value>Stad :</value>
+    <comment>City :   //OrderDetails</comment>
+  </data>
+  <data name="divcompanyname" xml:space="preserve">
+    <value>Bedrijfsnaam</value>
+    <comment>Company Name</comment>
+  </data>
+  <data name="ltrlconfirmurorderdetails" xml:space="preserve">
+    <value>Bevestig je bestelling...</value>
+    <comment>Confirm your order details...</comment>
+  </data>
+  <data name="ltrlcontactdetails" xml:space="preserve">
+    <value>Contactgegevens</value>
+    <comment>Contact details  //DashBoard</comment>
+  </data>
+  <data name="ltrlcontactnum" xml:space="preserve">
+    <value>Contact nummer :</value>
+    <comment>Contact Number :   //OrderDetails</comment>
+  </data>
+  <data name="ltrlcontacttelnum" xml:space="preserve">
+    <value>Contact telefoonnummer</value>
+    <comment>Contact Tel Number</comment>
+  </data>
+  <data name="ltrlcountry" xml:space="preserve">
+    <value>Land :</value>
+    <comment>Country :</comment>
+  </data>
+  <data name="ltrlDelivery" xml:space="preserve">
+    <value>Aflevering</value>
+    <comment>Delivery</comment>
+  </data>
+  <data name="ltrldepartment" xml:space="preserve">
+    <value>Afdeling</value>
+    <comment>Department</comment>
+  </data>
+  <data name="ltrldepartcode" xml:space="preserve">
+    <value>Afdelingscode</value>
+    <comment>Department Code   //CRUDDepartmentControl</comment>
+  </data>
+  <data name="ltrlDnthaveacc" xml:space="preserve">
+    <value>Ik heb geen account</value>
+    <comment>Don't have an account</comment>
+  </data>
+  <data name="ltrleditnuploadurdd" xml:space="preserve">
+    <value>Bespaar tijd, voer u uw standaard gegevens in voor sjablonen</value>
+    <comment>Edit and upload your design details</comment>
+  </data>
+  <data name="ltrlemailtxt" xml:space="preserve">
+    <value>Email</value>
+    <comment>Email</comment>
+  </data>
+  <data name="ltrlestimated" xml:space="preserve">
+    <value>Leveringsopties</value>
+    <comment>Delivery options</comment>
+  </data>
+  <data name="ltrlfax" xml:space="preserve">
+    <value>Fax:</value>
+    <comment>Fax   //contactus.aspx</comment>
+  </data>
+  <data name="divfname" xml:space="preserve">
+    <value>Voornaam</value>
+    <comment>First Name</comment>
+  </data>
+  <data name="ltrlimgliblogoqt" xml:space="preserve">
+    <value>Snelle tekstvelden voor ontwerpen</value>
+    <comment>Template Quick Fields</comment>
+  </data>
+  <data name="ltrljobtitle" xml:space="preserve">
+    <value>Functie</value>
+    <comment>Job Title</comment>
+  </data>
+  <data name="ltrllname" xml:space="preserve">
+    <value>Achternaam</value>
+    <comment>Last Name</comment>
+  </data>
+  <data name="ltrlloplaced" xml:space="preserve">
+    <value>Laatst geplaatste order</value>
+    <comment>Last order placed</comment>
+  </data>
+  <data name="ltrlmaincontent" xml:space="preserve">
+    <value>Hoofd contactpersoon</value>
+    <comment>Main Contact   //CRUDTerritory</comment>
+  </data>
+  <data name="ltrlmanagenviewsd" xml:space="preserve">
+    <value>Beheer en bekijk uw opgeslagen ontwerpen</value>
+    <comment>Manage and view your saved designs</comment>
+  </data>
+  <data name="ltrlmatchingset" xml:space="preserve">
+    <value>Bijpassende producten</value>
+    <comment>Matching Set   //MatchinSetControl</comment>
+  </data>
+  <data name="ltrlmyfavd" xml:space="preserve">
+    <value>Mijn favoriete ontwerpen</value>
+    <comment>My favorite designs</comment>
+  </data>
+  <data name="ltrlname" xml:space="preserve">
+    <value>Naam</value>
+    <comment>Name  //CRUDUsers</comment>
+  </data>
+  <data name="ltrlnew" xml:space="preserve">
+    <value>Nieuwe gebruiker</value>
+    <comment>New User    //CRUDShippingcontrol</comment>
+  </data>
+  <data name="divnoresourcefound" xml:space="preserve">
+    <value>No Resource Found - 404</value>
+    <comment>No Resource Found - 404</comment>
+  </data>
+  <data name="ltrlorderhistory" xml:space="preserve">
+    <value>Order historie</value>
+    <comment>Order history</comment>
+  </data>
+  <data name="ltrlorderlimit" xml:space="preserve">
+    <value>Bestel limiet</value>
+    <comment>Order Limit</comment>
+  </data>
+  <data name="ltrlorderpolicy" xml:space="preserve">
+    <value>Bestel beleid</value>
+    <comment>Ordering Policy</comment>
+  </data>
+  <data name="divpendingo" xml:space="preserve">
+    <value>Lopende orders</value>
+    <comment>Pending Orders</comment>
+  </data>
+  <data name="ltrlpersonalinfo" xml:space="preserve">
+    <value>Persoonlijke gegevens</value>
+    <comment>1. Personal Details  //PersonalInfoControl</comment>
+  </data>
+  <data name="divphonenumber" xml:space="preserve">
+    <value>Telefoonnummer</value>
+    <comment>Phone Number</comment>
+  </data>
+  <data name="divprofilepic" xml:space="preserve">
+    <value>Profielfoto</value>
+    <comment>Profile Picture</comment>
+  </data>
+  <data name="ltrlresetnchangeaccpassword" xml:space="preserve">
+    <value>Resetof wijzig het wachtwoord van je account</value>
+    <comment>Reset and change your account password</comment>
+  </data>
+  <data name="ltrlrole" xml:space="preserve">
+    <value>Rol</value>
+    <comment>Role</comment>
+  </data>
+  <data name="ltrlroq" xml:space="preserve">
+    <value>Snel onieuw bestellen</value>
+    <comment>Re-order quickly</comment>
+  </data>
+  <data name="ltrlsavedesign" xml:space="preserve">
+    <value>Opgeslagen ontwerpen</value>
+    <comment>Saved designs</comment>
+  </data>
+  <data name="ltrlsaveurdesign" xml:space="preserve">
+    <value>Bewaar je ontwerpen</value>
+    <comment>Save your designs</comment>
+  </data>
+  <data name="ltrlshippingaddresses" xml:space="preserve">
+    <value>Verzendadressen</value>
+    <comment>Shipping Addresses</comment>
+  </data>
+  <data name="ltrlshippingname" xml:space="preserve">
+    <value>Titel verzendadres</value>
+    <comment>Shipping Name</comment>
+  </data>
+  <data name="ltrlshoppingcart" xml:space="preserve">
+    <value>Winkelwagen</value>
+    <comment>Shopping cart</comment>
+  </data>
+  <data name="divsorrypaypal" xml:space="preserve">
+    <value>Sorry! Uw Paypal betaling was niet succesvol.</value>
+    <comment>Sorry! Your Paypal payment was not successful.  //BlankDetails</comment>
+  </data>
+  <data name="ltrlstate" xml:space="preserve">
+    <value>Provincie :</value>
+    <comment>State :  //OrderDetails</comment>
+  </data>
+  <data name="ltrlsubscribe2Nwzl" xml:space="preserve">
+    <value>Ontvang de meest recente promoties</value>
+    <comment>Get latest Newsletter promotions</comment>
+  </data>
+  <data name="ltrlteritory" xml:space="preserve">
+    <value>Machtiging</value>
+    <comment>Territory</comment>
+  </data>
+  <data name="ltrlterritories" xml:space="preserve">
+    <value>Bestelmachtigingen /</value>
+    <comment>Territories /</comment>
+  </data>
+  <data name="ltrlterritorycode" xml:space="preserve">
+    <value>Machtigingscode</value>
+    <comment>Territory Code</comment>
+  </data>
+  <data name="ltrlterritoryname" xml:space="preserve">
+    <value>Machtigingsnaam</value>
+    <comment>Territory Name</comment>
+  </data>
+  <data name="ltrlthnxordersuccessfull" xml:space="preserve">
+    <value>Bedankt, uw bestellingen is succesvol geplaatst!</value>
+    <comment>Thanks, Your orders is placed successfully!  //ShopPayment</comment>
+  </data>
+  <data name="ltrlupdateurcontactdeatails" xml:space="preserve">
+    <value>Update uw contactgegevens</value>
+    <comment>Update your contact details</comment>
+  </data>
+  <data name="ltrlviewdttulike" xml:space="preserve">
+    <value>Bekijken en beheren van uw favoriete templates</value>
+    <comment>View design templates that you like</comment>
+  </data>
+  <data name="ltrlviewitemnshppngcart" xml:space="preserve">
+    <value>Bekijk artikelen in uw winkelwagen</value>
+    <comment>View items in your shopping cart</comment>
+  </data>
+  <data name="divviewnropo" xml:space="preserve">
+    <value>Lopende orders bekijken of opnieuw bestellen</value>
+    <comment>View and/or re-order pending orders</comment>
+  </data>
+  <data name="ltrlviewrocompletedo" xml:space="preserve">
+    <value>Afgewerkte orders bekijken of opnieuw bestellen</value>
+    <comment>View and/or re-order completed orders</comment>
+  </data>
+  <data name="ltrlviewtoh" xml:space="preserve">
+    <value>Ordergeschiedenis bekijken</value>
+    <comment>View and track order history</comment>
+  </data>
+  <data name="divwebsite" xml:space="preserve">
+    <value>Website</value>
+    <comment>Website</comment>
+  </data>
+  <data name="divyourcompanylogo" xml:space="preserve">
+    <value>Uw bedrijfslogo</value>
+    <comment>Your Company Logo</comment>
+  </data>
+  <data name="ltrlywstore" xml:space="preserve">
+    <value>Uw WebStore gebruikers</value>
+    <comment>Your WebStore Users   //CorporateAdminHomeControl</comment>
+  </data>
+  <data name="ltrlzipcodeP" xml:space="preserve">
+    <value>Postcode :</value>
+    <comment>Zip Code / Post Code :   //OrderDetails</comment>
+  </data>
+  <data name="FavrBtn" xml:space="preserve">
+    <value>Mijn Favorieten</value>
+    <comment>My Favorites</comment>
+  </data>
+  <data name="HistryBtn" xml:space="preserve">
+    <value>Ordergeschiedenis</value>
+    <comment>Order History</comment>
+  </data>
+  <data name="hlShopingCart" xml:space="preserve">
+    <value>Hier</value>
+    <comment>Here</comment>
+  </data>
+  <data name="label11" xml:space="preserve">
+    <value>Uw bedrijfsnaam</value>
+    <comment>Your Company Name</comment>
+  </data>
+  <data name="label12" xml:space="preserve">
+    <value>Adres</value>
+    <comment>Address</comment>
+  </data>
+  <data name="label15" xml:space="preserve">
+    <value>Telefoon</value>
+    <comment>Telephone   //orderreceipt.aspx</comment>
+  </data>
+  <data name="label18" xml:space="preserve">
+    <value>Website url</value>
+    <comment>Website Address</comment>
+  </data>
+  <data name="label19" xml:space="preserve">
+    <value>Bedrijfsbericht</value>
+    <comment>Company Message</comment>
+  </data>
+  <data name="label9" xml:space="preserve">
+    <value>Uw naam</value>
+    <comment>Your Name</comment>
+  </data>
+  <data name="lblCheckout" xml:space="preserve">
+    <value>Afrekenen</value>
+    <comment>Checkout    //ShopCartaddrSelect   //MyAddressescontrol</comment>
+  </data>
+  <data name="lblCompanyMessage" xml:space="preserve">
+    <value>Bedrijfs mededeling voor Landings pagina</value>
+    <comment>Set Company Message for Landing Page</comment>
+  </data>
+  <data name="lblCorporateName" xml:space="preserve">
+    <value>Bedrijfsnaam</value>
+    <comment>Coporate Name</comment>
+  </data>
+  <data name="lblFollowusText" xml:space="preserve">
+    <value>Volg ons :</value>
+    <comment>Follow Us :     //FooterFollowus</comment>
+  </data>
+  <data name="lblMainControlHeading" xml:space="preserve">
+    <value>Facturering</value>
+    <comment>Billing Address</comment>
+  </data>
+  <data name="lblMyaddresstitle" xml:space="preserve">
+    <value>Adres Titel</value>
+    <comment>Address Title    //MyaddressesControl</comment>
+  </data>
+  <data name="lblPassword" xml:space="preserve">
+    <value>Wachtwoord</value>
+    <comment>Password</comment>
+  </data>
+  <data name="lblshipping" xml:space="preserve">
+    <value>Verzending </value>
+    <comment>Shipping</comment>
+  </data>
+  <data name="lblspecailinstruction" xml:space="preserve">
+    <value>Speciale instructies</value>
+    <comment>Special Instructions</comment>
+  </data>
+  <data name="lbltitlelogin" xml:space="preserve">
+    <value>Login</value>
+    <comment>Sign In   //Weblogin</comment>
+  </data>
+  <data name="lbltitlemyaddress" xml:space="preserve">
+    <value>Mijn adressen</value>
+    <comment>My Addresses</comment>
+  </data>
+  <data name="lblUserProfile" xml:space="preserve">
+    <value>Contact Informatie</value>
+    <comment>Contact Information  //UserProfile</comment>
+  </data>
+  <data name="lblUserquickinfo" xml:space="preserve">
+    <value>Snelle tekstvelden voor ontwerpen</value>
+    <comment>Template Quick Fields //UserQuicktextinfo</comment>
+  </data>
+  <data name="lnkForgotPassword" xml:space="preserve">
+    <value>Wachtwoord vergeten?</value>
+    <comment>Forgot your Password?</comment>
+  </data>
+  <data name="lnkWhatisPassword" xml:space="preserve">
+    <value>Bent u reeds geregistreerd bij</value>
+    <comment>Are you already registered with //Login</comment>
+  </data>
+  <data name="ltrlapprovethisorder" xml:space="preserve">
+    <value>keurt deze goed.</value>
+    <comment>approves this order.</comment>
+  </data>
+  <data name="ltrlclicktomodify" xml:space="preserve">
+    <value>Klik op de rij om te wijzigen.</value>
+    <comment>Click on row to modify.</comment>
+  </data>
+  <data name="ltrlcliclk" xml:space="preserve">
+    <value>Klik</value>
+    <comment>Click</comment>
+  </data>
+  <data name="ltrlcopyrite" xml:space="preserve">
+    <value>Copyrights 2013. Alle rechten voorbehouden.</value>
+    <comment>Copyrights 2012. All Rights Reserved.   //FooterControl</comment>
+  </data>
+  <data name="ltrldepart" xml:space="preserve">
+    <value>Afdelingen</value>
+    <comment>Departments</comment>
+  </data>
+  <data name="ltrlgoback2cart" xml:space="preserve">
+    <value>om terug te gaan naar uw winkelwagen.</value>
+    <comment>to go back to your cart.</comment>
+  </data>
+  <data name="ltrlhere" xml:space="preserve">
+    <value>Hier zijn andere producten met de</value>
+    <comment>Here are other products with the</comment>
+  </data>
+  <data name="ltrlmessgmemobox" xml:space="preserve">
+    <value>MESSAGE? MEMO BOX</value>
+    <comment>MESSAGE? MEMO BOX</comment>
+  </data>
+  <data name="ltrlofferdelivered" xml:space="preserve">
+    <value>aanbiedingen in uw inbox ontvangen...</value>
+    <comment>offers delivered to your inbox...</comment>
+  </data>
+  <data name="ltrlorderwillbed" xml:space="preserve">
+    <value>De orde zal worden geleverd na</value>
+    <comment>Order will be delivered after</comment>
+  </data>
+  <data name="ltrlsameasdesignconcept" xml:space="preserve">
+    <value>zelfde design concepten</value>
+    <comment>same design concepts</comment>
+  </data>
+  <data name="ltrlselectacat" xml:space="preserve">
+    <value>Selecteer een categorie hieronder en vervolgens een product om te bestellen en te personaliseren</value>
+    <comment>Select a Category below and then a product to Order and personalize  //CorporateProductsControl</comment>
+  </data>
+  <data name="ltrlsigninwithaccount" xml:space="preserve">
+    <value>Meld u aan met uw account</value>
+    <comment>Sign in using    //Login</comment>
+  </data>
+  <data name="ltrlsigninwithsocial" xml:space="preserve">
+    <value>Meld je aan met deze sociale netwerken</value>
+    <comment>Sign in with these social networks  //LoginControl</comment>
+  </data>
+  <data name="ltrlsubscribe" xml:space="preserve">
+    <value>Abonneer en ontvang de nieuwste exclusieve</value>
+    <comment>Subscribe and get the latest exclusive</comment>
+  </data>
+  <data name="rbHavePassword" xml:space="preserve">
+    <value>Ja, ik heb een wachtwoord</value>
+    <comment>Yes, I have a password</comment>
+  </data>
+  <data name="rbNoPassword" xml:space="preserve">
+    <value>Nee, ik ben een nieuwe klant</value>
+    <comment>No, I am a new customer</comment>
+  </data>
+  <data name="spnbillingname" xml:space="preserve">
+    <value>Factuurnaam:</value>
+    <comment>Billing Name:</comment>
+  </data>
+  <data name="spndileverydate" xml:space="preserve">
+    <value>Leveringsdatum:</value>
+    <comment>Delivery Date:</comment>
+  </data>
+  <data name="spngrndtotal" xml:space="preserve">
+    <value>Totaal:</value>
+    <comment>Grand Total:</comment>
+  </data>
+  <data name="spnorderdate" xml:space="preserve">
+    <value>Order Datum:</value>
+    <comment>Order Date:</comment>
+  </data>
+  <data name="spnordernum" xml:space="preserve">
+    <value>Order Nummer:</value>
+    <comment>Order Number:   //OrderDeatailsControl</comment>
+  </data>
+  <data name="spnorderstatus" xml:space="preserve">
+    <value>Order Status:</value>
+    <comment>Order Status:</comment>
+  </data>
+  <data name="spnshppingname" xml:space="preserve">
+    <value>Verzending Naam:</value>
+    <comment>Shipping Name:</comment>
+  </data>
+  <data name="spnsubtotal" xml:space="preserve">
+    <value>Subtotaal:</value>
+    <comment>Sub Total:</comment>
+  </data>
+  <data name="spnvattotal" xml:space="preserve">
+    <value>BTW totaal:</value>
+    <comment>Vat Total:</comment>
+  </data>
+  <data name="SvdDsgnBtn" xml:space="preserve">
+    <value>Mijn bewaarde ontwerpen</value>
+    <comment>My Saved Designs</comment>
+  </data>
+  <data name="tdblack" xml:space="preserve">
+    <value>Zwart</value>
+    <comment>Black</comment>
+  </data>
+  <data name="tdcanonlydesignorder" xml:space="preserve">
+    <value>kan alleen ontwerpen en bestellen</value>
+    <comment>can only design and order</comment>
+  </data>
+  <data name="tdcolorpicker" xml:space="preserve">
+    <value>Colour Picker</value>
+    <comment>Colour Picker   //DesignToolWin</comment>
+  </data>
+  <data name="tdcompanyopolicy" xml:space="preserve">
+    <value>BEDRIJFS BESTEL BELEID</value>
+    <comment>COMPANY ORDERING POLICY</comment>
+  </data>
+  <data name="ltrlconfirmpass" xml:space="preserve">
+    <value>Bevestig wachtwoord</value>
+    <comment>Confirm Password</comment>
+  </data>
+  <data name="tdcyan" xml:space="preserve">
+    <value>Cyaan</value>
+    <comment>Cyan</comment>
+  </data>
+  <data name="tddelivery" xml:space="preserve">
+    <value>Aflevering:</value>
+    <comment>Delivery:</comment>
+  </data>
+  <data name="tdgrandtotal" xml:space="preserve">
+    <value>Totaal te betalen:</value>
+    <comment>Grand Total:</comment>
+  </data>
+  <data name="tdmagenta" xml:space="preserve">
+    <value>Magenta</value>
+    <comment>Magenta</comment>
+  </data>
+  <data name="ltrlnewpass" xml:space="preserve">
+    <value>Nieuw wachtwoord</value>
+    <comment>New Password  //Reset PasswordControl</comment>
+  </data>
+  <data name="tdsigninwithacc" xml:space="preserve">
+    <value>autorisatiegemachtigde</value>
+    <comment>Authorizer</comment>
+  </data>
+  <data name="tdSubtotal" xml:space="preserve">
+    <value>Subtotaal:</value>
+    <comment>Sub Total:</comment>
+  </data>
+  <data name="tdsuperuser" xml:space="preserve">
+    <value>Super user</value>
+    <comment>Super user</comment>
+  </data>
+  <data name="tdUsername" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+    <comment>User Name   //CorpLogin</comment>
+  </data>
+  <data name="tdyellow" xml:space="preserve">
+    <value>Geel</value>
+    <comment>Yellow</comment>
+  </data>
+  <data name="divsigninwithacc" xml:space="preserve">
+    <value>Meld u aan met accountgegevens</value>
+    <comment>Sign in using account details</comment>
+  </data>
+  <data name="ltrlnewShippingAddress" xml:space="preserve">
+    <value>Nieuw factuur- &amp; verzendadres</value>
+    <comment>New Shipping Address</comment>
+  </data>
+  <data name="ltrlnewTerritory" xml:space="preserve">
+    <value>Nieuw bestelmachtigingsomschrijving</value>
+    <comment>New Territory</comment>
+  </data>
+  <data name="Areusureuwnt2remove" xml:space="preserve">
+    <value>Weet je zeker dat je wilt verwijderen.</value>
+    <comment>Are you sure. You want to remove.</comment>
+  </data>
+  <data name="btnSubmittxt" xml:space="preserve">
+    <value>Verzend</value>
+    <comment>Submit</comment>
+  </data>
+  <data name="CPassNotM" xml:space="preserve">
+    <value>Bevestigd wachtwoord komt niet overeen</value>
+    <comment>Confirm password do not match</comment>
+  </data>
+  <data name="Cpasswordxreq" xml:space="preserve">
+    <value>Bevestig wachtwoord vereist.</value>
+    <comment>Confirm password is required.</comment>
+  </data>
+  <data name="emailxreq" xml:space="preserve">
+    <value>Email is vereist.</value>
+    <comment>Email is required.</comment>
+  </data>
+  <data name="EnterAnswOfUQ" xml:space="preserve">
+    <value>Voer antwoord van uw vraag in.</value>
+    <comment>Enter answer of your question.</comment>
+  </data>
+  <data name="hlMyFavorites" xml:space="preserve">
+    <value>Mijn favorieten</value>
+    <comment>My Favorites</comment>
+  </data>
+  <data name="hlSavedDesigns" xml:space="preserve">
+    <value>Opgelagen ontwerpen</value>
+    <comment>Saved Designs   //header.ascx</comment>
+  </data>
+  <data name="inquirytitlexreq" xml:space="preserve">
+    <value>Aanvraag titel is vereist.</value>
+    <comment>Inquiry Title is required.</comment>
+  </data>
+  <data name="itemtitle1xreq" xml:space="preserve">
+    <value>Item titel 1 is vereist.</value>
+    <comment>Item Title 1 is required.</comment>
+  </data>
+  <data name="itemtitle2xreq" xml:space="preserve">
+    <value>Item titel 1 is vereist.</value>
+    <comment>Item Title 2 is required.</comment>
+  </data>
+  <data name="itemtitle3xreq" xml:space="preserve">
+    <value>Item titel 1 is vereist.</value>
+    <comment>Item Title 3 is required.</comment>
+  </data>
+  <data name="lblTotalpayable" xml:space="preserve">
+    <value>totaal te betalen</value>
+    <comment>Total Payable</comment>
+  </data>
+  <data name="ltrlbusinessaddress" xml:space="preserve">
+    <value>Zakelijk adres:</value>
+    <comment>Business Address:</comment>
+  </data>
+  <data name="ltrlcanapproveorder" xml:space="preserve">
+    <value>Kan orders goedkeuren</value>
+    <comment>Can Approve Orders</comment>
+  </data>
+  <data name="ltrlcplaceorder" xml:space="preserve">
+    <value>Kan order plaatsen</value>
+    <comment>Can Place Order</comment>
+  </data>
+  <data name="ltrldirectline" xml:space="preserve">
+    <value>Direct telefoonnr.:</value>
+    <comment>Direct Line:</comment>
+  </data>
+  <data name="ltrlmycompanyaddress" xml:space="preserve">
+    <value>Mijn bedrijfsadres</value>
+    <comment>My Company Address</comment>
+  </data>
+  <data name="ltrlnotes" xml:space="preserve">
+    <value>Notities</value>
+    <comment>Notes</comment>
+  </data>
+  <data name="ltrloption2" xml:space="preserve">
+    <value>Optie 2</value>
+    <comment>Option 2</comment>
+  </data>
+  <data name="ltrlreceipt" xml:space="preserve">
+    <value>Order Bevestigd</value>
+    <comment>Receipt</comment>
+  </data>
+  <data name="ltrlShowingPdT" xml:space="preserve">
+    <value>Tonen</value>
+    <comment>Showing</comment>
+  </data>
+  <data name="passwordNotM" xml:space="preserve">
+    <value>Wachtwoord komt niet overeen!</value>
+    <comment>Password not match!</comment>
+  </data>
+  <data name="Plxenteraddress1" xml:space="preserve">
+    <value>Vul adres 1 in</value>
+    <comment>Please enter address 1</comment>
+  </data>
+  <data name="Plxenteraddressname" xml:space="preserve">
+    <value>vul adresnaam in</value>
+    <comment>Please enter address name</comment>
+  </data>
+  <data name="PlxenterCEmail" xml:space="preserve">
+    <value>Bevestig je email adres.</value>
+    <comment>Please confirm your email address.</comment>
+  </data>
+  <data name="Plxentercity" xml:space="preserve">
+    <value>Vul woonplaats in</value>
+    <comment>Please enter City</comment>
+  </data>
+  <data name="plxenterCompanyName" xml:space="preserve">
+    <value>Bedrijfsnaam is vereist</value>
+    <comment>Company Name is required</comment>
+  </data>
+  <data name="PlxenterCPass" xml:space="preserve">
+    <value>Vul wachtwoord bevestiging in</value>
+    <comment>Please enter Confirm Password</comment>
+  </data>
+  <data name="Plxenteremail" xml:space="preserve">
+    <value>Vul een emailadres in</value>
+    <comment>Please enter an email address</comment>
+  </data>
+  <data name="PlxenterEmailNotS" xml:space="preserve">
+    <value>Emailadressen zijn niet gelijk</value>
+    <comment>Email addresses are not the same</comment>
+  </data>
+  <data name="PlxenterFname" xml:space="preserve">
+    <value>Vul je voornaam in</value>
+    <comment>Please enter First Name</comment>
+  </data>
+  <data name="PlxenterLname" xml:space="preserve">
+    <value>Vul je achternaam in</value>
+    <comment>Please enter Last Name</comment>
+  </data>
+  <data name="PlxenterPass" xml:space="preserve">
+    <value>Vul je wachtwoord in</value>
+    <comment>Please enter password</comment>
+  </data>
+  <data name="PlxenterSecretAns" xml:space="preserve">
+    <value>Vul je geheime antwoord in</value>
+    <comment>Please enter Secret Answer</comment>
+  </data>
+  <data name="PlxenterSQ" xml:space="preserve">
+    <value>Vul je geheime vraag in</value>
+    <comment>Please enter Secret Question</comment>
+  </data>
+  <data name="Plxenterterritoryname" xml:space="preserve">
+    <value>Vul de bestelmachtiging in</value>
+    <comment>Please enter territory name</comment>
+  </data>
+  <data name="PlxenterVEmail" xml:space="preserve">
+    <value>Gebruik een geldig emailadres</value>
+    <comment>Please Enter valid email</comment>
+  </data>
+  <data name="popupPasswordxreq" xml:space="preserve">
+    <value>Vul je wachtwoord in om verder te gaan.</value>
+    <comment>Password is required.</comment>
+  </data>
+  <data name="selectaSQ" xml:space="preserve">
+    <value>Selecteer een geheime vraag</value>
+    <comment>Select a secret question</comment>
+  </data>
+  <data name="spnbilledto" xml:space="preserve">
+    <value>Factureer aan:</value>
+    <comment>Billed To:</comment>
+  </data>
+  <data name="spndilevry" xml:space="preserve">
+    <value>Aflevering:</value>
+    <comment>Delivery:</comment>
+  </data>
+  <data name="spnestimateddispatchdate" xml:space="preserve">
+    <value>Verwachtte verzenddatum:</value>
+    <comment>Estimated dispatch date:</comment>
+  </data>
+  <data name="spngrandtotal" xml:space="preserve">
+    <value>Total:</value>
+    <comment>Grand Total:</comment>
+  </data>
+  <data name="spninvoicedate" xml:space="preserve">
+    <value>Factuurdatum:</value>
+    <comment>Invoice date:</comment>
+  </data>
+  <data name="spnitemordered" xml:space="preserve">
+    <value>Items besteld:</value>
+    <comment>Items Ordered:</comment>
+  </data>
+  <data name="spnpickupcollection" xml:space="preserve">
+    <value>Ophalen</value>
+    <comment>pickup / collection</comment>
+  </data>
+  <data name="spnplacedby" xml:space="preserve">
+    <value>Geplaatst door:</value>
+    <comment>Placed by:</comment>
+  </data>
+  <data name="spnshippedto" xml:space="preserve">
+    <value>Verzonden naar:</value>
+    <comment>Shipped To:</comment>
+  </data>
+  <data name="spnspeacilinstruction" xml:space="preserve">
+    <value>Speciale Instructie:</value>
+    <comment>Special Instruction:</comment>
+  </data>
+  <data name="spntotal" xml:space="preserve">
+    <value>Totaal:</value>
+    <comment>Total:</comment>
+  </data>
+  <data name="spnyourref" xml:space="preserve">
+    <value>Uw referentie:</value>
+    <comment>Your Ref:</comment>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Terug</value>
+    <comment>Back</comment>
+  </data>
+  <data name="btnOkMessageBox" xml:space="preserve">
+    <value>OK</value>
+    <comment>OK</comment>
+  </data>
+  <data name="btnUploadYourFile" xml:space="preserve">
+    <value>Upload artwork bestanden</value>
+    <comment>Upload artwork design // landing page</comment>
+  </data>
+  <data name="front" xml:space="preserve">
+    <value>Upload bestand</value>
+    <comment>file name in upload file productconfirmSelect.aspx</comment>
+  </data>
+  <data name="lblimageepreviewr" xml:space="preserve">
+    <value>Afbeelding preview</value>
+    <comment>Image Previewer</comment>
+  </data>
+  <data name="lbluploadudesign" xml:space="preserve">
+    <value>Upload file guide lines</value>
+    <comment>Upload Your Design</comment>
+  </data>
+  <data name="ltrlloadingplxwait" xml:space="preserve">
+    <value>Loading Please wait....</value>
+    <comment>Loading Please wait....</comment>
+  </data>
+  <data name="ltrlsubscribetxt" xml:space="preserve">
+    <value>Abonneren</value>
+    <comment>Subscribe</comment>
+  </data>
+  <data name="plxloginorregisterfirst" xml:space="preserve">
+    <value>Graag eerst inloggen of aanmelden.</value>
+    <comment>Please login / register first.</comment>
+  </data>
+  <data name="proofcheked" xml:space="preserve">
+    <value>Proef gechecked?</value>
+    <comment>Proof checked?</comment>
+  </data>
+  <data name="proofchekeddeatail" xml:space="preserve">
+    <value>U moet het selectievakje Spellingen &amp; Details selecteren om verder te gaan.</value>
+    <comment>You have to select the Spellings &amp; Details check box to proceed.</comment>
+  </data>
+  <data name="uploaddesignside1" xml:space="preserve">
+    <value>Om verder te gaan dient u uw ontwerpen te uploaden!</value>
+    <comment>Please Upload your design</comment>
+  </data>
+  <data name="uploaddesignside2" xml:space="preserve">
+    <value>Upload ontwerp voor Zijde 2</value>
+    <comment>Upload design for Side 2</comment>
+  </data>
+  <data name="btnUpdateOrder" xml:space="preserve">
+    <value>Update</value>
+    <comment>Update</comment>
+  </data>
+  <data name="lblHowToVideo" xml:space="preserve">
+    <value>How To Video</value>
+    <comment>How To Video    // Product Details Page ---Tab heading</comment>
+  </data>
+  <data name="lblLyoutHeading" xml:space="preserve">
+    <value>Layouts Grid</value>
+    <comment>Layouts Grid   // Product Details Page ---Tab heading</comment>
+  </data>
+  <data name="btnHowToVideo" xml:space="preserve">
+    <value>File Set Up</value>
+    <comment>File Set Up  //PRoduct Details -- Tab4 heading</comment>
+  </data>
+  <data name="btnIdeas" xml:space="preserve">
+    <value>Handige Informatie</value>
+    <comment>Components  //PRoduct Details -- Tab2 heading</comment>
+  </data>
+  <data name="btnLayoutGrid" xml:space="preserve">
+    <value>Belangrijkste kenmerken</value>
+    <comment>Key Features  //PRoduct Details -- Tab3 heading</comment>
+  </data>
+  <data name="btnProductDetails" xml:space="preserve">
+    <value>Omschrijving</value>
+    <comment>Specifications  //PRoduct Details -- Tab1 heading</comment>
+  </data>
+  <data name="lblRefinngOpt" xml:space="preserve">
+    <value>Extra/Afwerkings opties</value>
+    <comment>Refining Options    //PRoduct Details Refinning OPt heading</comment>
+  </data>
+  <data name="shopcartCorporateOrderCantPlace" xml:space="preserve">
+    <value>U heeft gene rechten om een bestelling te plaatsen.&lt;br&gt; Neem contact op met uw beheerder om toegang te verkrijgen.</value>
+    <comment>You don't have the right to place order.&lt;br&gt; Contact your administrator to provide you the rights.    //ShopCart Corporate don't have access </comment>
+  </data>
+  <data name="lblYoumightLke" xml:space="preserve">
+    <value>misschien wilt u ook:</value>
+    <comment>you might also like:  // RelatedItemsControl</comment>
+  </data>
+  <data name="btnClear" xml:space="preserve">
+    <value>Reset</value>
+    <comment>Reset</comment>
+  </data>
+  <data name="btnSearchOrders" xml:space="preserve">
+    <value>Ga</value>
+    <comment>Go //subscirbe.ascx</comment>
+  </data>
+  <data name="lblAddres" xml:space="preserve">
+    <value>Adres</value>
+    <comment>Address</comment>
+  </data>
+  <data name="lblChooseFrom" xml:space="preserve">
+    <value>Kies uit</value>
+    <comment>Choose from</comment>
+  </data>
+  <data name="lblComingSon" xml:space="preserve">
+    <value>Binnenkort....</value>
+    <comment>Comming Soon....</comment>
+  </data>
+  <data name="lblCompnyMesg" xml:space="preserve">
+    <value>Bedrijfs mededeling</value>
+    <comment>Company Message</comment>
+  </data>
+  <data name="lblDelivDateHeadingTxt" xml:space="preserve">
+    <value>Afleverdatum</value>
+    <comment>Delivery Date</comment>
+  </data>
+  <data name="lblDesgnHeaderTxt" xml:space="preserve">
+    <value>Ontwerp</value>
+    <comment>Design</comment>
+  </data>
+  <data name="lblOrderDateHeadingTxt" xml:space="preserve">
+    <value>Order Datum</value>
+    <comment>Order Date</comment>
+  </data>
+  <data name="lblOrderNumHeadingTxt" xml:space="preserve">
+    <value>Order Nummer</value>
+    <comment>Order Number</comment>
+  </data>
+  <data name="lblPOHeadingTxt" xml:space="preserve">
+    <value>Uw referentie (PO/kostenplaats/etc.)</value>
+    <comment>Your PO reference</comment>
+  </data>
+  <data name="lblpopIn" xml:space="preserve">
+    <value>Laat het ons voor u ontwerpen</value>
+    <comment>Lets us design it for you</comment>
+  </data>
+  <data name="lblPriceHeaderTxt" xml:space="preserve">
+    <value>Prijs</value>
+    <comment>Price</comment>
+  </data>
+  <data name="lblProductCatHeading2" xml:space="preserve">
+    <value>Rave Review</value>
+    <comment>Rave Review</comment>
+  </data>
+  <data name="lblProductTxt" xml:space="preserve">
+    <value>Product</value>
+    <comment>Product</comment>
+  </data>
+  <data name="lblQuantityHeaderTxt" xml:space="preserve">
+    <value>Oplage</value>
+    <comment>Quantity</comment>
+  </data>
+  <data name="lblRemove" xml:space="preserve">
+    <value>Verwijder</value>
+    <comment>Remove</comment>
+  </data>
+  <data name="lblStatusHeadingTxt" xml:space="preserve">
+    <value>Status</value>
+    <comment>Status</comment>
+  </data>
+  <data name="lbltemplate" xml:space="preserve">
+    <value>Templates</value>
+    <comment>Templates</comment>
+  </data>
+  <data name="lblTemplatesFor" xml:space="preserve">
+    <value>Templates voor</value>
+    <comment>Templates for</comment>
+  </data>
+  <data name="lblTitleMyAccount" xml:space="preserve">
+    <value>Mijn Account</value>
+    <comment>My Account</comment>
+  </data>
+  <data name="lblWebAdd" xml:space="preserve">
+    <value>Website url</value>
+    <comment>Website Address</comment>
+  </data>
+  <data name="lnkBtnSignOut" xml:space="preserve">
+    <value>Log uit</value>
+    <comment>Sign Out</comment>
+  </data>
+  <data name="ltrlSeendesignn" xml:space="preserve">
+    <value>Heeft u een ontwerpconcept gezien, maar wil je dit eerst met ons bespreken? Laat het ons weten.</value>
+    <comment>Seen a design concept you like but want to discuss with us first? Give us a call.</comment>
+  </data>
+  <data name="ltrlWithUS" xml:space="preserve">
+    <value>eerst met ons?</value>
+    <comment>with us first?</comment>
+  </data>
+  <data name="ltrOpt3" xml:space="preserve">
+    <value>Kies een ontwerp hieronder</value>
+    <comment>Click on a design below</comment>
+  </data>
+  <data name="ReOrderBtn" xml:space="preserve">
+    <value>Nabestellen</value>
+    <comment>Re Order</comment>
+  </data>
+  <data name="ViewBtn" xml:space="preserve">
+    <value>Bekijk</value>
+    <comment>View</comment>
+  </data>
+  <data name="lblerrorMesge" xml:space="preserve">
+    <value>Er is een fout opgetreden tijdens het opslaan van gegevens!</value>
+    <comment>An error occoured while saving data!</comment>
+  </data>
+  <data name="lblMesgSavedSuccesfully" xml:space="preserve">
+    <value>Succesvol opgeslagen!</value>
+    <comment>Saved Successfully!</comment>
+  </data>
+  <data name="lblPassChangedSuccesfully" xml:space="preserve">
+    <value>Het wachtwoord is succesvol gewijzigd.</value>
+    <comment>Password is changed successfully.</comment>
+  </data>
+  <data name="lblProdDescHeadingText" xml:space="preserve">
+    <value>Product omschrijving</value>
+    <comment>Product Description</comment>
+  </data>
+  <data name="lblTotalHeadingText" xml:space="preserve">
+    <value>Total</value>
+    <comment>Total</comment>
+  </data>
+  <data name="lblVatHeadingText" xml:space="preserve">
+    <value>BTW</value>
+    <comment>VAT</comment>
+  </data>
+  <data name="lblActionsheaderTxt" xml:space="preserve">
+    <value>Actie(s)</value>
+    <comment>Action(s)</comment>
+  </data>
+  <data name="lblOdrCreatedByHeadingTxt" xml:space="preserve">
+    <value>Order geplaatst door</value>
+    <comment>Order Created By</comment>
+  </data>
+  <data name="lblOrderProductnBtn" xml:space="preserve">
+    <value>Orders in Productie</value>
+    <comment>Orders in Production   //header.ascx</comment>
+  </data>
+  <data name="lblPendingApprovalsBtn" xml:space="preserve">
+    <value>Bestellingen In afwachting van goedkeuring</value>
+    <comment>Orders Pending Approval  // dashboard</comment>
+  </data>
+  <data name="ApproverBtn" xml:space="preserve">
+    <value>Goedkeuren</value>
+    <comment>Approve</comment>
+  </data>
+  <data name="chkDefaultAddress" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Standaard Adres</value>
+    <comment>&amp;nbsp;&amp;nbsp;&amp;nbsp;Default Address</comment>
+  </data>
+  <data name="chkShippingAddress" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Standaard Afleveradres</value>
+    <comment>&amp;nbsp;&amp;nbsp;&amp;nbsp;Default Shipping Address</comment>
+  </data>
+  <data name="hfAddressDeleted" xml:space="preserve">
+    <value>Adres succesvol verwijderd.</value>
+    <comment>Address deleted successfully.</comment>
+  </data>
+  <data name="hfAddressIsInuse" xml:space="preserve">
+    <value>Adres is in gebruik en kan niet worden verwijderd.</value>
+    <comment>Address is in used you cann't delete it.</comment>
+  </data>
+  <data name="hfAddressNameExist" xml:space="preserve">
+    <value>Adresnaam bestaat al.</value>
+    <comment>Address Name already exist.</comment>
+  </data>
+  <data name="hfAddressNotDeleted" xml:space="preserve">
+    <value>Adres niet verwijderd. Probeer nogmaals.</value>
+    <comment>Address not deleted. Try again.</comment>
+  </data>
+  <data name="hfDeprtCodeExist" xml:space="preserve">
+    <value>Afdelingsode bestaat al.</value>
+    <comment>Department Code already exist.</comment>
+  </data>
+  <data name="hfDeprtDeleted" xml:space="preserve">
+    <value>Afdeling succesvol verwijderd.</value>
+    <comment>Department deleted successfully.</comment>
+  </data>
+  <data name="hfDeprtIsInuse" xml:space="preserve">
+    <value>Afdeling is in gebruik en kan niet worden verwijderd.</value>
+    <comment>Department is in used you cann't delete it.</comment>
+  </data>
+  <data name="hfDeprtNameExist" xml:space="preserve">
+    <value>Afdelingsnaam bestaat al.</value>
+    <comment>Department Name already exist.</comment>
+  </data>
+  <data name="hfDeprtNotDeleted" xml:space="preserve">
+    <value>Afdeling niet verwijderd. Probeer nogmaals.</value>
+    <comment>Department not deleted. Try again.</comment>
+  </data>
+  <data name="HfHome" xml:space="preserve">
+    <value>Home</value>
+    <comment>Home</comment>
+  </data>
+  <data name="hfTeroryCodeExist" xml:space="preserve">
+    <value>Machtigingscode bestaat al.</value>
+    <comment>Territory Code already exist.</comment>
+  </data>
+  <data name="hfTeroryNameExist" xml:space="preserve">
+    <value>Machtigingsnaam bestaat al.</value>
+    <comment>Territory Name already exist.</comment>
+  </data>
+  <data name="hfterroryIsInuse" xml:space="preserve">
+    <value>Machtigingsgebied is in gebruik en kan niet worden verwijderd.</value>
+    <comment>Territory is in used you cann't delete it.</comment>
+  </data>
+  <data name="hfterrtoryDeleted" xml:space="preserve">
+    <value>Machtigingsgebied succesvol verwijderd.</value>
+    <comment>Territory deleted successfully.</comment>
+  </data>
+  <data name="hfterrtoryNotDeleted" xml:space="preserve">
+    <value>Machtigingsgebied niet verwijderd. Probeer het nogmaals.</value>
+    <comment>Territory not deleted. Try again.</comment>
+  </data>
+  <data name="hfUserDeleted" xml:space="preserve">
+    <value>Gebruiker succesvol verwijderd.</value>
+    <comment>User deleted successfully.</comment>
+  </data>
+  <data name="hfUserIsInuse" xml:space="preserve">
+    <value>Gebruiker is in gebruik en kan niet worden verwijderd.</value>
+    <comment>User is in used you cann't delete it.</comment>
+  </data>
+  <data name="hfUserNameExist" xml:space="preserve">
+    <value>Contact email bestaat al.</value>
+    <comment>Contact Email already exist.</comment>
+  </data>
+  <data name="hfUserNotDeleted" xml:space="preserve">
+    <value>Gebruiker niet verwijderd. Probeer nogmaals.</value>
+    <comment>User not deleted. Try again.</comment>
+  </data>
+  <data name="hfWebStorePanel" xml:space="preserve">
+    <value>Web Store Administrator Panel</value>
+    <comment>Web Store Administrator Panel</comment>
+  </data>
+  <data name="RejectBtn" xml:space="preserve">
+    <value>Afkeuren</value>
+    <comment>Reject</comment>
+  </data>
+  <data name="hfRegister" xml:space="preserve">
+    <value>Registreer</value>
+    <comment>Register</comment>
+  </data>
+  <data name="hfAnswerIncorrect" xml:space="preserve">
+    <value>Antwoord onjuist. Probeer nogmaals!</value>
+    <comment>Answer is incorrect. Please try again!</comment>
+  </data>
+  <data name="hfEmailNotSent" xml:space="preserve">
+    <value>Email niet verzonden. Probeer nogmaals!</value>
+    <comment>Email not sent. please try again!</comment>
+  </data>
+  <data name="hfPsswordSent" xml:space="preserve">
+    <value>Uw nieuwe wachtwoord is naar het bovenstaande e-mailadres gestuurd</value>
+    <comment>Your new password has been sent to the above email address</comment>
+  </data>
+  <data name="hfEmailNorRegistered" xml:space="preserve">
+    <value>w e-mailadres wordt niet geregistreerd.</value>
+    <comment>Your e-mail address is not registered.</comment>
+  </data>
+  <data name="chkCanByCredit" xml:space="preserve">
+    <value>Kan betalen met persoonlijke pas</value>
+    <comment>Can Pay By Credit Card</comment>
+  </data>
+  <data name="chkShowPricesForProduct" xml:space="preserve">
+    <value>Laat productprijzen zien</value>
+    <comment>Show Prices on Products</comment>
+  </data>
+  <data name="lblNewDepartText" xml:space="preserve">
+    <value>Nieuwe afdeling</value>
+    <comment>New Department</comment>
+  </data>
+  <data name="lnkContactUsForQuries" xml:space="preserve">
+    <value>Neem contact op met ons voor een gepersonaliseerd ontwerp en voor meer opties en grotere oplagen</value>
+    <comment>Contact us for custom artwork more quantities and options</comment>
+  </data>
+  <data name="lblCategoryHeader" xml:space="preserve">
+    <value>Selecteer een productcategorie hieronder</value>
+  </data>
+  <data name="lblProductHeader" xml:space="preserve">
+    <value>Selecteer een product hieronder</value>
+  </data>
+  <data name="anchorBrokerProd" xml:space="preserve">
+    <value>Products Manager</value>
+    <comment>Products Manager    //header.ascx</comment>
+  </data>
+  <data name="anchorChngePass" xml:space="preserve">
+    <value>Verander wachtwoord</value>
+    <comment>Change Password    //header.ascx</comment>
+  </data>
+  <data name="anchorMyFav" xml:space="preserve">
+    <value>Mijn Favorieten</value>
+    <comment>My Favorites    //header.ascx</comment>
+  </data>
+  <data name="anchorUserMgr" xml:space="preserve">
+    <value>System User Manager</value>
+    <comment>UserManager    //header.ascx</comment>
+  </data>
+  <data name="lnkHomePage" xml:space="preserve">
+    <value>Home</value>
+    <comment>Home   // header.ascx</comment>
+  </data>
+  <data name="btnEditRecord" xml:space="preserve">
+    <value>Bewerk</value>
+    <comment>Edit    // crudShippingAddress.ascx</comment>
+  </data>
+  <data name="lblNoMatchingSet" xml:space="preserve">
+    <value>No Matching set found</value>
+    <comment>No Matching set found  // matchingSet.ascx</comment>
+  </data>
+  <data name="literalAddress1" xml:space="preserve">
+    <value>Adres 1:</value>
+    <comment>Address 1:   //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="literalExt1" xml:space="preserve">
+    <value>Ext 1:</value>
+    <comment>Ext 1:     //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="LiteralExt2" xml:space="preserve">
+    <value>Ext 2:</value>
+    <comment>Ext 2:     //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="LiteralPostalCode" xml:space="preserve">
+    <value>Postcode:</value>
+    <comment>Postal Code:     //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="literalTel1" xml:space="preserve">
+    <value>Telefoon : </value>
+    <comment>Tel 1:     //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="ltlReference" xml:space="preserve">
+    <value>Reference:</value>
+    <comment>Reference:   //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="ltrlAddress2" xml:space="preserve">
+    <value>Adres 2:</value>
+    <comment>Address 2:    //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="ltrlAddress3" xml:space="preserve">
+    <value>Adres 3:</value>
+    <comment>Address 3:    //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="ltrlAddressName" xml:space="preserve">
+    <value>Adresnaam:</value>
+    <comment>Address Name:    // crudShippingAddress.ascx</comment>
+  </data>
+  <data name="ltrlCreateNew" xml:space="preserve">
+    <value>Nieuw</value>
+    <comment>Create New   //messageBoxTwo.ascx</comment>
+  </data>
+  <data name="ltrlFAO" xml:space="preserve">
+    <value>FAO:</value>
+    <comment>FAO:    //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="ltrlPriceMatrix" xml:space="preserve">
+    <value>Prijs Matrix</value>
+    <comment>Price Matrix   //productdetail.ascx</comment>
+  </data>
+  <data name="ltrlResume" xml:space="preserve">
+    <value>Ga door</value>
+    <comment>Resume   //messageBoxTwo</comment>
+  </data>
+  <data name="ltrlTel2" xml:space="preserve">
+    <value>Tel 2:</value>
+    <comment>Tel 2:     //crudShippingAddress.ascx</comment>
+  </data>
+  <data name="spnDeliveryoptn" xml:space="preserve">
+    <value>Afleverkosten:</value>
+    <comment>Deivery Cost:   //orderDetail</comment>
+  </data>
+  <data name="ltrlPoweredBy" xml:space="preserve">
+    <value>Powered by</value>
+    <comment>Powered by  //topheader.ascx</comment>
+  </data>
+  <data name="ltrlPublishedProducts" xml:space="preserve">
+    <value>Gepubliceerde producten</value>
+    <comment>Published Products  //brokerAdminPanel</comment>
+  </data>
+  <data name="lblImgPreviewer" xml:space="preserve">
+    <value>Afbeelding Previewer</value>
+    <comment>Image Previewer   //shopcart.aspx</comment>
+  </data>
+  <data name="lblMobileText" xml:space="preserve">
+    <value>Mobiel:</value>
+    <comment>Mobile:   //contactus.aspx</comment>
+  </data>
+  <data name="lblSales" xml:space="preserve">
+    <value />
+    <comment>Email:   //contactus.aspx</comment>
+  </data>
+  <data name="lblTelTxt" xml:space="preserve">
+    <value>Tel:</value>
+    <comment>Tel:    //contactus.aspx</comment>
+  </data>
+  <data name="ltrlBackToshoping" xml:space="preserve">
+    <value>TERUG NAAR WINKELPAGINA</value>
+    <comment>BACK TO SHOPPING    //shopCartAddessSelect</comment>
+  </data>
+  <data name="ltrlSearchrecords" xml:space="preserve">
+    <value>Search Records</value>
+    <comment>Search Records   //usermanager.aspx</comment>
+  </data>
+  <data name="ltrlUserManager" xml:space="preserve">
+    <value>System User Manager</value>
+    <comment>User Manager   //usermanager.aspx</comment>
+  </data>
+  <data name="ltrphone" xml:space="preserve">
+    <value>Kan betalen met credit card</value>
+    <comment>Phone   //usermanager.aspx</comment>
+  </data>
+  <data name="RemoveVoucherCode" xml:space="preserve">
+    <value>Verwijder kortingscode</value>
+    <comment>Remove voucher code   //shopcart.aspx</comment>
+  </data>
+  <data name="gvlblheadcode" xml:space="preserve">
+    <value>Kortingscode</value>
+    <comment>Voucher Code</comment>
+  </data>
+  <data name="gvlblheadfrom" xml:space="preserve">
+    <value>Geldig vanaf</value>
+    <comment>ValidFrom Date</comment>
+  </data>
+  <data name="gvlblheadupto" xml:space="preserve">
+    <value>Geldig tot</value>
+    <comment>ValidUpto Date</comment>
+  </data>
+  <data name="gvlblstatusname" xml:space="preserve">
+    <value>Status</value>
+    <comment>StatusName</comment>
+  </data>
+  <data name="lblFromValidD" xml:space="preserve">
+    <value>geldig vanaf</value>
+    <comment>Valid From Date</comment>
+  </data>
+  <data name="lblIsEnabled" xml:space="preserve">
+    <value>Actief</value>
+    <comment>IsEnabled</comment>
+  </data>
+  <data name="lblToValidDate" xml:space="preserve">
+    <value>Geldig tot</value>
+    <comment>Valid To Date</comment>
+  </data>
+  <data name="lblUpdateV" xml:space="preserve">
+    <value>Kortingscodes</value>
+    <comment>Update Voucher</comment>
+  </data>
+  <data name="lblVoucherRate" xml:space="preserve">
+    <value>Korting toegepast op het winkelwagentje (exclusief verzendkosten en BTW)</value>
+    <comment>Discount Rate</comment>
+  </data>
+  <data name="lblVouchersHead" xml:space="preserve">
+    <value>Korting Manager</value>
+    <comment>Voucher Codes</comment>
+  </data>
+  <data name="lblsearch" xml:space="preserve">
+    <value>Zoek producten</value>
+    <comment>Search Products</comment>
+  </data>
+  <data name="anchordepartments" xml:space="preserve">
+    <value>Afdelings Manager</value>
+    <comment>Departments Manager</comment>
+  </data>
+  <data name="anchorterritory" xml:space="preserve">
+    <value>Machtigingen Manager</value>
+    <comment>Territory Manager</comment>
+  </data>
+  <data name="lblCodeExits" xml:space="preserve">
+    <value>Kortingscode bestaat reeds!</value>
+  </data>
+  <data name="anchorAddressMgr" xml:space="preserve">
+    <value>Factuur- &amp; Verzendadres</value>
+    <comment>Billing &amp; Shipping Addresses</comment>
+  </data>
+  <data name="ltrlcreditlimit" xml:space="preserve">
+    <value>Krediet Limiet:</value>
+  </data>
+  <data name="divcellnumber" xml:space="preserve">
+    <value>Mobiel</value>
+    <comment>Cell Number</comment>
+  </data>
+  <data name="divfax" xml:space="preserve">
+    <value>Fax</value>
+    <comment>Fax</comment>
+  </data>
+  <data name="divjobtitle" xml:space="preserve">
+    <value>Functie</value>
+    <comment>Job Title</comment>
+  </data>
+  <data name="divlname" xml:space="preserve">
+    <value>Achternaam</value>
+    <comment>Last Name</comment>
+  </data>
+  <data name="ltrlconfirmDetails" xml:space="preserve">
+    <value>om de details nogmaals te bevestigen.</value>
+  </data>
+  <data name="ltrlSomeOmeCallU" xml:space="preserve">
+    <value>Iemand zal je binnenkort bellen </value>
+  </data>
+  <data name="btnConfrmSelectPLACEORDER" xml:space="preserve">
+    <value>PLAATS ORDER</value>
+  </data>
+  <data name="btnSUBMITFORAPPROVAL" xml:space="preserve">
+    <value>VERZEND TER GOEDKEURING</value>
+  </data>
+  <data name="btnEmailProofs" xml:space="preserve">
+    <value>EMAIL PROEVEN</value>
+  </data>
+  <data name="EmailSendSuccessfully" xml:space="preserve">
+    <value>Proeven verzonden.</value>
+    <comment>Email has been successfully send for proofing.  //shopcart.aspx</comment>
+  </data>
+  <data name="lblAdminPOHeadingTxt" xml:space="preserve">
+    <value>PO Ref.</value>
+    <comment>PO Ref.  // Orders Screen column header</comment>
+  </data>
+  <data name="ArtWorkAlert" xml:space="preserve">
+    <value>Om verder te gaan moet u uw ontwerpen te uploaden</value>
+    <comment>// Landing page</comment>
+  </data>
+  <data name="btnContinue" xml:space="preserve">
+    <value>Verder</value>
+    <comment>// mesg box 2</comment>
+  </data>
+  <data name="btnWait" xml:space="preserve">
+    <value>Wacht. Laat me uploaden</value>
+    <comment>// mesg box 2</comment>
+  </data>
+  <data name="VatResgNo" xml:space="preserve">
+    <value>ABN:</value>
+    <comment>vat number //shop receipt page</comment>
+  </data>
+  <data name="lblbtnUploadYourFile" xml:space="preserve">
+    <value>Upload artwork bestand</value>
+    <comment>//landing page</comment>
+  </data>
+  <data name="lblOnlineProof" xml:space="preserve">
+    <value>Online proeven</value>
+    <comment>online proofs // landing page </comment>
+  </data>
+  <data name="ltrlLSelectYourQ" xml:space="preserve">
+    <value>Selecteer het gewenste aantal</value>
+    <comment>// laanding page</comment>
+  </data>
+  <data name="btnSubmitPassword" xml:space="preserve">
+    <value>VERZEND</value>
+    <comment>SUBMIT</comment>
+  </data>
+  <data name="SignUPText" xml:space="preserve">
+    <value>Aanmelden</value>
+    <comment>// NewsLetter subscriber page</comment>
+  </data>
+  <data name="SubScribeText" xml:space="preserve">
+    <value>Abonneer op onze nieuwsbrief</value>
+  </data>
+  <data name="ToOurNewsletter" xml:space="preserve">
+    <value>&amp;nbsp;Op onze nieuwsbrief</value>
+    <comment>// NewsLetter subscriber page</comment>
+  </data>
+  <data name="ConfirmSubscriptionMesg" xml:space="preserve">
+    <value>Om uw inschrijving definitief te maken volgt u de instructies die u per email zijn toegestuurd.</value>
+  </data>
+  <data name="SubscriptionErrorMesg" xml:space="preserve">
+    <value>Er is al iemand ingeschreven met dit e-mailadres. Gebruik een andere e-mailadres.</value>
+  </data>
+  <data name="NewsLetterDescription" xml:space="preserve">
+    <value>Abonneer op onze nieuwsbrieven, en u zult een schat aan zakelijke tips, inspirerende ideeën, exclusieve aanbiedingen en kortingen te krijgen.</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Abonneer u op onze nieuwsbrieven, en u zult een schat aan zakelijke tips, inspirerende ideeën, exclusieve aanbiedingen en kortingen te krijgen.</value>
+  </data>
+  <data name="lnkAddtoBasket" xml:space="preserve">
+    <value>Voeg toe aan winkelwagen</value>
+    <comment>// quick calculaotr</comment>
+  </data>
+  <data name="lnkCallustodesignforyou" xml:space="preserve">
+    <value>Neem contact met ons op om uw ontwerp voor u te verzorgen</value>
+  </data>
+  <data name="lnkCONTACTINFO" xml:space="preserve">
+    <value>CONTACT INFO</value>
+    <comment>// quick links</comment>
+  </data>
+  <data name="lnkNeedaprice" xml:space="preserve">
+    <value>Prijs nodig?</value>
+    <comment>//quick calculator</comment>
+  </data>
+  <data name="lnkPAYMENTMETHOD" xml:space="preserve">
+    <value>BETAAL METHODE</value>
+    <comment>// quick links</comment>
+  </data>
+  <data name="lnkPricesfrom" xml:space="preserve">
+    <value>Online Prijzen</value>
+    <comment>//template selection</comment>
+  </data>
+  <data name="lnkUploadfilesprices" xml:space="preserve">
+    <value>Upload uw ontwerp</value>
+    <comment>//template selection</comment>
+  </data>
+  <data name="lnkAddmultiplefiles" xml:space="preserve">
+    <value>Voeg meerdere bestanden toe</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="lnkADDTOCART" xml:space="preserve">
+    <value>TOEVOEGEN AAN WINKELWAGEN</value>
+    <comment>//landing page</comment>
+  </data>
+  <data name="lnkBacktotemplates" xml:space="preserve">
+    <value>Terug naar onze ontwerpen</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="lnkfreeconsultation" xml:space="preserve">
+    <value>Neem contact met ons op voor gratis advies</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="lnkHideTabel" xml:space="preserve">
+    <value>Prijstabel verbergen</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="lnkltrlSelectQty" xml:space="preserve">
+    <value>Opties</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="lnkPerUnit" xml:space="preserve">
+    <value>Per eenheid</value>
+  </data>
+  <data name="lnkShowTbl" xml:space="preserve">
+    <value>Prijstabel laten zien</value>
+  </data>
+  <data name="lnkSupplyartwork" xml:space="preserve">
+    <value>Lever je eigen artwork aan</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="lnkWeCanDesn" xml:space="preserve">
+    <value>Wij kunnen uw artwork ontwerpen</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="ltrlTo" xml:space="preserve">
+    <value>Naar</value>
+  </data>
+  <data name="ltrlUploadParaLine1" xml:space="preserve">
+    <value>Als een PDF-document meerdere pagina's bevat zal alleen de eerste pagina 
+                                 worden weergegeven in de miniatuurweergave. Alle pagina's in het document wordt geüpload.</value>
+  </data>
+  <data name="ltrlUploadParaLine2" xml:space="preserve">
+    <value>Wij adviseren dat alle bestanden in PDF formaat worden geupload minimaal 300 dpi zijn en ingesloten lettertypen en afbeeldingen bevatten.</value>
+  </data>
+  <data name="ltrlUploadParaLine3" xml:space="preserve">
+    <value>Wij kunnen contact met u opnemen als de bestanden die geupload zijn niet geschikt zijn voor afdrukken in hoge kwaliteit. Dit kan resulteren in extra kosten.</value>
+  </data>
+  <data name="ltrlUploadParaLine4" xml:space="preserve">
+    <value>Upload limiet :</value>
+  </data>
+  <data name="ltrlUploadParaLine5" xml:space="preserve">
+    <value>We staan de upload van de volgende formaten toe :</value>
+  </data>
+  <data name="ltrlUploadParaLine6" xml:space="preserve">
+    <value>Wij geven de voorkeur aan PDF-bestanden met ingesloten objecten en lettertypen.</value>
+  </data>
+  <data name="ltrlUploadTypes" xml:space="preserve">
+    <value>&amp;nbsp;JPG, TIF, eps, PDF</value>
+  </data>
+  <data name="btnCopyincarttxt" xml:space="preserve">
+    <value>kopieer in winkelwagen</value>
+    <comment>// shooping cart</comment>
+  </data>
+  <data name="lnkBillShipto" xml:space="preserve">
+    <value>Factureer &amp; verzend aan:</value>
+    <comment>// checkout page</comment>
+  </data>
+  <data name="lnkContNo" xml:space="preserve">
+    <value>Contact Nr:</value>
+    <comment>// checkout page</comment>
+  </data>
+  <data name="lnkSpecialinstructions" xml:space="preserve">
+    <value>Speciale instructiess(notities)</value>
+    <comment>// checkout</comment>
+  </data>
+  <data name="lnkWarnMesg" xml:space="preserve">
+    <value>Momenteel ondersteunen wij geen leveringen buiten</value>
+    <comment>// checkout page</comment>
+  </data>
+  <data name="lnkYourRefPOIS" xml:space="preserve">
+    <value>Uw referentienummer (PO/kostenplaats/etc.) is:</value>
+    <comment>// checkout</comment>
+  </data>
+  <data name="ltrlShipTo" xml:space="preserve">
+    <value>Verzend naar:</value>
+    <comment>// checkout page</comment>
+  </data>
+  <data name="lnkPaymentCancelled" xml:space="preserve">
+    <value>User Cancelled</value>
+  </data>
+  <data name="marketingTipsSpec" xml:space="preserve">
+    <value>Marketing Tips</value>
+    <comment>Marketing Tips</comment>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="downloadExmp" xml:space="preserve">
+    <value>Download voorbeelden:</value>
+  </data>
+  <data name="GridDsgnForSizes" xml:space="preserve">
+    <value>Ontwerp afmetingen &amp; formaat</value>
+    <comment>// landing page</comment>
+  </data>
+  <data name="lblDEmple" xml:space="preserve">
+    <value>Download sjablonen als uitgangspunt voor het maken en uploaden van je eigen ontwerpen.</value>
+  </data>
+  <data name="lblGL1Heading" xml:space="preserve">
+    <value>Eindformaat (na het snijden):</value>
+  </data>
+  <data name="lblGL2Heading" xml:space="preserve">
+    <value>Afloopgebied:</value>
+  </data>
+  <data name="lblGL3Heading" xml:space="preserve">
+    <value>Veiligheidsmarge:</value>
+  </data>
+  <data name="lblGL4Heading" xml:space="preserve">
+    <value>Bestandsformaten</value>
+  </data>
+  <data name="lblGL5Heading" xml:space="preserve">
+    <value>Resoluties:</value>
+  </data>
+  <data name="lblGL6Heading" xml:space="preserve">
+    <value>Bestandsgrootte:</value>
+  </data>
+  <data name="lblGL7Heading" xml:space="preserve">
+    <value>Snijtekens:</value>
+  </data>
+  <data name="lblGL8Heading" xml:space="preserve">
+    <value>Pre-flight:</value>
+  </data>
+  <data name="ltrlGL1Desc" xml:space="preserve">
+    <value>Controleer het schema voor artwork maat hulp</value>
+  </data>
+  <data name="ltrlGL2Desc" xml:space="preserve">
+    <value>Zorg ervoor dat afbeeldingen en opmaakitems in het afloopgebied doorlopen om witte randen na het snijden te voorkomen</value>
+  </data>
+  <data name="ltrlGL3Desc" xml:space="preserve">
+    <value>plaats je tekst en logos 5 mm binnen de snijranden</value>
+  </data>
+  <data name="ltrlGL4Desc" xml:space="preserve">
+    <value>Photoshop, Illustrator, Indesign, PDF and Jpeg bestandsformaten.</value>
+  </data>
+  <data name="ltrlGL5Desc" xml:space="preserve">
+    <value>Sla uw bestand op in 300 dpi resolutie met ingesloten lettertypen &amp; afbeeldingen.</value>
+  </data>
+  <data name="ltrlGL6Desc" xml:space="preserve">
+    <value>Bestanden groter dan 10 mb zijn niet toegestaan voor upload.</value>
+  </data>
+  <data name="ltrlGL7Desc" xml:space="preserve">
+    <value>Voeg geen registratie- of snijtekens toe.</value>
+  </data>
+  <data name="ltrlGL8Desc" xml:space="preserve">
+    <value>Pre-flight je PDF-bestanden met behulp van Adobe PDF/ X-1a preset.</value>
+  </data>
+  <data name="lblOrderNow" xml:space="preserve">
+    <value>Bestel nu</value>
+    <comment>// category product listing</comment>
+  </data>
+  <data name="logoImgsize" xml:space="preserve">
+    <value>afbeeldingen/ logos moeten groter zijn dan 333 x 223 pixels</value>
+  </data>
+  <data name="MaxFileSize" xml:space="preserve">
+    <value>MAX bestandsgrootte 10MB</value>
+  </data>
+  <data name="PdfFormatInfo" xml:space="preserve">
+    <value>PDFs format with embeded 300 dpi</value>
+  </data>
+  <data name="Recommandedtxt" xml:space="preserve">
+    <value>Aanbevolen</value>
+  </data>
+  <data name="btnBuyNow" xml:space="preserve">
+    <value>Bestel nu</value>
+  </data>
+  <data name="WlSumMesg" xml:space="preserve">
+    <value>Hartelijk dank voor je bestelling. Marketing zal je bestelling binnen 24-48 uur beoordelen en wanneer goedgekeurd zul je de eerste proef binnen 3 werkdagen ontvangen &lt;/br&gt;&lt;/br&gt; Wanneer het niet wordt goedgekeurd zal er contact met je worden opgenomen.</value>
+  </data>
+  <data name="ClearBaseColor" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="ltrlNewVoucherPromo" xml:space="preserve">
+    <value>Ontvang de laatste promotiekortingen</value>
+  </data>
+  <data name="lblORderManagment" xml:space="preserve">
+    <value>Mijn Account</value>
+  </data>
+  <data name="lblAllOrderss" xml:space="preserve">
+    <value>Alle Orders</value>
+  </data>
+  <data name="lblAllRFQDesc" xml:space="preserve">
+    <value>Bekijk alle offerteaanvragen die door bezoekers van uw webwinkel zijn geplaatst</value>
+  </data>
+  <data name="lblBannerDesc" xml:space="preserve">
+    <value>Upload je eigen startpagina banners</value>
+  </data>
+  <data name="lblBannerMgr" xml:space="preserve">
+    <value>Banner Manager</value>
+  </data>
+  <data name="lblGAnalyticDesc" xml:space="preserve">
+    <value>Link en track uw webwinkel bezoekers.</value>
+  </data>
+  <data name="lblGoogleAnalytics" xml:space="preserve">
+    <value>Google analytic snippet</value>
+  </data>
+  <data name="lblKayWordDesc" xml:space="preserve">
+    <value>Update uw eigen zoekwoorden voor SEO doeleinden</value>
+  </data>
+  <data name="lblKeyWords" xml:space="preserve">
+    <value>Keywords</value>
+  </data>
+  <data name="lblLatLong" xml:space="preserve">
+    <value>Contactgegevens pagina en Long Lat points</value>
+  </data>
+  <data name="lblLatLongDesc" xml:space="preserve">
+    <value>Voer uw essentiële Contactgegevens in</value>
+  </data>
+  <data name="lblLCSSBack" xml:space="preserve">
+    <value>Logo, Backgrounds and CSS</value>
+  </data>
+  <data name="lblLogCSSDesc" xml:space="preserve">
+    <value>Verander de look en feel van uw webwinkel</value>
+  </data>
+  <data name="lblOrderApprovalDesc" xml:space="preserve">
+    <value>Bestelling geplaatst maar vraagt dringende beoordeling en goedkeuring</value>
+  </data>
+  <data name="lblOrderList" xml:space="preserve">
+    <value>Order lijst</value>
+  </data>
+  <data name="lblORderTracking" xml:space="preserve">
+    <value>Bestel geschiedenis en volgen</value>
+  </data>
+  <data name="lblPaypalDesc" xml:space="preserve">
+    <value>Koppel uw webwinkel voor afrekenen met PayPal</value>
+  </data>
+  <data name="lblPayPalSet" xml:space="preserve">
+    <value>PayPal settings</value>
+  </data>
+  <data name="lblProfileHistory" xml:space="preserve">
+    <value>Profiel &amp; Geschiedenis</value>
+  </data>
+  <data name="lblRegUSersDesc" xml:space="preserve">
+    <value>Zien wie zich bij uw webwinkel heeft geregistreerd</value>
+  </data>
+  <data name="lblRegUsersList" xml:space="preserve">
+    <value>Lijst Geregistreerde gebruikers</value>
+  </data>
+  <data name="lblRFQList" xml:space="preserve">
+    <value>Lijst offerteaanvragen</value>
+  </data>
+  <data name="lblScendMgr" xml:space="preserve">
+    <value>Secondaire Paginas</value>
+  </data>
+  <data name="lblSecondDesc" xml:space="preserve">
+    <value>Maak secundaire paginas. SEO voordelen</value>
+  </data>
+  <data name="lblSocialDesc" xml:space="preserve">
+    <value>Voeg sociale marketing links toe aan uw website</value>
+  </data>
+  <data name="lblSocialMgr" xml:space="preserve">
+    <value>Social Marketing links</value>
+  </data>
+  <data name="lblSubscibeDesc" xml:space="preserve">
+    <value>Zien wie wie zich aanmeldt nieuwsbrief</value>
+  </data>
+  <data name="lblSubscriberList" xml:space="preserve">
+    <value>Lijst webwinkel Abonnees</value>
+  </data>
+  <data name="lblViewCurOrderStatus" xml:space="preserve">
+    <value>Bekijk de status van lopende orders in productie</value>
+  </data>
+  <data name="lblAll" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="lblColor" xml:space="preserve">
+    <value>Kleur</value>
+  </data>
+  <data name="lblExcudePRiceMesg" xml:space="preserve">
+    <value>Getoonde rrijzen zijn exclusief</value>
+  </data>
+  <data name="lblReadMore" xml:space="preserve">
+    <value>Lees meer</value>
+  </data>
+  <data name="MarktBreifWarnMesg" xml:space="preserve">
+    <value>To submit a marketing brief please login or register.</value>
+  </data>
+  <data name="lblPassWarning" xml:space="preserve">
+    <value>Voer het juiste wachtwoord in</value>
+  </data>
+  <data name="lblPasswrd" xml:space="preserve">
+    <value>Voer uw huidige wachtwoord in:</value>
+  </data>
+  <data name="spcClientStatus" xml:space="preserve">
+    <value>Klant Status</value>
+  </data>
+
+</root>

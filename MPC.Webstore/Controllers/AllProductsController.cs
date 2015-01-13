@@ -39,5 +39,7 @@ namespace MPC.Webstore.Controllers
             ViewData["SubCats"] = model.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             return View("PartialViews/AllProducts");
         }
+
+  
     }
 }

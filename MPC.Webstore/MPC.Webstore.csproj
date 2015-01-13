@@ -232,15 +232,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIControllers\SignUpController.cs" />
-    <Compile Include="App_GlobalResources\MyResource.designer.cs">
+    <Compile Include="App_GlobalResources\1\1.fr-FR.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyResource.resx</DependentUpon>
+      <DependentUpon>1.fr-FR.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\MyResource.fr-FR.designer.cs">
+    <Compile Include="App_GlobalResources\2\2.fr-FR.designer.cs">
+      <DependentUpon>2.fr-FR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyResource.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\2\2.designer.cs">
+      <DependentUpon>2.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\1\1.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>1.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -277,6 +287,7 @@
     <Compile Include="Controllers\MarketingBriefController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
+    <Compile Include="Controllers\RealEstateItemController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
@@ -404,10 +415,13 @@
     <Content Include="Content\Designer\assets-v2\white.jpg" />
     <Content Include="Content\Designer\p103.css" />
     <Content Include="Content\Designer\DSv2.css" />
+    <Content Include="Content\Images\Listing-next-horizoltal.png" />
+    <Content Include="Content\Images\Listing-prev-horizoltal.png" />
     <Content Include="Content\Images\Sign_up_Email.PNG" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\js-image-slider.css" />
+    <Content Include="Content\ListingPropertiesCarousel.css" />
     <Content Include="Content\nifty-component.css" />
     <Content Include="Content\Designer\jquery-sunny\images\animated-overlay.gif" />
     <Content Include="Content\Designer\jquery-sunny\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
@@ -499,6 +513,7 @@
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SmartFormJCarousel.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\TransparentPopup.js" />
@@ -566,6 +581,7 @@
     <Content Include="Views\Shared\PartialViews\MatchingSet.cshtml" />
     <Content Include="Views\Shared\PartialViews\RelatedItems.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductDetail.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -575,6 +591,7 @@
     <Folder Include="Views\Default\" />
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
+    <Folder Include="Views\RealEstateItem\" />
     <Folder Include="Views\ShopCart\" />
   </ItemGroup>
   <ItemGroup>
@@ -611,20 +628,34 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\MyResource.resx">
+    <Content Include="App_GlobalResources\1\1.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>MyResource.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\MyResource.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MyResource.fr-FR.designer.cs</LastGenOutput>
+      <LastGenOutput>1.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\2\2.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>2.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\2\2.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>2.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\1\1.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>1.fr-FR.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

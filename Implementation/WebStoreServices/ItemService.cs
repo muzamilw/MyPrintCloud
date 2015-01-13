@@ -23,6 +23,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemStockControlRepository _StockRepository;
         private readonly IItemAddOnCostCentreRepository _AddOnRepository;
         private readonly IProductCategoryRepository _ProductCategoryRepository;
+        private readonly IItemAttachmentRepository _itemAtachement;
 
         #region Constructor
 
@@ -30,7 +31,8 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
-            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository)
+            , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
+            , IItemAttachmentRepository itemAtachement)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -39,6 +41,7 @@ namespace MPC.Implementation.WebStoreServices
             this._StockRepository = StockRepository;
             this._AddOnRepository = AddOnRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
+            this._itemAtachement = itemAtachement;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -50,11 +53,11 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
-        public Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, int TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
         {
-            Models.DomainModels.Company company = _CompanyRepository.GetStoreById((int)CustomerID);
-            return _ItemRepository.CloneItem(itemID, CurrentTotal, RefItemID, OrderID, CustomerID, Quantity, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID, company);
+            return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID);
         }
+
         public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
         {
             int flagId = 0;
@@ -191,14 +194,31 @@ namespace MPC.Implementation.WebStoreServices
             }
          
         }
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
+        {
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
+        }
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
+            
             return _ProductCategoryRepository.GetMappedCategory(CatName, CID);
+        }
+
+        public Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId) 
+        {
+            return _ItemRepository.GetClonedItemByOrderId(OrderId, ReferenceItemId);
         }
         //get related items list
         public List<ProductItem> GetRelatedItemsList()
         {
+            
             return _ItemRepository.GetRelatedItemsList();
+        }
+
+        public List<ItemAttachment> GetArtwork(long ItemId)
+        {
+
+            return _itemAtachement.GetArtworkAttachments(ItemId);
         }
         /// <summary>
         /// get an item according to usercookiemanager.orderid or itemid 

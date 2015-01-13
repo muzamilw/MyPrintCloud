@@ -39,9 +39,12 @@ namespace MPC.Webstore.Controllers
         {
             get { return HttpContext.GetOwinContext().Authentication; }
         }
+
+       
         // GET: LoginBar
         public ActionResult Index()
         {
+            
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
                 ViewBag.isUserLoggedIn = true;

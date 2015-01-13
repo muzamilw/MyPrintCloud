@@ -30,6 +30,12 @@ define("myOrganization/myOrganization.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to get Resouce File Contents By Language Id 
+                    amplify.request.define('getResourceFileByLanguageId', 'ajax', {
+                        url: ist.siteUrl + '/Api/LanguageEditor',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -51,6 +57,16 @@ define("myOrganization/myOrganization.dataservice", function () {
                     error: callbacks.error,
                 });
             },
+             // get Resouce File Contents By Language Id 
+            getResourceFileByLanguageId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getResourceFileByLanguageId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // Save My Organization
             saveMyOrganization = function (param, callbacks) {
                 initialize();
@@ -66,6 +82,7 @@ define("myOrganization/myOrganization.dataservice", function () {
             getMyOrganizationBase: getMyOrganizationBase,
             getMyOrganizationDetail: getMyOrganizationDetail,
             saveMyOrganization: saveMyOrganization,
+            getResourceFileByLanguageId: getResourceFileByLanguageId,
         };
     })();
 

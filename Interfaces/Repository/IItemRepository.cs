@@ -17,14 +17,13 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
 
-  
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID);
 
-        Item CloneItem(int itemID, double CurrentTotal, int RefItemID, long OrderID, int CustomerID, double Quantity, int TemplateID, int StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct,  long ObjContactID, Company NewCustomer);
         Item GetItemById(long RefitemId);
 
         ProductItem GetItemAndDetailsByItemID(long itemId);
@@ -37,35 +36,23 @@ namespace MPC.Interfaces.Repository
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
-        // get related Items
+        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
+
         List<ProductItem> GetRelatedItemsList();
-        /// <summary>
-        /// get an item according to usercookiemanager.orderid or itemid 
-        /// </summary>
-        /// <param name="ItemID"></param>
-        /// <param name="OrderID"></param>
-        /// <returns></returns>
+    
         Item GetItemByOrderAndItemID(long ItemID, long OrderID);
 
-        /// <summary>
-        /// to find the minimun price of specific Product by itemid
-        /// </summary>
-        /// <param name="itemID"></param>
-        /// <returns></returns>
         double FindMinimumPriceOfProduct(long itemID);
 
+        Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId);
+
         List<ProductItem> GetRelatedItemsByItemID(long ItemID);
-        /// <summary>
-        /// get itemimages base on item ID
-        /// </summary>
-        /// <param name="ItemID"></param>
-        /// <returns></returns>
+
         List<ItemImage> getItemImagesByItemID(long ItemID);
-         /// <summary>
-        /// get default section price flag
-        /// </summary>
-        /// <returns></returns>
+
         int GetDefaultSectionPriceFlag();
+
+        double GetMinimumProductValue(long itemId);
 
 
     }

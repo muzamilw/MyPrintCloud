@@ -48,6 +48,13 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         //public bool DeleteTemplate(int ProductID, out int CategoryID)// moved to templates service in implementation project
         //public bool DeleteTemporaryFiles(int ProductID)  // moved to templates service as DeleteTemplateFiles 
         //public void DeleteTemplateFonts(int Companyid) // moved to templates font service
+        //public int CopyTemplate(int ProductID, int SubmittedBy, string SubmittedByName) moved to template service 
+        //public List<int?> CopyTemplateList(List<int?> productIDList, int SubmittedBy, string SubmittedByName) moved to template service
+        //  public bool CreateBlankBackgroundPDFs(int TemplateID, double height, double width, int Orientation)  moved to template page service
+        //public bool CreateBlankBackgroundPDFsByPages(int TemplateID, double height, double width, int Orientation, List<TemplatePages> PagesList) // moved to template page service
+        // public string CreatePageBlankBackgroundPDFs(int TemplateID, TemplatePages oPage, double height, double width) // moved to template page svc
+        // public bool DeleteBlankBackgroundPDFsByPages(int TemplateID, List<TemplatePages> PagesList) // moved to template page svc
+        //public bool generateTemplateFromPDF(string filePhysicalPath, int mode, int templateID, int CustomerID) // moved to template svc
 
         // public MatchingSets GetMatchingSetbyID(int MatchingSetID)  //not used in webstore called from v2
         // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)//not used in webstore called from v2

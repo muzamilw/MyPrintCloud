@@ -12,7 +12,9 @@ namespace MPC.Webstore
                         "~/Scripts/jquery-1.10.2.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Slider").Include(
-                       "~/Scripts/js-image-slider.js"));
+                       "~/Scripts/js-image-slider.js",
+                       "~/Scripts/SmartFormJCarousel.js"
+                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
@@ -22,6 +24,10 @@ namespace MPC.Webstore
                      "~/Scripts/toastr.js",
                      "~/Scripts/toastr.min.js"
                      ));
+
+            bundles.Add(new ScriptBundle("~/bundles/PopUps").Include(
+                   "~/Scripts/PopUp.js"
+                   ));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

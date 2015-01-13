@@ -598,6 +598,17 @@
           <Property Name="IsFixed" Type="bit" />
           <Property Name="TypeName" Type="varchar" MaxLength="100" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CompanyVariableIcon">
+          <Key>
+            <PropertyRef Name="VariableIconId" />
+          </Key>
+          <Property Name="VariableIconId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VariableId" Type="bigint" />
+          <Property Name="Icon" Type="varchar" MaxLength="255" />
+          <Property Name="ContactCompanyId" Type="bigint" />
+        </EntityType>
         <EntityType Name="CostCentre">
           <Key>
             <PropertyRef Name="CostCentreId" />
@@ -754,6 +765,24 @@
           <Property Name="CurrencyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CurrencyCode" Type="varchar" MaxLength="50" />
           <Property Name="CurrencyName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CustomCopy">
+          <Key>
+            <PropertyRef Name="CustomCopyId" />
+          </Key>
+          <Property Name="SignboardHeadline" Type="nvarchar" MaxLength="50" />
+          <Property Name="SignboardDescription" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureHeadline" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureDescription" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureFeature1" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureFeature2" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureFeature3" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureFeature4" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureLifeStyle1" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureLifeStyle2" Type="nchar" MaxLength="10" />
+          <Property Name="BrochureLifeStyle3" Type="nchar" MaxLength="10" />
+          <Property Name="ListingId" Type="bigint" />
+          <Property Name="CustomCopyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="DeliveryNote">
           <Key>
@@ -915,6 +944,17 @@
           <Property Name="RefEstimateId" Type="bigint" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="FavoriteDesign">
+          <Key>
+            <PropertyRef Name="FavoriteDesignId" />
+          </Key>
+          <Property Name="FavoriteDesignId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateId" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="bigint" Nullable="false" />
+          <Property Name="ContactUserId" Type="bigint" Nullable="false" />
+          <Property Name="IsFavorite" Type="bit" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FieldVariable">
           <Key>
@@ -1631,6 +1671,176 @@
           <Property Name="CM" Type="float" />
           <Property Name="Inch" Type="float" />
         </EntityType>
+        <EntityType Name="Listing">
+          <Key>
+            <PropertyRef Name="ListingId" />
+          </Key>
+          <Property Name="ListingId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebID" Type="varchar" MaxLength="100" />
+          <Property Name="WebLink" Type="varchar" MaxLength="200" />
+          <Property Name="AddressDisplay" Type="varchar" MaxLength="255" />
+          <Property Name="StreetAddress" Type="varchar" MaxLength="255" />
+          <Property Name="LevelNumber" Type="int" />
+          <Property Name="LotNumber" Type="int" />
+          <Property Name="UnitNumber" Type="int" />
+          <Property Name="StreetNumber" Type="int" />
+          <Property Name="Street" Type="varchar" MaxLength="255" />
+          <Property Name="Suburb" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" />
+          <Property Name="PostCode" Type="varchar" MaxLength="50" />
+          <Property Name="PropertyName" Type="varchar" MaxLength="255" />
+          <Property Name="PropertyType" Type="varchar" MaxLength="50" />
+          <Property Name="PropertyCategory" Type="varchar" MaxLength="100" />
+          <Property Name="ListingType" Type="varchar" MaxLength="50" />
+          <Property Name="ListingDate" Type="datetime" />
+          <Property Name="ListingExpiryDate" Type="datetime" />
+          <Property Name="ListingStatus" Type="varchar" MaxLength="100" />
+          <Property Name="ListingMethod" Type="varchar" MaxLength="100" />
+          <Property Name="ListingAuthority" Type="varchar" MaxLength="255" />
+          <Property Name="InspectionTypye" Type="varchar" MaxLength="255" />
+          <Property Name="AuctionDate" Type="datetime" />
+          <Property Name="AutionVenue" Type="varchar" MaxLength="255" />
+          <Property Name="EOIClosingDate" Type="datetime" />
+          <Property Name="DisplayPrice" Type="float" />
+          <Property Name="SearchPrice" Type="float" />
+          <Property Name="RendPeriod" Type="int" />
+          <Property Name="AvailableDate" Type="datetime" />
+          <Property Name="SoldDate" Type="datetime" />
+          <Property Name="SoldPrice" Type="float" />
+          <Property Name="IsSoldPriceConfidential" Type="bit" />
+          <Property Name="MainHeadLine" Type="varchar" MaxLength="255" />
+          <Property Name="MainDescription" Type="varchar" MaxLength="2000" />
+          <Property Name="CustomCopy" Type="varchar" MaxLength="2000" />
+          <Property Name="BedRooms" Type="int" />
+          <Property Name="BathRooms" Type="int" />
+          <Property Name="LoungeRooms" Type="int" />
+          <Property Name="Toilets" Type="int" />
+          <Property Name="Studies" Type="int" />
+          <Property Name="Pools" Type="int" />
+          <Property Name="Garages" Type="int" />
+          <Property Name="Carports" Type="int" />
+          <Property Name="CarSpaces" Type="int" />
+          <Property Name="TotalParking" Type="int" />
+          <Property Name="LandArea" Type="float" />
+          <Property Name="LandAreaUnit" Type="varchar" MaxLength="10" />
+          <Property Name="BuildingAreaSqm" Type="int" />
+          <Property Name="ExternalAreaSqm" Type="int" />
+          <Property Name="FrontageM" Type="int" />
+          <Property Name="Aspect" Type="varchar" MaxLength="10" />
+          <Property Name="YearBuilt" Type="varchar" MaxLength="10" />
+          <Property Name="YearRenovated" Type="varchar" MaxLength="10" />
+          <Property Name="Construction" Type="varchar" MaxLength="50" />
+          <Property Name="PropertyCondition" Type="varchar" MaxLength="255" />
+          <Property Name="EnergyRating" Type="float" />
+          <Property Name="Features" Type="varchar" MaxLength="2000" />
+          <Property Name="WaterRates" Type="float" />
+          <Property Name="LandTax" Type="float" />
+          <Property Name="CounsilRates" Type="float" />
+          <Property Name="StrataAdmin" Type="float" />
+          <Property Name="StrataSinking" Type="float" />
+          <Property Name="OtherOutgoings" Type="float" />
+          <Property Name="LegalDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="LegalLot" Type="varchar" MaxLength="100" />
+          <Property Name="LegalDP" Type="varchar" MaxLength="100" />
+          <Property Name="LegalVol" Type="varchar" MaxLength="100" />
+          <Property Name="LegalFolio" Type="varchar" MaxLength="100" />
+          <Property Name="Zoning" Type="varchar" MaxLength="100" />
+          <Property Name="ClientListingId" Type="varchar" MaxLength="100" />
+          <Property Name="TotalOutgoings" Type="float" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ListingAgent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="bigint" />
+          <Property Name="AgentOrder" Type="int" />
+          <Property Name="ListingId" Type="bigint" />
+          <Property Name="UserRef" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Admin" Type="bit" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Phone2" Type="varchar" MaxLength="20" />
+          <Property Name="Mobile" Type="varchar" MaxLength="20" />
+          <Property Name="Deleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="ListingConjunctionAgent">
+          <Key>
+            <PropertyRef Name="ConjunctionAgentId" />
+          </Key>
+          <Property Name="ConjunctionAgentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="255" />
+          <Property Name="LastName" Type="varchar" MaxLength="255" />
+          <Property Name="Company" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="ListingId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ListingFloorPlan">
+          <Key>
+            <PropertyRef Name="FloorPlanId" />
+          </Key>
+          <Property Name="FloorPlanId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ListingId" Type="bigint" />
+          <Property Name="ImageURL" Type="varchar" MaxLength="255" />
+          <Property Name="PDFURL" Type="varchar" MaxLength="255" />
+          <Property Name="LastMode" Type="datetime" />
+          <Property Name="ClientFloorplanID" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ListingImage">
+          <Key>
+            <PropertyRef Name="ListingImageId" />
+          </Key>
+          <Property Name="ListingImageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ListingId" Type="bigint" />
+          <Property Name="ImageURL" Type="varchar" MaxLength="500" />
+          <Property Name="ImageType" Type="varchar" MaxLength="10" />
+          <Property Name="ImageOrder" Type="int" />
+          <Property Name="LastMode" Type="datetime" />
+          <Property Name="ImageRef" Type="varchar" MaxLength="50" />
+          <Property Name="PropertyRef" Type="varchar" MaxLength="50" />
+          <Property Name="ClientImageId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ListingLink">
+          <Key>
+            <PropertyRef Name="LinkId" />
+          </Key>
+          <Property Name="LinkType" Type="varchar" MaxLength="255" />
+          <Property Name="LinkURL" Type="varchar" MaxLength="255" />
+          <Property Name="LinkTitle" Type="varchar" MaxLength="255" />
+          <Property Name="ListingId" Type="bigint" />
+          <Property Name="LinkId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListingOFIs">
+          <Key>
+            <PropertyRef Name="ListingOFIId" />
+          </Key>
+          <Property Name="ListingOFIId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ListingId" Type="bigint" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="OFIRef" Type="varchar" MaxLength="50" />
+          <Property Name="ThirdPartyRef" Type="varchar" MaxLength="50" />
+          <Property Name="PropertyRef" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ListingVendor">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="200" />
+          <Property Name="LastName" Type="varchar" MaxLength="200" />
+          <Property Name="Solutation" Type="varchar" MaxLength="200" />
+          <Property Name="MailingSolutation" Type="varchar" MaxLength="200" />
+          <Property Name="Company" Type="varchar" MaxLength="200" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+          <Property Name="ListingId" Type="bigint" />
+        </EntityType>
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
@@ -1640,7 +1850,7 @@
           <Property Name="MarkUpRate" Type="float" />
           <Property Name="IsFixed" Type="int" />
           <Property Name="IsDefault" Type="bit" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Organisation">
           <Key>
@@ -1673,8 +1883,9 @@
           <Property Name="SystemWeightUnit" Type="bigint" />
           <Property Name="CurrencyId" Type="bigint" />
           <Property Name="LanguageId" Type="bigint" />
-          <Property Name="UserDomainKey" Type="int" Nullable="false" />
           <Property Name="MISLogoStreamId" Type="uniqueidentifier" />
+          <Property Name="BleedAreaSize" Type="float" />
+          <Property Name="ShowBleedArea" Type="bit" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -3070,6 +3281,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_GlobalLanguage">
+          <End Role="GlobalLanguage" Type="Self.GlobalLanguage" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalLanguage">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PageCategory_CmsPage">
           <End Role="PageCategory" Type="Self.PageCategory" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -3383,6 +3606,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="Estimate">
               <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FavoriteDesign_tbl_contacts">
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="1" />
+          <End Role="FavoriteDesign" Type="Self.FavoriteDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="FavoriteDesign">
+              <PropertyRef Name="ContactUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FavoriteDesign_tbl_items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="FavoriteDesign" Type="Self.FavoriteDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="FavoriteDesign">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3839,13 +4086,19 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="fileTableName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_cloneTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="TemplateID" Type="int" Mode="In" />
-          <Parameter Name="submittedBy" Type="int" Mode="In" />
+          <Parameter Name="TemplateID" Type="bigint" Mode="In" />
+          <Parameter Name="submittedBy" Type="bigint" Mode="In" />
           <Parameter Name="submittedByName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetMinimumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="itemId" Type="bigint" Mode="In" />
         </Function>
         <Function Name="sp_GetUsedFontsUpdated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_GetRealEstateProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
@@ -3875,11 +4128,13 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="CostCentreType" EntityType="Self.CostCentreType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomCopy" EntityType="Self.CustomCopy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryNote" EntityType="Self.DeliveryNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryNoteDetail" EntityType="Self.DeliveryNoteDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiscountVoucher" EntityType="Self.DiscountVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmailEvent" EntityType="Self.EmailEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FavoriteDesign" EntityType="Self.FavoriteDesign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FieldVariable" EntityType="Self.FieldVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
@@ -3902,6 +4157,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="ItemVDPPrice" EntityType="Self.ItemVDPPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVideo" EntityType="Self.ItemVideo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LengthUnit" EntityType="Self.LengthUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Listing" EntityType="Self.Listing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingAgent" EntityType="Self.ListingAgent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingConjunctionAgent" EntityType="Self.ListingConjunctionAgent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingFloorPlan" EntityType="Self.ListingFloorPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingImage" EntityType="Self.ListingImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingLink" EntityType="Self.ListingLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingOFIs" EntityType="Self.ListingOFIs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListingVendor" EntityType="Self.ListingVendor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageCategory" EntityType="Self.PageCategory" Schema="dbo" store:Type="Tables" />
@@ -3941,6 +4204,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyVariableIcon" EntityType="Self.CompanyVariableIcon" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CompanyVariableIcon].[VariableIconId] AS [VariableIconId], 
+    [CompanyVariableIcon].[VariableId] AS [VariableId], 
+    [CompanyVariableIcon].[Icon] AS [Icon], 
+    [CompanyVariableIcon].[ContactCompanyId] AS [ContactCompanyId]
+    FROM [dbo].[CompanyVariableIcon] AS [CompanyVariableIcon]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ArtworkFileTableView" EntityType="Self.ArtworkFileTableView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ArtworkFileTableView].[stream_id] AS [stream_id], 
@@ -4237,6 +4508,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemVideo" EntitySet="ItemVideo" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="Self.FK_Organisation_GlobalLanguage">
+            <End Role="GlobalLanguage" EntitySet="GlobalLanguage" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
             <End Role="PageCategory" EntitySet="PageCategory" />
             <End Role="CmsPage" EntitySet="CmsPage" />
@@ -4340,6 +4615,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_tbl_estimates_tbl_Statuses" Association="Self.FK_tbl_estimates_tbl_Statuses">
             <End Role="Status" EntitySet="Status" />
             <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FavoriteDesign_tbl_contacts" Association="Self.FK_tbl_FavoriteDesign_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
+            <End Role="FavoriteDesign" EntitySet="FavoriteDesign" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FavoriteDesign_tbl_items" Association="Self.FK_tbl_FavoriteDesign_tbl_items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="FavoriteDesign" EntitySet="FavoriteDesign" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_Inquiry_Attachments_tbl_Inquiry" Association="Self.FK_tbl_Inquiry_Attachments_tbl_Inquiry">
             <End Role="Inquiry" EntitySet="Inquiry" />
@@ -4839,9 +5122,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="FieldVariables" EntityType="DomainModels.FieldVariable" />
           <EntitySet Name="TemplateVariables" EntityType="DomainModels.TemplateVariable" />
           <EntitySet Name="VariableSections" EntityType="DomainModels.VariableSection" />
-          <FunctionImport Name="sp_cloneTemplate" ReturnType="Collection(Int32)" >
-            <Parameter Name="TemplateID" Mode="In" Type="Int32" />
-            <Parameter Name="submittedBy" Mode="In" Type="Int32" />
+          <FunctionImport Name="sp_cloneTemplate" ReturnType="Collection(Int64)" >
+            <Parameter Name="TemplateID" Mode="In" Type="Int64" />
+            <Parameter Name="submittedBy" Mode="In" Type="Int64" />
             <Parameter Name="submittedByName" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="TemplateBackgroundImages" EntityType="DomainModels.TemplateBackgroundImage" />
@@ -4974,6 +5257,35 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImages" />
             <End Role="ImagePermission" EntitySet="ImagePermissions" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="DomainModels.FK_Organisation_GlobalLanguage">
+            <End Role="GlobalLanguage" EntitySet="GlobalLanguages" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <FunctionImport Name="sp_GetMinimumProductValue" ReturnType="Collection(Double)">
+          <Parameter Name="itemId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="CustomCopies" EntityType="DomainModels.CustomCopy" />
+          <EntitySet Name="FavoriteDesigns" EntityType="DomainModels.FavoriteDesign" />
+          <EntitySet Name="Listings" EntityType="DomainModels.Listing" />
+          <EntitySet Name="ListingAgents" EntityType="DomainModels.ListingAgent" />
+          <EntitySet Name="ListingConjunctionAgents" EntityType="DomainModels.ListingConjunctionAgent" />
+          <EntitySet Name="ListingFloorPlans" EntityType="DomainModels.ListingFloorPlan" />
+          <EntitySet Name="ListingImages" EntityType="DomainModels.ListingImage" />
+          <EntitySet Name="ListingLinks" EntityType="DomainModels.ListingLink" />
+          <EntitySet Name="ListingOFIs" EntityType="DomainModels.ListingOFI" />
+          <EntitySet Name="ListingVendors" EntityType="DomainModels.ListingVendor" />
+          <EntitySet Name="CompanyVariableIcons" EntityType="DomainModels.CompanyVariableIcon" />
+          <AssociationSet Name="FK_tbl_FavoriteDesign_tbl_contacts" Association="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="FavoriteDesign" EntitySet="FavoriteDesigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FavoriteDesign_tbl_items" Association="DomainModels.FK_tbl_FavoriteDesign_tbl_items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="FavoriteDesign" EntitySet="FavoriteDesigns" />
+          </AssociationSet>
+          <FunctionImport Name="usp_GetRealEstateProducts" ReturnType="Collection(DomainModels.usp_GetRealEstateProducts_Result)">
+            <Parameter Name="ContactCompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5195,8 +5507,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="MarkUpRate" Type="Double" />
           <Property Name="IsFixed" Type="Int32" />
           <Property Name="IsDefault" Type="Boolean" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Prefixes" Relationship="DomainModels.FK_tbl_prefixes_tbl_markup" FromRole="Markup" ToRole="prefix" />
+          <Property Name="OrganisationId" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="Organisation">
           <Key>
@@ -5227,7 +5539,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SystemWeightUnit" Type="Int64" />
           <Property Name="CurrencyId" Type="Int64" />
           <Property Name="LanguageId" Type="Int64" />
-          <Property Name="UserDomainKey" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="Organisation" ToRole="CmsSkinPageWidget" />
           <NavigationProperty Name="SystemUsers" Relationship="DomainModels.FK_tbl_systemusers_tbl_company_sites" FromRole="Organisation" ToRole="SystemUser" />
           <Property Name="MISLogoStreamId" Type="Guid" />
@@ -5235,6 +5546,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CountryId" Type="Int64" />
           <NavigationProperty Name="Country" Relationship="DomainModels.FK__Organisat__Count__16719D3F" FromRole="Organisation" ToRole="Country" />
           <NavigationProperty Name="State" Relationship="DomainModels.FK__Organisat__State__157D7906" FromRole="Organisation" ToRole="State" />
+          <Property Name="BleedAreaSize" Type="Double" />
+          <Property Name="ShowBleedArea" Type="Boolean" />
+          <NavigationProperty Name="GlobalLanguage" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="Organisation" ToRole="GlobalLanguage" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -5811,6 +6125,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="RegistrationQuestion" Relationship="DomainModels.FK_tbl_contacts_tbl_Registration_Questions" FromRole="CompanyContact" ToRole="RegistrationQuestion" />
           <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_tbl_Inquiry_tbl_contacts" FromRole="CompanyContact" ToRole="Inquiry" />
           <NavigationProperty Name="Address" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="CompanyContact" ToRole="Address" />
+          <NavigationProperty Name="FavoriteDesigns" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" FromRole="CompanyContact" ToRole="FavoriteDesign" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -6366,6 +6681,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_Items" FromRole="Item" ToRole="ProductCategoryItem" />
           <NavigationProperty Name="ItemProductDetails" Relationship="DomainModels.FK_ItemProductDetail_Items" FromRole="Item" ToRole="ItemProductDetail" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Items_Company" FromRole="Item" ToRole="Company" />
+          <NavigationProperty Name="FavoriteDesigns" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_items" FromRole="Item" ToRole="FavoriteDesign" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -8128,6 +8444,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="FriendlyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="uiCulture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="culture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="GlobalLanguage" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="CampaignEmailQueue">
           <Key>
@@ -8958,6 +9275,259 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_GlobalLanguage">
+          <End Type="DomainModels.GlobalLanguage" Role="GlobalLanguage" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalLanguage">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustomCopy">
+          <Key>
+            <PropertyRef Name="CustomCopyId" />
+          </Key>
+          <Property Name="SignboardHeadline" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SignboardDescription" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureHeadline" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureDescription" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureFeature1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureFeature2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureFeature3" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureFeature4" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureLifeStyle1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureLifeStyle2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BrochureLifeStyle3" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ListingId" Type="Int64" />
+          <Property Name="CustomCopyId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="FavoriteDesign">
+          <Key>
+            <PropertyRef Name="FavoriteDesignId" />
+          </Key>
+          <Property Name="FavoriteDesignId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateId" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int64" Nullable="false" />
+          <Property Name="ContactUserId" Type="Int64" Nullable="false" />
+          <Property Name="IsFavorite" Type="Boolean" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" FromRole="FavoriteDesign" ToRole="CompanyContact" />
+          <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_items" FromRole="FavoriteDesign" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="Listing">
+          <Key>
+            <PropertyRef Name="ListingId" />
+          </Key>
+          <Property Name="ListingId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WebLink" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AddressDisplay" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StreetAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LevelNumber" Type="Int32" />
+          <Property Name="LotNumber" Type="Int32" />
+          <Property Name="UnitNumber" Type="Int32" />
+          <Property Name="StreetNumber" Type="Int32" />
+          <Property Name="Street" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ListingType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ListingDate" Type="DateTime" Precision="3" />
+          <Property Name="ListingExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="ListingStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ListingMethod" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ListingAuthority" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InspectionTypye" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AuctionDate" Type="DateTime" Precision="3" />
+          <Property Name="AutionVenue" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EOIClosingDate" Type="DateTime" Precision="3" />
+          <Property Name="DisplayPrice" Type="Double" />
+          <Property Name="SearchPrice" Type="Double" />
+          <Property Name="RendPeriod" Type="Int32" />
+          <Property Name="AvailableDate" Type="DateTime" Precision="3" />
+          <Property Name="SoldDate" Type="DateTime" Precision="3" />
+          <Property Name="SoldPrice" Type="Double" />
+          <Property Name="IsSoldPriceConfidential" Type="Boolean" />
+          <Property Name="MainHeadLine" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MainDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CustomCopy" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="BedRooms" Type="Int32" />
+          <Property Name="BathRooms" Type="Int32" />
+          <Property Name="LoungeRooms" Type="Int32" />
+          <Property Name="Toilets" Type="Int32" />
+          <Property Name="Studies" Type="Int32" />
+          <Property Name="Pools" Type="Int32" />
+          <Property Name="Garages" Type="Int32" />
+          <Property Name="Carports" Type="Int32" />
+          <Property Name="CarSpaces" Type="Int32" />
+          <Property Name="TotalParking" Type="Int32" />
+          <Property Name="LandArea" Type="Double" />
+          <Property Name="LandAreaUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BuildingAreaSqm" Type="Int32" />
+          <Property Name="ExternalAreaSqm" Type="Int32" />
+          <Property Name="FrontageM" Type="Int32" />
+          <Property Name="Aspect" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="YearBuilt" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="YearRenovated" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Construction" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyCondition" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EnergyRating" Type="Double" />
+          <Property Name="Features" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="WaterRates" Type="Double" />
+          <Property Name="LandTax" Type="Double" />
+          <Property Name="CounsilRates" Type="Double" />
+          <Property Name="StrataAdmin" Type="Double" />
+          <Property Name="StrataSinking" Type="Double" />
+          <Property Name="OtherOutgoings" Type="Double" />
+          <Property Name="LegalDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LegalLot" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LegalDP" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LegalVol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LegalFolio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Zoning" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClientListingId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TotalOutgoings" Type="Double" />
+          <Property Name="CompanyId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="ListingAgent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int64" />
+          <Property Name="AgentOrder" Type="Int32" />
+          <Property Name="ListingId" Type="Int64" />
+          <Property Name="UserRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Admin" Type="Boolean" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Phone2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Deleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ListingConjunctionAgent">
+          <Key>
+            <PropertyRef Name="ConjunctionAgentId" />
+          </Key>
+          <Property Name="ConjunctionAgentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Company" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ListingId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="ListingFloorPlan">
+          <Key>
+            <PropertyRef Name="FloorPlanId" />
+          </Key>
+          <Property Name="FloorPlanId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ListingId" Type="Int64" />
+          <Property Name="ImageURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PDFURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastMode" Type="DateTime" Precision="3" />
+          <Property Name="ClientFloorplanID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ListingImage">
+          <Key>
+            <PropertyRef Name="ListingImageId" />
+          </Key>
+          <Property Name="ListingImageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ListingId" Type="Int64" />
+          <Property Name="ImageURL" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ImageType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ImageOrder" Type="Int32" />
+          <Property Name="LastMode" Type="DateTime" Precision="3" />
+          <Property Name="ImageRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ClientImageId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ListingLink">
+          <Key>
+            <PropertyRef Name="LinkId" />
+          </Key>
+          <Property Name="LinkType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LinkURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LinkTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ListingId" Type="Int64" />
+          <Property Name="LinkId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="ListingOFI">
+          <Key>
+            <PropertyRef Name="ListingOFIId" />
+          </Key>
+          <Property Name="ListingOFIId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ListingId" Type="Int64" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="OFIRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ListingVendor">
+          <Key>
+            <PropertyRef Name="VendorId" />
+          </Key>
+          <Property Name="VendorId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Solutation" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MailingSolutation" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Company" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ListingId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="CompanyVariableIcon">
+          <Key>
+            <PropertyRef Name="VariableIconId" />
+          </Key>
+          <Property Name="VariableIconId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VariableId" Type="Int64" />
+          <Property Name="Icon" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContactCompanyId" Type="Int64" />
+        </EntityType>
+        <Association Name="FK_tbl_FavoriteDesign_tbl_contacts">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="1" />
+          <End Type="DomainModels.FavoriteDesign" Role="FavoriteDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="FavoriteDesign">
+              <PropertyRef Name="ContactUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FavoriteDesign_tbl_items">
+          <End Type="DomainModels.Item" Role="Item" Multiplicity="1" />
+          <End Type="DomainModels.FavoriteDesign" Role="FavoriteDesign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="FavoriteDesign">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="usp_GetRealEstateProducts_Result">
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
+          <Property Type="Int64" Name="CategoryId" Nullable="true" />
+          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ThumbnailPath" Nullable="true" MaxLength="1000" />
+          <Property Type="Int64" Name="ItemId" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9160,7 +9730,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Markups">
             <EntityTypeMapping TypeName="DomainModels.Markup">
               <MappingFragment StoreEntitySet="Markup">
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
                 <ScalarProperty Name="MarkUpRate" ColumnName="MarkUpRate" />
@@ -9172,10 +9742,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="ShowBleedArea" ColumnName="ShowBleedArea" />
+                <ScalarProperty Name="BleedAreaSize" ColumnName="BleedAreaSize" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="StateId" ColumnName="StateId" />
                 <ScalarProperty Name="MISLogoStreamId" ColumnName="MISLogoStreamId" />
-                <ScalarProperty Name="UserDomainKey" ColumnName="UserDomainKey" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="SystemWeightUnit" ColumnName="SystemWeightUnit" />
@@ -11957,6 +12528,237 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetMinimumProductValue" FunctionName="DomainModels.Store.sp_GetMinimumProductValue" />
+          <EntitySetMapping Name="CustomCopies">
+            <EntityTypeMapping TypeName="DomainModels.CustomCopy">
+              <MappingFragment StoreEntitySet="CustomCopy">
+                <ScalarProperty Name="CustomCopyId" ColumnName="CustomCopyId" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="BrochureLifeStyle3" ColumnName="BrochureLifeStyle3" />
+                <ScalarProperty Name="BrochureLifeStyle2" ColumnName="BrochureLifeStyle2" />
+                <ScalarProperty Name="BrochureLifeStyle1" ColumnName="BrochureLifeStyle1" />
+                <ScalarProperty Name="BrochureFeature4" ColumnName="BrochureFeature4" />
+                <ScalarProperty Name="BrochureFeature3" ColumnName="BrochureFeature3" />
+                <ScalarProperty Name="BrochureFeature2" ColumnName="BrochureFeature2" />
+                <ScalarProperty Name="BrochureFeature1" ColumnName="BrochureFeature1" />
+                <ScalarProperty Name="BrochureDescription" ColumnName="BrochureDescription" />
+                <ScalarProperty Name="BrochureHeadline" ColumnName="BrochureHeadline" />
+                <ScalarProperty Name="SignboardDescription" ColumnName="SignboardDescription" />
+                <ScalarProperty Name="SignboardHeadline" ColumnName="SignboardHeadline" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FavoriteDesigns">
+            <EntityTypeMapping TypeName="DomainModels.FavoriteDesign">
+              <MappingFragment StoreEntitySet="FavoriteDesign">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
+                <ScalarProperty Name="ContactUserId" ColumnName="ContactUserId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="FavoriteDesignId" ColumnName="FavoriteDesignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Listings">
+            <EntityTypeMapping TypeName="DomainModels.Listing">
+              <MappingFragment StoreEntitySet="Listing">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TotalOutgoings" ColumnName="TotalOutgoings" />
+                <ScalarProperty Name="ClientListingId" ColumnName="ClientListingId" />
+                <ScalarProperty Name="Zoning" ColumnName="Zoning" />
+                <ScalarProperty Name="LegalFolio" ColumnName="LegalFolio" />
+                <ScalarProperty Name="LegalVol" ColumnName="LegalVol" />
+                <ScalarProperty Name="LegalDP" ColumnName="LegalDP" />
+                <ScalarProperty Name="LegalLot" ColumnName="LegalLot" />
+                <ScalarProperty Name="LegalDescription" ColumnName="LegalDescription" />
+                <ScalarProperty Name="OtherOutgoings" ColumnName="OtherOutgoings" />
+                <ScalarProperty Name="StrataSinking" ColumnName="StrataSinking" />
+                <ScalarProperty Name="StrataAdmin" ColumnName="StrataAdmin" />
+                <ScalarProperty Name="CounsilRates" ColumnName="CounsilRates" />
+                <ScalarProperty Name="LandTax" ColumnName="LandTax" />
+                <ScalarProperty Name="WaterRates" ColumnName="WaterRates" />
+                <ScalarProperty Name="Features" ColumnName="Features" />
+                <ScalarProperty Name="EnergyRating" ColumnName="EnergyRating" />
+                <ScalarProperty Name="PropertyCondition" ColumnName="PropertyCondition" />
+                <ScalarProperty Name="Construction" ColumnName="Construction" />
+                <ScalarProperty Name="YearRenovated" ColumnName="YearRenovated" />
+                <ScalarProperty Name="YearBuilt" ColumnName="YearBuilt" />
+                <ScalarProperty Name="Aspect" ColumnName="Aspect" />
+                <ScalarProperty Name="FrontageM" ColumnName="FrontageM" />
+                <ScalarProperty Name="ExternalAreaSqm" ColumnName="ExternalAreaSqm" />
+                <ScalarProperty Name="BuildingAreaSqm" ColumnName="BuildingAreaSqm" />
+                <ScalarProperty Name="LandAreaUnit" ColumnName="LandAreaUnit" />
+                <ScalarProperty Name="LandArea" ColumnName="LandArea" />
+                <ScalarProperty Name="TotalParking" ColumnName="TotalParking" />
+                <ScalarProperty Name="CarSpaces" ColumnName="CarSpaces" />
+                <ScalarProperty Name="Carports" ColumnName="Carports" />
+                <ScalarProperty Name="Garages" ColumnName="Garages" />
+                <ScalarProperty Name="Pools" ColumnName="Pools" />
+                <ScalarProperty Name="Studies" ColumnName="Studies" />
+                <ScalarProperty Name="Toilets" ColumnName="Toilets" />
+                <ScalarProperty Name="LoungeRooms" ColumnName="LoungeRooms" />
+                <ScalarProperty Name="BathRooms" ColumnName="BathRooms" />
+                <ScalarProperty Name="BedRooms" ColumnName="BedRooms" />
+                <ScalarProperty Name="CustomCopy" ColumnName="CustomCopy" />
+                <ScalarProperty Name="MainDescription" ColumnName="MainDescription" />
+                <ScalarProperty Name="MainHeadLine" ColumnName="MainHeadLine" />
+                <ScalarProperty Name="IsSoldPriceConfidential" ColumnName="IsSoldPriceConfidential" />
+                <ScalarProperty Name="SoldPrice" ColumnName="SoldPrice" />
+                <ScalarProperty Name="SoldDate" ColumnName="SoldDate" />
+                <ScalarProperty Name="AvailableDate" ColumnName="AvailableDate" />
+                <ScalarProperty Name="RendPeriod" ColumnName="RendPeriod" />
+                <ScalarProperty Name="SearchPrice" ColumnName="SearchPrice" />
+                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
+                <ScalarProperty Name="EOIClosingDate" ColumnName="EOIClosingDate" />
+                <ScalarProperty Name="AutionVenue" ColumnName="AutionVenue" />
+                <ScalarProperty Name="AuctionDate" ColumnName="AuctionDate" />
+                <ScalarProperty Name="InspectionTypye" ColumnName="InspectionTypye" />
+                <ScalarProperty Name="ListingAuthority" ColumnName="ListingAuthority" />
+                <ScalarProperty Name="ListingMethod" ColumnName="ListingMethod" />
+                <ScalarProperty Name="ListingStatus" ColumnName="ListingStatus" />
+                <ScalarProperty Name="ListingExpiryDate" ColumnName="ListingExpiryDate" />
+                <ScalarProperty Name="ListingDate" ColumnName="ListingDate" />
+                <ScalarProperty Name="ListingType" ColumnName="ListingType" />
+                <ScalarProperty Name="PropertyCategory" ColumnName="PropertyCategory" />
+                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="LotNumber" ColumnName="LotNumber" />
+                <ScalarProperty Name="LevelNumber" ColumnName="LevelNumber" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="AddressDisplay" ColumnName="AddressDisplay" />
+                <ScalarProperty Name="WebLink" ColumnName="WebLink" />
+                <ScalarProperty Name="WebID" ColumnName="WebID" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListingAgents">
+            <EntityTypeMapping TypeName="DomainModels.ListingAgent">
+              <MappingFragment StoreEntitySet="ListingAgent">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Admin" ColumnName="Admin" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserRef" ColumnName="UserRef" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="AgentOrder" ColumnName="AgentOrder" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListingConjunctionAgents">
+            <EntityTypeMapping TypeName="DomainModels.ListingConjunctionAgent">
+              <MappingFragment StoreEntitySet="ListingConjunctionAgent">
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ConjunctionAgentId" ColumnName="ConjunctionAgentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListingFloorPlans">
+            <EntityTypeMapping TypeName="DomainModels.ListingFloorPlan">
+              <MappingFragment StoreEntitySet="ListingFloorPlan">
+                <ScalarProperty Name="ClientFloorplanID" ColumnName="ClientFloorplanID" />
+                <ScalarProperty Name="LastMode" ColumnName="LastMode" />
+                <ScalarProperty Name="PDFURL" ColumnName="PDFURL" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="FloorPlanId" ColumnName="FloorPlanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListingImages">
+            <EntityTypeMapping TypeName="DomainModels.ListingImage">
+              <MappingFragment StoreEntitySet="ListingImage">
+                <ScalarProperty Name="ClientImageId" ColumnName="ClientImageId" />
+                <ScalarProperty Name="PropertyRef" ColumnName="PropertyRef" />
+                <ScalarProperty Name="ImageRef" ColumnName="ImageRef" />
+                <ScalarProperty Name="LastMode" ColumnName="LastMode" />
+                <ScalarProperty Name="ImageOrder" ColumnName="ImageOrder" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="ListingImageId" ColumnName="ListingImageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListingLinks">
+            <EntityTypeMapping TypeName="DomainModels.ListingLink">
+              <MappingFragment StoreEntitySet="ListingLink">
+                <ScalarProperty Name="LinkId" ColumnName="LinkId" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="LinkTitle" ColumnName="LinkTitle" />
+                <ScalarProperty Name="LinkURL" ColumnName="LinkURL" />
+                <ScalarProperty Name="LinkType" ColumnName="LinkType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListingOFIs">
+            <EntityTypeMapping TypeName="DomainModels.ListingOFI">
+              <MappingFragment StoreEntitySet="ListingOFIs">
+                <ScalarProperty Name="PropertyRef" ColumnName="PropertyRef" />
+                <ScalarProperty Name="ThirdPartyRef" ColumnName="ThirdPartyRef" />
+                <ScalarProperty Name="OFIRef" ColumnName="OFIRef" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="ListingOFIId" ColumnName="ListingOFIId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListingVendors">
+            <EntityTypeMapping TypeName="DomainModels.ListingVendor">
+              <MappingFragment StoreEntitySet="ListingVendor">
+                <ScalarProperty Name="ListingId" ColumnName="ListingId" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="MailingSolutation" ColumnName="MailingSolutation" />
+                <ScalarProperty Name="Solutation" ColumnName="Solutation" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyVariableIcons">
+            <EntityTypeMapping TypeName="DomainModels.CompanyVariableIcon">
+              <MappingFragment StoreEntitySet="CompanyVariableIcon">
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="VariableId" ColumnName="VariableId" />
+                <ScalarProperty Name="VariableIconId" ColumnName="VariableIconId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetRealEstateProducts" FunctionName="DomainModels.Store.usp_GetRealEstateProducts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_GetRealEstateProducts_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

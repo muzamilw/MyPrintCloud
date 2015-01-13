@@ -66,24 +66,24 @@
                         <div id="Maincontainer" class="CAT_Body rounded_corners" >
                             <div class="LCLB">
                                 @{
-                                    Regex reg = new Regex("[\\s;\\/:*?\"<>|&']", RegexOptions.IgnoreCase);
-                                    string categoryName = reg.Replace(cat.CategoryName, "-");
+                        Regex reg = new Regex("[\\s;\\/:*?\"<>|&']", RegexOptions.IgnoreCase);
+                        string categoryName = reg.Replace(cat.CategoryName, "-");
 
-                                    <a id="hlCategory" href="/Category/@categoryName/@cat.ProductCategoryId">
-                                        <div class="PDTC_CAT FI_CAT">
-                                            @{
-                                                string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
-                                                if (string.IsNullOrEmpty(AppBasePath))
-                                                {
-                                                    AppBasePath = string.Empty;
-                                                }
-                                                string ThumbPath = AppBasePath + @cat.ThumbnailPath;
-                                                <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@ThumbPath' />
-                                            }
-                                           
-                                        </div>
-                                    </a>
-                                 }
+                        <a id="hlCategory" href="/Category/@categoryName/@cat.ProductCategoryId" onclick="ShowLoader();">
+                            <div class="PDTC_CAT FI_CAT">
+                                @{
+                        string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                        if (string.IsNullOrEmpty(AppBasePath))
+                        {
+                            AppBasePath = string.Empty;
+                        }
+                        string ThumbPath = AppBasePath + @cat.ThumbnailPath;
+                        <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@ThumbPath' />
+                                }
+
+                            </div>
+                        </a>
+                                }
                             </div>
                             <div class="product_detail_image_heading_CAT">
                                 <label id="lblProductName">@cat.CategoryName</label>
@@ -148,7 +148,7 @@
                                            }
                                             @if (isUploadImage == false)
                                             {
-                                                <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })">
+                                                <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
                                                     <div class="PDTC_CatProd FI_CatProd">
                                                         @{
 
@@ -174,7 +174,7 @@
                                                 {
                                                     if (ViewBag.IsUserLogin == true) // check if user login or not ??
                                                     {
-                                                        <a id="hlProductDetail" href="@RedirectURL">
+                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -198,7 +198,7 @@
                                                     {
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
-                                    
+
                                                         <a id="hlProductDetail" href="#" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
@@ -222,7 +222,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <a id="hlProductDetail" href="@RedirectURL">
+                                                    <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
 
                                                         <div class="PDTC_CatProd FI_CatProd">
                                                             @{
@@ -275,7 +275,7 @@
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: left;">
-                                                   @Resources.MyResource.lblQuantity
+                                                   Quantity
                                                 </td>
                                                 <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">

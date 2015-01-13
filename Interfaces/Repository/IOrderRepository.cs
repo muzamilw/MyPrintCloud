@@ -33,5 +33,13 @@ namespace MPC.Interfaces.Repository
         double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
 
         bool ResetOrderVoucherCode(int orderId);
+        /// <summary>
+        /// returns the order id of a logged in user if order exist in cart
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        long GetCartOrderId(long contactId, long CompanyId);
+
+
     }
 }

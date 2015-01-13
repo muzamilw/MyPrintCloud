@@ -377,10 +377,15 @@ define("product/product.viewModel",
                     doBeforeSave = function () {
                         var flag = true;
                         if (!selectedProduct().isValid()) {
-                            selectedProduct().errors.showAllMessages();
+                            selectedProduct().showAllErrors();
+                            selectedProduct().setValidationSummary(errorList);
                             flag = false;
                         }
                         return flag;
+                    },
+                    // Go To Element
+                    gotoElement = function(validation) {
+                        view.gotoElement(validation.element);
                     },
                     // Get Item From List
                     getItemFromList = function (id) {
@@ -444,8 +449,9 @@ define("product/product.viewModel",
                         suppliers.valueHasMutated();
                     },
                     // Set Item Price Matrices to Current Item against selected Flag
-                    setItemPriceMatricesToItem = function(itemPriceMatrices) {
-                        if (!itemPriceMatrices || itemPriceMatrices.length === 0) {
+                    setItemPriceMatricesToItem = function (itemPriceMatrices) {
+                        // Only ask for confirmation if it is not a new product
+                        if ((!itemPriceMatrices || itemPriceMatrices.length === 0) && selectedProduct().id()) {
                             confirmation.messageText("There are no price items against this flag. Do you want to Add New?");
                             confirmation.afterProceed(selectedProduct().setItemPriceMatrices); 
                             confirmation.afterCancel(selectedProduct().removeExistingPriceMatrices);
@@ -496,6 +502,9 @@ define("product/product.viewModel",
                                     // Update Id
                                     selectedProduct().id(data.ItemId);
 
+                                    // Update Min Price
+                                    selectedProduct().miniPrice(data.MinPrice || 0);
+
                                     // Add to top of list
                                     products.splice(0, 0, selectedProduct());
                                 }
@@ -507,6 +516,7 @@ define("product/product.viewModel",
                                         item.productName(data.ProductName);
                                         item.isEnabled(data.IsEnabled);
                                         item.isPublished(data.IsPublished);
+                                        item.miniPrice(data.MinPrice || 0);
                                     }
                                 }
 
@@ -688,7 +698,8 @@ define("product/product.viewModel",
                     openStockItemDialog: openStockItemDialog,
                     closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
-                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog
+                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
+                    gotoElement: gotoElement
                     // Utility Methods
 
                 };

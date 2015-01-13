@@ -64,7 +64,7 @@ namespace MPC.Repository.Repositories
                                         MinimumCost = costcenter.MinimumCost,
                                         AddOnImage = costcenter.ThumbnailImageURL,
                                         Priority = costcenter.Priority ?? 0,
-                                        ItemStockOptionId = options.ItemStockOptionId
+                                        ItemStockId = options.StockId ?? 0
                             };
             return query.ToList<AddOnCostsCenter>();
         }

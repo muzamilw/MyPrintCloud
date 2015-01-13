@@ -49,21 +49,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
          
         }
 
-        //[System.Web.Http.AcceptVerbs("GET", "POST")]
-        //[System.Web.Http.HttpGet]
-        //// Important: if called from MIS call implementation function instead of this function because organizationID will not exist in cookie when called from MIS
-        //public string DeleteTemplate(long id)
-        //{
-        //    long categoryID = 0;
-        //    long organizationId = UserCookieManager.OrganisationID;
-        //    bool result = templateService.DeleteTemplateFiles(id,organizationId) ;
-        //    var formatter = new JsonMediaTypeFormatter();
-        //    var json = formatter.SerializerSettings;
-        //    json.Formatting = Newtonsoft.Json.Formatting.Indented;
-        //    json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        //    return result.ToString();
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        // Important: if called from MIS call implementation function instead of this function because organizationID will not exist in cookie when called from MIS
+        public string testTemplate(long id)
+        {
+            long organizationId = UserCookieManager.OrganisationID;
+            var result = templateService.generateTemplateFromPDF("F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\organization1\\Templates\\random__CorporateTemplateUpload.pdf",2, id, 1);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return result.ToString();
 
-        //}
+        }
         // public string preview(Stream data)
         //    public string update(Stream data)// not used in new designer 
         // public string savecontine(Stream data)// not used in new designer 

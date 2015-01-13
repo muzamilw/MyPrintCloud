@@ -379,6 +379,9 @@ namespace MPC.Models.DomainModels
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
 
+        [NotMapped]
+        public double MinPrice { get; set; }
+
         #endregion
 
         #region Reference Properties
@@ -406,8 +409,9 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
         public virtual ICollection<ItemProductDetail> ItemProductDetails { get; set; }
+        public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
 
-        #endregion
+            #endregion
         #region Additional Properties
 
         [NotMapped]
@@ -417,11 +421,32 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string GridImageSourceName { get; set; }
         [NotMapped]
-        public byte[] ThumbnailImage { get; set; }
+        public string ThumbnailImage { get; set; }
         [NotMapped]
-        public byte[] GridImageBytes { get; set; }
+        public string GridImageBytes { get; set; }
         [NotMapped]
-        public byte[] ImagePathImage { get; set; }
+        public string ImagePathImage { get; set; }
+        [NotMapped]
+        public string File1Name { get; set; }
+        [NotMapped]
+        public string File2Name { get; set; }
+        [NotMapped]
+        public string File3Name { get; set; }
+        [NotMapped]
+        public string File4Name { get; set; }
+        [NotMapped]
+        public string File5Name { get; set; }
+
+        [NotMapped]
+        public string File1Byte { get; set; }
+        [NotMapped]
+        public string File2Byte { get; set; }
+        [NotMapped]
+        public string File3Byte { get; set; }
+        [NotMapped]
+        public string File4Byte { get; set; }
+        [NotMapped]
+        public string File5Byte { get; set; }
 
         #endregion
     }

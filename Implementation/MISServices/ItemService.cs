@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
+using System.IO;
+using System.Web;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -196,6 +199,46 @@ namespace MPC.Implementation.MISServices
             ItemProductDetail line = itemProductDetailRepository.Create();
             itemProductDetailRepository.Add(line);
             return line;
+        }
+        
+        /// <summary>
+        /// Save Product Images
+        /// </summary>
+        private void SaveProductImages(Item target)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+            
+            // Create directory if not there
+            if (!Directory.Exists(mapPath))
+            {
+                Directory.CreateDirectory(mapPath);
+            }
+
+            // Save Item Stock Option Images
+            foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
+            {
+                if (!string.IsNullOrEmpty(itemStockOption.FileSource))
+                {
+                    // Look if file already exists then replace it
+                    if (!string.IsNullOrEmpty(itemStockOption.ImageURL) && File.Exists(itemStockOption.ImageURL))
+                    {
+                        // Remove Existing File
+                        File.Delete(itemStockOption.ImageURL);
+                    }
+
+                    // First Time Upload
+                    string imageurl = mapPath + "\\" + itemStockOption.FileName + "_" +
+                                      itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence;
+                    File.WriteAllBytes(imageurl, itemStockOption.FileSourceBytes);
+
+                    // Update Item Stock Option Image Url
+                    itemStockOption.ImageURL = imageurl;
+                }
+            }
+
+            itemRepository.SaveChanges();
         }
 
         #endregion
@@ -416,6 +459,7 @@ namespace MPC.Implementation.MISServices
                 itemRepository.Add(itemTarget);
                 itemTarget.ItemCreationDateTime = DateTime.Now;
                 itemTarget.ItemCode = itemCode;
+                itemTarget.OrganisationId = itemRepository.OrganisationId;
             }
 
             // Update
@@ -443,8 +487,14 @@ namespace MPC.Implementation.MISServices
             // Save Changes
             itemRepository.SaveChanges();
 
+            // Save Images and Update Item
+            SaveProductImages(itemTarget);
+
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
+
+            // Get Updated Minimum Price
+            itemTarget.MinPrice = itemRepository.GetMinimumProductValue(itemTarget.ItemId);
 
             // Return Item
             return itemTarget;

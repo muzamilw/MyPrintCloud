@@ -15,16 +15,15 @@ namespace MPC.Interfaces.Repository
 
         string GetTemplateNameByTemplateID(long tempID);
 
-        int CloneTemplateByTemplateID(int TempID);
-
+        long CloneTemplateByTemplateID(long TempID);
+        void DeleteTemplatePagesAndObjects(long ProductID);
+        void DeleteTemplatePagesAndObjects(long ProductID, out List<TemplateObject> listObjs,out List<TemplatePage> listPages);
         bool DeleteTemplate(long ProductID, out long CategoryID);
-        /// <summary>
-        /// To populate the template information base on template id and item rec by zohaib 10/1/2015
-        /// </summary>
-        /// <param name="templateID"></param>
-        /// <param name="ItemRecc"></param>
-        /// <param name="template"></param>
-        /// <param name="tempPages"></param>
         void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages);
+
+        bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listPages);
+        bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listNewPages, List<TemplatePage> listOldPages, List<TemplateObject> listObjects);
+        long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages);
+      
     }
 }

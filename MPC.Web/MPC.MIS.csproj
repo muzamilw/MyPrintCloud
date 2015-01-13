@@ -251,6 +251,8 @@
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
+    <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
+    <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CmsPageLayoutDetailController.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Areas\Api\ModelMappers\CurrencyMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GlobalLanguageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemProductDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\LanguageEditorMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CountryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
@@ -435,6 +438,16 @@
     <Compile Include="Areas\Api\Models\TaxRate.cs" />
     <Compile Include="Areas\Api\Models\WeightUnitDropDown.cs" />
     <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
+    <Compile Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MPC_Content\Resources\Organisation1\fr-FR\LanguageResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\Api\Models\CompanyResponse.cs" />
     <Compile Include="Areas\Api\Models\InventoryBaseResponse.cs" />
@@ -2610,7 +2623,6 @@
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
-    <Folder Include="MPC_Content\Resources\" />
     <Folder Include="MPC_Content\SecondaryPages\" />
     <Folder Include="MPC_Content\Stores\" />
     <Folder Include="Reports\" />
@@ -2655,6 +2667,14 @@
     <EmbeddedResource Include="Areas\Api\LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MPC_Content\Resources\Organisation1\fr-FR\LanguageResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

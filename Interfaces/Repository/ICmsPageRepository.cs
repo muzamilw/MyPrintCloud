@@ -18,5 +18,10 @@ namespace MPC.Interfaces.Repository
         /// Get CMS Pages
         /// </summary>
         SecondaryPageResponse GetCMSPages(SecondaryPageRequestModel request);
+        /// <summary>
+        /// Get All enabled System Pages 
+        /// </summary>
+        /// <returns></returns>
+        List<CmsPage> GetSystemPagesAndSecondaryPages(long CompanyId);
     }
 }
