@@ -27,7 +27,8 @@ namespace MPC.Models.ModelMappers
             target.StockId = source.StockId;
             target.ItemId = source.ItemId;
             target.StockLabel = source.StockLabel;
-            target.ImageURL = source.ImageURL;
+            target.FileSource = source.FileSource;
+            target.FileName = source.FileName;
             target.OptionSequence = source.OptionSequence;
         }
 

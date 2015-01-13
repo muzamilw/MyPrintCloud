@@ -79,7 +79,7 @@ define("product/product.view",
 
                     // Scroll to Element
                     setTimeout(function() {
-                        window.scrollTo($(element).offset().left, $(element).offset().top - 20);
+                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
                         // Focus on element
                         $(element).focus();
                     }, 1000);

@@ -719,6 +719,9 @@
                         selectedProduct().storeProductThumbnailFileBinary(data);
                         selectedProduct().storeProductThumbnailFileName(file.name);
                     },
+                    fileCallback = function (file, data) {
+                        uploadMultipleFiles(file, data);
+                    },
                     
                     storeProductPageBannerFileCallback = function (file, data) {
                         selectedProduct().storeProductPageBannerFileBinary(data);
@@ -730,6 +733,41 @@
                         selectedProduct().storeProductGridImageLayoutFileName(file.name);
                     },
 
+                    uploadMultipleFiles = function (file, data) {
+                        
+                        if (selectedProduct().file1() == undefined) {
+                            selectedProduct().file1(data);
+                            selectedProduct().file1Name(file.name);
+                            return;
+                        }
+                        if (selectedProduct().file2() == undefined) {
+                            selectedProduct().file2(data);
+                            selectedProduct().file2Name(file.name);
+                            return;
+                        }
+                        if (selectedProduct().file3() == undefined) {
+                            selectedProduct().file3(data);
+                            selectedProduct().file3Name(file.name);
+                            return;
+                        }
+                        if (selectedProduct().file4() == undefined) {
+                            selectedProduct().file4(data);
+                            selectedProduct().file4Name(file.name);
+                            return;
+                        }
+                        if (selectedProduct().file5() == undefined) {
+                            selectedProduct().file5(data);
+                            selectedProduct().file5Name(file.name);
+                            return;
+                        }
+                    },
+                    removeAllFilesData= function() {
+                        selectedProduct().file1(undefined);
+                        selectedProduct().file2(undefined);
+                        selectedProduct().file3(undefined);
+                        selectedProduct().file4(undefined);
+                        selectedProduct().file5(undefined);
+                    },
                 //#endregion
                 //#endregion
                 //#region Initialize
@@ -778,9 +816,11 @@
                     deletedproducts: deletedproducts,
                     selectProduct: selectProduct,
                     resetObservables: resetObservables,
+                    fileCallback: fileCallback,
                     storeProductThumbnailFileCallback: storeProductThumbnailFileCallback,
                     storeProductPageBannerFileCallback: storeProductPageBannerFileCallback ,
                     storeProductGridImageLayoutFileCallback: storeProductGridImageLayoutFileCallback,
+                    removeAllFilesData: removeAllFilesData,
                     //#endregion
                     // #region Utility Methods
                     initialize: initialize,

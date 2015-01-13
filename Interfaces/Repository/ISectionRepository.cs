@@ -8,5 +8,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ISectionRepository : IBaseRepository<Section, long>
     {
+       
     }
 }

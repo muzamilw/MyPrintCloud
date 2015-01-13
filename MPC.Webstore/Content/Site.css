@@ -10316,7 +10316,7 @@ a.PinkRegBack:active
 
 .artworkarrow
 {
-    display: none;
+    display: block;
     width: 310px;
     margin-top: 30px;
     float: left;

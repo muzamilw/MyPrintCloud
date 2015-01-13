@@ -47,5 +47,10 @@ namespace MPC.Interfaces.Repository
         /// <param name="ReferenceItemId"></param>
         /// <returns></returns>
         Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId);
+
+        /// <summary>
+        /// Get Minimum product Value
+        /// </summary>
+        double GetMinimumProductValue(long itemId);
     }
 }
