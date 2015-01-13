@@ -1,5 +1,10 @@
-﻿using System.Web.Http;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -29,9 +34,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Sections
         /// </summary>
-        public void Get()
+        public IEnumerable<SectionForPhraseLibrary> Get()
         {
-            phraseLibraryService.GetSections();
+            return phraseLibraryService.GetSections().Select(s => s.CreateFrom());
 
         }
 

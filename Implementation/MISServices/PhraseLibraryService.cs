@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -17,6 +18,8 @@ namespace MPC.Implementation.MISServices
         /// Private members
         /// </summary>
         private readonly ISectionRepository sectionRepository;
+        private readonly IPhraseRespository phraseRespository;
+        private readonly IPhraseFieldRepository phraseFieldRepository;
 
         #endregion
 
@@ -25,9 +28,11 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public PhraseLibraryService(ISectionRepository sectionRepository)
+        public PhraseLibraryService(ISectionRepository sectionRepository, IPhraseRespository phraseRespository, IPhraseFieldRepository phraseFieldRepository)
         {
             this.sectionRepository = sectionRepository;
+            this.phraseRespository = phraseRespository;
+            this.phraseFieldRepository = phraseFieldRepository;
         }
 
         #endregion
@@ -36,16 +41,28 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get All Section
         /// </summary>
-        public void GetSections()
+        public IEnumerable<Section> GetSections()
         {
-            List<Section> sections = sectionRepository.GetAll().ToList();
+            IEnumerable<Section> sections = sectionRepository.GetSectionsForPhraseLibrary();
             foreach (var section in sections)
             {
+                if (section.ParentId == 0)
+                {
+                    section.ChildSections = sectionRepository.GetSectionsByParentId(section.ParentId.Value);
 
+                }
             }
+
+            return sections;
         }
 
-
+        /// <summary>
+        /// Get Phrase Field By Section Id
+        /// </summary>
+        public IEnumerable<PhraseField> GetPhraseFieldsBySectionId(long sectionId)
+        {
+            return phraseFieldRepository.GetPhraseFieldsBySectionId(sectionId);
+        }
         #endregion
     }
 }

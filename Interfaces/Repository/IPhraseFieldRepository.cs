@@ -1,18 +1,15 @@
 ﻿using System.Collections.Generic;
-using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 
-namespace MPC.Interfaces.MISServices
+namespace MPC.Interfaces.Repository
 {
     /// <summary>
-    /// Phrase Library Service Interface
+    /// Phrase Field Repository Interface
     /// </summary>
-    public interface IPhraseLibraryService
+    public interface IPhraseFieldRepository : IBaseRepository<PhraseField, long>
     {
-        IEnumerable<Section> GetSections();
-
         /// <summary>
-        /// Get Phrase Field By Section Id
+        /// Get All Phrase Field By Section Id
         /// </summary>
         IEnumerable<PhraseField> GetPhraseFieldsBySectionId(long sectionId);
     }
