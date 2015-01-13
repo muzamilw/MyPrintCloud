@@ -68,6 +68,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierId = source.SupplierId,
                 SupplierId2 = source.SupplierId2,
                 EstimateProductionTime = source.EstimateProductionTime,
+                MinPrice = source.MinPrice,
                 ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
                 source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),

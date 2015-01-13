@@ -1533,6 +1533,14 @@ namespace MPC.Repository.Repositories
             return db.Items.Where(i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Get Minimum product value
+        /// </summary>
+        public double GetMinimumProductValue(long itemId)
+        {
+            return db.GetMinimumProductValue(itemId);
+        }
+
         #endregion
     }
 }

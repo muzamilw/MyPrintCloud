@@ -3856,6 +3856,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="submittedBy" Type="bigint" Mode="In" />
           <Parameter Name="submittedByName" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_GetMinimumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="itemId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="sp_GetUsedFontsUpdated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
@@ -4995,6 +4998,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="GlobalLanguage" EntitySet="GlobalLanguages" />
             <End Role="Organisation" EntitySet="Organisations" />
           </AssociationSet>
+          <FunctionImport Name="sp_GetMinimumProductValue" ReturnType="Collection(Double)">
+            <Parameter Name="itemId" Mode="In" Type="Int64" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -11994,6 +12000,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetMinimumProductValue" FunctionName="DomainModels.Store.sp_GetMinimumProductValue" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

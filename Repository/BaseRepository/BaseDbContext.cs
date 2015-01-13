@@ -203,7 +203,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Template> Templates { get; set; }
 
         /// <summary>
-        /// Get next id for a table
+        /// Get Minimum Product Value
         /// </summary>
         public double GetMinimumProductValue(long itemId)
         {
@@ -212,11 +212,10 @@ namespace MPC.Repository.BaseRepository
                 throw new ArgumentException(LanguageResources.InvalidItem, "itemId");
             }
 
-            ObjectParameter itemIdParameter = new ObjectParameter("ItemID", itemId);
-            ObjectParameter result = new ObjectParameter("Result", typeof(int));
-            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction(
-                "BaseDbContext.funGetMiniumProductValue", itemIdParameter, result);
-            return (double)result.Value;
+            ObjectParameter itemIdParameter = new ObjectParameter("ItemId", itemId);
+            ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter); ;
+            
+            return result.FirstOrDefault() ?? 0;
         }
 
         public DbSet<Currency> Currencies { get; set; }

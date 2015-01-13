@@ -464,6 +464,8 @@ namespace MPC.MIS.Areas.Api.Models
             }
         }
 
+        public double MinPrice { get; set; }
+
         public IEnumerable<ItemVdpPrice> ItemVdpPrices { get; set; }
         public IEnumerable<ItemVideo> ItemVideos { get; set; }
 
