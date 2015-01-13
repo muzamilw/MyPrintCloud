@@ -6,6 +6,7 @@ using MPC.Repository.BaseRepository;
 using System.Collections.Generic;
 using System.Linq;
 using MPC.Models.Common;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -67,7 +68,32 @@ namespace MPC.Repository.Repositories
                             };
             return query.ToList<AddOnCostsCenter>();
         }
+        /// <summary>
+        /// get cost center list according to stock option id
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        public List<string> GetProductItemAddOnCostCentres(long StockOptionID,long CompanyID)
+        {
+            try
+            {
+                var query = from addOns in db.ItemAddonCostCentres
+                            join costcenter in db.CostCentres on addOns.CostCentreId equals costcenter.CostCentreId
+                            join options in db.ItemStockOptions on addOns.ItemStockOptionId equals options.ItemStockOptionId
+                            where options.ItemStockOptionId == StockOptionID && options.CompanyId == CompanyID
+                            select costcenter.Name;
+                return query.ToList<string>();
 
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+               
+            
+        }
 
         #endregion
     }

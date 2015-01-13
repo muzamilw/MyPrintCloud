@@ -823,7 +823,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <select class="form-control" name="Price Flag" data-bind="options: $root.sectionFlags, optionsCaption: 'Select...', optionsValue: 'id', optionsText: 'name', value: flagId, validationTooltip: internalFlagId, validationOnElement: internalFlagId"></select>
+                                                <select class="form-control" name="Price Flag" data-bind="options: $root.sectionFlags, optionsCaption: 'Select...', optionsValue: 'id', optionsText: 'name', value: flagId, validationTooltip: internalFlagId, validationDependsOn: internalFlagId, validationOnElement: internalFlagId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -2249,7 +2249,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div style="width: 325px;">
-                            <input type="text" style="width: 278px;float: left;" class="form-control" data-bind="value: label, validationTooltip: label">
+                            <input type="text" name="Stock Label" style="width: 278px;float: left;" class="form-control" data-bind="value: label, validationTooltip: label, validationOnElement: label">
                         </div>
                     </div>
                 </div>
@@ -2275,12 +2275,19 @@
                         <label class="control-label text-right tooltip-float">Stock Option Image</label>
                     </div>
                     <div class="col-lg-6">
-                        <div id="dropzone1" class="dropzonepl" style="min-height: 150px; width: 200px;">
+                        @*<div id="dropzone1" class="dropzonepl" style="min-height: 150px; width: 200px;">
                             <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 150px; width: 200px;" action="#">
                                 <div class="dz-default dz-message">
                                     <span>Drop file here to upload</span>
                                 </div>
                             </form>
+                        </div>*@
+                        <div class="pull-left">
+                            <img style="min-height: 150px; width: 175px;" data-bind="attr: { src: image }" />
+                        </div>
+                        <div class="fileUpload btn btn-primary pull-right">
+                            <span>....</span>
+                            <input type="file" class="upload" data-bind="files: { onLoaded: onSelectImage, fileFilter: 'image.*' }" />
                         </div>
                         <span class="help-block text-right"></span>
                     </div>

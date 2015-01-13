@@ -15,7 +15,7 @@ namespace MPC.Interfaces.WebStoreServices
         Template GetTemplateInDesigner(long productID);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
-        string GetTemplateNameByTemplateID(int tempID);
+        string GetTemplateNameByTemplateID(long tempID);
 
         bool DeleteTemplate(long ProductID, out long CategoryID, long organizationID);
         bool DeleteTemplateFiles(long ProductID, long organizationID);
@@ -25,6 +25,13 @@ namespace MPC.Interfaces.WebStoreServices
         void processTemplatePDF(long TemplateID, long organizationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners);
         long CloneTemplateByTemplateID(long TempID);
 
-        
+        /// <summary>
+        /// To populate the template information base on template id and item rec by zohaib 10/1/2015
+        /// </summary>
+        /// <param name="templateID"></param>
+        /// <param name="ItemRecc"></param>
+        /// <param name="template"></param>
+        /// <param name="tempPages"></param>
+        void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages);
     }
 }
