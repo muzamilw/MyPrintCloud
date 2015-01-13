@@ -25,6 +25,7 @@ namespace MPC.Implementation.WebStoreServices
         private bool CovertPdfToBackground(string physicalPath, long ProductID, long organizationID)
         {
             bool result = false;
+            double pdfHeight, pdfWidth = 0;
             try
             {
                 using (Doc theDoc = new Doc())
@@ -35,6 +36,8 @@ namespace MPC.Implementation.WebStoreServices
                             List<TemplatePage> listTpages = new List<TemplatePage>();
                             List<TemplatePage> listNewTemplatePages = new List<TemplatePage>();
                             double cuttingMargins = 0;
+                            pdfWidth = theDoc.MediaBox.Width;
+                            pdfHeight = theDoc.MediaBox.Height;
                             _templateRepository.DeleteTemplatePagesAndObjects(ProductID, out listTobjs,out listTpages);
                             theDoc.Read(physicalPath);
                             int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
@@ -55,7 +58,8 @@ namespace MPC.Implementation.WebStoreServices
                                 // generate image 
                                 string ThumbnailFileName = "/templatImgBk";
                                 theDoc.Rendering.DotsPerInch = 150;
-                                theDoc.Rendering.Save(System.IO.Path.Combine(tempFolder, ThumbnailFileName) + i.ToString() + ".jpg");
+                                string renderingPath = tempFolder + ThumbnailFileName + i.ToString() + ".jpg";
+                                theDoc.Rendering.Save(renderingPath);
                                 // save template page 
                                 TemplatePage objPage = new TemplatePage();
                                 objPage.PageNo = i;
@@ -100,8 +104,10 @@ namespace MPC.Implementation.WebStoreServices
                                         singlePagePdf.Dispose();
                                 }
                             }
+                        /// save the pages
+                            result = _templateRepository.updateTemplate(ProductID, pdfWidth, pdfHeight,listNewTemplatePages,listTpages,listTobjs);
                         theDoc.Dispose();
-                        return true;
+                        return result;
 
                     }
                     catch (Exception ex)
@@ -157,7 +163,8 @@ namespace MPC.Implementation.WebStoreServices
                             // generate image 
                             string ThumbnailFileName = "/templatImgBk";
                             theDoc.Rendering.DotsPerInch = 150;
-                            theDoc.Rendering.Save(System.IO.Path.Combine(tempFolder, ThumbnailFileName) + i.ToString() + ".jpg");
+                            string renderingPath = tempFolder + ThumbnailFileName + i.ToString() + ".jpg";
+                            theDoc.Rendering.Save(renderingPath);
                             // save template page 
                             TemplatePage objPage = new TemplatePage();
                             objPage.PageNo = i;
@@ -430,8 +437,9 @@ namespace MPC.Implementation.WebStoreServices
             return newTemplateList;
         }
         // generate template from the given pdf file,called from MIS // added by saqib ali
-        // filePhysicalPath = 'MPC_Content/Products/organization1/Templates/random__CorporateTemplateUpload.pdf'  // can be changed but it should be in mpcContent 
-        // mode = 1 for creating template and removing all the existing objects  and images
+        // filePhysicalPath =server.mappath( 'MPC_Content/Products/organization1/Templates/random__CorporateTemplateUpload.pdf')  // can be changed but it should be in mpcContent 
+        //F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\organization1\\Templates\\random__CorporateTemplateUpload.pdf
+        //mode = 1 for creating template and removing all the existing objects  and images
         // mode = 2 for creating template and preserving template objects and images
         public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long organizationID)
         {

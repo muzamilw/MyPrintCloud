@@ -348,6 +348,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string File3 { get; set; }
         public string File4 { get; set; }
         public string File5 { get; set; }
+        public string File1Name { get; set; }
+        public string File2Name { get; set; }
+        public string File3Name { get; set; }
+        public string File4Name { get; set; }
+        public string File5Name { get; set; }
         public string GridImage { get; set; }
         public bool? IsQtyRanged { get; set; }
         public double? CostCentreProfitBroker { get; set; }
@@ -376,6 +381,10 @@ namespace MPC.MIS.Areas.Api.Models
         public string ThumbnailImageName { get; set; }
         public string ImagePathImageName { get; set; }
         public string GridImageSourceName { get; set; }
+        
+        public string ThumbnailImageByte { get; set; }
+        public string ImagePathImageByte { get; set; }
+        public string GridImageSourceByte { get; set; }
         /// <summary>
         /// Thumbnail Image
         /// </summary>
@@ -446,6 +455,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// File1 Image
         /// </summary>
         public byte[] File1Bytes { get; set; }
+        public byte[] File2Bytes { get; set; }
+        public byte[] File3Bytes { get; set; }
+        public byte[] File4Bytes { get; set; }
+        public byte[] File5Bytes { get; set; }
+        
 
         /// <summary>
         /// File1 Source
@@ -460,6 +474,70 @@ namespace MPC.MIS.Areas.Api.Models
                 }
 
                 string base64 = Convert.ToBase64String(File1Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        /// <summary>
+        /// File2 Source
+        /// </summary>
+        public string File2BytesSource
+        {
+            get
+            {
+                if (File2Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File2Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        /// <summary>
+        /// File3 Source
+        /// </summary>
+        public string File3BytesSource
+        {
+            get
+            {
+                if (File3Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File3Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        /// <summary>
+        /// File4 Source
+        /// </summary>
+        public string File4BytesSource
+        {
+            get
+            {
+                if (File4Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File4Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        /// <summary>
+        /// File5 Source
+        /// </summary>
+        public string File5BytesSource
+        {
+            get
+            {
+                if (File5Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File5Bytes);
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }

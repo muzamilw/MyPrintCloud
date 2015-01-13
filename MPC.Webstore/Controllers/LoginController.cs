@@ -126,18 +126,19 @@ namespace MPC.Webstore.Controllers
                      user = _myCompanyService.GetUserByEmailAndPassword(model.Email, model.Password);
                  }
 
-                 if (model.KeepMeLoggedIn)
-                     UserCookieManager.isWritePresistentCookie = true;
-                 else
-                     UserCookieManager.isWritePresistentCookie = false;
+                 
                 if (user != null)
                 {
+                    if (model.KeepMeLoggedIn)
+                        UserCookieManager.isWritePresistentCookie = true;
+                    else
+                        UserCookieManager.isWritePresistentCookie = false;
                     string ReturnURL = Request.Form["hfReturnURL"];
                     return VerifyUser(user, returnUrl);
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                   ViewBag.Message = "Invalid login attempt.";
                     return View("PartialViews/Login");
                 }
             }
@@ -152,17 +153,17 @@ namespace MPC.Webstore.Controllers
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
-                ModelState.AddModelError("", "Your account is archived.");
+               ViewBag.Message = "Your account is archived.";
                 return View("PartialViews/Login");
             }
             if (user.Company.IsDisabled == 1)
             {
-                ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
+                ViewBag.Message = "Your account is disabled. Please contact us for further information.";
                 return View("PartialViews/Login");
             }
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
             {
-                ModelState.AddModelError("", "Your account does not have the web access enabled. Please contact your Order Manager.");
+               ViewBag.Message ="Your account does not have the web access enabled. Please contact your Order Manager.";
                 return View("PartialViews/Login");
             }
             else

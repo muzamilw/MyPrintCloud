@@ -9,7 +9,7 @@
         specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3, specifiedJobDescription3, specifiedJobDescriptionTitle4,
         specifiedJobDescription4, specifiedJobDescriptionTitle5, specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
         specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
-        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
+        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,specifiedFile2,specifiedFile3,specifiedFile4,specifiedFile5,
         specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight, specifiedDefaultItemTax, callbacks, constructorParams,s_StoreProductThumbnailFileBinary,s_StoreProductPageBannerFileBinary,s_StoreProductGridImageLayoutFileBinary) {
         // ReSharper restore InconsistentNaming
         var // Unique key
@@ -476,12 +476,23 @@
                 }
             },
             //#region Store Product Images
-            storeProductThumbnailFileBinary = ko.observable(s_StoreProductThumbnailFileBinary),
-            storeProductPageBannerFileBinary = ko.observable(s_StoreProductPageBannerFileBinary),
-            storeProductGridImageLayoutFileBinary = ko.observable(s_StoreProductGridImageLayoutFileBinary),
+            storeProductThumbnailFileBinary = ko.observable(specifiedThumbnail || undefined),
+            storeProductPageBannerFileBinary = ko.observable(specifiedGridImage || undefined),
+            storeProductGridImageLayoutFileBinary = ko.observable(specifiedImagePath || undefined),
             storeProductThumbnailFileName = ko.observable(),
             storeProductPageBannerFileName = ko.observable(),
             storeProductGridImageLayoutFileName = ko.observable(),
+            //Multiple Files
+            file1Name = ko.observable(),
+            file2 = ko.observable(specifiedFile2 || undefined),
+            file2Name = ko.observable(),
+            file3 = ko.observable(specifiedFile3 || undefined),
+            file3Name = ko.observable(),
+            file4 = ko.observable(specifiedFile4 || undefined),
+            file4Name = ko.observable(),
+            file5 = ko.observable(specifiedFile5 || undefined),
+            file5Name = ko.observable(),
+            
             //#endregion
             // Errors
             errors = ko.validation.group({
@@ -676,20 +687,32 @@
                     ItemStateTaxes: itemStateTaxes.map(function(itemStateTax) {
                         return itemStateTax.convertToServerData();
                     }),
+                    ThumbnailImageName: storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName(),
+                    ImagePathImageName: storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName(),
+                    GridImageSourceName: storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName(),
+                    ThumbnailImageByte: storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary(),
+                    ImagePathImageByte: storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary(),
+                    GridImageSourceByte: storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary(),
+                    File1: file1() === undefined? null: file1(),
+                    File1Name: file1Name() === undefined ? null : file1Name(),
+                    File2: file2() === undefined? null: file2(),
+                    File2Name: file2Name() === undefined ? null : file2Name(),
+                    File3: file3() === undefined? null: file3(),
+                    File3Name: file3Name() === undefined ? null : file3Name(),
+                    File4: file4() === undefined? null: file4(),
+                    File4Name: file4Name() === undefined ? null : file4Name(),
+                    File5: file5() === undefined? null: file5(),
+                    File5Name: file5Name() === undefined ? null : file5Name(),
                     Template: template().convertToServerData()
                 };
-                //result.StoreProductThumbnailFileName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
-                //result.StoreProductPageBannerFileName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
-                //result.StoreProductGridImageLayoutFileName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
-                //result.StoreProductThumbnailFileBytes = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
-                //result.StoreProductPageBannerFileBytes = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
-                //result.StoreProductGridImageLayoutFileBytes = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
-                result.ThumbnailImageName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
-                result.ImagePathImageName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
-                result.GridImageSourceName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
-                result.ThumbnailImage = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
-                result.ImagePathImage = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
-                result.GridImageSource = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
+               
+                //result.ThumbnailImageName = storeProductThumbnailFileName() === undefined ? null : storeProductThumbnailFileName();
+                //result.ImagePathImageName = storeProductPageBannerFileName() === undefined ? null : storeProductPageBannerFileName();
+                //result.GridImageSourceName = storeProductGridImageLayoutFileName() === undefined ? null : storeProductGridImageLayoutFileName();
+                //result.ThumbnailImageByte = storeProductThumbnailFileBinary() === undefined ? null : storeProductThumbnailFileBinary();
+                //result.ImagePathImageByte = storeProductPageBannerFileBinary() === undefined ? null : storeProductPageBannerFileBinary();
+                //result.GridImageSourceByte = storeProductGridImageLayoutFileBinary() === undefined ? null : storeProductGridImageLayoutFileBinary();
+                
                 return result;
             };
 
@@ -800,6 +823,15 @@
             storeProductThumbnailFileName: storeProductThumbnailFileName,
             storeProductPageBannerFileName: storeProductPageBannerFileName,
             storeProductGridImageLayoutFileName: storeProductGridImageLayoutFileName,
+            file1Name: file1Name,
+            file2: file2,
+            file2Name: file2Name,
+            file3: file3,
+            file3Name: file3Name,
+            file4: file4,
+            file4Name: file4Name,
+            file5: file5,
+            file5Name: file5Name,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -1870,7 +1902,7 @@
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
-            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.FlagId,
+            source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.File2BytesSource, source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId,
             source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any

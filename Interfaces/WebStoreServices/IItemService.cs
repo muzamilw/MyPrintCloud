@@ -45,5 +45,11 @@ namespace MPC.Interfaces.WebStoreServices
             /// <param name="ReferenceItemId"></param>
             /// <returns></returns>
         Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId);
+        /// <summary>
+        /// Gets the uploaded artwork Attachement against items
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <returns></returns>
+        List<ItemAttachment> GetArtwork(long ItemId);
     }
 }
