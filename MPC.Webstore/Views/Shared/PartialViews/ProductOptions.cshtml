@@ -52,6 +52,7 @@
                                     string stockClassName = "rbStockType" + StockCount;
                                     if (StockCount == 1)
                                     {
+                                        
                                         <div class=float_left_simple style="height:55px;">
                                             <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
                                             <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
@@ -78,6 +79,7 @@
                         <div class="width365pxM250p">
                             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                             {
+                             <div class="CostCenterItems" data-StockId="@costcenter.ItemStockId" style="display:none;">
                                     <div class="float_left_simple spacerbottom" style="width: 120px;">
                                         <img class="RfgImgCs" src=@costcenter.AddOnImage />
                                     </div>
@@ -95,9 +97,12 @@
                                     <div class="clearBoth">
                                         &nbsp;
                                     </div>
-                                    <div class="BorderLG_LP">
-                                        &nbsp;
-                                    </div>
+                                 <div class="BorderLG_LP">
+                                     &nbsp;
+                                 </div>
+
+                                 </div>
+                                  
                             }
                     </div>
 
@@ -692,6 +697,8 @@
 
             SetAddOnsPriceOnPageLaod();
 
+
+
         });
 
         $("#priceToggle").click(function () {
@@ -863,7 +870,7 @@
                 });
 
                 var stockID = $('input:radio[class=' + classname + ']').attr("data-Id");
-                alert(stockID);
+            
                 $("#VMStockId").val(stockID);
 
                 hideShowPriceColumns(classname);
@@ -877,6 +884,7 @@
                 CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
             }
 
+            LoadCostCentersByStockId(stockID);
         }
 
 
@@ -961,7 +969,15 @@
             $("#VMAddOnrice").val(addOnPrice);
             $("#VMItemId").val(@ViewBag.ClonedItemId);
 
-
+            // this condition sets the total to zero because no quantity is selected
+            if (isRanged) {
+                if ($("#rangedQuantityOrdered").val() == "") {
+                    if (addOnPrice == 0 && itemPrice > 0) {
+                        itemPrice = 0;
+                    }
+                }
+            }
+            
 
             var culturee = 1;
 
@@ -1183,5 +1199,15 @@
             ShowArtWorkPopup("Upload Your Artwork", panelHtml);
         }
 
+        function LoadCostCentersByStockId(StockId) {
+            
+            $(".CostCenterItems").each(function (i, val) {
+                if (StockId == $(val).attr('data-StockId')) {
+                    $(val).css("display", "block");
+                } else {
+                    $(val).css("display", "none");
+                }
+            });
+        }
     </script>
 }
