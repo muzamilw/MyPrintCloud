@@ -131,7 +131,18 @@
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\CompanyVariableIcon.cs" />
+    <Compile Include="DomainModels\CustomCopy.cs" />
+    <Compile Include="DomainModels\FavoriteDesign.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
+    <Compile Include="DomainModels\Listing.cs" />
+    <Compile Include="DomainModels\ListingAgent.cs" />
+    <Compile Include="DomainModels\ListingConjunctionAgent.cs" />
+    <Compile Include="DomainModels\ListingFloorPlan.cs" />
+    <Compile Include="DomainModels\ListingImage.cs" />
+    <Compile Include="DomainModels\ListingLink.cs" />
+    <Compile Include="DomainModels\ListingOFI.cs" />
+    <Compile Include="DomainModels\ListingVendor.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
@@ -236,6 +247,7 @@
     <Compile Include="DomainModels\TemplateObject.cs" />
     <Compile Include="DomainModels\TemplatePage.cs" />
     <Compile Include="DomainModels\TemplateVariable.cs" />
+    <Compile Include="DomainModels\usp_GetRealEstateProducts_Result.cs" />
     <Compile Include="DomainModels\VariableSection.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
