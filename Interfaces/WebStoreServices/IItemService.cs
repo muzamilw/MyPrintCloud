@@ -88,5 +88,6 @@ namespace MPC.Interfaces.WebStoreServices
         Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId);
         bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
 
+        FavoriteDesign GetFavContactDesign(long templateID, long contactID);
     }
 }

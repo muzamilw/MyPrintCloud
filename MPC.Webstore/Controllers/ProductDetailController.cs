@@ -382,19 +382,18 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.hfContactId = _myClaimHelper.loginContactID();
 
-                   //  favoriteDesign = FavContactManager.GetFavContactDesign(templateID, SessionParameters.ContactID);
-                    //var favoriteDesign;
-                    //if (favoriteDesign != null && favoriteDesign.IsFavorite)
-                    //{
-                    //    ViewBag.IsFavoriteDesign = true;
-                    
+                    FavoriteDesign favoriteDesign = _IItemService.GetFavContactDesign(TempID, _myClaimHelper.loginContactID());
+                    if (favoriteDesign != null && favoriteDesign.IsFavorite)
+                    {
+                        ViewBag.IsFavoriteDesign = true;
 
-                    //}
-                    //else
-                    //{
-                    //    ViewBag.IsFavoriteDesign = false;
-                    
-                    //}
+
+                    }
+                    else
+                    {
+                        ViewBag.IsFavoriteDesign = false;
+
+                    }
                 }
                 string html = "";
                 if (RecItem.ProductType == (int)ProductType.TemplateProductWithBanner)

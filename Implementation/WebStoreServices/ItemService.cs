@@ -24,6 +24,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemAddOnCostCentreRepository _AddOnRepository;
         private readonly IProductCategoryRepository _ProductCategoryRepository;
         private readonly IItemAttachmentRepository _itemAtachement;
+        private readonly IFavoriteDesignRepository _favoriteDesign;
 
         #region Constructor
 
@@ -32,7 +33,7 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
-            , IItemAttachmentRepository itemAtachement)
+            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -42,6 +43,7 @@ namespace MPC.Implementation.WebStoreServices
             this._AddOnRepository = AddOnRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
             this._itemAtachement = itemAtachement;
+            this._favoriteDesign = FavoriteDesign;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -333,5 +335,16 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
         
+        public FavoriteDesign GetFavContactDesign(long templateID, long contactID)
+        {
+            try
+            {
+                return _favoriteDesign.GetFavContactDesign(templateID, contactID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
