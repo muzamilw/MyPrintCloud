@@ -172,6 +172,7 @@ namespace MPC.Repository.Repositories
                                 foreach (var tempObj in oldObjs)
                                 {
                                     tempObj.ProductPageId = objPage.ProductPageId;
+                                    tempObj.ProductId = objTemplate.ProductId;
                                     db.TemplateObjects.Add(tempObj);
                                 }
                             }
@@ -194,7 +195,7 @@ namespace MPC.Repository.Repositories
         {
             long result = 0;
             var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
-            long? test = db.sp_cloneTemplate(Convert.ToInt32(ProductID), Convert.ToInt32(SubmittedBy), SubmittedByName);
+            long? test = db.sp_cloneTemplate(ProductID, SubmittedBy, SubmittedByName);
             if (test.HasValue)
             {
                 result = test.Value;
