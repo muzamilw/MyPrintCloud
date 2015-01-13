@@ -2285,7 +2285,6 @@
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
-
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
@@ -2342,30 +2341,24 @@
 
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Files" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload Files</label>
-
-                                            </div>
-
                                             <div class="col-lg-6">
-                                                <div id="dropzone4" class="dropzonepl">
-                                                    <form id="demoUpload4" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
-                                                        </div>
-                                                    </form>
+                                                <label >Upload Files</label>
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>....</span>
+                                                    <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $parent.fileCallback, fileFilter: 'image.*'}" />
                                                 </div>
+                                                <input type="button" class="btn btn-primary" value="Remove Files" data-bind="click: $parent.removeAllFilesData" />
+                                                
                                                 <span class="help-block text-right"></span>
                                             </div>
-
+                                           
+                                            <div class="col-lg-12" style="background: gainsboro; border: 4px solid rgba(0, 0, 0, 0.3); ">
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file1 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file2 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file3 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file4 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file5 }" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

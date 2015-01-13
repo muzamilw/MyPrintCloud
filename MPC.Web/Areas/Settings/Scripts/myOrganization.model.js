@@ -134,26 +134,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
      };
     //Language Editor
     // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-    LanguageEditor = function () {
+    LanguageEditor = function (specifiedDefaultAddress, specifiedDefaultShippingAddress, specifiedPONumber, specifiedPrices, specifiedUserShippingAddress
+        , specifiedDetails, specifiedNewsLetter, specifiedConfirmDesign) {
         // ReSharper restore InconsistentNaming
         var // Reference to this object
             self,
             //DefaultAddress
-            defaultAddress = ko.observable(),
+            defaultAddress = ko.observable(specifiedDefaultAddress),
             //Default Shipping Address
-            defaultShippingAddress = ko.observable(),
+            defaultShippingAddress = ko.observable(specifiedDefaultShippingAddress),
             //PO Number
-            pONumber = ko.observable(),
+            pONumber = ko.observable(specifiedPONumber),
             //Prices
-            prices = ko.observable(),
+            prices = ko.observable(specifiedPrices),
             //User Shipping Address
-            userShippingAddress = ko.observable(),
+            userShippingAddress = ko.observable(specifiedUserShippingAddress),
             //Details
-            details = ko.observable(),
+            details = ko.observable(specifiedDetails),
             //News Letter
-            newsLetter = ko.observable(),
+            newsLetter = ko.observable(specifiedNewsLetter),
             //Confirm Design
-            confirmDesign = ko.observable(),
+            confirmDesign = ko.observable(specifiedConfirmDesign),
 
             //Convert To Server
             convertToServerData = function () {
@@ -213,6 +214,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             reset: reset,
         };
         return self;
+    };
+    LanguageEditor.Create = function (source) {
+        return LanguageEditor(source.DefaultAddress, source.DefaultShippingAddress, source.PONumber, source.Prices, source.UserShippingAddress,
+            source.Details, source.NewsLetter, source.ConfirmDesign);
     };
     //Chart Of Account Entity
     // ReSharper disable once AssignToImplicitGlobalInFunctionScope
@@ -327,7 +332,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.markupId(source.MarkupId === null ? undefined : source.MarkupId);
         companySites.state(source.StateId === null ? undefined : source.StateId);
         companySites.country(source.CountryId === null ? undefined : source.CountryId);
-        // companySites.reset();
+        companySites.languageEditor(source.LanguageEditor === null ? undefined : LanguageEditor.Create(source.LanguageEditor));
         return companySites;
     };
     //Convert Server To Client

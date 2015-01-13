@@ -484,30 +484,66 @@ define("myOrganization/myOrganization.viewModel",
                             filteredMarkups.valueHasMutated();
                         }
                     },
-                    //Search Nominal Code
-                    searchNominalCode = function () {
-                        var nominalCode = filteredNominalCodes()[0];
-                        //New Added item remove on search, if item not have code
-                        if (nominalCode != undefined && (nominalCode.name() === undefined || nominalCode.name() === "") && nominalCode.id() < 0) {
-                            _.each(chartOfAccounts(), function (item) {
-                                if (item.id() === nominalCode.id()) {
-                                    chartOfAccounts.remove(item);
+                     //get Language Editor Data By Language Id
+                    getLanguageEditorDataByLanguageId1 = ko.computed(function () {
+                        //if (selectedMyOrganization() !== undefined && selectedMyOrganization().languageId()) {
+                        //    dataservice.getResourceFileByLanguageId({
+                        //        organisationId: selectedMyOrganization().id(),
+                        //        lanuageId: selectedMyOrganization().languageId()
+                        //    }, {
+                        //        success: function (data) {
+                        //            if (data != null) {
+                        //                selectedMyOrganization().languageEditor(model.LanguageEditor.Create(data));
+                        //            }
+                        //        },
+                        //        error: function (response) {
+                        //            toastr.error("Failed to Load Language Editor data . Error: " + response);
+                        //        }
+                        //    });
+                        //}
+                    }, this),
+
+                    getLanguageEditorDataByLanguageId = function (org) {
+                        if (selectedMyOrganization() !== undefined && selectedMyOrganization().languageId() && selectedMyOrganization().id() !== undefined) {
+                            dataservice.getResourceFileByLanguageId({
+                                organisationId: selectedMyOrganization().id(),
+                                lanuageId: selectedMyOrganization().languageId()
+                            }, {
+                                success: function (data) {
+                                    if (data != null) {
+                                        selectedMyOrganization().languageEditor(model.LanguageEditor.Create(data));
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Load Language Editor data . Error: " + response);
                                 }
                             });
                         }
+                    }
+                //Search Nominal Code
+                searchNominalCode = function () {
+                    var nominalCode = filteredNominalCodes()[0];
+                    //New Added item remove on search, if item not have code
+                    if (nominalCode != undefined && (nominalCode.name() === undefined || nominalCode.name() === "") && nominalCode.id() < 0) {
+                        _.each(chartOfAccounts(), function (item) {
+                            if (item.id() === nominalCode.id()) {
+                                chartOfAccounts.remove(item);
+                            }
+                        });
+                    }
+                    filteredNominalCodes.removeAll();
+                    if (nominalCodeSearchString() !== undefined && nominalCodeSearchString().trim() !== "") {
+                        _.each(chartOfAccounts(), function (item) {
+                            if ((item.name().toLowerCase().indexOf((nominalCodeSearchString().toLowerCase()))) !== -1) {
+                                filteredNominalCodes.push(item);
+                            }
+                        });
+                    } else {
                         filteredNominalCodes.removeAll();
-                        if (nominalCodeSearchString() !== undefined && nominalCodeSearchString().trim() !== "") {
-                            _.each(chartOfAccounts(), function (item) {
-                                if ((item.name().toLowerCase().indexOf((nominalCodeSearchString().toLowerCase()))) !== -1) {
-                                    filteredNominalCodes.push(item);
-                                }
-                            });
-                        } else {
-                            filteredNominalCodes.removeAll();
-                            ko.utils.arrayPushAll(filteredNominalCodes(), chartOfAccounts());
-                            filteredNominalCodes.valueHasMutated();
-                        }
-                    };
+                        ko.utils.arrayPushAll(filteredNominalCodes(), chartOfAccounts());
+                        filteredNominalCodes.valueHasMutated();
+                    }
+                };
                 // #endregion Service Calls
 
                 return {
@@ -551,6 +587,8 @@ define("myOrganization/myOrganization.viewModel",
                     selectTab: selectTab,
                     searchNominalCode: searchNominalCode,
                     searchMarkup: searchMarkup,
+                    getLanguageEditorDataByLanguageId: getLanguageEditorDataByLanguageId,
+
                 };
             })()
         };
