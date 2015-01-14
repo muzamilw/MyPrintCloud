@@ -114,3 +114,4 @@ OdyPortal/OdyPortal.csproj.orig
 *.cs.orig
 
 MPC.Web/Web.config
+MPC.Web/mpc_content
