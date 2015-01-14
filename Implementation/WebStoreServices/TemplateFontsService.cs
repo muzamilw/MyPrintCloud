@@ -23,7 +23,7 @@ namespace MPC.Implementation.WebStoreServices
 
         #region public
         // get fonts list ,called from designer // added by saqib ali
-        public List<TemplateFont> GetFontList(long productId, long customerId)
+        public List<TemplateFont> GetFontList(long productId, long customerId, long OrganisationID)
         {
             var fonts = _templateFontRepository.GetFontList(productId, customerId);
             List<TemplateFont> objToReturn = new List<TemplateFont>();
@@ -34,22 +34,19 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     path = objFonts.FontPath;
                 }
-                else
-                {
-                    path = "PrivateFonts/FontFace/";
-                }
+                var drURL = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/" ;
 
-                objFonts.FontFile = "Designer/" + path + objFonts.FontFile;
+                objFonts.FontFile = drURL + path + objFonts.FontFile;
                 objToReturn.Add(objFonts);
             }
             return objToReturn;
         }
 
-        // called from mis to delete template fonts against company(Store) and organization // added by saqib ali
-        public void DeleteTemplateFonts(long Companyid, long organizationID)
+        // called from mis to delete template fonts against company(Store) and Organisation // added by saqib ali
+        public void DeleteTemplateFonts(long Companyid, long OrganisationID)
         {
             _templateFontRepository.DeleteTemplateFonts(Companyid);
-            string drUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/WebFonts/" + Companyid.ToString());
+            string drUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/" + Companyid.ToString());
             if (System.IO.Directory.Exists(drUrl))
             {
 
