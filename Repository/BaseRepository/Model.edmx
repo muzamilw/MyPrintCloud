@@ -2652,6 +2652,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="AutoShrinkText" Type="bit" />
           <Property Name="IsOverlayObject" Type="bit" />
           <Property Name="ClippedInfo" Type="xml" />
+          <Property Name="textCase" Type="int" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -8763,6 +8764,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsOverlayObject" Type="Boolean" />
           <Property Name="ClippedInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_Objects_Products" FromRole="TemplateObject" ToRole="Template" />
+          <Property Name="textCase" Type="Int32" />
         </EntityType>
         <Association Name="FK_Objects_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -12101,6 +12103,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="TemplateObjects">
             <EntityTypeMapping TypeName="DomainModels.TemplateObject">
               <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="textCase" ColumnName="textCase" />
                 <ScalarProperty Name="ClippedInfo" ColumnName="ClippedInfo" />
                 <ScalarProperty Name="IsOverlayObject" ColumnName="IsOverlayObject" />
                 <ScalarProperty Name="AutoShrinkText" ColumnName="AutoShrinkText" />
