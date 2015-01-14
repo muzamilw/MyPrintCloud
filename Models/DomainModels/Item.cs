@@ -448,6 +448,11 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string File5Byte { get; set; }
 
+        /// <summary>
+        /// Product Category Items Custom - Used for Categories Selection for Product
+        /// </summary>
+        public ICollection<ProductCategoryItemCustom> ProductCategoryCustomItems { get; set; }
+
         #endregion
     }
 }

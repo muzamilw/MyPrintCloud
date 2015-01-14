@@ -559,6 +559,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         public ItemProductDetail ItemProductDetail { get; set; }
 
+        public IEnumerable<ProductCategoryItem> ProductCategoryItems { get; set; }
+
         #endregion
     }
 }
