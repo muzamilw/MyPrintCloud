@@ -57,10 +57,10 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from mis to create blank background pdfs of only two pages in template // added by saqib ali
-        public bool CreateBlankBackgroundPDFs(long TemplateID, double height, double width, int Orientation, long organizationID)
+        public bool CreateBlankBackgroundPDFs(long TemplateID, double height, double width, int Orientation, long OrganisationID)
         {
          
-            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
             using (Doc theDoc = new Doc())
             {
                 try
@@ -85,7 +85,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 catch (Exception ex)
                 {
-                    throw new MPCException(ex.ToString(), organizationID);
+                    throw new MPCException(ex.ToString(), OrganisationID);
                 }
                 finally
                 {
@@ -98,9 +98,9 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from MIS to create blank pdf files based on list of pages send// added by saqib ali
-        public bool CreateBlankBackgroundPDFsByPages(long TemplateID, double height, double width, int Orientation, List<TemplatePage> PagesList, long organizationID)
+        public bool CreateBlankBackgroundPDFsByPages(long TemplateID, double height, double width, int Orientation, List<TemplatePage> PagesList, long OrganisationID)
         {
-            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
             string basePath = drURL + TemplateID.ToString() + "/";
             if (!Directory.Exists(basePath))
                 Directory.CreateDirectory(basePath);
@@ -127,7 +127,7 @@ namespace MPC.Implementation.WebStoreServices
                         }
                         catch (Exception ex)
                         {
-                            throw new MPCException(ex.ToString(), organizationID);
+                            throw new MPCException(ex.ToString(), OrganisationID);
                         }
                         finally
                         {
@@ -140,9 +140,9 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from MIS to create blank pdf of the given template page// added by saqib ali
-        public string CreatePageBlankBackgroundPDFs(long TemplateID, TemplatePage oPage, double height, double width, long organizationID)
+        public string CreatePageBlankBackgroundPDFs(long TemplateID, TemplatePage oPage, double height, double width, long OrganisationID)
         {
-            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
             string basePath =drURL  + TemplateID.ToString() + "/";
             using (Doc theDoc = new Doc())
             {
@@ -167,7 +167,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 catch (Exception ex)
                 {
-                    throw new MPCException(ex.ToString(), organizationID);
+                    throw new MPCException(ex.ToString(), OrganisationID);
                 }
                 finally
                 {
@@ -178,10 +178,10 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from MIS to delete background files of the given template pages  // added by saqib ali
-        public bool DeleteBlankBackgroundPDFsByPages(long TemplateID, List<TemplatePage> PagesList, long organizationID)
+        public bool DeleteBlankBackgroundPDFsByPages(long TemplateID, List<TemplatePage> PagesList, long OrganisationID)
         {
 
-            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
             string basePath = drURL + TemplateID.ToString() + "/";
             try
             {
@@ -207,7 +207,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception ex)
             {
-               throw new MPCException(ex.ToString(), organizationID);
+               throw new MPCException(ex.ToString(), OrganisationID);
             }
         }
         #endregion
