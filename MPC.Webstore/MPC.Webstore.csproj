@@ -269,6 +269,7 @@
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\Utils.cs" />

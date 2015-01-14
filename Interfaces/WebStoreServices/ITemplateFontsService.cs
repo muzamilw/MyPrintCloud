@@ -12,5 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<TemplateFont> GetFontList(long productId, long customerId);
 
         void DeleteTemplateFonts(long Companyid, long organizationID);
+
+        List<TemplateFont> GetFontList();
     }
 }
