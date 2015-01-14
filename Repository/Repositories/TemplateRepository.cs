@@ -462,17 +462,19 @@ namespace MPC.Repository.Repositories
         public void populateTemplateInfo(long templateID, Item ItemRecc,out Template template,out List<TemplatePage> tempPages)
         {
             Template temp = new Template();
-            using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
-            {
-                string option = "NoTemplate";
-                var oTemplate = pSc.GetTemplate((int)templateID);
-                var oTemplatePages = pSc.GetTemplatePages((int)templateID);
+            template = GetTemplate(templateID);
+            tempPages = GetTemplatePagesByTemplateID(templateID);
+            //using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
+            //{
+            //    string option = "NoTemplate";
+            //    var oTemplate = pSc.GetTemplate((int)templateID);
+            //    var oTemplatePages = pSc.GetTemplatePages((int)templateID);
 
-               template = ReflectTemplateObject(oTemplate);
+            //   template = ReflectTemplateObject(oTemplate);
 
-                tempPages = ReflectTemplatePages(oTemplatePages);
+            //    tempPages = ReflectTemplatePages(oTemplatePages);
 
-            }
+            //}
         }
 
 
@@ -569,7 +571,23 @@ namespace MPC.Repository.Repositories
 
         }
                
-         
+        /// <summary>
+        /// get template pages by productID added by zohaib
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        public List<TemplatePage> GetTemplatePagesByTemplateID(long ProductID)
+        {
+            try
+            {
+                return db.TemplatePages.Where(s => s.ProductId == ProductID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         #endregion
 
         

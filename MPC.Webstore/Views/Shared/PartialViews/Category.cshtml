@@ -301,18 +301,36 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                          
+
                                         }
-                                     
-                                      
-                                        
-                                        <tr class="trMoreDetailOfProductLnk">
-                                            <td style="text-align: left;">
-                                                <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
-                                                    <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" >more...</a>
-                                                </p>
-                                            </td>
-                                        </tr>
+
+
+                                        if (item.ProductType == (int)ProductType.TemplateProductWithBanner || item.ProductType == (int)ProductType.TemplateProductWithImage)
+                                        {
+
+                                            if (item.TemplateId > 0)
+                                            {
+                                                <tr class="trMoreDetailOfProductLnk">
+                                                    <td style="text-align: left;">
+                                                        <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
+                                                            <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign">more...</a>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="trMoreDetailOfProductLnk">
+                                                <td style="text-align: left;">
+                                                    <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
+                                                        <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'">more...</a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            //RedirectURL = "/ProductDetail/"  + Model.ProductCategoryId + "/" + item.ItemId + "/" + 0 + "/" + "0" + "UploadDesign";
+                                        }
+
                                  }
                                         </table>
                                         }
