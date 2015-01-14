@@ -61,7 +61,7 @@
                 // Sort Order -  true means asc, false means desc
                 sortIsAsc = ko.observable(true),
                 // Pagination
-                pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
+                pager = ko.observable(new pagination.Pagination({ PageSize: 10 }, products)),
                 // Pagination For Item Relater Dialog
                 itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
                 // Pagination For Stock Item Dialog
@@ -580,8 +580,8 @@
                     dataservice.getCompanyProduct({
                         CompanyId: companyId,
                         SearchString: filterText(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage()
+                        PageSize: 10,
+                        PageNo: pager().currentPage(),
                     }, {
                         success: function (data) {
                             products.removeAll();

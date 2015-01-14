@@ -1353,6 +1353,10 @@
                 stockItemDescription = ko.observable(specifiedStockItemDescription || undefined),
                 // image
                 image = ko.observable(specifiedImage || undefined),
+                // file source
+            fileSource = ko.observable(),
+            // file name
+            fileName = ko.observable(),
                 // Option Sequence
                 optionSequence = ko.observable(specifiedOptionSequence || undefined),
                 // Item Id
@@ -1397,6 +1401,12 @@
                     stockItemName(stockItem.name);
                     stockItemDescription(stockItem.description);
                 },
+                // On Select File
+            onSelectImage = function (file, data) {
+                image(data);
+                fileSource(data);
+                fileName(file.name);
+            },
                 // Errors
                 errors = ko.validation.group({
                     
@@ -1434,6 +1444,8 @@
                         ItemStockOptionId: id(),
                         StockLabel: label(),
                         StockId: stockItemId(),
+                        FileSource: fileSource(),
+                        FileName: fileName(),
                         ItemId: itemId(),
                         OptionSequence: optionSequence(),
                         ItemAddOnCostCentres: itemAddonCostCentres.map(function(itemAddonCostCentre) {
@@ -1450,7 +1462,10 @@
                 stockItemDescription: stockItemDescription,
                 itemId: itemId,
                 image: image,
+                fileSource: fileSource,
+                fileName: fileName,
                 optionSequence: optionSequence,
+                onSelectImage: onSelectImage,
                 activeItemAddonCostCentre: activeItemAddonCostCentre,
                 itemAddonCostCentres: itemAddonCostCentres,
                 addItemAddonCostCentre: addItemAddonCostCentre,
@@ -2112,7 +2127,7 @@
     // Item Stock Option Factory
     ItemStockOption.Create = function (source, callbacks) {
         var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-            source.ImageSource, source.OptionSequence, source.ItemId, callbacks);
+            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks);
 
         // If Item Addon CostCentres exists then add
         if (source.ItemAddOnCostCentres) {
