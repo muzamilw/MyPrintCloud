@@ -12,7 +12,7 @@ namespace MPC.Interfaces.Repository
         Template GetTemplate(long productID);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview);
-
+        Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs);
         string GetTemplateNameByTemplateID(long tempID);
 
         long CloneTemplateByTemplateID(long TempID);

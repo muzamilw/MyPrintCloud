@@ -95,6 +95,16 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Func<ItemProductDetail> CreateItemProductDetail { get; set; }
 
+        /// <summary>
+        /// Action to create a Product Category Item
+        /// </summary>
+        public Func<ProductCategoryItem> CreateProductCategoryItem { get; set; }
+
+        /// <summary>
+        /// Action to delete a Product Category Item
+        /// </summary>
+        public Action<ProductCategoryItem> DeleteProductCategoryItem { get; set; }
+
         #endregion
     }
 }
