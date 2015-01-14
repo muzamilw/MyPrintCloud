@@ -18,13 +18,21 @@ define("common/phraseLibrary.view",
                 // Hide Activity the dialog
                 hidePhraseLibraryDialog = function () {
                     $("#phraseLibraryDialog").modal("hide");
-                };
-
+                },
+            showEditJobTitleModalDialog = function () {
+                $("#editJobTitleModal").modal("show");
+            },
+            // Hide Activity the dialog
+               hideEditJobTitleDialog = function () {
+                   $("#editJobTitleModal").modal("hide");
+               };
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 showPhraseLibraryDialog: showPhraseLibraryDialog,
                 hidePhraseLibraryDialog: hidePhraseLibraryDialog,
+                showEditJobTitleModalDialog: showEditJobTitleModalDialog,
+                hideEditJobTitleDialog: hideEditJobTitleDialog,
             };
         })(ist.phraseLibrary.viewModel);
 

@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -7,5 +8,9 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IPhraseRespository : IBaseRepository<Phrase, long>
     {
+        /// <summary>
+        /// Get Phrases By Phrase Filed Id
+        /// </summary>
+        IEnumerable<Phrase> GetPhrasesByPhraseFiledId(long phraseFieldId);
     }
 }

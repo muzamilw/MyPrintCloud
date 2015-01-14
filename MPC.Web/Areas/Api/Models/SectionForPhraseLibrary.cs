@@ -23,8 +23,8 @@ namespace MPC.MIS.Areas.Api.Models
         public int? ParentId { get; set; }
 
         /// <summary>
-        /// Child Sections
+        /// Phrase Fields
         /// </summary>
-        public List<SectionForPhraseLibrary> ChildSections { get; set; }
+        public List<PhraseField> PhrasesFields { get; set; }
     }
 }

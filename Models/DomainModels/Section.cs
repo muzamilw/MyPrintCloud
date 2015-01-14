@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -58,9 +57,5 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<PhraseField> PhraseFields { get; set; }
         #endregion
 
-        #region Additional Properties
-        [NotMapped]
-        public IEnumerable<Section> ChildSections { get; set; }
-        #endregion
     }
 }

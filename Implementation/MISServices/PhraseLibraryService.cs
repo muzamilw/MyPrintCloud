@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 
 namespace MPC.Implementation.MISServices
 {
@@ -43,25 +43,101 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public IEnumerable<Section> GetSections()
         {
-            IEnumerable<Section> sections = sectionRepository.GetSectionsForPhraseLibrary();
-            foreach (var section in sections)
-            {
-                if (section.ParentId == 0)
-                {
-                    section.ChildSections = sectionRepository.GetSectionsByParentId(section.ParentId.Value);
-
-                }
-            }
-
-            return sections;
+            return sectionRepository.GetSectionsForPhraseLibrary();
         }
 
         /// <summary>
-        /// Get Phrase Field By Section Id
+        /// Get Phrases By Phrase Filed Id
         /// </summary>
-        public IEnumerable<PhraseField> GetPhraseFieldsBySectionId(long sectionId)
+        public IEnumerable<Phrase> GetPhrasesByPhraseFiledId(long phraseFieldId)
         {
-            return phraseFieldRepository.GetPhraseFieldsBySectionId(sectionId);
+            return phraseRespository.GetPhrasesByPhraseFiledId(phraseFieldId);
+        }
+
+        /// <summary>
+        /// Save Phase Library
+        /// </summary>
+        public void SavePhaseLibrary(PhraseLibrarySaveModel phaseLibrary)
+        {
+            if (phaseLibrary.Sections != null)
+            {
+                IEnumerable<Section> sectionsDbVersion = sectionRepository.GetSectionsForPhraseLibrary();
+                //find missing items
+                List<Phrase> missingPhraseListItems = new List<Phrase>();
+                foreach (var section in phaseLibrary.Sections)
+                {
+                    if (section.PhraseFields != null)
+                    {
+                        Section sectionDbVersion =
+                            sectionsDbVersion.FirstOrDefault(s => s.SectionId == section.SectionId);
+                        //update phase field text for job Production
+                        if (section.SectionId == 4)
+                        {
+                            if (sectionDbVersion != null && sectionDbVersion.PhraseFields != null)
+                            {
+                                foreach (var phraseFieldDbItem in sectionDbVersion.PhraseFields)
+                                {
+                                    PhraseField phraseFieldItem =
+                                        section.PhraseFields.FirstOrDefault(p => p.FieldId == phraseFieldDbItem.FieldId);
+                                    if (phraseFieldItem != null)
+                                    {
+                                        phraseFieldDbItem.FieldName = phraseFieldItem.FieldName;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //Update Phrases
+                        foreach (var phaseField in section.PhraseFields)
+                        {
+                            if (phaseField.Phrases != null && sectionDbVersion != null &&
+                               sectionDbVersion.PhraseFields != null)
+                            {
+                                PhraseField phraseFieldDbVersionItem =
+                                    sectionDbVersion.PhraseFields.FirstOrDefault(p => p.FieldId == phaseField.FieldId);
+                                foreach (var phraseItem in phaseField.Phrases)
+                                {
+                                    if (phraseFieldDbVersionItem != null)
+                                    {
+                                        Phrase phraseDbeVersionItem =
+                                            phraseFieldDbVersionItem.Phrases.FirstOrDefault(
+                                                p => p.PhraseId == phraseItem.PhraseId);
+                                        //New Added Phrase
+                                        if (phraseItem.PhraseId == 0)
+                                        {
+                                            phraseItem.OrganisationId = sectionRepository.OrganisationId;
+                                            phraseFieldDbVersionItem.Phrases.Add(phraseItem);
+                                        }
+                                        else
+                                        {
+                                            //Update 
+                                            if (phraseDbeVersionItem != null && !phraseItem.IsDeleted)
+                                            {
+                                                phraseDbeVersionItem.Phrase1 = phraseItem.Phrase1;
+                                            }
+                                            else
+                                            {
+                                                //Delete Item
+                                                missingPhraseListItems.Add(phraseDbeVersionItem);
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+                sectionRepository.SaveChanges();
+                foreach (var missingItem in missingPhraseListItems)
+                {
+                    Phrase phrase = phraseRespository.Find(missingItem.PhraseId);
+                    phraseRespository.Delete(phrase);
+                    phraseRespository.SaveChanges();
+                }
+            }
         }
         #endregion
     }

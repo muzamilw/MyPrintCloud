@@ -213,7 +213,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    ViewBag.WlSumMesg = Common.CommonHtmlExtensions.GetResource("WlSumMesg");
+                   // ViewBag.WlSumMesg = Common.CommonHtmlExtensions.GetResource("WlSumMesg");
                     //ViewBag.WlSumMesg = Resources.MyResource.WlSumMesg; // Resources.MyResource.
                 }
             }

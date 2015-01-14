@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
+using RequestModels = MPC.Models.RequestModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -19,20 +20,30 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionId = source.SectionId,
                 ParentId = source.ParentId,
                 SectionName = source.SectionName,
-                ChildSections = source.ChildSections.Select(s => s.CreateFromForChild()).ToList()
+                PhrasesFields = source.PhraseFields != null ? source.PhraseFields.Select(s => s.CreateFrom()).ToList() : null
             };
         }
 
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        public static SectionForPhraseLibrary CreateFromForChild(this DomainModels.Section source)
+        public static DomainModels.Section CreateFrom(this SectionForPhraseLibrary source)
         {
-            return new SectionForPhraseLibrary
+            return new DomainModels.Section
             {
                 SectionId = source.SectionId,
-                ParentId = source.ParentId,
-                SectionName = source.SectionName
+                SectionName = source.SectionName,
+                PhraseFields = source.PhrasesFields != null ? source.PhrasesFields.Select(pf => pf.CreateFrom()).ToList() : null
+            };
+        }
+        /// <summary>
+        /// Create From Web Model
+        /// </summary>
+        public static RequestModels.PhraseLibrarySaveModel CreateFrom(this PhraseLibrarySaveModel source)
+        {
+            return new RequestModels.PhraseLibrarySaveModel
+            {
+                Sections = source.Sections != null ? source.Sections.Select(s => s.CreateFrom()).ToList() : null
             };
         }
     }

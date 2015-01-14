@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -18,6 +21,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         private readonly IPhraseLibraryService phraseLibraryService;
 
         #endregion
+
         #region Constructor
 
         /// <summary>
@@ -29,6 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         #endregion
+
         #region Public
 
         /// <summary>
@@ -41,12 +46,25 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         /// <summary>
-        /// Get Phrases By Section Id
+        /// Get Phrases By Phrase Field Id
         /// </summary>
         /// <returns></returns>
-        public void Get([FromUri]int sectionId)
+        public IEnumerable<Phrase> Get([FromUri]int fieldId)
         {
-            // return companyService.GetCompanyById(companyId).CreateFrom();
+            return phraseLibraryService.GetPhrasesByPhraseFiledId(fieldId).Select(p => p.CreateFrom());
+        }
+
+        [ApiException]
+        [HttpPost]
+        public int Post(PhraseLibrarySaveModel Sections)
+        {
+            //FormCollection
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            phraseLibraryService.SavePhaseLibrary(Sections.CreateFrom());
+            return 1;
         }
         #endregion
     }

@@ -253,6 +253,8 @@
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
@@ -365,6 +367,9 @@
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
     <Compile Include="Areas\Api\Models\PaymentGatewayResponse.cs" />
     <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
+    <Compile Include="Areas\Api\Models\Phrase.cs" />
+    <Compile Include="Areas\Api\Models\PhraseField.cs" />
+    <Compile Include="Areas\Api\Models\PhraseLibrarySaveModel.cs" />
     <Compile Include="Areas\Api\Models\ProductCategory.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryListViewModel.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
@@ -1437,6 +1442,7 @@
     <Content Include="Areas\Stores\Views\Stores\_AddEditSecondaryPage.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_phraseLibraryDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\PhraseLibrary.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_EditJobTitlePhraseLibrary.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

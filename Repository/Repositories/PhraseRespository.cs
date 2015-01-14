@@ -45,6 +45,14 @@ namespace MPC.Repository.Repositories
             return DbSet.ToList();
         }
 
+        /// <summary>
+        /// Get Phrases By Phrase Filed Id
+        /// </summary>
+        public IEnumerable<Phrase> GetPhrasesByPhraseFiledId(long phraseFieldId)
+        {
+            return DbSet.Where(p => p.FieldId == phraseFieldId && p.OrganisationId == OrganisationId).ToList();
+        }
+
         #endregion
     }
 }

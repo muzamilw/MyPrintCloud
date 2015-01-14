@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -12,8 +13,14 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<Section> GetSections();
 
         /// <summary>
-        /// Get Phrase Field By Section Id
+        /// Get Phrases By Phrase Field Id
         /// </summary>
-        IEnumerable<PhraseField> GetPhraseFieldsBySectionId(long sectionId);
+        IEnumerable<Phrase> GetPhrasesByPhraseFiledId(long sectionId);
+
+
+        /// <summary>
+        /// Save Phase Library
+        /// </summary>
+        void SavePhaseLibrary(PhraseLibrarySaveModel phaseLibrary);
     }
 }
