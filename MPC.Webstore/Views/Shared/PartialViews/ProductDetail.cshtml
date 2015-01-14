@@ -2,1482 +2,1374 @@
 @using MPC.Models.Common;
 @using MPC.Models.DomainModels;
 @using System.Linq;
+@using MPC.Webstore.ViewModels;
 @using MPC.Webstore.Common;
 @{
-    string templateCountLabel = string.Empty;
-    string replaceWith = "</br>";
-    List<ItemStockOption> stockOptions = new List<ItemStockOption>();
-        ItemStockOption ObjStockOpt = null;
-        string lblMatt = string.Empty;
-        string lblGlossy = string.Empty;
-        string lblPremiumMatt = string.Empty;
-        string lblforthStock = string.Empty;
-        string lblfifthStock = string.Empty;
-        string lblSixStock = string.Empty;
-        string lblSevenStock = string.Empty;
-        string lbleightStock = string.Empty;
-        string lblnineStock = string.Empty;
-        string lbltenthStock = string.Empty;
-        string lblelevenStock = string.Empty;
-        string lblTaxLabel = string.Empty;
+	string templateCountLabel = string.Empty;
+	string replaceWith = "</br>";
+	List<ItemStockOption> stockOptions = new List<ItemStockOption>();
+		ItemStockOption ObjStockOpt = null;
+		string htmlVal =string.Empty;
+        string lblTaxLabel = string.Empty; 
+		stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
 }
-        @section metatags
-        {
-        @if (ViewBag.MetaTitle != null)
-        {
-        <meta name="title" content="@ViewBag.MetaTitle" />
-
-
-        }
-        @if (ViewBag.MetaDescription != null)
-        {
-        <meta name="description" content="@ViewBag.MetaDescription" />
-
-        }
-
-        @if (ViewBag.MetaKeywords != null)
-        {
-        <meta name="keywords" content="@ViewBag.MetaKeywords" />
-        }
-        }
-        <div class="container content_area">
-
-            <script src="/Scripts/jquery.rating.js" type="text/javascript"></script>
-            <script type="text/javascript">
-                $(".ratingDisabled").rating({ showCancel: false, disabled: true });
-            </script>
-            <div class="left_right_padding">
-                @*Bread crumb menu will be here*@
-
-                <div class=" rounded_corners PDContainer">
-                    
-                         <div id="SliderContainer" class="row productdetailSliderContainer rounded_corners bkWhite">
-
-                            <div class=" col-md-3 col-lg-3 col-xs-12 col-sm-4 productdetailBannerleftPanel">
-                                <div class="productDetailPageHeading">
-                                    <label id="lblProducName">@Model.ProductName</label>
-                                </div>
-                                @if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
-                                {
-                                <div class="divBottomBtns">
-
-                                    @if (ViewBag.TemplateID > 0)
-                                    {
-                                    <div id="divFaourites" class=" ">
-                                        @if (ViewBag.isAllowBackOrder)
-                                        {
-
-                                             <button id="btnEditThisDesign" value="Design Now"
-                                                class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-                                                onclientclick="return ShowMessage(); " onclick="btnEditThisDesign_Click" />
-                                        }
-                                        else
-                                        {
-                                            <button id="btnEditThisDesign" value="Design Now"
-                                                    class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-                                                    onclientclick="return ShowMessage(); " disabled onclick="btnEditThisDesign_Click" />
-                                        }
-
-                                        @if (ViewBag.Count > 0)
-                                        {
-                                        templateCountLabel = ViewBag.Count + " other template(s)";
-                                        }
-                                        else
-                                        {
-                                        templateCountLabel = "";
-                                        }
-                                        <label id="lblTemplateCount" class="lblTemplateCount">@templateCountLabel</label>
-                                        <div class="clear">
-                                        </div>
-                                    </div>
-
-                                    <button id="btnStartCreating" value="Other designs"
-                                            class="start_creating_btn_prodDetail_blk rounded_corners5 marginBtm10" onclick="btnStartCreating_Click"
-                                            onclientclick="showProgress();" />
-                                    }
-
-
-
-                                </div>
-                                }
-                                else
-                                {
-                                <div id="finishedGoodSpecs" class="box_specFinisedGood">
-                                    <div class="mrginBtm">
-                                        <label id="Label1" class="marginall5 ProductDetailH2">Specifications</label>
-                                    </div>
-                                    <label id="lblCategoryCode2" class="marginall5">@ViewBag.lblCategoryCode2</label>
-                                    <br />
-                                    <p class="marginall5">
-                                        <label id="ltrlCatDesc2">@ViewBag.ltrlCatDesc2</label>
-                                    </p>
-                                    <br />
-                                    @if (ViewData["CostCentersList"] != null)
-                                    {
-                                        <label id="lblRefiningOpt2" class="marginall5 ProductDetailH2">
-                                            Refining Options:
-                                        </label>
-                                    }
-                                    <div class="marginall5 ProductDetailRefOptions">
-                                        @*<asp:BulletedList ID="BulletedListExtras2" runat="server" CssClass="ProductDetailRefOptionsUL">
-                                        </asp:BulletedList>*@
-                                        <ul class="ProductDetailRefOptionsUL">
-                                            @foreach (var cost in ViewData["CostCentersList"] as List<string>)
-                                            {
-                                                <li>
-                                                    @cost
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </div>
-                                }
-                                @if (Model.IsUploadImage == true && (Model.ProductType == (int)ProductType.FinishedGoodWithBanner || Model.ProductType == (int)ProductType.FinishedGoodWithImageRotator))
-                                {
-                                    if (ViewBag.TemplateID == 0)
-                                    {
-                                        if (ViewBag.isAllowBackOrder)
-                                        {
-                                            <button id="btnUploadDesign" value="@Resources.MyResource.lnkADDTOCART"
-                                                    class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
-                                        }
-                                        else
-                                        {
-                                            <button id="btnUploadDesign" value="@Resources.MyResource.lnkADDTOCART"
-                                                    class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if (ViewBag.isAllowBackOrder)
-                                        {
-                                            <button id="btnUploadDesign" value="Upload files"
-                                                    class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
-                                        }
-                                        else
-                                        {
-                                            <button id="btnUploadDesign" value="Upload files"
-                                                    class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
-                                        }
-                                    }
-                                }
-                              
-                               @{
-                                   if (Model.IsStockControl == true)
-                                   {
-                                       ItemStockControl ObjStockControl = new ItemStockControl();
-                                       ObjStockControl = ViewData["StockControl"] as ItemStockControl;
-                                       string InStockValue = string.Empty;
-                                       if (ObjStockControl != null)
-                                       {
-                                           if (ObjStockControl.InStock == 0 || ObjStockControl.InStock < 0)
-                                           {
-                                            <div id="ContainerInStock" style="color:white;background-color:red;" class="InStockContainer">
-                                                @{
-                                               if (ObjStockControl.isAllowBackOrder ?? false) // back ordering allowed
-                                               {
-                                                  
-                                                   InStockValue = Resources.MyResource.lblBackOrder;
-                                               }
-                                               else
-                                               {// no stock
-                                                   InStockValue = Resources.MyResource.lblItemOutOfStock;
-                                                   
-
-                                               }
-                                                }
-                                                <label id="InStockValue">@InStockValue</label>
-                                            </div>
-                                           }
-                                           else
-                                           {
-                                            <div id="ContainerInStock" style="color:black;background-color:#f3f3f3;" class="InStockContainer">
-                                                @{
-                                               InStockValue = Resources.MyResource.lblitemInStock + ObjStockControl.InStock;
-                                                }
-                                                <label id="InStockValue">@InStockValue</label>
-                                            </div>
-                                           }
-                                       }
-                                   }
-
-
-                            }
-                               
-                            </div>
-                            @if (ViewBag.IsTemplateProductWithBanner == true)
-                            {
-                            <div id="bannnerContainer">
-                                <img id="templBannerImg" src="@ViewBag.TempBannerImgURL" style="width: 670px; height: 420px;" />
-                            </div>
-                            }
-                            else
-                            {
-                            <div class=" col-md-7 col-lg-6 col-xs-12 col-sm-4 product_detail_Img_div">
-
-                                <div id="divImgTabs" class="height490" >
-                                    @ViewBag.Html = html;
-                                </div>
-                                <div class="clearBoth">
-                                </div>
-                            </div>
-                            }
-
-                            @if (ViewBag.IsTemplateProductWithBanner == false)
-                            {
-                                if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
-                                 {
-
-                            <div id="ProductrightContainter" class="col-md-2 col-lg-3 col-xs-12 col-sm-4 deatilTemplateInfocnt">
-                                <label id="txtempltNameHEading">Template name</label><br />
-                                <label id="lblTemplateName">@ViewBag.TemplateName</label><br />
-                                <br />
-                                <select class="ratingDisabled input keepwhitespace" id="ratingControlUser" runat="server">
-                                    <option value="0" selected="selected">Template Rating </option>
-                                    <option value="1">Template Rating </option>
-                                    <option value="2">Template Rating</option>
-                                    <option value="3">Template Rating</option>
-                                    <option value="4">Template Rating</option>
-                                </select>
-
-                                @if (ViewBag.IsFavoriteDesign)
-                                {
-                                <div id="divFavoriteInd" runat="server" class="active_star margin0Imp" title="Click to Remove Favorite">
-                                    &nbsp;
-                                </div>
-                                <p class="spanMarkCount spanFavouriteItem margin0-sm" id="spanFavouriteItem" runat="server">
-                                    Unmark as favorite
-                                </p>
-                                }
-                                else
-                                {
-                                <div id="divFavoriteInd"  class="passive_star margin0Imp" title="Click to Add as Favorite">
-                                    &nbsp;
-                                </div>
-                                <p class="spanMarkCount spanFavouriteItem margin0-sm" id="spanFavouriteItem" runat="server">
-                                    Mark as favorite
-                                </p>
-
-                                }
-
-                                @if (ViewBag.TemplateID > 0)
-                                {
-                                    if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
-                                    {
-                                <div class="font11px"  id="divLetUsDes" style="margin-top: 30px;">
-                                    <br />
-                                    <label ID="Label5"  class="product_detail_sub_heading colorBlack">Lets us design it for you</label><br />
-                                    <label ID="Literal8" >Seen a design concept you like but want to discuss with us first? Give us a call.</label>
-                                    <br />
-                                    <br />
-                                </div>
-                                }
-                                }
-
-                            </div>
-                            }
-                            }
-
-                            <div class="clearBoth">
-                            </div>
-                            <div style="float: right; margin-right: 20px;">
-                                @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
-                                {
-                                    <div id="cntgpShareLink" style="float: right !important;" class="ShareGoogPluss" onclick="ShareOnGooglePl();">
-                                    </div>
-                                    <div id="cntLinkinShareBtn" onclick="ShareOnLinkIn();" class="ShareLinkInBtn" style="float: right;">
-                                    </div>
-                                    <div id="cnttwitterSharelnk" style="float: right; margin-top: 14px;">
-                                        <em id="emSeTweet" class="emShareTweet" onclick="OpenNewWindowToSahre();"></em>
-                                        <a class="TweetsShareBtn" onclick="OpenNewWindowToSahre();" data-related="jasoncosta" data-lang="en" data-size="large" data-count="none"></a>
-
-
-
-                                    </div>
-                                    <div id="cntfacebookSharelnk" style="float: right;" class="ShareFbBtn" onclick="OpenNewWindowToSahreWithFaceBook();">
-                                    </div>
-                                <!-- Place this tag after the last share tag. -->
-                                    @section scripts
-                                    {
-                                        <script type="text/javascript">
-                                            (function () {
-                                                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                                                po.src = 'https://apis.google.com/js/platform.js';
-                                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-                                            })();
-                                        </script>
-                                    }
-                                    <div>
-                                        <script src="//platform.linkedin.com/in.js" type="text/javascript">
-                                            lang: en_US
-                                        </script>
-                                    </div>
-                                }
-                             
-
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearBoth" style="margin-bottom: 10px;">
-                        &nbsp;
-                    </div>
-                    <div class="row">
-                        <div class="product_detail_main_heading paddingBottom10">
-                            <label id="lblCategoryMainHeading">@ViewBag.blCategoryMainHeading</label>
-                        </div>
-                        <div class=" rounded_corners Background-sm  col-md-4 col-lg-4 col-xs-12 ProductDetailGrayBoxLeft">
-                            @if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
-                            {
-                            <div id="templateGoodSpecs" class="Background-lg">
-
-                                <div class="box_catCode">
-                                    <div class="mrginBtm">
-                                        <label ID="lblSpecHead" class="marginall5 ProductDetailH2" runat="server">Specifications</label>
-                                    </div>
-                                    <label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
-                                    <br />
-                                    <p class="marginall5" style="width: 285px;">
-                                        <label id="lblCatDes">@ViewBag.lblCatDes</label>
-                                    </p>
-                                    <br />
-                                    @if (ViewData["CostCentersList"] != null)
-                                    {
-                                         <label ID="lblRefinngOpt" class="marginall5 ProductDetailH2">
-                                            Refinning Options:
-                                        </label>
-                                    }
-                                    <div class="marginall5 ProductDetailRefOptions">
-                                        @*<asp:BulletedList ID="BulletedListExtras" runat="server" CssClass="ProductDetailRefOptionsUL">
-                                        </asp:BulletedList>*@
-                                        <ul class="ProductDetailRefOptionsUL">
-                                            @foreach (var cost in ViewData["CostCentersList"] as List<string>)
-                                            {
-                                                <li>
-                                                    @cost
-                                                </li>
-                                            }
-                                        </ul>
-
-                                       
-
-
-                                    </div>
-                                </div>
-                                <div class="box_prodPrice">
-                                    @if (ViewBag.IsShowPrices == true)
-                                    {
-                                    <div id="PriceCircle" class="blue_cicle_container" runat="server">
-                                        <div class="productNewClasscircle">
-                                            <div class="all_padding3">
-                                                <div class="paddingTop2px">
-                                                    &nbsp;
-                                                </div>
-                                                <label id="ltrlfrom">FROM</label>
-                                                <br />
-                                                <label id="lblFromMinPrice" style="font-weight:bold;font-size:16px;">@ViewBag.lblFromMinPrice</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    }
-
-                                </div>
-                                <div class=" clear">
-                                </div>
-                            </div>
-                            }
-                            else
-                            {
-                                if (!string.IsNullOrEmpty(Model.TipsAndHints))
-                                {
-                                <div id="handyInfoFinisedGood" class="white_background rounded_corners" style="padding: 10px;">
-                                    <label id="btnIdeas2" class="ProductDetailH2">Specification</label>
-                                    <div class="rounded_corners paddingLeft10px paddingBottom10px handyInfocnt">
-                                        <br />
-                                        <label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
-                                    </div>
-                                </div>
-                                }
-                            }
-                        </div>
-                        <input type="hidden" id="txtIsQuantityRanged" value="@ViewBag.txtIsQuantityRanged" />
-                        <div class="col-md-8 col-lg-8 col-xs-12 ProductDetailGrayBoxRight" style="padding: 0px !important;">
-
-                            <div style="margin-bottom: 10px;"
-                                 class="float_left_simple rounded_corners cntwidthProductDetailOnlinePrice cntBackgorndPD cntProductDetailWidth">
-
-                                <div class="prodWhiteBack">
-                                    @if (ViewBag.IsShowPrices == true)
-                                    {
-                                    <div id="PricingTblDiv" runat="server">
-                                        <table>
-                                            <tr>
-                                                <td valign="top" class="width45p">
-                                                    <div class="mrginBtm" style="text-align:left;">
-                                                        <label ID="lblProdSelectOption" class="ProductDetailH2" runat="server">Online Prices</label>
-                                                    </div>
-                                                    <table class="cntwidthProductDetailOnlinePrice" cellpadding="5" cellspacing="0">
-
-                                                        @{
-
-                                                        stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
-                                                            if (stockOptions != null && stockOptions.Count > 0)
-                                                            {
-                                                            <tr>
-                                                                <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp" id="divQuantity"
-                                                                    runat="server">
-                                                                    Quantity
-                                                                </td>
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 1).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText1" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText1">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 2).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText2" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText2">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 3).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText3" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText3">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 4).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText4" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText4">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 5).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText5" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText5">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 6).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText6" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText6">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 7).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText7" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText7">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 8).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText8" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText8">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 9).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText9" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText9">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 10).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText10" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText10">@ObjStockOpt.StockLabel</label>
-                                                                </td>
-                                                                }
-                                                                @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 11).FirstOrDefault();
-                                                                @if (ObjStockOpt != null)
-                                                                {
-                                                                <td id="tdHeadText11" class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <label id="lblHeaderText11"></label>
-                                                                </td>
-                                                                }
-                                                            </tr>
-
-
-                                                            }
-
-
-                                                            }
-                                                            @foreach (var ObjPriceMatrix in ViewData["PriceMatrix"] as List<ItemPriceMatrix>
-                                                                )
-                                                                {
-                                                                if(UserCookieManager.isIncludeTax)
-                                                                {
-                                                                if (Model.DefaultItemTax != null)
-                                                                {
-                                                                lblMatt = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PricePaperType1), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblGlossy = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PricePaperType2), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblPremiumMatt = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PricePaperType3), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblforthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType4 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType4), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblfifthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType5 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType5), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblSixStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType6 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType6), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblSevenStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType7 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType7), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lbleightStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType8 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType8), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblnineStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType9 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType9), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lbltenthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType10 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType10), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                lblelevenStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType11 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType11), Convert.ToDouble(Model.DefaultItemTax))));
-                                                                }
-                                                                else
-                                                                {
-                                                                lblMatt = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PricePaperType1), UserCookieManager.TaxRate)));
-                                                                lblGlossy = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PricePaperType2), UserCookieManager.TaxRate)));
-                                                                lblPremiumMatt = Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PricePaperType3), UserCookieManager.TaxRate)));
-                                                                lblforthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType4 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType4), UserCookieManager.TaxRate)));
-                                                                lblfifthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType5 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType5), UserCookieManager.TaxRate)));
-                                                                lblSixStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType6 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType6), UserCookieManager.TaxRate)));
-                                                                lblSevenStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType7 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType7), UserCookieManager.TaxRate)));
-                                                                lbleightStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType8 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType8), UserCookieManager.TaxRate)));
-                                                                lblnineStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType9 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType9), UserCookieManager.TaxRate)));
-                                                                lbltenthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType10 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType10), UserCookieManager.TaxRate)));
-                                                                lblelevenStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType11 == null ? "0" : Convert.ToString(Utils.CalculateVATOnPrice(Convert.ToDouble(ObjPriceMatrix.PriceStockType11), UserCookieManager.TaxRate)));
-                                                                }
-                                                                }
-                                                                else
-                                                                {
-                                                                lblMatt = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PricePaperType1.ToString());
-                                                                lblGlossy = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PricePaperType2.ToString());
-                                                                lblPremiumMatt = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PricePaperType3.ToString());
-                                                                lblforthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType4 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType4));
-                                                                lblfifthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType5 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType5));
-                                                                lblSixStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType6 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType6));
-                                                                lblSevenStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType7 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType7));
-                                                                lbleightStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType8 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType8));
-                                                                lblnineStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType9 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType9));
-                                                                lbltenthStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType10 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType10));
-                                                                lblelevenStock = Utils.FormatDecimalValueToTwoDecimal(ObjPriceMatrix.PriceStockType11 == null ? "0" : Convert.ToString(ObjPriceMatrix.PriceStockType11));
-                                                                }
-                                                                <tr>
-                                                                    <td class="product_detail_item_cell procu_detail_grid_cell">
-                                                                        <input type="hidden" id="txtHiddenPriceMatrixID" value='@ObjPriceMatrix.PriceMatrixId' />
-                                                                        <input type="hidden" id="txtHiddenIsDiscounted" value='<%# Eval("IsDiscounted") %>' />
-                                                                        @if (ViewBag.txtIsQuantityRanged == "false")
-                                                                        {
-                                                                        <span id="spanFixedQuantity">
-                                                                            @ObjPriceMatrix.Quantity
-                                                                        </span>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                        <span id="spanRangedQuantity">
-                                                                            @ObjPriceMatrix.QtyRangeFrom
-                                                                            -
-                                                                            @ObjPriceMatrix.QtyRangeTo
-                                                                        </span>
-                                                                        }
-
-                                                                    </td>
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 1).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td1" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn1">
-                                                                            <span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
-                                                                                <label id="lblMatt">@ViewBag.Currency @lblMatt</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 2).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td2" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn2">
-                                                                            <span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
-                                                                                <label id="lblGlossy">@ViewBag.Currency @lblGlossy</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 3).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td3" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn3">
-                                                                            <span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
-                                                                                <label id="lblPremiumMatt">@ViewBag.Currency @lblPremiumMatt</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 4).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td4" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
-                                                                                <label id="lblForthStock">@ViewBag.Currency @lblforthStock</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 5).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td5" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
-                                                                                <label id="lblFifthStock">@ViewBag.Currency @lblfifthStock</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 6).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td6" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
-                                                                                <label id="lblSixthStock">@ViewBag.Currency @lblSixStock</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 7).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td7" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
-                                                                                <label id="lblSevenStock">@ViewBag.Currency @lblSevenStock</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 8).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td8" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
-                                                                                <label id="lblEightStock">@ViewBag.Currency @lbleightStock</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 9).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td9" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
-                                                                                <label id="lblNinthStock">@ViewBag.Currency @lblnineStock</label>
-
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 10).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td10" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
-                                                                                <label id="lblTenthStock">@ViewBag.Currency @lbltenthStock</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                    @ObjStockOpt = @stockOptions.Where(i => i.OptionSequence == 11).FirstOrDefault();
-                                                                    @if (ObjStockOpt != null)
-                                                                    {
-                                                                    <td id="td11" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                        style="text-align: right;">
-                                                                        <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                            <span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
-                                                                                <label id="lblElevenStock">@ViewBag.Currency @lblelevenStock</label>
-
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    }
-                                                                </tr>
-                                                                }
-                                                               
-                                                    </table>
-                                                    <div class="product_detail_note">
-                                                      
-                                                        @if(UserCookieManager.isIncludeTax)
-                                                        {
-                                                             lblTaxLabel = "(Prices shown " + "inc. " + " " + UserCookieManager.TaxRate + ")";
-                                                        }
-                                                        else
-                                                        {
-                                                            lblTaxLabel = "(Prices shown " + "ex. " + " " + UserCookieManager.TaxRate + ")";
-                                                        }
-                                                        @if (Model.DefaultItemTax == 0)
-                                                        {
-                                                            lblTaxLabel = "(Prices shown " + "ex. " + " " + UserCookieManager.TaxRate + ")";
-                                                        }
-                                                        <label ID="lblTaxLabel" class="lblTxtProdDet">@lblTaxLabel</label>
-                                                    </div>
-                                                    <div class="clearBoth">
-                                                        &nbsp;
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    }
-
-                                </div>
-                            </div>
-                            @if (!string.IsNullOrEmpty(Model.ProductSpecification))
-                            {
-
-                            <div id="SpecCont" style="margin-bottom: 10px;"
-                                 class="cntProductDetailWidth cntwidthProductDetailDesc float_left_simple rounded_corners cntBackgorndPD">
-
-                                <div class="whitebackground">
-
-                                    <label id="btnProductDetails" class="ProductDetailH2">Specification</label>
-                                    <div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
-                                        <br />
-                                        <label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-
-                            }
-                            @if (!string.IsNullOrEmpty(Model.TipsAndHints))
-                            {
-
-                            <div id="HintTipsCont" style="margin-bottom: 10px;"
-                                 class="cntProductDetailWidth float_left_simple rounded_corners cntwidthProductDetailDesc cntBackgorndPD">
-
-                                <div class="whitebackground">
-
-                                    <label id="btnIdeas" class="ProductDetailH2">Specification</label>
-                                    <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
-                                        <br />
-                                        <label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            }
-
-
-                            @if (!string.IsNullOrEmpty(Model.LayoutGridContent))
-                            {
-                            <div id="LyoutGridCont"
-                                 class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
-
-                                <div class="whitebackground">
-
-                                    <label id="btnLayoutGrid" text="" class="ProductDetailH2">Specification</label>
-                                    <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
-                                        <br />
-                                        <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
-                                        <br />
-                                        <br />
-                                        <div class="float_left_simple">
-                                            @if (!string.IsNullOrEmpty(Model.GridImage))
-                                            {
-                                            <img id="GridImg" class="ImageHW" src="@Model.GridImage" />
-                                            }
-
-                                        </div>
-                                        <div class="float_left_simple MLftTop">
-                                            @if (!string.IsNullOrEmpty(Model.File1))
-                                            {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconPs" href="@Model.File1" target="_blank"><img id="ImgIconPss" class="ImageHW" src="@path" /></a>
-                                            }
-                                            @if (!string.IsNullOrEmpty(Model.File2))
-                                            {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconAi" href="@Model.File2" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
-                                            }
-                                            @if (!string.IsNullOrEmpty(Model.File3))
-                                            {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconId" href="@Model.File3" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
-                                            }
-                                            @if (!string.IsNullOrEmpty(Model.File4))
-                                            {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
-                                            }
-
-
-
-                                        </div>
-                                        <div class="clearBoth">
-                                            &nbsp;
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-
-
-                        </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
-                        <uc4:MatchingSet ID="MatchingSet1" runat="server" Visible="false" />
-                        <uc3:RelatedItems ID="itemsRelatedItemsWidget" runat="server" />
-                    </div>
-
-
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-
-
-                    <br />
-
-
-
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <div class="rounded_corners">
-                    <div class="product_detail_sup_padding">
-                        <div id="tabs" class="float_left_simple width93per" style="text-align: left !important;">
-                            <ul class="MLeft40 MBtm marginbtm5Imp" style="display: none;">
-                                <li runat="server" id="btnHowToVideo" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top PaddingtopCentreAlign"
-                                    onclick="tabify('tabs4','MainContent_btnHowToVideo')">Video</li>
-                                <li runat="server" id="btnMatchingSets" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top "
-                                    onclick="tabify('tabs5','MainContent_btnMatchingSets')">Matching Sets</li>
-                            </ul>
-
-                        </div>
-                    </div>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <br />
-
-
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-                <br />
-                <asp:Label ID="lblMsgDisp" runat="server" Visible="false" />
-
-                <input type="hidden" id="hfTemplateName" value="@ViewBag.hfTemplateName" />
-                <input type="hidden" id="txtNoOfPages" value='@ViewBag.txtNoOfPages' />
-                <input type="hidden" id="txtTemplateID" value='@ViewBag.txtTemplateID' />
-                <input type="hidden" id="hfEditTempType" value="@ViewBag.hfEditTempType" />
-                <input type="hidden" id="hfContactId" value="@ViewBag.hfContactI" />
-                <input type="hidden" id="hfCategoryId" value="@ViewBag.hfCategoryId" />
-                <input type="hidden" id="hfItemId" value="@Model.ItemId" />
-                <input type="hidden" id="txtHiddenItemDiscountRate" value="@Model.PriceDiscountPercentage" />
-                <input type="hidden" id="txtHiddenProductCategoryID" value="@ViewBag.hfCategoryId" />
-                <input type="hidden" id="txtHiddenProductItemID" value="@Model.ItemId" />
-                <input type="hidden" id="txtHiddenProductName" value='@Model.ProductName' />
-                <input type="hidden" id="txtHiddenCorpItemTemplateID" value='@Model.TemplateId' />
-                <input type="hidden" ID="hfFbShareLink"  Value="@ViewBag.hfFbShareLink" />
-
-
-                <asp:HiddenField ID="txtHiddenProdItemPrice" Value="0" runat="server" />
-                <asp:HiddenField ID="txtHiddenAddonTotal" Value="0" runat="server" />
-
-
-                <asp:HiddenField ID="hfState" runat="server" ClientIDMode="Predictable" />
-                <asp:HiddenField ID="hfBrokerMarkup" runat="server" Value="0" />
-                <asp:HiddenField ID="hfContactMarkup" runat="server" Value="0" />
-            </div>
-            <uc5:RRViews ID="pnlRViews" runat="server" />
-            <br />
-            <br />
-            @section scripts
-            {
-            <script src="~/Scripts/PopUp.js"></script>
-            <script type="text/javascript">
-
-                function displayFileUploadPopup(btnUploadFile) {
-
-                    var result = false;
-                    result = validateFileSelection();
-                    if (result == false)
-                        alert("Please select file");
-                    else {
-
-                        var overLay = $("#lblFileProgressOverlay");
-                        $(overLay).addClass("overlay");
-                        $("#lblFileLoader").css('visibility', "visible");
-                    }
-
-
-                    return result;
-
-                }
-
-                function validateFileSelection() {
-
-                    //debugger;
-                    var addedFileDivsList = $("div .MultiFile-label");
-
-                    if (addedFileDivsList.length > 0)
-                        return true;
-                    else
-                        return false;
-                }
-
-                var productTotal = 0;
-
-                var prouctTotalSavings = 0;
-                var addonTotalSavings = 0;
-
-                function checkUnCheckRadio(radionButton) {
-                    var radiosList = $(".radioBtnQtyGroupClass");
-
-                    if (radiosList != null) {
-
-                        $(radiosList).each(function (indx, objVal) {
-
-                            //debugger;
-                            if ($(this).attr("id") != $(radionButton).attr("id")) {
-                                $(this).attr("checked", false);
-                            }
-                        });
-                    }
-
-                    //Finally make selecten changes
-                    makePaperSelectection();
-                } //checkUnCheckRadio
-
-
-
-                /*Adon Pricess methods*/
-                function calculateAdOnPrices() {
-
-                    //Set the AddonTotals on Global Variable
-                    this.displayTotalPrice(productTotal, goThroughAdOnPricesChkBoxesForTotal());
-                }
-
-                function goThroughAdOnPricesChkBoxesForTotal() {
-
-
-                    var checkedPriceTotal = 0;
-                    var addonSaving = 0;
-                    var checkBoxJasonData = null;
-
-                    $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-
-                        if ($(this).attr("checked") == "checked") {
-                            //Gets the Jason Data associated with it
-                            checkBoxJasonData = jQuery.parseJSON($(this).attr("CheckBoxJasonData"));
-
-                            if (checkBoxJasonData != null) {
-
-                                if (checkBoxJasonData.IsDiscounted == false) {
-
-                                    checkedPriceTotal = checkedPriceTotal + parseFloat(checkBoxJasonData.ActualPrice); //Gets Actual non discounted Price
-                                }
-                                else {
-                                    checkedPriceTotal = checkedPriceTotal + parseFloat(checkBoxJasonData.DiscountedPrice); //Gets Actual non discounted Price
-                                    addonSaving = addonSaving + (parseFloat(checkBoxJasonData.ActualPrice) - parseFloat(checkBoxJasonData.DiscountedPrice));
-                                }
-                            }
-                        }
-                        checkBoxJasonData = null;
-                    });
-
-                    addonTotalSavings = addonSaving; //global variable
-                    return checkedPriceTotal;
-                }
-
-                /*End Adon Pricess methods*/
-
-
-                function displayTotalPrice(productPrice, addOnPrice) {
-
-                    //debugger;
-                    var productPriceTotal = productPrice;
-                    var addonPriceTotal = addOnPrice;
-
-
-                    this.displayProductItemTotal(productPriceTotal.toFixed(2));
-                    this.displayAddOnTotal(addonPriceTotal.toFixed(2))
-
-                    var total = productPriceTotal + addonPriceTotal;
-                    $("#lblGrossTotal").text(getCurrencySymbol() + (total).toFixed(2));
-
-                    //Dispaly the savings as well
-                    $("#lblYouHaveSave").text('You have saved ' + getCurrencySymbol() + (prouctTotalSavings + addonTotalSavings).toFixed(2));
-                }
-
-
-                function displayProductItemTotal(price) {
-
-
-                }
-
-                function displayAddOnTotal(totalPrice) {
-
-
-
-                }
-
-
-                function makePaperSelectection() {
-
-                    var paperTypeRadioList = $(".radioBtnPaperTypeClass");
-
-                    if (paperTypeRadioList !== null && paperTypeRadioList.length > 0) {
-                        //get the checked paper radio
-                        //debugger;
-                        var selectedRadio = findSelectedPaperTypeRadio(paperTypeRadioList);
-
-                        if ($(selectedRadio).length > 0) {
-                            if ($(selectedRadio).attr("id").search(/rbPaperPremiumMatt/) != -1) {
-                                calculateProductItemPrice('PremiumMatt');
-                            }
-                            else if ($(selectedRadio).attr("id").search(/rbPaperMatt/) != -1) {
-                                calculateProductItemPrice('Matt');
-                            }
-                            else if ($(selectedRadio).attr("id").search(/rbPaperGlossy/) != -1) {
-
-                                calculateProductItemPrice('Glossy');
-                            }
-                        }
-                    }
-                } //makePaperSelectection
-
-
-
-                function ShowMessage() {
-                    var type = $('#<%=hfEditTempType.ClientID %>').val();
-                    // alert(type);
-                    if (type == "NoTemplate") {
-                        showProgress();
-                        return true;
-                    } else if (type == "SameTemplate") {
-                        //alert("2");
-                        ShowPopup2("Alert!", "You already have the same template in designer mode Would you like to resume your design or start from scratch ?");
-                        return false;
-                    } else if (type == "SameItem") {
-                        // alert();
-                        ShowPopup2("Alert!", "you already have another template in designer mode. Would you like to continue modifiing the design or create new ");
-                        return false;
-                    }
-                    return false;
-                    //
-                }
-                function calculateProductItemPrice(selectedPaperType) {
-
-                    //debugger;
-                    var qtyJsonData = null;
-                    var radioQty = this.findSelectedQtyRadio();
-                    var selectedPrice = null;
-                    var savings = 0;
-
-                    if ($(radioQty).length > 0) {
-                        qtyJsonData = jQuery.parseJSON($(radioQty).attr("QtyJason"));
-
-                        selectedPaperType = selectedPaperType + '_PriceMatrixID_' + qtyJsonData.PriceMatrixID.toString();
-
-                        if (qtyJsonData.IsDiscounted == false)
-                            selectedPrice = parseFloat($('#' + selectedPaperType).attr("title")); // pick non discounted price
-                        else {
-
-                            var actualPrice = parseFloat($('#' + selectedPaperType).attr("title")); // pick non discounted price
-                            //get the discounted Price for this search the span having disconted Price
-                            selectedPrice = triverseForDiscountedPrice(selectedPaperType);
-                            //save ammount
-                            savings = actualPrice - selectedPrice;
-                        }
-
-                        //alert(savings);
-                        //debugger;
-                        productTotal = selectedPrice; //global variables
-                        prouctTotalSavings = savings; //global variables
-                        this.displayTotalPrice(productTotal, goThroughAdOnPricesChkBoxesForTotal());
-                    }
-                } //calculateProductItemPrice
-
-
-                function triverseForDiscountedPrice(selectedPaperType) {
-
-                    //debugger;
-                    //var spanDiscounted = $($('#' + selectedPaperType).children()[1]).text().toString().replace(/^[$]/, '');
-                    var currSymbol = getCurrencySymbol();
-                    var spanDiscounted = $($('#' + selectedPaperType).children()[1]).text().toString().replace(/^[currSymbol]/, '');
-
-                    var arr = spanDiscounted.split(currSymbol);
-
-                    return parseFloat(arr[1]); //one will hve the numeric value
-
-                } //triverseForDiscountedPrice
-
-                function findSelectedPaperTypeRadio(paperTypeRadioList) {
-
-                    var selectedPaperRadio = null;
-
-                    $(paperTypeRadioList).each(function (indx, obj) {
-                        if ($(this).attr("checked") == "checked" && selectedPaperRadio == null) {
-
-                            selectedPaperRadio = $(this);
-                        }
-                    });
-
-                    return selectedPaperRadio;
-
-                } //findSelectedPaperTypeRadio
-
-                function LoginPopUp() {
-                    var CheckLogin = '<%=IsLogin %>';
-                    if (parseInt(CheckLogin) > 0) {
-                        return true;
-                    }
-                    else {
-                        var returnUrl = '<%=ReturnUrl %>';
-                        var message = '<div style="text-align:left;padding-left:90px;">Add to Favorites to mark this template as a favorites in your profile, please register or login first</div><br><a href="../Signup.aspx?' + returnUrl + '" style="padding-right:20px;">Register</a><a href="../Login.aspx?' + returnUrl + '">Login</a>';
-
-                        ShowPopup('Message', message);
-                        return false;
-                    }
-                }
-
-                function findSelectedQtyRadio() {
-
-                    var radiosList = $(".radioBtnQtyGroupClass");
-                    var selectedQty = null;
-
-                    if (radiosList != null) {
-                        $(radiosList).each(function (indx, objVal) {
-                            if ($(this).attr("checked") == "checked" && selectedQty == null) {
-
-                                selectedQty = $(this);
-                            }
-                        });
-                    }
-
-                    return selectedQty;
-                }
-
-
-
-                $(document).ready(function () {
-
-                    CreateMultipleUpload();
-                    makePaperSelectection();
-                    calculateAdOnPrices();
-                });
-
-                function clearMsgLabel() {
-
-
-                }
-
-                function CreateMultipleUpload() {
-                    //set up the file upload
-
-                }
-
-                function FileUploaderShow() {
-
-                    $find('mpeUploadYourDesignPopup').show();
-                }
-
-                function FileUploaderHide() {
-
-                    $find('mpeUploadYourDesignPopup').hide();
-                    $('input:file').MultiFile('reset');
-
-                    clearMsgLabel();
-                }
-
-
-
-
-            </script>
-
-            <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-
-            <div id="fb-root"></div>
-            <script>
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1421343758131537&version=v2.0";
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
-            <script type="text/javascript">
-                function OpenNewWindowToSahre() {
-                    var WindHref = window.location.href;
-                    while (WindHref.indexOf(";") > 0) {
-                        WindHref = WindHref.replace(";", "%3B");
-
-                    }
-
-                    var w = 620;
-                    var h = 360;
-                    var left = (screen.width / 2) - (w / 2);
-                    var top = (screen.height / 2) - (h / 2);
-                    window.open("https://twitter.com/intent/tweet?original_referer=" + WindHref + "&related=jasoncosta&text=-%20UK&tw_p=tweetbutton&url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                    return false;
-                }
-
-                function OpenNewWindowToSahreWithFaceBook() {
-
-                    var WindHref = $("#hfFbShareLink").val();
-                    while (WindHref.indexOf(";") > 0) {
-                        WindHref = WindHref.replace(";", "%3B");
-
-                    }
-                    WindHref = WindHref.replace(":", "%3A");
-                    while (WindHref.indexOf("/") > 0) {
-                        WindHref = WindHref.replace("/", "%2F");
-
-                    }
-                    while (WindHref.indexOf("=") > 0) {
-                        WindHref = WindHref.replace("=", "%3D");
-
-                    }
-                    while (WindHref.indexOf("&") > 0) {
-                        WindHref = WindHref.replace("&", "%26");
-
-                    }
-                    WindHref = WindHref.replace("?", "%3F");
-                    //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-                    var w = 620;
-                    var h = 360;
-                    var left = (screen.width / 2) - (w / 2);
-                    var top = (screen.height / 2) - (h / 2);
-                    window.open("https://www.facebook.com/sharer.php?app_id=1421343758131537&sdk=joey&u=" + WindHref + "&display=popup", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                    return false;
-                }
-
-                function ShareOnLinkIn() {
-
-                    var WindHref = $("#hfFbShareLink").val();
-                    while (WindHref.indexOf(";") > 0) {
-                        WindHref = WindHref.replace(";", "%3B");
-
-                    }
-                    WindHref = WindHref.replace(":", "%3A");
-                    while (WindHref.indexOf("/") > 0) {
-                        WindHref = WindHref.replace("/", "%2F");
-
-                    }
-                    while (WindHref.indexOf("=") > 0) {
-                        WindHref = WindHref.replace("=", "%3D");
-
-                    }
-                    while (WindHref.indexOf("&") > 0) {
-                        WindHref = WindHref.replace("&", "%26");
-
-                    }
-                    WindHref = WindHref.replace("?", "%3F");
-                    //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-                    var w = 620;
-                    var h = 360;
-                    var left = (screen.width / 2) - (w / 2);
-                    var top = (screen.height / 2) - (h / 2);
-                    window.open("http://www.linkedin.com/cws/share?url=" + WindHref + "&original_referer=" + WindHref + "&token=&isFramed=false&lang=en_US&_ts=1401271443305.631", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                    return false;
-                }
-
-
-                function ShareOnGooglePl() {
-
-                    var WindHref = $("#hfFbShareLink").val();
-                    while (WindHref.indexOf(";") > 0) {
-                        WindHref = WindHref.replace(";", "%3B");
-
-                    }
-                    WindHref = WindHref.replace(":", "%3A");
-                    while (WindHref.indexOf("/") > 0) {
-                        WindHref = WindHref.replace("/", "%2F");
-
-                    }
-                    while (WindHref.indexOf("=") > 0) {
-                        WindHref = WindHref.replace("=", "%3D");
-
-                    }
-                    while (WindHref.indexOf("&") > 0) {
-                        WindHref = WindHref.replace("&", "%26");
-
-                    }
-                    WindHref = WindHref.replace("?", "%3F");
-                    //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-                    var w = 620;
-                    var h = 360;
-                    var left = (screen.width / 2) - (w / 2);
-                    var top = (screen.height / 2) - (h / 2);
-                    window.open("https://plus.google.com/share?url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                    return false;
-                }
-
-
-                //$(window).load(function () {
-                //    // adjusting navigation icons
-                //    var hiddenFieldID1 = "input[id$=txtNoOfPages]";
-                //    var pages = $(hiddenFieldID1).val()
-                //    var width = pages * 22;
-                //    width = width + "px";
-                //    $(".navBulletsWrapper").css("width", width);
-
-                //});
-
-
-
-                $(document).ready(function () {
-
-                    var hiddenFieldID1 = "input[id$=txtTemplateID]";
-                    var templateId = $(hiddenFieldID1).val()
-                    var itemId = $('#<%=hfItemId.ClientID %>').val();
-                    var templatename = $('#hfTemplateName').val();
-                    var categoryId = $('#<%=hfCategoryId.ClientID %>').val();
-
-                    //                tabify('tabs1', 'MainContent_btnProductDetails')
-                    //  $("#ifrm").attr("src", 'matchingsetpopup.aspx?templatename=' + templatename + "&ProductCategoryId=" + categoryId + "&ItemID=" + itemId);
-                    var type = $('#<%=hfEditTempType.ClientID %>').val();
-                    if (type != "FinishedGood") {
-                        $('.passive_star').toggle(function () {
-                            if (LoginPopUp()) {
-
-                                $(this).removeClass('passive_star').addClass('active_star');
-                                $(this).attr('title', 'Click to remove favorite');
-                                $(".spanFavouriteItem").html("Unmark as favorite");
-                                //var templateId = $(this).next().val();
-                                SavedFarorite(templateId, true);
-                                var FavcountValu = $('.FavCount').text();
-                                var ReplceFav = FavcountValu.replace("(", " ");
-                                var FinalFavCount = ReplceFav.replace(")", " ");
-                                var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
-                                $('.FavCount').html(Count);
-                            }
-                        }, function () {
-                            if (LoginPopUp()) {
-                                $(this).removeClass('active_star').addClass('passive_star');
-                                $(this).attr('title', 'Click to add favorite');
-                                //var templateId = $(this).next().val();
-                                $(".spanFavouriteItem").html("Mark as favorite");
-                                SavedFarorite(templateId, false);
-                                var FavcountValu = $('.FavCount').text();
-                                var ReplceFav = FavcountValu.replace("(", " ");
-                                var FinalFavCount = ReplceFav.replace(")", " ");
-                                var Count = "(" + (parseInt(FinalFavCount, 10) - 1) + ")";
-                                $('.FavCount').html(Count);
-                            }
-                        }
-                    );
-
-                        $('.active_star').toggle(function () {
-                            if (LoginPopUp()) {
-                                $(this).removeClass('active_star').addClass('passive_star');
-                                $(this).attr('title', 'Click to add favorite');
-                                //var templateId = $(this).next().val();
-                                $(".spanFavouriteItem").html("Mark as favorite");
-                                SavedFarorite(templateId, false);
-                                var FavcountValu = $('.FavCount').text();
-                                var ReplceFav = FavcountValu.replace("(", " ");
-                                var FinalFavCount = ReplceFav.replace(")", " ");
-                                var Count = "(" + (parseInt(FinalFavCount, 10) - 1) + ")";
-                                $('.FavCount').html(Count);
-                            }
-                        }, function () {
-                            if (LoginPopUp()) {
-                                $(this).removeClass('passive_star').addClass('active_star');
-                                $(this).attr('title', 'Click to remove favorite');
-                                $(".spanFavouriteItem").html("Unmark as favorite");
-                                //var templateId = $(this).next().val();
-                                SavedFarorite(templateId, true);
-                                var FavcountValu = $('.FavCount').text();
-                                var ReplceFav = FavcountValu.replace("(", " ");
-                                var FinalFavCount = ReplceFav.replace(")", " ");
-                                var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
-                                $('.FavCount').html(Count);
-                            }
-                        }
-                        );
-                    }
-                    var type = $('#<%=hfEditTempType.ClientID %>').val();
-                    if (type != "FinishedGood") {
-                        $(".ratingDisabled").rating({ showCancel: false, disabled: true });
-                        //                tabify("tabs5", "MainContent_btnMatchingSets");
-                        $(".width93per").css("width", "98%");
-                    } else if (type == "FinishedGood") {
-                        $(".width93per").css("width", "98%");
-                    }
-
-                });
-
-
-
-                function SavedFarorite(templateId, isFavorite) {
-
-                    var contactId = $('#<%=hfContactId.ClientID %>').val();
-                    var itemId = $('#<%=hfItemId.ClientID %>').val();
-                    var categoryId = $('#<%=hfCategoryId.ClientID %>').val();
-
-                    //alert(templateId + "  " + itemId + " " + categoryId);
-                    if (parseInt(contactId) > 0) {
-
-                        Web2Print.UI.Services.WebStoreUtility.AddUpdateFavDesign(templateId, itemId, contactId, categoryId, isFavorite, OnSuccess);
-                    }
-                }
-
-                function OnSuccess(responce) {
-
-                }
-
-                function UploadDesign(path) {
-                    window.location.href = path;
-
-                }
-
-
-            </script>
-            }
+@Styles.Render("~/Content/js-image-slider-detail.css")
+		@section metatags
+		{
+		@if (ViewBag.MetaTitle != null)
+		{
+		<meta name="title" content="@ViewBag.MetaTitle" />
+
+
+		}
+		@if (ViewBag.MetaDescription != null)
+		{
+		<meta name="description" content="@ViewBag.MetaDescription" />
+
+		}
+
+		@if (ViewBag.MetaKeywords != null)
+		{
+		<meta name="keywords" content="@ViewBag.MetaKeywords" />
+		}
+		}
+		<div class="container content_area">
+
+			<script src="/Scripts/jquery.rating.js" type="text/javascript"></script>
+			<script type="text/javascript">
+				$(".ratingDisabled").rating({ showCancel: false, disabled: true });
+			</script>
+			<div class="left_right_padding">
+				@*Bread crumb menu will be here*@
+
+				<div class=" rounded_corners PDContainer">
+					
+						 <div id="SliderContainer" class="row productdetailSliderContainer rounded_corners bkWhite">
+
+							<div class=" col-md-3 col-lg-3 col-xs-12 col-sm-4 productdetailBannerleftPanel">
+								<div class="productDetailPageHeading">
+									<label id="lblProducName">@Model.ProductName</label>
+								</div>
+								@if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
+								{
+								<div class="divBottomBtns">
+
+									@if (ViewBag.TemplateID > 0)
+									{
+									<div id="divFaourites" class=" ">
+										@if (ViewBag.isAllowBackOrder)
+										{
+
+											 <button id="btnEditThisDesign" value="Design Now"
+												class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
+												onclientclick="return ShowMessage(); " onclick="btnEditThisDesign_Click" />
+										}
+										else
+										{
+											<button id="btnEditThisDesign" value="Design Now"
+													class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
+													onclientclick="return ShowMessage(); " disabled onclick="btnEditThisDesign_Click" />
+										}
+
+										@if (ViewBag.Count > 0)
+										{
+										templateCountLabel = ViewBag.Count + " other template(s)";
+										}
+										else
+										{
+										templateCountLabel = "";
+										}
+										<label id="lblTemplateCount" class="lblTemplateCount">@templateCountLabel</label>
+										<div class="clear">
+										</div>
+									</div>
+
+									<button id="btnStartCreating" value="Other designs"
+											class="start_creating_btn_prodDetail_blk rounded_corners5 marginBtm10" onclick="btnStartCreating_Click"
+											onclientclick="showProgress();" />
+									}
+
+
+
+								</div>
+								}
+								else
+								{
+								<div id="finishedGoodSpecs" class="box_specFinisedGood">
+									<div class="mrginBtm">
+										<label id="Label1" class="marginall5 ProductDetailH2">Specifications</label>
+									</div>
+									<label id="lblCategoryCode2" class="marginall5">@ViewBag.lblCategoryCode2</label>
+									<br />
+									<p class="marginall5">
+										<label id="ltrlCatDesc2">@ViewBag.ltrlCatDesc2</label>
+									</p>
+									<br />
+									@if (ViewData["CostCentersList"] != null)
+									{
+										<label id="lblRefiningOpt2" class="marginall5 ProductDetailH2">
+											Refining Options:
+										</label>
+									}
+									<div class="marginall5 ProductDetailRefOptions">
+										@*<asp:BulletedList ID="BulletedListExtras2" runat="server" CssClass="ProductDetailRefOptionsUL">
+										</asp:BulletedList>*@
+									@if (ViewData["CostCentersList"] != null)
+									{
+										<ul class="ProductDetailRefOptionsUL">
+											@foreach (var cost in ViewData["CostCentersList"] as List<string>)
+											{
+												<li>
+													@cost
+												</li>
+											}
+										</ul>
+									}
+									</div>
+								</div>
+								}
+								@if (Model.IsUploadImage == true && (Model.ProductType == (int)ProductType.FinishedGoodWithBanner || Model.ProductType == (int)ProductType.FinishedGoodWithImageRotator))
+								{
+									if (ViewBag.TemplateID == 0)
+									{
+										if (ViewBag.isAllowBackOrder)
+										{
+											<button id="btnUploadDesign" value="ADD TO CART"
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
+										}
+										else
+										{
+											<button id="btnUploadDesign" value="ADD TO CART"
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
+										}
+										//  @Resources.MyResource.lnkADDTOCART replace with this language file
+									}
+									else
+									{
+										if (ViewBag.isAllowBackOrder)
+										{
+											<button id="btnUploadDesign" value="Upload files"
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
+										}
+										else
+										{
+											<button id="btnUploadDesign" value="Upload files"
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " />
+										}
+									}
+								}
+							  
+							   @{
+								   if (Model.IsStockControl == true)
+								   {
+									   ItemStockControl ObjStockControl = new ItemStockControl();
+									   ObjStockControl = ViewData["StockControl"] as ItemStockControl;
+									   string InStockValue = string.Empty;
+									   if (ObjStockControl != null)
+									   {
+										   if (ObjStockControl.InStock == 0 || ObjStockControl.InStock < 0)
+										   {
+											<div id="ContainerInStock" style="color:white;background-color:red;" class="InStockContainer">
+												@{
+											   if (ObjStockControl.isAllowBackOrder ?? false) // back ordering allowed
+											   {
+												  
+												  // InStockValue = Resources.MyResource.lblBackOrder;
+												   InStockValue = "Out of Stock Back Ordering Allowed";
+											   }
+											   else
+											   {// no stock
+												 //  InStockValue = Resources.MyResource.lblItemOutOfStock;
+												   
+												   InStockValue = "Out of Stock";
+											   }
+												}
+												<label id="InStockValue">@InStockValue</label>
+											</div>
+										   }
+										   else
+										   {
+											<div id="ContainerInStock" style="color:black;background-color:#f3f3f3;" class="InStockContainer">
+												@{
+												   //InStockValue = Resources.MyResource.lblitemInStock + ObjStockControl.InStock;
+											   InStockValue = "Items in Stock : " + ObjStockControl.InStock;                                                }
+												<label id="InStockValue">@InStockValue</label>
+											</div>
+										   }
+									   }
+								   }
+
+
+							}
+							   
+							</div>
+							@if (ViewBag.IsTemplateProductWithBanner == true)
+							{
+							<div id="bannnerContainer">
+								<img id="templBannerImg" src="@ViewBag.TempBannerImgURL" style="width: 670px; height: 420px;" />
+							</div>
+							}
+							else
+							{
+							<div class=" col-md-7 col-lg-6 col-xs-12 col-sm-4 product_detail_Img_div">
+
+								<div id="divImgTabs" class="height490" >
+									 
+										@Html.Raw(ViewBag.Html)
+								</div>
+								<div class="clearBoth">
+								</div>
+							</div>
+							}
+
+							@if (ViewBag.IsTemplateProductWithBanner == false)
+							{
+								if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
+								 {
+
+									 <div id="ProductrightContainter" class="col-md-2 col-lg-3 col-xs-12 col-sm-4 deatilTemplateInfocnt">
+								<label id="txtempltNameHEading">Template name</label><br />
+								<label id="lblTemplateName">@ViewBag.TemplateName</label><br />
+								<br />
+								<select class="ratingDisabled input keepwhitespace" id="ratingControlUser" runat="server">
+									<option value="0" selected="selected">Template Rating </option>
+									<option value="1">Template Rating </option>
+									<option value="2">Template Rating</option>
+									<option value="3">Template Rating</option>
+									<option value="4">Template Rating</option>
+								</select>
+
+								@if (ViewBag.IsFavoriteDesign)
+								{
+								<div id="divFavoriteInd" runat="server" class="active_star margin0Imp" title="Click to Remove Favorite">
+									&nbsp;
+								</div>
+								<p class="spanMarkCount spanFavouriteItem margin0-sm" id="spanFavouriteItem" runat="server">
+									Unmark as favorite
+								</p>
+								}
+								else
+								{
+								<div id="divFavoriteInd"  class="passive_star margin0Imp" title="Click to Add as Favorite">
+									&nbsp;
+								</div>
+								<p class="spanMarkCount spanFavouriteItem margin0-sm" id="spanFavouriteItem" runat="server">
+									Mark as favorite
+								</p>
+
+								}
+
+								@if (ViewBag.TemplateID > 0)
+								{
+									if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
+									{
+								<div class="font11px"  id="divLetUsDes" style="margin-top: 30px;">
+									<br />
+									<label ID="Label5"  class="product_detail_sub_heading colorBlack">Lets us design it for you</label><br />
+									<label ID="Literal8" >Seen a design concept you like but want to discuss with us first? Give us a call.</label>
+									<br />
+									<br />
+								</div>
+								}
+								}
+
+							</div>
+								 }
+							}
+
+							<div class="clearBoth">
+							</div>
+							<div style="float: right; margin-right: 20px;">
+								@if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+								{
+									<div id="cntgpShareLink" style="float: right !important;" class="ShareGoogPluss" onclick="ShareOnGooglePl();">
+									</div>
+									<div id="cntLinkinShareBtn" onclick="ShareOnLinkIn();" class="ShareLinkInBtn" style="float: right;">
+									</div>
+									<div id="cnttwitterSharelnk" style="float: right; margin-top: 14px;">
+										<em id="emSeTweet" class="emShareTweet" onclick="OpenNewWindowToSahre();"></em>
+										<a class="TweetsShareBtn" onclick="OpenNewWindowToSahre();" data-related="jasoncosta" data-lang="en" data-size="large" data-count="none"></a>
+
+
+
+									</div>
+									<div id="cntfacebookSharelnk" style="float: right;" class="ShareFbBtn" onclick="OpenNewWindowToSahreWithFaceBook();">
+									</div>
+								<!-- Place this tag after the last share tag. -->
+									@*@section scripts
+									{
+										<script type="text/javascript">
+											(function () {
+												var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+												po.src = 'https://apis.google.com/js/platform.js';
+												var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+											})();
+										</script>
+									}*@
+									<div>
+										<script src="//platform.linkedin.com/in.js" type="text/javascript">
+											lang: en_US
+										</script>
+									</div>
+								}
+							 
+
+							</div>
+							<div class="clearBoth">
+								&nbsp;
+							</div>
+						</div>
+					</div>
+					<div class="clearBoth" style="margin-bottom: 10px;">
+						&nbsp;
+					</div>
+					<div class="row">
+						<div class="product_detail_main_heading paddingBottom10">
+							<label id="lblCategoryMainHeading">@ViewBag.blCategoryMainHeading</label>
+						</div>
+						<div class=" rounded_corners Background-sm  col-md-4 col-lg-4 col-xs-12 ProductDetailGrayBoxLeft">
+							@if (Model.ProductType == (int)ProductType.TemplateProductWithBanner || Model.ProductType == (int)ProductType.TemplateProductWithImage)
+							{
+							<div id="templateGoodSpecs" class="Background-lg">
+
+								<div class="box_catCode">
+									<div class="mrginBtm">
+										<label ID="lblSpecHead" class="marginall5 ProductDetailH2" runat="server">Specifications</label>
+									</div>
+									<label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
+									<br />
+									<p class="marginall5" style="width: 285px;">
+										<label id="lblCatDes">@ViewBag.lblCatDes</label>
+									</p>
+									<br />
+									@if (ViewData["CostCentersList"] != null)
+									{
+										 <label ID="lblRefinngOpt" class="marginall5 ProductDetailH2">
+											Refinning Options:
+										</label>
+									}
+									<div class="marginall5 ProductDetailRefOptions">
+										@*<asp:BulletedList ID="BulletedListExtras" runat="server" CssClass="ProductDetailRefOptionsUL">
+										</asp:BulletedList>*@
+										@if (ViewData["CostCentersList"] != null)
+										{
+											<ul class="ProductDetailRefOptionsUL">
+												@foreach (var cost in ViewData["CostCentersList"] as List<string>)
+												{
+													<li>
+														@cost
+													</li>
+												}
+											</ul>
+
+										}
+
+									</div>
+								</div>
+								<div class="box_prodPrice">
+									@if (ViewBag.IsShowPrices == true)
+									{
+									<div id="PriceCircle" class="blue_cicle_container" runat="server">
+										<div class="productNewClasscircle">
+											<div class="all_padding3">
+												<div class="paddingTop2px">
+													&nbsp;
+												</div>
+												<label id="ltrlfrom">FROM</label>
+												<br />
+												<label id="lblFromMinPrice" style="font-weight:bold;font-size:16px;">@ViewBag.lblFromMinPrice</label>
+											</div>
+										</div>
+									</div>
+									}
+
+								</div>
+								<div class=" clear">
+								</div>
+							</div>
+							}
+							else
+							{
+								if (!string.IsNullOrEmpty(Model.TipsAndHints))
+								{
+								<div id="handyInfoFinisedGood" class="white_background rounded_corners" style="padding: 10px;">
+									<label id="btnIdeas2" class="ProductDetailH2">Handy Information</label>
+									<div class="rounded_corners paddingLeft10px paddingBottom10px handyInfocnt">
+										<br />
+										<label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
+									</div>
+								</div>
+								}
+							}
+						</div>
+						<input type="hidden" id="txtIsQuantityRanged" value="@ViewBag.txtIsQuantityRanged" />
+						<div class="col-md-8 col-lg-8 col-xs-12 ProductDetailGrayBoxRight" style="padding: 0px !important;">
+
+							<div style="margin-bottom: 10px;"
+								 class="float_left_simple rounded_corners cntwidthProductDetailOnlinePrice cntBackgorndPD cntProductDetailWidth">
+
+								<div class="prodWhiteBack">
+									@if (ViewBag.IsShowPrices == true)
+									{
+									<div id="PricingTblDiv">
+										<table>
+											<tr>
+												<td valign="top" class="width45p">
+													<div class="mrginBtm" style="text-align:left;">
+														<label ID="lblProdSelectOption" class="ProductDetailH2">Online Prices</label>
+													</div>
+
+													<table class="cntwidthProductDetailOnlinePrice" cellpadding="5" cellspacing="0">
+
+													   
+														 
+													   
+															@if (stockOptions != null && stockOptions.Count > 0)
+															{
+																 <tr>
+																<td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp" id="divQuantity"
+																	>
+																	Quantity
+																</td>
+
+																	 @foreach (var stock in stockOptions)
+																	 {
+
+																		<td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
+																			style="text-align: right;">
+																			<label id="lblHeaderText1">@stock.StockLabel</label>
+																		</td>
+																	 }
+
+																
+															</tr>
+
+
+															}
+
+
+															
+															@foreach (var ObjPriceMatrix in ViewData["PriceMatrix"] as List<ItemPriceMatrix>)
+														   {
+															  
+																<tr>
+																	<td class="product_detail_item_cell procu_detail_grid_cell">
+																		<input type="hidden" id="txtHiddenPriceMatrixID" value='@ObjPriceMatrix.PriceMatrixId' />
+																   
+																		@if (ViewBag.txtIsQuantityRanged == "false")
+																		{
+																		<span id="spanFixedQuantity">
+																			@ObjPriceMatrix.Quantity
+																		</span>
+																		}
+																		else
+																		{
+																		<span id="spanRangedQuantity">
+																			@ObjPriceMatrix.QtyRangeFrom
+																			-
+																			@ObjPriceMatrix.QtyRangeTo
+																		</span>
+																		}
+
+																	</td>
+																	
+																	@if (stockOptions.Count > 0)
+																	{
+																	<td id="td1" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn1">
+																			<span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
+																				<label id="lblMatt">@ViewBag.Currency @ObjPriceMatrix.PricePaperType1</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																   
+																	@if (stockOptions.Count > 1)
+																	{
+																	<td id="td2" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn2">
+																			<span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
+																				<label id="lblGlossy">@ViewBag.Currency @ObjPriceMatrix.PricePaperType2</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																	
+																	@if (stockOptions.Count > 2)
+																	{
+																	<td id="td3" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn3">
+																			<span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
+																				<label id="lblPremiumMatt">@ViewBag.Currency @ObjPriceMatrix.PricePaperType3</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																	@if (stockOptions.Count > 3)
+																	{
+																	<td id="td4" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
+																				<label id="lblForthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType4</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																	@if (stockOptions.Count > 4)
+																	{
+																	<td id="td5" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
+																				<label id="lblFifthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType5</label>
+
+																			</span>
+																		</div>
+																	</td>
+
+																	}
+																	
+																	@if (stockOptions.Count > 5)
+																	{
+																	<td id="td6" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
+																				<label id="lblSixthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType6</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																	
+																	@if (stockOptions.Count > 6)
+																	{
+																	<td id="td7" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
+																				<label id="lblSevenStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType7</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																   
+																	@if (stockOptions.Count > 7)
+																	{
+																	<td id="td8" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
+																				<label id="lblEightStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType8</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																	@if (stockOptions.Count > 8)
+																	{
+																	<td id="td9" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
+																				<label id="lblNinthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType9</label>
+
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																	@if (stockOptions.Count > 9)
+																	{
+																	<td id="td10" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
+																				<label id="lblTenthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType10</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																	@if (stockOptions.Count > 10)
+																	{
+																	<td id="td11" class="product_detail_item_cell procu_detail_grid_cell"
+																		style="text-align: right;">
+																		<div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+																			<span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
+																				<label id="lblElevenStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType11</label>
+
+																			</span>
+																		</div>
+																	</td>
+																	}
+																</tr>
+														   }
+															   
+													</table>
+													<div class="product_detail_note">
+													  
+														@if(UserCookieManager.isIncludeTax)
+														{
+															 lblTaxLabel = "(Prices shown " + "inc. " + " " + UserCookieManager.TaxRate + ")";
+														}
+														else
+														{
+															lblTaxLabel = "(Prices shown " + "ex. " + " " + UserCookieManager.TaxRate + ")";
+														}
+														@if (Model.DefaultItemTax == 0)
+														{
+															lblTaxLabel = "(Prices shown " + "ex. " + " " + UserCookieManager.TaxRate + ")";
+														}
+														<label ID="lblTaxLabel" class="lblTxtProdDet">@lblTaxLabel</label>
+													</div>
+													<div class="clearBoth">
+														&nbsp;
+													</div>
+												</td>
+											</tr>
+										</table>
+									</div>
+									}
+
+								</div>
+							</div>
+							@if (!string.IsNullOrEmpty(Model.ProductSpecification))
+							{
+
+							<div id="SpecCont" style="margin-bottom: 10px;"
+								 class="cntProductDetailWidth cntwidthProductDetailDesc float_left_simple rounded_corners cntBackgorndPD">
+
+								<div class="whitebackground">
+
+									<label id="btnProductDetails" class="ProductDetailH2">Description</label>
+									<div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
+										<br />
+										<label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
+										<br />
+									</div>
+								</div>
+							</div>
+
+							}
+							@if (!string.IsNullOrEmpty(Model.TipsAndHints))
+							{
+
+							<div id="HintTipsCont" style="margin-bottom: 10px;"
+								 class="cntProductDetailWidth float_left_simple rounded_corners cntwidthProductDetailDesc cntBackgorndPD">
+
+								<div class="whitebackground">
+
+									<label id="btnIdeas" class="ProductDetailH2">Handy Information</label>
+									<div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
+										<br />
+										<label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
+									</div>
+								</div>
+							</div>
+
+							}
+
+
+							@if (!string.IsNullOrEmpty(Model.LayoutGridContent))
+							{
+							<div id="LyoutGridCont"
+								 class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
+
+								<div class="whitebackground">
+
+									<label id="btnLayoutGrid" text="" class="ProductDetailH2">Key Features</label>
+									<div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
+										<br />
+										<label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
+										<br />
+										<br />
+										<div class="float_left_simple">
+											@if (!string.IsNullOrEmpty(Model.GridImage))
+											{
+											<img id="GridImg" class="ImageHW" src="@Model.GridImage" />
+											}
+
+										</div>
+										<div class="float_left_simple MLftTop">
+											@if (!string.IsNullOrEmpty(Model.File1))
+											{
+											string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+											<a id="ImgIconPs" href="@Model.File1" target="_blank"><img id="ImgIconPss" class="ImageHW" src="@path" /></a>
+											}
+											@if (!string.IsNullOrEmpty(Model.File2))
+											{
+											string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+											<a id="ImgIconAi" href="@Model.File2" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+											}
+											@if (!string.IsNullOrEmpty(Model.File3))
+											{
+											string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+											<a id="ImgIconId" href="@Model.File3" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+											}
+											@if (!string.IsNullOrEmpty(Model.File4))
+											{
+											string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+											<a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+											}
+
+
+
+										</div>
+										<div class="clearBoth">
+											&nbsp;
+										</div>
+									</div>
+								</div>
+							</div>
+							}
+
+
+						</div>
+						<div class="clearBoth">
+							&nbsp;
+						</div>
+						
+							@if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+							{
+
+								// call matching set partial view to show matching sets
+								MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
+
+								MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
+								if (MSViewModel != null)
+								{
+									@Html.Partial("PartialViews/MatchingSet", MSViewModel);
+								}
+								else
+								{
+									<label id="lblMesg" class="errorMsgClss">No Matching set found</label>
+								}
+
+
+								// call related items to show lists of related items
+								RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
+								RIViewModel = ViewData["RIViewModel"] as RelatedItemViewModel;
+								if (RIViewModel != null)
+								{
+									@Html.Partial("PartialViews/RelatedItems", RIViewModel);
+								}
+								else
+								{
+									<label id="lblMesg" class="errorMsgClss">No Related Items found</label>
+								}
+							}
+					</div>
+
+
+					<div class="clearBoth">
+						&nbsp;
+					</div>
+
+
+					<br />
+
+
+
+				</div>
+				<div class="clearBoth">
+					&nbsp;
+				</div>
+				<div class="rounded_corners">
+					<div class="product_detail_sup_padding">
+						<div id="tabs" class="float_left_simple width93per" style="text-align: left !important;">
+							<ul class="MLeft40 MBtm marginbtm5Imp" style="display: none;">
+								<li id="btnHowToVideo" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top PaddingtopCentreAlign"
+									onclick="tabify('tabs4','MainContent_btnHowToVideo')">Video</li>
+								<li  id="btnMatchingSets" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top "
+									onclick="tabify('tabs5','MainContent_btnMatchingSets')">Matching Sets</li>
+							</ul>
+
+						</div>
+					</div>
+					<div class="clearBoth">
+						&nbsp;
+					</div>
+				</div>
+				<div class="clearBoth">
+					&nbsp;
+				</div>
+				<br />
+
+
+				<div class="clearBoth">
+					&nbsp;
+				</div>
+				<br />
+				<asp:Label ID="lblMsgDisp" runat="server" Visible="false" />
+
+				<input type="hidden" id="hfTemplateName" value="@ViewBag.hfTemplateName" />
+				<input type="hidden" id="txtNoOfPages" value='@ViewBag.txtNoOfPages' />
+				<input type="hidden" id="txtTemplateID" value='@ViewBag.txtTemplateID' />
+				<input type="hidden" id="hfEditTempType" value="@ViewBag.hfEditTempType" />
+				<input type="hidden" id="hfContactId" value="@ViewBag.hfContactI" />
+				<input type="hidden" id="hfCategoryId" value="@ViewBag.hfCategoryId" />
+				<input type="hidden" id="hfItemId" value="@Model.ItemId" />
+				<input type="hidden" id="txtHiddenItemDiscountRate" value="@Model.PriceDiscountPercentage" />
+				<input type="hidden" id="txtHiddenProductCategoryID" value="@ViewBag.hfCategoryId" />
+				<input type="hidden" id="txtHiddenProductItemID" value="@Model.ItemId" />
+				<input type="hidden" id="txtHiddenProductName" value='@Model.ProductName' />
+				<input type="hidden" id="txtHiddenCorpItemTemplateID" value='@Model.TemplateId' />
+				<input type="hidden" ID="hfFbShareLink"  Value="@ViewBag.hfFbShareLink" />
+
+
+				<asp:HiddenField ID="txtHiddenProdItemPrice" Value="0" runat="server" />
+				<asp:HiddenField ID="txtHiddenAddonTotal" Value="0" runat="server" />
+
+
+				<asp:HiddenField ID="hfState" runat="server" ClientIDMode="Predictable" />
+				<asp:HiddenField ID="hfBrokerMarkup" runat="server" Value="0" />
+				<asp:HiddenField ID="hfContactMarkup" runat="server" Value="0" />
+			</div>
+			<uc5:RRViews ID="pnlRViews" runat="server" />
+			<br />
+			<br />
+			@section scripts
+			{
+            @Scripts.Render("~/bundles/SliderDetail")
+
+			<script src="~/Scripts/PopUp.js"></script>
+			<script type="text/javascript">
+
+				function displayFileUploadPopup(btnUploadFile) {
+
+					var result = false;
+					result = validateFileSelection();
+					if (result == false)
+						alert("Please select file");
+					else {
+
+						var overLay = $("#lblFileProgressOverlay");
+						$(overLay).addClass("overlay");
+						$("#lblFileLoader").css('visibility', "visible");
+					}
+
+
+					return result;
+
+				}
+
+				function validateFileSelection() {
+
+					//debugger;
+					var addedFileDivsList = $("div .MultiFile-label");
+
+					if (addedFileDivsList.length > 0)
+						return true;
+					else
+						return false;
+				}
+
+				var productTotal = 0;
+
+				var prouctTotalSavings = 0;
+				var addonTotalSavings = 0;
+
+				function checkUnCheckRadio(radionButton) {
+					var radiosList = $(".radioBtnQtyGroupClass");
+
+					if (radiosList != null) {
+
+						$(radiosList).each(function (indx, objVal) {
+
+							//debugger;
+							if ($(this).attr("id") != $(radionButton).attr("id")) {
+								$(this).attr("checked", false);
+							}
+						});
+					}
+
+					//Finally make selecten changes
+					makePaperSelectection();
+				} //checkUnCheckRadio
+
+
+
+				/*Adon Pricess methods*/
+				function calculateAdOnPrices() {
+
+					//Set the AddonTotals on Global Variable
+					this.displayTotalPrice(productTotal, goThroughAdOnPricesChkBoxesForTotal());
+				}
+
+				function goThroughAdOnPricesChkBoxesForTotal() {
+
+
+					var checkedPriceTotal = 0;
+					var addonSaving = 0;
+					var checkBoxJasonData = null;
+
+					$(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
+
+						if ($(this).attr("checked") == "checked") {
+							//Gets the Jason Data associated with it
+							checkBoxJasonData = jQuery.parseJSON($(this).attr("CheckBoxJasonData"));
+
+							if (checkBoxJasonData != null) {
+
+								if (checkBoxJasonData.IsDiscounted == false) {
+
+									checkedPriceTotal = checkedPriceTotal + parseFloat(checkBoxJasonData.ActualPrice); //Gets Actual non discounted Price
+								}
+								else {
+									checkedPriceTotal = checkedPriceTotal + parseFloat(checkBoxJasonData.DiscountedPrice); //Gets Actual non discounted Price
+									addonSaving = addonSaving + (parseFloat(checkBoxJasonData.ActualPrice) - parseFloat(checkBoxJasonData.DiscountedPrice));
+								}
+							}
+						}
+						checkBoxJasonData = null;
+					});
+
+					addonTotalSavings = addonSaving; //global variable
+					return checkedPriceTotal;
+				}
+
+				/*End Adon Pricess methods*/
+
+
+				function displayTotalPrice(productPrice, addOnPrice) {
+
+					//debugger;
+					var productPriceTotal = productPrice;
+					var addonPriceTotal = addOnPrice;
+
+
+					this.displayProductItemTotal(productPriceTotal.toFixed(2));
+					this.displayAddOnTotal(addonPriceTotal.toFixed(2))
+
+					var total = productPriceTotal + addonPriceTotal;
+					$("#lblGrossTotal").text(getCurrencySymbol() + (total).toFixed(2));
+
+					//Dispaly the savings as well
+					$("#lblYouHaveSave").text('You have saved ' + getCurrencySymbol() + (prouctTotalSavings + addonTotalSavings).toFixed(2));
+				}
+
+
+				function displayProductItemTotal(price) {
+
+
+				}
+
+				function displayAddOnTotal(totalPrice) {
+
+
+
+				}
+
+
+				function makePaperSelectection() {
+
+					var paperTypeRadioList = $(".radioBtnPaperTypeClass");
+
+					if (paperTypeRadioList !== null && paperTypeRadioList.length > 0) {
+						//get the checked paper radio
+						//debugger;
+						var selectedRadio = findSelectedPaperTypeRadio(paperTypeRadioList);
+
+						if ($(selectedRadio).length > 0) {
+							if ($(selectedRadio).attr("id").search(/rbPaperPremiumMatt/) != -1) {
+								calculateProductItemPrice('PremiumMatt');
+							}
+							else if ($(selectedRadio).attr("id").search(/rbPaperMatt/) != -1) {
+								calculateProductItemPrice('Matt');
+							}
+							else if ($(selectedRadio).attr("id").search(/rbPaperGlossy/) != -1) {
+
+								calculateProductItemPrice('Glossy');
+							}
+						}
+					}
+				} //makePaperSelectection
+
+
+
+				function ShowMessage() {
+					var type = $('#hfEditTempType').val();
+					// alert(type);
+					if (type == "NoTemplate") {
+						showProgress();
+						return true;
+					} else if (type == "SameTemplate") {
+						//alert("2");
+						ShowPopup2("Alert!", "You already have the same template in designer mode Would you like to resume your design or start from scratch ?");
+						return false;
+					} else if (type == "SameItem") {
+						// alert();
+						ShowPopup2("Alert!", "you already have another template in designer mode. Would you like to continue modifiing the design or create new ");
+						return false;
+					}
+					return false;
+					//
+				}
+				function calculateProductItemPrice(selectedPaperType) {
+
+					//debugger;
+					var qtyJsonData = null;
+					var radioQty = this.findSelectedQtyRadio();
+					var selectedPrice = null;
+					var savings = 0;
+
+					if ($(radioQty).length > 0) {
+						qtyJsonData = jQuery.parseJSON($(radioQty).attr("QtyJason"));
+
+						selectedPaperType = selectedPaperType + '_PriceMatrixID_' + qtyJsonData.PriceMatrixID.toString();
+
+						if (qtyJsonData.IsDiscounted == false)
+							selectedPrice = parseFloat($('#' + selectedPaperType).attr("title")); // pick non discounted price
+						else {
+
+							var actualPrice = parseFloat($('#' + selectedPaperType).attr("title")); // pick non discounted price
+							//get the discounted Price for this search the span having disconted Price
+							selectedPrice = triverseForDiscountedPrice(selectedPaperType);
+							//save ammount
+							savings = actualPrice - selectedPrice;
+						}
+
+						//alert(savings);
+						//debugger;
+						productTotal = selectedPrice; //global variables
+						prouctTotalSavings = savings; //global variables
+						this.displayTotalPrice(productTotal, goThroughAdOnPricesChkBoxesForTotal());
+					}
+				} //calculateProductItemPrice
+
+
+				function triverseForDiscountedPrice(selectedPaperType) {
+
+					//debugger;
+					//var spanDiscounted = $($('#' + selectedPaperType).children()[1]).text().toString().replace(/^[$]/, '');
+					var currSymbol = getCurrencySymbol();
+					var spanDiscounted = $($('#' + selectedPaperType).children()[1]).text().toString().replace(/^[currSymbol]/, '');
+
+					var arr = spanDiscounted.split(currSymbol);
+
+					return parseFloat(arr[1]); //one will hve the numeric value
+
+				} //triverseForDiscountedPrice
+
+				function findSelectedPaperTypeRadio(paperTypeRadioList) {
+
+					var selectedPaperRadio = null;
+
+					$(paperTypeRadioList).each(function (indx, obj) {
+						if ($(this).attr("checked") == "checked" && selectedPaperRadio == null) {
+
+							selectedPaperRadio = $(this);
+						}
+					});
+
+					return selectedPaperRadio;
+
+				} //findSelectedPaperTypeRadio
+
+				function LoginPopUp() {
+					var CheckLogin = '<%=IsLogin %>';
+					if (parseInt(CheckLogin) > 0) {
+						return true;
+					}
+					else {
+						var returnUrl = '<%=ReturnUrl %>';
+						var message = '<div style="text-align:left;padding-left:90px;">Add to Favorites to mark this template as a favorites in your profile, please register or login first</div><br><a href="../Signup.aspx?' + returnUrl + '" style="padding-right:20px;">Register</a><a href="../Login.aspx?' + returnUrl + '">Login</a>';
+
+						ShowPopup('Message', message);
+						return false;
+					}
+				}
+
+				function findSelectedQtyRadio() {
+
+					var radiosList = $(".radioBtnQtyGroupClass");
+					var selectedQty = null;
+
+					if (radiosList != null) {
+						$(radiosList).each(function (indx, objVal) {
+							if ($(this).attr("checked") == "checked" && selectedQty == null) {
+
+								selectedQty = $(this);
+							}
+						});
+					}
+
+					return selectedQty;
+				}
+
+
+
+				$(document).ready(function () {
+
+					CreateMultipleUpload();
+					makePaperSelectection();
+					calculateAdOnPrices();
+				});
+
+				function clearMsgLabel() {
+
+
+				}
+
+				function CreateMultipleUpload() {
+					//set up the file upload
+
+				}
+
+				function FileUploaderShow() {
+
+					$find('mpeUploadYourDesignPopup').show();
+				}
+
+				function FileUploaderHide() {
+
+					$find('mpeUploadYourDesignPopup').hide();
+					$('input:file').MultiFile('reset');
+
+					clearMsgLabel();
+				}
+
+
+
+
+			</script>
+
+			<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+
+			<div id="fb-root"></div>
+			<script>
+				(function (d, s, id) {
+					var js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id)) return;
+					js = d.createElement(s); js.id = id;
+					js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1421343758131537&version=v2.0";
+					fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));</script>
+			<script type="text/javascript">
+				function OpenNewWindowToSahre() {
+					var WindHref = window.location.href;
+					while (WindHref.indexOf(";") > 0) {
+						WindHref = WindHref.replace(";", "%3B");
+
+					}
+
+					var w = 620;
+					var h = 360;
+					var left = (screen.width / 2) - (w / 2);
+					var top = (screen.height / 2) - (h / 2);
+					window.open("https://twitter.com/intent/tweet?original_referer=" + WindHref + "&related=jasoncosta&text=-%20UK&tw_p=tweetbutton&url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+					return false;
+				}
+
+				function OpenNewWindowToSahreWithFaceBook() {
+
+					var WindHref = $("#hfFbShareLink").val();
+					while (WindHref.indexOf(";") > 0) {
+						WindHref = WindHref.replace(";", "%3B");
+
+					}
+					WindHref = WindHref.replace(":", "%3A");
+					while (WindHref.indexOf("/") > 0) {
+						WindHref = WindHref.replace("/", "%2F");
+
+					}
+					while (WindHref.indexOf("=") > 0) {
+						WindHref = WindHref.replace("=", "%3D");
+
+					}
+					while (WindHref.indexOf("&") > 0) {
+						WindHref = WindHref.replace("&", "%26");
+
+					}
+					WindHref = WindHref.replace("?", "%3F");
+					//var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
+					var w = 620;
+					var h = 360;
+					var left = (screen.width / 2) - (w / 2);
+					var top = (screen.height / 2) - (h / 2);
+					window.open("https://www.facebook.com/sharer.php?app_id=1421343758131537&sdk=joey&u=" + WindHref + "&display=popup", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+					return false;
+				}
+
+				function ShareOnLinkIn() {
+
+					var WindHref = $("#hfFbShareLink").val();
+					while (WindHref.indexOf(";") > 0) {
+						WindHref = WindHref.replace(";", "%3B");
+
+					}
+					WindHref = WindHref.replace(":", "%3A");
+					while (WindHref.indexOf("/") > 0) {
+						WindHref = WindHref.replace("/", "%2F");
+
+					}
+					while (WindHref.indexOf("=") > 0) {
+						WindHref = WindHref.replace("=", "%3D");
+
+					}
+					while (WindHref.indexOf("&") > 0) {
+						WindHref = WindHref.replace("&", "%26");
+
+					}
+					WindHref = WindHref.replace("?", "%3F");
+					//var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
+					var w = 620;
+					var h = 360;
+					var left = (screen.width / 2) - (w / 2);
+					var top = (screen.height / 2) - (h / 2);
+					window.open("http://www.linkedin.com/cws/share?url=" + WindHref + "&original_referer=" + WindHref + "&token=&isFramed=false&lang=en_US&_ts=1401271443305.631", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+					return false;
+				}
+
+
+				function ShareOnGooglePl() {
+
+					var WindHref = $("#hfFbShareLink").val();
+					while (WindHref.indexOf(";") > 0) {
+						WindHref = WindHref.replace(";", "%3B");
+
+					}
+					WindHref = WindHref.replace(":", "%3A");
+					while (WindHref.indexOf("/") > 0) {
+						WindHref = WindHref.replace("/", "%2F");
+
+					}
+					while (WindHref.indexOf("=") > 0) {
+						WindHref = WindHref.replace("=", "%3D");
+
+					}
+					while (WindHref.indexOf("&") > 0) {
+						WindHref = WindHref.replace("&", "%26");
+
+					}
+					WindHref = WindHref.replace("?", "%3F");
+					//var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
+					var w = 620;
+					var h = 360;
+					var left = (screen.width / 2) - (w / 2);
+					var top = (screen.height / 2) - (h / 2);
+					window.open("https://plus.google.com/share?url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+					return false;
+				}
+
+
+
+				$(document).ready(function () {
+
+					var hiddenFieldID1 = "input[id$=txtTemplateID]";
+					var templateId = $(hiddenFieldID1).val()
+					var itemId = $('#hfItemId').val();
+					var templatename = $('#hfTemplateName').val();
+					var categoryId = $('#hfCategoryId').val();
+
+					//                tabify('tabs1', 'MainContent_btnProductDetails')
+					//  $("#ifrm").attr("src", 'matchingsetpopup.aspx?templatename=' + templatename + "&ProductCategoryId=" + categoryId + "&ItemID=" + itemId);
+					var type = $('#hfEditTempType').val();
+					if (type != "FinishedGood") {
+						$('.passive_star').toggle(function () {
+							if (LoginPopUp()) {
+
+								$(this).removeClass('passive_star').addClass('active_star');
+								$(this).attr('title', 'Click to remove favorite');
+								$(".spanFavouriteItem").html("Unmark as favorite");
+								//var templateId = $(this).next().val();
+								SavedFarorite(templateId, true);
+								var FavcountValu = $('.FavCount').text();
+								var ReplceFav = FavcountValu.replace("(", " ");
+								var FinalFavCount = ReplceFav.replace(")", " ");
+								var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
+								$('.FavCount').html(Count);
+							}
+						}, function () {
+							if (LoginPopUp()) {
+								$(this).removeClass('active_star').addClass('passive_star');
+								$(this).attr('title', 'Click to add favorite');
+								//var templateId = $(this).next().val();
+								$(".spanFavouriteItem").html("Mark as favorite");
+								SavedFarorite(templateId, false);
+								var FavcountValu = $('.FavCount').text();
+								var ReplceFav = FavcountValu.replace("(", " ");
+								var FinalFavCount = ReplceFav.replace(")", " ");
+								var Count = "(" + (parseInt(FinalFavCount, 10) - 1) + ")";
+								$('.FavCount').html(Count);
+							}
+						}
+					);
+
+						$('.active_star').toggle(function () {
+							if (LoginPopUp()) {
+								$(this).removeClass('active_star').addClass('passive_star');
+								$(this).attr('title', 'Click to add favorite');
+								//var templateId = $(this).next().val();
+								$(".spanFavouriteItem").html("Mark as favorite");
+								SavedFarorite(templateId, false);
+								var FavcountValu = $('.FavCount').text();
+								var ReplceFav = FavcountValu.replace("(", " ");
+								var FinalFavCount = ReplceFav.replace(")", " ");
+								var Count = "(" + (parseInt(FinalFavCount, 10) - 1) + ")";
+								$('.FavCount').html(Count);
+							}
+						}, function () {
+							if (LoginPopUp()) {
+								$(this).removeClass('passive_star').addClass('active_star');
+								$(this).attr('title', 'Click to remove favorite');
+								$(".spanFavouriteItem").html("Unmark as favorite");
+								//var templateId = $(this).next().val();
+								SavedFarorite(templateId, true);
+								var FavcountValu = $('.FavCount').text();
+								var ReplceFav = FavcountValu.replace("(", " ");
+								var FinalFavCount = ReplceFav.replace(")", " ");
+								var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
+								$('.FavCount').html(Count);
+							}
+						}
+						);
+					}
+					var type = $('#hfEditTempType').val();
+					if (type != "FinishedGood") {
+						$(".ratingDisabled").rating({ showCancel: false, disabled: true });
+						//                tabify("tabs5", "MainContent_btnMatchingSets");
+						$(".width93per").css("width", "98%");
+					} else if (type == "FinishedGood") {
+						$(".width93per").css("width", "98%");
+					}
+
+				});
+
+
+
+				function SavedFarorite(templateId, isFavorite) {
+
+					var contactId = $('#hfContactId').val();
+					var itemId = $('#hfItemId').val();
+					var categoryId = $('#hfCategoryId').val();
+
+					//alert(templateId + "  " + itemId + " " + categoryId);
+					if (parseInt(contactId) > 0) {
+
+						Web2Print.UI.Services.WebStoreUtility.AddUpdateFavDesign(templateId, itemId, contactId, categoryId, isFavorite, OnSuccess);
+					}
+				}
+
+				function OnSuccess(responce) {
+
+				}
+
+				function UploadDesign(path) {
+					window.location.href = path;
+
+				}
+
+
+			</script>
+			}

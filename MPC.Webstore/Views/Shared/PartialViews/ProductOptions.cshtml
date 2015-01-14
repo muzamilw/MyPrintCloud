@@ -293,12 +293,12 @@
                     <label id="lblGrossTotal" class="float_right">$0</label>
 
                 </div>
-                @if (ViewBag.Item.IsStockControl == true)
+                @if (ViewBag.IsStockControl == true)
                 {
 
-                    if (ViewBag.ItemStock == 0 || ViewBag.ItemStock < 0)
+                    if (ViewBag.ItemStock = 0)
                     { <div class="InStockContainer" style="background:red; color:white;">
-                        @if (ViewBag.ItemStock.isAllowBackOrder ?? false) // back ordering allowed
+                        @if (ViewBag.isAllowBackOrder ?? false) // back ordering allowed
                         {
                             <label>Back ordering allowed</label>
                         }
