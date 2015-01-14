@@ -249,7 +249,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
+    <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
+    <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\PrefixController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductCategoryController.cs" />
@@ -279,6 +283,7 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Api\ModelMappers\CampaignMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CmsSkinPageWidgetParamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyBannerSetMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactRoleMapper.cs" />
@@ -287,6 +292,10 @@
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrefixMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CurrencyMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GlobalLanguageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemProductDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\LanguageEditorMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CountryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EmailEventMapper.cs" />
@@ -321,6 +330,7 @@
     <Compile Include="Areas\Api\Models\CmsPageWidgetResponse.cs" />
     <Compile Include="Areas\Api\Models\CmsPageWithWidgetList.cs" />
     <Compile Include="Areas\Api\Models\CmsSkinPageWidget.cs" />
+    <Compile Include="Areas\Api\Models\CmsSkinPageWidgetParam.cs" />
     <Compile Include="Areas\Api\Models\CompanyBanner.cs" />
     <Compile Include="Areas\Api\Models\CompanyBannerSet.cs" />
     <Compile Include="Areas\Api\Models\CompanyBaseResponse.cs" />
@@ -337,13 +347,16 @@
     <Compile Include="Areas\Api\Models\CostCentre.cs" />
     <Compile Include="Areas\Api\Models\Country.cs" />
     <Compile Include="Areas\Api\Models\CountryDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CurrencyDropDown.cs" />
     <Compile Include="Areas\Api\Models\EmailEvent.cs" />
+    <Compile Include="Areas\Api\Models\GlobalLanguageDropDown.cs" />
     <Compile Include="Areas\Api\Models\ItemBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemAddOnCostCentre.cs" />
     <Compile Include="Areas\Api\Models\ItemListView.cs" />
     <Compile Include="Areas\Api\Models\ItemDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemPriceMatrix.cs" />
     <Compile Include="Areas\Api\Models\ItemPriceMatrixSearchRequest.cs" />
+    <Compile Include="Areas\Api\Models\ItemProductDetail.cs" />
     <Compile Include="Areas\Api\Models\ItemRelatedItem.cs" />
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
@@ -355,6 +368,7 @@
     <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
     <Compile Include="Areas\Api\Models\Prefix.cs" />
     <Compile Include="Areas\Api\Models\ProductCategory.cs" />
+    <Compile Include="Areas\Api\Models\ProductCategoryItem.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryListViewModel.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
@@ -429,6 +443,16 @@
     <Compile Include="Areas\Api\Models\TaxRate.cs" />
     <Compile Include="Areas\Api\Models\WeightUnitDropDown.cs" />
     <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
+    <Compile Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MPC_Content\Resources\Organisation1\fr-FR\LanguageResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Areas\Api\Models\CompanyResponse.cs" />
     <Compile Include="Areas\Api\Models\InventoryBaseResponse.cs" />
@@ -473,6 +497,9 @@
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.model.js" />
+    <Content Include="Areas\Stores\Scripts\store.Product.dataservice.js" />
+    <Content Include="Areas\Stores\Scripts\store.Product.model.js" />
+    <Content Include="Areas\Stores\Scripts\store.Product.viewModel.js" />
     <Content Include="Areas\Stores\Scripts\Stores.dataservice.js" />
     <Content Include="Areas\Stores\Scripts\Stores.model.js" />
     <Content Include="Areas\Stores\Scripts\Stores.view.js" />
@@ -1392,6 +1419,7 @@
     <Content Include="Areas\Stores\Views\Shared\_HomeWidget.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AboutUs.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ProductCategoryDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_CkEditorDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\DeliveryAddOnsDetail.cshtml" />
     <Content Include="Areas\Settings\Views\Home\DeliveryCarrier.cshtml" />
     <Content Include="Areas\Settings\Views\Home\DeliveryCostCentres.cshtml" />
@@ -1399,6 +1427,16 @@
     <Content Include="Areas\Settings\Views\Home\MachinesList.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\Prefixes.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductDetail.cshtml" />
+    <Content Include="Content\less\Organisation.less" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductAddVideo.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductRelatedProductDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductStockDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_StockProductItemAddonCostCentre.cshtml" />
+    <Content Include="Areas\Stores\Views\Home\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -1435,12 +1473,17 @@
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
+    <Content Include="Scripts\jquery-ui-1.10.4.min.js.map">
+      <DependentUpon>jquery-ui-1.10.4.min.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery-ui-sliderAccess.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.sortable.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -2527,7 +2570,6 @@
     <Content Include="Views\Shared\Estimate\_EstimationWizard.cshtml" />
     <Content Include="Views\Shared\Estimate\_RunWizard.cshtml" />
     <Content Include="Views\Shared\Product\_AddStockQty.cshtml" />
-    <Content Include="Views\Shared\Product\_Products.cshtml" />
     <Content Include="Views\Shared\Product\_SelectStock.cshtml" />
     <Content Include="Views\Shared\Product\_SignatureEdit.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditCMYKColors.cshtml" />
@@ -2568,6 +2610,7 @@
     <Folder Include="Areas\Api\Views\Address\" />
     <Folder Include="Areas\Api\Views\Category\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
+    <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Products\Models\" />
@@ -2581,8 +2624,18 @@
     <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Models\" />
+    <Folder Include="MPC_Content\Artworks\" />
+    <Folder Include="MPC_Content\Attachments\" />
+    <Folder Include="MPC_Content\Categories\" />
+    <Folder Include="MPC_Content\CompanyBanners\" />
+    <Folder Include="MPC_Content\CostCentres\" />
+    <Folder Include="MPC_Content\Designer\" />
+    <Folder Include="MPC_Content\Media\" />
+    <Folder Include="MPC_Content\Organisations\" />
+    <Folder Include="MPC_Content\Products\" />
+    <Folder Include="MPC_Content\SecondaryPages\" />
+    <Folder Include="MPC_Content\Stores\" />
     <Folder Include="Reports\" />
-    <Folder Include="Resources\Organisations\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
   </ItemGroup>
@@ -2624,6 +2677,14 @@
     <EmbeddedResource Include="Areas\Api\LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MPC_Content\Resources\Organisation1\en-US\LanguageResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MPC_Content\Resources\Organisation1\fr-FR\LanguageResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

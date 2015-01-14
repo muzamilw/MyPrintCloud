@@ -12,7 +12,7 @@ namespace MPC.Models.DomainModels
         public string Estimate_Code { get; set; }
         public string Estimate_Name { get; set; }
         public Nullable<int> EnquiryId { get; set; }
-        public long ContactCompanyId { get; set; }
+        public long CompanyId { get; set; }
         public Nullable<long> ContactId { get; set; }
         public Nullable<short> StatusId { get; set; }
         public Nullable<double> Estimate_Total { get; set; }
@@ -35,7 +35,6 @@ namespace MPC.Models.DomainModels
         public int AddressId { get; set; }
         public string CompanyName { get; set; }
         public int SectionFlagId { get; set; }
-        public Nullable<int> CompanyId { get; set; }
         public Nullable<int> SourceId { get; set; }
         public Nullable<int> ProductId { get; set; }
         public Nullable<bool> IsInPipeLine { get; set; }
@@ -46,7 +45,6 @@ namespace MPC.Models.DomainModels
         public Nullable<System.DateTime> Order_ConfirmationDate { get; set; }
         public short Order_Status { get; set; }
         public Nullable<System.DateTime> Order_CompletionDate { get; set; }
-        public long CompanySiteId { get; set; }
         public Nullable<int> OrderManagerId { get; set; }
         public Nullable<System.DateTime> ArtworkByDate { get; set; }
         public Nullable<System.DateTime> DataByDate { get; set; }
@@ -91,12 +89,7 @@ namespace MPC.Models.DomainModels
         public Nullable<System.DateTime> EstimateReportLastPrinted { get; set; }
         public Nullable<bool> isEmailSent { get; set; }
         public Nullable<int> DiscountVoucherID { get; set; }
-        public Nullable<double> Estimate_TotalBroker { get; set; }
-        public string BrokerPO { get; set; }
-        public Nullable<int> BrokerId { get; set; }
         public Nullable<short> ClientStatus { get; set; }
-        public Nullable<int> ParentId { get; set; }
-        public Nullable<int> Version { get; set; }
         public Nullable<long> RefEstimateId { get; set; }
         public string XeroAccessCode { get; set; }
         public Nullable<long> OrganisationId { get; set; }

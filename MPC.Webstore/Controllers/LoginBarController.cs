@@ -39,9 +39,12 @@ namespace MPC.Webstore.Controllers
         {
             get { return HttpContext.GetOwinContext().Authentication; }
         }
+
+       
         // GET: LoginBar
         public ActionResult Index()
         {
+            
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
                 ViewBag.isUserLoggedIn = true;
@@ -62,8 +65,10 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.ContactCanEditProfile = false;
             UserCookieManager.ShowPriceOnWebstore = true;
             AuthenticationManager.SignOut();
-            ControllerContext.HttpContext.Response.Redirect("/Home/Index");
-            return RedirectToAction("Index", "Home");
+            //ControllerContext.HttpContext.Response.Redirect("/Home/Index");
+            Response.Redirect("/"); //return //RedirectToAction("Index", "Home");
+            return null;
+
         }
     }
 }

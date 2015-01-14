@@ -1,0 +1,90 @@
+﻿@model MPC.Webstore.ViewModels.RelatedItemViewModel
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
+    string FromMinPrice = string.Empty;
+    string MinPrice = string.Empty;
+}
+@if (Model.ProductItems != null && Model.ProductItems.Count > 0)
+{ 
+    <div id="controlBodyDiv" class="row">
+            <div class="feature_product_main_heading  col-md-12 col-lg-12 col-xs-12">
+
+                <label ID="lblHeading" >If you like @Model.ProductName ,lblYoumightLke</label>
+                <label id="lblYoumightLke"></label>
+            </div>
+            @{
+        
+                foreach(var item in Model.ProductItems as List<ProductItem>)
+                { 
+                     <div class="col-md-3 col-lg-3 col-xs-12 BD rounded_corners">
+                    <div class="pad5">
+                        <div class="LCLB">
+                            @if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
+                            {
+                                <a id="hlProductDetail" href="">
+                                    <div class="PDTC FI">
+                                        @{
+                                             string thumbnail = item.ThumbnailPath;
+                                     
+                                        }
+                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@thumbnail' />
+                                    </div>
+                                </a>
+
+                            }
+                            else
+                            {
+                                <a id="hlProductDetail" href="">
+                                    <div class="PDTC FI">
+                                        @{
+                                            string thumbnail = item.ThumbnailPath;
+
+                                        }
+                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@thumbnail' />
+                                    </div>
+                                </a>
+
+                            }
+                   
+                        </div>
+                        <div class="product_detail_image_heading_IRI">
+                            <label ID="lblProductName" class="themeFontColor">@item.ProductName</label>
+                        </div>
+
+                        <div class="product_detail_image_Pricing">
+                            @if (Model.isShowPrices == true)
+                            {
+                                double calculatedPrice = item.MinPrice;
+                                FromMinPrice = Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
+                                MinPrice = "Starts From " + Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
+                                <label ID="lblPrice" >@MinPrice</label>
+                            }
+                    
+                        </div>
+                    </div>
+                    @if (Model.isShowPrices == true)
+                    {
+                             <div id="PriceCircle" class="blue_cicle_container " >
+                        <div class="BC">
+                            <div class="all_padding3">
+                                <div class="paddingTop2px">
+                                    &nbsp;
+                                </div>
+                                FROM
+                                <br />
+                                <label ID="lblFromMinPrice" style="font-weight:bold;font-size:16px;">@FromMinPrice</label>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+                }
+            }
+
+
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
+}

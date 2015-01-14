@@ -36,7 +36,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Campaign GetCampaignRecordByEmailEvent(int iEmailEvent)
+        public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent)
         {
 
             return db.Campaigns.Where(c => c.EmailEvent == iEmailEvent).FirstOrDefault();
@@ -498,7 +498,7 @@ namespace MPC.Repository.Repositories
                                                     }
                                                     else if (propertyInfo.Name == "StoreID")
                                                     {
-                                                        if (Mode == StoreMode.Broker || Mode == StoreMode.Corp)// if broker mode then Company name == Broker company
+                                                        if (Mode == StoreMode.Corp)// if broker mode then Company name == Broker company
                                                         {
                                                             tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
@@ -512,14 +512,9 @@ namespace MPC.Repository.Repositories
                                                     }
                                                     else if (propertyInfo.Name == "SalesManagerContactID")
                                                     {
-                                                        if (Mode == StoreMode.Broker)// if broker mode then Email == Broker company contact email
-                                                        {
-                                                            tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                        }
-                                                        else
-                                                        {
+                                                       
                                                             tagValue = OrgSMEmail;
-                                                        }
+                                                      
                                                     }
                                                     else if (propertyInfo.Name == "SubscriberID")
                                                     {

@@ -8,34 +8,28 @@ namespace MPC.Models.Common
 {
     public class AddOnCostsCenter
     {
-        private int _productAddOnID;
+        private long _productAddOnID;
 
-        public int ProductAddOnID
+        public long ProductAddOnID
         {
             get { return _productAddOnID; }
             set { _productAddOnID = value; }
         }
-        private int? _itemID;
+        private long _itemID;
 
-        public int? ItemID
+        public long ItemID
         {
             get { return _itemID; }
             set { _itemID = value; }
         }
-        private int? _costCenterID;
+        private long _costCenterID;
 
-        public int? CostCenterID
+        public long CostCenterID
         {
             get { return _costCenterID; }
             set { _costCenterID = value; }
         }
-        private double? _discountRate;
 
-        public double? DiscountRate
-        {
-            get { return _discountRate; }
-            set { _discountRate = value; }
-        }
         private string _addOnName;
 
         public string AddOnName
@@ -57,13 +51,7 @@ namespace MPC.Models.Common
             get { return _addOnPrice; }
             set { _addOnPrice = value; }
         }
-        private bool? _isDiscounted;
 
-        public bool? IsDiscounted
-        {
-            get { return _isDiscounted; }
-            set { _isDiscounted = value; }
-        }
 
         public int Type { get; set; }
 
@@ -78,14 +66,15 @@ namespace MPC.Models.Common
 
         public double ActualPrice { get; set; }
 
-        public double DiscountedPrice { get; set; }
 
         public double? Qty1NetTotal { get; set; }
 
-        public int? EstimateProductionTime { get; set; }
+        public decimal EstimateProductionTime { get; set; }
 
         public double? ProfitMargin { get; set; }
 
         public int Priority { get; set; }
+
+        public long ItemStockId { get; set; }
     }
 }

@@ -3,8 +3,15 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
+CKEDITOR.editorConfig = function (config) {
+    // Define changes to default configuration here. For example:
+    // config.language = 'fr';
+    // config.uiColor = '#AADC6E';
+
+    config.toolbarCanCollapse = true;
+    //config.fullPage = true;
+    config.allowedContent = true;
+    config.baseFloatZIndex = 10000;
+    config.removeDialogTabs = 'image:advanced';
+    //config.extraPlugins = 'wysiwygarea';
 };

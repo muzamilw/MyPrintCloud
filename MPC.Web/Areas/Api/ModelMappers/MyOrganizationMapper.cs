@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -22,6 +23,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 Countries = source.Countries != null ? source.Countries.Select(c => c.CreateFromDropDown()).ToList() : null,
                 States = source.States != null ? source.States.Select(s => s.CreateFromDropDown()).ToList() : null,
+                Currencies = source.Currencies != null ? source.Currencies.Select(s => s.CreateFromDropDown()).ToList() : null,
+                LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(s => s.CreateFromDropDown()).ToList() : null,
+                WeightUnits = source.WeightUnits != null ? source.WeightUnits.Select(s => s.CreateFromDropDown()).ToList() : null,
+                GlobalLanguages = source.GlobalLanguages != null ? source.GlobalLanguages.Select(s => s.CreateFromDropDown()).ToList() : null,
             };
         }
 
@@ -33,6 +38,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Organisation CreateFrom(this DomainModels.Organisation source)
         {
+            byte[] bytes = null;
+            if (source.MISLogo != null && File.Exists(source.MISLogo))
+            {
+                bytes = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null;
+            }
+
             return new Organisation
            {
                OrganisationId = source.OrganisationId,
@@ -56,7 +67,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                Url = source.URL,
                MisLogo = source.MISLogo,
                TaxRegistrationNo = source.TaxRegistrationNo,
-               Image = source.MisLogoBytes
+               Image = bytes,
+               LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
            };
         }
 
@@ -90,6 +102,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SystemWeightUnit = source.SystemWeightUnit,
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
+                LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
             };
         }
 

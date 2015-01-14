@@ -37,7 +37,7 @@ namespace MPC.Webstore.Controllers
 
         #endregion
 
-        // GET: SignUp
+        // GET: SignUp///
         public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
             if (FirstName != null)
@@ -60,7 +60,6 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(RegisterViewModel model)
         {
-            
 
             if (ModelState.IsValid)
             {
@@ -68,14 +67,14 @@ namespace MPC.Webstore.Controllers
                 string ReturnURL = Request.Form["hfReturnURL"];
                 if (_myCompanyService.GetContactByEmail(model.Email) != null)
                 {
-                    ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist, model.Email);
+                    //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist, model.Email);
                    return View("PartialViews/SignUp");
                 }
                 else if (isSocial == "1")
                 {
                     if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
                     {
-                        ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist,model.Email);
+                        //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist,model.Email);
                         return View();
                     }
                     else
@@ -141,7 +140,7 @@ namespace MPC.Webstore.Controllers
 
             if (baseResponse.Company.IsCustomer == (int)StoreMode.Retail)
             {
-                CompanyID = _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName, 0, (int)ContactCompanyTypes.SalesCustomer, TwitterScreenName);
+                CompanyID = _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName, 0, (int)CompanyTypes.SalesCustomer, TwitterScreenName,baseResponse.Company.SalesAndOrderManagerId1 ?? 0);
 
                 if (CompanyID > 0)
                 {

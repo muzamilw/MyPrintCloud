@@ -35,9 +35,9 @@ namespace MPC.Models.DomainModels
         public bool? IsDefault { get; set; }
 
         /// <summary>
-        /// User Domain Key
+        /// OrganisationId
         /// </summary>
-        public int UserDomainKey { get; set; }
+        public long OrganisationId { get; set; }
 
         #endregion
 

@@ -9,7 +9,7 @@ using MPC.Models.DomainModels;
 using MPC.Interfaces.WebStoreServices;
 
 namespace MPC.Webstore.Controllers
-{
+{//
     public class CategoryHeaderController : Controller
     {
         #region Private
@@ -40,22 +40,24 @@ namespace MPC.Webstore.Controllers
 
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
             {
+                ViewBag.DefaultUrl = "/Login";
+                long roleid = _myClaimHelper.loginContactRoleID();
 
-                Int64 roleid = _myClaimHelper.loginContactRoleID();
-
-                if (_myClaimHelper.loginContactID() != 0 && roleid == Convert.ToInt32(Roles.Adminstrator))
+                if (_myClaimHelper.loginContactID() > 0)
                 {
-                    lstParentCategories = _myCompanyService.GetAllParentCorporateCatalog((int)_myClaimHelper.loginContactCompanyID());
+                    if(roleid == Convert.ToInt64(Roles.Adminstrator) || roleid == Convert.ToInt64(Roles.Manager))
+                    {
+                        lstParentCategories = _myCompanyService.GetAllParentCorporateCatalog((int)_myClaimHelper.loginContactCompanyID());
+                    }
+                    else
+                    {
+                        lstParentCategories = _myCompanyService.GetAllParentCorporateCatalogByTerritory((int)_myClaimHelper.loginContactCompanyID(), (int)_myClaimHelper.loginContactID());
+                    }
                 }
-                else
-                {
-                    lstParentCategories = _myCompanyService.GetAllParentCorporateCatalogByTerritory((int)_myClaimHelper.loginContactCompanyID(), (int)_myClaimHelper.loginContactID());
-                }
-
-
             }
             else
             {
+                ViewBag.DefaultUrl = "/";
                 lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId);
             }
 

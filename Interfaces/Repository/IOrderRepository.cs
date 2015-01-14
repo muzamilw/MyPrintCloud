@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,34 @@ namespace MPC.Interfaces.Repository
     {
         int GetFirstItemIDByOrderId(int orderId);
 
-       
+        long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null);
 
-        long CreateNewOrder(int customerID, int contactId, Company Company, Organisation Organisation, Prefix prefix, string orderTitle = null);
+        long GetOrderID(long CustomerId, long ContactId, string orderTitle, long OrganisationId);
 
-        long GetOrderID(int customerID, int contactId, string orderTitle, Company company, Organisation org, Prefix prefix);
+        long GetUserShopCartOrderID(int status);
+
+        ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus);
+
+        DiscountVoucher GetVoucherRecord(int VId);
+
+        Estimate GetOrderByID(long orderId);
+        bool IsVoucherValid(string voucherCode);
+
+        Estimate CheckDiscountApplied(int orderId);
+
+        bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
+
+        double SaveVoucherCodeAndRate(int orderId, string VCode);
+        double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
+
+        bool ResetOrderVoucherCode(int orderId);
+        /// <summary>
+        /// returns the order id of a logged in user if order exist in cart
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        long GetCartOrderId(long contactId, long CompanyId);
+
+
     }
 }

@@ -38,6 +38,27 @@ namespace MPC.Webstore.Models
         public string ReturnUrl { get; set; }
     }
 
+    public class ItemCartViewModel
+    {
+        public string ItemId { get; set; }
+
+        public string OrderId { get; set; }
+
+        public string JsonPriceMatrix { get; set; }
+
+        public string JsonAddOnsPrice { get; set; }
+
+        public string ItemPrice { get; set; }
+
+        public string AddOnPrice { get; set; }
+
+        public string StockId { get; set; }
+
+        public int QuantityOrdered { get; set; }
+
+    }
+
+
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }

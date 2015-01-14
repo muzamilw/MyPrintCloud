@@ -42,7 +42,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<Country> GetAll()
         {
-            return DbSet.Where(country => country.Organisations.Any(organisation => organisation.OrganisationId == OrganisationId)).ToList();
+            return DbSet.ToList();
         }
 
         #endregion

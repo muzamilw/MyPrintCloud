@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
@@ -105,9 +101,11 @@
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\AddOnCostsCenter.cs" />
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\MatchingSets.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
@@ -128,14 +126,32 @@
     <Compile Include="Common\Section.cs" />
     <Compile Include="Common\SectionIds.cs" />
     <Compile Include="Common\SecurityRoles.cs" />
+    <Compile Include="Common\ShoppingCart.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\CompanyVariableIcon.cs" />
+    <Compile Include="DomainModels\CustomCopy.cs" />
+    <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\ImagePermission.cs" />
+    <Compile Include="DomainModels\Listing.cs" />
+    <Compile Include="DomainModels\ListingAgent.cs" />
+    <Compile Include="DomainModels\ListingConjunctionAgent.cs" />
+    <Compile Include="DomainModels\ListingFloorPlan.cs" />
+    <Compile Include="DomainModels\ListingImage.cs" />
+    <Compile Include="DomainModels\ListingLink.cs" />
+    <Compile Include="DomainModels\ListingOFI.cs" />
+    <Compile Include="DomainModels\ListingVendor.cs" />
+    <Compile Include="DomainModels\Phrase.cs" />
+    <Compile Include="DomainModels\PhraseField.cs" />
+    <Compile Include="DomainModels\ProductCategoriesView.cs" />
+    <Compile Include="DomainModels\ProductCategoryItemCustom.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
     <Compile Include="DomainModels\Role.cs" />
+    <Compile Include="DomainModels\sp_GetUsedFontsUpdated_Result.cs" />
     <Compile Include="DomainModels\TemplateColorStyle.cs" />
     <Compile Include="DomainModels\TemplateFileTableView.cs" />
     <Compile Include="DomainModels\StoreFileTableView.cs" />
@@ -230,9 +246,11 @@
     <Compile Include="DomainModels\ChartOfAccount.cs" />
     <Compile Include="DomainModels\Template.cs" />
     <Compile Include="DomainModels\TemplateBackgroundImage.cs" />
+    <Compile Include="DomainModels\TemplateFont.cs" />
     <Compile Include="DomainModels\TemplateObject.cs" />
     <Compile Include="DomainModels\TemplatePage.cs" />
     <Compile Include="DomainModels\TemplateVariable.cs" />
+    <Compile Include="DomainModels\usp_GetRealEstateProducts_Result.cs" />
     <Compile Include="DomainModels\VariableSection.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
@@ -249,6 +267,7 @@
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
+    <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
@@ -262,6 +281,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RequestModels\AddressRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
@@ -287,6 +307,7 @@
     <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
+    <Compile Include="ResponseModels\LanguageEditor.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />

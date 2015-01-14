@@ -74,7 +74,16 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemStateTaxRepository, ItemStateTaxRepository>();
             unityContainer.RegisterType<IStateRepository, StateRepository>();
             unityContainer.RegisterType<ICountryRepository, CountryRepository>();
+            unityContainer.RegisterType<IItemStockControlRepository, ItemStockControlRepository>();
+            unityContainer.RegisterType<ITemplateObjectRepository, TemplateObjectRepository>();
             unityContainer.RegisterType<ITemplateColorStylesRepository, TemplateColorStylesRepository>();
+            unityContainer.RegisterType<IProductCategoryFileTableViewRepository, ProductCategoryFileTableViewRepository>();
+            unityContainer.RegisterType<ITemplateFontsRepository, TemplateFontsRepository>();
+            unityContainer.RegisterType<IItemProductDetailRepository, ItemProductDetailRepository>();
+            unityContainer.RegisterType<ITemplateBackgroundImagesRepository, TemplateBackgroundImagesRepository>();
+            unityContainer.RegisterType<IItemAttachmentRepository, ItemAttachmentRepository>();
+            unityContainer.RegisterType<IFavoriteDesignRepository, FavoriteDesignRepository>();
+            unityContainer.RegisterType<IProductCategoryItemRepository, ProductCategoryItemRepository>();
         }
     }
 }

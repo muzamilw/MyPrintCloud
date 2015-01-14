@@ -66,7 +66,7 @@ namespace MPC.Models.Common
 
 
 
-        public Int32 ItemID
+        public long ItemID
         {
             get;
             set;
@@ -79,7 +79,7 @@ namespace MPC.Models.Common
         }
 
 
-        public Int32 RelatedItemID
+        public long RelatedItemID
         {
             get;
             set;
@@ -107,7 +107,7 @@ namespace MPC.Models.Common
         }
 
 
-        public Nullable<Int32> ProductCategoryID
+        public Nullable<long> ProductCategoryID
         {
             get;
             set;
@@ -302,7 +302,7 @@ namespace MPC.Models.Common
             set;
         }
 
-        public Nullable<bool> IsFinishedGood
+        public Nullable<int> ProductType
         {
             get;
             set;

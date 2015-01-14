@@ -5,7 +5,7 @@
     /// </summary>
     public class TemplateObject
     {
-        public int ObjectId { get; set; }
+        public long ObjectId { get; set; }
         public int? ObjectType { get; set; }
         public string Name { get; set; }
         public bool? IsEditable { get; set; }
@@ -21,7 +21,6 @@
         public bool? IsFontNamePrivate { get; set; }
         public string FontName { get; set; }
         public double? FontSize { get; set; }
-        public int? FontStyleId { get; set; }
         public bool? IsBold { get; set; }
         public bool? IsItalic { get; set; }
         public int? Allignment { get; set; }
@@ -29,8 +28,6 @@
         public double? Indent { get; set; }
         public bool? IsUnderlinedText { get; set; }
         public int? ColorType { get; set; }
-        public int? ColorStyleId { get; set; }
-        public int? PalleteId { get; set; }
         public string ColorName { get; set; }
         public int? ColorC { get; set; }
         public int? ColorM { get; set; }
@@ -41,21 +38,17 @@
         public string SpotColorName { get; set; }
         public string ContentString { get; set; }
         public int? ContentCaseType { get; set; }
-        public int? ProductId { get; set; }
+        public long? ProductId { get; set; }
         public int? DisplayOrderPdf { get; set; }
         public int? DisplayOrderTxtControl { get; set; }
-        public bool? IsRequireNumericValue { get; set; }
         public int? RColor { get; set; }
         public int? GColor { get; set; }
         public int? BColor { get; set; }
-        public bool? isSide2Object { get; set; }
         public double? LineSpacing { get; set; }
-        public int? ProductPageId { get; set; }
-        public int? ParentId { get; set; }
+        public long? ProductPageId { get; set; }
+        public long? ParentId { get; set; }
         public double? CircleRadiusX { get; set; }
         public double? Opacity { get; set; }
-        public bool? IsNewLine { get; set; }
-        public string TCtlName { get; set; }
         public string ExField1 { get; set; }
         public string ExField2 { get; set; }
         public bool? IsPositionLocked { get; set; }
@@ -70,7 +63,7 @@
         public bool? AutoShrinkText { get; set; }
         public bool? IsOverlayObject { get; set; }
         public string ClippedInfo { get; set; }
-
+        public int textCase { get; set; }
         public virtual Template Template { get; set; }
     }
 }

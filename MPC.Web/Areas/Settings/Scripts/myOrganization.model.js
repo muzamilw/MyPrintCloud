@@ -51,8 +51,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             markupId = ko.observable(),
             //markups In My Organization
             markupsInMyOrganization = ko.observableArray([]),
-               //Chart Of Accounts In My Organization
+           //Chart Of Accounts In My Organization
             chartOfAccountsInMyOrganization = ko.observableArray([]),
+            //Flag for change 
+            flagForChanges = ko.observable(),
+            //Language Editor
+            languageEditor = ko.observable(LanguageEditor()),
              // Errors
              errors = ko.validation.group({
                  email: email
@@ -82,7 +86,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  lengthUnitId: lengthUnitId,
                  weightUnitIdrl: weightUnitId,
                  taxRegistrationNo: taxRegistrationNo,
-                 markupId: markupId
+                 markupId: markupId,
+                 flagForChanges: flagForChanges,
+                 languageEditor: languageEditor
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -116,6 +122,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              markupId: markupId,
              markupsInMyOrganization: markupsInMyOrganization,
              chartOfAccountsInMyOrganization: chartOfAccountsInMyOrganization,
+             flagForChanges: flagForChanges,
+             languageEditor: languageEditor,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -124,6 +132,93 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
          };
          return self;
      };
+    //Language Editor
+    // ReSharper disable once AssignToImplicitGlobalInFunctionScope
+    LanguageEditor = function (specifiedDefaultAddress, specifiedDefaultShippingAddress, specifiedPONumber, specifiedPrices, specifiedUserShippingAddress
+        , specifiedDetails, specifiedNewsLetter, specifiedConfirmDesign) {
+        // ReSharper restore InconsistentNaming
+        var // Reference to this object
+            self,
+            //DefaultAddress
+            defaultAddress = ko.observable(specifiedDefaultAddress),
+            //Default Shipping Address
+            defaultShippingAddress = ko.observable(specifiedDefaultShippingAddress),
+            //PO Number
+            pONumber = ko.observable(specifiedPONumber),
+            //Prices
+            prices = ko.observable(specifiedPrices),
+            //User Shipping Address
+            userShippingAddress = ko.observable(specifiedUserShippingAddress),
+            //Details
+            details = ko.observable(specifiedDetails),
+            //News Letter
+            newsLetter = ko.observable(specifiedNewsLetter),
+            //Confirm Design
+            confirmDesign = ko.observable(specifiedConfirmDesign),
+
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    DefaultAddress: defaultAddress(),
+                    DefaultShippingAddress: defaultShippingAddress(),
+                    PONumber: pONumber(),
+                    Prices: prices(),
+                    UserShippingAddress: userShippingAddress(),
+                    Details: details(),
+                    NewsLetter: newsLetter(),
+                    ConfirmDesign: confirmDesign(),
+                };
+            },
+               // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+           // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                defaultAddress: defaultAddress,
+                defaultShippingAddress: defaultShippingAddress,
+                pONumber: pONumber,
+                prices: prices,
+                userShippingAddress: userShippingAddress,
+                details: details,
+                newsLetter: newsLetter,
+                confirmDesign: confirmDesign
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        self = {
+            defaultAddress: defaultAddress,
+            defaultShippingAddress: defaultShippingAddress,
+            pONumber: pONumber,
+            prices: prices,
+            userShippingAddress: userShippingAddress,
+            details: details,
+            newsLetter: newsLetter,
+            confirmDesign: confirmDesign,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset,
+        };
+        return self;
+    };
+    LanguageEditor.Create = function (source) {
+        return LanguageEditor(source.DefaultAddress, source.DefaultShippingAddress, source.PONumber, source.Prices, source.UserShippingAddress,
+            source.Details, source.NewsLetter, source.ConfirmDesign);
+    };
     //Chart Of Account Entity
     // ReSharper disable once AssignToImplicitGlobalInFunctionScope
     ChartOfAccount = function () {
@@ -237,7 +332,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.markupId(source.MarkupId === null ? undefined : source.MarkupId);
         companySites.state(source.StateId === null ? undefined : source.StateId);
         companySites.country(source.CountryId === null ? undefined : source.CountryId);
-        // companySites.reset();
+        companySites.languageEditor(source.LanguageEditor === null ? undefined : LanguageEditor.Create(source.LanguageEditor));
         return companySites;
     };
     //Convert Server To Client
@@ -278,6 +373,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.MarkupId = source.markupId() === undefined ? null : source.markupId();
         result.CountryId = source.country() === undefined ? null : source.country();
         result.StateId = source.state() === undefined ? null : source.state();
+        result.LanguageEditor = source.languageEditor() === undefined ? null : source.languageEditor().convertToServerData();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {
@@ -326,5 +422,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         ChartOfAccountServerMapper: ChartOfAccountServerMapper,
         MarkupServerMapper: MarkupServerMapper,
         OrganizationServerMapperForId: OrganizationServerMapperForId,
+        LanguageEditor: LanguageEditor,
     };
 });

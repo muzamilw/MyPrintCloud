@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -332,7 +333,7 @@ namespace MPC.Models.DomainModels
         public bool? IsArchived { get; set; }
         public int? NominalCodeId { get; set; }
         public int? RefItemId { get; set; }
-        public int? TemplateId { get; set; }
+        public long? TemplateId { get; set; }
         public string WebDescription { get; set; }
         public int? ItemTypeId { get; set; }
         public bool? IsOrderedItem { get; set; }
@@ -378,6 +379,9 @@ namespace MPC.Models.DomainModels
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
 
+        [NotMapped]
+        public double MinPrice { get; set; }
+
         #endregion
 
         #region Reference Properties
@@ -389,6 +393,7 @@ namespace MPC.Models.DomainModels
         public virtual Invoice Invoice { get; set; }
 
         public virtual Template Template { get; set; }
+        public virtual Company Company { get; set; }
 
         public virtual ICollection<ItemAttachment> ItemAttachments { get; set; }
         public virtual ICollection<ItemImage> ItemImages { get; set; }
@@ -403,6 +408,50 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
+        public virtual ICollection<ItemProductDetail> ItemProductDetails { get; set; }
+        public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
+
+            #endregion
+        #region Additional Properties
+
+        [NotMapped]
+        public string ThumbnailImageName { get; set; }
+        [NotMapped]
+        public string ImagePathImageName { get; set; }
+        [NotMapped]
+        public string GridImageSourceName { get; set; }
+        [NotMapped]
+        public string ThumbnailImage { get; set; }
+        [NotMapped]
+        public string GridImageBytes { get; set; }
+        [NotMapped]
+        public string ImagePathImage { get; set; }
+        [NotMapped]
+        public string File1Name { get; set; }
+        [NotMapped]
+        public string File2Name { get; set; }
+        [NotMapped]
+        public string File3Name { get; set; }
+        [NotMapped]
+        public string File4Name { get; set; }
+        [NotMapped]
+        public string File5Name { get; set; }
+
+        [NotMapped]
+        public string File1Byte { get; set; }
+        [NotMapped]
+        public string File2Byte { get; set; }
+        [NotMapped]
+        public string File3Byte { get; set; }
+        [NotMapped]
+        public string File4Byte { get; set; }
+        [NotMapped]
+        public string File5Byte { get; set; }
+
+        /// <summary>
+        /// Product Category Items Custom - Used for Categories Selection for Product
+        /// </summary>
+        public ICollection<ProductCategoryItemCustom> ProductCategoryCustomItems { get; set; }
 
         #endregion
     }

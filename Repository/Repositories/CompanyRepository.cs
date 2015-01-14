@@ -155,125 +155,140 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(c => c.CompanyId == CompanyId).Select(f => f.PriceFlagId).FirstOrDefault();
         }
-        public int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter,Markup zeroMarkup, CompanyContact regContact = null)
+        
+        /// <summary>
+        /// Get All Suppliers For Current Organisation
+        /// </summary>
+        public IEnumerable<Company> GetAllSuppliers()
         {
-            Address tblAddress = null;
-            CompanyContact tblContacts = null;
+            return DbSet.Where(supplier => supplier.OrganisationId == OrganisationId && supplier.IsCustomer == 0).ToList();
+        }
+        public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null)
+        {
+            Address Contactaddress = null;
 
-            int customerID = 0;
+            CompanyContact ContactPerson = null;
 
-            //CompanySiteManager companySiteManager = new CompanySiteManager();
-            Company contactCompany = new Company();
-          //  Organisation tblCompSite = CompanySiteManager.GetCompanySite();
-
-            contactCompany.isArchived = false;
-            contactCompany.AccountNumber = "123";
-            contactCompany.AccountOpenDate = DateTime.Now;
-            contactCompany.Name = name;
-            contactCompany.TypeId = (int)customerType; //contactCompanyType.TypeID;
-            contactCompany.Status = 0;
-
-            if (regContact != null && !string.IsNullOrEmpty(regContact.Mobile))
-                contactCompany.PhoneNo = regContact.Mobile;
-
-            contactCompany.CreationDate = DateTime.Now;
-
-            contactCompany.CreditLimit = 0;
-
-            contactCompany.IsCustomer = 0; //prospect
-
+            long customerID = 0;
 
            
-            if (zeroMarkup != null)
-            {
-                contactCompany.DefaultMarkUpId = (int)zeroMarkup.MarkUpId;
-            }
-            else
-            {
-                contactCompany.DefaultMarkUpId = 1;
-            }
+            Company ContactCompany = new Company();
 
+            ContactCompany.isArchived = false;
+
+            ContactCompany.AccountNumber = "123";
+
+            ContactCompany.AccountOpenDate = DateTime.Now;
+
+            ContactCompany.Name = CompanyName;
+
+            ContactCompany.TypeId = (int)customerType;
+
+            ContactCompany.Status = 0;
+
+            if (contact != null && !string.IsNullOrEmpty(contact.Mobile))
+                ContactCompany.PhoneNo = contact.Mobile;
+
+            ContactCompany.CreationDate = DateTime.Now;
+
+            ContactCompany.CreditLimit = 0;
+
+            ContactCompany.IsCustomer = 0; //prospect
+
+            // code commented because markup id is not mapped
+
+            //long? markupid = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(m => m.MarkupId).FirstOrDefault();
+
+            //if (markupid != null || markupid > 0)
+            //{
+            //    ContactCompany.DefaultMarkUpId = (int)markupid;
+            //}
+            //else
+            //{
+            //    ContactCompany.DefaultMarkUpId = 0;
+            //}
+
+           
             //Create Customer
-            db.Companies.Add(contactCompany);
+            db.Companies.Add(ContactCompany);
 
             //Create Billing Address and Delivery Address and mark them default billing and shipping
-            tblAddress = PopulateAddressObject(0, (int)contactCompany.CompanyId, true, true);
-            db.Addesses.Add(tblAddress);
+            Contactaddress = PopulateAddressObject(0, ContactCompany.CompanyId, true, true);
+            db.Addesses.Add(Contactaddress);
 
             //Create Contact
-            tblContacts = PopulateContactsObject((int)contactCompany.CompanyId, (int)tblAddress.AddressId, true);
-            tblContacts.isArchived = false;
+            ContactPerson = PopulateContactsObject(ContactCompany.CompanyId, Contactaddress.AddressId, true);
+            ContactPerson.isArchived = false;
 
-            if (regContact != null)
+            if (contact != null)
             {
-                tblContacts.FirstName = regContact.FirstName;
-                tblContacts.LastName = regContact.LastName;
-                tblContacts.Email = regContact.Email;
-                tblContacts.Mobile = regContact.Mobile;
-                tblContacts.Password = ComputeHashSHA1(regContact.Password);
-                tblContacts.QuestionId = 1;
-                tblContacts.SecretAnswer = "";
-                tblContacts.ClaimIdentifer = regContact.ClaimIdentifer;
-                tblContacts.AuthentifiedBy = regContact.AuthentifiedBy;
+                ContactPerson.FirstName = contact.FirstName;
+                ContactPerson.LastName = contact.LastName;
+                ContactPerson.Email = contact.Email;
+                ContactPerson.Mobile = contact.Mobile;
+                ContactPerson.Password = ComputeHashSHA1(contact.Password);
+                ContactPerson.QuestionId = 1;
+                ContactPerson.SecretAnswer = "";
+                ContactPerson.ClaimIdentifer = contact.ClaimIdentifer;
+                ContactPerson.AuthentifiedBy = contact.AuthentifiedBy;
                 //Quick Text Fields
-                tblContacts.quickAddress1 = regContact.quickAddress1;
-                tblContacts.quickAddress2 = regContact.quickAddress2;
-                tblContacts.quickAddress3 = regContact.quickAddress3;
-                tblContacts.quickCompanyName = regContact.quickCompanyName;
-                tblContacts.quickCompMessage = regContact.quickCompMessage;
-                tblContacts.quickEmail = regContact.quickEmail;
-                tblContacts.quickFax = regContact.quickFax;
-                tblContacts.quickFullName = regContact.quickFullName;
-                tblContacts.quickPhone = regContact.quickPhone;
-                tblContacts.quickTitle = regContact.quickTitle;
-                tblContacts.quickWebsite = regContact.quickWebsite;
-                if (!string.IsNullOrEmpty(RegWithTwitter))
+                ContactPerson.quickAddress1 = contact.quickAddress1;
+                ContactPerson.quickAddress2 = contact.quickAddress2;
+                ContactPerson.quickAddress3 = contact.quickAddress3;
+                ContactPerson.quickCompanyName = contact.quickCompanyName;
+                ContactPerson.quickCompMessage = contact.quickCompMessage;
+                ContactPerson.quickEmail = contact.quickEmail;
+                ContactPerson.quickFax = contact.quickFax;
+                ContactPerson.quickFullName = contact.quickFullName;
+                ContactPerson.quickPhone = contact.quickPhone;
+                ContactPerson.quickTitle = contact.quickTitle;
+                ContactPerson.quickWebsite = contact.quickWebsite;
+                if (!string.IsNullOrEmpty(RegWithSocialMedia))
                 {
-                    tblContacts.twitterScreenName = RegWithTwitter;
+                    ContactPerson.twitterScreenName = RegWithSocialMedia;
                 }
 
 
             }
 
-            db.CompanyContacts.Add(tblContacts);
+            db.CompanyContacts.Add(ContactPerson);
 
             if (db.SaveChanges() > 0)
             {
-                customerID = (int)contactCompany.CompanyId; // customer id
-                if (regContact != null)
+                customerID = ContactCompany.CompanyId; // customer id
+                if (contact != null)
                 {
-                    regContact.ContactId = tblContacts.ContactId;
-                    regContact.CompanyId = customerID;
+                    contact.ContactId = ContactPerson.ContactId;
+                    contact.CompanyId = customerID;
                 }
             }
-            //}
 
             return customerID;
         }
-        public  CompanyContact PopulateContactsObject(int customerID, int addressID, bool isDefaultContact)
+        private  CompanyContact PopulateContactsObject(long customerID, long addressID, bool isDefaultContact)
         {
-            CompanyContact tblContacts = new CompanyContact();
-            tblContacts.CompanyId = customerID;
-            tblContacts.AddressId = addressID;
-            tblContacts.FirstName = string.Empty;
-            tblContacts.IsDefaultContact = isDefaultContact == true ? 1 : 0;
+            CompanyContact contactObject = new CompanyContact();
+            contactObject.CompanyId = customerID;
+            contactObject.AddressId = addressID;
+            contactObject.FirstName = string.Empty;
+            contactObject.IsDefaultContact = isDefaultContact == true ? 1 : 0;
 
-            return tblContacts;
+            return contactObject;
         }
-        public Address PopulateAddressObject(int dummyAddreID, int customerID, bool isDefaulAddress, bool isDefaultShippingAddress)
+        private Address PopulateAddressObject(long addressId, long companyId, bool isDefaulAddress, bool isDefaultShippingAddress)
         {
-            Address tblAddres = new Address();
+            Address addressObject = new Address();
 
-            tblAddres.AddressId = dummyAddreID;
-            tblAddres.CompanyId = customerID;
-            tblAddres.AddressName = "Address Name";
-            tblAddres.IsDefaultAddress = isDefaulAddress;
-            tblAddres.IsDefaultShippingAddress = isDefaultShippingAddress;
-            tblAddres.Address1 = "Address 1";
-            tblAddres.City = "City";
-            tblAddres.isArchived = false;
+            addressObject.AddressId = addressId;
+            addressObject.CompanyId = companyId;
+            addressObject.AddressName = "Address Name";
+            addressObject.IsDefaultAddress = isDefaulAddress;
+            addressObject.IsDefaultShippingAddress = isDefaultShippingAddress;
+            addressObject.Address1 = "Address 1";
+            addressObject.City = "City";
+            addressObject.isArchived = false;
 
-            return tblAddres;
+            return addressObject;
         }
         private static string ComputeHashSHA1(string plainText)
         {

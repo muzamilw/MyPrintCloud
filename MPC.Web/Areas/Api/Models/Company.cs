@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
     public class Company
     {
+        #region Public
+
+        #region Public Properties
+
         public long CompanyId { get; set; }
         public string AccountNumber { get; set; }
         public string Name { get; set; }
@@ -103,23 +106,88 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
+
+        #endregion
+
+        #region Public List Properties
+
         public List<RaveReview> RaveReviews { get; set; }
         public List<CompanyCMYKColor> CompanyCmykColors { get; set; }
+        public ICollection<PaymentGateway> PaymentGateways { get; set; }
+        public virtual CompanyType CompanyType { get; set; }
+        public List<CompanyContact> CompanyContacts { get; set; }
+        public List<CompanyBannerSet> CompanyBannerSets { get; set; }
+        public List<CmsPageForListView> CmsPages { get; set; }
+        public List<PageCategory> PageCategories { get; set; }
+        public List<Campaign> Campaigns { get; set; }
+        public List<ProductCategoryListViewModel> ProductCategoriesListView { get; set; }
+        public List<CmsPageDropDown> CmsPagesDropDownList { get; set; }
+        /// <summary>
+        /// Cms Page With Widget List 
+        /// </summary>
+        public List<CmsPageWithWidgetList> CmsPageWithWidgetList { get; set; }
+        /// <summary>
+        /// Have Items/Products List
+        /// </summary>
+        public ItemSearchResponse ItemsResponse { get; set; }
+
+        #region CMS Pages
+
+        public List<CmsPage> NewAddedCmsPages { get; set; }
+        public List<CmsPage> EditCmsPages { get; set; }
+        public List<CmsPage> DeletedCmsPages { get; set; }
+
+        #endregion
+
+        #region Company Territories
+
         public ICollection<CompanyTerritory> CompanyTerritories { get; set; }
-        public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }// Maintaining List for POST call to determine new Added List Of Territories
+        public ICollection<CompanyTerritory> NewAddedCompanyTerritories { get; set; }
+        // Maintaining List for POST call to determine new Added List Of Territories
         public ICollection<CompanyTerritory> EdittedCompanyTerritories { get; set; }
         public ICollection<CompanyTerritory> DeletedCompanyTerritories { get; set; }
-        public ICollection<Address> NewAddedAddresses { get; set; }// Maintaining List for POST call to determine new Added List Of Addresses
+
+        #endregion
+
+        #region Addresses
+
+        public List<Address> Addresses { get; set; }
+        public ICollection<Address> NewAddedAddresses { get; set; }
+        // Maintaining List for POST call to determine new Added List Of Addresses
         public ICollection<Address> EdittedAddresses { get; set; }
         public ICollection<Address> DeletedAddresses { get; set; }
-        public ICollection<ProductCategory> NewProductCategories { get; set; }// Maintaining List for POST call to determine new Added List Of Addresses
+
+        #endregion
+
+        #region Product Categories
+
+        public ICollection<ProductCategory> NewProductCategories { get; set; }
+        // Maintaining List for POST call to determine new Added List Of Addresses
         public ICollection<ProductCategory> EdittedProductCategories { get; set; }
         public ICollection<ProductCategory> DeletedProductCategories { get; set; }
+
+        #endregion
+
+        #region Company Contacts
+
         public ICollection<CompanyContact> NewAddedCompanyContacts { get; set; }
         public ICollection<CompanyContact> EdittedCompanyContacts { get; set; }
         public ICollection<CompanyContact> DeletedCompanyContacts { get; set; }
-        public ICollection<PaymentGateway> PaymentGateways { get; set; }
-        public virtual CompanyType CompanyType { get; set; }
+
+        #endregion
+
+        #region Products
+
+        public ICollection<Item> NewAddedProducts { get; set; }
+        public ICollection<Item> EdittedProducts { get; set; }
+        public ICollection<Item> Deletedproducts { get; set; }
+
+        #endregion
+
+        #endregion
+
+        #region Public Image Source
+
         /// <summary>
         /// Image Source
         /// </summary>
@@ -136,26 +204,10 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }
-        public List<Address> Addresses { get; set; }
-        public List<CompanyContact> CompanyContacts { get; set; }
-        public List<CompanyBannerSet> CompanyBannerSets { get; set; }
-        public List<CmsPageForListView> CmsPages { get; set; }
 
-        public List<CmsPage> NewAddedCmsPages { get; set; }
-        public List<CmsPage> EditCmsPages { get; set; }
-        public List<CmsPage> DeletedCmsPages { get; set; }
-        public List<PageCategory> PageCategories { get; set; }
-        public List<Campaign> Campaigns { get; set; }
-        public List<ProductCategoryListViewModel> ProductCategoriesListView { get; set; }
-        public List<CmsPageDropDown> CmsPagesDropDownList { get; set; }
-        /// <summary>
-        /// Cms Page With Widget List 
-        /// </summary>
-        public List<CmsPageWithWidgetList> CmsPageWithWidgetList { get; set; }
-        //public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
-        //public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
-        //public virtual ICollection<ProductCategory> ProductCategories { get; set; }
-        //public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
-        //public virtual ICollection<CmsPage> CmsPages { get; set; }
+
+        #endregion
+
+        #endregion
     }
 }

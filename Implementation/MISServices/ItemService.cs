@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
+using System.IO;
+using System.Web;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -39,6 +42,9 @@ namespace MPC.Implementation.MISServices
         private readonly ICountryRepository countryRepository;
         private readonly IStateRepository stateRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
+        private readonly ICompanyRepository companyRepository;
+        private readonly IItemProductDetailRepository itemProductDetailRepository;
+        private readonly IProductCategoryItemRepository productCategoryItemRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -186,6 +192,74 @@ namespace MPC.Implementation.MISServices
             return line;
         }
 
+        /// <summary>
+        /// Create Item Product Detail
+        /// </summary>
+        private ItemProductDetail CreateItemProductDetail()
+        {
+            ItemProductDetail line = itemProductDetailRepository.Create();
+            itemProductDetailRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Create Product Category Item
+        /// </summary>
+        private ProductCategoryItem CreateProductCategoryItem()
+        {
+            ProductCategoryItem line = productCategoryItemRepository.Create();
+            productCategoryItemRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Product Category Item
+        /// </summary>
+        private void DeleteProductCategoryItem(ProductCategoryItem line)
+        {
+            productCategoryItemRepository.Delete(line);
+        }
+        
+        /// <summary>
+        /// Save Product Images
+        /// </summary>
+        private void SaveProductImages(Item target)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+            
+            // Create directory if not there
+            if (!Directory.Exists(mapPath))
+            {
+                Directory.CreateDirectory(mapPath);
+            }
+
+            // Save Item Stock Option Images
+            foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
+            {
+                if (!string.IsNullOrEmpty(itemStockOption.FileSource))
+                {
+                    // Look if file already exists then replace it
+                    if (!string.IsNullOrEmpty(itemStockOption.ImageURL) && File.Exists(itemStockOption.ImageURL))
+                    {
+                        // Remove Existing File
+                        File.Delete(itemStockOption.ImageURL);
+                    }
+
+                    // First Time Upload
+                    string imageurl = mapPath + "\\" + itemStockOption.FileName + "_" +
+                                      itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence;
+                    File.WriteAllBytes(imageurl, itemStockOption.FileSourceBytes);
+
+                    // Update Item Stock Option Image Url
+                    itemStockOption.ImageURL = imageurl;
+                }
+            }
+
+            itemRepository.SaveChanges();
+        }
+
         #endregion
 
         #region Constructor
@@ -198,7 +272,8 @@ namespace MPC.Implementation.MISServices
             ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
             IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository, 
             IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
-            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository)
+            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository, 
+            IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository)
         {
             if (itemRepository == null)
             {
@@ -268,6 +343,18 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionFlagRepository");
             }
+            if (companyRepository == null)
+            {
+                throw new ArgumentNullException("companyRepository");
+            }
+            if (itemProductDetailRepository == null)
+            {
+                throw new ArgumentNullException("itemProductDetailRepository");
+            }
+            if (productCategoryItemRepository == null)
+            {
+                throw new ArgumentNullException("productCategoryItemRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -286,6 +373,9 @@ namespace MPC.Implementation.MISServices
             this.countryRepository = countryRepository;
             this.stateRepository = stateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
+            this.companyRepository = companyRepository;
+            this.itemProductDetailRepository = itemProductDetailRepository;
+            this.productCategoryItemRepository = productCategoryItemRepository;
         }
 
         #endregion
@@ -393,6 +483,7 @@ namespace MPC.Implementation.MISServices
                 itemRepository.Add(itemTarget);
                 itemTarget.ItemCreationDateTime = DateTime.Now;
                 itemTarget.ItemCode = itemCode;
+                itemTarget.OrganisationId = itemRepository.OrganisationId;
             }
 
             // Update
@@ -413,14 +504,23 @@ namespace MPC.Implementation.MISServices
                 DeleteItemAddonCostCentre = DeleteItemAddonCostCentre,
                 CreateItemStateTax = CreateItemStateTax,
                 DeleteItemStateTax = DeleteItemStateTax,
-                CreateItemPriceMatrix = CreateItemPriceMatrix
+                CreateItemPriceMatrix = CreateItemPriceMatrix,
+                CreateItemProductDetail = CreateItemProductDetail,
+                CreateProductCategoryItem = CreateProductCategoryItem,
+                DeleteProductCategoryItem = DeleteProductCategoryItem
             });
 
             // Save Changes
             itemRepository.SaveChanges();
 
+            // Save Images and Update Item
+            SaveProductImages(itemTarget);
+
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
+
+            // Get Updated Minimum Price
+            itemTarget.MinPrice = itemRepository.GetMinimumProductValue(itemTarget.ItemId);
 
             // Return Item
             return itemTarget;
@@ -452,7 +552,8 @@ namespace MPC.Implementation.MISServices
                 CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
                 SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
                 Countries = countryRepository.GetAll(),
-                States = stateRepository.GetAll()
+                States = stateRepository.GetAll(),
+                Suppliers = companyRepository.GetAllSuppliers()
             };
         }
         

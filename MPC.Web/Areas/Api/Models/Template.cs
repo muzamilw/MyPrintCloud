@@ -8,7 +8,7 @@ namespace MPC.MIS.Areas.Api.Models
     /// </summary>
     public class Template
     {
-        public int ProductId { get; set; }
+        public long ProductId { get; set; }
         public string Code { get; set; }
         public string ProductName { get; set; }
         public string Description { get; set; }

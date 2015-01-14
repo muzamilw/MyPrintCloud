@@ -41,51 +41,42 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public int ProcessPublicUserOrder(string orderTitle,Organisation org)
+        // if user order cookie is null the we process the order
+        public long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId)
         {
-            int customerID = 0;
             long orderID = 0;
             if (!IsUserLoggedIn())
             {
-                if (!CheckCustomerCookie()) // need to update
+                if (TemporaryRetailCompanyId == 0) // temporary customer doesn't exists in cookie
                 {
-                    customerID = CreateCustomer();
-                    int CID = _myCompanyContact.GetContactIdByCustomrID(customerID);
-                    Company company = _myCompanyService.GetCompanyByCompanyID(customerID);
-                    Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                    orderID = _OrderRepository.CreateNewOrder(customerID, CID, company, org, prefix, orderTitle);
-                    //Here Ofcourse for new Customer There shall not be an order exists so we need to create one
+                    if (storeMode == 1) // retail
+                    {
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                        long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
+                        orderID = _OrderRepository.CreateNewOrder(TemporaryRetailCompanyId, TemporaryContactId, OrganisationId, orderTitle);
+                    }
                 }
                 else
                 {
-                    customerID = (int)_myClaimHelper.loginContactCompanyID(); //dummy customer
-                    Company tblCustomer = _myCompanyService.GetCompanyByCompanyID((Int64)customerID);
-                    if (tblCustomer == null)
-                        customerID = this.CreateCustomer();
-                     Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                    int CID = _myCompanyContact.GetContactIdByCustomrID(customerID);
+                   // temporary customer exists in cookie
+                    Company temporaryCompany = _myCompanyService.GetCompanyByCompanyID(TemporaryRetailCompanyId);
+                    if (temporaryCompany == null)
+                    {
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                    }
 
-
-                    // start from here
-
-                    orderID = _OrderRepository.GetOrderID(customerID, CID, orderTitle, tblCustomer, org, prefix);
+                    long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
+                    orderID = _OrderRepository.GetOrderID(TemporaryRetailCompanyId, TemporaryContactId, orderTitle, OrganisationId);
                 }
             }
             else
             {
-                //user is Loggged in
-                //Then get customer
-                 Company tblCustomer = _myCompanyService.GetCompanyByCompanyID((Int64)customerID);
-                
-                 Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                customerID = (int)_myClaimHelper.loginContactCompanyID();
-                int contactID = (int)_myClaimHelper.loginContactID();
-                // When user is logged in then we have the contact id why to get order by customer id.
-                orderID = _OrderRepository.GetOrderID(customerID, contactID, orderTitle, tblCustomer,org,prefix);
-              //  customerID = SessionParameters.CustomerID;
+                orderID = _OrderRepository.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), orderTitle, OrganisationId);
+                 
             }
 
-            return (int)orderID;
+            TemporaryRetailCompanyId = TemporaryRetailCompanyId;
+            return orderID;
                  
         }
 
@@ -101,47 +92,118 @@ namespace MPC.Implementation.WebStoreServices
 
             }
         }
-        public bool CheckCustomerCookie()
-        {
-
-            bool result = true;
-            //HttpCookie customerCookie = null;
-
-
-            //customerCookie = Request.Cookies[CUSTOMER_COOKIE];
-            //if (customerCookie != null && !string.IsNullOrWhiteSpace(customerCookie.Value) && customerCookie.Value != "0")
-            //    result = true;
-
-
-            return result;
-        }
-        public int CreateCustomer()
-        {
-            int customerID = 0;
-          
-           
-                customerID = _myCompanyService.CreateCustomer("Web Store Customer", true, false, ContactCompanyTypes.TemporaryCustomer, "");
-                if (customerID > 0)
-                    this.SetCustomerCookie(customerID); // sets the customer into the cookie
-          
-
-            return customerID;
-        }
-        public bool SetCustomerCookie(int customerID)
-        {
-            bool result = false;
-            HttpCookie customerCookie = null;
      
-                //customerCookie = new HttpCookie(CUSTOMER_COOKIE, customerID.ToString());
-                //customerCookie.Expires = DateTime.Today.AddDays(365);
-                //Response.Cookies.Add(customerCookie);
-                //result = true;
-           
-          
+        private long CreateTemporaryCustomer(long OrganisationId)
+        {
+            return _myCompanyService.CreateCustomer("Web Store Customer", true, false, CompanyTypes.TemporaryCustomer, "", OrganisationId);
+        }
+        public long GetUserShopCartOrderID(int status)
+        {
+            return _OrderRepository.GetUserShopCartOrderID(status);
+        }
+        public ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus)
+        {
+            return _OrderRepository.GetShopCartOrderAndDetails(orderID, orderStatus);
+        }
+        public DiscountVoucher GetVoucherRecord(int VId)
+        {
 
-            return result;
+            return _OrderRepository.GetVoucherRecord(VId); 
+        }
+        public Estimate GetOrderByID(long orderId)
+        {
+            try
+            {
+                return _OrderRepository.GetOrderByID(orderId);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool IsVoucherValid(string voucherCode)
+        {
+            try
+            {
+                return _OrderRepository.IsVoucherValid(voucherCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public Estimate CheckDiscountApplied(int orderId)
+        {
+            try
+            {
+                return _OrderRepository.CheckDiscountApplied(orderId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
+        public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
+        {
+            try
+            {
+                return _OrderRepository.RollBackDiscountedItems(orderId,StateTax,Mode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public double SaveVoucherCodeAndRate(int orderId, string VCode)
+        {
+            try
+            {
+                return _OrderRepository.SaveVoucherCodeAndRate(orderId, VCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate,StoreMode Mode)
+        {
+            try
+            {
+                return _OrderRepository.PerformVoucherdiscountOnEachItem(orderId, orderStatus, StateTax, VDiscountRate, Mode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       public bool ResetOrderVoucherCode(int orderId)
+       {
+           try
+           {
+               return _OrderRepository.ResetOrderVoucherCode(orderId);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
 
+        /// <summary>
+        /// Get the OrderId by login User 
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+       public long GetOrderIdByContactId(long contactId, long CompanyId)
+       {
+           try
+           {
+               return _OrderRepository.GetCartOrderId(contactId, CompanyId);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
     }
 }

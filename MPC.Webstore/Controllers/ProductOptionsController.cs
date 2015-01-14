@@ -12,18 +12,27 @@ using System.Globalization;
 using MPC.Webstore.ViewModels;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
+using System.IO;
+using MPC.Webstore.Models;
+using Newtonsoft.Json;
 
 namespace MPC.Webstore.Controllers
 {
     public class ProductOptionsController : Controller
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
 
-        private readonly  IItemService _myItemService;
+        private readonly IItemService _myItemService;
 
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
+
+        private readonly IOrderService _orderService;
+
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
+
+        private readonly ITemplatePageService _templatePages;
 
         #endregion
 
@@ -32,7 +41,9 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProductOptionsController(IItemService myItemService, ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public ProductOptionsController(IItemService myItemService, ICompanyService myCompanyService,
+            IWebstoreClaimsHelperService webstoreAuthorizationChecker, IOrderService orderService, IWebstoreClaimsHelperService myClaimHelper
+            , ITemplatePageService templatePages)
         {
             if (myItemService == null)
             {
@@ -48,22 +59,190 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("webstoreAuthorizationChecker");
             }
+
+            if (orderService == null)
+            {
+                throw new ArgumentNullException("orderService");
+            }
+
+            if (myClaimHelper == null)
+            {
+                throw new ArgumentNullException("myClaimHelper");
+            }
+
+            if (templatePages == null)
+            {
+                throw new ArgumentNullException("templatePages");
+            }
             this._myItemService = myItemService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+            this._orderService = orderService;
+            this._myClaimHelper = myClaimHelper;
+            this._templatePages = templatePages;
         }
 
         #endregion
         // GET: ProductOptions
-        public ActionResult Index(string Cid, string Itemid, string Mode)
+        public ActionResult Index(string CategoryId, string ItemId, string ItemMode, string TemplateId)
         {
-            // add falg idd
+            Item clonedItem = null;
 
-            List<ProductPriceMatrixViewModel> jasonObjectList = new List<ProductPriceMatrixViewModel>();
-            Item referenceItem = _myItemService.GetItemById(Convert.ToInt64(Itemid));
-            ViewData["StckOptions"] = _myItemService.GetStockList(Convert.ToInt64(Itemid), UserCookieManager.StoreId);
-          
-            if(_webstoreAuthorizationChecker.isUserLoggedIn())
+            if (ItemMode == "UploadDesign")
+            {
+                if (UserCookieManager.OrderId == 0)
+                {
+                    long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+                    // create new order
+                    MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        UserCookieManager.OrderId = OrderID;
+                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                    }
+                }
+                else
+                {
+                    // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
+                    clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
+                    if (clonedItem == null)
+                    {
+                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                    }
+                }
+            }
+            else if (ItemMode == "Modify")// template case
+            {
+                clonedItem = _myItemService.GetItemById(Convert.ToInt64(ItemId));
+                if (!string.IsNullOrEmpty(TemplateId))
+                {
+                    BindTemplatesList(Convert.ToInt64(TemplateId));
+                }
+                else 
+                {
+                    BindArtworkAttachmentsList(Convert.ToInt64(ItemId));
+                }
+
+                ViewBag.SelectedStockItemId = clonedItem.ItemSections.FirstOrDefault().StockItemID1;
+                ViewBag.SelectedQuantity = clonedItem.Qty1;
+
+            }
+            else if (!string.IsNullOrEmpty(TemplateId))// template case
+            {
+                clonedItem = _myItemService.GetItemById(Convert.ToInt64(ItemId));
+                BindTemplatesList(Convert.ToInt64(TemplateId));
+            }
+
+            ViewBag.ClonedItemId = clonedItem.ItemId;
+
+            DefaultSettings(ItemId);
+
+            return View("PartialViews/ProductOptions");
+        }
+
+        [HttpPost]
+        public ActionResult Index(ItemCartViewModel cartObject, string ReferenceItemId)
+        {
+            if (!string.IsNullOrEmpty(cartObject.ItemPrice) || !string.IsNullOrEmpty(cartObject.JsonPriceMatrix) || !string.IsNullOrEmpty(cartObject.StockId))
+            {
+                MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+
+                List<AddOnCostCenterViewModel> selectedAddOnsList = JsonConvert.DeserializeObject<List<AddOnCostCenterViewModel>>(cartObject.JsonAddOnsPrice);
+
+                List<AddOnCostsCenter> ccObjectList = new List<AddOnCostsCenter>();
+
+                AddOnCostsCenter ccObject = null;
+
+                foreach (var addOn in selectedAddOnsList)
+                {
+                    ccObject = new AddOnCostsCenter();
+                    ccObject.CostCenterID = addOn.CostCenterId;
+                    if (addOn.Type == 2) //per quantity
+                    {
+                        ccObject.Qty1NetTotal = (Convert.ToDouble(cartObject.QuantityOrdered) * addOn.ActualPrice) + addOn.SetupCost;
+                        if (ccObject.Qty1NetTotal < addOn.MinimumCost && addOn.MinimumCost != 0)
+                        {
+                            ccObject.Qty1NetTotal = addOn.MinimumCost;
+                        }
+                    }
+                    else
+                    {
+                        ccObject.Qty1NetTotal = addOn.ActualPrice;
+                    }
+                    ccObjectList.Add(ccObject);
+                }
+
+
+                if (true) // upload design
+                {
+                    if (false) // calculate tax by service
+                    {
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), 0, 0); // set files count
+                    }
+                    else
+                    {
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0, 0); // set files count
+                    }
+                }
+                else
+                {
+                    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0);
+                }
+                selectedAddOnsList = null;
+                ccObjectList = null;
+                ccObject = null;
+                Response.Redirect("/ShopCart/" + UserCookieManager.OrderId);
+
+                return null;
+
+            }
+            else
+            {
+                DefaultSettings(ReferenceItemId);
+
+                return View("PartialViews/ProductOptions");
+            }
+
+
+        }
+
+        private void DefaultSettings(string ReferenceItemId)
+        {
+            List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
+
+            List<AddOnCostCenterViewModel> AddonObjectList = null;
+            // get reference item, stocks, addons, price matrix
+            Item referenceItem = _myItemService.GetItemById(Convert.ToInt64(ReferenceItemId));
+
+            ViewData["StckOptions"] = _myItemService.GetStockList(Convert.ToInt64(ReferenceItemId), UserCookieManager.StoreId);
+
+            List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.StoreId);
+
+            ViewData["CostCenters"] = listOfCostCentres;
+
+            AddonObjectList = new List<AddOnCostCenterViewModel>();
+
+            foreach (var addOn in listOfCostCentres)
+            {
+                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                {
+                    Id = addOn.ProductAddOnID,
+                    CostCenterId = addOn.CostCenterID,
+                    Type = addOn.Type,
+                    SetupCost = addOn.SetupCost,
+                    MinimumCost = addOn.MinimumCost,
+                    ActualPrice = addOn.AddOnPrice ?? 0.0,
+                    StockOptionId = addOn.ItemStockId
+                };
+                AddonObjectList.Add(addOnsObject);
+            }
+
+            ViewBag.JsonAddonCostCentre = AddonObjectList;
+
+            if (_webstoreAuthorizationChecker.isUserLoggedIn())
             {
                 referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, true, UserCookieManager.StoreId);
             }
@@ -72,7 +251,8 @@ namespace MPC.Webstore.Controllers
                 referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, false, 0);
             }
 
-            foreach (var matrixItem in referenceItem.ItemPriceMatrices) 
+            PriceMatrixObjectList = new List<ProductPriceMatrixViewModel>();
+            foreach (var matrixItem in referenceItem.ItemPriceMatrices)
             {
                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                 {
@@ -159,6 +339,7 @@ namespace MPC.Webstore.Controllers
                 }
                 if (referenceItem.IsQtyRanged == true)
                 {
+
                     //json object
                     ProductPriceMatrixViewModel priceObject = new ProductPriceMatrixViewModel
                     {
@@ -166,27 +347,57 @@ namespace MPC.Webstore.Controllers
                         QtyRangeFrom = Convert.ToDouble(matrixItem.QtyRangeFrom),
                         QtyRangeTo = Convert.ToDouble(matrixItem.QtyRangeTo)
                     };
-                    jasonObjectList.Add(priceObject);
-                    
+                    PriceMatrixObjectList.Add(priceObject);
+
                 }
                 else
                 {
+
                     //json object
                     ProductPriceMatrixViewModel priceObject = new ProductPriceMatrixViewModel
                     {
                         ItemID = Convert.ToInt32(matrixItem.PriceMatrixId),
                         Quantity = matrixItem.Quantity.ToString()
                     };
-                    jasonObjectList.Add(priceObject);
+                    PriceMatrixObjectList.Add(priceObject);
                 }
             }
 
-            ViewBag.jasonObjectList = jasonObjectList;
+            ViewBag.JasonPriceMatrix = PriceMatrixObjectList;
 
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            ViewBag.Currency =  baseResponse.Currency;
+            ViewBag.Currency = baseResponse.Currency;
 
-            return View("PartialViews/ProductOptions", referenceItem);
+            if (referenceItem.IsStockControl == true)
+            {
+                ViewBag.ItemStock = _myItemService.GetStockItem(referenceItem.ItemId);
+            }
+            else
+            {
+                ViewBag.ItemStock = null;
+            }
+            ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
+            PriceMatrixObjectList = null;
+            AddonObjectList = null;
+
+            ViewBag.Item = referenceItem;
+        }
+        private void BindTemplatesList(long TemplateId) 
+        {
+            List<TemplatePage> TemplatePagesList = _templatePages.GetTemplatePages(TemplateId).ToList();
+            if (TemplatePagesList != null && TemplatePagesList.Count > 2)
+            {
+                TemplatePagesList = TemplatePagesList.Take(2).ToList();
+            }
+
+            ViewData["Templates"] = TemplatePagesList.ToList();
+            TemplatePagesList = null;
+        }
+        private void BindArtworkAttachmentsList(long ItemId)
+        {
+
+            ViewData["ArtworkAttachments"] = _myItemService.GetArtwork(Convert.ToInt64(ItemId)).ToList();
+            
         }
     }
 }

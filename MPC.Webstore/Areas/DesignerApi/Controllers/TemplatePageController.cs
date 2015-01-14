@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public HttpResponseMessage GetTemplate(int id)
+        public HttpResponseMessage GetTemplatePages(long id)
         {
             var template = templatePageService.GetTemplatePages(id);
             var formatter = new JsonMediaTypeFormatter();
@@ -46,15 +47,38 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
          
         }
+        public HttpResponseMessage GetTemplatePagesSP(long id)
+        {
+            var template = templatePageService.GetTemplatePages(id);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
 
+        }
 
-        //    public string update(Stream data)
-        // public string preview(Stream data)
-        // public string savecontine(Stream data)
-        // public Stream GetFoldLine(string TemplateID)
-        //public Stream GetCategoryV2(string CategoryIDStr)
-        //public Stream GetProductV2(string TemplateID,string CategoryIDStr,string heightStr, string widthStr)
-        //public Stream GetCatListV2(string CategoryIDStr, string pageNoStr, string pageSizeStr)
+        //[System.Web.Http.AcceptVerbs("GET", "POST")]
+        //[System.Web.Http.HttpGet]
+   
+        //public string testTemplate(long id)
+        //{
+        //    List<TemplatePage> objList = new List<TemplatePage>();
+        //    TemplatePage objpage = new TemplatePage();
+        //    TemplatePage objpag2e = new TemplatePage();
+        //    objpage.BackgroundFileName = "1030///Side1.pdf";
+        //    objpag2e.BackgroundFileName = "1030///Side2.pdf";
+        //    objList.Add(objpage); objList.Add(objpag2e);
+            
+        //    bool result = templatePageService.DeleteBlankBackgroundPDFsByPages(1078,objList,0);
+        //    result = templatePageService.DeleteBlankBackgroundPDFsByPages(1978, objList, 0);
+        //    var formatter = new JsonMediaTypeFormatter();
+        //    var json = formatter.SerializerSettings;
+        //    json.Formatting = Newtonsoft.Json.Formatting.Indented;
+        //    json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        //    return result.ToString();
+
+       // }
         #endregion
     }
 }

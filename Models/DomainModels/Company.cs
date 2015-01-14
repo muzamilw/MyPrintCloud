@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
+    /// <summary>
+    /// Company Domain Model
+    /// </summary>
     public class Company
     {
         public long CompanyId { get; set; }
@@ -116,6 +119,10 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public string TaxLabel { get; set; }
 
+        public long? StoreId { get; set; }
+
+        public bool? isAddCropMarks { get; set; }
+
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
         public virtual ICollection<CompanyCMYKColor> CompanyCMYKColors { get; set; }
@@ -133,5 +140,6 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Campaign> Campaigns { get; set; }
 
         public virtual ICollection<PaymentGateway> PaymentGateways { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
     }
 }

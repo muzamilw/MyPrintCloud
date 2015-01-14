@@ -89,7 +89,7 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user != null)
                 {
-                    return VerifyUser(user, returnUrl, ReturnURL);
+                    return VerifyUser(user, returnUrl);
 
                 }
                 else
@@ -126,18 +126,19 @@ namespace MPC.Webstore.Controllers
                      user = _myCompanyService.GetUserByEmailAndPassword(model.Email, model.Password);
                  }
 
-                 if (model.KeepMeLoggedIn)
-                     UserCookieManager.isWritePresistentCookie = true;
-                 else
-                     UserCookieManager.isWritePresistentCookie = false;
+                 
                 if (user != null)
                 {
+                    if (model.KeepMeLoggedIn)
+                        UserCookieManager.isWritePresistentCookie = true;
+                    else
+                        UserCookieManager.isWritePresistentCookie = false;
                     string ReturnURL = Request.Form["hfReturnURL"];
-                    return VerifyUser(user, returnUrl, model.ReturnURL);
+                    return VerifyUser(user, returnUrl);
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                   ViewBag.Message = "Invalid login attempt.";
                     return View("PartialViews/Login");
                 }
             }
@@ -148,46 +149,47 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl, string ReturnURL)
+        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl)
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
-                ModelState.AddModelError("", "Your account is archived.");
+               ViewBag.Message = "Your account is archived.";
                 return View("PartialViews/Login");
             }
             if (user.Company.IsDisabled == 1)
             {
-                ModelState.AddModelError("", "Your account is disabled. Please contact us for further information.");
+                ViewBag.Message = "Your account is disabled. Please contact us for further information.";
                 return View("PartialViews/Login");
             }
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
             {
-                ModelState.AddModelError("", "Your account does not have the web access enabled. Please contact your Order Manager.");
+               ViewBag.Message ="Your account does not have the web access enabled. Please contact your Order Manager.";
                 return View("PartialViews/Login");
             }
             else
             {
 
-                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+                //ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
+                //ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
 
-                HttpContext.User = new ClaimsPrincipal(identity);
-                // Make sure the Principal's are in sync
-                Thread.CurrentPrincipal = HttpContext.User;
-                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                //var claimsPriciple = new ClaimsPrincipal(identity);// HttpContext.User = new ClaimsPrincipal(identity);
+                //// Make sure the Principal's are in sync
+                //HttpContext.User = claimsPriciple;// ;
+                //Thread.CurrentPrincipal = HttpContext.User;
+                //AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
 
                 UserCookieManager.ContactFirstName = user.FirstName;
                 UserCookieManager.ContactLastName = user.LastName;
                 UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
                 UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
-                UserCookieManager.ContactId = user.ContactId;
+                
                 UserCookieManager.Email = user.Email;
 
-                if (ReturnURL == "Social")
+                if (ReturnUrl == "Social")
                     RedirectToLocal(ReturnUrl);
                 else
-                    ControllerContext.HttpContext.Response.Redirect(ReturnURL);
+                    Response.Redirect("/");// ControllerContext.HttpContext.Response.Redirect("");
 
                 return null;
                

@@ -61,7 +61,9 @@ namespace MPC.Webstore.ModelMappers
                 WebMasterTag = source.WebMasterTag,
                 WebAnalyticCode = source.WebAnalyticCode,
                 TaxRate = source.TaxRate,
-                isIncludeVAT = source.isIncludeVAT
+                isIncludeVAT = source.isIncludeVAT,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+               
             };
         }
 
@@ -119,7 +121,8 @@ namespace MPC.Webstore.ModelMappers
                 WebMasterTag = source.WebMasterTag,
                 WebAnalyticCode = source.WebAnalyticCode,
                 TaxRate = source.TaxRate,
-                isIncludeVAT = source.isIncludeVAT
+                isIncludeVAT = source.isIncludeVAT,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode
             };
         }
 

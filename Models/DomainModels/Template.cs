@@ -8,30 +8,15 @@ namespace MPC.Models.DomainModels
     /// </summary>
     public class Template
     {
-        public int ProductId { get; set; }
+        public long ProductId { get; set; }
         public string Code { get; set; }
         public string ProductName { get; set; }
         public string Description { get; set; }
-        public string LowResPDFTemplates { get; set; }
-        public string BackgroundArtwork { get; set; }
-        public string Side2LowResPDFTemplates { get; set; }
-        public string Side2BackgroundArtwork { get; set; }
         public string Thumbnail { get; set; }
         public string Image { get; set; }
         public bool? IsDisabled { get; set; }
-        public int? PTempId { get; set; }
-        public bool IsDoubleSide { get; set; }
-        public bool IsUsePDFFile { get; set; }
         public double? PDFTemplateWidth { get; set; }
         public double? PDFTemplateHeight { get; set; }
-        public bool? IsUseBackGroundColor { get; set; }
-        public int? BgR { get; set; }
-        public int? BgG { get; set; }
-        public int? BgB { get; set; }
-        public bool? IsUseSide2BackGroundColor { get; set; }
-        public int? Side2BgR { get; set; }
-        public int? Side2BgG { get; set; }
-        public int? Side2BgB { get; set; }
         public double? CuttingMargin { get; set; }
         public int? MultiPageCount { get; set; }
         public int? Orientation { get; set; }
@@ -70,6 +55,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }
         public virtual ICollection<TemplateObject> TemplateObjects { get; set; }
         public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
+        public virtual ICollection<TemplateFont> TemplateFonts { get; set; }
     }
 
 }

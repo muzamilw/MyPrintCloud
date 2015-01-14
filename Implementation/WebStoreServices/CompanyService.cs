@@ -104,7 +104,7 @@ namespace MPC.Implementation.WebStoreServices
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
@@ -112,7 +112,7 @@ namespace MPC.Implementation.WebStoreServices
          
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
-                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                 oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
@@ -183,7 +183,7 @@ namespace MPC.Implementation.WebStoreServices
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(companyId);
+                List<CmsPage> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
@@ -233,9 +233,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetContactByEmail(Email);
         }
 
-        public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
+        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID)
         {
-            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName);
+            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName,SaleAndOrderManagerID);
         }
 
        
@@ -399,11 +399,9 @@ namespace MPC.Implementation.WebStoreServices
             return (price - (price * (discountPrecentage / 100)));
         }
 
-        public int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null)
+        public long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, CompanyContact regContact = null)
         {
-            Markup zeroMarkup = _markupRepository.GetZeroMarkup();
-        
-            return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, zeroMarkup,regContact);
+            return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, OrganisationId, regContact);
         }
 
         public Organisation getOrganisatonByID(int OID)
@@ -411,10 +409,11 @@ namespace MPC.Implementation.WebStoreServices
             return _organisationRepository.GetOrganizatiobByID(OID);
             
         }
-        public string GetContactMobile(int CID)
+        public string GetContactMobile(long CID)
         {
             return _CompanyContactRepository.GetContactMobile(CID);
         }
+
         #endregion
     }
 

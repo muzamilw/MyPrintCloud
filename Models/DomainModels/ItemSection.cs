@@ -162,14 +162,13 @@ namespace MPC.Models.DomainModels
         public int? Qty1MarkUpID { get; set; }
         public int? Qty2MarkUpID { get; set; }
         public int? Qty3MarkUpID { get; set; }
-        public int? StockItemID1 { get; set; }
+        public long? StockItemID1 { get; set; }
         public int? StockItemID2 { get; set; }
         public int? StockItemID3 { get; set; }
         public int? Side1PlateQty { get; set; }
         public bool? IsPortrait { get; set; }
         public int? Side2PlateQty { get; set; }
         public int? InkColorType { get; set; }
-        public double? BaseCharge1Broker { get; set; }
         public int? PlateInkId { get; set; }
         public int? SimilarSections { get; set; }
 

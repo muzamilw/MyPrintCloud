@@ -13,6 +13,11 @@ namespace MPC.Interfaces.Repository
         /// Get Items
         /// </summary>
         ItemListViewSearchResponse GetItems(ItemSearchRequestModel request);
-
+        /// <summary>
+        /// Get Items For Company/Store
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        ItemListViewSearchResponse GetItemsForCompany(CompanyProductSearchRequestModel request);
     }
 }

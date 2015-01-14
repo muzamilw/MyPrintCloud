@@ -19,6 +19,7 @@ using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 
+
 namespace MPC.Webstore.Controllers
 {
     public class HomeController : Controller
@@ -30,7 +31,13 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
         #endregion
+        [Dependency]
+        public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
 
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
 
         #region Constructor
         /// <summary>
@@ -198,6 +205,7 @@ namespace MPC.Webstore.Controllers
             }
             return View();
         }
-     
+
+    
     }
 }

@@ -8,9 +8,9 @@ namespace MPC.MIS.Controllers
 {
     public class BillingController : Controller
     {
-       
+
         public ActionResult InvoicesList()
-        {            
+        {
             return View();
 
         }
