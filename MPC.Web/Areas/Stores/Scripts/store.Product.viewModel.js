@@ -21,6 +21,8 @@
                     countries = ko.observableArray([]),
                     // States
                     states = ko.observableArray([]),
+                    // Suppliers
+                    suppliers = ko.observableArray([]),
                     //New Added Products
                     newAddedProducts = ko.observableArray([]),
                     //Editted Products
@@ -59,7 +61,7 @@
                 // Sort Order -  true means asc, false means desc
                 sortIsAsc = ko.observable(true),
                 // Pagination
-                pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
+                pager = ko.observable(new pagination.Pagination({ PageSize: 10 }, products)),
                 // Pagination For Item Relater Dialog
                 itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
                 // Pagination For Stock Item Dialog
@@ -437,6 +439,17 @@
                     ko.utils.arrayPushAll(sectionFlags(), itemsList);
                     sectionFlags.valueHasMutated();
                 },
+                // Map Suppliers
+                mapSuppliers = function (data) {
+                    var itemsList = [];
+                    _.each(data, function (item) {
+                        itemsList.push(storeProductModel.Company.Create(item));
+                    });
+
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(suppliers(), itemsList);
+                    suppliers.valueHasMutated();
+                },
                 // Set Item Price Matrices to Current Item against selected Flag
                 setItemPriceMatricesToItem = function (itemPriceMatrices) {
                     if (!itemPriceMatrices || itemPriceMatrices.length === 0) {
@@ -468,6 +481,9 @@
 
                                 // Map Section Flags
                                 mapSectionFlags(data.SectionFlags);
+
+                                // Map Suppliers
+                                mapSuppliers(data.Suppliers);
 
                                 // Assign countries & states to StateTaxConstructorParam
                                 itemStateTaxConstructorParams.countries = countries();
@@ -564,8 +580,8 @@
                     dataservice.getCompanyProduct({
                         CompanyId: companyId,
                         SearchString: filterText(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage()
+                        PageSize: 10,
+                        PageNo: pager().currentPage(),
                     }, {
                         success: function (data) {
                             products.removeAll();
@@ -808,6 +824,7 @@
                     stockItems: stockItems,
                     costCentres: costCentres,
                     sectionFlags: sectionFlags,
+                    suppliers: suppliers,
                     //#endregion Observables
                     //#region ObservableArrays Of client side list for one click save of store
                     newAddedStoreProductId: newAddedStoreProductId,

@@ -166,7 +166,7 @@
         <EntityTypeShape EntityType="DomainModels.GetCategoryProduct" Width="1.5" PointX="28.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ArtworkFileTableView" Width="1.5" PointX="27.375" PointY="23.875" />
         <EntityTypeShape EntityType="DomainModels.AttachmentFileTableView" Width="1.5" PointX="25.375" PointY="15.625" />
-        <EntityTypeShape EntityType="DomainModels.CategoryFileTableView" Width="1.5" PointX="28.75" PointY="7.875" />
+        <EntityTypeShape EntityType="DomainModels.CategoryFileTableView" Width="1.5" PointX="28.75" PointY="8.125" />
         <EntityTypeShape EntityType="DomainModels.CompanyBannerFileTableView" Width="1.5" PointX="28.75" PointY="12.375" />
         <EntityTypeShape EntityType="DomainModels.CostCentreFileTableView" Width="1.5" PointX="28.625" PointY="17.125" />
         <EntityTypeShape EntityType="DomainModels.MediaFileTableView" Width="1.5" PointX="29.375" PointY="21.875" />

@@ -338,6 +338,7 @@ namespace MPC.Webstore.Controllers
                 {
 
                     UserCookieManager.OrderId = OrderID;
+                
                     Item item = _IItemService.CloneItem(id, 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
 
                     if (item != null)

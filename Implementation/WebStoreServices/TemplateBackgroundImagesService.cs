@@ -22,11 +22,11 @@ namespace MPC.Implementation.WebStoreServices
         }
         #endregion
         //delete all template images of the given tempalte // added by saqib
-        public void DeleteTemplateBackgroundImages(long productID, long organizationID)
+        public void DeleteTemplateBackgroundImages(long productID, long OrganisationID)
         {
             List<TemplateBackgroundImage> listImages ;
             _templateImagesRepository.DeleteTemplateBackgroundImages(productID, out listImages);
-            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/" + productID.ToString());
+            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + productID.ToString());
                 
             foreach (var obj in listImages)
             {

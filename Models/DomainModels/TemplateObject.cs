@@ -63,7 +63,7 @@
         public bool? AutoShrinkText { get; set; }
         public bool? IsOverlayObject { get; set; }
         public string ClippedInfo { get; set; }
-
+        public int textCase { get; set; }
         public virtual Template Template { get; set; }
     }
 }

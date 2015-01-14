@@ -13,7 +13,9 @@
                         <li><a href="~/CRM/ContactCompanies">Stores</a></li>
                         <li class="active"><span>Store Detail</span></li>
                     </ol>
-                    <h1>Unbound Print Store - ST0125 - www.unboundprintstore.com</h1>
+                    <div class="tab-content" data-bind="with: $root.selectedStore()">
+                        <h1 data-bind="text: name()"></h1>
+                    </div>
                 </div>
             </div>
             <div class="row" id="user-profile">
@@ -41,7 +43,7 @@
                     <div class="main-box clearfix">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
+                                <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
                                 <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab">Users & Addresses</a></li>
@@ -504,10 +506,10 @@
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="clearfix">
-                                            <header class="main-box-header clearfix">
-                                                <h2>Products</h2>
+                                            @*<header class="main-box-header clearfix">
+                                                    <h1>Products</h1>
 
-                                            </header>
+                                                </header>*@
                                             <div class="main-box-body clearfix" data-bind="with: ist.storeProduct.viewModel">
                                                 @Html.Partial("~/Areas/Stores/Views/Stores/_Products.cshtml")
                                                 @Html.Partial("~/Areas/Stores/Views/Stores/_StoreProductDetail.cshtml")
@@ -2473,6 +2475,7 @@
             $(".fa fa-upload").click(function () {
                 $("input[id='my_file']").click();
             });
+           
         });
 
 
