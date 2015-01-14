@@ -356,7 +356,7 @@ namespace MPC.Implementation.WebStoreServices
 
         private void LoadImage(ref Doc oPdf, TemplateObject oObject, string logoPath, int PageNo)
         {
-
+            logoPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content");
             XImage oImg = new XImage();
             Bitmap img = null;
             try
@@ -376,7 +376,7 @@ namespace MPC.Implementation.WebStoreServices
                     //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
                     //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
                     //}
-                    FilePath = oObject.ContentString;
+                    FilePath = logoPath + oObject.ContentString;
                     bFileExists = System.IO.File.Exists(FilePath);
 
                 }
@@ -473,7 +473,7 @@ namespace MPC.Implementation.WebStoreServices
                     //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
                     //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
                     //}
-                    FilePath = oObject.ContentString;
+                    FilePath = logoPath + oObject.ContentString;
                     bFileExists = System.IO.File.Exists(FilePath);
                 }
                 else
@@ -1235,27 +1235,21 @@ namespace MPC.Implementation.WebStoreServices
                     theDoc.PageNumber = 1;
                     theDoc.Rect.String = theDoc.CropBox.String;
                     theDoc.Rect.Inset(CuttingMargin, CuttingMargin);
-                    
+
                     if (System.IO.Directory.Exists(savePath) == false)
                     {
                         System.IO.Directory.CreateDirectory(savePath);
                     }
-
+                    string filePath = savePath + PreviewFileName + ".png";
                     theDoc.Rendering.DotsPerInch = DPI;
-                    if (RoundCorners)
-                    {
-                        using (str = new MemoryStream())
-                        {
-                            theDoc.Rendering.Save(System.IO.Path.Combine(savePath, PreviewFileName) + ".png", str);
-                            generateRoundCorners(System.IO.Path.Combine(savePath, PreviewFileName) + ".png", System.IO.Path.Combine(savePath, PreviewFileName) + ".png", str);
-                        }
-                    }
-                    else
-                    {
-                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, PreviewFileName) + ".png");
-                    }
-
+                    theDoc.Rendering.Save(filePath);
                     theDoc.Dispose();
+                    //if (RoundCorners)
+                    //{
+                    //    generateRoundCorners(filePath, filePath,str);
+                    //}
+                  
+                    
 
                     return PreviewFileName + ".png";
 
@@ -1276,7 +1270,7 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        private void generateRoundCorners(string physicalPath, string pathToSave, Stream str)
+        private void generateRoundCorners(string physicalPath, string pathToSave,Stream str)
         {
             string path = physicalPath;
             int roundedDia = 30;
@@ -1554,7 +1548,7 @@ namespace MPC.Implementation.WebStoreServices
             return result;
         }
         // generate template pdf file called from MIS and webstore 
-        private bool GenerateTemplatePdf(long productID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
+        private bool GenerateTemplatePdf(long productID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners, bool isDrawHiddenObjs)
         {
             bool result = false;
             try
@@ -1568,15 +1562,15 @@ namespace MPC.Implementation.WebStoreServices
                     foreach (TemplatePage objPage in oTemplatePages)
                     {
                         bool hasOverlayObject = false;
-                        byte[] PDFFile = generatePDF(objProduct, objPage,oTemplateObjects, drURL, fontsUrl, false, true, printCropMarks, printWaterMarks, out hasOverlayObject, false,OrganisationID);
+                        byte[] PDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID);
                         //writing the PDF to FS
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
-                        generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        generatePagePreview(PDFFile, drURL,productID + "/p" + objPage.PageNo , objProduct.CuttingMargin.Value, 150, isroundCorners);
                         if (hasOverlayObject)
                         {
                             // generate overlay PDF 
-                            byte[] overlayPDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, true, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID);
+                            byte[] overlayPDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID);
                             // writing overlay pdf to FS 
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
@@ -1832,8 +1826,15 @@ namespace MPC.Implementation.WebStoreServices
         // called from webstore and MIS to generate pdf file of the template.// added by saqib ali
         public void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
         {
-            GenerateTemplatePdf(TemplateID, OrganisationID, printCropMarks, printWaterMarks, isroundCorners);
+            GenerateTemplatePdf(TemplateID, OrganisationID, printCropMarks, printWaterMarks, isroundCorners,true);
         }
+        // called from MIS and webstore to regenerate template PDF files  // added by saqib ali
+        public void regeneratePDFs(long productID,long OrganisationID, bool printCuttingMargins)
+        {
+            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false);
+
+        }
+
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
             List<ProductCategoriesView> PCview = _ProductCategoryRepository.GetMappedCategoryNames(false, CompanyID);

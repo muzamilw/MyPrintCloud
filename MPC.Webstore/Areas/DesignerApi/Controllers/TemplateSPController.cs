@@ -56,7 +56,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         // public bool DeleteBlankBackgroundPDFsByPages(int TemplateID, List<TemplatePages> PagesList) // moved to template page svc
         //public bool generateTemplateFromPDF(string filePhysicalPath, int mode, int templateID, int CustomerID) // moved to template svc
         //void processTemplatePDF(int TemplateID, bool printCropMarks, bool printWaterMarks, bool isroundCorners) // moved to template svc
-
+        // regeneratePDFs // moved to template svc
         // public MatchingSets GetMatchingSetbyID(int MatchingSetID)  //not used in webstore called from v2
         // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)//not used in webstore called from v2
         //public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo) // not implemented as not used in webstore 
