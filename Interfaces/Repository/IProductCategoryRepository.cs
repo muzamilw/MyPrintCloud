@@ -30,6 +30,13 @@ namespace MPC.Interfaces.Repository
       
 
         ProductCategoriesView GetMappedCategory(string CatName, int CID);
+
+        /// <summary>
+        /// get name of parent categogry by ItemID
+        /// </summaery>
+        /// <param name="categoryID"></param>
+        /// <returns></returns>
+        string GetImmidiateParentCategory(long ItemID,out string CurrentProductCategoryName);
         
     }
 }

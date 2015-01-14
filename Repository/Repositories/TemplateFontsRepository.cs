@@ -87,6 +87,14 @@ namespace MPC.Repository.Repositories
             }
             db.SaveChanges();
         }
+
+        // get all template fonts in db called while geerating proof // should be optimzed
+        public List<TemplateFont> GetFontList()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.TemplateFonts.ToList();
+
+        }
         #endregion
     }
 }

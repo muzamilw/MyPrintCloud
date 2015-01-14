@@ -12,7 +12,9 @@ namespace MPC.Webstore
                         "~/Scripts/jquery-1.10.2.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Slider").Include(
-                       "~/Scripts/js-image-slider.js"));
+                       "~/Scripts/js-image-slider.js",
+                       "~/Scripts/SmartFormJCarousel.js"
+                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",

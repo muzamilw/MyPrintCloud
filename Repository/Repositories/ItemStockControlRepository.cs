@@ -31,8 +31,16 @@ namespace MPC.Repository.Repositories
 
         public ItemStockControl GetStockOfItemById(long itemID)
         {
-          return db.ItemStockControls.Where(i => i.ItemId == itemID).FirstOrDefault();
+            try
+            {
+                return db.ItemStockControls.Where(i => i.ItemId == itemID).FirstOrDefault();
+            }
+          catch(Exception ex)
+            {
+                throw ex;
+            }
             
         }
+     
     }
 }

@@ -61,7 +61,10 @@ namespace MPC.Implementation.WebStoreServices
                 System.IO.Directory.Delete(drUrl);
             }
         }
-     
+        public List<TemplateFont> GetFontList()
+        {
+           return _templateFontRepository.GetFontList();
+        }
 
         #endregion
     }

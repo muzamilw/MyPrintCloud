@@ -10,5 +10,12 @@ namespace MPC.Interfaces.Repository
     public interface IItemAddOnCostCentreRepository : IBaseRepository<ItemAddonCostCentre, long>
     {
         List<AddOnCostsCenter> AddOnsPerStockOption(long itemId, long companyId);
+        /// <summary>
+        /// get cost center list according to stock option id
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        List<string> GetProductItemAddOnCostCentres(long StockOptionID, long CompanyID);
     }
 }

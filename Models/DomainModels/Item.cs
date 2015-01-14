@@ -379,6 +379,9 @@ namespace MPC.Models.DomainModels
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
 
+        [NotMapped]
+        public double MinPrice { get; set; }
+
         #endregion
 
         #region Reference Properties
@@ -406,8 +409,9 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
         public virtual ICollection<ItemProductDetail> ItemProductDetails { get; set; }
+        public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
 
-        #endregion
+            #endregion
         #region Additional Properties
 
         [NotMapped]

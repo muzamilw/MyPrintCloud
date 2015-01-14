@@ -203,7 +203,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Template> Templates { get; set; }
 
         /// <summary>
-        /// Get next id for a table
+        /// Get Minimum Product Value
         /// </summary>
         public double GetMinimumProductValue(long itemId)
         {
@@ -212,11 +212,10 @@ namespace MPC.Repository.BaseRepository
                 throw new ArgumentException(LanguageResources.InvalidItem, "itemId");
             }
 
-            ObjectParameter itemIdParameter = new ObjectParameter("ItemID", itemId);
-            ObjectParameter result = new ObjectParameter("Result", typeof(int));
-            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction(
-                "BaseDbContext.funGetMiniumProductValue", itemIdParameter, result);
-            return (double)result.Value;
+            ObjectParameter itemIdParameter = new ObjectParameter("ItemId", itemId);
+            ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter); ;
+            
+            return result.FirstOrDefault() ?? 0;
         }
 
         public DbSet<Currency> Currencies { get; set; }
@@ -369,6 +368,71 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ImagePermission> ImagePermissions { get; set; }
 
         /// <summary>
+        /// Listing DbSet
+        /// </summary>
+        public DbSet<Listing> Listings { get; set; }
+
+        /// <summary>
+        /// Listing Agent DbSet
+        /// </summary>
+        public DbSet<ListingAgent> ListingAgents { get; set; }
+
+        /// <summary>
+        /// Listing Conjunction Agent DbSet
+        /// </summary>
+        public DbSet<ListingConjunctionAgent> ListingConjunctionAgents { get; set; }
+
+        /// <summary>
+        /// Listing Floor Plan DbSet
+        /// </summary>
+        public DbSet<ListingFloorPlan> ListingFloorPlans { get; set; }
+
+        /// <summary>
+        /// Listing Image DbSet
+        /// </summary>
+        public DbSet<ListingImage> ListingImages { get; set; }
+
+        /// <summary>
+        /// Listing Link DbSet
+        /// </summary>
+        public DbSet<ListingLink> ListingLinks { get; set; }
+
+        /// <summary>
+        /// Listing OFI DbSet
+        /// </summary>
+        public DbSet<ListingOFI> ListingOFIs { get; set; }
+
+        /// <summary>
+        /// Listing Vendor DbSet
+        /// </summary>
+        public DbSet<ListingVendor> ListingVendors { get; set; }
+
+        /// <summary>
+        /// Favorite Design DbSet
+        /// </summary>
+        public DbSet<FavoriteDesign> FavoriteDesigns { get; set; }
+
+        /// <summary>
+        /// Company Variable Icon DbSet
+        /// </summary>
+        public DbSet<CompanyVariableIcon> CompanyVariableIcons { get; set; }
+
+        /// <summary>
+        /// Custom Copy DbSet
+        /// </summary>
+        public DbSet<CustomCopy> CustomCopies { get; set; }
+
+        /// <summary>
+        /// Phrase Field DbSet
+        /// </summary>
+        public DbSet<PhraseField> PhraseFields { get; set; }
+
+        /// <summary>
+        /// Phrase DbSet
+        /// </summary>
+        public DbSet<Phrase> Phrases { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
@@ -461,6 +525,19 @@ namespace MPC.Repository.BaseRepository
                 customerIdParameter);
 
             return templateFontsUpdatedResults.ToList();
+        }
+
+        /// <summary>
+        /// Get Real Estate Products 
+        /// </summary>
+        public IEnumerable<usp_GetRealEstateProducts_Result> usp_GetRealEstateProducts(int? contactCompanyId)
+        {
+            var contactCompanyIdParameter = contactCompanyId.HasValue ?
+                new ObjectParameter("ContactCompanyID", contactCompanyId) :
+                new ObjectParameter("ContactCompanyID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.
+                ExecuteFunction<usp_GetRealEstateProducts_Result>("BaseDbContext.usp_GetRealEstateProducts", contactCompanyIdParameter).ToList();
         }
 
         #endregion
