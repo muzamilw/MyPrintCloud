@@ -70,6 +70,7 @@
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
+    <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
     <Compile Include="Repository\ICampaignRepository.cs" />
     <Compile Include="Repository\IColorPalleteRepository.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
     <Compile Include="Repository\IItemAttachmentRepository.cs" />
+    <Compile Include="Repository\IIProductCategoryItemRepository.cs" />
     <Compile Include="Repository\IItemStateTaxRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\IItemAddOnCostCentreRepository.cs" />

@@ -7422,9 +7422,7 @@ img
 }
 
 .errorMsgClss
-{
-    position: fixed;
-   
+{   
     top: 217px;
     left: 300px;
     z-index: 10000;

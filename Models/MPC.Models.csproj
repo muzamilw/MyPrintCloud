@@ -146,6 +146,7 @@
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />
+    <Compile Include="DomainModels\ProductCategoryItemCustom.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />

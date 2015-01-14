@@ -7,6 +7,7 @@ using System.Resources;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Xml;
 
 namespace MPC.Webstore.Common
 {
@@ -89,38 +90,61 @@ namespace MPC.Webstore.Common
             return string.Format("{0:0}", Math.Round(Convert.ToDouble(valueToFormat), 2));
 
         }
-    }
-    public static class CommonHtmlExtensions
-    {
-        static Assembly FindGlobalResAssembly()
+
+        public static string GetImagePath(string Folder, long OrganisationId, long CompanyId, string ImageURl)
         {
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+            return string.Format("{0}{1}{2}{3}{4}{5}{6}", Folder, "Organisation" + OrganisationId, "/", CompanyId, "/", ImageURl);
+        }
+        public static string resourcefillle()
+        {
+            XmlDocument loResource = new XmlDocument();
+
+            loResource.Load(HttpContext.Current.Server.MapPath("/mpc_content/Resources/Organisation1/en-US/LanguageResource.resx"));
+
+            XmlNode loRoot = loResource.SelectSingleNode("root/data[@name='DefaultAddress']/value");
+
+            if (loRoot != null)
             {
-                if (asm.FullName.StartsWith("App_GlobalResources."))
-                    return asm;
+                return (loRoot.LastChild).InnerText;
             }
-            return null;
+            else 
+            {
+                return "";
+            }
         }
+       
+    }
+    //public static class CommonHtmlExtensions
+    //{
+    //    static Assembly FindGlobalResAssembly()
+    //    {
+    //        foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+    //        {
+    //            if (asm.FullName.StartsWith("App_GlobalResources."))
+    //                return asm;
+    //        }
+    //        return null;
+    //    }
 
-        public static string GetResource(this HtmlHelper htmlHelper, string name)
-        {
-            string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
-            Assembly asm =  FindGlobalResAssembly();
-            if (asm == null)
-                return null;
-            return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
-        }
+    //    public static string GetResource(this HtmlHelper htmlHelper, string name)
+    //    {
+    //        string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
+    //        Assembly asm =  FindGlobalResAssembly();
+    //        if (asm == null)
+    //            return null;
+    //        return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
+    //    }
 
-        public static string GetResource(string name)
-        {
-            string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
-            Assembly asm = FindGlobalResAssembly();
-            if (asm == null)
-                return null;
-            return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
-        }
+    //    public static string GetResource(string name)
+    //    {
+    //        string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
+    //        Assembly asm = FindGlobalResAssembly();
+    //        if (asm == null)
+    //            return null;
+    //        return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
+    //    }
 
 
      
-    }
+    //}
 }

@@ -2652,6 +2652,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="AutoShrinkText" Type="bit" />
           <Property Name="IsOverlayObject" Type="bit" />
           <Property Name="ClippedInfo" Type="xml" />
+          <Property Name="textCase" Type="int" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -2827,6 +2828,8 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="isUploadImage" Type="bit" />
           <Property Name="isMarketingBrief" Type="bit" />
           <Property Name="ProductCategoryId" Type="bigint" Nullable="false" />
+          <Property Name="TemplateId" Type="bigint" />
+          <Property Name="DesignerCategoryId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -4340,7 +4343,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [GetCategoryProducts].[DefaultItemTax] AS [DefaultItemTax], 
     [GetCategoryProducts].[isUploadImage] AS [isUploadImage], 
     [GetCategoryProducts].[isMarketingBrief] AS [isMarketingBrief], 
-    [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId]
+    [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId], 
+    [GetCategoryProducts].[TemplateId] AS [TemplateId], 
+    [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId]
     FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
@@ -8759,6 +8764,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsOverlayObject" Type="Boolean" />
           <Property Name="ClippedInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_Objects_Products" FromRole="TemplateObject" ToRole="Template" />
+          <Property Name="textCase" Type="Int32" />
         </EntityType>
         <Association Name="FK_Objects_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -8856,6 +8862,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isUploadImage" Type="Boolean" />
           <Property Name="isMarketingBrief" Type="Boolean" />
           <Property Name="ProductCategoryId" Type="Int64" Nullable="false" />
+          <Property Name="TemplateId" Type="Int64" />
+          <Property Name="DesignerCategoryId" Type="Int32" />
         </EntityType>
         <EntityType Name="ArtworkFileTableView">
           <Key>
@@ -12095,6 +12103,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="TemplateObjects">
             <EntityTypeMapping TypeName="DomainModels.TemplateObject">
               <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="textCase" ColumnName="textCase" />
                 <ScalarProperty Name="ClippedInfo" ColumnName="ClippedInfo" />
                 <ScalarProperty Name="IsOverlayObject" ColumnName="IsOverlayObject" />
                 <ScalarProperty Name="AutoShrinkText" ColumnName="AutoShrinkText" />
@@ -12161,6 +12170,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="DesignerCategoryId" ColumnName="DesignerCategoryId" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="isMarketingBrief" ColumnName="isMarketingBrief" />
                 <ScalarProperty Name="isUploadImage" ColumnName="isUploadImage" />

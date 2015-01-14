@@ -8,6 +8,8 @@ using MPC.Interfaces.Data;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using System.Security.Claims;
+using System.Threading;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -15,6 +17,7 @@ namespace MPC.Implementation.WebStoreServices
     {
         public long loginContactID()
         {
+            
             IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
             long contactID = roles.Select(role => role.ContactId).FirstOrDefault();
             return contactID;
@@ -37,6 +40,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public bool isUserLoggedIn()
         {
+           
             IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
             long contactId = roles.Select(role => role.ContactId).FirstOrDefault();
             if (contactId > 0)

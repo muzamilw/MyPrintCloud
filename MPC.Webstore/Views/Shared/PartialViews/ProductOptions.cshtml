@@ -271,9 +271,9 @@
                 </div>
                 <br />
                 <div class=" left_align productStockDesc">
-                    <label class="Fsize18 colorBlack left_align colorDGry">@ViewBag.Item.ProductName</label><br />
+                    <label class="Fsize18 colorBlack left_align colorDGry">@ViewBag.Item.ProductName</label>
                     <br />
-                    <label id="lblStock" class="LightGrayLabels"></label>
+                    <label id="lblStock" class="LightGrayLabels"></label><br />
                     <label id="lblExtra" class="LightGrayLabels"></label>
                 </div>
                 <div class="clearBoth">
@@ -293,12 +293,12 @@
                     <label id="lblGrossTotal" class="float_right">$0</label>
 
                 </div>
-                @if (ViewBag.Item.IsStockControl == true)
+                @if (ViewBag.IsStockControl == true)
                 {
 
-                    if (ViewBag.ItemStock == 0 || ViewBag.ItemStock < 0)
+                    if (ViewBag.ItemStock = 0)
                     { <div class="InStockContainer" style="background:red; color:white;">
-                        @if (ViewBag.ItemStock.isAllowBackOrder ?? false) // back ordering allowed
+                        @if (ViewBag.isAllowBackOrder ?? false) // back ordering allowed
                         {
                             <label>Back ordering allowed</label>
                         }
@@ -436,7 +436,7 @@
                                 </div>
                                 <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='3_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType3'>
-                                        <label id="lblPremiumMatt">@ViewBag.Currency + @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType3.ToString())</label>
+                                        <label id="lblPremiumMatt">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType3.ToString())</label>
 
 
                                     </span>
@@ -462,7 +462,7 @@
                                 </div>
                                 <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='7_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType7'>
-                                        <label id="lblSevenStock">@ViewBag.Currency + @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType7.ToString())</label>
+                                        <label id="lblSevenStock">@ViewBag.Currency  @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType7.ToString())</label>
 
                                     </span>
                                 </div>
@@ -688,7 +688,11 @@
 
             MatrixToggle();
             if (isRanged) {
-                CalculatePriceBaseOnRangedQuantity();
+                if ($("#rangedQuantityOrdered").val() == "") {
+                } else {
+                    CalculatePriceBaseOnRangedQuantity();
+                }
+                
             } else {
                 CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
             }
@@ -809,8 +813,6 @@
 
                         Price = Price * QuantityOrdered;
 
-                        alert(QuantityOrdered);
-
                         $("#VMQuantityOrdered").val(QuantityOrdered);
                         $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
 
@@ -879,7 +881,10 @@
 
 
             if (isRanged) {
-
+                if ($("#rangedQuantityOrdered").val() == "") {
+                } else {
+                    CalculatePriceBaseOnRangedQuantity();
+                }
             } else {
                 CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
             }
@@ -999,23 +1004,25 @@
 
             }
 
-            TotalItemPrice = itemPrice + addOnPrice;
+            TotalItemPrice = itemPrice
             TotalItemPrice = TotalItemPrice.toFixed(2);
 
+            var GrossTotal = itemPrice + addOnPrice;
+            GrossTotal = GrossTotal.toFixed(2);
 
             var isShowPricing = 1;//'<%=isCorporatePricingshown %>';
 
             if (isShowPricing == 1) {
                 if (IsInt == -1) {
-                    $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
+                    $('#lblGrossTotal').text(@ViewBag.Currency GrossTotal);
                 } else {
-                    $('#lblGrossTotal').text(@ViewBag.Currency TotalItemPrice);
+                    $('#lblGrossTotal').text(@ViewBag.Currency GrossTotal);
                 }
             }
             else {
                 $('#lblGrossTotal').css("display", "none");
             }
-            if (TotalItemPrice > 0) {
+            if (GrossTotal > 0) {
                 isPriceSelected = 1;
             }
 
@@ -1204,8 +1211,15 @@
             $(".CostCenterItems").each(function (i, val) {
                 if (StockId == $(val).attr('data-StockId')) {
                     $(val).css("display", "block");
+
                 } else {
+
                     $(val).css("display", "none");
+                    
+                    if ($(val).children().next().children().is(':checked')) {
+                        $(val).children().next().children().click();
+                        
+                    } 
                 }
             });
         }

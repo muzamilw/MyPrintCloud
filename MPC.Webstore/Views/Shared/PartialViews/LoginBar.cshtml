@@ -1,6 +1,6 @@
 ﻿@using MPC.Webstore.Common;
 @{ Layout = null;
-   var LogOutLanguageIdentifier = Html.GetResource("LogOut");
+   
    }
 @if ((UserCookieManager.StoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.StoreMode == 1)
 {
@@ -23,7 +23,7 @@
                     <li class="ZeroRightMargin BlackBtnCS">
                         <a href="/ShopCart" class="top_sub_section_links hyperlinkCart ">
                             <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                            <span class="carttxtcolorSize classicthemeLoginMenu">@Html.GetResource("ShoppingCart")</span>
+                            <span class="carttxtcolorSize classicthemeLoginMenu">ShoppingCart</span>
                             <div class="lblCartCounter" id="lblCartCount">
                             </div>
                         </a>
@@ -67,7 +67,7 @@
                         </div>
                     </li>
                     <li>
-                        @Html.ActionLink(LogOutLanguageIdentifier, "LogOut", "LoginBar")
+                        @Html.ActionLink("Logoutt", "LogOut", "LoginBar")
                     </li>
                 </ul>
             </div>

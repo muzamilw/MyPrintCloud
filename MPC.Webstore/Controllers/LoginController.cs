@@ -169,14 +169,15 @@ namespace MPC.Webstore.Controllers
             else
             {
 
-                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+                //ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
+                //ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
 
-                HttpContext.User = new ClaimsPrincipal(identity);
-                // Make sure the Principal's are in sync
-                Thread.CurrentPrincipal = HttpContext.User;
-                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                //var claimsPriciple = new ClaimsPrincipal(identity);// HttpContext.User = new ClaimsPrincipal(identity);
+                //// Make sure the Principal's are in sync
+                //HttpContext.User = claimsPriciple;// ;
+                //Thread.CurrentPrincipal = HttpContext.User;
+                //AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
 
                 UserCookieManager.ContactFirstName = user.FirstName;
                 UserCookieManager.ContactLastName = user.LastName;
