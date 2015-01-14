@@ -70,6 +70,7 @@
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
+    <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
     <Compile Include="Repository\ICampaignRepository.cs" />
     <Compile Include="Repository\IColorPalleteRepository.cs" />
