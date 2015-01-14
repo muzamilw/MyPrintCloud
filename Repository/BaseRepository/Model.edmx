@@ -1937,6 +1937,25 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MethodName" Type="varchar" MaxLength="200" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
+        <EntityType Name="Phrase">
+          <Key>
+            <PropertyRef Name="PhraseId" />
+          </Key>
+          <Property Name="PhraseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Phrase" Type="text" />
+          <Property Name="FieldId" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="PhraseField">
+          <Key>
+            <PropertyRef Name="FieldId" />
+          </Key>
+          <Property Name="FieldId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FieldName" Type="varchar" MaxLength="50" />
+          <Property Name="SectionId" Type="int" />
+          <Property Name="SortOrder" Type="int" />
+        </EntityType>
         <EntityType Name="prefix">
           <Key>
             <PropertyRef Name="PrefixId" />
@@ -2633,6 +2652,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="AutoShrinkText" Type="bit" />
           <Property Name="IsOverlayObject" Type="bit" />
           <Property Name="ClippedInfo" Type="xml" />
+          <Property Name="textCase" Type="int" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -2808,6 +2828,8 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="isUploadImage" Type="bit" />
           <Property Name="isMarketingBrief" Type="bit" />
           <Property Name="ProductCategoryId" Type="bigint" Nullable="false" />
+          <Property Name="TemplateId" Type="bigint" />
+          <Property Name="DesignerCategoryId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3317,6 +3339,20 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Phrase_PhraseField">
+          <End Role="PhraseField" Type="Self.PhraseField" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Phrase" Type="Self.Phrase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhraseField">
+              <PropertyRef Name="FieldId" />
+            </Principal>
+            <Dependent Role="Phrase">
+              <PropertyRef Name="FieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductCategoryItem_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ProductCategoryItem" Type="Self.ProductCategoryItem" Multiplicity="*" />
@@ -3350,6 +3386,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="RaveReview">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sectionId">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
+          <End Role="PhraseField" Type="Self.PhraseField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="PhraseField">
+              <PropertyRef Name="SectionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4172,6 +4220,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentGateway" EntityType="Self.PaymentGateway" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phrase" EntityType="Self.Phrase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhraseField" EntityType="Self.PhraseField" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="prefix" EntityType="Self.prefix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
@@ -4293,7 +4343,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [GetCategoryProducts].[DefaultItemTax] AS [DefaultItemTax], 
     [GetCategoryProducts].[isUploadImage] AS [isUploadImage], 
     [GetCategoryProducts].[isMarketingBrief] AS [isMarketingBrief], 
-    [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId]
+    [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId], 
+    [GetCategoryProducts].[TemplateId] AS [TemplateId], 
+    [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId]
     FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
@@ -4520,6 +4572,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Company" EntitySet="Company" />
             <End Role="PaymentGateway" EntitySet="PaymentGateway" />
           </AssociationSet>
+          <AssociationSet Name="FK_Phrase_PhraseField" Association="Self.FK_Phrase_PhraseField">
+            <End Role="PhraseField" EntitySet="PhraseField" />
+            <End Role="Phrase" EntitySet="Phrase" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProductCategoryItem_Items" Association="Self.FK_ProductCategoryItem_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ProductCategoryItem" EntitySet="ProductCategoryItem" />
@@ -4531,6 +4587,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_RaveReview_Company" Association="Self.FK_RaveReview_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="RaveReview" EntitySet="RaveReview" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sectionId" Association="Self.fk_sectionId">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="PhraseField" EntitySet="PhraseField" />
           </AssociationSet>
           <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
             <End Role="StockCategory" EntitySet="StockCategory" />
@@ -5284,8 +5344,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="FavoriteDesign" EntitySet="FavoriteDesigns" />
           </AssociationSet>
           <FunctionImport Name="usp_GetRealEstateProducts" ReturnType="Collection(DomainModels.usp_GetRealEstateProducts_Result)">
-            <Parameter Name="ContactCompanyID" Mode="In" Type="Int32" />
+          <Parameter Name="ContactCompanyID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Phrases" EntityType="DomainModels.Phrase" />
+          <EntitySet Name="PhraseFields" EntityType="DomainModels.PhraseField" />
+          <AssociationSet Name="fk_sectionId" Association="DomainModels.fk_sectionId">
+            <End Role="Section" EntitySet="Sections" />
+            <End Role="PhraseField" EntitySet="PhraseFields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phrase_PhraseField" Association="DomainModels.FK_Phrase_PhraseField">
+            <End Role="PhraseField" EntitySet="PhraseFields" />
+            <End Role="Phrase" EntitySet="Phrases" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5994,6 +6064,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SectionImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Independent" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="SectionFlags" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="Section" ToRole="SectionFlag" />
+          <NavigationProperty Name="PhraseFields" Relationship="DomainModels.fk_sectionId" FromRole="Section" ToRole="PhraseField" />
         </EntityType>
         <EntityType Name="SectionFlag">
           <Key>
@@ -8693,6 +8764,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsOverlayObject" Type="Boolean" />
           <Property Name="ClippedInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_Objects_Products" FromRole="TemplateObject" ToRole="Template" />
+          <Property Name="textCase" Type="Int32" />
         </EntityType>
         <Association Name="FK_Objects_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -8790,6 +8862,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isUploadImage" Type="Boolean" />
           <Property Name="isMarketingBrief" Type="Boolean" />
           <Property Name="ProductCategoryId" Type="Int64" Nullable="false" />
+          <Property Name="TemplateId" Type="Int64" />
+          <Property Name="DesignerCategoryId" Type="Int32" />
         </EntityType>
         <EntityType Name="ArtworkFileTableView">
           <Key>
@@ -9528,6 +9602,54 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Type="String" Name="ThumbnailPath" Nullable="true" MaxLength="1000" />
           <Property Type="Int64" Name="ItemId" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Phrase">
+          <Key>
+            <PropertyRef Name="PhraseId" />
+          </Key>
+          <Property Name="PhraseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Phrase1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FieldId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="PhraseField" Relationship="DomainModels.FK_Phrase_PhraseField" FromRole="Phrase" ToRole="PhraseField" />
+        </EntityType>
+        <EntityType Name="PhraseField">
+          <Key>
+            <PropertyRef Name="FieldId" />
+          </Key>
+          <Property Name="FieldId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SectionId" Type="Int32" />
+          <Property Name="SortOrder" Type="Int32" />
+          <NavigationProperty Name="Section" Relationship="DomainModels.fk_sectionId" FromRole="PhraseField" ToRole="Section" />
+          <NavigationProperty Name="Phrases" Relationship="DomainModels.FK_Phrase_PhraseField" FromRole="PhraseField" ToRole="Phrase" />
+        </EntityType>
+        <Association Name="fk_sectionId">
+          <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
+          <End Type="DomainModels.PhraseField" Role="PhraseField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="PhraseField">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phrase_PhraseField">
+          <End Type="DomainModels.PhraseField" Role="PhraseField" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.Phrase" Role="Phrase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhraseField">
+              <PropertyRef Name="FieldId" />
+            </Principal>
+            <Dependent Role="Phrase">
+              <PropertyRef Name="FieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11981,6 +12103,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="TemplateObjects">
             <EntityTypeMapping TypeName="DomainModels.TemplateObject">
               <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="textCase" ColumnName="textCase" />
                 <ScalarProperty Name="ClippedInfo" ColumnName="ClippedInfo" />
                 <ScalarProperty Name="IsOverlayObject" ColumnName="IsOverlayObject" />
                 <ScalarProperty Name="AutoShrinkText" ColumnName="AutoShrinkText" />
@@ -12047,6 +12170,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="DesignerCategoryId" ColumnName="DesignerCategoryId" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="isMarketingBrief" ColumnName="isMarketingBrief" />
                 <ScalarProperty Name="isUploadImage" ColumnName="isUploadImage" />
@@ -12759,6 +12884,27 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Phrases">
+            <EntityTypeMapping TypeName="DomainModels.Phrase">
+              <MappingFragment StoreEntitySet="Phrase">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
+                <ScalarProperty Name="Phrase1" ColumnName="Phrase" />
+                <ScalarProperty Name="PhraseId" ColumnName="PhraseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhraseFields">
+            <EntityTypeMapping TypeName="DomainModels.PhraseField">
+              <MappingFragment StoreEntitySet="PhraseField">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

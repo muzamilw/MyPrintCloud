@@ -31,9 +31,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetFontsList(long parameter1, long parameter2)
+        public HttpResponseMessage GetFontsList(long parameter1, long parameter2,long parameter3)
         {
-            var result = templateFontSvc.GetFontList(parameter1,parameter2);
+            // parameter3 = organization id 
+            var result = templateFontSvc.GetFontList(parameter1,parameter2,parameter3);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

@@ -77,7 +77,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemRelatedItems = source.ItemRelatedItems != null ? source.ItemRelatedItems.Select(vdp => vdp.CreateFrom()) : new List<ItemRelatedItem>(),
                 ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(vdp => vdp.CreateFrom()) : new List<ItemStockOption>(),
                 ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()) : new List<ItemStateTax>(),
-                ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()) : new List<ItemPriceMatrix>()
+                ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()) : new List<ItemPriceMatrix>(),
+                ProductCategoryItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()) : new List<ProductCategoryItem>()
             };
 
             // Load Thumbnail Image
@@ -234,7 +235,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File4Byte = source.File4,
                 File4Name = source.File4Name,
                 File5Byte = source.File5,
-                File5Name = source.File5Name
+                File5Name = source.File5Name,
+                ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() : 
+                new List<DomainModels.ProductCategoryItemCustom>()
             };
         }
     }

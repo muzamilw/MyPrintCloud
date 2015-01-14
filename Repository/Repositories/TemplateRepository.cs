@@ -63,6 +63,22 @@ namespace MPC.Repository.Repositories
             return template;
 
         }
+
+         // returns list of pages and objects along with template called while generating template pdf;
+        public Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            listPages = null;
+            listTemplateObjs = null;
+            if(template != null)
+            {
+                listPages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
+                listTemplateObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
+            }
+            return template;
+        }
+        
         // delete template from database // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID)
         {
@@ -191,10 +207,10 @@ namespace MPC.Repository.Repositories
             return result;
         }
         // copy a single template and update file paths in db // added by saqib ali
-        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages)
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long OrganisationID, out List<TemplateBackgroundImage> objImages)
         {
             long result = 0;
-            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
             long? test = db.sp_cloneTemplate(ProductID, SubmittedBy, SubmittedByName);
             if (test.HasValue)
             {
@@ -236,7 +252,7 @@ namespace MPC.Repository.Repositories
                         string fileName = content[content.Length - 1];
                         if (!item.ContentString.Contains("assets/Imageplaceholder"))
                         {
-                            item.ContentString = "Designer/Organization" + organizationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
+                            item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
                         }
                     }
                 }

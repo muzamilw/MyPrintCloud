@@ -17,11 +17,12 @@ namespace MPC.Interfaces.WebStoreServices
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
         string GetTemplateNameByTemplateID(long tempID);
 
-        bool DeleteTemplate(long ProductID, out long CategoryID, long organizationID);
-        bool DeleteTemplateFiles(long ProductID, long organizationID);
-        long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, long organizationID);
-        List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName, long organizationID);
-        bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long organizationID);
+        bool DeleteTemplate(long ProductID, out long CategoryID, long OrganisationID);
+        bool DeleteTemplateFiles(long ProductID, long OrganisationID);
+        long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, long OrganisationID);
+        List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName, long OrganisationID);
+        bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long OrganisationID);
+        void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners);
         long CloneTemplateByTemplateID(long TempID);
 
         /// <summary>
