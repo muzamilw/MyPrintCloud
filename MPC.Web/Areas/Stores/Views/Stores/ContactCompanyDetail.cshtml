@@ -772,55 +772,54 @@
 
                                         <h3 class="group-header">Color Palettes</h3>
                                         <div class="col-md-9">
-
-                                            <div class="form-group">
-                                                <div class="col-md-3">
+                                            <div data-bind="with:colorPalette">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                    </div>
+                                                    <label class="col-md-6">Color 1: Webstore background</label>
+                                                    <div class="col-md-3">
+                                                        <input data-bind="colorpicker: color1" />
+                                                    </div>
                                                 </div>
-                                                <label class="col-md-6">Color 1: Webstore background</label>
-                                                <div class="col-md-3">
-                                                    @*<input type="text" data-bind="colorpicker:color1" />*@
-                                                    @*<input type="text" data-bind="jqColorPicker:color1" />*@
-                                                    <span id="colorPick1" class="label" style="background-color: #320B0B; cursor: pointer;">#320B0B    </span>
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                    </div>
+                                                    <label class="col-md-6">Color 2: Thumbnail background</label>
+                                                    <div class="col-md-3">
+                                                        <input data-bind="colorpicker: color2" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                    </div>
+                                                    <label class="col-md-6">Color 3: Main logo background</label>
+                                                    <div class="col-md-3">
+                                                        <input data-bind="colorpicker: color3" />
+                                                    </div>
                                                 </div>
-                                                <label class="col-md-6">Color 2: Thumbnail background</label>
-                                                <div class="col-md-3">
-                                                    <span id="colorPick2" class="label" style="background-color: #ffd800; cursor: pointer;">#ffd800    </span>
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                    </div>
+                                                    <label class="col-md-6">Color 4: Hearder and footer bar color</label>
+                                                    <div class="col-md-3">
+                                                        <input data-bind="colorpicker: color4" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                    </div>
+                                                    <label class="col-md-6">Color 5: Main menue bar color</label>
+                                                    <div class="col-md-3">
+                                                        <input data-bind="colorpicker: color5" />
+                                                    </div>
                                                 </div>
-                                                <label class="col-md-6">Color 3: Main logo background</label>
-                                                <div class="col-md-3">
-                                                    <span id="colorPick3" class="label" style="background-color: #3cdfef; cursor: pointer;">#3cdfef    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-3">
-                                                </div>
-                                                <label class="col-md-6">Color 4: Hearder and footer bar color</label>
-                                                <div class="col-md-3">
-                                                    <span id="colorPick4" class="label" style="background-color: #808080; cursor: pointer;">#808080    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-3">
-                                                </div>
-                                                <label class="col-md-6">Color 5: Main menue bar color</label>
-                                                <div class="col-md-3">
-                                                    <span id="colorPick5" class="label" style="background-color: #e8f5f4; cursor: pointer;">#e8f5f4    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-3">
-                                                </div>
-                                                <label class="col-md-6">Color 6: Secondary pages panel text color</label>
-                                                <div class="col-md-3">
-                                                    <span id="colorPick6" class="label" style="background-color: #b6ff00; cursor: pointer;">#b6ff00    </span>
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                    </div>
+                                                    <label class="col-md-6">Color 6: Secondary pages panel text color</label>
+                                                    <div class="col-md-3">
+                                                        <input data-bind="colorpicker: color6" />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -838,12 +837,14 @@
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/tahiti-1.jpg" width="400" />
+                                                    <img data-bind="attr: { src: storeBackgroudImageImageSource }" width="400" height="300" />
 
-                                                    <a data-toggle="modal" href="#myMediaGalleryModal" class="btn btn-primary" style="vertical-align: top;">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
+                                                </div>
+                                                <div class="col-lg-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -864,10 +865,6 @@
                                                         </a>
 
                                                     </div>
-
-
-
-
 
                                                     <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the FEATURED products Row</label>
 
@@ -960,9 +957,6 @@
 
                                                 </div>
                                             </div>
-
-
-
 
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -2447,17 +2441,17 @@
     @*
         <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
-    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />*@
-    <script src="~/Scripts/Ace/ace.js"></script>
+    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />
+        <script src="~/Scripts/Ace/ace.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     @*
         <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
         <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
         <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>*@
-    @*
-        <script src="~/Scripts/Ace/colorpicker.js"></script>*@
-    @*
-        <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+
+    @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
+
+    @*<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
 
         <script src="~/Scripts/jquery.form.js"></script>*@
 
@@ -2475,7 +2469,7 @@
             $(".fa fa-upload").click(function () {
                 $("input[id='my_file']").click();
             });
-           
+
         });
 
 

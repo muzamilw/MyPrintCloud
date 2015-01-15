@@ -257,6 +257,7 @@
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
+    <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\PrefixController.cs" />
@@ -527,6 +528,7 @@
     <Content Include="Content\CSS\fonts\wpzoom.svg" />
     <Content Include="Content\CSS\icons.css" />
     <Content Include="Content\CSS\main.css" />
+    <Content Include="Content\CSS\spectrum.css" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_diagonals-small_100_f4f4f4_40x40.png" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_dots-small_75_dedede_2x2.png" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_dots-small_75_f7f7f7_2x2.png" />
@@ -2506,6 +2508,7 @@
     <Content Include="Scripts\Script\tables.js" />
     <Content Include="Scripts\Script\widgets.js" />
     <Content Include="Scripts\scrollspy.js" />
+    <Content Include="Scripts\spectrum.js" />
     <Content Include="Scripts\tab.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />

@@ -10,8 +10,8 @@ define("stores/stores.viewModel",
                 var //View
                     view,
                     //#region ________ O B S E R V A B L E S ___________
-                     filteredCompanySetId = ko.observable(),
-                     //selected Current Page Id In Layout Page Tab
+                    filteredCompanySetId = ko.observable(),
+                    //selected Current Page Id In Layout Page Tab
                     selectedCurrentPageId = ko.observable(),
                     selectedCurrentPageCopy = ko.observable(),
                     //Active Widget (use for dynamic controll)
@@ -158,6 +158,11 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    //store Backgroud Image Upload Callback
+                     storeBackgroudImageUploadCallback = function (file, data) {
+                         selectedStore().storeBackgroudImageImageSource(data);
+                         selectedStore().storeBackgroudImageFileName(file.name);
+                     },
                     //#endregion _____________________  S T O R E ____________________
 
 
@@ -1307,8 +1312,7 @@ define("stores/stores.viewModel",
                                     toastr.error("Error: Failed To load Category " + response);
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             selectProductCategory(result);
                             editNewAddedProductCategory();
                         }
@@ -1339,8 +1343,7 @@ define("stores/stores.viewModel",
                                 }
                             });
                             //selectedProductCategory(productCategory);
-                        }
-                        else {
+                        } else {
                             editNewAddedProductCategory();
                         }
 
@@ -1377,7 +1380,7 @@ define("stores/stores.viewModel",
                             if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
                                 selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
                                 newProductCategories.push(selectedProductCategoryForEditting());
-                                $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');//data-bind="click: $root.getCategoryChildListItems"
+                                $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                                 ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                                 addProductCategoryCounter();
                             }
@@ -1385,7 +1388,7 @@ define("stores/stores.viewModel",
                                 //selectedStore().companyTerritories.splice(0, 0, selectedCompanyTerritory());
                                 selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
                                 newProductCategories.push(selectedProductCategoryForEditting());
-                                $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');//data-bind="click: $root.getCategoryChildListItems"
+                                $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                                 ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                                 addProductCategoryCounter();
 
@@ -1413,8 +1416,7 @@ define("stores/stores.viewModel",
                                             }
                                         });
                                     }
-                                }
-                                else if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() < 0) {
+                                } else if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() < 0) {
                                     _.each(newProductCategories(), function (item) {
                                         if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
                                             newProductCategories.remove(item);
@@ -1953,25 +1955,25 @@ define("stores/stores.viewModel",
                     },
                     // Widget being dropped
                     // ReSharper disable UnusedParameter
-                     dropped = function (source, target, event) {
-                         // ReSharper restore UnusedParameter
-                         if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetControlName !== undefined && source.widget.widgetControlName() !== "") {
-                             if (source.widget.widgetId() === 14) {
-                                 var newWidget = new model.CmsSkingPageWidget();
-                                 newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
-                                 newWidget.widgetName(source.widget.widgetName());
-                                 newWidget.pageId(selectedCurrentPageId());
-                                 newWidget.widgetId(source.widget.widgetId());
-                                 pageSkinWidgets.push(newWidget);
-                                 newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
-                             } else {
-                                 getWidgetDetail(source.widget);
-                             }
-                         }
-                         if (selectedCurrentPageId() === undefined) {
-                             toastr.error("Before add widget please select page !");
-                         }
-                     },
+                    dropped = function (source, target, event) {
+                        // ReSharper restore UnusedParameter
+                        if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetControlName !== undefined && source.widget.widgetControlName() !== "") {
+                            if (source.widget.widgetId() === 14) {
+                                var newWidget = new model.CmsSkingPageWidget();
+                                newWidget.pageWidgetId(newAddedWidgetIdCounter() - 1);
+                                newWidget.widgetName(source.widget.widgetName());
+                                newWidget.pageId(selectedCurrentPageId());
+                                newWidget.widgetId(source.widget.widgetId());
+                                pageSkinWidgets.push(newWidget);
+                                newAddedWidgetIdCounter(newAddedWidgetIdCounter() - 1);
+                            } else {
+                                getWidgetDetail(source.widget);
+                            }
+                        }
+                        if (selectedCurrentPageId() === undefined) {
+                            toastr.error("Before add widget please select page !");
+                        }
+                    },
                     //Get Widget detail on drag drop
                     getWidgetDetail = function (widget) {
                         dataservice.getWidgetDetail({
@@ -2069,7 +2071,10 @@ define("stores/stores.viewModel",
                         view.hideCkEditorDialogDialog();
                     },
                     //#endregion
+                    test = ko.observable(),
+                    testt1 = function () {
 
+                    },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2304,6 +2309,7 @@ define("stores/stores.viewModel",
                     allPagesWidgets: allPagesWidgets,
                     storeProductsViewModel: storeProductsViewModel,
                     initialize: initialize,
+                    storeBackgroudImageUploadCallback: storeBackgroudImageUploadCallback
                 };
             })()
         };

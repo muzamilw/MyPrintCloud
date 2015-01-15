@@ -121,7 +121,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
-        specifiedmakeEmailBrokerArtworkOrderProductionReady
+        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreBackgroudImageSource
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -195,6 +195,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             productCategories = ko.observableArray([]),
             //Products
             products = ko.observableArray([]),
+            //store Backgroud Image Image Source
+            storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
+            //store Backgroud Image File Name
+            storeBackgroudImageFileName = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -259,6 +263,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
                 makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
                 isDisplayBanners: isDisplayBanners,
+                storeBackgroudImageImageSource: storeBackgroudImageImageSource,
+                storeBackgroudImageFileName: storeBackgroudImageFileName,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -351,6 +357,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 _.each(source.paymentGateway(), function (item) {
                     result.PaymentGateways.push(item.convertToServerData());
                 });
+
+                result.ColorPallete = source.colorPalette().convertToServerData(source.colorPalette());
+                result.StoreBackgroudImageImageSource = source.storeBackgroudImageImageSource();
+                result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
                 //#endregion
                 return result;
             },
@@ -413,6 +423,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             paymentMethod: paymentMethod,
             productCategories: productCategories,
             products: products,
+            storeBackgroudImageImageSource: storeBackgroudImageImageSource,
+            storeBackgroudImageFileName: storeBackgroudImageFileName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -532,7 +544,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
-            source.makeEmailBrokerArtworkOrderProductionReady
+            source.makeEmailBrokerArtworkOrderProductionReady,
+            source.StoreBackgroudImageSource
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -1023,7 +1036,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         var self,
             id = ko.observable(specifiedPalleteId),
             palleteName = ko.observable(specifiedPalleteName),
-            color1 = ko.observable("#320B0B"),
+            color1 = ko.observable(specifiedColor1),
             color2 = ko.observable(specifiedColor2),
             color3 = ko.observable(specifiedColor3),
             color4 = ko.observable(specifiedColor4),
