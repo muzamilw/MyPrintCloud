@@ -14,6 +14,7 @@ using System.Xml;
 using MPC.Webstore.ModelMappers;
 using MPC.Models.ResponseModels;
 using System.Runtime.Caching;
+using System.IO;
 
 namespace MPC.Webstore.Common
 {
@@ -147,6 +148,50 @@ namespace MPC.Webstore.Common
                 return "";
             }
         }
+
+        public static void DeleteFile(string completePath)
+        {
+            try
+            {
+                completePath = HttpContext.Current.Server.MapPath(completePath);
+                if (System.IO.File.Exists(completePath))
+                {
+                    System.IO.File.Delete(completePath);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public static void DeleteAllFilesInFolder(string folderPath)
+        {
+            DirectoryInfo dirInfo = null;
+            try
+            {
+
+                dirInfo = new DirectoryInfo(folderPath);
+                if (dirInfo.Exists)
+                {
+                    // string[] files = Directory.GetFiles(folderPath, "*.png");
+                    string[] files = Directory.GetFiles(folderPath);
+                    foreach (string file in files)
+                    {
+                        if (File.Exists(file))
+                        {
+                            File.Delete(file);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                dirInfo = null;
+            }
+        }
+
     }
     public static class CommonHtmlExtensions
     {
