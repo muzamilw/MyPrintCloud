@@ -73,7 +73,6 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-
             CompanySavingModel companySavingModel = new CompanySavingModel();
             companySavingModel.Company = company.CreateFrom();
             companySavingModel.NewAddedCompanyTerritories = company.NewAddedCompanyTerritories != null ? company.NewAddedCompanyTerritories.Select(x => x.CreateFrom()) : null;
@@ -105,7 +104,6 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.NewAddedProducts = company.NewAddedProducts != null ? company.NewAddedProducts.Select(x => x.CreateFrom()) : null;
             companySavingModel.EdittedProducts = company.EdittedProducts != null ? company.EdittedProducts.Select(x => x.CreateFrom()) : null;
             companySavingModel.Deletedproducts = company.Deletedproducts != null ? company.Deletedproducts.Select(x => x.CreateFrom()) : null;
-
 
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }

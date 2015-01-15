@@ -2297,12 +2297,13 @@
 
                 <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
-                    <span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
+                    @*<span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>*@
+                    <span class="label label-danger" >Yes </span>
                 </td>
                 <!-- /ko -->
-                <!--ko if: isDefaultAddress != true-->
+                <!--ko if: isDefaultAddress() != true-->
                 <td class="type">
-                    <span data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
+                    <span > No</span>
                 </td>
                 <!-- /ko -->
                 @*

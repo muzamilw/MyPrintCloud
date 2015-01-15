@@ -13,6 +13,7 @@ namespace MPC.Interfaces.MISServices
         AddressResponse SearchAddresses(AddressRequestModel request);
         PaymentGatewayResponse SearchPaymentGateways(PaymentGatewayRequestModel request);
         CompanyResponse GetCompanyById(long companyId);
+        CompanyBaseResponse GetBaseDataForNewCompany();
         CompanyBaseResponse GetBaseData(long clubId);
         /// <summary>
         /// Save File Path In Db against organization ID

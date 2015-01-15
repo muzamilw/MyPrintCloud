@@ -94,7 +94,7 @@ define("stores/stores.viewModel",
 
                     //Template To Use
                     templateToUse = function (store) {
-                        return (store === selectedStore() ? 'editStoreTemplate' : 'itemStoreTemplate');
+                        return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
                     },
 
                     //#region _____________________  S T O R E ____________________
@@ -110,6 +110,15 @@ define("stores/stores.viewModel",
 
                         editorViewModel.selectItem(item);
                         openEditDialog();
+                        $('.nav-tabs').children().removeClass('active');
+                        $('#generalInfoTab').addClass('active');
+                    },
+                    //On Edit Click Of Store
+                    onCreateNewStore = function () {
+                        selectedStore(new model.Store);
+                        isEditorVisible(true);
+                        view.initializeForm();
+                        getBaseDataFornewCompany();
                         $('.nav-tabs').children().removeClass('active');
                         $('#generalInfoTab').addClass('active');
                     },
@@ -694,7 +703,7 @@ define("stores/stores.viewModel",
                         });
                     },
                     addressTerritoryFilterSelected = ko.computed(function () {
-                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
+                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
                             searchAddress();
                         }
                     }),
@@ -1471,11 +1480,11 @@ define("stores/stores.viewModel",
                         //1- New saving company should have 1 address and 1 user
                         //2- if company is editting then company should have a 1 address and 1 user in database after saving
                         //1
-                        if (!(addressPager().totalCount() + (newAddresses().length - deletedAddresses().length) > 1)) {
+                        if (!(newAddresses().length - deletedAddresses().length) > 1 || (selectedStore().addresses().length == 0 && newAddresses().length == 0 && deletedAddresses().length == 0)) {
                             toastr.error("There Should be Atleast One Address to save this Store");
                             flag = false;
                         }
-                        if (!(contactCompanyPager().totalCount() + (newCompanyContacts(), length - deletedCompanyContacts().length)) > 1) {
+                        if (!(newCompanyContacts().length - deletedCompanyContacts().length) > 1 || (selectedStore().users().length == 0 && newCompanyContacts().length == 0 && deletedCompanyContacts().length == 0)) {
                             toastr.error("There Should be Atleast One User to save this Store");
                             flag = false;
                         }
@@ -1814,6 +1823,63 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    //Get Base Data For New Company
+                    getBaseDataFornewCompany = function() {
+                        dataservice.getBaseData({
+                            
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    systemUsers.removeAll();
+                                    addressCompanyTerritoriesFilter.removeAll();
+                                    contactCompanyTerritoriesFilter.removeAll();
+                                    addressTerritoryList.removeAll();
+                                    addressTerritoryList.removeAll();
+                                    roles.removeAll();
+                                    registrationQuestions.removeAll();
+                                    allCompanyAddressesList.removeAll();
+                                    pageCategories.removeAll();
+                                    _.each(data.SystemUsers, function (item) {
+                                        var systemUser = new model.SystemUser.Create(item);
+                                        systemUsers.push(systemUser);
+                                    });
+                                   
+                                    _.each(data.CompanyContactRoles, function (item) {
+                                        var role = new model.Role.Create(item);
+                                        roles.push(role);
+                                    });
+                                    _.each(data.RegistrationQuestions, function (item) {
+                                        var registrationQuestion = new model.RegistrationQuestion.Create(item);
+                                        registrationQuestions.push(registrationQuestion);
+                                    });
+                                    
+                                    _.each(data.PageCategories, function (item) {
+                                        pageCategories.push(model.PageCategory.Create(item));
+                                    });
+                                    _.each(data.PaymentMethods, function (item) {
+                                        paymentMethods.push(model.PaymentMethod.Create(item));
+                                    });
+                                    //Email Event List
+                                    emailEvents.removeAll();
+                                    if (data.EmailEvents !== null) {
+                                        ko.utils.arrayPushAll(emailEvents(), data.EmailEvents);
+                                        emailEvents.valueHasMutated();
+                                    }
+
+                                    _.each(data.Widgets, function (item) {
+                                        widgets.push(model.Widget.Create(item));
+                                    });
+
+
+                                }
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Stores . Error: " + response);
+                            }
+                        });
+                    },
 
                     MultipleImageFilesLoadedCallback = function (file, data) {
                         selectedCompanyBanner().fileBinary(data);
@@ -1825,7 +1891,8 @@ define("stores/stores.viewModel",
                         selectedSecondaryPage().fileName(file.name);
                     },
                     resetObservableArrays = function () {
-
+                        selectedStore().addresses.removeAll();
+                        //allCompanyAddressesList().removeAll();
                         deletedAddresses.removeAll();
                         edittedAddresses.removeAll();
                         newAddresses.removeAll();
@@ -2302,6 +2369,7 @@ define("stores/stores.viewModel",
                     deletePageLayoutWidget: deletePageLayoutWidget,
                     allPagesWidgets: allPagesWidgets,
                     storeProductsViewModel: storeProductsViewModel,
+                    onCreateNewStore: onCreateNewStore,
                     initialize: initialize,
                 };
             })()
