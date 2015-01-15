@@ -404,7 +404,7 @@ namespace MPC.Models.ModelMappers
         private static void DeleteItemAddonCostCentres(ItemStockOption source, ItemStockOption target, ItemMapperActions actions)
         {
             List<ItemAddonCostCentre> linesToBeRemoved = target.ItemAddonCostCentres.Where(
-                so => !IsNewItemAddonCostCentre(so) && source.ItemAddonCostCentres.All(sourceItemAddonCostCentre => sourceItemAddonCostCentre.ProductAddOnId != 
+                so => !IsNewItemAddonCostCentre(so) && source.ItemAddonCostCentres.All(sourceItemAddonCostCentre => sourceItemAddonCostCentre.ProductAddOnId !=
                     so.ProductAddOnId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -424,7 +424,7 @@ namespace MPC.Models.ModelMappers
                 UpdateOrAddItemStockOption(sourceLine, target, actions);
             }
         }
-        
+
         /// <summary>
         /// Update target Stock Options
         /// </summary>
@@ -496,7 +496,7 @@ namespace MPC.Models.ModelMappers
                 item.ItemPriceMatrices = new List<ItemPriceMatrix>();
             }
         }
-        
+
         /// <summary>
         /// Update target Item Price Matrix
         /// </summary>
@@ -671,6 +671,14 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// True if the ProductCategoryItem is to be deleted
+        /// </summary>
+        private static bool IsRemovedProductCategoryItem(ProductCategoryItemCustom sourceProductCategoryItem)
+        {
+            return sourceProductCategoryItem.ProductCategoryItemId > 0 && !sourceProductCategoryItem.IsSelected.HasValue;
+        }
+
+        /// <summary>
         /// Initialize target ProductCategoryItems
         /// </summary>
         private static void InitializeProductCategoryItems(Item item)
@@ -712,6 +720,7 @@ namespace MPC.Models.ModelMappers
             {
                 ProductCategoryItem targetLine = actions.CreateProductCategoryItem();
                 target.ProductCategoryItems.Add(targetLine);
+                sourceProductCategoryItem.UpdateTo(targetLine);
             }
         }
 
@@ -720,15 +729,19 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static void DeleteProductCategoryItems(Item source, Item target, ItemMapperActions actions)
         {
-            List<ProductCategoryItem> linesToBeRemoved = target.ProductCategoryItems.Where(
-                pci => source.ProductCategoryCustomItems.All(sourcepci => !IsNewProductCategoryItem(sourcepci) && 
-                    sourcepci.ProductCategoryItemId == pci.ProductCategoryItemId))
-                  .ToList();
-
-            linesToBeRemoved.ForEach(line =>
+            List<ProductCategoryItemCustom> lines = source.ProductCategoryCustomItems.Where(IsRemovedProductCategoryItem).ToList();
+            
+            lines.ForEach(line =>
             {
-                target.ProductCategoryItems.Remove(line);
-                actions.DeleteProductCategoryItem(line);
+                ProductCategoryItem lineToRemove = target.ProductCategoryItems.FirstOrDefault(
+                    lineToBeRemoved => lineToBeRemoved.ProductCategoryItemId == line.ProductCategoryItemId);
+                
+                if (lineToRemove != null && lineToRemove.ProductCategoryItemId > 0)
+                {
+                    target.ProductCategoryItems.Remove(lineToRemove);
+                    actions.DeleteProductCategoryItem(lineToRemove);
+                }
+                
             });
         }
 
@@ -825,7 +838,7 @@ namespace MPC.Models.ModelMappers
             target.PackagingWeight = source.PackagingWeight;
             target.DefaultItemTax = source.DefaultItemTax;
         }
-        
+
         /// <summary>
         /// Update Supplier Prices Headers
         /// </summary>

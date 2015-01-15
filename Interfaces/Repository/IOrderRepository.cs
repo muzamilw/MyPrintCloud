@@ -39,7 +39,6 @@ namespace MPC.Interfaces.Repository
         /// <param name="orderId"></param>
         /// <returns></returns>
         long GetCartOrderId(long contactId, long CompanyId);
-
-
+       
     }
 }

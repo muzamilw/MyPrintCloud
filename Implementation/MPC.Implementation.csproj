@@ -147,6 +147,7 @@
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\PaperSheetService.cs" />
+    <Compile Include="MISServices\PhraseLibraryService.cs" />
     <Compile Include="MISServices\PrefixService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,7 +156,9 @@
     <Compile Include="WebStoreServices\CompanyService.cs" />
     <Compile Include="MISServices\MyOrganizationService.cs" />
     <Compile Include="WebStoreServices\CompanyBannerService.cs" />
+    <Compile Include="WebStoreServices\ImagePermissionService.cs" />
     <Compile Include="WebStoreServices\ItemService.cs" />
+    <Compile Include="WebStoreServices\ListingService.cs" />
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />

@@ -4,6 +4,7 @@ using DomainResponse = MPC.Models.ResponseModels;
 using ApiResponse = MPC.Webstore.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.Webstore.Models;
+using CommonModels = MPC.Models.Common;
 
 
 namespace MPC.Webstore.ModelMappers
@@ -79,6 +80,14 @@ namespace MPC.Webstore.ModelMappers
             {
                 Currency = source.Currency
               
+            };
+        }
+
+        public static ApiResponse.MyCompanyDomainBaseResponse CreateFromResxFile(this DomainResponse.MyCompanyDomainBaseReponse source)
+        {
+            return new ApiResponse.MyCompanyDomainBaseResponse
+            {
+                ResourceFile = source.ResourceFile
             };
         }
         #endregion

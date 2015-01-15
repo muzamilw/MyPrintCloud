@@ -277,7 +277,7 @@ namespace MPC.Repository.Repositories
 
             return salt;
         }
-        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName,long SaleAndOrderManagerID)
+        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName,long SaleAndOrderManagerID,long StoreID)
         {
             Address address = null;
             CompanyContact tblContacts = null;
@@ -305,6 +305,8 @@ namespace MPC.Repository.Repositories
             Company.IsCustomer = Convert.ToInt16(CustomerType);
            
             Company.SalesAndOrderManagerId1 = SaleAndOrderManagerID;
+            Company.StoreId = StoreID;
+            Company.OrganisationId = OrganizationID;
             //if (BrokerContactCompanyID != null)
             //{
             //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;

@@ -83,3 +83,6 @@
 #productBinding #tab-supplierPrice #qtyLimitInputContainer input {
   width: 100px;
 }
+#productBinding #productCategoryDialog ol.dd-list li.dd-item .nested-links {
+  margin-top: -3px;
+}

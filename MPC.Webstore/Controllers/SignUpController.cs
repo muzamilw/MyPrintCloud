@@ -18,21 +18,23 @@ namespace MPC.Webstore.Controllers
         private readonly ICampaignService _campaignService;
         private readonly IUserManagerService _userManagerService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
-
-       #region Constructor
+        private readonly IItemService _ItemService;
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public SignUpController(ICompanyService myCompanyService,ICampaignService myCampaignService, IUserManagerService userManagerService)
+        public SignUpController(ICompanyService myCompanyService, ICampaignService myCampaignService, IUserManagerService userManagerService
+            , IItemService ItemService)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
             this._myCompanyService = myCompanyService;
-        
+
             this._campaignService = myCampaignService;
             this._userManagerService = userManagerService;
+            this._ItemService = ItemService;
         }
 
         #endregion
@@ -43,17 +45,18 @@ namespace MPC.Webstore.Controllers
             if (FirstName != null)
             {
                 ViewData["IsSocialSignUp"] = true;
-               
-            }else
+
+            }
+            else
             {
                 ViewData["IsSocialSignUp"] = false;
-                
+
             }
             if (string.IsNullOrEmpty(ReturnURL))
                 ViewBag.ReturnURL = "Social";
             else
                 ViewBag.ReturnURL = ReturnURL;
-          
+
             return View("PartialViews/SignUp");
         }
 
@@ -67,14 +70,14 @@ namespace MPC.Webstore.Controllers
                 string ReturnURL = Request.Form["hfReturnURL"];
                 if (_myCompanyService.GetContactByEmail(model.Email) != null)
                 {
-                    //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist, model.Email);
-                   return View("PartialViews/SignUp");
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
+                    return View("PartialViews/SignUp");
                 }
                 else if (isSocial == "1")
                 {
                     if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
                     {
-                        //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist,model.Email);
+                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
                         return View();
                     }
                     else
@@ -84,7 +87,7 @@ namespace MPC.Webstore.Controllers
                             return RedirectToAction("Index", "Home");
                         else
                         {
-                            
+
                             ControllerContext.HttpContext.Response.Redirect(ReturnURL);
                             return null;
                         }
@@ -92,14 +95,14 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    
+
                     SetRegisterCustomer(model);
                     if (string.IsNullOrEmpty(model.ReturnURL))
-                         return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
                     else
                     {
-                            ControllerContext.HttpContext.Response.Redirect(model.ReturnURL);
-                            return null;
+                        ControllerContext.HttpContext.Response.Redirect(model.ReturnURL);
+                        return null;
                     }
                 }
             }
@@ -113,9 +116,11 @@ namespace MPC.Webstore.Controllers
         private void SetRegisterCustomer(RegisterViewModel model)
         {
             CampaignEmailParams cep = new CampaignEmailParams();
+
             CompanyContact contact = new CompanyContact();
             string TwitterScreenName = string.Empty;
             Int64 CompanyID = 0;
+            long OID = 0;
             CompanyContact corpContact = new CompanyContact();
             bool isContactCreate = false;
             contact.FirstName = model.FirstName;
@@ -129,74 +134,72 @@ namespace MPC.Webstore.Controllers
             if (isSocial == "1")
                 TwitterScreenName = model.FirstName;
 
-         //   long storeId = Convert.ToInt64(Session["storeId"]);
-
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-           
-            MPC.Models.DomainModels.Organisation organisation = new MPC.Models.DomainModels.Organisation();
+           MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
-          
-            organisation = null;
+            if(baseResponseOrg.Organisation != null)
+            {
+                OID = baseResponseOrg.Organisation.OrganisationId;
+            }
+
+            MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+
 
             if (baseResponse.Company.IsCustomer == (int)StoreMode.Retail)
             {
-                CompanyID = _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName, 0, (int)CompanyTypes.SalesCustomer, TwitterScreenName,baseResponse.Company.SalesAndOrderManagerId1 ?? 0);
+                CompanyID = _myCompanyService.CreateCustomer(model.FirstName, true, true, CompanyTypes.SalesCustomer, TwitterScreenName, Convert.ToInt64(baseResponse.Company.OrganisationId), contact);
 
                 if (CompanyID > 0)
                 {
-                    //SessionParameters.LoginCompany.CompanyId = contact.CompanyId;
-                    //SessionParameters.LoginContact.ContactId = contact.ContactId;
-                    //SessionParameters.LoginCompany = _myCompanyService.GetCompanyByCompanyID(contact.CompanyId);
-                    //SessionParameters.LoginContact = _myCompanyService.GetContactByID(contact.ContactId);
-                    MPC.Models.DomainModels.Company company = _myCompanyService.GetCompanyByCompanyID(CompanyID);
-                    MPC.Models.DomainModels.CompanyContact companyContact = _myCompanyService.GetContactByID(contact.ContactId);
+
+                    MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(CompanyID);
+
+                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email);
+
+                   // cep.StoreID = company.StoreId ?? 0;
+
+
+                    UserCookieManager.isRegisterClaims = 1;
+                    UserCookieManager.ContactFirstName = model.FirstName;
+                    UserCookieManager.ContactLastName = model.LastName;
+                    UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
+                    UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
+
+                    UserCookieManager.Email = model.Email;
 
                     Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration);
 
                     // work for email to sale manager
+
                     isContactCreate = true;
 
-                    cep.SalesManagerContactID = companyContact.ContactId; // this is only dummy data these variables replaced with organization values 
-                    cep.StoreID = company.OrganisationId ?? 0;
-                    cep.AddressID = company.CompanyId;
+                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(0, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
 
-                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
+                    cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
+                    cep.StoreID = loginUser.CompanyId;
+                    cep.AddressID = loginUser.CompanyId;
+
+                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(loginUserCompany.SalesAndOrderManagerId1));
 
 
-                  
-                    _campaignService.emailBodyGenerator(RegistrationCampaign, organisation, cep, companyContact, StoreMode.Retail,(int)company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                    _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
+
+                    if (OrderId > 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = 0;
+                        Response.Redirect("/ShopCart/" + OrderId);
+                    }
+                    else 
+                    {
+                        Response.Redirect("/");
+                    }
                     
-                    //void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId,Organisation ServerSettings, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode,Company company,SystemUser SaleManager,int ItemID, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0);
-
-
-
-                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)companyContact.ContactId, (int)companyContact.CompanyId, 0, 0, organisation, 0, 0, StoreMode.Retail, company, EmailOFSM);
-                  
-                   
-                    
-                    // SetFormAuthDetails();
-                   // PostLoginCustomerAndCardChanges(out replacedWithOrderID);
-                    //if (!string.IsNullOrWhiteSpace(PageParameters.RetUrl))
-                    //{
-                    //    Response.Redirect(this.GetReturnUrl(replacedWithOrderID, PageParameters.RetUrl), false);
-                    //}
-                    //if (SessionParameters.IsUserAdmin == true)
-                    //{
-                    //    SessionParameters.IsUserAdmin = false;
-                    //}
-                    //else if (this.GetShopCartItemsCount() > 0)
-                    //{
-                    //    Response.Redirect("~/PinkCardShopCart.aspx", false);
-                    //}
-                    //else
-                    //{
-                       // Response.Redirect("DashBoard.aspx", false);
-                        
-                  //  }
                 }
                 else
                 {
-
                     isContactCreate = false;
                 }
 
@@ -204,23 +207,32 @@ namespace MPC.Webstore.Controllers
             else
             {
                 int cid = (int)baseResponse.Company.CompanyId;
+
                 CompanyContact CorpContact = _myCompanyService.CreateCorporateContact(cid, contact, TwitterScreenName);
-                 
+
+                UserCookieManager.isRegisterClaims = 1;
+                UserCookieManager.ContactFirstName = model.FirstName;
+                UserCookieManager.ContactLastName = model.LastName;
+                UserCookieManager.ContactCanEditProfile = CorpContact.CanUserEditProfile ?? false;
+                UserCookieManager.ShowPriceOnWebstore = CorpContact.IsPricingshown ?? true;
+
+                UserCookieManager.Email = model.Email;
+
                 cep.ContactId = (int)CorpContact.ContactId;
                 cep.CompanyId = (int)CorpContact.CompanyId;
                 cep.SalesManagerContactID = CorpContact.ContactId; // this is only dummy data these variables replaced with organization values 
                 cep.StoreID = CorpContact.CompanyId;
                 cep.AddressID = CorpContact.CompanyId;
+
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration);
+
                 SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(baseResponse.Company.SalesAndOrderManagerId1));
 
-               // _campaignService.emailBodyGenerator(RegistrationCampaign, organisation, cep, companyContact, StoreMode.Retail, (int)company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
-
-                _campaignService.emailBodyGenerator(RegistrationCampaign, organisation, cep, CorpContact, StoreMode.Corp, (int)baseResponse.Company.OrganisationId, "", "","", EmailOFSM.Email , "", "", null, "");
+                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)baseResponse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
                 int OrganisationId = (int)baseResponse.Company.OrganisationId;
                 _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)corpContact.CompanyId, OrganisationId);
-               
+
             }
 
         }
@@ -242,7 +254,7 @@ namespace MPC.Webstore.Controllers
         //    //        BLL.ProductManager.RemoveItemTemplateFilesPhysically(clonedTempldateFilesList);
         //    //    }
         //    //}
-        
+
         //}
     }
 }

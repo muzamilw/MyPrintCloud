@@ -100,9 +100,9 @@ namespace MPC.Webstore
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+             
 
-
-            //Commented By Naveed
+            //Commented By Naveeds
             /*  RegisterIoC();
               AreaRegistration.RegisterAllAreas();
             //  ConfigureLogger();
@@ -150,7 +150,7 @@ namespace MPC.Webstore
                     UserCookieManager.isIncludeTax = baseResponse.Company.isIncludeVAT ?? false;
                     UserCookieManager.TaxRate = baseResponse.Company.TaxRate ?? 0;
                     UserCookieManager.OrganisationID = baseResponse.Company.OrganisationId ?? 0;
-                    UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
+                    //UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
                     // set global language of store
 
                     string languageName =
@@ -182,6 +182,7 @@ namespace MPC.Webstore
             {
                 Response.Redirect("/Error");
             }
+
         }
     }
 }

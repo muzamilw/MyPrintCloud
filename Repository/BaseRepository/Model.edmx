@@ -4141,6 +4141,19 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
         <Function Name="sp_GetMinimumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="itemId" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="sp_GetTemplateImages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="isCalledFrom" Type="int" Mode="In" />
+          <Parameter Name="imageSetType" Type="int" Mode="In" />
+          <Parameter Name="templateID" Type="bigint" Mode="In" />
+          <Parameter Name="contactCompanyID" Type="bigint" Mode="In" />
+          <Parameter Name="contactID" Type="bigint" Mode="In" />
+          <Parameter Name="territory" Type="bigint" Mode="In" />
+          <Parameter Name="pageNumber" Type="int" Mode="In" />
+          <Parameter Name="pageSize" Type="int" Mode="In" />
+          <Parameter Name="sortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="search" Type="varchar" Mode="In" />
+          <Parameter Name="imageCount" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="sp_GetUsedFontsUpdated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
@@ -5356,6 +5369,19 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="PhraseField" EntitySet="PhraseFields" />
             <End Role="Phrase" EntitySet="Phrases" />
           </AssociationSet>
+          <FunctionImport Name="sp_GetTemplateImages" ReturnType="Collection(DomainModels.sp_GetTemplateImages_Result)">
+            <Parameter Name="isCalledFrom" Mode="In" Type="Int32" />
+            <Parameter Name="imageSetType" Mode="In" Type="Int32" />
+            <Parameter Name="templateID" Mode="In" Type="Int64" />
+            <Parameter Name="contactCompanyID" Mode="In" Type="Int64" />
+            <Parameter Name="contactID" Mode="In" Type="Int64" />
+            <Parameter Name="territory" Mode="In" Type="Int64" />
+            <Parameter Name="pageNumber" Mode="In" Type="Int32" />
+            <Parameter Name="pageSize" Mode="In" Type="Int32" />
+            <Parameter Name="sortColumn" Mode="In" Type="String" />
+            <Parameter Name="search" Mode="In" Type="String" />
+            <Parameter Name="imageCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -9650,6 +9676,26 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_GetTemplateImages_Result">
+          <Property Type="Int64" Name="RowNum" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Int32" Name="ProductID" Nullable="true" />
+          <Property Type="String" Name="ImageName" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="300" />
+          <Property Type="Boolean" Name="flgPhotobook" Nullable="true" />
+          <Property Type="Boolean" Name="flgCover" Nullable="true" />
+          <Property Type="String" Name="BackgroundImageAbsolutePath" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="BackgroundImageRelativePath" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ImageType" Nullable="true" />
+          <Property Type="Int32" Name="ImageWidth" Nullable="true" />
+          <Property Type="Int32" Name="ImageHeight" Nullable="true" />
+          <Property Type="String" Name="ImageTitle" Nullable="true" />
+          <Property Type="String" Name="ImageDescription" Nullable="true" />
+          <Property Type="String" Name="ImageKeywords" Nullable="true" />
+          <Property Type="Int32" Name="UploadedFrom" Nullable="true" />
+          <Property Type="Int32" Name="ContactCompanyID" Nullable="true" />
+          <Property Type="Int32" Name="ContactID" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12905,6 +12951,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetTemplateImages" FunctionName="DomainModels.Store.sp_GetTemplateImages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.sp_GetTemplateImages_Result">
+                <ScalarProperty Name="RowNum" ColumnName="RowNum" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="flgPhotobook" ColumnName="flgPhotobook" />
+                <ScalarProperty Name="flgCover" ColumnName="flgCover" />
+                <ScalarProperty Name="BackgroundImageAbsolutePath" ColumnName="BackgroundImageAbsolutePath" />
+                <ScalarProperty Name="BackgroundImageRelativePath" ColumnName="BackgroundImageRelativePath" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="ImageWidth" ColumnName="ImageWidth" />
+                <ScalarProperty Name="ImageHeight" ColumnName="ImageHeight" />
+                <ScalarProperty Name="ImageTitle" ColumnName="ImageTitle" />
+                <ScalarProperty Name="ImageDescription" ColumnName="ImageDescription" />
+                <ScalarProperty Name="ImageKeywords" ColumnName="ImageKeywords" />
+                <ScalarProperty Name="UploadedFrom" ColumnName="UploadedFrom" />
+                <ScalarProperty Name="ContactCompanyID" ColumnName="ContactCompanyID" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

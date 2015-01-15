@@ -1,7 +1,9 @@
 ﻿using MPC.MIS.Areas.Api.Models;
+using DomainModels = MPC.Models.DomainModels;
+
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
-    using DomainModels = MPC.Models.DomainModels;
+
 
     /// <summary>
     /// Country Mapper

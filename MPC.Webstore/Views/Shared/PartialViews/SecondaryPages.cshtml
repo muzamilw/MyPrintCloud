@@ -1,43 +1,34 @@
-﻿
-<div id="Footer">
-    <div class="spclColor">
-        <div class="GreyBackS6">
-            <div class="container heightauto content_area">
-                <div class="row left_right_padding">
-                    <div class="space5">
-                        &nbsp;
-                    </div>
-                    <div class="footer_portion themeFontColor">
-                        @foreach (var item in ViewData["PageCategory"] as List<MPC.Webstore.Models.PageCategory>)
-                        {
-                            <div class="footer_left_portion_division float_left_simple">
-                                <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@item.CategoryName</label>
+﻿@model MPC.Models.DomainModels.CmsPage
+@using MPC.Webstore.Common;
+@{
+    string AppBasePath = string.Empty;
+}
 
-                                @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPage>)
-                                {
-                                    if (page.CategoryId == item.CategoryId)
-                                    {
-                                        <ul>
-                                            <li>
-                                                <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@page.PageTitle</a>
-                                            </li>
-                                        </ul>
-                                    }
-                                }
-                            </div>
-                        }
+@if (Model != null)
+{
+    <div id="PageBanner">
+        
+        <img id="imgPageBanner" src="@Html.GetAppBasePath()@Model.PageBanner" />
+    </div>
+    <div id="SecondryPageMainContent">
+        <div class="content_area container">
+            <div class="left_right_padding row">
+                <div class="SP_transparent rounded_corners">
+                    <div class="product_detail_sup_padding">
+                        <h1 class="SecPagesHeading ">
+                            <label id="ltlHeading">@Model.PageName</label>
+                        </h1>
+                        <div class="paddingLeft10px">
+                            <label id="lblPageContents">@Model.PageHTML</label>
+                        </div>
                     </div>
-                    <div class="space5">
-                        &nbsp;
-                    </div>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
                 </div>
             </div>
+            <br />
+            <br />
+            <br />
         </div>
     </div>
-</div>
+
+}
+

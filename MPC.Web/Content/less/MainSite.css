@@ -83,6 +83,27 @@
 #productBinding #tab-supplierPrice #qtyLimitInputContainer input {
   width: 100px;
 }
+#productBinding #productCategoryDialog ol.dd-list li.dd-item .nested-links {
+  margin-top: -3px;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle th.markupCodeTh {
+  width: 10% !important;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle th.markupRateTh {
+  width: 30% !important;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle th.actionTh {
+  width: 20% !important;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle td.markupCode {
+  width: 10%;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle td.markupRate {
+  width: 30%;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
+  width: 20%;
+}
 .fileUpload {
   position: relative;
   overflow: hidden;

@@ -1,0 +1,118 @@
+﻿
+<link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
+
+<div class="content_area realEstateHeader" style="padding-top: 13px; padding-bottom: 10px;">
+    <div class="Headaer-Parent-Div">
+        <div class="HeaderBarLeft-Div">
+            <div class="HeaderBarLeft-ChildDiv">
+                <label id="hoverPopup" style="font-family: PT Sans; font-size: 18px; color: black;">Profile</label>
+            </div>
+            <div class="DropDown">
+                <div style="height: 125px;">
+                    <div class="UserImage" style="float: left; margin: 20px 0px 20px 20px;">
+                        <img src="~/Content/Images/ProfileImage.png" width="80" height="90" />
+                    </div>
+                    <div class="UserName" style="margin-top: 20px;">
+                        <table style="height: 90px; width: 180px;">
+                            <tr>
+                                <td>
+                                    <label id="lblLogginAs" style="font-family: PT Sans; font-size: 15px; color:#666666;">Logged in as</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label id="lblUsername" style="font-family: PT Sans; font-size: 20px; color:#666666;">John Simth</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <hr />
+                </div>
+
+                <div>
+                    <table style="height: 30px;">
+                        <tr>
+                            <td style="padding-left: 20px;">
+                                <img src="~/Content/Images/Settings.png" width="30" height="30" />
+                            </td>
+                            <td style="padding-left: 20px;">
+                                <label id="lblSettings" style="font-family: PT Sans; font-size: 15px; color:#666666;">Settings</label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <hr />
+                </div>
+
+                <div>
+                    <table style="height: 30px;">
+                        <tr>
+                            <td style="padding-left: 20px;">
+                                <img src="~/Content/Images/my-jobs.png" width="30" height="30" />
+                            </td>
+                            <td style="padding-left: 20px;">
+                                <label id="lblJobs" style="font-family: PT Sans; font-size: 15px; color:#666666;">Jobs</label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <hr />
+                </div>
+                <div>
+                    <table style="height: 30px;">
+                        <tr>
+                            <td style="padding-left: 20px;">
+                                <img src="~/Content/Images/logout.png" width="30" height="30" />
+                            </td>
+                            <td style="padding-left: 20px;">
+                                <label id="lblLogout" style="font-family: PT Sans; font-size: 15px; color:#666666;">Jobs</label>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <div class="HeaderBarLogo-Div">
+            <img src="~/Content/Images/RealEstateLogo.png" />
+        </div>
+
+        <div class="HeaderBarRight-Div" align="right">
+            <div class="HeaderBarRight-ChildDiv">
+                <input type="text" name="txtSearch" style="font-family: PT Sans; width: 280px; height:20px; background-color: #F8CABA; color: black; padding-left: 10px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".DropDown").hide();
+            $(".HeaderBarLeft-ChildDiv").hover(function () {
+                $(".DropDown").show();
+            });
+            $(".HeaderBarLeft-ChildDiv").mouseout(function () {
+                $(".DropDown").hide();
+            });
+            $(".DropDown").mouseover(function () {
+                $(".DropDown").show();
+            });
+            $(".DropDown").mouseout(function () {
+                $(".DropDown").hide();
+            });
+            $("#hoverPopup").hover(function () {
+                $(".DropDown").show();
+            });
+            $("#hoverPopup").mouseout(function () {
+                $(".DropDown").show();
+            });
+        });
+    </script>
+}

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.Repository
 {
@@ -22,6 +23,8 @@ namespace MPC.Interfaces.Repository
         /// Get All enabled System Pages 
         /// </summary>
         /// <returns></returns>
-        List<CmsPage> GetSystemPagesAndSecondaryPages(long CompanyId);
+        List<CmsPageModel> GetSystemPagesAndSecondaryPages(long CompanyId);
+
+        CmsPage getPageByID(long PageID);
     }
 }

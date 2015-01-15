@@ -85,7 +85,7 @@ namespace MPC.Webstore.Controllers
 
 
                     }
-                    ViewBag.btnUploadDesignPath = "/ProductOptions/" + CategoryID + "/" + ItemID + "/Mode=UploadDesign";
+                    ViewBag.btnUploadDesignPath = "/ProductOptions/" + CategoryID + "/" + ItemID + "/ItemMode=UploadDesign";
 
                     // LayoutGrid
 
@@ -95,7 +95,7 @@ namespace MPC.Webstore.Controllers
 
                         // ProductrightContainter.Style.Add("display", "none");
                         // SliderContainer.Style.Add("background-color", "#f3f3f3");
-                        loadfinishedGoodsImages(ItemRecord, ItemID);
+                        loadfinishedGoodsImages(ItemRecord, ItemID,ItemRecord.ImagePath);
                     }
 
                     ViewBag.hfCategoryId = CategoryID;
@@ -427,7 +427,7 @@ namespace MPC.Webstore.Controllers
         /// Load images for finish goods
         /// </summary>
         /// <param name="objItem"></param>
-        private void loadfinishedGoodsImages(Item objItem,long itemID)
+        private void loadfinishedGoodsImages(Item objItem,long itemID,string imagePath)
         {
         
             //btnMatchingSets.Visible = false;
@@ -456,8 +456,8 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.txtNoOfPages = "1";
 
-                    var item = _IItemService.GetItemById(itemID);
-                        html += "<img class='sliderImgs' src=" + item.ImagePath + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
+
+                    html += "<img class='sliderImgs' src=" + imagePath + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
 
                 }
                 html += "</div>";

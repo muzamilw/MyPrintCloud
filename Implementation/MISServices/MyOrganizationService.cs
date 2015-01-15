@@ -3,6 +3,7 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
@@ -93,16 +94,6 @@ namespace MPC.Implementation.MISServices
         public Organisation GetOrganisationDetail()
         {
             Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
-
-            if (organization.MISLogoStreamId.HasValue)
-            {
-                MpcFileTableView fileTableView = mpcFileTableViewRepository.GetByStreamId(organization.MISLogoStreamId.Value);
-                if (fileTableView != null)
-                {
-                    organization.MisLogoBytes = fileTableView.FileStream;
-                }
-            }
-
             IEnumerable<Markup> markups = markupRepository.GetAll();
             if (markups != null)
             {
@@ -391,7 +382,7 @@ namespace MPC.Implementation.MISServices
             if (globalLanguage != null)
             {
                 sResxPath =
-                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" +
+                    HttpContext.Current.Server.MapPath("~/MPC_Content/Resources/Organisation" +
                                                                   organisationId);
                 sResxPath = sResxPath + "\\" + globalLanguage.culture + "\\LanguageResource.resx";
             }
@@ -446,7 +437,7 @@ namespace MPC.Implementation.MISServices
             {
                 GlobalLanguage globalLanguage = globalLanguageRepository.Find(organisation.LanguageId.Value);
                 string sResxPath =
-                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" +
+                    HttpContext.Current.Server.MapPath("~/MPC_Content/Resources/Organisation" +
                                                                   organisation.OrganisationId);
                 if (globalLanguage != null)
                 {
@@ -510,7 +501,7 @@ namespace MPC.Implementation.MISServices
             if (organisation.GlobalLanguage != null)
             {
                 sResxPath =
-                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Resources/Organisation" +
+                    HttpContext.Current.Server.MapPath("~/MPC_Content/Resources/Organisation" +
                                                                   organisation.OrganisationId);
                 sResxPath = sResxPath + "\\" + organisation.GlobalLanguage.culture + "\\LanguageResource.resx";
             }
