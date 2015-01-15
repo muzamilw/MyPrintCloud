@@ -67,14 +67,14 @@ namespace MPC.Webstore.Controllers
                 string ReturnURL = Request.Form["hfReturnURL"];
                 if (_myCompanyService.GetContactByEmail(model.Email) != null)
                 {
-                    //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist, model.Email);
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
                    return View("PartialViews/SignUp");
                 }
                 else if (isSocial == "1")
                 {
                     if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
                     {
-                        //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist,model.Email);
+                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
                         return View();
                     }
                     else
@@ -116,6 +116,7 @@ namespace MPC.Webstore.Controllers
             CompanyContact contact = new CompanyContact();
             string TwitterScreenName = string.Empty;
             Int64 CompanyID = 0;
+            long OID = 0;
             CompanyContact corpContact = new CompanyContact();
             bool isContactCreate = false;
             contact.FirstName = model.FirstName;
@@ -132,7 +133,13 @@ namespace MPC.Webstore.Controllers
          //   long storeId = Convert.ToInt64(Session["storeId"]);
 
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-           
+           MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+
+            if(baseResponseOrg.Organisation != null)
+            {
+                OID = baseResponseOrg.Organisation.OrganisationId;
+            }
+
             MPC.Models.DomainModels.Organisation organisation = new MPC.Models.DomainModels.Organisation();
 
           
@@ -140,14 +147,11 @@ namespace MPC.Webstore.Controllers
 
             if (baseResponse.Company.IsCustomer == (int)StoreMode.Retail)
             {
-                CompanyID = _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName, 0, (int)CompanyTypes.SalesCustomer, TwitterScreenName,baseResponse.Company.SalesAndOrderManagerId1 ?? 0);
+                CompanyID = _myCompanyService.CreateContact(contact, contact.FirstName + " " + contact.LastName,OID, (int)CompanyTypes.SalesCustomer, TwitterScreenName,baseResponse.Company.SalesAndOrderManagerId1 ?? 0,UserCookieManager.StoreId);
 
                 if (CompanyID > 0)
                 {
-                    //SessionParameters.LoginCompany.CompanyId = contact.CompanyId;
-                    //SessionParameters.LoginContact.ContactId = contact.ContactId;
-                    //SessionParameters.LoginCompany = _myCompanyService.GetCompanyByCompanyID(contact.CompanyId);
-                    //SessionParameters.LoginContact = _myCompanyService.GetContactByID(contact.ContactId);
+                   
                     MPC.Models.DomainModels.Company company = _myCompanyService.GetCompanyByCompanyID(CompanyID);
                     MPC.Models.DomainModels.CompanyContact companyContact = _myCompanyService.GetContactByID(contact.ContactId);
 
@@ -157,7 +161,7 @@ namespace MPC.Webstore.Controllers
                     isContactCreate = true;
 
                     cep.SalesManagerContactID = companyContact.ContactId; // this is only dummy data these variables replaced with organization values 
-                    cep.StoreID = company.OrganisationId ?? 0;
+                    cep.StoreID = company.StoreId ?? 0;
                     cep.AddressID = company.CompanyId;
 
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));

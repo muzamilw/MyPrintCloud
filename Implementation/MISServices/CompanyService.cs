@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Net.Mime;
+using System.Web;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.Repositories;
@@ -17,6 +22,8 @@ namespace MPC.Implementation.MISServices
     public class CompanyService : ICompanyService
     {
         #region Private
+
+        #region Repositories
 
         private readonly ICompanyRepository companyRepository;
         private readonly ISystemUserRepository systemUserRepository;
@@ -41,6 +48,26 @@ namespace MPC.Implementation.MISServices
         private readonly IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository;
         private readonly IGetItemsListViewRepository itemsListViewRepository;
         private readonly IItemRepository itemRepository;
+        private readonly IItemStockOptionRepository itemStockOptionRepository;
+        private readonly IPrefixRepository prefixRepository;
+        private readonly IItemVdpPriceRepository itemVdpPriceRepository;
+        //
+        private readonly IItemVideoRepository itemVideoRepository;
+        private readonly IItemRelatedItemRepository itemRelatedItemRepository;
+        private readonly ITemplatePageRepository templatePageRepository;
+        private readonly ITemplateRepository templateRepository;
+        private readonly IItemAddOnCostCentreRepository itemAddOnCostCentreRepository;
+        private readonly ICostCentreRepository costCentreRepository;
+        private readonly IStockItemRepository stockItemRepository;
+        private readonly IItemPriceMatrixRepository itemPriceMatrixRepository;
+        private readonly IItemStateTaxRepository itemStateTaxRepository;
+        private readonly ICountryRepository countryRepository;
+        private readonly IStateRepository stateRepository;
+        private readonly ISectionFlagRepository sectionFlagRepository;
+        private readonly IItemProductDetailRepository itemProductDetailRepository;
+
+        #endregion
+
         /// <summary>
         /// Save Company
         /// </summary>
@@ -269,6 +296,235 @@ namespace MPC.Implementation.MISServices
                 productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);
             }
         }
+
+        #region Product
+        /// <summary>
+        /// Get By Id
+        /// </summary>
+        public Item GetById(long id)
+        {
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            Item item = itemRepository.Find(id);
+
+            if (item == null)
+            {
+                throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
+            }
+
+            return item;
+        }
+        /// <summary>
+        /// Create Item Vdp Price
+        /// </summary>
+        private ItemVdpPrice CreateItemVdpPrice()
+        {
+            ItemVdpPrice line = itemVdpPriceRepository.Create();
+            itemVdpPriceRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Vdp Price
+        /// </summary>
+        private void DeleteItemVdpPrice(ItemVdpPrice line)
+        {
+            itemVdpPriceRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create Item Video
+        /// </summary>
+        private ItemVideo CreateItemVideo()
+        {
+            ItemVideo video = itemVideoRepository.Create();
+            itemVideoRepository.Add(video);
+            return video;
+        }
+
+        /// <summary>
+        /// Delete Item Video
+        /// </summary>
+        private void DeleteItemVideo(ItemVideo video)
+        {
+            itemVideoRepository.Delete(video);
+        }
+
+        /// <summary>
+        /// Create Item RelatedItem
+        /// </summary>
+        private ItemRelatedItem CreateItemRelatedItem()
+        {
+            ItemRelatedItem relatedItem = itemRelatedItemRepository.Create();
+            itemRelatedItemRepository.Add(relatedItem);
+            return relatedItem;
+        }
+
+        /// <summary>
+        /// Delete Item RelatedItem
+        /// </summary>
+        private void DeleteItemRelatedItem(ItemRelatedItem relatedItem)
+        {
+            itemRelatedItemRepository.Delete(relatedItem);
+        }
+
+        /// <summary>
+        /// Create Template
+        /// </summary>
+        private Template CreateTemplate()
+        {
+            Template template = templateRepository.Create();
+            templateRepository.Add(template);
+            return template;
+        }
+
+        /// <summary>
+        /// Create Template Page
+        /// </summary>
+        private TemplatePage CreateTemplatePage()
+        {
+            TemplatePage relatedItem = templatePageRepository.Create();
+            templatePageRepository.Add(relatedItem);
+            return relatedItem;
+        }
+
+        /// <summary>
+        /// Delete Template Page
+        /// </summary>
+        private void DeleteTemplatePage(TemplatePage relatedItem)
+        {
+            templatePageRepository.Delete(relatedItem);
+        }
+
+        /// <summary>
+        /// Create Item Stock Option
+        /// </summary>
+        private ItemStockOption CreateItemStockOption()
+        {
+            ItemStockOption line = itemStockOptionRepository.Create();
+            itemStockOptionRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Stock Option
+        /// </summary>
+        private void DeleteItemStockOption(ItemStockOption line)
+        {
+            itemStockOptionRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create Item Addon Cost Centre
+        /// </summary>
+        private ItemAddonCostCentre CreateItemAddonCostCentre()
+        {
+            ItemAddonCostCentre line = itemAddOnCostCentreRepository.Create();
+            itemAddOnCostCentreRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Addon Cost Centre
+        /// </summary>
+        private void DeleteItemAddonCostCentre(ItemAddonCostCentre line)
+        {
+            itemAddOnCostCentreRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create Item State Tax
+        /// </summary>
+        private ItemStateTax CreateItemStateTax()
+        {
+            ItemStateTax line = itemStateTaxRepository.Create();
+            itemStateTaxRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item State Tax
+        /// </summary>
+        private void DeleteItemStateTax(ItemStateTax line)
+        {
+            itemStateTaxRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create Item Price Matrix
+        /// </summary>
+        private ItemPriceMatrix CreateItemPriceMatrix()
+        {
+            ItemPriceMatrix line = itemPriceMatrixRepository.Create();
+            itemPriceMatrixRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Create Item Product Detail
+        /// </summary>
+        private ItemProductDetail CreateItemProductDetail()
+        {
+            ItemProductDetail line = itemProductDetailRepository.Create();
+            itemProductDetailRepository.Add(line);
+            return line;
+        }
+        public Item SaveProduct(Item item)
+        {
+            // Get Db Version
+            Item itemTarget = GetById(item.ItemId);
+
+            // If New then Add, Update If Existing
+            if (itemTarget == null)
+            {
+                // Gets Next Item Code and Increments it by 1
+                string itemCode = prefixRepository.GetNextItemCodePrefix();
+                itemTarget = itemRepository.Create();
+                itemRepository.Add(itemTarget);
+                itemTarget.ItemCreationDateTime = DateTime.Now;
+                itemTarget.ItemCode = itemCode;
+                itemTarget.CompanyId = item.CompanyId;
+                itemTarget.OrganisationId = itemRepository.OrganisationId;
+            }
+
+            // Update
+            item.UpdateTo(itemTarget, new ItemMapperActions
+            {
+                CreateItemVdpPrice = CreateItemVdpPrice,
+                DeleteItemVdpPrice = DeleteItemVdpPrice,
+                CreateItemVideo = CreateItemVideo,
+                DeleteItemVideo = DeleteItemVideo,
+                CreateItemRelatedItem = CreateItemRelatedItem,
+                DeleteItemRelatedItem = DeleteItemRelatedItem,
+                CreateTemplatePage = CreateTemplatePage,
+                DeleteTemplatePage = DeleteTemplatePage,
+                CreateTemplate = CreateTemplate,
+                CreateItemStockOption = CreateItemStockOption,
+                DeleteItemStockOption = DeleteItemStockOption,
+                CreateItemAddonCostCentre = CreateItemAddonCostCentre,
+                DeleteItemAddonCostCentre = DeleteItemAddonCostCentre,
+                CreateItemStateTax = CreateItemStateTax,
+                DeleteItemStateTax = DeleteItemStateTax,
+                CreateItemPriceMatrix = CreateItemPriceMatrix,
+                CreateItemProductDetail = CreateItemProductDetail
+            });
+
+            // Save Changes
+            itemRepository.SaveChanges();
+
+            // Load Properties if Any
+            itemTarget = itemRepository.Find(itemTarget.ItemId);
+
+            // Get Updated Minimum Price
+            itemTarget.MinPrice = itemRepository.GetMinimumProductValue(itemTarget.ItemId);
+
+            // Return Item
+            return itemTarget;
+        }
+        #endregion
         private void UpdateProductsOfUpdatingCompany(CompanySavingModel companySavingModel)
         {
             if (companySavingModel.NewAddedProducts != null)
@@ -278,7 +534,10 @@ namespace MPC.Implementation.MISServices
                 {
                     product.CompanyId = companySavingModel.Company.CompanyId;
                     product.OrganisationId = itemRepository.OrganisationId;
-                    itemRepository.Add(product);
+                    var productSaved = SaveProduct(product);
+                    //itemRepository.Add(product);
+                    product.TemplateId = productSaved.TemplateId;
+                    product.ItemId = productSaved.ItemId;
                     itemRepository.SaveChanges();
                     SaveStoreProductImage(product);
                 }
@@ -289,17 +548,23 @@ namespace MPC.Implementation.MISServices
                 {
                     product.CompanyId = companySavingModel.Company.CompanyId;
                     product.OrganisationId = itemRepository.OrganisationId;
-                    var prevProduct = itemRepository.Find(product.ItemId);
-                    updatePreviousImages(prevProduct, product);
+
+                    var productSaved = SaveProduct(product);
+                    //var prevProduct = itemRepository.Find(product.ItemId);
+                    //updatePreviousImages(prevProduct, product);
+                    product.TemplateId = productSaved.TemplateId;
                     SaveStoreProductImage(product);
                     itemRepository.Update(product);
+                    itemRepository.SaveChanges();
                 }
             if (companySavingModel.Deletedproducts != null)
                 //Delete Products
                 foreach (var product in companySavingModel.Deletedproducts)
                 {
-                    var productToDelete = itemRepository.Find(product.ItemId);
-                    itemRepository.Delete(productToDelete);
+                    SaveProduct(product);
+
+                    //var productToDelete = itemRepository.Find(product.ItemId);
+                    //itemRepository.Delete(productToDelete);
                 }
         }
         private void UpdateProductCategoriesOfUpdatingCompany(CompanySavingModel companySavingModel, List<ProductCategory> productCategories)
@@ -391,7 +656,9 @@ namespace MPC.Implementation.MISServices
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
+
             companyRepository.SaveChanges();
+
 
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
@@ -645,7 +912,7 @@ namespace MPC.Implementation.MISServices
                     item.PageId = 0;
                     item.CompanyId = companySavingModel.Company.CompanyId;
                     item.OrganisationId = companyRepository.OrganisationId;
-                    item.PageBanner = SaveCmsPageImage(item);
+                    item.PageBanner = SaveCmsPageImage(item, companySavingModel.Company.CompanyId);
                     companyDbVersion.CmsPages.Add(item);
                 }
             }
@@ -674,7 +941,7 @@ namespace MPC.Implementation.MISServices
                                 //If already image exist
                                 File.Delete(dbItem.PageBanner);
                             }
-                            dbItem.PageBanner = SaveCmsPageImage(item);
+                            dbItem.PageBanner = SaveCmsPageImage(item, companySavingModel.Company.CompanyId);
                         }
                     }
                 }
@@ -814,12 +1081,12 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             if (company.CompanyBannerSets != null)
-                SaveCompanyBannerImages(company.CompanyBannerSets);
+                SaveCompanyBannerImages(company.CompanyBannerSets, company.CompanyId);
         }
         /// <summary>
         /// Save Images
         /// </summary>
-        private void SaveCompanyBannerImages(IEnumerable<CompanyBannerSet> companyBannerSets)
+        private void SaveCompanyBannerImages(IEnumerable<CompanyBannerSet> companyBannerSets, long companyId)
         {
             List<CompanyBanner> companyBannersList = companyBannerRepository.GetAll().ToList();
 
@@ -834,14 +1101,17 @@ namespace MPC.Implementation.MISServices
                             base64 = base64.Trim('\0');
                             byte[] data = Convert.FromBase64String(base64);
 
-                            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyBanners");
+                            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + companyId);
                             if (directoryPath != null && !Directory.Exists(directoryPath))
                             {
                                 Directory.CreateDirectory(directoryPath);
                             }
-                            string savePath = directoryPath + "\\" + img.CompanyBannerId + "_" + img.FileName;
+                            string savePath = directoryPath + "\\" + "CompanyBanner" + img.CompanyBannerId + "_" + img.FileName + ".jpeg";
+                            if (File.Exists(savePath))
+                            {
+                                File.Delete(savePath);
+                            }
                             File.WriteAllBytes(savePath, data);
-
                             CompanyBanner companyBanner = companyBannersList.FirstOrDefault(x => x.CompanyBannerId == img.CompanyBannerId);
                             if (companyBanner != null)
                             {
@@ -913,7 +1183,7 @@ namespace MPC.Implementation.MISServices
 
             #endregion
 
-            #region Image 
+            #region Image
 
             if (item.ImagePathImage != null)
             {
@@ -1053,11 +1323,52 @@ namespace MPC.Implementation.MISServices
 
                 item.File5 = savePath;
             }
-             #endregion
-            
+            #endregion
+            #region Item Stock Option File
+            #region Image
 
+            if (item.ItemStockOptions != null)
+            {
+                foreach (var stockOption in item.ItemStockOptions)
+                {
+                    //Search If there is previously some file is safe against it then delete it
+                    if (stockOption.ImageURL != null)
+                    {
+                        File.Delete(stockOption.ImageURL);
+                    }
+                    if (stockOption.FileSource != null)
+                    {
+                        string base64 = stockOption.FileSource.Substring(stockOption.FileSource.IndexOf(',') + 1);
+                        base64 = base64.Trim('\0');
+                        byte[] data = Convert.FromBase64String(base64);
+
+                        string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+                        HttpServerUtility server = HttpContext.Current.Server;
+                        // i.e:-  /Stores/Organisation1/Company903/StockCategories/StockCategory1
+                        string mapPath = server.MapPath(mpcContentPath + "/Stores/Organisation" + itemRepository.OrganisationId + "/Company" + item.CompanyId + "/StockCategories" + stockOption.StockId);
+
+                        // Create directory if not there
+                        if (!Directory.Exists(mapPath))
+                        {
+                            Directory.CreateDirectory(mapPath);
+                        }
+                        // First Time Upload
+                        string imageurl = mapPath + "\\" + stockOption.FileName + "_" +
+                                          stockOption.ItemStockOptionId + stockOption.OptionSequence;
+                        File.WriteAllBytes(imageurl, data);
+
+                        stockOption.ImageURL = imageurl;
+                        itemStockOptionRepository.Update(stockOption);
+                    }
+                }
+                itemStockOptionRepository.SaveChanges();
+
+            }
+
+            #endregion
+            #endregion
         #endregion
-
+            itemRepository.Update(item);
             itemRepository.SaveChanges();
         }
 
@@ -1087,11 +1398,11 @@ namespace MPC.Implementation.MISServices
             }
             #endregion
         }
-        
+
         /// <summary>
-        /// Save Images for CMS Page
+        /// Save Images for CMS Page(Secondary Page Images)
         /// </summary>
-        private string SaveCmsPageImage(CmsPage cmsPage)
+        private string SaveCmsPageImage(CmsPage cmsPage, long companyId)
         {
             if (cmsPage.Bytes != null)
             {
@@ -1099,13 +1410,18 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CMSPages");
+                //string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CMSPages");
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + companyId);
+
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                Guid newGuid = Guid.NewGuid();
-                string savePath = directoryPath + "\\" + newGuid + "_" + cmsPage.FileName;
+                string savePath = directoryPath + "\\" + "CmsPage" + cmsPage.PageId + "_" + cmsPage.FileName + ".jpeg";
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
                 File.WriteAllBytes(savePath, data);
                 return savePath;
             }
@@ -1120,7 +1436,7 @@ namespace MPC.Implementation.MISServices
             base64 = base64.Trim('\0');
             byte[] data = Convert.FromBase64String(base64);
 
-            string directoryPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Resources/CompanyContactProfileImages");
+            string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CompanyContactProfileImages");
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -1131,7 +1447,7 @@ namespace MPC.Implementation.MISServices
             return savePath;
 
         }
-        
+
 
         #region Constructor
 
@@ -1142,7 +1458,21 @@ namespace MPC.Implementation.MISServices
              IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
             IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository,
             IOrganisationRepository organisationRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository, IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository,
-            IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository)
+            IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemStockOptionRepository itemStockOptionRepository,
+            IPrefixRepository prefixRepository, IItemVdpPriceRepository itemVdpPriceRepository,
+            IItemVideoRepository itemVideoRepository,
+        IItemRelatedItemRepository itemRelatedItemRepository,
+        ITemplatePageRepository templatePageRepository,
+        ITemplateRepository templateRepository,
+        IItemAddOnCostCentreRepository itemAddOnCostCentreRepository,
+        ICostCentreRepository costCentreRepository,
+        IStockItemRepository stockItemRepository,
+        IItemPriceMatrixRepository itemPriceMatrixRepository,
+        IItemStateTaxRepository itemStateTaxRepository,
+        ICountryRepository countryRepository,
+        IStateRepository stateRepository,
+        ISectionFlagRepository sectionFlagRepository,
+        IItemProductDetailRepository itemProductDetailRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -1167,6 +1497,24 @@ namespace MPC.Implementation.MISServices
             this.productCategoryFileTableViewRepository = productCategoryFileTableViewRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
+            this.itemStockOptionRepository = itemStockOptionRepository;
+            this.prefixRepository = prefixRepository;
+            this.itemVdpPriceRepository = itemVdpPriceRepository;
+
+            this.templatePageRepository = templatePageRepository;
+            this.itemVideoRepository = itemVideoRepository;
+            this.itemRelatedItemRepository = itemRelatedItemRepository;
+            this.templateRepository = templateRepository;
+            this.itemAddOnCostCentreRepository = itemAddOnCostCentreRepository;
+            this.costCentreRepository = costCentreRepository;
+            this.stockItemRepository = stockItemRepository;
+            this.itemPriceMatrixRepository = itemPriceMatrixRepository;
+            this.itemStateTaxRepository = itemStateTaxRepository;
+            this.countryRepository = countryRepository;
+            this.stateRepository = stateRepository;
+            this.sectionFlagRepository = sectionFlagRepository;
+            this.itemProductDetailRepository = itemProductDetailRepository;
+
         }
         #endregion
 

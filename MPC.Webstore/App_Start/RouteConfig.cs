@@ -41,6 +41,7 @@ namespace MPC.Webstore
              "ContactUs",
              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
+           
             routes.MapRoute(
                 "Login",
                 "Login/{controller}/{action}/{FirstName}/{LastName}/{Email}/{IsMarketing}",
@@ -80,6 +81,18 @@ namespace MPC.Webstore
            "ShopCart/{optionalOrderId}",
            new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
              );
+
+            routes.MapRoute(
+         "SecondaryPages",
+         "SecondaryPages/{PageID}",
+         new { controller = "Home", action = "Index", PageID = UrlParameter.Optional }
+           );
+
+            routes.MapRoute(
+             "ProductDetail",
+             "ProductDetail/{CategoryID}/{ItemID}/{TemplateID}/{TemplateName}/{Mode}",
+             new { controller = "Home", action = "Index", CategoryID = UrlParameter.Optional, ItemID = UrlParameter.Optional, TemplateID = UrlParameter.Optional, TemplateName = UrlParameter.Optional, Mode = UrlParameter.Optional}
+               );
 
             routes.MapRoute(
              "CloneItem",

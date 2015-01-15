@@ -1,4 +1,5 @@
 ﻿@model List<MPC.Webstore.Models.CompanyBanner>
+@using MPC.Webstore.Common;
 @foreach (var banner in Model)
 {
     <div class="content_area container" id="bannerContainer">
@@ -7,7 +8,7 @@
 
             <li>
                 <a id="hlItemUrl">
-                    <img id="imgBanner" src="http://yolkpm.myprintcloud.com//StoredImages/PageBanners/ce7d3d5b-229b-4487-9ac7-066ae7926014_HomePageBanner.png" />
+                    <img id="imgBanner" src="@Html.GetAppBasePath()@banner.ImageURL"/>
                 </a>
 
             </li>

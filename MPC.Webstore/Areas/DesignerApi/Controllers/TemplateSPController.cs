@@ -56,6 +56,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         // public bool DeleteBlankBackgroundPDFsByPages(int TemplateID, List<TemplatePages> PagesList) // moved to template page svc
         //public bool generateTemplateFromPDF(string filePhysicalPath, int mode, int templateID, int CustomerID) // moved to template svc
         //void processTemplatePDF(int TemplateID, bool printCropMarks, bool printWaterMarks, bool isroundCorners) // moved to template svc
+        // regeneratePDFs // moved to template svc
+        //public int SaveTemplateLocally // moved to template SVC
+        //public int MergeTemplateLocally // moved to template SVC  // use saveTemlateLocally with mode ==2 
+        //private bool DownloadFile(string SourceURL, string DestinationBasePath)  // moved to designer utils
 
         // public MatchingSets GetMatchingSetbyID(int MatchingSetID)  //not used in webstore called from v2
         // public string GetProductBackgroundImg(int ProductId, string BkImg, bool IsSide2, int PageNo)//not used in webstore called from v2
@@ -63,7 +67,6 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         // public Templates GetTemplateWebStore(int TemplateID) //not implemented as we call this function from v2
         // public List<TemplateFonts> GetTemplateFonts(int TemplateID)//not implemented as we call this function from v2
         //public List<TemplatePages> GetTemplatePages(int TemplateID) // not implemented as we call this function from v2
-        
         //public List<TemplatePages> UpdateTemplatePages(int TemplateID, int pageId, string operation) // not immplemented
         //public bool UpdateTemplatePage(int pageId, string PageName, string Orientation)// not implemented 
         //public bool UpdateTemplatePageBackground(int productID, int PageID, string path, string backgroundtype)// not implemented

@@ -6,6 +6,12 @@
             // Initialize
             initialize = function () {
                 if (!isInitialized) {
+                    // Define request to get items
+                    amplify.request.define('getItems', 'ajax', {
+                        url: ist.siteUrl + '/Api/Item',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get base data
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemBase',
@@ -46,6 +52,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get Items
+            getItems = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getItems',
+                    data: params,
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -99,6 +115,7 @@
             getCompanyProduct: getCompanyProduct,
             getStockItems: getStockItems,
             getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId,
+            getItems: getItems
         };
     })();
 

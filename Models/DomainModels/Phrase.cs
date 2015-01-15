@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Phrase Domain Model
@@ -12,5 +14,8 @@
         public long? OrganisationId { get; set; }
 
         public virtual PhraseField PhraseField { get; set; }
+
+        [NotMapped]
+        public bool IsDeleted { get; set; }
     }
 }

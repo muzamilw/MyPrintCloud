@@ -51,16 +51,17 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        // Important: if called from MIS call implementation function instead of this function because organizationID will not exist in cookie when called from MIS
+        // Important: if called from MIS call implementation function instead of this function because OrganisationID will not exist in cookie when called from MIS
         public string testTemplate(long id)
         {
-            long organizationId = UserCookieManager.OrganisationID;
-            var result = templateService.generateTemplateFromPDF("F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\organization1\\Templates\\random__CorporateTemplateUpload.pdf",2, id, 1);
+            long OrganisationId = UserCookieManager.OrganisationID;
+            //var result = templateService.generateTemplateFromPDF("F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\Organisation1\\Templates\\random__CorporateTemplateUpload.pdf",2, id, 1);
+            templateService.processTemplatePDF(id, 1, true, true, true);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return result.ToString();
+            return "true".ToString();
 
         }
         // public string preview(Stream data)

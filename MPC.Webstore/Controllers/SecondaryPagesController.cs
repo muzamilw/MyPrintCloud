@@ -1,19 +1,17 @@
-﻿using MPC.Interfaces.WebStoreServices;
-using MPC.Webstore.Common;
-using MPC.Webstore.ModelMappers;
-using MPC.Webstore.ResponseModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Models.DomainModels;
+using MPC.Interfaces.WebStoreServices;
 
 namespace MPC.Webstore.Controllers
 {
     public class SecondaryPagesController : Controller
     {
-         #region Private
+
+          #region Private
 
         private readonly ICompanyService _myCompanyService;
 
@@ -36,15 +34,12 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: SecondaryPages
-        public ActionResult Index()
+        public ActionResult Index(long PageID)
         {
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromSecondaryPages();
+            CmsPage SPage = _myCompanyService.getPageByID(PageID);
 
-            ViewData["PageCategory"] = baseResponse.PageCategories;
-            ViewData["CmsPage"] = baseResponse.SecondaryPages;
-          
-            return PartialView("PartialViews/SecondaryPages");
+            return View("/PartialViews/SecondaryPages",SPage);
         }
     }
 }

@@ -252,9 +252,14 @@
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
+    <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
+    <Compile Include="Areas\Api\Controllers\PrefixController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CmsPageLayoutDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactController.cs" />
@@ -290,6 +295,7 @@
     <Compile Include="Areas\Api\ModelMappers\CompanyTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\AddressMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyContactMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PrefixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CurrencyMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GlobalLanguageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemProductDetailMapper.cs" />
@@ -365,12 +371,17 @@
     <Compile Include="Areas\Api\Models\PaymentGatewayResponse.cs" />
     <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDropDown.cs" />
+    <Compile Include="Areas\Api\Models\Phrase.cs" />
+    <Compile Include="Areas\Api\Models\Prefix.cs" />
+    <Compile Include="Areas\Api\Models\PhraseField.cs" />
+    <Compile Include="Areas\Api\Models\PhraseLibrarySaveModel.cs" />
     <Compile Include="Areas\Api\Models\ProductCategory.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryItem.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryListViewModel.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
+    <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
@@ -464,9 +475,13 @@
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Common\Scripts\phraseLibrary.dataservice.js" />
     <Content Include="Areas\Common\Scripts\supplier.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\phraseLibrary.model.js" />
+    <Content Include="Areas\Common\Scripts\phraseLibrary.view.js" />
     <Content Include="Areas\Common\Scripts\supplier.view.js" />
     <Content Include="Areas\Common\Scripts\confirmation.view.js" />
+    <Content Include="Areas\Common\Scripts\phraseLibrary.viewModel.js" />
     <Content Include="Areas\Common\Scripts\supplier.viewModel.js" />
     <Content Include="Areas\Common\Scripts\confirmation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
@@ -487,6 +502,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\prefix.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\prefix.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
@@ -1420,6 +1439,7 @@
     <Content Include="Areas\Settings\Views\Home\MachinesDetail.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MachinesList.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\Prefixes.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductDetail.cshtml" />
     <Content Include="Content\less\Organisation.less" />
@@ -1431,6 +1451,10 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Products\Views\Home\_ProductCategoryDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddEditSecondaryPage.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_phraseLibraryDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\PhraseLibrary.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_EditJobTitlePhraseLibrary.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2627,6 +2651,8 @@
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
+    <Folder Include="MPC_Content\Resources\Organisation2\en-US\" />
+    <Folder Include="MPC_Content\Resources\Organisation2\fr-FR\" />
     <Folder Include="MPC_Content\SecondaryPages\" />
     <Folder Include="MPC_Content\Stores\" />
     <Folder Include="Reports\" />
