@@ -42,59 +42,7 @@ define("common/phraseLibrary.viewModel",
                             }
                         });
                     },
-                    //Call function for Save Supplier
-                    onSaveSupplier = function (supplier) {
-                        errorList.removeAll();
-                        if (doBeforeSave()) {
-                            if (addSupplier().addresses().length !== 0) {
-                                addSupplier().addresses([]);
-                            }
-                            if (addSupplier().companyContacts().length !== 0) {
-                                addSupplier().companyContacts([]);
-                            }
-                            addSupplier().addresses().push(addSupplier().addressInSupplier().convertToServerData());
-                            addSupplier().companyContacts().push(addSupplier().companyContact().convertToServerData());
-                            saveSupplier(supplier);
-                        }
-                    },
-                   //Save Supplier
-                    saveSupplier = function (supplier) {
-                        dataservice.saveSupplier(addSupplier().convertToServerData(supplier), {
-                            success: function (data) {
-                                var supplierResult = new model.SupplierListView.Create(data);
-                                addSupplier().id(data.SupplierId);
-                                suppliers.splice(0, 0, supplierResult);
-                                view.saveImage();
-                                closeSupplierEditor();
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (exceptionMessage, exceptionType) {
-
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
-
-                                    toastr.error(exceptionMessage);
-
-                                } else {
-
-                                    toastr.error("Failed to save.");
-
-                                }
-
-                            }
-                        });
-                    },
-                   // Do Before Logic
-                   doBeforeSave = function () {
-                       var flag = true;
-                       if (!addSupplier().isValid() || !addSupplier().addressInSupplier().isValid() || !addSupplier().companyContact().isValid()) {
-                           addSupplier().errors.showAllMessages();
-                           addSupplier().addressInSupplier().errors.showAllMessages();
-                           addSupplier().companyContact().errors.showAllMessages();
-                           flag = false;
-                       }
-                       return flag;
-                   },
-                   //Get Phrases By Phrase Id
+                    //Get Phrases By Phrase Id
                     getPhrasesByPhraseFieldId = function (fieldId) {
                         dataservice.getPhrasesByPhraseFieldId({
                             fieldId: fieldId
