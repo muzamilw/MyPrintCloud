@@ -87,6 +87,7 @@
     <Compile Include="Repository\IFavoriteDesignRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
+    <Compile Include="Repository\IImagePermissionsRepository.cs" />
     <Compile Include="Repository\IItemAttachmentRepository.cs" />
     <Compile Include="Repository\IIProductCategoryItemRepository.cs" />
     <Compile Include="Repository\IItemStateTaxRepository.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\ICompanyBannerService.cs" />
+    <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
     <Compile Include="Logger\IMPCLogWriter.cs" />
