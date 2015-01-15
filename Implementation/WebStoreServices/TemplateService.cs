@@ -1584,6 +1584,8 @@ namespace MPC.Implementation.WebStoreServices
             }
             return result;
         }
+
+        
         #endregion
         #region constructor
         public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages,ITemplateFontsService templateFontSvc)
@@ -1834,7 +1836,150 @@ namespace MPC.Implementation.WebStoreServices
             GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false);
 
         }
+        // called from webstore to save template locally // added by saqib ali // not tested yet
+        // base path = F:\Development\Github\MyprintCloud-dev\MPC.Web\MPC_Content\Designer\Organisation2\
+        // mode = 1 => create a new template from v2 objects
+        // mode =2 => update an existing template  from v2 objects
+        public long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, string RemoteUrlBasePath, string BasePath,long organisationID, int mode, long localTemplateID)
+        {
 
+            long newProductID = 0;
+            List<TemplateFont> fontsToDownload = new List<TemplateFont>();
+            //string BasePath = System.Web.HttpContext.Current.Server.MapPath("../Designer/Products/");
+            newProductID = _templateRepository.SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFonts, organisationID, out fontsToDownload,mode,localTemplateID);
+
+            string targetFolder = BasePath + "/Templates/" + newProductID.ToString(); //System.Web.HttpContext.Current.Server.MapPath("../Designer/Products/" + newProductID.ToString());
+            if (!System.IO.Directory.Exists(targetFolder))
+            {
+                System.IO.Directory.CreateDirectory(targetFolder);
+            }
+            foreach (var oPage in oTemplatePages)
+            {
+                if (oPage.BackGroundType == 1 || oPage.BackGroundType == 3)
+                {
+                    string remoteUrl = RemoteUrlBasePath + "products/" + oPage.BackgroundFileName;
+                    string destinationUrl = BasePath + "Templates/" + newProductID.ToString() + "/" + oPage.BackgroundFileName.Substring(oPage.BackgroundFileName.IndexOf("/"), oPage.BackgroundFileName.Length - oPage.BackgroundFileName.IndexOf("/"));
+                    DesignerUtils.DownloadFile(remoteUrl, destinationUrl);
+                }
+            }
+            foreach (var objFont in fontsToDownload)
+            {
+                try
+                {
+                    string path = "WebFonts/";
+                    string remotePath = "";
+                    if (objFont.FontPath == null)
+                    {
+                        // mpc designers fonts or system fonts 
+                        remotePath = "PrivateFonts/FontFace/";//+ objFont.FontFile;
+                    }
+                    else
+                    {  // customer fonts 
+
+                        path += objFont.FontPath;
+                        remotePath = objFont.FontPath;
+                    }
+
+                    if (!Directory.Exists(BasePath + path))
+                    {
+                        Directory.CreateDirectory((BasePath + path));
+                    }
+                    // downloading ttf file 
+                    string RemoteURl = RemoteUrlBasePath + remotePath + objFont.FontFile + ".ttf";
+                    string DestURL = BasePath + path + objFont.FontFile + ".ttf";
+                    DesignerUtils.DownloadFile(RemoteURl, DestURL);
+                    // downloading woff file 
+                    RemoteURl = RemoteUrlBasePath + remotePath + objFont.FontFile + ".woff";
+                    DestURL = BasePath + path + objFont.FontFile + ".woff";
+                    DesignerUtils.DownloadFile(RemoteURl, DestURL);
+                    // downloading eot file 
+                    RemoteURl = RemoteUrlBasePath + remotePath + objFont.FontFile + ".eot";
+                    DestURL = BasePath + path + objFont.FontFile + ".eot";
+                    DesignerUtils.DownloadFile(RemoteURl, DestURL);
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+                foreach (TemplateBackgroundImage item in oTemplateImages)
+                {
+                    string ext = Path.GetExtension(item.ImageName);
+                    // generate thumbnail 
+                    if (!ext.Contains("svg"))
+                    {
+                        string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
+                        string destPath = results[0] + "_thumb" + ext;
+                        string localThumbnail = newProductID.ToString() + "/" + Path.GetFileName(destPath);
+                        string localPath = BasePath + "/Templates/" + localThumbnail;
+                        DesignerUtils.DownloadFile(RemoteUrlBasePath + "products/" + destPath, localPath);
+                    }
+                    item.ProductId = newProductID;
+                    string NewLocalFileName = newProductID.ToString() + "/" + Path.GetFileName(item.ImageName);
+                    string localFilePath = BasePath + "/Templates/" + NewLocalFileName;
+                    DesignerUtils.DownloadFile(RemoteUrlBasePath + "products/" + item.ImageName, localFilePath);
+                }
+            }
+            return newProductID;
+        }
+
+        // called from designer while generating funciton  // added by saqib ali // not tested yet
+        public string SaveTemplate(List<TemplateObject> lstTemplatesObjects,List<TemplatePage> lstTemplatePages,long organisationID,bool printCropMarks,bool printWaterMarks,bool isRoundCorners)
+        {
+            try
+            {
+
+                long productID = 0;
+               // List<TemplateObject> objsToAdd = new List<TemplateObject>();
+                if (lstTemplatesObjects.Count > 0)
+                {
+
+                    productID = lstTemplatesObjects[0].ProductId.Value;
+                    foreach (var oObject in lstTemplatesObjects)
+                    {
+                        if (oObject.ObjectId != -999)
+                        {
+                            oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
+                            oObject.PositionY = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionY.Value), 6);
+                            oObject.FontSize = Math.Round(DesignerUtils.PixelToPoint(oObject.FontSize.Value), 6);
+                            oObject.MaxWidth = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxWidth.Value), 6);
+                            oObject.MaxHeight = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxHeight.Value), 6);
+                            if (oObject.CharSpacing != null)
+                            {
+                                oObject.CharSpacing = Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(oObject.CharSpacing.Value)));
+                            }
+
+                            oObject.ProductId = productID;
+
+                        }
+                    }
+
+                }
+                foreach (TemplatePage obj in lstTemplatePages)
+                {
+
+                     if (obj.BackgroundFileName != "")
+                     {
+                         string ext = System.IO.Path.GetExtension(obj.BackgroundFileName);
+                         if (obj.BackGroundType == 1 && ext.Contains("jpg"))
+                         {
+                             obj.BackgroundFileName = productID + "/" + "Side" + obj.PageNo + ".pdf";
+                         }
+                         else
+                         {
+                             obj.BackgroundFileName = obj.BackgroundFileName;
+                         }
+
+                     }
+                }
+                _templateRepository.SaveTemplate(productID, lstTemplatePages, lstTemplatesObjects);
+               bool result=  GenerateTemplatePdf(productID, organisationID, printCropMarks, printWaterMarks, isRoundCorners, true);
+               return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
             List<ProductCategoriesView> PCview = _ProductCategoryRepository.GetMappedCategoryNames(false, CompanyID);
