@@ -94,6 +94,7 @@
     <Compile Include="Repository\ICostCentreRepository.cs" />
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
+    <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
     <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\ICompanyBannerService.cs" />
+    <Compile Include="WebStoreServices\IListingService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
     <Compile Include="Logger\IMPCLogWriter.cs" />
     <Compile Include="MISServices\IPaperSheetService.cs" />

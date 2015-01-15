@@ -1,11 +1,10 @@
 ﻿
-
 <style type="text/css">
     .activeCampaigns {
         width: 25%;
         background-color: #e9501d;
         float: right;
-        padding-top: 25px;
+        padding-top: 14px;
         text-align: center;
         color: white;
     }
@@ -21,19 +20,19 @@
     }
 </style>
 
-<div class="content_area container" id="bannerContainer" style="width: 100%; height: 200px; position: relative; z-index: 50;">
-    <div style="float: left; width: 75%; z-index: 0; position: relative; top: -10px;text-align:center;">
+<div class="content_area" id="bannerContainer" style="width: 100%; height: 200px; position: relative; z-index: 50;">
+    <div style="float: left; width: 75%; z-index: 0; position: relative; text-align:center;">
         <ul id="mycarousel" class="jcarousel-skin-tango">
-            @foreach (var banner in ViewBag.ImageSource)
+            @foreach (var listing in ViewData["Listings"] as List<MPC.Webstore.Controllers.RealEstateItemController.RealEstateListing>)
             {
                 <li>
                     <a id="hlItemUrl">
                         <div style="height: 120px;">
-                            <img id="imgBanner" src="@banner" style="height: 100px; width: 150px;" />
+                            <img id="imgBanner" src="@listing.ListingImageURL" style="height: 100px; width: 150px;" />
                         </div>
                     </a>
                     <div>
-                        <label style="font-family: PT Sans; font-size: 17px; color: #e9501d;">Property Name</label>
+                        <label style="font-family: PT Sans; font-size: 17px; color: #e9501d;">@listing.ListingProperty.PropertyName</label>
                     </div>
                 </li>
             }
