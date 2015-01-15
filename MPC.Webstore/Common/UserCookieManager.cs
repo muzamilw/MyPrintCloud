@@ -355,30 +355,30 @@ namespace MPC.Webstore.Common
             }
         }
 
-        public static string OrganisationLanguageIdentifier
+        public static int isRegisterClaims
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["OrganisationLanguageIdentifier"] != null)
+                if (HttpContext.Current.Request.Cookies["isRegisterClaims"] != null)
                 {
-                    return HttpContext.Current.Request.Cookies["OrganisationLanguageIdentifier"].Value;
+                    return Convert.ToInt32( HttpContext.Current.Request.Cookies["isRegisterClaims"].Value);
                 }
                 else
                 {
-                    return "";
+                    return 0;
                 }
 
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["OrganisationLanguageIdentifier"] != null)
+                if (HttpContext.Current.Response.Cookies["isRegisterClaims"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("OrganisationLanguageIdentifier");
+                    HttpContext.Current.Response.Cookies.Remove("isRegisterClaims");
 
                 }
-                HttpCookie OrganisationLanguageIdentifier = null;
-                OrganisationLanguageIdentifier = new HttpCookie("OrganisationLanguageIdentifier", value.ToString());
-                HttpContext.Current.Response.Cookies.Add(OrganisationLanguageIdentifier);
+                HttpCookie  RegisterClaimCookie = null;
+                RegisterClaimCookie = new HttpCookie("isRegisterClaims", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(RegisterClaimCookie);
             }
         }
     }

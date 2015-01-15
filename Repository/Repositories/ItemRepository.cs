@@ -1659,6 +1659,199 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Replace temporary Customer and cart with real customer
+        /// </summary>
+        /// <param name="dummyCustomerID"></param>
+        /// <param name="realCustomerID"></param>
+        /// <param name="realContactID"></param>
+        /// <param name="replacedOrderdID"></param>
+        /// <param name="orderAllItemsAttatchmentsListToBeRemoved"></param>
+        /// <param name="clonedTemplateToRemoveList"></param>
+        /// <returns></returns>
+        public long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList)
+        {
+
+
+            Estimate TemporaryOrder = null;
+
+            Estimate ActualOrder = null;
+
+            CompanyContact TemporaryContact = null;
+
+            CompanyContact ActualContact = null;
+
+            long orderID = 0;
+
+            List<TemplateBackgroundImage> TemporaryBackgroundImageRec = null;
+
+            orderAllItemsAttatchmentsListToBeRemoved = null;
+
+            clonedTemplateToRemoveList = null;
+
+            //Loads the dummy customer complete order
+            TemporaryOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
+            ActualOrder = db.Estimates.Where(order => order.CompanyId == realCustomerID && order.ContactId == realContactID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
+
+
+            TemporaryContact = db.CompanyContacts.Where(i => i.CompanyId == TemporaryCustomerID).FirstOrDefault();
+
+            if (TemporaryContact != null)
+            {
+                ActualContact = db.CompanyContacts.Where(i => i.ContactId == realContactID).FirstOrDefault();
+
+                ActualContact.quickAddress1 = TemporaryContact.quickAddress1;
+                ActualContact.quickAddress2 = TemporaryContact.quickAddress2;
+                ActualContact.quickAddress3 = TemporaryContact.quickAddress3;
+                ActualContact.quickCompanyName = TemporaryContact.quickCompanyName;
+                ActualContact.quickCompMessage = TemporaryContact.quickCompMessage;
+                ActualContact.quickEmail = TemporaryContact.quickEmail;
+                ActualContact.quickFullName = TemporaryContact.quickFullName;
+                ActualContact.quickPhone = TemporaryContact.quickPhone;
+                ActualContact.quickTitle = TemporaryContact.quickTitle;
+                ActualContact.quickWebsite = TemporaryContact.quickWebsite;
+
+                TemporaryBackgroundImageRec = db.TemplateBackgroundImages.Where(i => i.ContactCompanyId == TemporaryCustomerID && i.ContactId == TemporaryContact.ContactId).ToList();
+
+                foreach (var temImge in TemporaryBackgroundImageRec)
+                {
+                    temImge.ContactId = realContactID;
+                    temImge.ContactCompanyId = realCustomerID;
+                }
+            }
+
+
+
+            if (TemporaryOrder != null)
+            {
+                if (ActualOrder != null && ActualOrder.EstimateId > 0)
+                {
+                    orderID = ActualOrder.EstimateId;
+                }
+
+                //Attatchments
+                if (ActualOrder == null)
+                {
+                    TemporaryOrder.Items.ToList().ForEach(item =>
+                    {
+                        item.ItemAttachments.ToList().ForEach(attatchment =>
+                        {
+                            attatchment.CompanyId = realCustomerID;
+                            attatchment.ContactId = realContactID;
+                        });
+                    });
+                }
+                else
+                {
+                    TemporaryOrder.Items.ToList().ForEach(item =>
+                    {
+                        int PageNo = 1;
+                        item.ItemAttachments.ToList().ForEach(attatchment =>
+                        {
+                            if (item.TemplateId != null && item.TemplateId > 0)
+                            {
+                                string Actualfilenamepdf = attatchment.FileName;
+                                string Sourcefilenamepdf = HttpContext.Current.Server.MapPath(attatchment.FolderPath + attatchment.FileName);
+                                string newfilenamepdf = GetTemplateAttachmentFileName(item.ProductCode, ActualOrder.Order_Code, item.ItemCode, "Side" + PageNo.ToString(), "", ".pdf", TemporaryOrder.CreationDate ?? DateTime.Now);
+                                string destnationfilepdf = HttpContext.Current.Server.MapPath(attatchment.FolderPath + newfilenamepdf);
+                                System.IO.File.Move(Sourcefilenamepdf, destnationfilepdf);
+
+                                string Actualfilenamepng = System.IO.Path.GetFileNameWithoutExtension(attatchment.FileName);
+                                string Sourcefilenamepng = HttpContext.Current.Server.MapPath(attatchment.FolderPath + Actualfilenamepng + "Thumb.png");
+                                string newfilenamepng = GetTemplateAttachmentFileName(item.ProductCode, ActualOrder.Order_Code, item.ItemCode, "Side" + PageNo.ToString(), "", "Thumb.png", TemporaryOrder.CreationDate ?? DateTime.Now);
+                                string destnationfilepng = HttpContext.Current.Server.MapPath(attatchment.FolderPath + newfilenamepng);
+                                System.IO.File.Move(Sourcefilenamepng, destnationfilepng);
+                                attatchment.FileName = newfilenamepdf;
+                            }
+                            attatchment.CompanyId = realCustomerID;
+                            attatchment.ContactId = realContactID;
+                            PageNo = PageNo + 1;
+                        });
+                    });
+                }
+
+                //item
+                TemporaryOrder.Items.ToList().ForEach(item =>
+                {
+                    item.CompanyId = realCustomerID;
+                    if (orderID > 0)
+                        item.EstimateId = orderID;
+                });
+
+                ////Order
+                if (orderID == 0)
+                {
+                    orderID = TemporaryOrder.EstimateId;
+                    TemporaryOrder.CompanyId = realCustomerID;
+                    TemporaryOrder.ContactId = realContactID;
+                }
+                else
+                {
+                    //remove dummy customer and its order
+                    RemoveCustomerAndOrder(TemporaryCustomerID, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTemplateToRemoveList);
+                }
+
+
+                db.SaveChanges();
+
+            }
+
+            return orderID;
+        }
+
+        private bool RemoveCustomerAndOrder(long TemporaryCustomerId, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList)
+        {
+
+            List<ArtWorkAttatchment> artWorkAttaList = new List<ArtWorkAttatchment>();
+            List<Template> clonedTemplateList = new List<Template>();
+
+
+            Estimate TemporaryCustomerOrder = null;
+
+            //Loads the dummy customer complete order
+            Company customer = db.Companies.Where(cust => cust.CompanyId == TemporaryCustomerId).FirstOrDefault();
+            if (customer != null && (customer.IsCustomer == 0 || customer.TypeId == (int)CompanyTypes.TemporaryCustomer))
+            {
+                TemporaryCustomerOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerId && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
+                if (TemporaryCustomerOrder != null)
+                {
+                    //order items
+                    TemporaryCustomerOrder.Items.ToList().ForEach(item =>
+                    {
+                        //remove item and template complete structure
+
+                        List<ArtWorkAttatchment> itemAttment = null;
+
+                        Template cloneTemp = null;
+
+                        RemoveCloneItem(item, out itemAttment, out cloneTemp);
+
+                        if (itemAttment != null)
+                            artWorkAttaList.AddRange(itemAttment); // builds a list of whole Attatchments to be removed physically
+
+                        if (cloneTemp != null && clonedTemplateList.Find(tempInList => tempInList.ProductId == cloneTemp.ProductId) == null)
+                        {
+                            clonedTemplateList.Add(cloneTemp);
+                        }
+
+                    });
+
+                    //order 
+                    db.Estimates.Remove(TemporaryCustomerOrder);
+                }
+
+                customer.Addresses.ToList().ForEach(addr => db.Addesses.Remove(addr));
+                customer.CompanyContacts.ToList().ForEach(contacts => db.CompanyContacts.Remove(contacts));
+                //remove Customer
+                db.Companies.Remove(customer);
+            }
+
+            orderAllItemsAttatchmentsListToBeRemoved = artWorkAttaList;
+            clonedTemplateToRemoveList = clonedTemplateList;
+            return true;
+        }
+    
         #endregion
     }
 }

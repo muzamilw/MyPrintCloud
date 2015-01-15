@@ -45,6 +45,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyRepository companyRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly IProductCategoryItemRepository productCategoryItemRepository;
+        private readonly IProductCategoryRepository productCategoryRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -273,7 +274,8 @@ namespace MPC.Implementation.MISServices
             IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository, 
             IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
             IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository, 
-            IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository)
+            IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository, 
+            IProductCategoryRepository productCategoryRepository)
         {
             if (itemRepository == null)
             {
@@ -355,6 +357,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("productCategoryItemRepository");
             }
+            if (productCategoryRepository == null)
+            {
+                throw new ArgumentNullException("productCategoryRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -376,6 +382,7 @@ namespace MPC.Implementation.MISServices
             this.companyRepository = companyRepository;
             this.itemProductDetailRepository = itemProductDetailRepository;
             this.productCategoryItemRepository = productCategoryItemRepository;
+            this.productCategoryRepository = productCategoryRepository;
         }
 
         #endregion
@@ -553,7 +560,8 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
-                Suppliers = companyRepository.GetAllSuppliers()
+                Suppliers = companyRepository.GetAllSuppliers(),
+                ProductCategories = productCategoryRepository.GetParentCategories()
             };
         }
         
