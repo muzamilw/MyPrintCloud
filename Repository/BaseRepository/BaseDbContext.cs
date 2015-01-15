@@ -543,7 +543,8 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Template Images Result
         /// </summary>
-        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, int? templateID, int? contactCompanyID, int? contactID, int? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
+        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateID, long? contactCompanyID, 
+            long? contactID, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
         {
             var isCalledFromParameter = isCalledFrom.HasValue ?
                 new ObjectParameter("isCalledFrom", isCalledFrom) :
@@ -555,19 +556,19 @@ namespace MPC.Repository.BaseRepository
 
             var templateIDParameter = templateID.HasValue ?
                 new ObjectParameter("templateID", templateID) :
-                new ObjectParameter("templateID", typeof(int));
+                new ObjectParameter("templateID", typeof(long));
 
             var contactCompanyIDParameter = contactCompanyID.HasValue ?
                 new ObjectParameter("contactCompanyID", contactCompanyID) :
-                new ObjectParameter("contactCompanyID", typeof(int));
+                new ObjectParameter("contactCompanyID", typeof(long));
 
             var contactIDParameter = contactID.HasValue ?
                 new ObjectParameter("contactID", contactID) :
-                new ObjectParameter("contactID", typeof(int));
+                new ObjectParameter("contactID", typeof(long));
 
             var territoryParameter = territory.HasValue ?
                 new ObjectParameter("territory", territory) :
-                new ObjectParameter("territory", typeof(int));
+                new ObjectParameter("territory", typeof(long));
 
             var pageNumberParameter = pageNumber.HasValue ?
                 new ObjectParameter("pageNumber", pageNumber) :

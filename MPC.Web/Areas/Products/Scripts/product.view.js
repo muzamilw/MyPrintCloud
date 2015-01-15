@@ -119,17 +119,8 @@ define("product/product.view",
 
                     return true;
                 },
-                // Get Category Id from Binding li Element
-                getCategoryIdFromElement = function(event) {
-                    if (!event || !event.target) {
-                        return null;
-                    }
-
-                    var categoryliElement = $(event.target).closest('li')[0];
-                    if (!categoryliElement) {
-                        return null;
-                    }
-
+                // Get Category Id From li
+                getCategoryIdFromliElement = function (categoryliElement) {
                     var categoryliId = categoryliElement.id.split("-");
                     if (!categoryliId || categoryliId.length < 2) {
                         return null;
@@ -141,6 +132,19 @@ define("product/product.view",
                     }
 
                     return parseInt(categoryId);
+                },
+                // Get Category Id from Binding li Element
+                getCategoryIdFromElement = function(event) {
+                    if (!event || !event.target) {
+                        return null;
+                    }
+
+                    var categoryliElement = $(event.target).closest('li')[0];
+                    if (!categoryliElement) {
+                        return null;
+                    }
+
+                    return getCategoryIdFromliElement(categoryliElement);
                 },
                 // Append Child Category to list
                 appendChildCategory = function(event, category) {
@@ -169,6 +173,29 @@ define("product/product.view",
                     targetElement.append(childCategoryHtml);
 
                     ko.applyBindings(viewModel, $("#liElement-" + category.id)[0]);
+                },
+                // Update Input Checked States
+                updateInputCheckedStates = function() {
+                    $.each($("#productCategoryDialogCategories").find("input:checkbox"), function(index, inputElement) {
+                        var categoryliElement = $(inputElement).closest('li')[0];
+                        if (categoryliElement) {
+                            var categoryId = getCategoryIdFromliElement(categoryliElement);
+                            if (categoryId) {
+                                var category = viewModel.productCategories.find(function (productCategory) {
+                                    return productCategory.id === categoryId;
+                                });
+
+                                if (category) {
+                                    if (category.isSelected()) {
+                                        $(inputElement).prop('checked', true);
+                                    }
+                                    else {
+                                        $(inputElement).prop('checked', false);    
+                                    }
+                                }
+                            }
+                        }
+                    });
                 },
                 // Initiate Dropzone events 
                 initiateDropzoneEvents = function (element, itemId, itemImageType, imageCaption, filePath) {
@@ -300,9 +327,10 @@ define("product/product.view",
                 gotoElement: gotoElement,
                 toggleChildCategories: toggleChildCategories,
                 appendChildCategory: appendChildCategory,
-                showProductCategoryDialog: showProductCategoryDialog,
+                showProductC@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId))<ategoryDialog: showProductCategoryDialog,
                 hideProductCategoryDialog: hideProductCategoryDialog,
-                getCategoryIdFromElement: getCategoryIdFromElement
+                getCategoryIdFromElement: getCategoryIdFromElement,
+                updateInputCheckedStates: updateInputCheckedStates
             };
         })(productViewModel);
 

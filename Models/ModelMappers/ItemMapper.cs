@@ -671,6 +671,14 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// True if the ProductCategoryItem is to be deleted
+        /// </summary>
+        private static bool IsRemovedProductCategoryItem(ProductCategoryItemCustom sourceProductCategoryItem)
+        {
+            return sourceProductCategoryItem.ProductCategoryItemId > 0 && !sourceProductCategoryItem.IsSelected.HasValue;
+        }
+
+        /// <summary>
         /// Initialize target ProductCategoryItems
         /// </summary>
         private static void InitializeProductCategoryItems(Item item)
@@ -721,15 +729,19 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static void DeleteProductCategoryItems(Item source, Item target, ItemMapperActions actions)
         {
-            List<ProductCategoryItem> linesToBeRemoved = target.ProductCategoryItems.Where(
-                pci => source.ProductCategoryCustomItems.All(sourcepci => !IsNewProductCategoryItem(sourcepci) &&
-                    sourcepci.ProductCategoryItemId == pci.ProductCategoryItemId))
-                  .ToList();
-
-            linesToBeRemoved.ForEach(line =>
+            List<ProductCategoryItemCustom> lines = source.ProductCategoryCustomItems.Where(IsRemovedProductCategoryItem).ToList();
+            
+            lines.ForEach(line =>
             {
-                target.ProductCategoryItems.Remove(line);
-                actions.DeleteProductCategoryItem(line);
+                ProductCategoryItem lineToRemove = target.ProductCategoryItems.FirstOrDefault(
+                    lineToBeRemoved => lineToBeRemoved.ProductCategoryItemId == line.ProductCategoryItemId);
+                
+                if (lineToRemove != null && lineToRemove.ProductCategoryItemId > 0)
+                {
+                    target.ProductCategoryItems.Remove(lineToRemove);
+                    actions.DeleteProductCategoryItem(lineToRemove);
+                }
+                
             });
         }
 
