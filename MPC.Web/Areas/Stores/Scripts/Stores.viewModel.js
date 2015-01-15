@@ -110,6 +110,8 @@ define("stores/stores.viewModel",
 
                         editorViewModel.selectItem(item);
                         openEditDialog();
+                        $('.nav-tabs').children().removeClass('active');
+                        $('#generalInfoTab').addClass('active');
                     },
                     //To Show/Hide Edit Section
                     isStoreEditorVisible = ko.observable(false),
@@ -1815,6 +1817,7 @@ define("stores/stores.viewModel",
 
                     MultipleImageFilesLoadedCallback = function (file, data) {
                         selectedCompanyBanner().fileBinary(data);
+                        selectedCompanyBanner().imageSource(data);
                         selectedCompanyBanner().filename(file.name);
                         selectedCompanyBanner().fileType(data.imageType);
                     },

@@ -80,6 +80,11 @@ namespace MPC.Webstore
            "ShopCart/{optionalOrderId}",
            new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
              );
+            routes.MapRoute(
+             "ProductDetail",
+             "ProductDetail/{CategoryID}/{ItemID}/{TemplateID}/{TemplateName}/{Mode}",
+             new { controller = "Home", action = "Index", CategoryID = UrlParameter.Optional, ItemID = UrlParameter.Optional, TemplateID = UrlParameter.Optional, TemplateName = UrlParameter.Optional, Mode = UrlParameter.Optional}
+               );
 
             routes.MapRoute(
              "CloneItem",

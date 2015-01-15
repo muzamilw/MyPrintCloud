@@ -421,6 +421,7 @@
     <Content Include="Content\Images\Sign_up_Email.PNG" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\js-image-slider-detail.css" />
     <Content Include="Content\js-image-slider.css" />
     <Content Include="Content\ListingPropertiesCarousel.css" />
     <Content Include="Content\nifty-component.css" />
@@ -508,6 +509,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js-image-slider-detail.js" />
     <Content Include="Scripts\js-image-slider.js" />
     <Content Include="Scripts\modalEffects.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

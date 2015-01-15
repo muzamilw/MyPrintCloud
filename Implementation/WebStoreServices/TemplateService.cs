@@ -356,7 +356,7 @@ namespace MPC.Implementation.WebStoreServices
 
         private void LoadImage(ref Doc oPdf, TemplateObject oObject, string logoPath, int PageNo)
         {
-
+            logoPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content");
             XImage oImg = new XImage();
             Bitmap img = null;
             try
@@ -376,7 +376,7 @@ namespace MPC.Implementation.WebStoreServices
                     //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
                     //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
                     //}
-                    FilePath = oObject.ContentString;
+                    FilePath = logoPath + oObject.ContentString;
                     bFileExists = System.IO.File.Exists(FilePath);
 
                 }
@@ -473,7 +473,7 @@ namespace MPC.Implementation.WebStoreServices
                     //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
                     //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
                     //}
-                    FilePath = oObject.ContentString;
+                    FilePath = logoPath + oObject.ContentString;
                     bFileExists = System.IO.File.Exists(FilePath);
                 }
                 else
@@ -952,7 +952,7 @@ namespace MPC.Implementation.WebStoreServices
             oPdf.Transform.Reset();
         }
         //generate pdf function
-        private byte[] generatePDF(Template objProduct, TemplatePage objProductPage, List<TemplateObject> listTemplateObjects ,string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long organizationID)
+        private byte[] generatePDF(Template objProduct, TemplatePage objProductPage, List<TemplateObject> listTemplateObjects ,string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID)
         {
             Doc doc = new Doc();
             try
@@ -1025,7 +1025,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 catch (Exception ex)
                 {
-                    throw new MPCException(ex.ToString(), organizationID);
+                    throw new MPCException(ex.ToString(), OrganisationID);
                 }
 
 
@@ -1235,27 +1235,21 @@ namespace MPC.Implementation.WebStoreServices
                     theDoc.PageNumber = 1;
                     theDoc.Rect.String = theDoc.CropBox.String;
                     theDoc.Rect.Inset(CuttingMargin, CuttingMargin);
-                    
+
                     if (System.IO.Directory.Exists(savePath) == false)
                     {
                         System.IO.Directory.CreateDirectory(savePath);
                     }
-
+                    string filePath = savePath + PreviewFileName + ".png";
                     theDoc.Rendering.DotsPerInch = DPI;
-                    if (RoundCorners)
-                    {
-                        using (str = new MemoryStream())
-                        {
-                            theDoc.Rendering.Save(System.IO.Path.Combine(savePath, PreviewFileName) + ".png", str);
-                            generateRoundCorners(System.IO.Path.Combine(savePath, PreviewFileName) + ".png", System.IO.Path.Combine(savePath, PreviewFileName) + ".png", str);
-                        }
-                    }
-                    else
-                    {
-                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, PreviewFileName) + ".png");
-                    }
-
+                    theDoc.Rendering.Save(filePath);
                     theDoc.Dispose();
+                    //if (RoundCorners)
+                    //{
+                    //    generateRoundCorners(filePath, filePath,str);
+                    //}
+                  
+                    
 
                     return PreviewFileName + ".png";
 
@@ -1276,7 +1270,7 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        private void generateRoundCorners(string physicalPath, string pathToSave, Stream str)
+        private void generateRoundCorners(string physicalPath, string pathToSave,Stream str)
         {
             string path = physicalPath;
             int roundedDia = 30;
@@ -1344,7 +1338,7 @@ namespace MPC.Implementation.WebStoreServices
         public readonly ITemplateBackgroundImagesService _templateBackgroundImagesService;
         public readonly ITemplateFontsService _templateFontService;
         // it will convert pdf to template pages and will preserve template objects and images 
-        private bool CovertPdfToBackground(string physicalPath, long ProductID, long organizationID)
+        private bool CovertPdfToBackground(string physicalPath, long ProductID, long OrganisationID)
         {
             bool result = false;
             double pdfHeight, pdfWidth = 0;
@@ -1370,7 +1364,7 @@ namespace MPC.Implementation.WebStoreServices
                                 theDoc.PageNumber = i;
                                 theDoc.Rect.String = theDoc.CropBox.String;
                                 theDoc.Rect.Inset(cuttingMargins, cuttingMargins);
-                                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+                                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
                                 //check if folder exist
                                 string tempFolder = drURL + ProductID.ToString();
                                 if (!System.IO.Directory.Exists(tempFolder))
@@ -1450,7 +1444,7 @@ namespace MPC.Implementation.WebStoreServices
             return result;
         }
         // it willl convert pdf to template pages and will delete all existing objects and images 
-        private bool CovertPdfToBackgroundWithoutObjects(string physicalPath, long ProductID, long organizationID)
+        private bool CovertPdfToBackgroundWithoutObjects(string physicalPath, long ProductID, long OrganisationID)
         {
             bool result = false;
             try
@@ -1458,7 +1452,7 @@ namespace MPC.Implementation.WebStoreServices
                 int CuttingMargin = 0;
                 double pdfHeight, pdfWidth = 0;
                 _templateRepository.DeleteTemplatePagesAndObjects(ProductID);
-                _templateBackgroundImagesService.DeleteTemplateBackgroundImages(ProductID,organizationID);
+                _templateBackgroundImagesService.DeleteTemplateBackgroundImages(ProductID,OrganisationID);
                 using (Doc theDoc = new Doc())
                 {
 
@@ -1471,7 +1465,7 @@ namespace MPC.Implementation.WebStoreServices
                         List<TemplatePage> listPages = new List<TemplatePage>();
                         int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
                         int srcDocRot = theDoc.GetInfoInt(srcPagesID, "/Rotate");
-                        string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/" );
+                        string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" );
                         for (int i = 1; i <= theDoc.PageCount; i++)
                         {
                             theDoc.PageNumber = i;
@@ -1554,31 +1548,29 @@ namespace MPC.Implementation.WebStoreServices
             return result;
         }
         // generate template pdf file called from MIS and webstore 
-        private bool GenerateTemplatePdf(long productID, long organizationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
+        private bool GenerateTemplatePdf(long productID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners, bool isDrawHiddenObjs)
         {
             bool result = false;
             try
             {
 
-                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
-                string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/WebFonts/");
+                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
+                string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/");
                 List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                 List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
                 Template objProduct = _templateRepository.GetTemplate(productID, out oTemplatePages, out oTemplateObjects);
-              //  string targetFolder = "";
-                   // targetFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/Products/");
                     foreach (TemplatePage objPage in oTemplatePages)
                     {
                         bool hasOverlayObject = false;
-                        byte[] PDFFile = generatePDF(objProduct, objPage,oTemplateObjects, drURL, fontsUrl, false, true, printCropMarks, printWaterMarks, out hasOverlayObject, false,organizationID);
+                        byte[] PDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID);
                         //writing the PDF to FS
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
-                        generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        generatePagePreview(PDFFile, drURL,productID + "/p" + objPage.PageNo , objProduct.CuttingMargin.Value, 150, isroundCorners);
                         if (hasOverlayObject)
                         {
                             // generate overlay PDF 
-                            byte[] overlayPDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, true, printCropMarks, printWaterMarks, out hasOverlayObject, true, organizationID);
+                            byte[] overlayPDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID);
                             // writing overlay pdf to FS 
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
@@ -1588,7 +1580,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception ex)
             {
-                throw new MPCException(ex.ToString(), organizationID);
+                throw new MPCException(ex.ToString(), OrganisationID);
             }
             return result;
         }
@@ -1636,13 +1628,13 @@ namespace MPC.Implementation.WebStoreServices
             return product;
         }
         // delete template and all references   // added by saqib ali
-        public bool DeleteTemplate(long ProductID, out long CategoryID, long organizationID)
+        public bool DeleteTemplate(long ProductID, out long CategoryID, long OrganisationID)
         {
             var result = false;
             try
             {
                 result=  _templateRepository.DeleteTemplate(ProductID, out CategoryID);
-                var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/" + ProductID.ToString());
+                var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + ProductID.ToString());
                 if (Directory.Exists(drURL))
                 {
                       foreach (string item in System.IO.Directory.GetFiles(drURL))
@@ -1655,18 +1647,20 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch(Exception ex)
             {
-                throw new MPCException(ex.ToString(), organizationID);
+                throw new MPCException(ex.ToString(), OrganisationID);
             }
             return result;
         }
-        public bool DeleteTemplateFiles(long ProductID, long organizationID)
+
+        // called from MIS to delete the template folder // added by saqib ali
+        public bool DeleteTemplateFiles(long ProductID, long OrganisationID)
         {
             try
             {
 
                 bool result = false;
 
-                var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/" + ProductID.ToString());
+                var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + ProductID.ToString());
                 if (Directory.Exists(drURL))
                 {
                     foreach (string item in System.IO.Directory.GetFiles(drURL))
@@ -1684,21 +1678,21 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception ex)
             {
-                throw new MPCException(ex.ToString(), organizationID);
+                throw new MPCException(ex.ToString(), OrganisationID);
             }
         }
         //copy template and all physical files  // added by saqib ali
-        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName,long organizationID)
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName,long OrganisationID)
         {
             long result = 0;
             try 
             { 
                 List<TemplatePage> objPages;
                 List<TemplateBackgroundImage> objImages;
-                 result = _templateRepository.CopyTemplate(ProductID, SubmittedBy, SubmittedByName, out objPages, organizationID,out objImages);
+                 result = _templateRepository.CopyTemplate(ProductID, SubmittedBy, SubmittedByName, out objPages, OrganisationID,out objImages);
                  if (result != 0)
                  {
-                     string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+                     string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
                      string targetFolder = drURL + result.ToString();
                      //create template directory
                      if (!System.IO.Directory.Exists(targetFolder))
@@ -1762,17 +1756,17 @@ namespace MPC.Implementation.WebStoreServices
                      }
                  } else
                  {
-                     throw new MPCException("Clone template failed due to store procedure. 'sp_cloneTemplate'", organizationID);
+                     throw new MPCException("Clone template failed due to store procedure. 'sp_cloneTemplate'", OrganisationID);
                  }
             }
             catch (Exception ex)
             {
-                throw new MPCException(ex.ToString(), organizationID);
+                throw new MPCException(ex.ToString(), OrganisationID);
             }
             return result;
         }
         // copy list of templates called from MIS returns list of copied ids if id is null template is not copied  // added by saqib ali
-        public List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName,long organizationID)
+        public List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName,long OrganisationID)
         {
             List<long?> newTemplateList = new List<long?>();
             try
@@ -1781,7 +1775,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (ProductID != null && ProductID.HasValue)
                     {
-                        long result = CopyTemplate(ProductID.Value, SubmittedBy, SubmittedByName, organizationID);
+                        long result = CopyTemplate(ProductID.Value, SubmittedBy, SubmittedByName, OrganisationID);
                         if (result != 0)
                         {
                             newTemplateList.Add(result);
@@ -1795,27 +1789,27 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception ex)
             {
-                throw new MPCException(ex.ToString(), organizationID);
+                throw new MPCException(ex.ToString(), OrganisationID);
             }
             return newTemplateList;
         }
         // generate template from the given pdf file,called from MIS // added by saqib ali
-        // filePhysicalPath =server.mappath( 'MPC_Content/Products/organization1/Templates/random__CorporateTemplateUpload.pdf')  // can be changed but it should be in mpcContent 
-        //F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\organization1\\Templates\\random__CorporateTemplateUpload.pdf
+        // filePhysicalPath =server.mappath( 'MPC_Content/Products/Organisation1/Templates/random__CorporateTemplateUpload.pdf')  // can be changed but it should be in mpcContent 
+        //F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\Organisation1\\Templates\\random__CorporateTemplateUpload.pdf
         //mode = 1 for creating template and removing all the existing objects  and images
         // mode = 2 for creating template and preserving template objects and images
-        public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long organizationID)
+        public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long OrganisationID)
         {
             bool result = false;
             try
             {
                 if (mode == 2)
                 {
-                   result =  CovertPdfToBackground(filePhysicalPath, templateID, organizationID);
+                   result =  CovertPdfToBackground(filePhysicalPath, templateID, OrganisationID);
                 }
                 else
                 {
-                   result =  CovertPdfToBackgroundWithoutObjects(filePhysicalPath, templateID,organizationID);
+                   result =  CovertPdfToBackgroundWithoutObjects(filePhysicalPath, templateID,OrganisationID);
                 }
                 if (File.Exists(filePhysicalPath))
                 {
@@ -1824,16 +1818,23 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception ex)
             {
-                throw new MPCException(ex.ToString(), organizationID);
+                throw new MPCException(ex.ToString(), OrganisationID);
             }
             return result;
         }
 
         // called from webstore and MIS to generate pdf file of the template.// added by saqib ali
-        public void processTemplatePDF(long TemplateID, long organizationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
+        public void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
         {
-            GenerateTemplatePdf(TemplateID, organizationID, printCropMarks, printWaterMarks, isroundCorners);
+            GenerateTemplatePdf(TemplateID, OrganisationID, printCropMarks, printWaterMarks, isroundCorners,true);
         }
+        // called from MIS and webstore to regenerate template PDF files  // added by saqib ali
+        public void regeneratePDFs(long productID,long OrganisationID, bool printCuttingMargins)
+        {
+            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false);
+
+        }
+
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)
         {
             List<ProductCategoriesView> PCview = _ProductCategoryRepository.GetMappedCategoryNames(false, CompanyID);

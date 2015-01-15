@@ -147,6 +147,7 @@
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />
+    <Compile Include="DomainModels\ProductCategoryItemCustom.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
@@ -291,6 +292,7 @@
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
+    <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
