@@ -219,6 +219,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStockOptions = ko.observableArray([]),
             // Item Price Matrices
             itemPriceMatrices = ko.observableArray([]),
+            // Product Category Items
+            productCategoryItems = ko.observableArray([]),
             // Item Price Matrices for Current Flag
             itemPriceMatricesForCurrentFlag = ko.computed(function () {
                 if (!flagId()) {
@@ -634,6 +636,58 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     itemPriceMatrices.removeAll(itemPriceMatricesForExistingFlag());
                 }
             },
+            // Update Product Category Items
+            updateProductCategoryItems = function(productCategories) {
+                if (productCategories || productCategories.length > 0) {
+                    // Add Selected to Product Category Item List
+                    var selectedCategories = _.filter(productCategories, function(productCategory) {
+                        return productCategory.isSelected();
+                    });
+
+                    // Update UnSelected to Product Category Item List
+                    var unselectedCategories = _.filter(productCategories, function (productCategory) {
+                        return !productCategory.isSelected();
+                    });
+
+                    // Add Selected
+                    if (selectedCategories.length > 0) {
+                        _.each(selectedCategories, function(productCategory) {
+                            var productCategoryItemObj = productCategoryItems.find(function(productCategoryItem) {
+                                return productCategoryItem.categoryId() === productCategory.id && !productCategoryItemObj.isSelected();
+                            });
+
+                            // Exists Already
+                            if (productCategoryItemObj) {
+                                // set it to true
+                                productCategoryItemObj.isSelected(true);
+                            }
+                            else {
+                                // Add New
+                                productCategoryItems.push(ProductCategoryItem.Create({
+                                    CategoryId: productCategory.id,
+                                    ItemId: id(),
+                                    IsSelected: true
+                                }));
+                            }
+                        });
+                    }
+
+                    // Update Un-Selected
+                    if (unselectedCategories.length > 0) {
+                        _.each(unselectedCategories, function (productCategory) {
+                            var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
+                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.id() && productCategoryItemObj.isSelected();
+                            });
+
+                            // Exists Already
+                            if (productCategoryItemObj) {
+                                // set it to false
+                                productCategoryItemObj.isSelected(false);
+                            }
+                        });
+                    }
+                }        
+            },
             // Errors
             errors = ko.validation.group({
                 productCode: productCode,
@@ -742,7 +796,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 template: template,
                 itemStockOptions: itemStockOptions,
                 itemPriceMatrices: itemPriceMatrices,
-                itemStateTaxes: itemStateTaxes
+                itemStateTaxes: itemStateTaxes,
+                productCategoryItems: productCategoryItems
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -870,7 +925,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return itemStateTax.convertToServerData();
                     }),
                     Template: template().convertToServerData(),
-                    ItemProductDetail: itemProductDetail().convertToServerData()
+                    ItemProductDetail: itemProductDetail().convertToServerData(),
+                    ProductCategoryItems: productCategoryItems.map(function(productCategoryItem) {
+                        return productCategoryItem.convertToServerData();
+                    })
                 }
             };
 
@@ -961,6 +1019,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             stockOptionSequence11: stockOptionSequence11,
             itemStateTaxes: itemStateTaxes,
             itemPriceMatrices: itemPriceMatrices,
+            productCategoryItems: productCategoryItems,
             itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
             itemPriceMatricesForSupplierId1: itemPriceMatricesForSupplierId1,
             itemPriceMatricesForSupplierId2: itemPriceMatricesForSupplierId2,
@@ -989,6 +1048,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             setItemPriceMatrices: setItemPriceMatrices,
             removeExistingPriceMatrices: removeExistingPriceMatrices,
             setValidationSummary: setValidationSummary,
+            updateProductCategoryItems: updateProductCategoryItems,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -2071,6 +2131,49 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             reset: reset,
             convertToServerData: convertToServerData
         };
+    },
+        
+    // Product Category Entity
+    ProductCategory = function(specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId) {
+        // True If Selected
+        var isSelected = ko.observable(specifiedIsSelected || undefined);
+
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            isSelected: isSelected,
+            parentCategoryId: specifiedParentCategoryId
+        }
+    },
+
+    // Product Category Item Entity
+    ProductCategoryItem = function(specifiedId, specifiedCategoryId, specifiedIsSelected, specifiedItemId) {
+        var
+            // Unique Id
+            id = ko.observable(specifiedId || 0),
+            // Category Id
+            categoryId = ko.observable(specifiedCategoryId || 0),
+            // True if Selected
+            isSelected = ko.observable(specifiedIsSelected || undefined),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || 0),
+            // Convert To Server Data
+            convertToServerData = function() {
+                return {
+                    ProductCategoryItemId: id(),
+                    CategoryId: categoryId(),
+                    ItemId: itemId(),
+                    IsSelected: isSelected()
+                }
+            };
+
+        return {
+            id: id,
+            categoryId: categoryId,
+            isSelected: isSelected,
+            itemId: itemId,
+            convertToServerData: convertToServerData
+        }
     };
 
     // Item Vdp Price Factory
@@ -2179,6 +2282,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return itemProductDetail;
     }
 
+    // Product Category Item Factory
+    ProductCategoryItem.Create = function (source) {
+        var productCategoryItem = new ProductCategoryItem(source.ProductCategoryItemId, source.CategoryId, source.IsSelected, source.ItemId);
+
+        return productCategoryItem;
+    }
+
     // Item Factory
     Item.Create = function (source, callbacks, constructorParams) {
         var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ThumbnailImageSource, source.MinPrice,
@@ -2281,6 +2391,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             item.itemStateTaxes.valueHasMutated();
         }
 
+        // Map Product Category Items if any
+        if (source.ProductCategoryItems && source.ProductCategoryItems.length > 0) {
+            var productCategoryItems = [];
+
+            _.each(source.ProductCategoryItems, function (productCategoryItem) {
+                productCategoryItems.push(ProductCategoryItem.Create(productCategoryItem));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(item.ProductCategoryItems(), ProductCategoryItems);
+            item.ProductCategoryItems.valueHasMutated();
+        }
+
         // Return item with dirty state if New
         if (!item.id()) {
             return item;
@@ -2322,6 +2445,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new Company(source.SupplierId, source.Name);
     }
 
+    // Product Category Factory
+    ProductCategory.Create = function (source) {
+        var productCategory = new ProductCategory(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId);
+
+        return productCategory;
+    }
+
     return {
         // Item Constructor
         Item: Item,
@@ -2352,6 +2482,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Company Constructor
         Company: Company,
         // Item Product Detail Constructor
-        ItemProductDetail: ItemProductDetail
+        ItemProductDetail: ItemProductDetail,
+        // Product Category Constructor
+        ProductCategory: ProductCategory,
+        // Product Category Item Constructor
+        ProductCategoryItem: ProductCategoryItem
     };
 });

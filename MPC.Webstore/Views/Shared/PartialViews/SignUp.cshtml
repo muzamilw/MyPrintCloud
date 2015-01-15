@@ -87,14 +87,23 @@
 
                             </div>*@
                             @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox cntRegisterFN", placeholder = ViewData.ModelMetadata.DisplayName })
+           
+                            @Html.ValidationMessageFor(u => u.FirstName,string.Empty, new { @style = "color:red" })
+
                             @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", placeholder = "Last Name" })
-                            @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", placeholder = "Phone" })
-                            @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", placeholder = "Email" })
-                           @Html.ValidationMessageFor(u => u.Email)
-                             @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
-                             
                             <br />
-                            <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" onclick="return ValidateUSer();" value="CREATE ACCOUNT" /><br />
+                            @Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })
+                             @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", placeholder = "Phone" })
+                            <br />
+                            @Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })
+                            @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", placeholder = "Email"})
+                            <br />
+                           
+                            @Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })
+                             @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
+                             <br />
+                            @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
+                            <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="CREATE ACCOUNT" /><br />
 
                             <div class="clear">
                                 &nbsp;
@@ -172,31 +181,4 @@
         </div>
     </div>
 
-    <script type="text/javascript" language="javascript">
-
-        function ValidateUSer() {
-            var isValid = true;
-            var isDataFilles = 0;
-
-            isDataFilles = validateRegistrationProcess();
-            if (isDataFilles == 1) {
-                $("#<%= hfisRegisterUserValid.ClientID %>").val(0);
-                isValid = false;
-            } else {
-                var IsEmailValid = ValidateEmail($('#<%= txtEmail.ClientID %>').val());
-                if (IsEmailValid == true) {
-                    $("#<%= hfisRegisterUserValid.ClientID %>").val(1);
-                    isValid = true;
-                } else {
-                    $("#<%= hfisRegisterUserValid.ClientID %>").val(2);
-                    isValid = false;
-                    $('.UEmail').css("display", "block");
-                    $('.UEmail').text("Please enter valid email.");
-                    $("#<%= txtEmail.ClientID %>").parent().addClass("field-with-errors");
-                }
-
-            }
-
-            return isValid;
-        }
-    </script>
+   

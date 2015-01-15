@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -18,18 +19,21 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyService _myCompanyService;
         private readonly ICompanyContactRepository _myCompanyContact;
         private readonly IPrefixRepository _prefixRepository;
+        
           #region Constructor
 
         /// <summary>
         ///  Constructor
         /// </summary>
-        public OrderService(IOrderRepository OrderRepository,IWebstoreClaimsHelperService myClaimHelper,ICompanyService myCompanyService,ICompanyContactRepository myCompanyContact,IPrefixRepository prefixRepository)
+        public OrderService(IOrderRepository OrderRepository,IWebstoreClaimsHelperService myClaimHelper,ICompanyService myCompanyService,ICompanyContactRepository myCompanyContact,IPrefixRepository prefixRepository
+            )
         {
             this._OrderRepository = OrderRepository;
             this._myClaimHelper = myClaimHelper;
             this._myCompanyService = myCompanyService;
             this._myCompanyContact = myCompanyContact;
             this._prefixRepository = prefixRepository;
+           
         }
 
 
@@ -205,5 +209,7 @@ namespace MPC.Implementation.WebStoreServices
                throw ex;
            }
        }
+
+    
     }
 }

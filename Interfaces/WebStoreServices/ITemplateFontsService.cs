@@ -9,8 +9,10 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ITemplateFontsService
     {
-        List<TemplateFont> GetFontList(long productId, long customerId);
+        List<TemplateFont> GetFontList(long productId, long customerId, long OrganisationID);
 
-        void DeleteTemplateFonts(long Companyid, long organizationID);
+        void DeleteTemplateFonts(long Companyid, long OrganisationID);
+
+        List<TemplateFont> GetFontList();
     }
 }

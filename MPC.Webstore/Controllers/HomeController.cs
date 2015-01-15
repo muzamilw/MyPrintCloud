@@ -19,6 +19,8 @@ using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 
+
+
 namespace MPC.Webstore.Controllers
 {
     public class HomeController : Controller
@@ -30,7 +32,13 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
         #endregion
+        [Dependency]
+        public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
 
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
 
         #region Constructor
         /// <summary>
@@ -56,6 +64,9 @@ namespace MPC.Webstore.Controllers
        
         public ActionResult Index()
         {
+           
+            SetUserClaim();
+
             List<CmsSkinPageWidget> model = null;
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
@@ -68,7 +79,7 @@ namespace MPC.Webstore.Controllers
             return View(model);
         }
 
-        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPage> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
+        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPageModel> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
@@ -199,6 +210,34 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-    
+       private void SetUserClaim()
+       {
+           if(UserCookieManager.isRegisterClaims == 1)
+            {
+                // login 
+
+                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email);
+
+                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+
+                ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
+
+                var claimsPriciple = new ClaimsPrincipal(identity);
+                // Make sure the Principal's are in sync
+                HttpContext.User = claimsPriciple;
+
+                Thread.CurrentPrincipal = HttpContext.User;
+
+                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
+                UserCookieManager.isRegisterClaims = 0;
+            }
+            else if (UserCookieManager.isRegisterClaims == 2)
+            {
+                //signout
+                AuthenticationManager.SignOut();
+                UserCookieManager.isRegisterClaims = 0;
+            }
+       }
     }
 }

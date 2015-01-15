@@ -63,6 +63,22 @@ namespace MPC.Repository.Repositories
             return template;
 
         }
+
+         // returns list of pages and objects along with template called while generating template pdf;
+        public Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            listPages = null;
+            listTemplateObjs = null;
+            if(template != null)
+            {
+                listPages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
+                listTemplateObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
+            }
+            return template;
+        }
+        
         // delete template from database // added by saqib ali
         public bool DeleteTemplate(long ProductID, out long CategoryID)
         {
@@ -191,10 +207,10 @@ namespace MPC.Repository.Repositories
             return result;
         }
         // copy a single template and update file paths in db // added by saqib ali
-        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long organizationID, out List<TemplateBackgroundImage> objImages)
+        public long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long OrganisationID, out List<TemplateBackgroundImage> objImages)
         {
             long result = 0;
-            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organization" + organizationID.ToString() + "/Templates/");
+            var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
             long? test = db.sp_cloneTemplate(ProductID, SubmittedBy, SubmittedByName);
             if (test.HasValue)
             {
@@ -236,7 +252,7 @@ namespace MPC.Repository.Repositories
                         string fileName = content[content.Length - 1];
                         if (!item.ContentString.Contains("assets/Imageplaceholder"))
                         {
-                            item.ContentString = "Designer/Organization" + organizationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
+                            item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
                         }
                     }
                 }
@@ -310,6 +326,214 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        // create a new template , called while downloading new template from v2 server //added by saqib ali
+        public long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, long organisationID, out List<TemplateFont> fontsToDownload, int mode, long localTemplateID)
+        {
+            long newProductID = 0;
+            long newPageID = 0;
+            long oldPageID = 0;
+            fontsToDownload = new List<TemplateFont>();
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    int i = 1;
+                   // oTemplate.EntityKey = null;
+                    if (mode == 1)
+                    {
+                        db.Templates.Add(oTemplate);
+                        db.SaveChanges();
+                        newProductID = oTemplate.ProductId;
+                    }
+                    else
+                    {
+                        var template = db.Templates.Where(g => g.ProductId == localTemplateID).SingleOrDefault();
+                        if (template != null)
+                        {
+                            template.Orientation = oTemplate.Orientation;
+                            template.PDFTemplateHeight = oTemplate.PDFTemplateHeight;
+                            template.PDFTemplateWidth = oTemplate.PDFTemplateWidth;
+
+                        }
+                        db.SaveChanges();
+                        newProductID = template.ProductId;
+                        List<TemplatePage> oldPages = db.TemplatePages.Where(g => g.ProductId == localTemplateID).ToList();
+                        foreach (var page in oldPages)
+                        {
+                            db.TemplatePages.Remove(page);
+                        }
+                        // delete old objects 
+                        List<TemplateObject> oldObjects = db.TemplateObjects.Where(g => g.ProductId == localTemplateID).ToList();
+                        foreach (var obj in oldObjects)
+                        {
+                            db.TemplateObjects.Remove(obj);
+                        }
+                        //delete old images (to be done)
+                    }
+
+
+                    foreach (var oPage in oTemplatePages)
+                    {
+                        oldPageID = oPage.ProductPageId;
+                        oPage.ProductId = newProductID;
+                        db.TemplatePages.Add(oPage);
+                        db.SaveChanges();
+                        newPageID = oPage.ProductPageId;
+                        foreach (var item in oTemplateObjects.Where(g => g.ProductPageId == oldPageID))
+                        {
+                            item.ProductPageId = newPageID;
+                            item.ProductId = newProductID;
+
+                            //updating the path if it is an image.
+                            if (item.ObjectType == 3)
+                            {
+                                string filepath = item.ContentString.Substring(item.ContentString.IndexOf("Designer/Products/") + "Designer/Products/".Length, item.ContentString.Length - (item.ContentString.IndexOf("Designer/Products/") + "Designer/Products/".Length));
+                                //skip concatinating the path if its a placeholder, cuz place holder is kept in a different path and doesnt need to be copied.
+                                if (!item.ContentString.Contains("assets/Imageplaceholder"))
+                                {
+                                    item.ContentString = "Designer/Organisation"+organisationID+"/Templates/" + newProductID.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
+                                } else
+                                {
+                                    // add new place holder path here 
+                                }
+                            }
+                            db.TemplateObjects.Add(item);
+                        }
+                        //page
+                        if (oPage.BackGroundType == 1 || oPage.BackGroundType == 3)
+                        {
+                            oPage.BackgroundFileName = newProductID.ToString() + "/" + oPage.BackgroundFileName.Substring(oPage.BackgroundFileName.IndexOf("/"), oPage.BackgroundFileName.Length - oPage.BackgroundFileName.IndexOf("/"));
+                        }
+
+                    }
+                    db.SaveChanges();
+
+                    List<TemplateFont> oLocalFonts = db.TemplateFonts.ToList();
+                    foreach (var objFont in oTemplateFonts)
+                    {
+                        bool found = false;
+                        foreach (var objLocal in oLocalFonts)
+                        {
+                            if (objLocal.CustomerId == objFont.CustomerId && objLocal.FontName == objFont.FontName && objLocal.FontFile == objFont.FontFile)
+                            {
+                                // checking if font exists
+                                found = true;
+                                fontsToDownload.Add(objFont);
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            // font not found// adding font instance to db     
+                            TemplateFont newObjFont = new TemplateFont();
+                            newObjFont.CustomerId = objFont.CustomerId;
+                            newObjFont.DisplayIndex = objFont.DisplayIndex;
+                            newObjFont.FontBytes = objFont.FontBytes;
+                            newObjFont.FontDisplayName = objFont.FontDisplayName;
+                            newObjFont.FontFile = objFont.FontFile;
+                            newObjFont.FontName = objFont.FontName;
+                            newObjFont.IsEnable = objFont.IsEnable;
+                            newObjFont.IsPrivateFont = objFont.IsPrivateFont;
+                            newObjFont.ProductFontId = objFont.ProductFontId;
+                            newObjFont.ProductId = objFont.ProductId;
+                            newObjFont.FontPath = objFont.FontPath;
+                            db.TemplateFonts.Add(newObjFont);
+                        }
+                    }
+                    db.SaveChanges();
+                    //page
+                    //DownloadFile(RemoteUrlBasePath + oTemplate.LowResPDFTemplates, BasePath + newProductID.ToString() + "/" + oTemplate.LowResPDFTemplates.Substring(oTemplate.LowResPDFTemplates.IndexOf("/"), oTemplate.LowResPDFTemplates.Length - oTemplate.LowResPDFTemplates.IndexOf("/")));
+                    //oTemplate.LowResPDFTemplates = newProductID.ToString() + "/" + oTemplate.LowResPDFTemplates.Substring(oTemplate.LowResPDFTemplates.IndexOf("/"), oTemplate.LowResPDFTemplates.Length - oTemplate.LowResPDFTemplates.IndexOf("/"));
+
+
+                    //side 2
+                    //DownloadFile(RemoteUrlBasePath + oTemplate.Side2LowResPDFTemplates, BasePath + newProductID.ToString() + "/" + oTemplate.Side2LowResPDFTemplates.Substring(oTemplate.Side2LowResPDFTemplates.IndexOf("/"), oTemplate.Side2LowResPDFTemplates.Length - oTemplate.Side2LowResPDFTemplates.IndexOf("/")));
+                    //oTemplate.Side2LowResPDFTemplates = newProductID.ToString() + "/" + oTemplate.Side2LowResPDFTemplates.Substring(oTemplate.Side2LowResPDFTemplates.IndexOf("/"), oTemplate.Side2LowResPDFTemplates.Length - oTemplate.Side2LowResPDFTemplates.IndexOf("/"));
+
+
+                    foreach (TemplateBackgroundImage item in oTemplateImages)
+                    {   
+                        item.ProductId = newProductID;
+                        string NewLocalFileName = newProductID.ToString() + "/" + Path.GetFileName(item.ImageName);
+                        item.ImageName = NewLocalFileName;
+                        db.TemplateBackgroundImages.Add(item);
+                    }
+
+
+                    db.SaveChanges();
+
+                    dbContextTransaction.Commit(); 
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    dbContextTransaction.Dispose();
+                }
+            }
+            return newProductID;
+        }
+        //called while saving template from designer // added by saqib ali 
+        public void SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects)
+        {
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var objProduct = new Template();
+
+                    objProduct = db.Templates.Where(g => g.ProductId == productID).Single();
+
+                    foreach (TemplateObject c in db.TemplateObjects.Where(g => g.ProductId == productID))
+                    {
+                        db.TemplateObjects.Remove(c);
+                    }
+                    db.SaveChanges();
+
+                    foreach(TemplateObject obj in listObjects)
+                    {
+                        db.TemplateObjects.Add(obj);
+                    }
+                    db.SaveChanges();
+                    var dbTemplatePages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
+                    foreach(TemplatePage objPage in listPages)
+                    {
+                        for (int i = 0; i < dbTemplatePages.Count; i++)
+                        {
+                            if (dbTemplatePages[i].ProductPageId == objPage.ProductPageId)
+                            {
+                                dbTemplatePages[i].ColorC = objPage.ColorC;
+                                dbTemplatePages[i].ColorM = objPage.ColorM;
+                                dbTemplatePages[i].ColorY = objPage.ColorY;
+                                dbTemplatePages[i].ColorK = objPage.ColorK;
+                                dbTemplatePages[i].BackGroundType = objPage.BackGroundType;
+                                dbTemplatePages[i].IsPrintable = objPage.IsPrintable;
+                                if (objPage.BackgroundFileName != "")
+                                {
+                                    dbTemplatePages[i].BackgroundFileName = objPage.BackgroundFileName;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    dbContextTransaction.Dispose();
+                }
+            }
+        }
+        
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
             try
@@ -446,17 +670,19 @@ namespace MPC.Repository.Repositories
         public void populateTemplateInfo(long templateID, Item ItemRecc,out Template template,out List<TemplatePage> tempPages)
         {
             Template temp = new Template();
-            using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
-            {
-                string option = "NoTemplate";
-                var oTemplate = pSc.GetTemplate((int)templateID);
-                var oTemplatePages = pSc.GetTemplatePages((int)templateID);
+            template = GetTemplate(templateID);
+            tempPages = GetTemplatePagesByTemplateID(templateID);
+            //using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
+            //{
+            //    string option = "NoTemplate";
+            //    var oTemplate = pSc.GetTemplate((int)templateID);
+            //    var oTemplatePages = pSc.GetTemplatePages((int)templateID);
 
-               template = ReflectTemplateObject(oTemplate);
+            //   template = ReflectTemplateObject(oTemplate);
 
-                tempPages = ReflectTemplatePages(oTemplatePages);
+            //    tempPages = ReflectTemplatePages(oTemplatePages);
 
-            }
+            //}
         }
 
 
@@ -553,7 +779,23 @@ namespace MPC.Repository.Repositories
 
         }
                
-         
+        /// <summary>
+        /// get template pages by productID added by zohaib
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        public List<TemplatePage> GetTemplatePagesByTemplateID(long ProductID)
+        {
+            try
+            {
+                return db.TemplatePages.Where(s => s.ProductId == ProductID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         #endregion
 
         

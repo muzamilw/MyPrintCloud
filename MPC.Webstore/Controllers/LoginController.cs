@@ -25,14 +25,15 @@ namespace MPC.Webstore.Controllers
 
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
-
+        private readonly IItemService _ItemService;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public LoginController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public LoginController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker
+            , IItemService ItemService)
         {
             if (myCompanyService == null)
             {
@@ -44,6 +45,7 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+            this._ItemService = ItemService;
         }
 
         #endregion
@@ -153,31 +155,23 @@ namespace MPC.Webstore.Controllers
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
-               ViewBag.Message = "Your account is archived.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
+                
                 return View("PartialViews/Login");
             }
             if (user.Company.IsDisabled == 1)
             {
-                ViewBag.Message = "Your account is disabled. Please contact us for further information.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
                 return View("PartialViews/Login");
             }
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
             {
-               ViewBag.Message ="Your account does not have the web access enabled. Please contact your Order Manager.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
                 return View("PartialViews/Login");
             }
             else
             {
-
-                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
-
-                ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
-
-                HttpContext.User = new ClaimsPrincipal(identity);
-                // Make sure the Principal's are in sync
-                Thread.CurrentPrincipal = HttpContext.User;
-                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
-
+                UserCookieManager.isRegisterClaims = 1;
                 UserCookieManager.ContactFirstName = user.FirstName;
                 UserCookieManager.ContactLastName = user.LastName;
                 UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
@@ -185,13 +179,25 @@ namespace MPC.Webstore.Controllers
                 
                 UserCookieManager.Email = user.Email;
 
-                if (ReturnUrl == "Social")
-                    RedirectToLocal(ReturnUrl);
-                else
-                    Response.Redirect("/");// ControllerContext.HttpContext.Response.Redirect("");
+                long Orderid = _ItemService.PostLoginCustomerAndCardChanges(0, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
 
+                if (ReturnUrl == "Social")
+                {
+                    RedirectToLocal(ReturnUrl);
+                } 
+                else
+                {
+                    if (Orderid > 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = 0;
+                        Response.Redirect("/ShopCart/" + Orderid);
+                    }
+                    else 
+                    {
+                        Response.Redirect("/");
+                    }
+                }
                 return null;
-               
             }
 
         }
@@ -201,7 +207,7 @@ namespace MPC.Webstore.Controllers
             {
                 ControllerContext.HttpContext.Response.Redirect(returnUrl);
             }
-            ControllerContext.HttpContext.Response.Redirect("/Home/Index");
+           // Response.Redirect("/");
            // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }

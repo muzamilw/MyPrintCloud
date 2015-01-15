@@ -50,6 +50,11 @@ namespace MPC.Models.DomainModels
         /// Section Flags
         /// </summary>
         public virtual ICollection<SectionFlag> SectionFlags { get; set; }
+
+        /// <summary>
+        /// Phrase Fields
+        /// </summary>
+        public virtual ICollection<PhraseField> PhraseFields { get; set; }
         #endregion
 
     }

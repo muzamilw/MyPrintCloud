@@ -1,17 +1,37 @@
-﻿using System;
+﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.ResponseModels;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Xml;
+using MPC.Webstore.ModelMappers;
+using MPC.Models.ResponseModels;
+using System.Runtime.Caching;
+using System.IO;
 
 namespace MPC.Webstore.Common
 {
     public class Utils
     {
+        private readonly ICompanyService _myCompanyService;
+        private static XmlDocument rexcFiel = null;
+        public Utils(ICompanyService myCompanyService)
+        {
+            if (myCompanyService == null)
+            {
+                throw new ArgumentNullException("myCompanyService");
+            }
+            _myCompanyService = myCompanyService;
+           // this._myCompanyService = myCompanyService;
+        }
+
         public static double CalculateTaxOnPrice(double ActualPrice, double TaxValue)
         {
             double Price = ActualPrice + ((ActualPrice * TaxValue) / 100);
@@ -32,6 +52,8 @@ namespace MPC.Webstore.Common
         {
             return WebConfigurationManager.AppSettings["AppBasePath"];
         }
+
+       
         public static string FormatDecimalValueToTwoDecimal(string valueToFormat, string currenctySymbol)
         {
             return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToTwoDecimal(valueToFormat));
@@ -89,36 +111,133 @@ namespace MPC.Webstore.Common
             return string.Format("{0:0}", Math.Round(Convert.ToDouble(valueToFormat), 2));
 
         }
+
+        public static string GetImagePath(string Folder, long OrganisationId, long CompanyId, string ImageURl)
+        {
+            return string.Format("{0}{1}{2}{3}{4}{5}{6}", Folder, "Organisation" + OrganisationId, "/", CompanyId, "/", ImageURl);
+        }
+        public static string GetKeyValueFromResourceFile(string key, long StoreId)
+        {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+          
+            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
+
+            XmlDocument resxFile = null;
+
+            if (stores != null)
+            {
+                resxFile = stores[StoreId].ResourceFile;
+            }
+            
+            if (resxFile != null) 
+            {
+                XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
+
+                if (loRoot.LastChild != null)
+                {
+                    return (loRoot.LastChild).InnerXml;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public static void DeleteFile(string completePath)
+        {
+            try
+            {
+                completePath = HttpContext.Current.Server.MapPath(completePath);
+                if (System.IO.File.Exists(completePath))
+                {
+                    System.IO.File.Delete(completePath);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public static void DeleteAllFilesInFolder(string folderPath)
+        {
+            DirectoryInfo dirInfo = null;
+            try
+            {
+
+                dirInfo = new DirectoryInfo(folderPath);
+                if (dirInfo.Exists)
+                {
+                    // string[] files = Directory.GetFiles(folderPath, "*.png");
+                    string[] files = Directory.GetFiles(folderPath);
+                    foreach (string file in files)
+                    {
+                        if (File.Exists(file))
+                        {
+                            File.Delete(file);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                dirInfo = null;
+            }
+        }
+
     }
     public static class CommonHtmlExtensions
     {
-        static Assembly FindGlobalResAssembly()
+        public static string ResolveString(this HtmlHelper htmlHelper, string categoryname)
         {
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (asm.FullName.StartsWith("App_GlobalResources."))
-                    return asm;
-            }
-            return null;
+            Regex reg = new Regex("[\\s;\\/:*?\"<>|&']", RegexOptions.IgnoreCase);
+            categoryname = reg.Replace(categoryname, "-");
+            return categoryname;
         }
 
-        public static string GetResource(this HtmlHelper htmlHelper, string name)
+        public static string GetAppBasePath(this HtmlHelper htmlHelper)
         {
-            string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
-            Assembly asm =  FindGlobalResAssembly();
-            if (asm == null)
-                return null;
-            return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
+            return WebConfigurationManager.AppSettings["AppBasePath"];
         }
 
-        public static string GetResource(string name)
+        public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId)
         {
-            string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
-            Assembly asm = FindGlobalResAssembly();
-            if (asm == null)
-                return null;
-            return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
+            return Utils.GetKeyValueFromResourceFile(Key, StoreId);
         }
+    //    static Assembly FindGlobalResAssembly()
+    //    {
+    //        foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+    //        {
+    //            if (asm.FullName.StartsWith("App_GlobalResources."))
+    //                return asm;
+    //        }
+    //        return null;
+    //    }
+
+    //    public static string GetResource(this HtmlHelper htmlHelper, string name)
+    //    {
+    //        string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
+    //        Assembly asm =  FindGlobalResAssembly();
+    //        if (asm == null)
+    //            return null;
+    //        return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
+    //    }
+
+    //    public static string GetResource(string name)
+    //    {
+    //        string languageIdentifier = "Resources." + UserCookieManager.OrganisationLanguageIdentifier;
+    //        Assembly asm = FindGlobalResAssembly();
+    //        if (asm == null)
+    //            return null;
+    //        return new ResourceManager(languageIdentifier, asm).GetObject(name).ToString();
+    //    }
 
 
      

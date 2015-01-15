@@ -31,5 +31,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Suppliers
         /// </summary>
         public IEnumerable<SupplierForInventory> Suppliers { get; set; }
+
+        /// <summary>
+        /// Parent Product Categories
+        /// </summary>
+        public IEnumerable<ProductCategoryDropDown> ProductCategories { get; set; } 
     }
 }

@@ -28,6 +28,18 @@ define("product/product.viewModel",
                     states = ko.observableArray([]),
                     // Suppliers
                     suppliers = ko.observableArray([]),
+                    // Product Categories
+                    productCategories = ko.observableArray([]),
+                    // Parent Product Categories
+                    parentProductCategories = ko.computed(function() {
+                        if (!productCategories) {
+                            return [];
+                        }
+
+                        return productCategories.filter(function(productCategory) {
+                            return !productCategory.parentCategoryId;
+                        });
+                    }),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
@@ -143,6 +155,16 @@ define("product/product.viewModel",
                     openProductEditor = function () {
                         isProductDetailsVisible(true);
                         view.initializeDropZones();
+                        // Set Product Category true/false for popup
+                        productCategories.each(function(productCategory) {
+                            var productCategoryItem = selectedProduct().productCategoryItems.find(function(pci) {
+                                return pci.categoryId() === productCategory.id;
+                            });
+
+                            if (productCategoryItem) {
+                                productCategory.isSelected(true);
+                            }
+                        });
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {
@@ -280,6 +302,49 @@ define("product/product.viewModel",
 
                         activeItemAddonCostCentre.costCentreName(costCentre.name);
                         activeItemAddonCostCentre.costCentreType(costCentre.type);
+                    },
+                    // open Product Category Dialog
+                    openProductCategoryDialog = function () {
+                        view.showProductCategoryDialog();
+                    },
+                    // open Product Category Dialog
+                    closeProductCategoryDialog = function () {
+                        view.hideProductCategoryDialog();
+                    },
+                    // Toggle Child Categories
+                    toggleChildCategories = function(data, event) {
+                        // If Child Categories exist then don't send call
+                        if (view.toggleChildCategories(event)) {
+                            return;
+                        }
+                        var categoryId = view.getCategoryIdFromElement(event);
+                        getChildCategories(categoryId, event);
+                    },
+                    // Update Product Categories to Selected Product
+                    updateProductCategories = function() {
+                        selectedProduct().updateProductCategoryItems(productCategories());
+                        view.hideProductCategoryDialog();
+                    },
+                    // update Checked state for category
+                    updateCheckedStateForCategory = function (data, event) {
+                        var categoryId = view.getCategoryIdFromElement(event);
+                        // get category by id
+                        var productCategory = productCategories.find(function (pcat) {
+                            return pcat.id === categoryId;
+                        });
+
+                        if (!productCategory) {
+                            return false;
+                        }
+
+                        if ($(event.target).is(':checked')) {
+                            productCategory.isSelected(true);
+                        }
+                        else {
+                            productCategory.isSelected(false);
+                        }
+
+                        return true;
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -448,6 +513,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(suppliers(), itemsList);
                         suppliers.valueHasMutated();
                     },
+                    // Map Product Categories
+                    mapProductCategories = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.ProductCategory.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(productCategories(), itemsList);
+                        productCategories.valueHasMutated();
+                    },
                     // Set Item Price Matrices to Current Item against selected Flag
                     setItemPriceMatricesToItem = function (itemPriceMatrices) {
                         // Only ask for confirmation if it is not a new product
@@ -483,6 +559,9 @@ define("product/product.viewModel",
 
                                     // Map Suppliers
                                     mapSuppliers(data.Suppliers);
+
+                                    // Map Product Categories
+                                    mapProductCategories(data.ProductCategories);
 
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
@@ -643,6 +722,36 @@ define("product/product.viewModel",
                                 toastr.error("Failed to load item details" + response);
                             }
                         });
+                    },
+                    //Get Category Child List Items
+                    getChildCategories = function (id, event) {
+                        dataservice.getProductCategoryChilds({
+                            id: id,
+                        }, {
+                            success: function (data) {
+                                if (data.ProductCategories != null) {
+                                    _.each(data.ProductCategories, function (productCategory) {
+                                        productCategory.ParentCategoryId = id;
+                                        var category = model.ProductCategory.Create(productCategory);
+                                        if (selectedProduct()) {
+                                            var productCategoryItem = selectedProduct().productCategoryItems.find(function(pCatItem) {
+                                                return pCatItem.categoryId() === category.id;
+                                            });
+
+                                            if (productCategoryItem) {
+                                                category.isSelected(true);
+                                            }
+                                        }
+                                        productCategories.push(category);
+                                        view.appendChildCategory(event, category);
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Categories " + response);
+                            }
+                        });
                     };
                 // #endregion Service Calls
 
@@ -673,6 +782,8 @@ define("product/product.viewModel",
                     costCentres: costCentres,
                     sectionFlags: sectionFlags,
                     suppliers: suppliers,
+                    productCategories: productCategories,
+                    parentProductCategories: parentProductCategories,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -699,7 +810,12 @@ define("product/product.viewModel",
                     closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
                     closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
-                    gotoElement: gotoElement
+                    gotoElement: gotoElement,
+                    toggleChildCategories: toggleChildCategories,
+                    updateProductCategories: updateProductCategories,
+                    openProductCategoryDialog: openProductCategoryDialog,
+                    closeProductCategoryDialog: closeProductCategoryDialog,
+                    updateCheckedStateForCategory: updateCheckedStateForCategory
                     // Utility Methods
 
                 };

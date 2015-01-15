@@ -1,0 +1,310 @@
+﻿@{
+    ViewBag.Title = "Add Edit Secondary Page";
+}
+
+
+<div class="modal fade" id="secondaryPageAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedSecondaryPage">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a href="#">Stores</a></li>
+                        <li class="active"><span>SecondaryPage</span></li>
+                    </ol>
+                    <div class="clearfix">
+                        <h1 class="pull-left">Need Help</h1>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom:10px;">
+                    <div class="col-xs-10">
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveSecondaryPage">Save</button>
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="main-box clearfix">
+                        <div class="tabs-wrapper profile-tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-SecondaryPageDetail" data-toggle="tab">Page Details</a></li>
+                                <li><a href="#tab-SecondaryPageKeyword" data-toggle="tab">Page Keywords</a></li>
+                                <li><a href="#tab-UserAddressInfo" data-toggle="tab">Page Content</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="tab-SecondaryPageDetail">
+                                    <div class="col-lg-12">
+                                        <div class=" form-horizontal clearfix">
+                                            <div class="col-lg-9">
+                                                <div class="form-group ">
+                                                    <div class="col-lg-5 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtSPTitle" class="control-label text-right tooltip-float">Title</label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <input type="text" class="form-control" id="txtSPTitle" data-bind="value:pageTitle, validationTooltip:pageTitle">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="col-lg-5 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="ddPageCat" class="control-label text-right tooltip-float">Page Category</label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'name', optionsValue: 'id',value:categoryId, validationTooltip: categoryId"> </select>
+                                                    </div>
+                                                    <div class="col-lg-1">
+                                                        <div data-bind="click:$root.onAddSecondryPageCategory" class="btn btn-primary">
+                                                            <i class="fa fa-lg"></i>&nbsp;....
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+
+                                                        <label class="control-label text-right tooltip-float">Upload banner (PNG 1000 pixels)</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <img width="290" height="217" data-bind="attr: { src: imageSrc }" />
+                                                    </div>
+                                                    <div class="col-lg-1">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" multiple data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab-SecondaryPageKeyword">
+                                    <div class=" form-horizontal clearfix">
+                                        <h3 class="group-header">Page Keywords</h3>
+
+                                        <div class="col-lg-12 clearfix">
+
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+                                                    &nbsp;
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.addDefaultPageKeyWords">
+                                                        Load Defaults
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtKeywordsList" class="control-label text-right tooltip-float">Enter in the Keywords list</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <textarea class="form-control" id="txtKeywordsList" rows="4" data-bind="value:pageKeywords"></textarea>
+                                                    @*<input type="text" placeholder="Enter recepients" id="exampleInpTo" class="form-control-s2 email-recepients" value="mila@kunis.com,ryan@gosling.com" />*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3 class="group-header">Meta Details</h3>
+                                        <div class="col-lg-12 clearfix">
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtMetaTitle" class="control-label text-right tooltip-float">Enter in the meta title</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <input type="text" class="form-control" id="txtMetaTitle" data-bind="value:metaTitle">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtSPDesc" class="control-label text-right tooltip-float">Enter in the description contents</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <input type="text" class="form-control" id="txtSPDesc" data-bind="value:metaDescriptionContent">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtFName" class="control-label text-right tooltip-float">Enter in the category contents</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <input type="text" class="form-control" id="txtFName" data-bind="value:metaCategoryContent">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtLName" class="control-label text-right tooltip-float">Enter in the robot contents</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <input type="text" class="form-control" id="txtLName" data-bind="value:metaRobotsContent">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Enter in the author contents</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <input type="text" class="form-control" id="txtJTitle" data-bind="value:metaAuthorContent">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Enter in the language contents</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <input type="text" class="form-control" id="txtJTitle" data-bind="value:metaLanguageContent">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Enter in the revisit after contents</label>
+
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <input type="text" class="form-control" id="txtJTitle" data-bind="value:metaRevisitAfterContent">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab-UserAddressInfo">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="main-box clearfix">
+                                                <textarea name="html_link_content" id="content" data-bind="editor: pageHTML, valueUpdate: 'afterkeydown'">TEXT</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
