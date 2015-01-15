@@ -36,6 +36,7 @@ define("common/phraseLibrary.viewModel",
                                     });
                                     sections.push(section);
                                 });
+                                selectDefaultSectionForProduct();
                             },
                             error: function () {
                                 toastr.error("Failed to phrase library.");
@@ -99,6 +100,15 @@ define("common/phraseLibrary.viewModel",
                                getPhrasesByPhraseFieldId(phraseField.fieldId());
                            }
                        }
+
+                       if (!selectedPhraseField()) {
+                           return;
+                       }
+
+                       // Reset Checked State for Phrases
+                       selectedPhraseField().phrases.each(function (phrase) {
+                           phrase.isPhraseChecked(false);
+                       });
                    },
                    //Delete Phrase
                    deletePhrase = function (phrase) {
@@ -174,6 +184,10 @@ define("common/phraseLibrary.viewModel",
                     selectPhrase = function (phrase) {
                         if (phrase.isPhraseChecked()) {
                             view.hidePhraseLibraryDialog();
+                            if (afterSelectPhrase && typeof afterSelectPhrase === "function") {
+                                afterSelectPhrase(phrase.phraseText());
+                                afterSelectPhrase = null;
+                            }
                             var phraseLibrarySaveModel = model.PhraseLibrarySaveModel();
                             var severModel = phraseLibrarySaveModel.convertToServerData(phraseLibrarySaveModel);
                             _.each(sections(), function (item) {
@@ -202,14 +216,41 @@ define("common/phraseLibrary.viewModel",
                             }
                         }
                     },
-                   // Initialize the view model
-                   initialize = function (specifiedView) {
-                       view = specifiedView;
-                       selectedSection(model.Section());
-                       ko.applyBindings(view.viewModel, view.bindingRoot);
-                       getAllSections();
-                       view.showPhraseLibraryDialog();
-                   };
+                    // after selection
+                    afterSelectPhrase = null,
+                    // select default section for product
+                    selectDefaultSectionForProduct = function() {
+                        if (!isOpenFromPhraseLibrary()) {
+                            // Select Job Production by default
+                            var jobProductionSection = sections.find(function (section) {
+                                return section.sectionId() === 4;
+                            });
+
+                            if (jobProductionSection) {
+                                selectSection(jobProductionSection);
+                                if (selectedSection() && selectedSection().phrasesFields().length > 0) {
+                                    selectPhraseField(selectedSection().phrasesFields()[0]);
+                                }
+                            }
+                        }
+                    },
+                    // Show
+                    show = function (afterSelectPhraseCallback) {
+                        selectedSection(new model.Section());
+                        view.showPhraseLibraryDialog();
+                        if (sections().length === 0) {
+                            getAllSections();
+                        }
+                        else {
+                            selectDefaultSectionForProduct();
+                        }
+                        afterSelectPhrase = afterSelectPhraseCallback;
+                    },
+                    // Initialize the view model
+                    initialize = function (specifiedView) {
+                        view = specifiedView;
+                        ko.applyBindings(view.viewModel, view.bindingRoot);
+                    };
 
                 return {
                     selectedSection: selectedSection,
@@ -231,6 +272,7 @@ define("common/phraseLibrary.viewModel",
                     templateToUse: templateToUse,
                     selectPhrase: selectPhrase,
                     jobTitles: jobTitles,
+                    show: show
                 };
             })()
         };

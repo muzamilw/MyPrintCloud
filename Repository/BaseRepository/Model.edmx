@@ -3123,6 +3123,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ColorPallete_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="ColorPallete" Type="Self.ColorPallete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ColorPallete">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Company_Campaign">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Campaign" Type="Self.Campaign" Multiplicity="*" />
@@ -4513,6 +4525,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
+          <AssociationSet Name="FK_ColorPallete_Company" Association="Self.FK_ColorPallete_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="ColorPallete" EntitySet="ColorPallete" />
+          </AssociationSet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
             <End Role="Campaign" EntitySet="Campaign" />
@@ -5382,6 +5398,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <Parameter Name="search" Mode="In" Type="String" />
             <Parameter Name="imageCount" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_ColorPallete_Company" Association="DomainModels.FK_ColorPallete_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="ColorPallete" EntitySet="ColorPalletes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5505,6 +5525,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="StoreId" Type="Int64" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
           <Property Name="isAddCropMarks" Type="Boolean" />
+          <NavigationProperty Name="ColorPalletes" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="Company" ToRole="ColorPallete" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -8433,6 +8454,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SkinId" Type="Int64" />
           <Property Name="IsDefault" Type="Boolean" />
           <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="ColorPallete" ToRole="Company" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -9696,6 +9718,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Type="Int32" Name="ContactCompanyID" Nullable="true" />
           <Property Type="Int32" Name="ContactID" Nullable="true" />
         </ComplexType>
+        <Association Name="FK_ColorPallete_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.ColorPallete" Role="ColorPallete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ColorPallete">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

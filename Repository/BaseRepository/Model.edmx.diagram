@@ -219,6 +219,7 @@
         <EntityTypeShape EntityType="DomainModels.PhraseField" Width="1.5" PointX="15" PointY="75.25" />
         <AssociationConnector Association="DomainModels.fk_sectionId" />
         <AssociationConnector Association="DomainModels.FK_Phrase_PhraseField" />
+        <AssociationConnector Association="DomainModels.FK_ColorPallete_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
