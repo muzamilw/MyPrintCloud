@@ -18,7 +18,7 @@
                         <a href="/Signup.aspx"><i class="fa fa-unlock usercolorSize"></i></a>
                     </li>
                     <li class="sub PinkBtnMyAccS6">
-                        <a id="lnkLogin" href="/Login" class="lnkSignInCs">SignIn/Register</a>
+                        <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("UserShippingAddress", UserCookieManager.StoreId))</a>
                     </li>
                     <li class="ZeroRightMargin BlackBtnCS">
                         <a href="/ShopCart" class="top_sub_section_links hyperlinkCart ">
@@ -67,7 +67,8 @@
                         </div>
                     </li>
                     <li>
-                        @Html.ActionLink("Logoutt", "LogOut", "LoginBar")
+                        
+                        @Html.ActionLink("Logoutt", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();" })
                     </li>
                 </ul>
             </div>

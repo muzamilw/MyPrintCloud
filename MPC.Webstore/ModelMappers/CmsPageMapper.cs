@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using DomainModels = MPC.Models.DomainModels;
-using ApiModels = MPC.Webstore.Models; 
+using CommonModels = MPC.Models.Common;
+using ApiModels = MPC.Webstore.Models;
 
 namespace MPC.Webstore.ModelMappers
 {
@@ -13,13 +13,14 @@ namespace MPC.Webstore.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static ApiModels.CmsPage CreateFrom(this DomainModels.CmsPage source)
+        public static ApiModels.CmsPageModel CreateFrom(this CommonModels.CmsPageModel source)
         {
-            return new ApiModels.CmsPage
+            return new ApiModels.CmsPageModel
             {
                 CategoryId = source.CategoryId,
-                description = source.description,
-                MenuTitle = source.MenuTitle,
+                CompanyId = source.CompanyId,
+                isEnabled = source.isEnabled,
+                isUserDefined = source.isUserDefined,
                 Meta_AuthorContent = source.Meta_AuthorContent,
                 Meta_CategoryContent = source.Meta_CategoryContent,
                 Meta_DateContent = source.Meta_DateContent,
@@ -30,25 +31,22 @@ namespace MPC.Webstore.ModelMappers
                 Meta_RevisitAfterContent = source.Meta_RevisitAfterContent,
                 Meta_RobotsContent = source.Meta_RobotsContent,
                 Meta_Title = source.Meta_Title,
-                OrganisationId = source.OrganisationId,
-                PageBanner = source.PageBanner,
-                PageHTML = source.PageHTML,
                 PageId = source.PageId,
-                PageKeywords = source.PageKeywords,
                 PageName = source.PageName,
-                PageTitle = source.PageTitle,
-                SortOrder = source.SortOrder
+                PageTitle = source.PageTitle
             };
         }
 
 
-        public static MPC.Models.DomainModels.CmsPage CreateFrom(this ApiModels.CmsPage source)
+        public static MPC.Models.Common.CmsPageModel CreateFrom(this ApiModels.CmsPageModel source)
         {
-            return new MPC.Models.DomainModels.CmsPage
+            return new MPC.Models.Common.CmsPageModel
             {
                 CategoryId = source.CategoryId,
-                description = source.description,
-                MenuTitle = source.MenuTitle,
+                CompanyId = source.CompanyId,
+                isEnabled = source.isEnabled,
+                isUserDefined = source.isUserDefined,
+                
                 Meta_AuthorContent = source.Meta_AuthorContent,
                 Meta_CategoryContent = source.Meta_CategoryContent,
                 Meta_DateContent = source.Meta_DateContent,
@@ -59,14 +57,9 @@ namespace MPC.Webstore.ModelMappers
                 Meta_RevisitAfterContent = source.Meta_RevisitAfterContent,
                 Meta_RobotsContent = source.Meta_RobotsContent,
                 Meta_Title = source.Meta_Title,
-                OrganisationId = source.OrganisationId,
-                PageBanner = source.PageBanner,
-                PageHTML = source.PageHTML,
                 PageId = source.PageId,
-                PageKeywords = source.PageKeywords,
                 PageName = source.PageName,
-                PageTitle = source.PageTitle,
-                SortOrder = source.SortOrder
+                PageTitle = source.PageTitle
             };
         }
         #endregion

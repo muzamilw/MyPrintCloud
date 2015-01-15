@@ -4,6 +4,8 @@ using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
+using System.Xml;
 
 namespace MPC.Repository.Repositories
 {
@@ -39,6 +41,23 @@ namespace MPC.Repository.Repositories
             {
                 return "";
             }
+        }
+        /// <summary>
+        /// Gets the Resource File 
+        /// </summary>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        public XmlDocument GetResourceFileByOrganisationId(long OrganisationId) 
+        {
+            string code = GetLanguageCodeById(OrganisationId);
+
+            string FilePath = "/mpc_content/Resources/Organisation" + OrganisationId + "/" + code + "/LanguageResource.resx";
+            
+            XmlDocument loResource = new XmlDocument();
+
+            loResource.Load(HttpContext.Current.Server.MapPath(FilePath));
+
+            return loResource;
         }
     }
 }

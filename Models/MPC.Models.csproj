@@ -101,6 +101,7 @@
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\AddOnCostsCenter.cs" />
+    <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
@@ -291,6 +292,7 @@
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
+    <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />

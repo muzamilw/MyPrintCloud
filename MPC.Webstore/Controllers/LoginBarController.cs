@@ -64,7 +64,8 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.ContactLastName = "";
             UserCookieManager.ContactCanEditProfile = false;
             UserCookieManager.ShowPriceOnWebstore = true;
-            AuthenticationManager.SignOut();
+            UserCookieManager.isRegisterClaims = 2;
+         
             //ControllerContext.HttpContext.Response.Redirect("/Home/Index");
             Response.Redirect("/"); //return //RedirectToAction("Index", "Home");
             return null;

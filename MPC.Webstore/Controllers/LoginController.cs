@@ -153,32 +153,23 @@ namespace MPC.Webstore.Controllers
         {
             if (user.isArchived.HasValue && user.isArchived.Value == true)
             {
-               ViewBag.Message = "Your account is archived.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
+                
                 return View("PartialViews/Login");
             }
             if (user.Company.IsDisabled == 1)
             {
-                ViewBag.Message = "Your account is disabled. Please contact us for further information.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
                 return View("PartialViews/Login");
             }
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
             {
-               ViewBag.Message ="Your account does not have the web access enabled. Please contact your Order Manager.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
                 return View("PartialViews/Login");
             }
             else
             {
-
-                //ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
-
-                //ClaimsSecurityService.AddSignInClaimsToIdentity(user.ContactId, user.CompanyId, Convert.ToInt32(user.ContactRoleId), Convert.ToInt64(user.TerritoryId), identity);
-
-                //var claimsPriciple = new ClaimsPrincipal(identity);// HttpContext.User = new ClaimsPrincipal(identity);
-                //// Make sure the Principal's are in sync
-                //HttpContext.User = claimsPriciple;// ;
-                //Thread.CurrentPrincipal = HttpContext.User;
-                //AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
-
+                UserCookieManager.isRegisterClaims = 1;
                 UserCookieManager.ContactFirstName = user.FirstName;
                 UserCookieManager.ContactLastName = user.LastName;
                 UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
@@ -189,7 +180,7 @@ namespace MPC.Webstore.Controllers
                 if (ReturnUrl == "Social")
                     RedirectToLocal(ReturnUrl);
                 else
-                    Response.Redirect("/");// ControllerContext.HttpContext.Response.Redirect("");
+                    Response.Redirect("/");
 
                 return null;
                
@@ -202,7 +193,7 @@ namespace MPC.Webstore.Controllers
             {
                 ControllerContext.HttpContext.Response.Redirect(returnUrl);
             }
-            ControllerContext.HttpContext.Response.Redirect("/Home/Index");
+            Response.Redirect("/");
            // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }
