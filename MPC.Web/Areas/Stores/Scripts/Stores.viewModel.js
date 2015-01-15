@@ -351,6 +351,7 @@ define("stores/stores.viewModel",
                     //Selected Company CMYK Color
                     // ReSharper disable InconsistentNaming
                     selectedCompanyCMYKColor = ko.observable(),
+                    isSavingNew = ko.observable(false),
                     // Template Chooser For Company CMYK Color
                     templateToUseCompanyCMYKColors = function (companyCMYKColor) {
                         return (companyCMYKColor === selectedCompanyCMYKColor() ? 'editCompanyCMYKColorTemplate' : 'itemCompanyCMYKColorTemplate');
@@ -360,6 +361,7 @@ define("stores/stores.viewModel",
                         var companyCMYKColor = new model.CompanyCMYKColor();
                         selectedCompanyCMYKColor(companyCMYKColor);
                         view.showCompanyCMYKColorDialog();
+                        isSavingNew(true);
                         //var companyCMYKColor = selectedStore().companyCMYKColors()[0];
                         ////Create Company CMYK Color for the very First Time
                         //if (companyCMYKColor == undefined) {
@@ -388,6 +390,7 @@ define("stores/stores.viewModel",
                     },
                     onCloseCompanyCMYKColor = function () {
                         view.hideCompanyCMYKColorDialog();
+                        isSavingNew(false);
                     },
                     //Do Before Save Rave Review
                     doBeforeSaveCompanyCMYKColor = function () {
@@ -399,10 +402,12 @@ define("stores/stores.viewModel",
                         return flag;
                     },
                     onSaveCompanyCMYKColor = function () {
-                        if (doBeforeSaveCompanyCMYKColor()) {
+                        if (doBeforeSaveCompanyCMYKColor() && isSavingNew() == true) {
                             selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
-                            view.hideCompanyCMYKColorDialog();
+                            
                         }
+                        view.hideCompanyCMYKColorDialog();
+                        isSavingNew(false);
                     },
                     // #endregion ____________ C O M P A N Y    C M Y K   C O L O R  ___________________ 
 
