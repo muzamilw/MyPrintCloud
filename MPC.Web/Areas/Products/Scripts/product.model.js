@@ -653,7 +653,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (selectedCategories.length > 0) {
                         _.each(selectedCategories, function(productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function(productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && !productCategoryItem.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id && !productCategoryItemObj.isSelected();
                             });
 
                             // Exists Already
@@ -676,7 +676,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (unselectedCategories.length > 0) {
                         _.each(unselectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.id() && productCategoryItem.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.id() && productCategoryItemObj.isSelected();
                             });
 
                             // Exists Already

@@ -66,19 +66,13 @@
                         <div id="Maincontainer" class="CAT_Body rounded_corners" >
                             <div class="LCLB">
                                 @{
-                        Regex reg = new Regex("[\\s;\\/:*?\"<>|&']", RegexOptions.IgnoreCase);
-                        string categoryName = reg.Replace(cat.CategoryName, "-");
+          
 
-                        <a id="hlCategory" href="/Category/@categoryName/@cat.ProductCategoryId" onclick="ShowLoader();">
+                        <a id="hlCategory" href="/Category/@Html.ResolveString(@cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
                             <div class="PDTC_CAT FI_CAT">
                                 @{
-                        string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
-                        if (string.IsNullOrEmpty(AppBasePath))
-                        {
-                            AppBasePath = string.Empty;
-                        }
-                        string ThumbPath = AppBasePath + @cat.ThumbnailPath;
-                        <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@ThumbPath' />
+                   
+                                 <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@Html.GetAppBasePath()@cat.ThumbnailPath' />
                                 }
 
                             </div>
@@ -150,19 +144,9 @@
                                             {
                                                 <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
                                                     <div class="PDTC_CatProd FI_CatProd">
-                                                        @{
+                                                        @{                                           
+                                                            <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
-                                                string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
-                                                if (string.IsNullOrEmpty(AppBasePath))
-                                                {
-                                                    AppBasePath = string.Empty;
-                                                }
-                                                string ThumbPath = AppBasePath + @item.ThumbnailPath;
-                                                <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
-
-
-                                                            @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
-                                                                CommandName="DesignOnline" CommandArgument='' />*@
                                                         }
                                                     </div>
                                                 </a>
@@ -179,17 +163,7 @@
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
 
-                                                        string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
-                                                        if (string.IsNullOrEmpty(AppBasePath))
-                                                        {
-                                                            AppBasePath = string.Empty;
-                                                        }
-                                                        string ThumbPath = AppBasePath + @item.ThumbnailPath;
-                                                        <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
-
-
-                                                                    @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
-                                                                        CommandName="DesignOnline" CommandArgument='' />*@
+                                                                     <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
                                                                 }
                                                             </div>
                                                         </a>
@@ -204,17 +178,9 @@
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
 
-                                                        string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
-                                                        if (string.IsNullOrEmpty(AppBasePath))
-                                                        {
-                                                            AppBasePath = string.Empty;
-                                                        }
-                                                        string ThumbPath = AppBasePath + @item.ThumbnailPath;
-                                                        <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                   <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
 
-                                                                    @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
-                                                                        CommandName="DesignOnline" CommandArgument='' />*@
                                                                 }
                                                             </div>
                                                         </a>
@@ -227,17 +193,8 @@
                                                         <div class="PDTC_CatProd FI_CatProd">
                                                             @{
 
-                                                    string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
-                                                    if (string.IsNullOrEmpty(AppBasePath))
-                                                    {
-                                                        AppBasePath = string.Empty;
-                                                    }
-                                                    string ThumbPath = AppBasePath + @item.ThumbnailPath;
-                                                    <img id="imgProduct" src="@ThumbPath" class="full_img_ThumbnailPath_CatPro" />
+                                                          <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
-
-                                                                @*<asp:ImageButton ID="imgThumbnail" CssClass="full_img_ThumbnailPath_CatPro" runat="server" AlternateText="" OnClientClick=""
-                                                                    CommandName="DesignOnline" CommandArgument='' />*@
                                                             }
                                                         </div>
                                                     </a>

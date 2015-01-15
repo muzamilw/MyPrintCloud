@@ -1,4 +1,5 @@
 ﻿@model MPC.Models.DomainModels.CmsPage
+@using MPC.Webstore.Common;
 @{
     string AppBasePath = string.Empty;
 }
@@ -6,8 +7,8 @@
 @if (Model != null)
 {
     <div id="PageBanner">
-        @AppBasePath = @System.Web.Configuration.WebConfigurationManager.AppSettings["AppBasePath"] + @Model.PageBanner
-        <img id="imgPageBanner" src="@AppBasePath" />
+        
+        <img id="imgPageBanner" src="@Html.GetAppBasePath()@Model.PageBanner" />
     </div>
     <div id="SecondryPageMainContent">
         <div class="content_area container">

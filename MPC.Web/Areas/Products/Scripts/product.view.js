@@ -327,7 +327,7 @@ define("product/product.view",
                 gotoElement: gotoElement,
                 toggleChildCategories: toggleChildCategories,
                 appendChildCategory: appendChildCategory,
-                showProductCategoryDialog: showProductCategoryDialog,
+                showProductC@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId))<ategoryDialog: showProductCategoryDialog,
                 hideProductCategoryDialog: hideProductCategoryDialog,
                 getCategoryIdFromElement: getCategoryIdFromElement,
                 updateInputCheckedStates: updateInputCheckedStates

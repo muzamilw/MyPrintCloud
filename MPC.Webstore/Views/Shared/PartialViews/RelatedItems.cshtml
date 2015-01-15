@@ -24,11 +24,8 @@
                             {
                                 <a id="hlProductDetail" href="">
                                     <div class="PDTC FI">
-                                        @{
-                                             string thumbnail = item.ThumbnailPath;
-                                     
-                                        }
-                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@thumbnail' />
+                                       
+                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@Html.GetAppBasePath()@item.ThumbnailPath' />
                                     </div>
                                 </a>
 
@@ -37,11 +34,8 @@
                             {
                                 <a id="hlProductDetail" href="">
                                     <div class="PDTC FI">
-                                        @{
-                                            string thumbnail = item.ThumbnailPath;
-
-                                        }
-                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@thumbnail' />
+                     
+                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@Html.GetAppBasePath()@item.ThumbnailPath' />
                                     </div>
                                 </a>
 
