@@ -290,9 +290,10 @@
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
+    <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
-    <Compile Include="Controllers\SecondaryPagesController.cs" />
+    <Compile Include="Controllers\QuickLinksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -422,6 +423,7 @@
     <Content Include="Content\Images\Sign_up_Email.PNG" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\jquery.rating.css" />
     <Content Include="Content\js-image-slider-detail.css" />
     <Content Include="Content\js-image-slider.css" />
     <Content Include="Content\ListingPropertiesCarousel.css" />
@@ -504,6 +506,7 @@
     <Content Include="Scripts\jquery-1.4.4.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.MultiFile.js" />
+    <Content Include="Scripts\jquery.rating.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -569,7 +572,7 @@
     <Content Include="Views\Shared\PartialViews\Banner.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBar.cshtml" />
     <Content Include="Views\Shared\PartialViews\ParentCategories.cshtml" />
-    <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
+    <Content Include="Views\Shared\PartialViews\QuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\Login.cshtml" />
     <Content Include="Views\Home\oAuth.cshtml" />
     <Content Include="Views\Shared\PartialViews\SignUp.cshtml" />
@@ -586,6 +589,7 @@
     <Content Include="Views\Shared\PartialViews\RelatedItems.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductDetail.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateItem.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -597,6 +601,7 @@
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
     <Folder Include="Views\RealEstateItem\" />
+    <Folder Include="Views\SecondaryPages\" />
     <Folder Include="Views\ShopCart\" />
   </ItemGroup>
   <ItemGroup>

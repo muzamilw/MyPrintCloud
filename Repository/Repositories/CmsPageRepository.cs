@@ -9,6 +9,9 @@ using MPC.Repository.BaseRepository;
 using System.Collections.Generic;
 using System.Linq;
 using MPC.Models.Common;
+using System;
+using System.Linq;
+
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -90,6 +93,20 @@ namespace MPC.Repository.Repositories
                              
                          };
             return query.ToList<CmsPageModel>();
+        }
+
+        public CmsPage getPageByID(long PageID)
+        {
+            try
+            {
+                return db.CmsPages.Where(p => p.PageId == PageID).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+          
+           
         }
     }
 }

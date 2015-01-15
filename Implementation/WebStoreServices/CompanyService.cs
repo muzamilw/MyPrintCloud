@@ -231,9 +231,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetContactByEmail(Email);
         }
 
-        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID)
+        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)
         {
-            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName,SaleAndOrderManagerID);
+            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName,SaleAndOrderManagerID,StoreID);
         }
 
        
@@ -410,6 +410,11 @@ namespace MPC.Implementation.WebStoreServices
         public string GetContactMobile(long CID)
         {
             return _CompanyContactRepository.GetContactMobile(CID);
+        }
+
+        public CmsPage getPageByID(long PageID)
+        {
+            return _cmsPageRepositary.getPageByID(PageID);
         }
 
         #endregion

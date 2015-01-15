@@ -24,7 +24,9 @@ namespace MPC.Interfaces.WebStoreServices
         bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long OrganisationID);
         void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners);
         long CloneTemplateByTemplateID(long TempID);
-
+        void regeneratePDFs(long productID,long OrganisationID, bool printCuttingMargins);
+        string SaveTemplate(List<TemplateObject> lstTemplatesObjects, List<TemplatePage> lstTemplatePages, long organisationID, bool printCropMarks, bool printWaterMarks, bool isRoundCorners);
+        long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, string RemoteUrlBasePath, string BasePath,  long organisationID,int mode, long localTemplateID);
         /// <summary>
         /// To populate the template information base on template id and item rec by zohaib 10/1/2015
         /// </summary>

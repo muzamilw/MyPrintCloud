@@ -70,14 +70,14 @@ namespace MPC.Webstore.Controllers
                 string ReturnURL = Request.Form["hfReturnURL"];
                 if (_myCompanyService.GetContactByEmail(model.Email) != null)
                 {
-                    //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist, model.Email);
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
                     return View("PartialViews/SignUp");
                 }
                 else if (isSocial == "1")
                 {
                     if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
                     {
-                        //ViewBag.Message = string.Format(Resources.MyResource.AccAlreadyExist,model.Email);
+                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
                         return View();
                     }
                     else
@@ -120,6 +120,7 @@ namespace MPC.Webstore.Controllers
             CompanyContact contact = new CompanyContact();
             string TwitterScreenName = string.Empty;
             Int64 CompanyID = 0;
+            long OID = 0;
             CompanyContact corpContact = new CompanyContact();
             bool isContactCreate = false;
             contact.FirstName = model.FirstName;
@@ -134,6 +135,12 @@ namespace MPC.Webstore.Controllers
                 TwitterScreenName = model.FirstName;
 
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+           MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+
+            if(baseResponseOrg.Organisation != null)
+            {
+                OID = baseResponseOrg.Organisation.OrganisationId;
+            }
 
             MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
@@ -149,6 +156,7 @@ namespace MPC.Webstore.Controllers
 
                     CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email);
 
+                   // cep.StoreID = company.StoreId ?? 0;
 
 
                     UserCookieManager.isRegisterClaims = 1;

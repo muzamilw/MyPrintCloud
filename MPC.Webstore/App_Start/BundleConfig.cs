@@ -32,6 +32,9 @@ namespace MPC.Webstore
                    "~/Scripts/PopUp.js"
                    ));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery.rating").Include(
+               "~/Scripts/jquery.rating.js"
+               ));
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -48,6 +51,11 @@ namespace MPC.Webstore
             bundles.Add(new StyleBundle("~/Content/CSS").Include(
                       "~/Content/bootstrap.css"
                       ));
+
+            bundles.Add(new StyleBundle("~/Content/jquery.rating").Include(
+                     "~/Content/jquery.rating.css"
+                     ));
+
             bundles.Add(new StyleBundle("~/Content/js-image-slider-detail").Include(
                     "~/Content/js-image-slider-detail.css"
                     ));

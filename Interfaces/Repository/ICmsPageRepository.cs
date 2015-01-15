@@ -24,5 +24,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         /// <returns></returns>
         List<CmsPageModel> GetSystemPagesAndSecondaryPages(long CompanyId);
+
+        CmsPage getPageByID(long PageID);
     }
 }
