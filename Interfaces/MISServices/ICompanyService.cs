@@ -42,5 +42,7 @@ namespace MPC.Interfaces.MISServices
         /// Load Items, based on search filters
         /// </summary>
         ItemListViewSearchResponse GetItems(CompanyProductSearchRequestModel request);
+
+        Company DeleteCompany(long companyId);
     }
 }

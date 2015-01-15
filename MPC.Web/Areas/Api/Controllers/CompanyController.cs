@@ -106,10 +106,10 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
-
-        public Company Delete(int companyId)
+        [HttpDelete]
+        public Company Delete(CompanyRequestModel model)
         {
-            return null;//todo
+            return companyService.DeleteCompany(model.CompanyId).CreateFrom();
         }
     }
 }

@@ -539,8 +539,8 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><a href="#"><span>Territory</span></a></th>
-                                                                <th><a href="#" class="asc"><span>Code</span></a></th>
+                                                                <th><span>Territory</span></th>
+                                                                <th><span>Code</span></th>
                                                                 <th>&nbsp;</th>
                                                             </tr>
                                                         </thead>
@@ -2290,12 +2290,13 @@
 
                 <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
-                    <span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
+                    @*<span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>*@
+                    <span class="label label-danger" >Yes </span>
                 </td>
                 <!-- /ko -->
-                <!--ko if: isDefaultAddress != true-->
+                <!--ko if: isDefaultAddress() != true-->
                 <td class="type">
-                    <span data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>
+                    <span > No</span>
                 </td>
                 <!-- /ko -->
                 @*

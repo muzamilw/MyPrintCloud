@@ -1697,6 +1697,15 @@ namespace MPC.Implementation.MISServices
         {
             return itemsListViewRepository.GetItemsForCompany(request);
         }
+
+        public Company DeleteCompany(long companyId)
+        {
+            var companyResponse = companyRepository.GetCompanyById(companyId);
+            companyResponse.Company.isArchived = true;
+            companyRepository.Update(companyResponse.Company);
+            companyRepository.SaveChanges();
+            return companyResponse.Company;
+        }
         #endregion
     }
 }

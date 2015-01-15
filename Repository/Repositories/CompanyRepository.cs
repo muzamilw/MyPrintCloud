@@ -92,8 +92,8 @@ namespace MPC.Repository.Repositories
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<Company, bool>> query =
                 s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                     !isStringSpecified);
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) && s.isArchived != true ||
+                     !isStringSpecified && s.isArchived != true);
 
             int rowCount = DbSet.Count(query);
             IEnumerable<Company> companies = request.IsAsc
