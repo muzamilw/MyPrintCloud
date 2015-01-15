@@ -191,7 +191,7 @@
                                             </div>
                                             <div class="col-lg-6" style="padding-left:0px;">
                                                 <div class="col-xs-5" style="padding-left:0px;">
-                                                    <a data-toggle="modal" href="#selectCAT" style="margin-left:4px;">
+                                                    <a href="#" style="margin-left:4px;" data-bind="click: $root.openProductCategoryDialog">
                                                         <i class="fa fa-lg"></i>&nbsp;Select Categories
                                                     </a>
                                                 </div>
@@ -2614,6 +2614,8 @@
     @Html.Partial("_StockDialog")
     @Html.Partial("_ItemAddonCostCentre")
     <!-- /ko -->
+    
+    @Html.Partial("_ProductCategoryDialog")
 
 </div>
 @*  @Html.Partial("Product/_SignatureEdit")

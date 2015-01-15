@@ -37,6 +37,11 @@ namespace MPC.Interfaces.Repository
         /// <param name="categoryID"></param>
         /// <returns></returns>
         string GetImmidiateParentCategory(long ItemID,out string CurrentProductCategoryName);
-        
+
+        /// <summary>
+        /// Get parent categories
+        /// </summary>
+        IEnumerable<ProductCategory> GetParentCategories();
+
     }
 }

@@ -540,6 +540,58 @@ namespace MPC.Repository.BaseRepository
                 ExecuteFunction<usp_GetRealEstateProducts_Result>("BaseDbContext.usp_GetRealEstateProducts", contactCompanyIdParameter).ToList();
         }
 
+        /// <summary>
+        /// Get Template Images Result
+        /// </summary>
+        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, int? templateID, int? contactCompanyID, int? contactID, int? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
+        {
+            var isCalledFromParameter = isCalledFrom.HasValue ?
+                new ObjectParameter("isCalledFrom", isCalledFrom) :
+                new ObjectParameter("isCalledFrom", typeof(int));
+
+            var imageSetTypeParameter = imageSetType.HasValue ?
+                new ObjectParameter("imageSetType", imageSetType) :
+                new ObjectParameter("imageSetType", typeof(int));
+
+            var templateIDParameter = templateID.HasValue ?
+                new ObjectParameter("templateID", templateID) :
+                new ObjectParameter("templateID", typeof(int));
+
+            var contactCompanyIDParameter = contactCompanyID.HasValue ?
+                new ObjectParameter("contactCompanyID", contactCompanyID) :
+                new ObjectParameter("contactCompanyID", typeof(int));
+
+            var contactIDParameter = contactID.HasValue ?
+                new ObjectParameter("contactID", contactID) :
+                new ObjectParameter("contactID", typeof(int));
+
+            var territoryParameter = territory.HasValue ?
+                new ObjectParameter("territory", territory) :
+                new ObjectParameter("territory", typeof(int));
+
+            var pageNumberParameter = pageNumber.HasValue ?
+                new ObjectParameter("pageNumber", pageNumber) :
+                new ObjectParameter("pageNumber", typeof(int));
+
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("pageSize", pageSize) :
+                new ObjectParameter("pageSize", typeof(int));
+
+            var sortColumnParameter = sortColumn != null ?
+                new ObjectParameter("sortColumn", sortColumn) :
+                new ObjectParameter("sortColumn", typeof(string));
+
+            var searchParameter = search != null ?
+                new ObjectParameter("search", search) :
+                new ObjectParameter("search", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.
+                ExecuteFunction<sp_GetTemplateImages_Result>("sp_GetTemplateImages", isCalledFromParameter, imageSetTypeParameter, 
+                templateIDParameter, contactCompanyIDParameter, contactIDParameter, territoryParameter, pageNumberParameter, 
+                pageSizeParameter, sortColumnParameter, searchParameter, imageCount).ToList();
+        }
+
+
         #endregion
     }
 }

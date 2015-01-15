@@ -135,5 +135,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbNailFileName = source.ThumbnailName
             };
         }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static ProductCategoryDropDown CreateFromDropDown(this DomainModels.ProductCategory source)
+        {
+            return new ProductCategoryDropDown
+            {
+                ProductCategoryId = source.ProductCategoryId,
+                CategoryName = source.CategoryName,
+                CategoryTypeId = source.CategoryTypeId
+            };
+        }
     }
 }

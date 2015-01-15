@@ -404,7 +404,7 @@ namespace MPC.Models.ModelMappers
         private static void DeleteItemAddonCostCentres(ItemStockOption source, ItemStockOption target, ItemMapperActions actions)
         {
             List<ItemAddonCostCentre> linesToBeRemoved = target.ItemAddonCostCentres.Where(
-                so => !IsNewItemAddonCostCentre(so) && source.ItemAddonCostCentres.All(sourceItemAddonCostCentre => sourceItemAddonCostCentre.ProductAddOnId != 
+                so => !IsNewItemAddonCostCentre(so) && source.ItemAddonCostCentres.All(sourceItemAddonCostCentre => sourceItemAddonCostCentre.ProductAddOnId !=
                     so.ProductAddOnId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -424,7 +424,7 @@ namespace MPC.Models.ModelMappers
                 UpdateOrAddItemStockOption(sourceLine, target, actions);
             }
         }
-        
+
         /// <summary>
         /// Update target Stock Options
         /// </summary>
@@ -496,7 +496,7 @@ namespace MPC.Models.ModelMappers
                 item.ItemPriceMatrices = new List<ItemPriceMatrix>();
             }
         }
-        
+
         /// <summary>
         /// Update target Item Price Matrix
         /// </summary>
@@ -712,6 +712,7 @@ namespace MPC.Models.ModelMappers
             {
                 ProductCategoryItem targetLine = actions.CreateProductCategoryItem();
                 target.ProductCategoryItems.Add(targetLine);
+                sourceProductCategoryItem.UpdateTo(targetLine);
             }
         }
 
@@ -721,7 +722,7 @@ namespace MPC.Models.ModelMappers
         private static void DeleteProductCategoryItems(Item source, Item target, ItemMapperActions actions)
         {
             List<ProductCategoryItem> linesToBeRemoved = target.ProductCategoryItems.Where(
-                pci => source.ProductCategoryCustomItems.All(sourcepci => !IsNewProductCategoryItem(sourcepci) && 
+                pci => source.ProductCategoryCustomItems.All(sourcepci => !IsNewProductCategoryItem(sourcepci) &&
                     sourcepci.ProductCategoryItemId == pci.ProductCategoryItemId))
                   .ToList();
 
@@ -825,7 +826,7 @@ namespace MPC.Models.ModelMappers
             target.PackagingWeight = source.PackagingWeight;
             target.DefaultItemTax = source.DefaultItemTax;
         }
-        
+
         /// <summary>
         /// Update Supplier Prices Headers
         /// </summary>
