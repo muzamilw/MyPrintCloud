@@ -100,9 +100,9 @@ namespace MPC.Webstore
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+             
 
-
-            //Commented By Naveed
+            //Commented By Naveeds
             /*  RegisterIoC();
               AreaRegistration.RegisterAllAreas();
             //  ConfigureLogger();
@@ -182,6 +182,7 @@ namespace MPC.Webstore
             {
                 Response.Redirect("/Error");
             }
+
         }
     }
 }

@@ -85,7 +85,7 @@ namespace MPC.Webstore.Controllers
 
 
                     }
-                    ViewBag.btnUploadDesignPath = "/ProductOptions/" + CategoryID + "/" + ItemID + "/Mode=UploadDesign";
+                    ViewBag.btnUploadDesignPath = "/ProductOptions/" + CategoryID + "/" + ItemID + "/ItemMode=UploadDesign";
 
                     // LayoutGrid
 

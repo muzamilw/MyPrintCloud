@@ -289,9 +289,10 @@
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
+    <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
-    <Compile Include="Controllers\SecondaryPagesController.cs" />
+    <Compile Include="Controllers\QuickLinksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -570,7 +571,7 @@
     <Content Include="Views\Shared\PartialViews\Banner.cshtml" />
     <Content Include="Views\Shared\PartialViews\LoginBar.cshtml" />
     <Content Include="Views\Shared\PartialViews\ParentCategories.cshtml" />
-    <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
+    <Content Include="Views\Shared\PartialViews\QuickLinks.cshtml" />
     <Content Include="Views\Shared\PartialViews\Login.cshtml" />
     <Content Include="Views\Home\oAuth.cshtml" />
     <Content Include="Views\Shared\PartialViews\SignUp.cshtml" />
@@ -587,6 +588,7 @@
     <Content Include="Views\Shared\PartialViews\RelatedItems.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductDetail.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateItem.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -598,6 +600,7 @@
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
     <Folder Include="Views\RealEstateItem\" />
+    <Folder Include="Views\SecondaryPages\" />
     <Folder Include="Views\ShopCart\" />
   </ItemGroup>
   <ItemGroup>
