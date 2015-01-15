@@ -218,53 +218,53 @@ define("stores/stores.view",
                 initializeDropZones = function () {
 
                     // Create Dropzone's
-                    // "demoUpload1" is the HTML element's ID
-                    $("#demoUpload1").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function () {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.thumbnail, "Thumbnail",
-                                viewModel.selectedProduct().thumbnail());
-                        }
-                    });
+                    //// "demoUpload1" is the HTML element's ID
+                    //$("#demoUpload1").dropzone({
+                    //    paramName: "file", // The name that will be used to transfer the file
+                    //    maxFilesize: 1,
+                    //    addRemoveLinks: true,
+                    //    dictRemoveFile: "Delete",
+                    //    init: function () {
+                    //        initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.thumbnail, "Thumbnail",
+                    //            viewModel.selectedProduct().thumbnail());
+                    //    }
+                    //});
 
-                    // Image Path
-                    $("#demoUpload2").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function () {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.imagePath, "Image Path",
-                                viewModel.selectedProduct().imagePath());
-                        }
-                    });
+                    //// Image Path
+                    //$("#demoUpload2").dropzone({
+                    //    paramName: "file", // The name that will be used to transfer the file
+                    //    maxFilesize: 1,
+                    //    addRemoveLinks: true,
+                    //    dictRemoveFile: "Delete",
+                    //    init: function () {
+                    //        initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.imagePath, "Image Path",
+                    //            viewModel.selectedProduct().imagePath());
+                    //    }
+                    //});
 
-                    // Grid Image
-                    $("#demoUpload3").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function () {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.grid, "Grid",
-                                viewModel.selectedProduct().gridImage());
-                        }
-                    });
+                    //// Grid Image
+                    //$("#demoUpload3").dropzone({
+                    //    paramName: "file", // The name that will be used to transfer the file
+                    //    maxFilesize: 1,
+                    //    addRemoveLinks: true,
+                    //    dictRemoveFile: "Delete",
+                    //    init: function () {
+                    //        initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.grid, "Grid",
+                    //            viewModel.selectedProduct().gridImage());
+                    //    }
+                    //});
 
-                    // Grid Image
-                    $("#demoUpload4").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function () {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.file1, "File1",
-                                viewModel.selectedProduct().file1());
-                        }
-                    });
+                    //// Grid Image
+                    //$("#demoUpload4").dropzone({
+                    //    paramName: "file", // The name that will be used to transfer the file
+                    //    maxFilesize: 1,
+                    //    addRemoveLinks: true,
+                    //    dictRemoveFile: "Delete",
+                    //    init: function () {
+                    //        initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.file1, "File1",
+                    //            viewModel.selectedProduct().file1());
+                    //    }
+                    //});
                 },
                 //#endregion
 

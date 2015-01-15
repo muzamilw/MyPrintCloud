@@ -13,7 +13,7 @@
                             <div class="footer_left_portion_division float_left_simple">
                                 <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@item.CategoryName</label>
 
-                                @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPage>)
+                                @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPageModel>)
                                 {
                                     if (page.CategoryId == item.CategoryId)
                                     {

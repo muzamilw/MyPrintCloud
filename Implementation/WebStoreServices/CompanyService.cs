@@ -104,7 +104,7 @@ namespace MPC.Implementation.WebStoreServices
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
+                List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
@@ -119,10 +119,8 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                 oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
-
+                oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                 stores.Add(oCompany.CompanyId, oStore);
-
-
 
 
                 cache.Set(CacheKeyName, stores, policy);
@@ -135,7 +133,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     Company oCompany = GetCompanyByCompanyID(companyId);
 
-                    List<CmsPage> AllPages = _cmsPageRepositary.GetSecondaryPages(oCompany.CompanyId);
+                    List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(oCompany.CompanyId);
 
                     MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
 
@@ -183,7 +181,7 @@ namespace MPC.Implementation.WebStoreServices
                 stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
-                List<CmsPage> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
+                List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
@@ -198,7 +196,7 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                 oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
-
+                oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                 stores.Add(oCompany.CompanyId, oStore);
                 cache.Set(CacheKeyName, stores, policy);
             }
