@@ -127,7 +127,7 @@ define("stores/stores.viewModel",
                     //Delete Stock Category
                     deleteStore = function (store) {
                         dataservice.deleteStore({
-                            companyId: store.companyId(),
+                            CompanyId: store.companyId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {

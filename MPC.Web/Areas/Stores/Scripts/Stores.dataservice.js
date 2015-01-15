@@ -84,8 +84,7 @@
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
-                        decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'DELETE'
+                        type: 'Delete'
                     });
                     // Define request to save Store
                     amplify.request.define('saveStore', 'ajax', {
