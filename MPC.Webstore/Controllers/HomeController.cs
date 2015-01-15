@@ -20,6 +20,7 @@ using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 
 
+
 namespace MPC.Webstore.Controllers
 {
     public class HomeController : Controller
@@ -214,15 +215,21 @@ namespace MPC.Webstore.Controllers
            if(UserCookieManager.isRegisterClaims == 1)
             {
                 // login 
+
+                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email);
+
                 ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddSignInClaimsToIdentity(12, 12, 1, 1, identity);
+                ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
 
-                var claimsPriciple = new ClaimsPrincipal(identity);// HttpContext.User = new ClaimsPrincipal(identity);
+                var claimsPriciple = new ClaimsPrincipal(identity);
                 // Make sure the Principal's are in sync
-                HttpContext.User = claimsPriciple;// ;
+                HttpContext.User = claimsPriciple;
+
                 Thread.CurrentPrincipal = HttpContext.User;
+
                 AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
                 UserCookieManager.isRegisterClaims = 0;
             }
             else if (UserCookieManager.isRegisterClaims == 2)

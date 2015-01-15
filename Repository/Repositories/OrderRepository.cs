@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using MPC.Models.Common;
 using MPC.Interfaces.WebStoreServices;
+using System.Web;
 namespace MPC.Repository.Repositories
 {
     public class OrderRepository : BaseRepository<Estimate>, IOrderRepository
@@ -68,7 +69,7 @@ namespace MPC.Repository.Repositories
             Estimate orderObject = new Estimate();
 
             orderObject.CompanyId = (int)CompanyId;
-            
+
             orderObject.OrganisationId = OrganisationId;
 
             orderObject.CompanyName = "N/A";
@@ -110,7 +111,7 @@ namespace MPC.Repository.Repositories
                 return 0;
             }
         }
-     
+
         public long GetOrderID(long CustomerId, long ContactId, string orderTitle, long OrganisationId)
         {
             long orderID = 0;
@@ -564,7 +565,7 @@ namespace MPC.Repository.Repositories
                 foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
                 {
                     SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
-             
+
                     QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
                     QtyTaxVal = (QtyNewTotal * StateTax) / 100;
                     item.Qty1NetTotal = QtyNewTotal;
@@ -639,7 +640,7 @@ namespace MPC.Repository.Repositories
                 foreach (var item in tblOrder)
                 {
                     SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
-               
+
                     DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
                     item.Qty1CostCentreProfit = DiscountedAmount;
                     TotalDiscAmount += DiscountedAmount;
@@ -658,9 +659,9 @@ namespace MPC.Repository.Repositories
                 }
                 if (db.SaveChanges() > 0)
                 {
-                  
-                        return TotalDiscAmount;
-                   
+
+                    return TotalDiscAmount;
+
                 }
                 else
                 {
@@ -725,7 +726,8 @@ namespace MPC.Repository.Repositories
         {
 
             return db.Estimates.Where(c => c.ContactId == contactId && c.CompanyId == CompanyId && c.StatusId == (int)OrderStatus.ShoppingCart).Select(i => i.EstimateId).FirstOrDefault();
-           
+
         }
+       
     }
 }

@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
+using System.Web;
 
 
 namespace MPC.Implementation.WebStoreServices
@@ -25,7 +26,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IProductCategoryRepository _ProductCategoryRepository;
         private readonly IItemAttachmentRepository _itemAtachement;
         private readonly IFavoriteDesignRepository _favoriteDesign;
-
+        private readonly ITemplateService _templateService;
         #region Constructor
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
-            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign)
+            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -44,6 +45,7 @@ namespace MPC.Implementation.WebStoreServices
             this._ProductCategoryRepository = ProductCategoryRepository;
             this._itemAtachement = itemAtachement;
             this._favoriteDesign = FavoriteDesign;
+            this._templateService = templateService;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -342,6 +344,95 @@ namespace MPC.Implementation.WebStoreServices
                 return _favoriteDesign.GetFavContactDesign(templateID, contactID);
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+        public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId)
+        {
+            List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved = null;
+            List<Template> clonedTempldateFilesList = null;
+
+            if (TemporaryCompanyId > 0 && TemporaryCompanyId != CompanyId)
+            {
+                long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                if (orderId > 0)
+                {
+                    RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
+                    RemoveItemTemplateFilesPhysically(clonedTempldateFilesList, OrganisationId);
+                    return orderId;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return OrderId;
+            }
+        }
+
+        /// <summary>
+        /// Remove Item Attachments
+        /// </summary>
+        /// <param name="attatchmentList"></param>
+        private void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        {
+            string completePath = string.Empty;
+            try
+            {
+                if (attatchmentList != null)
+                {
+                    foreach (ArtWorkAttatchment itemAtt in attatchmentList)
+                    {
+                        completePath = HttpContext.Current.Server.MapPath(itemAtt.FolderPath + itemAtt.FileName);
+                        if (itemAtt.UploadFileType == UploadFileTypes.Artwork)
+                        {
+                            //delete the thumb nails as well.
+                            completePath = completePath.Replace(itemAtt.FileExtention, "Thumb.png");
+
+                            if (System.IO.File.Exists(completePath))
+                            {
+                                System.IO.File.Delete(completePath);
+                            }
+                        }
+                        if (System.IO.File.Exists(completePath))
+                        {
+                            System.IO.File.Delete(completePath);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        /// <summary>
+        /// Remove Template files
+        /// </summary>
+        /// <param name="clonedTempldateFiles"></param>
+        private void RemoveItemTemplateFilesPhysically(List<Template> clonedTempldateFilesList, long OrganisationId)
+        {
+            try
+            {
+                if (clonedTempldateFilesList != null)
+                {
+                    foreach (Template templ in clonedTempldateFilesList)
+                    {
+                        if (templ.ProductId > 0)
+                        {
+                            _templateService.DeleteTemplateFiles(templ.ProductId, OrganisationId);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

@@ -25,14 +25,15 @@ namespace MPC.Webstore.Controllers
 
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
-
+        private readonly IItemService _ItemService;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public LoginController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public LoginController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker
+            , IItemService ItemService)
         {
             if (myCompanyService == null)
             {
@@ -44,6 +45,7 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+            this._ItemService = ItemService;
         }
 
         #endregion
@@ -177,13 +179,25 @@ namespace MPC.Webstore.Controllers
                 
                 UserCookieManager.Email = user.Email;
 
-                if (ReturnUrl == "Social")
-                    RedirectToLocal(ReturnUrl);
-                else
-                    Response.Redirect("/");
+                long Orderid = _ItemService.PostLoginCustomerAndCardChanges(0, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
 
+                if (ReturnUrl == "Social")
+                {
+                    RedirectToLocal(ReturnUrl);
+                } 
+                else
+                {
+                    if (Orderid > 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = 0;
+                        Response.Redirect("/ShopCart/" + Orderid);
+                    }
+                    else 
+                    {
+                        Response.Redirect("/");
+                    }
+                }
                 return null;
-               
             }
 
         }
@@ -193,7 +207,7 @@ namespace MPC.Webstore.Controllers
             {
                 ControllerContext.HttpContext.Response.Redirect(returnUrl);
             }
-            Response.Redirect("/");
+           // Response.Redirect("/");
            // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }

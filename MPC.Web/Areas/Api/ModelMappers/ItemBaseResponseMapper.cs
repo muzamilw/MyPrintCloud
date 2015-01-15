@@ -22,7 +22,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(cc => cc.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 Countries = source.Countries != null ? source.Countries.Select(cc => cc.CreateFrom()) : new List<Country>(),
                 States = source.States != null ? source.States.Select(cc => cc.CreateFrom()) : new List<State>(),
-                Suppliers = source.Suppliers != null ? source.Suppliers.Select(cc => cc.CreateFromForInventory()) : new List<SupplierForInventory>()
+                Suppliers = source.Suppliers != null ? source.Suppliers.Select(cc => cc.CreateFromForInventory()) : new List<SupplierForInventory>(),
+                ProductCategories = source.ProductCategories != null ? source.ProductCategories.Select(cc => cc.CreateFromDropDown()) : new List<ProductCategoryDropDown>()
             };
         }
         

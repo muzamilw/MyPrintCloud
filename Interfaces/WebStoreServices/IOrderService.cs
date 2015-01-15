@@ -36,5 +36,6 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="orderId"></param>
         /// <returns></returns>
         long GetOrderIdByContactId(long contactId, long CompanyId);
+       
     }
 }

@@ -32,5 +32,10 @@ namespace MPC.Models.ResponseModels
         /// Suppliers
         /// </summary>
         public IEnumerable<Company> Suppliers { get; set; }
+
+        /// <summary>
+        /// Parent Product Categories
+        /// </summary>
+        public IEnumerable<ProductCategory> ProductCategories { get; set; } 
     }
 }

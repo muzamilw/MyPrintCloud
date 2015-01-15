@@ -54,6 +54,16 @@ namespace MPC.Interfaces.Repository
 
         double GetMinimumProductValue(long itemId);
 
-
+        /// <summary>
+        /// Update Order
+        /// </summary>
+        /// <param name="TemporaryCustomerID"></param>
+        /// <param name="realCustomerID"></param>
+        /// <param name="realContactID"></param>
+        /// <param name="replacedOrderdID"></param>
+        /// <param name="orderAllItemsAttatchmentsListToBeRemoved"></param>
+        /// <param name="clonedTemplateToRemoveList"></param>
+        /// <returns></returns>
+        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
     }
 }

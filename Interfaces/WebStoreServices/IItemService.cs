@@ -89,5 +89,16 @@ namespace MPC.Interfaces.WebStoreServices
         bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
 
         FavoriteDesign GetFavContactDesign(long templateID, long contactID);
+        /// <summary>
+        /// Update Temporary Customer order
+        /// </summary>
+        /// <param name="TemporaryCustomerID"></param>
+        /// <param name="realCustomerID"></param>
+        /// <param name="realContactID"></param>
+        /// <param name="replacedOrderdID"></param>
+        /// <param name="orderAllItemsAttatchmentsListToBeRemoved"></param>
+        /// <param name="clonedTemplateToRemoveList"></param>
+        /// <returns></returns>
+        long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
     }
 }

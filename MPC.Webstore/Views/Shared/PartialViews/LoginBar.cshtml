@@ -23,7 +23,7 @@
                     <li class="ZeroRightMargin BlackBtnCS">
                         <a href="/ShopCart" class="top_sub_section_links hyperlinkCart ">
                             <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                            <span class="carttxtcolorSize classicthemeLoginMenu">ShoppingCart</span>
+                            <span class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId))<</span>
                             <div class="lblCartCounter" id="lblCartCount">
                             </div>
                         </a>

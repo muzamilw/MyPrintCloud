@@ -152,6 +152,7 @@
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
     <Compile Include="DomainModels\Role.cs" />
+    <Compile Include="DomainModels\sp_GetTemplateImages_Result.cs" />
     <Compile Include="DomainModels\sp_GetUsedFontsUpdated_Result.cs" />
     <Compile Include="DomainModels\TemplateColorStyle.cs" />
     <Compile Include="DomainModels\TemplateFileTableView.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
+    <Compile Include="ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
     <Compile Include="ModelMappers\TemplateMapper.cs" />
