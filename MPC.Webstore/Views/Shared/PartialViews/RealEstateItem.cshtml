@@ -1,4 +1,4 @@
-﻿
+﻿@using MPC.Webstore.Common;
 
 <style type="text/css">
     .activeCampaigns {
@@ -28,7 +28,7 @@
         {
             <li>
                 <a id="hlItemUrl">
-                    <img id="imgBanner" src="@banner" style="height: 100px; width: 150px;" />
+                    <img id="imgBanner" src="@Html.GetAppBasePath()@banner" style="height: 100px; width: 150px;" />
                 </a>
             </li>
         }

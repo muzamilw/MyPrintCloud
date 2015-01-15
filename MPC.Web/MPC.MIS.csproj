@@ -2702,8 +2702,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="MPC_Content\Resources\Organisation2\en-US\LanguageResource2.resx" />
-    <EmbeddedResource Include="MPC_Content\Resources\Organisation2\fr-FR\LanguageResource2.resx" />
+    <EmbeddedResource Include="MPC_Content\Resources\Organisation2\en-US\LanguageResource.resx" />
+    <EmbeddedResource Include="MPC_Content\Resources\Organisation2\fr-FR\LanguageResource.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -47,7 +47,7 @@ namespace MPC.Webstore.Controllers
             MPC.Webstore.Models.Company model = null;
 
             MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-
+            
             if (baseResponse.Company != null)
             {
                 model = baseResponse.Company;
