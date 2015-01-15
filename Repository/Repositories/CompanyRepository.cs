@@ -195,18 +195,17 @@ namespace MPC.Repository.Repositories
 
             ContactCompany.IsCustomer = 0; //prospect
 
-            // code commented because markup id is not mapped
-
-            //long? markupid = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(m => m.MarkupId).FirstOrDefault();
-
-            //if (markupid != null || markupid > 0)
-            //{
-            //    ContactCompany.DefaultMarkUpId = (int)markupid;
-            //}
-            //else
-            //{
-            //    ContactCompany.DefaultMarkUpId = 0;
-            //}
+            
+            Markup OrgMarkup =  db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
+          
+            if (OrgMarkup != null)
+            {
+                ContactCompany.DefaultMarkUpId = (int)OrgMarkup.MarkUpId;
+            }
+            else
+            {
+                ContactCompany.DefaultMarkUpId = 0;
+            }
 
            
             //Create Customer

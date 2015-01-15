@@ -177,7 +177,7 @@ namespace MPC.Webstore.Controllers
                 EmailParams.StoreID = (int)UserCookieManager.StoreId;
                 EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
                 int OID = (int)org.OrganisationId;
-                _ICampaignService.emailBodyGenerator(EventCampaign, org, EmailParams, null, StoreMode.Retail, OID, "", "", "", baseResponse.Company.MarketingBriefRecipient, baseResponse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", baseResponse.Company.MarketingBriefRecipient, baseResponse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
                 
                
             }
@@ -200,7 +200,7 @@ namespace MPC.Webstore.Controllers
                
                  
                 int OID = (int)org.OrganisationId;
-                _ICampaignService.emailBodyGenerator(EventCampaign, org, EmailParams, null, StoreMode.Retail, OID, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
 
                
             }
