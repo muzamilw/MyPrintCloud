@@ -68,7 +68,6 @@ namespace MPC.MIS.Areas.Api.Controllers
         [HttpPost]
         public Company Post(Company company)
         {
-            //FormCollection
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
