@@ -1,10 +1,10 @@
 ﻿@model List<MPC.Webstore.Models.CompanyBanner>
 @using MPC.Webstore.Common;
-@foreach (var banner in Model)
-{
-    <div class="content_area container" id="bannerContainer">
 
-        <ul class="bxslider">
+<div class="content_area container" id="bannerContainer">
+    <ul class="bxslider">
+        @foreach (var banner in Model)
+        {
 
             <li>
                 <a id="hlItemUrl">
@@ -12,7 +12,6 @@
                 </a>
 
             </li>
-
-        </ul>
-    </div>
-}
+        }
+    </ul>
+</div>

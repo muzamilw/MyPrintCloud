@@ -5,6 +5,7 @@ using MPC.Repository.BaseRepository;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -144,6 +145,39 @@ namespace MPC.Repository.Repositories
 
                 }
             
+        }
+
+        public List<sp_GetTemplateImages_Result> getImages(int isCalledFrom, int imageSetType, long productId, long contactCompanyId, long contactId, long territoryId, int pageNumber, string SearchKeyword, out int imageCount)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var imgCount = new ObjectParameter("imageCount", typeof(int));
+            imgCount.Value = 0;
+            List<sp_GetTemplateImages_Result> result = db.sp_GetTemplateImages(isCalledFrom, imageSetType, productId, contactCompanyId, contactId, territoryId, pageNumber, 20, "", SearchKeyword, imgCount).ToList();
+            imageCount =Convert.ToInt32( imgCount.Value);
+            return result;
+        }
+        public TemplateBackgroundImage getImage(long imgID)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var img = db.TemplateBackgroundImages.Where(g => g.Id == imgID).SingleOrDefault();
+            return img;
+        }
+        public TemplateBackgroundImage UpdateImage(long imageID, string imgTitle, string imgDescription, string imgKeywords, int imType)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var img = db.TemplateBackgroundImages.Where(g => g.Id == imageID).SingleOrDefault();
+            if (img != null)
+            {
+                img.ImageTitle = imgTitle;
+                img.ImageDescription = imgDescription;
+                img.ImageKeywords = imgKeywords;
+                if (imType != 0)
+                {
+                    img.ImageType = imType;
+                }
+                db.SaveChanges();
+            }
+            return img;
         }
         #endregion
     }

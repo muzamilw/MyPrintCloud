@@ -4144,10 +4144,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
         <Function Name="sp_GetTemplateImages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="isCalledFrom" Type="int" Mode="In" />
           <Parameter Name="imageSetType" Type="int" Mode="In" />
-          <Parameter Name="templateID" Type="int" Mode="In" />
-          <Parameter Name="contactCompanyID" Type="int" Mode="In" />
-          <Parameter Name="contactID" Type="int" Mode="In" />
-          <Parameter Name="territory" Type="int" Mode="In" />
+          <Parameter Name="templateID" Type="bigint" Mode="In" />
+          <Parameter Name="contactCompanyID" Type="bigint" Mode="In" />
+          <Parameter Name="contactID" Type="bigint" Mode="In" />
+          <Parameter Name="territory" Type="bigint" Mode="In" />
           <Parameter Name="pageNumber" Type="int" Mode="In" />
           <Parameter Name="pageSize" Type="int" Mode="In" />
           <Parameter Name="sortColumn" Type="nvarchar" Mode="In" />
@@ -5372,10 +5372,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <FunctionImport Name="sp_GetTemplateImages" ReturnType="Collection(DomainModels.sp_GetTemplateImages_Result)">
             <Parameter Name="isCalledFrom" Mode="In" Type="Int32" />
             <Parameter Name="imageSetType" Mode="In" Type="Int32" />
-            <Parameter Name="templateID" Mode="In" Type="Int32" />
-            <Parameter Name="contactCompanyID" Mode="In" Type="Int32" />
-            <Parameter Name="contactID" Mode="In" Type="Int32" />
-            <Parameter Name="territory" Mode="In" Type="Int32" />
+            <Parameter Name="templateID" Mode="In" Type="Int64" />
+            <Parameter Name="contactCompanyID" Mode="In" Type="Int64" />
+            <Parameter Name="contactID" Mode="In" Type="Int64" />
+            <Parameter Name="territory" Mode="In" Type="Int64" />
             <Parameter Name="pageNumber" Mode="In" Type="Int32" />
             <Parameter Name="pageSize" Mode="In" Type="Int32" />
             <Parameter Name="sortColumn" Mode="In" Type="String" />

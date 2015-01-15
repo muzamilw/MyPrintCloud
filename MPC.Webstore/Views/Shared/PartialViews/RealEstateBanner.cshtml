@@ -1,0 +1,68 @@
+﻿
+<style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .bx-wrapper .bx-viewport {
+        border: none;
+        left: 0;
+    }
+
+    ul.bxslider {
+        margin: 0;
+        padding: 0;
+    }
+
+    div.slide-desc {
+        text-align: left;
+        position: absolute;
+        padding-top: 2%;
+        top: 0%;
+        right: 0%;
+        width: 25%;
+        height: 100%;
+        color: white;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, .4);
+        box-shadow: -12px 0 90px 45px rgba(0, 0, 0, 0.4);
+        font-family: 'PT Sans';
+    }
+
+    div.slide-desc-parent {
+        width: 310px;
+        height: 350px;
+        background-color: rgba(0, 0, 0, .4);
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        box-shadow: -12px 0 30px 18px rgba(0, 0, 0, 0.4);
+    }
+</style>
+
+
+
+<div class="content_area container" id="bannerContainer" style="width: 100% !important; height: 200px; position: relative;">
+    <ul class=" bxslider">
+        @foreach (var banner in Model)
+        {
+            <li>
+                <a id="hlItemUrl">
+                    <img id="imgBanner" src="http://yolkpm.myprintcloud.com//StoredImages/PageBanners/ce7d3d5b-229b-4487-9ac7-066ae7926014_HomePageBanner.png" />
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.bx-wrapper').css({
+            'margin': '0px',
+            'box-shadow': '0px 0px 14px 5px lightgray',
+            'position': 'relative',
+            'z-index': '99'
+        });
+    });
+</script>

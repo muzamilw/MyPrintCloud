@@ -164,7 +164,12 @@ define("product/product.viewModel",
                             if (productCategoryItem) {
                                 productCategory.isSelected(true);
                             }
+                            else {
+                                productCategory.isSelected(false);
+                            }
                         });
+                        // Update Input Checked States in Bindings
+                        view.updateInputCheckedStates();
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {

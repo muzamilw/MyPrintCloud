@@ -653,7 +653,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (selectedCategories.length > 0) {
                         _.each(selectedCategories, function(productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function(productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && !productCategoryItemObj.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id && !productCategoryItem.isSelected();
                             });
 
                             // Exists Already
@@ -676,7 +676,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (unselectedCategories.length > 0) {
                         _.each(unselectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.id() && productCategoryItemObj.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.id() && productCategoryItem.isSelected();
                             });
 
                             // Exists Already
@@ -2400,8 +2400,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             });
 
             // Push to Original Item
-            ko.utils.arrayPushAll(item.ProductCategoryItems(), ProductCategoryItems);
-            item.ProductCategoryItems.valueHasMutated();
+            ko.utils.arrayPushAll(item.productCategoryItems(), productCategoryItems);
+            item.productCategoryItems.valueHasMutated();
         }
 
         // Return item with dirty state if New
