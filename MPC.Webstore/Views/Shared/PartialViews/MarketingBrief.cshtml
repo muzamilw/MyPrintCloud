@@ -1,4 +1,6 @@
 ﻿@model MPC.Models.Common.ProductItem
+@using MPC.Models.Common;
+@using MPC.Webstore.Common;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -188,7 +190,7 @@
                         </div>
                     </div>
                     <div class="MB_fileUploadContainer">
-                        @* <asp:FileUpload ID="fuImageUpload" runat="server" CssClass="file_upload_box185" />*@<asp:FileUpload ID="fuImageUpload" runat="server" CssClass="file_upload_box185" />
+                        <asp:FileUpload ID="fuImageUpload" runat="server" CssClass="file_upload_box185" />
                         <input type="file" id="fuImageUpload" class="file_upload_box185" />
                     </div>
                 </div>
@@ -200,7 +202,7 @@
             }
         </div>
                  <div id="RightPanel" class="MB_RightCont float_left_simple">
-            <img id="CatImge" class="MB_ProductImage float_left_simple" src="@Model.ThumbnailPath" />
+                     <img id="CatImge" class="MB_ProductImage float_left_simple" src='@Html.GetAppBasePath()@Model.ThumbnailPath' />
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
                 <div class="white_background rounded_corners MB_RightInnerPnl">
                     <div class="MB_GrayBack">

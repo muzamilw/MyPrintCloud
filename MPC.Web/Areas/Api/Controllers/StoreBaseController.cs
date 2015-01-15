@@ -46,6 +46,24 @@ namespace MPC.MIS.Areas.Api.Controllers
                        //CmsPageDropDownList = result.CmsPages.Select(x => x.CreateFromForDropDown())
                    };
         }
+        public CompanyBaseResponse Get()
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            var result = companyService.GetBaseDataForNewCompany();
+            return new CompanyBaseResponse
+            {
+                SystemUsers = result.SystemUsers != null? result.SystemUsers.Select(x => x.CreateFrom()): null,
+                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()): null,
+                PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : null,
+                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
+                Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : null,
+                EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
+                Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
+            };
+        }
         #endregion
 
     }

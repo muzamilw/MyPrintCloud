@@ -307,7 +307,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
                 result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
-                result.CompanyType = CompanyType().convertToServerData(source.companyType());
+                result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.RaveReviews = [];
                 result.PaymentGateways = [];
                 result.CompanyContacts = [];
@@ -322,9 +322,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 _.each(source.companyCMYKColors(), function (item) {
                     result.CompanyCmykColors.push(item.convertToServerData());
                 });
-                _.each(source.users(), function (item) {
-                    result.CompanyContacts.push(item.convertToServerData());
-                });
+                //_.each(source.users(), function (item) {
+                //    result.CompanyContacts.push(item.convertToServerData());
+                //});
                 //#region Arrays
                 result.NewAddedCompanyTerritories = [];
                 result.EdittedCompanyTerritories = [];

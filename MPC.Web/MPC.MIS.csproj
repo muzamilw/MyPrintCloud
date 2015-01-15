@@ -2641,6 +2641,7 @@
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
+    <Folder Include="MPC_Content\Resources\" />
     <Folder Include="MPC_Content\Resources\Organisation2\en-US\" />
     <Folder Include="MPC_Content\Resources\Organisation2\fr-FR\" />
     <Folder Include="MPC_Content\SecondaryPages\" />

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace MPC.Interfaces.WebStoreServices
 {
-    public interface IListingService
+    public interface IImagePermissionsService
     {
-        List<Listing> GetRealEstateProperties();
-
-        string GetImageURLByListingId(long listingId);
+        bool UpdateImagTerritories(long imgID, string territory);
+        List<ImagePermission> getTerritories(long imgID);
     }
 }

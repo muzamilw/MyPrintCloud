@@ -101,7 +101,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                         ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
                         : null,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(),
+                CompanyBannerSets = source.CompanyBannerSets != null? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(): null,
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
