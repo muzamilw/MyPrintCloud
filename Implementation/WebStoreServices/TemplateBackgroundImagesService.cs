@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using MPC.Common;
+using MPC.Models.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -133,7 +134,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
             }
         }
-        // get template images list called from designer 
+        // get template images list called from designer // added by saqib
         public List<TemplateBackgroundImage> GetProductBackgroundImages(long productId,long organisationID)
         {
             try
@@ -158,7 +159,7 @@ namespace MPC.Implementation.WebStoreServices
             return null;
         }
 
-        // delete a specific image from the template based on image id 
+        // delete a specific image from the template based on image id // added by saqib
         public bool DeleteProductBackgroundImage(long productID, long ImageID,long organisationID)
         {
             try
@@ -253,7 +254,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw e;
             }
         }
-
+        // called from designer to download an image in a template // added by saqib
         public string DownloadImageLocally(string ImgName, long TemplateID, string imgType,long organisationID)
         {
             int imageType = Convert.ToInt32(imgType);
@@ -334,6 +335,71 @@ namespace MPC.Implementation.WebStoreServices
             return NewImgPath;
 
         }
-    }
+        // called from designer to load images from DAM // added by saqib 
+        public DesignerDamImageWrapper getImages(int isCalledFrom, int imageSetType, long productId, long contactCompanyID, long contactID, long territoryId, int pageNumner, string SearchKeyword, long OrganisationID)
+        {
+            try
+            {
+                if (SearchKeyword == "___notFound")
+                {
+                    SearchKeyword = "";
+                }
+                int imgCount = 0;
+                var result = _templateImagesRepository.getImages(isCalledFrom, imageSetType, productId, contactCompanyID, contactID, territoryId, pageNumner, SearchKeyword, out imgCount);
+                foreach (var objBackground in result)
+                {
+                    if (objBackground.ImageName != null && objBackground.ImageName != "")
+                    {
+                        objBackground.BackgroundImageRelativePath = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
+                    }
 
+                }
+                DesignerDamImageWrapper objWrapper = new DesignerDamImageWrapper();
+                objWrapper.ImageCount = imgCount;
+                objWrapper.objsBackground = result;
+                return objWrapper; 
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), OrganisationID);
+            }
+
+ 
+
+        }
+        //get a single image record //added by saqib
+        public TemplateBackgroundImage getImage(long imgID, long OrganisationID)
+        {
+            int imageID = Convert.ToInt32(imgID);
+            var img = _templateImagesRepository.getImage(imgID);
+            if (img != null)
+            {
+                if (img.ImageName != null && img.ImageName != "")
+                {
+                    img.BackgroundImageRelativePath = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + img.ImageName;
+                }
+                if (img.ImageTitle == null)
+                {
+                    string[] imgs = img.ImageName.Split('/');
+                    img.ImageTitle = imgs[imgs.Length - 1];
+
+                }
+            }
+            return img;
+        }
+
+        // update an image record  //added by saqib
+        public TemplateBackgroundImage UpdateImage(long imageID, int imType, string imgTitle, string imgDescription, string imgKeywords)
+        {
+            imgTitle = imgTitle.Replace("___", "/");
+            imgDescription = imgDescription.Replace("___", "/");
+            imgKeywords = imgKeywords.Replace("___", "/");
+            imgKeywords = imgKeywords.Replace("__", ",");
+            imgTitle = imgTitle.Replace("__", ",");
+            imgDescription = imgDescription.Replace("__", ",");
+            return _templateImagesRepository.UpdateImage(imageID, imgTitle, imgDescription, imgKeywords, imType);
+        }
+
+    }
+   
 }
