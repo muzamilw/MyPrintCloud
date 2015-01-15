@@ -134,7 +134,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Color Pallete
         /// </summary>
-        public ColorPallete ColorPallete { get; set; }
+        public List<ColorPallete> ColorPalletes { get; set; }
 
 
         #region CMS Pages

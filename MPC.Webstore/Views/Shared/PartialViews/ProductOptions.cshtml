@@ -1,4 +1,5 @@
 ﻿@model MPC.Webstore.Models.ItemCartViewModel
+@using MPC.Webstore.Common;
 @using Newtonsoft.Json;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -81,7 +82,7 @@
                             {
                              <div class="CostCenterItems" data-StockId="@costcenter.ItemStockId" style="display:none;">
                                     <div class="float_left_simple spacerbottom" style="width: 120px;">
-                                        <img class="RfgImgCs" src=@costcenter.AddOnImage />
+                                        <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
                                     </div>
                                     <div class="extra_item float_left_simple">
                                         <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
@@ -538,25 +539,25 @@
                 @if (!string.IsNullOrEmpty(ViewBag.Item.File1))
                 {
                     <a id="IcoPhotoshop" href="@ViewBag.Item.File1" target="_blank" class="DownloadImages">
-                        <img src="@ViewBag.DesignServiceUrl/@ViewBag.Item.File1" />
+                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File1" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.Item.File2))
                 {
                     <a id="IcoIllustrator" href="@ViewBag.Item.File2" target="_blank" class="DownloadImages">
-                        <img src="@ViewBag.DesignServiceUrl/@ViewBag.Item.File2" />
+                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File2" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.Item.File3))
                 {
                     <a id="Icoindesign" href="@ViewBag.Item.File3" target="_blank" class="DownloadImages">
-                        <img src="@ViewBag.DesignServiceUrl/@ViewBag.Item.File3" />
+                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File3" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.Item.File4))
                 {
                     <a id="IcoPdf" href="@ViewBag.Item.File4" target="_blank" class="DownloadImages">
-                        <img src="@ViewBag.DesignServiceUrl/@ViewBag.Item.File4" />
+                        <img src="@Html.GetAppBasePath()@ViewBag.Item.File4" />
                     </a>
                 }
             </div>

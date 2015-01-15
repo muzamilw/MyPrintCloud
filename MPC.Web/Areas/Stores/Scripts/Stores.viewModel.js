@@ -1517,6 +1517,7 @@ define("stores/stores.viewModel",
                     saveStore = function () {
                         if (doBeforeSave()) {
                             var storeToSave = model.Store().convertToServerData(selectedStore());
+                            storeToSave.ColorPalletes.push(selectedStore().colorPalette().convertToServerData(selectedStore().colorPalette()));
                             //#region Company Territories
                             _.each(newCompanyTerritories(), function (territory) {
                                 storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
@@ -1681,7 +1682,9 @@ define("stores/stores.viewModel",
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
 
-
+                                    _.each(data.Company.ColorPalletes, function (item) {
+                                        selectedStore().colorPalette(model.ColorPalette.Create(item));
+                                    });
                                     cmsPagesForStoreLayout.removeAll();
                                     if (data.Company.CmsPagesDropDownList !== null) {
                                         ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);

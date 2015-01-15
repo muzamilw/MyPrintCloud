@@ -2400,8 +2400,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             });
 
             // Push to Original Item
-            ko.utils.arrayPushAll(item.ProductCategoryItems(), ProductCategoryItems);
-            item.ProductCategoryItems.valueHasMutated();
+            ko.utils.arrayPushAll(item.productCategoryItems(), productCategoryItems);
+            item.productCategoryItems.valueHasMutated();
         }
 
         // Return item with dirty state if New

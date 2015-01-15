@@ -1,5 +1,5 @@
 ﻿
-<div class="modal fade" id="phraseLibraryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: block; max-height: 700px; overflow-y: auto;">
+<div class="modal fade" id="phraseLibraryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; max-height: 700px; overflow-y: auto;">
     <div style="width:838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -61,7 +61,7 @@
 
 <script id="sectionIemTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-id="15">
-        <div class="dd-handle-list" data-bind="click: $root.selectSection" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
             <span data-bind="text: name"></span>
             <div class="nested-links">
@@ -77,7 +77,7 @@
 
 <script id="childSectionIemTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-id="16">
-        <div class="dd-handle-list" data-bind="click: $root.selectPhraseField" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle-list" data-bind="click: $root.selectPhraseField, css: { selectedPhraseField: $root.selectedPhraseField() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
         <div class="dd-handle txt-white-hover">
             <span data-bind="text: fieldName"></span>
             <div class="nested-links">

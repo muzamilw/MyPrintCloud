@@ -358,7 +358,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     result.PaymentGateways.push(item.convertToServerData());
                 });
 
-                result.ColorPallete = source.colorPalette().convertToServerData(source.colorPalette());
+                result.ColorPalletes = [];
                 result.StoreBackgroudImageImageSource = source.storeBackgroudImageImageSource();
                 result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
                 //#endregion
@@ -1065,9 +1065,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 color5: color5,
                 color6: color6,
                 color7: color7,
-                skinId: skinId,
-                isDefault: isDefault,
-                companyId: companyId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1111,6 +1108,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         };
         return self;
     };
+    ColorPalette.Create = function (source) {
+        return new ColorPalette(source.PalleteId, source.PalleteName, source.Color1, source.Color2, source.Color3, source.Color4, source.Color5, source.Color5, "", "", 0);
+    }
     // #endregion ______________  Color Palettes   _________________
 
     // #region ______________  A D D R E S S   _________________

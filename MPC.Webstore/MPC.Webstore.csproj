@@ -260,6 +260,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\ImagePermissionController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\TemplateBackgroundImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateFontsController.cs" />
@@ -289,6 +291,8 @@
     <Compile Include="Controllers\MarketingBriefController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
+    <Compile Include="Controllers\RealEstateBannerController.cs" />
+    <Compile Include="Controllers\RealEstateHeaderController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
@@ -420,7 +424,13 @@
     <Content Include="Content\Designer\DSv2.css" />
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
+    <Content Include="Content\Images\logout.png" />
+    <Content Include="Content\Images\my-jobs.png" />
+    <Content Include="Content\Images\ProfileImage.png" />
+    <Content Include="Content\Images\RealEstateLogo.png" />
+    <Content Include="Content\Images\Settings.png" />
     <Content Include="Content\Images\Sign_up_Email.PNG" />
+    <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\jquery.rating.css" />
@@ -446,6 +456,7 @@
     <Content Include="Content\Designer\jquery-sunny\images\ui-icons_fadc7a_256x240.png" />
     <Content Include="Content\Designer\jquery-sunny\images\ui-icons_ffe180_256x240.png" />
     <Content Include="Content\Designer\jquery-sunny\jquery-ui-1.10.4.custom.min.css" />
+    <Content Include="Content\RealEstate_StyleSheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -589,7 +600,9 @@
     <Content Include="Views\Shared\PartialViews\RelatedItems.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductDetail.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateItem.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -600,6 +613,8 @@
     <Folder Include="Views\Default\" />
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />
+    <Folder Include="Views\RealEstateBanner\" />
+    <Folder Include="Views\RealEstateHeader\" />
     <Folder Include="Views\RealEstateItem\" />
     <Folder Include="Views\SecondaryPages\" />
     <Folder Include="Views\ShopCart\" />

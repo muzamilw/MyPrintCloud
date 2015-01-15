@@ -3123,6 +3123,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ColorPallete_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="ColorPallete" Type="Self.ColorPallete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ColorPallete">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Company_Campaign">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Campaign" Type="Self.Campaign" Multiplicity="*" />
@@ -4144,10 +4156,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
         <Function Name="sp_GetTemplateImages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="isCalledFrom" Type="int" Mode="In" />
           <Parameter Name="imageSetType" Type="int" Mode="In" />
-          <Parameter Name="templateID" Type="int" Mode="In" />
-          <Parameter Name="contactCompanyID" Type="int" Mode="In" />
-          <Parameter Name="contactID" Type="int" Mode="In" />
-          <Parameter Name="territory" Type="int" Mode="In" />
+          <Parameter Name="templateID" Type="bigint" Mode="In" />
+          <Parameter Name="contactCompanyID" Type="bigint" Mode="In" />
+          <Parameter Name="contactID" Type="bigint" Mode="In" />
+          <Parameter Name="territory" Type="bigint" Mode="In" />
           <Parameter Name="pageNumber" Type="int" Mode="In" />
           <Parameter Name="pageSize" Type="int" Mode="In" />
           <Parameter Name="sortColumn" Type="nvarchar" Mode="In" />
@@ -4512,6 +4524,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK__TemplateP__Produ__5C0FF180" Association="Self.FK__TemplateP__Produ__5C0FF180">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ColorPallete_Company" Association="Self.FK_ColorPallete_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="ColorPallete" EntitySet="ColorPallete" />
           </AssociationSet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
@@ -5372,16 +5388,20 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <FunctionImport Name="sp_GetTemplateImages" ReturnType="Collection(DomainModels.sp_GetTemplateImages_Result)">
             <Parameter Name="isCalledFrom" Mode="In" Type="Int32" />
             <Parameter Name="imageSetType" Mode="In" Type="Int32" />
-            <Parameter Name="templateID" Mode="In" Type="Int32" />
-            <Parameter Name="contactCompanyID" Mode="In" Type="Int32" />
-            <Parameter Name="contactID" Mode="In" Type="Int32" />
-            <Parameter Name="territory" Mode="In" Type="Int32" />
+            <Parameter Name="templateID" Mode="In" Type="Int64" />
+            <Parameter Name="contactCompanyID" Mode="In" Type="Int64" />
+            <Parameter Name="contactID" Mode="In" Type="Int64" />
+            <Parameter Name="territory" Mode="In" Type="Int64" />
             <Parameter Name="pageNumber" Mode="In" Type="Int32" />
             <Parameter Name="pageSize" Mode="In" Type="Int32" />
             <Parameter Name="sortColumn" Mode="In" Type="String" />
             <Parameter Name="search" Mode="In" Type="String" />
             <Parameter Name="imageCount" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_ColorPallete_Company" Association="DomainModels.FK_ColorPallete_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="ColorPallete" EntitySet="ColorPalletes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5505,6 +5525,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="StoreId" Type="Int64" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
           <Property Name="isAddCropMarks" Type="Boolean" />
+          <NavigationProperty Name="ColorPalletes" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="Company" ToRole="ColorPallete" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -8433,6 +8454,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SkinId" Type="Int64" />
           <Property Name="IsDefault" Type="Boolean" />
           <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="ColorPallete" ToRole="Company" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -9696,6 +9718,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Type="Int32" Name="ContactCompanyID" Nullable="true" />
           <Property Type="Int32" Name="ContactID" Nullable="true" />
         </ComplexType>
+        <Association Name="FK_ColorPallete_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.ColorPallete" Role="ColorPallete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ColorPallete">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

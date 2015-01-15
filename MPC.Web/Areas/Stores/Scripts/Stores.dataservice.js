@@ -74,6 +74,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store
+                    amplify.request.define('getBaseDataForNewCompany', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to delete Store
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
@@ -198,8 +204,18 @@
                 });
             },
 
-            // get Store by id
+            // get Base Data By Store Id
             getBaseData = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // get Base Data for new company
+            getBaseDataForNewCompany = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
@@ -244,6 +260,7 @@
             getProductCategoryChilds: getProductCategoryChilds,
             getStoreById: getStoreById,
             getBaseData: getBaseData,
+            getBaseDataForNewCompany: getBaseDataForNewCompany,
             deleteStore: deleteStore,
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
