@@ -119,3 +119,7 @@
   opacity: 0;
   filter: alpha(opacity=0);
 }
+#phraseLibraryDialog .selectedSection,
+#phraseLibraryDialog .selectedPhraseField {
+  background: yellow;
+}

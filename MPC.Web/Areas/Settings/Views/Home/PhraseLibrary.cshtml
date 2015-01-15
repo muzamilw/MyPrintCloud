@@ -11,7 +11,8 @@
 
 @section Scripts{
     <script>
-        require(["common/phraseLibrary.view"]);
-
+        require(["common/phraseLibrary.view"], function() {
+            ist.phraseLibrary.viewModel.show();
+        });
     </script>
 }

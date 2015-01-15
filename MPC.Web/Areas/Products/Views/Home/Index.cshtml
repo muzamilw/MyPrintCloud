@@ -26,11 +26,12 @@
 </div>
 
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 
 @section Scripts{
     
     <script>
-        require(["product/product.view", "dropzone", "common/confirmation.view"]);
+        require(["product/product.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view"]);
 
         $(function () {
             $('#liProducts').addClass('active');
