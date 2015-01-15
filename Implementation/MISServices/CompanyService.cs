@@ -1633,6 +1633,7 @@ namespace MPC.Implementation.MISServices
         public Company SaveCompany(CompanySavingModel companyModel)
         {
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
+
             if (companyDbVersion == null)
             {
                 return SaveNewCompany(companyModel);
