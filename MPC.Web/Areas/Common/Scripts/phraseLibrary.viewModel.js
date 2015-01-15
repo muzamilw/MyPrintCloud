@@ -13,7 +13,7 @@ define("common/phraseLibrary.viewModel",
                     //select Phrase Field
                     selectedPhraseField = ko.observable(),
                     //Flag for open from Phrase Library
-                    isOpenFromPhraseLibrary = ko.observable(false),
+                    isOpenFromPhraseLibrary = ko.observable(true),
                     //selected Phrase
                     selectedPhrase = ko.observable(false),
                     //Sections
