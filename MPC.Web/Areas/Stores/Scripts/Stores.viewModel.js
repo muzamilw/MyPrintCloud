@@ -1883,6 +1883,7 @@ define("stores/stores.viewModel",
 
                     MultipleImageFilesLoadedCallback = function (file, data) {
                         selectedCompanyBanner().fileBinary(data);
+                        selectedCompanyBanner().imageSource(data);
                         selectedCompanyBanner().filename(file.name);
                         selectedCompanyBanner().fileType(data.imageType);
                     },
