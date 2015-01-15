@@ -48,7 +48,22 @@
             sectionId = ko.observable(specifiedSectionId),
             //Phrases
             phrases = ko.observableArray([]),
+             // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
 
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                fieldName: fieldName,
+            }),
+             // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
            //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
@@ -63,6 +78,10 @@
             sectionId: sectionId,
             phrases: phrases,
             convertToServerData: convertToServerData,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
         };
         return self;
     };
@@ -81,6 +100,9 @@
             fieldId = ko.observable(specifiedFieldId),
             //Flag For deleted phrase
             isDeleted = ko.observable(false),
+           //Is phrase checkbox is checked
+           isPhraseChecked = ko.observable(false),
+
              // Errors
             errors = ko.validation.group({
             }),
@@ -120,6 +142,7 @@
             errors: errors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
+            isPhraseChecked: isPhraseChecked,
         };
         return self;
     };
