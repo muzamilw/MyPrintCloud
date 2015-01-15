@@ -303,7 +303,7 @@
     <Compile Include="ModelMappers\OrganisationMapper.cs" />
     <Compile Include="ModelMappers\PageCategoryMapper.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
-    <Compile Include="Models\CmsPage.cs" />
+    <Compile Include="Models\CmsPageModel.cs" />
     <Compile Include="Models\CmsSkinPageWidget.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyBanner.cs" />
@@ -589,6 +589,7 @@
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\MarketingBrief\" />
     <Folder Include="Views\ProductOptions\" />

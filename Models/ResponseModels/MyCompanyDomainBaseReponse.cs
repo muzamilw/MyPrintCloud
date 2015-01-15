@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
+using System.Xml;
+using MPC.Models.Common;
 
 namespace MPC.Models.ResponseModels
 {
@@ -27,12 +29,12 @@ namespace MPC.Models.ResponseModels
         /// <summary>
         /// All System pages and secondary pages of stores
         /// </summary>
-        public List<CmsPage> SystemPages { get; set; }
+        public List<CmsPageModel> SystemPages { get; set; }
 
         /// <summary>
         /// All secondary pages of stores
         /// </summary>
-        public List<CmsPage> SecondaryPages { get; set; }
+        public List<CmsPageModel> SecondaryPages { get; set; }
 
         /// <summary>
         ///  Page Categories of secondary pages 
@@ -54,6 +56,6 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public Organisation Organisation { get; set; }
 
-       
+        public XmlDocument ResourceFile { get; set; }
     }
 }

@@ -1,18 +1,36 @@
-﻿using System;
+﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.ResponseModels;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Xml;
+using MPC.Webstore.ModelMappers;
+using MPC.Models.ResponseModels;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Common
 {
     public class Utils
     {
+        private readonly ICompanyService _myCompanyService;
+        private static XmlDocument rexcFiel = null;
+        public Utils(ICompanyService myCompanyService)
+        {
+            if (myCompanyService == null)
+            {
+                throw new ArgumentNullException("myCompanyService");
+            }
+            _myCompanyService = myCompanyService;
+           // this._myCompanyService = myCompanyService;
+        }
+
         public static double CalculateTaxOnPrice(double ActualPrice, double TaxValue)
         {
             double Price = ActualPrice + ((ActualPrice * TaxValue) / 100);
@@ -33,6 +51,8 @@ namespace MPC.Webstore.Common
         {
             return WebConfigurationManager.AppSettings["AppBasePath"];
         }
+
+       
         public static string FormatDecimalValueToTwoDecimal(string valueToFormat, string currenctySymbol)
         {
             return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToTwoDecimal(valueToFormat));
@@ -95,27 +115,57 @@ namespace MPC.Webstore.Common
         {
             return string.Format("{0}{1}{2}{3}{4}{5}{6}", Folder, "Organisation" + OrganisationId, "/", CompanyId, "/", ImageURl);
         }
-        public static string resourcefillle()
+        public static string GetKeyValueFromResourceFile(string key, long StoreId)
         {
-            XmlDocument loResource = new XmlDocument();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+          
+            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
 
-            loResource.Load(HttpContext.Current.Server.MapPath("/mpc_content/Resources/Organisation1/en-US/LanguageResource.resx"));
+            XmlDocument resxFile = null;
 
-            XmlNode loRoot = loResource.SelectSingleNode("root/data[@name='DefaultAddress']/value");
-
-            if (loRoot != null)
+            if (stores != null)
             {
-                return (loRoot.LastChild).InnerText;
+                resxFile = stores[StoreId].ResourceFile;
             }
-            else 
+            
+            if (resxFile != null) 
+            {
+                XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
+
+                if (loRoot.LastChild != null)
+                {
+                    return (loRoot.LastChild).InnerXml;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else
             {
                 return "";
             }
         }
-       
     }
-    //public static class CommonHtmlExtensions
-    //{
+    public static class CommonHtmlExtensions
+    {
+        public static string ResolveString(this HtmlHelper htmlHelper, string categoryname)
+        {
+            Regex reg = new Regex("[\\s;\\/:*?\"<>|&']", RegexOptions.IgnoreCase);
+            categoryname = reg.Replace(categoryname, "-");
+            return categoryname;
+        }
+
+        public static string GetAppBasePath(this HtmlHelper htmlHelper)
+        {
+            return WebConfigurationManager.AppSettings["AppBasePath"];
+        }
+
+        public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId)
+        {
+            return Utils.GetKeyValueFromResourceFile(Key, StoreId);
+        }
     //    static Assembly FindGlobalResAssembly()
     //    {
     //        foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
@@ -146,5 +196,5 @@ namespace MPC.Webstore.Common
 
 
      
-    //}
+    }
 }

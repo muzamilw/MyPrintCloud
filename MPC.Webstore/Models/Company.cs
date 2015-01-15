@@ -109,6 +109,6 @@ namespace MPC.Webstore.Models
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
-        public virtual ICollection<CmsPage> CmsPages { get; set; }
+        public virtual ICollection<CmsPageModel> CmsPages { get; set; }
     }
 }
