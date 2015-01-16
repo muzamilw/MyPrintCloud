@@ -31,6 +31,8 @@ namespace MPC.Webstore.Controllers
 
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
+        private readonly ICostCentreService _CostCentreService;
+
         #endregion
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -44,7 +46,7 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService)
         {
             if (myCompanyService == null)
             {
@@ -54,6 +56,11 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("webstoreAuthorizationChecker");
             }
+            if (CostCentreService == null)
+            {
+                throw new ArgumentNullException("CostCentreService");
+            }
+            this._CostCentreService = CostCentreService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
         }
@@ -94,7 +101,7 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About()
         {
-
+            _CostCentreService.CompileBinaries("","","");
             return View();
         }
 
@@ -104,12 +111,6 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         public ActionResult oAuth(int id,int isRegWithSM, string MarketBriefReturnURL)
         {
             int isFacebook = id;

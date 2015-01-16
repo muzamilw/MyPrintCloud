@@ -253,10 +253,12 @@
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
+    <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\PrefixController.cs" />
@@ -527,6 +529,7 @@
     <Content Include="Content\CSS\fonts\wpzoom.svg" />
     <Content Include="Content\CSS\icons.css" />
     <Content Include="Content\CSS\main.css" />
+    <Content Include="Content\CSS\spectrum.css" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_diagonals-small_100_f4f4f4_40x40.png" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_dots-small_75_dedede_2x2.png" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_dots-small_75_f7f7f7_2x2.png" />
@@ -2507,6 +2510,7 @@
     <Content Include="Scripts\Script\tables.js" />
     <Content Include="Scripts\Script\widgets.js" />
     <Content Include="Scripts\scrollspy.js" />
+    <Content Include="Scripts\spectrum.js" />
     <Content Include="Scripts\tab.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -2642,8 +2646,6 @@
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
-    <Folder Include="MPC_Content\Resources\Organisation2\en-US\" />
-    <Folder Include="MPC_Content\Resources\Organisation2\fr-FR\" />
     <Folder Include="MPC_Content\SecondaryPages\" />
     <Folder Include="MPC_Content\Stores\" />
     <Folder Include="Reports\" />
