@@ -12,5 +12,11 @@ namespace MPC.Interfaces.Repository
         /// Get All Cost Centres that are not system defined
         /// </summary>
         IEnumerable<CostCentre> GetAllNonSystemCostCentres();
+        /// <summary>
+        /// Function from infinity
+        /// </summary>
+        /// <param name="CostCentreID"></param>
+        /// <returns></returns>
+        //bool Delete(int CostCentreID);
     }
 }
