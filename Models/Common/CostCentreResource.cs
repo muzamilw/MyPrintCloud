@@ -8,8 +8,8 @@ namespace MPC.Models.Common
 {
     public class CostCentreResource
     {
-        long ResourceId { get; set; }
+        public int ResourceId { get; set; }
 
-        string UserName { get; set; }
+       public string UserName { get; set; }
     }
 }

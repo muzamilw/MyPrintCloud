@@ -553,7 +553,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
@@ -609,15 +608,6 @@
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\Default\" />
-    <Folder Include="Views\MarketingBrief\" />
-    <Folder Include="Views\ProductOptions\" />
-    <Folder Include="Views\RealEstateBanner\" />
-    <Folder Include="Views\RealEstateHeader\" />
-    <Folder Include="Views\RealEstateItem\" />
-    <Folder Include="Views\SecondaryPages\" />
-    <Folder Include="Views\ShopCart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
