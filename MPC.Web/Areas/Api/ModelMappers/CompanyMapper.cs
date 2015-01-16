@@ -21,6 +21,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
             }
+            byte[] storeBackgroundImageBytes = null;
+            if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
+            {
+                storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
+            }
+
             return new ApiModels.Company
             {
                 CompanyId = source.CompanyId,
@@ -108,7 +114,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Take(10).Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
                 CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
-                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null
+                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
+                StoreBackgroudImage = storeBackgroundImageBytes
                 //Items = source.produ
             };
         }
@@ -205,7 +212,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
-                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null
+                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
+                StoreBackgroudImageImageSource = source.StoreBackgroudImageImageSource,
+                StoreBackgroudImageFileName = source.StoreBackgroudImageFileName,
             };
 
             return company;

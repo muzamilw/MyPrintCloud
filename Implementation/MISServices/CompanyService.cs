@@ -676,20 +676,82 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
+            UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
             companyRepository.Update(companySavingModel.Company);
+            SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             companyRepository.SaveChanges();
-
-
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
+            
 
             return companySavingModel.Company;
         }
 
+        private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
+        {
+            if (company.StoreBackgroudImageImageSource != null)
+            {
+                string base64 = company.StoreBackgroudImageImageSource.Substring(company.StoreBackgroudImageImageSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + company.CompanyId);
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + "StoreBackgroundImage" + company.CompanyId + "_" + company.StoreBackgroudImageFileName + ".jpeg";
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
+                File.WriteAllBytes(savePath, data);
+
+                if (companyDbVersion != null)
+                {
+                    companyDbVersion.StoreBackgroundImage = savePath;
+                }
+                else
+                {
+                    company.StoreBackgroundImage = savePath;
+                }
+            }
+        }
+        private void UpdateColorPallete(Company company, Company companyDbVersion)
+        {
+
+
+            foreach (var colorPalleteItem in company.ColorPalletes)
+            {
+                if (companyDbVersion.ColorPalletes == null)
+                {
+                    List<ColorPallete> colorPalletes = new List<ColorPallete>();
+                    companyDbVersion.ColorPalletes = colorPalletes;
+
+                }
+                if (colorPalleteItem.PalleteId == 0)
+                {
+                    companyDbVersion.ColorPalletes.Add(colorPalleteItem);
+                }
+                else
+                {
+                    ColorPallete colorPallete = companyDbVersion.ColorPalletes.FirstOrDefault(c => c.PalleteId == colorPalleteItem.PalleteId);
+                    if (colorPallete != null)
+                    {
+                        colorPallete.Color1 = colorPalleteItem.Color1;
+                        colorPallete.Color2 = colorPalleteItem.Color2;
+                        colorPallete.Color3 = colorPalleteItem.Color3;
+                        colorPallete.Color4 = colorPalleteItem.Color4;
+                        colorPallete.Color5 = colorPalleteItem.Color5;
+                        colorPallete.Color6 = colorPalleteItem.Color6;
+                    }
+                }
+            }
+        }
         private void SaveFilesOfProductCategories(Company company)
         {
             // Update Organisation MISLogoStreamId
@@ -1461,7 +1523,7 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-            string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CompanyContactProfileImages");
+                string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CompanyContactProfileImages");
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);

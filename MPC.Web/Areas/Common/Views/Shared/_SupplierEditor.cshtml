@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="clearfix">
                         <h1 class="pull-left">Supplier Detail</h1>
-                        <div class="pull-right top-page-ui">
+                        <div class="pull-right top-page-ui" style="margin-top: 5px;margin-right: 18px">
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveSupplier">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeSupplierEditor">Cancel</button>
                         </div>
@@ -61,11 +61,21 @@
                             </div>
 
                             <div class="form-group">
-                                <div class="col-md-3">
-                                    <input type="file" class="form-control" id="orgLogo" name="file" onchange="readURL(this);" />
-                                </div>
+
                                 <div class="col-md-12" style="margin-top: 10px;">
-                                    <img id="companyLogo" src="#" alt="" style="min-height: 170px; width: 200px;" />
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img id="companyLogo" src="#" alt="" style="min-height: 170px; width: 200px;" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="fileUpload btn btn-primary">
+                                            <span>....</span>
+                                            <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
                                 </div>
                                 <div class="col-md-3">
                                     <span class="help-block text-right">Company logo for web segment</span>
@@ -73,269 +83,271 @@
                                 <input type="hidden" id="supplierId" name="supplierId" data-bind="value:id" />
                             </div>
                             <hr />
-                            <div class="main-box clearfix">
-                                <div class="tabs-wrapper profile-tabs">
-                                    <ul class="nav nav-tabs" id="myTab">
-                                        <li class="active"><a href="#tab-CompanyDetail" data-toggle="tab">Company Detail</a></li>
-                                        <li><a href="#tab-AccountDetail" data-toggle="tab">Account Detail</a></li>
-                                        <li><a href="#tab-AddressDetail" data-toggle="tab">Address Detail</a></li>
-                                        <li><a href="#tab-ContactDetail" data-toggle="tab">Contact Detail</a></li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane fade in active" id="tab-CompanyDetail">
-                                            <div class="main-box-body clearfix">
-                                                <div class="col-md-12 form-horizontal">
-                                                    <h3>Company Detail</h3>
-                                                    <div class="col-lg-12">
+                            <div class="row" style="background-color: #f5faed">
+                                <div class="main-box clearfix" style="margin-top: 15px;margin-left: 8px;margin-right: 8px;">
+                                    <div class="tabs-wrapper profile-tabs">
+                                        <ul class="nav nav-tabs" id="myTab">
+                                            <li class="active"><a href="#tab-CompanyDetail" data-toggle="tab">Company Detail</a></li>
+                                            <li><a href="#tab-AccountDetail" data-toggle="tab">Account Detail</a></li>
+                                            <li><a href="#tab-AddressDetail" data-toggle="tab">Address Detail</a></li>
+                                            <li><a href="#tab-ContactDetail" data-toggle="tab">Contact Detail</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade in active" id="tab-CompanyDetail">
+                                                <div class="main-box-body clearfix">
+                                                    <div class="col-md-12 form-horizontal">
+                                                        <h3>Company Detail</h3>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label h5 col-sm-2">URL</label>
+                                                                <div class="col-md-5">
+                                                                    <input type="text" class="form-control" data-bind="value:url" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label h5 col-sm-2">Account Status</label>
+                                                                <div class="col-md-5">
+                                                                    <select class="form-control" data-bind="options: $root.accountStatusList, optionsText: 'Text', optionsValue: 'Id',value:accountStatusId"></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label h5 col-sm-2">Notes</label>
+                                                                <div class="col-md-5">
+                                                                    <textarea class="form-control" rows="4" data-bind="value:notes,valueUpdate: 'keyup'"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-AccountDetail">
+                                                <div class="main-box-body clearfix">
+                                                    <div class="col-md-12 form-horizontal">
+                                                        <h3>Account Detail</h3>
                                                         <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">URL</label>
-                                                            <div class="col-md-5">
-                                                                <input type="text" class="form-control" data-bind="value:url" />
+                                                            <label class="control-label h5 col-sm-2">Credit Reference</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:creditReference" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Default Markup</label>
+                                                            <div class="col-md-2">
+                                                                <select class="form-control" data-bind="options: $root.markups, optionsText: 'MarkUpName', optionsValue: 'MarkUpId',value:defaultMarkUpId"></select>
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Default Nominal Code</label>
+                                                            <div class="col-md-2">
+                                                                <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsValue: 'Id',value:defaultNominalCode"></select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Account Status</label>
-                                                            <div class="col-md-5">
-                                                                <select class="form-control" data-bind="options: $root.accountStatusList, optionsText: 'Text', optionsValue: 'Id',value:accountStatusId"></select>
+                                                            <label class="control-label h5 col-sm-2">TAX Reg. No</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:vATRegNumber" />
                                                             </div>
+                                                            <label class="control-label h5 col-sm-2">TAX Reg. Ref</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:vATRegReference" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Default Manager</label>
+                                                            <div class="col-md-2">
+                                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:accountManagerId"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Credit Limit $</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:creditLimit" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">A/C Opened</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="datepicker:accountOpenDate" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Terms</label>
+                                                            <div class="col-md-6">
+                                                                <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:terms"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-AddressDetail" data-bind="with:addressInSupplier">
+                                                <div class="main-box-body clearfix">
+                                                    <div class="col-md-12 form-horizontal">
+                                                        <h3>Address Detail</h3>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Address Name</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:addressName" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Tel 1</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:tel1" tel1 />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Ext 1</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:extension1" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Address</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:address1" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Tel 2</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:tel2" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Ext 2</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:extension2" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2"></label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:address2" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Fax</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:fax" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Email</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2"></label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:address3" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">URL</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:url" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Ref</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:reference" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">City</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:city" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">State</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:state" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">FAO</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:fao" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Country</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:country" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Post Code</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:postCode" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-ContactDetail" data-bind="with:companyContact">
+                                                <div class="main-box-body clearfix">
+                                                    <div class="col-md-12 form-horizontal">
+                                                        <h3>Contact Detail</h3>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">First Name</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:firstName,validationTooltip: firstName " />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Home Tel 1</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:homeTel1" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Ext 1</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:homeExtension1" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Last Name</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:lastName" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Home Tel 2</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:homeTel2" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Ext 2</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:homeExtension2" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Home Address</label>
+                                                            <div class="col-md-6">
+                                                                <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:homeAddress1"></textarea>
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Email</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Home City</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:homeCity" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Password</label>
+                                                            <div class="col-md-2">
+                                                                <input type="password" class="form-control" data-bind="value:password, validationTooltip: password" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Confirm Password</label>
+                                                            <div class="col-md-2">
+                                                                <input type="password" class="form-control" data-bind="value:password1, validationTooltip: password1" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Home State</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:homeState" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Secret Question</label>
+                                                            <div class="col-md-2">
+                                                                <select class="form-control" data-bind="options: $root.registrationQuestions, optionsText: 'Question', optionsValue: 'Question',value:secretQuestion"></select>
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Secret Answer</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:secretAnswer" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label h5 col-sm-2">Mobile</label>
+                                                            <div class="col-md-2">
+                                                                <input type="text" class="form-control" data-bind="value:mobile" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Mail Subscription</label>
+                                                            <div class="col-md-2">
+                                                                <input type="checkbox" class="form-control" data-bind="checked:isEmailSubscription" />
+                                                            </div>
+                                                            <label class="control-label h5 col-sm-2">Newsletters Subscription</label>
+                                                            <div class="col-md-1">
+                                                                <input type="checkbox" class="form-control" data-bind="checked:isNewsLetterSubscription" />
+                                                            </div>
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label h5 col-sm-2">Notes</label>
-                                                            <div class="col-md-5">
-                                                                <textarea class="form-control" rows="4" data-bind="value:notes,valueUpdate: 'keyup'"></textarea>
+                                                            <div class="col-md-6">
+                                                                <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:contactNotes"></textarea>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab-AccountDetail">
-                                            <div class="main-box-body clearfix">
-                                                <div class="col-md-12 form-horizontal">
-                                                    <h3>Account Detail</h3>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Credit Reference</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:creditReference" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Default Markup</label>
-                                                        <div class="col-md-2">
-                                                            <select class="form-control" data-bind="options: $root.markups, optionsText: 'MarkUpName', optionsValue: 'MarkUpId',value:defaultMarkUpId"></select>
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Default Nominal Code</label>
-                                                        <div class="col-md-2">
-                                                            <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsValue: 'Id',value:defaultNominalCode"></select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">TAX Reg. No</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:vATRegNumber" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">TAX Reg. Ref</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:vATRegReference" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Default Manager</label>
-                                                        <div class="col-md-2">
-                                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:accountManagerId"></select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Credit Limit $</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:creditLimit" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">A/C Opened</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="datepicker:accountOpenDate" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Terms</label>
-                                                        <div class="col-md-6">
-                                                            <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:terms"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab-AddressDetail" data-bind="with:addressInSupplier">
-                                            <div class="main-box-body clearfix">
-                                                <div class="col-md-12 form-horizontal">
-                                                    <h3>Address Detail</h3>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Address Name</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:addressName" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Tel 1</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:tel1" tel1 />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Ext 1</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:extension1" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Address</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:address1" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Tel 2</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:tel2" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Ext 2</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:extension2" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2"></label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:address2" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Fax</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:fax" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Email</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2"></label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:address3" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">URL</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:url" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Ref</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:reference" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">City</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:city" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">State</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:state" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">FAO</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:fao" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Country</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:country" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Post Code</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:postCode" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab-ContactDetail" data-bind="with:companyContact">
-                                            <div class="main-box-body clearfix">
-                                                <div class="col-md-12 form-horizontal">
-                                                    <h3>Contact Detail</h3>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">First Name</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:firstName,validationTooltip: firstName " />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Home Tel 1</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:homeTel1" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Ext 1</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:homeExtension1" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Last Name</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:lastName" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Home Tel 2</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:homeTel2" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Ext 2</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:homeExtension2" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Home Address</label>
-                                                        <div class="col-md-6">
-                                                            <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:homeAddress1"></textarea>
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Email</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Home City</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:homeCity" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Password</label>
-                                                        <div class="col-md-2">
-                                                            <input type="password" class="form-control" data-bind="value:password, validationTooltip: password" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Confirm Password</label>
-                                                        <div class="col-md-2">
-                                                            <input type="password" class="form-control" data-bind="value:password1, validationTooltip: password1" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Home State</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:homeState" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Secret Question</label>
-                                                        <div class="col-md-2">
-                                                            <select class="form-control" data-bind="options: $root.registrationQuestions, optionsText: 'Question', optionsValue: 'Question',value:secretQuestion"></select>
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Secret Answer</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:secretAnswer" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Mobile</label>
-                                                        <div class="col-md-2">
-                                                            <input type="text" class="form-control" data-bind="value:mobile" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Mail Subscription</label>
-                                                        <div class="col-md-2">
-                                                            <input type="checkbox" class="form-control" data-bind="checked:isEmailSubscription" />
-                                                        </div>
-                                                        <label class="control-label h5 col-sm-2">Newsletters Subscription</label>
-                                                        <div class="col-md-1">
-                                                            <input type="checkbox" class="form-control" data-bind="checked:isNewsLetterSubscription" />
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label h5 col-sm-2">Notes</label>
-                                                        <div class="col-md-6">
-                                                            <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:contactNotes"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -344,7 +356,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
