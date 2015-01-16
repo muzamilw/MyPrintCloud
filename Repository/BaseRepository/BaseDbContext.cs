@@ -433,6 +433,61 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Phrase> Phrases { get; set; }
 
         /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostCentreAnswer> CostCentreAnswers { get; set; }
+
+        /// <summary>
+        /// Cost center Instuction DbSet
+        /// </summary>
+        public  DbSet<CostcentreInstruction> CostcentreInstructions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix Detail DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrixDetail> CostCentreMatrixDetails { get; set; }
+
+        /// <summary>
+        /// Cost Centre Question DbSet
+        /// </summary>
+        public  DbSet<CostCentreQuestion> CostCentreQuestions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostcentreResource> CostcentreResources { get; set; }
+
+        /// <summary>
+        /// Cost Centre System Type DbSet
+        /// </summary>
+        public  DbSet<CostcentreSystemType> CostcentreSystemTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Template DbSet
+        /// </summary>
+        public  DbSet<CostCentreTemplate> CostCentreTemplates { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariable> CostCentreVariables { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable Type DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariableType> CostCentreVariableTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Work Instruction Choice DbSet
+        /// </summary>
+        public  DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)

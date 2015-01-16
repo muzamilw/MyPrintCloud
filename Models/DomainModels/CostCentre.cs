@@ -135,5 +135,7 @@ namespace MPC.Models.DomainModels
         public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual ICollection<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }
+        public virtual ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
+        public virtual ICollection<CostcentreResource> CostcentreResources { get; set; }
     }
 }
