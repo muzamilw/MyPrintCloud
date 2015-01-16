@@ -237,30 +237,206 @@ namespace MPC.Implementation.MISServices
             }
 
             // Save Item Stock Option Images
-            foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
-            {
-                if (!string.IsNullOrEmpty(itemStockOption.FileSource))
-                {
-                    // Look if file already exists then replace it
-                    if (!string.IsNullOrEmpty(itemStockOption.ImageURL) && File.Exists(itemStockOption.ImageURL))
-                    {
-                        // Remove Existing File
-                        File.Delete(itemStockOption.ImageURL);
-                    }
+            SaveItemStockOptionImages(target, mapPath);
 
-                    // First Time Upload
-                    string imageurl = mapPath + "\\" + itemStockOption.FileName + "_" +
-                                      itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence;
-                    File.WriteAllBytes(imageurl, itemStockOption.FileSourceBytes);
+            // Thumbnail Path
+            SaveThumbnailPath(target, mapPath);
 
-                    // Update Item Stock Option Image Url
-                    itemStockOption.ImageURL = imageurl;
-                }
-            }
+            // Grid Image
+            SaveGridImage(target, mapPath);
 
+            // Image Path
+            SaveImagePath(target, mapPath);
+
+            // Files 1,2,3,4,5
+            SaveItemFiles(target, mapPath);
+
+            // Save Changes
             itemRepository.SaveChanges();
         }
 
+        /// <summary>
+        /// Saves Item Stock Option Images
+        /// </summary>
+        private void SaveItemStockOptionImages(Item target, string mapPath)
+        {
+            foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
+            {
+                // Write Image
+                SaveItemStockOptionImage(target, mapPath, itemStockOption);
+            }
+        }
+
+        /// <summary>
+        /// Save Item Stock Option Image
+        /// </summary>
+        private void SaveItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
+        {
+            string imageUrl = SaveImage(mapPath, itemStockOption.ImageURL,
+                target.ItemId + itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence + "_StockOption_",
+                itemStockOption.FileName,
+                itemStockOption.FileSource,
+                itemStockOption.FileSourceBytes);
+
+            if (imageUrl != null)
+            {
+                itemStockOption.ImageURL = imageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save Image Path
+        /// </summary>
+        private void SaveImagePath(Item target, string mapPath)
+        {
+            string imagePathUrl = SaveImage(mapPath, target.ImagePath,
+                target.ItemId + target.ProductCode + target.ProductName + "_ImagePath_",
+                target.ImagePathImageName,
+                target.ImagePathImage,
+                target.ImagePathSourceBytes);
+
+            if (imagePathUrl != null)
+            {
+                // Update Image Path
+                target.ImagePath = imagePathUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save Grid Image
+        /// </summary>
+        private void SaveGridImage(Item target, string mapPath)
+        {
+            string gridImageUrl = SaveImage(mapPath, target.GridImage,
+                target.ItemId + target.ProductCode + target.ProductName + "_GridImage_",
+                target.GridImageSourceName,
+                target.GridImageBytes,
+                target.GridImageSourceBytes);
+
+            if (gridImageUrl != null)
+            {
+                // Update Grid Image
+                target.GridImage = gridImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save Thumbnail Path
+        /// </summary>
+        private void SaveThumbnailPath(Item target, string mapPath)
+        {
+            string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
+                target.ItemId + target.ProductCode + target.ProductName + "_ThumbnailPath_",
+                target.ThumbnailImageName,
+                target.ThumbnailImage,
+                target.ThumbnailSourceBytes);
+
+            if (thumbnailImageUrl != null)
+            {
+                // Update Thumbnail Path
+                target.ThumbnailPath = thumbnailImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save File1,File2,File3,File4,File5
+        /// </summary>
+        private void SaveItemFiles(Item target, string mapPath)
+        {
+            string path = SaveImage(mapPath, target.File1,
+                target.ItemId + target.ProductCode + target.ProductName + "_File1_",
+                target.File1Name,
+                target.File1Byte,
+                target.File1SourceBytes);
+
+            if (path != null)
+            {
+                // Update File1
+                target.File1 = path;
+            }
+
+            path = SaveImage(mapPath, target.File2,
+                target.ItemId + target.ProductCode + target.ProductName + "_File2_",
+                target.File2Name,
+                target.File2Byte,
+                target.File2SourceBytes);
+
+            if (path != null)
+            {
+                // Update File2
+                target.File2 = path;
+            }
+
+            path = SaveImage(mapPath, target.File3,
+                target.ItemId + target.ProductCode + target.ProductName + "_File3_",
+                target.File3Name,
+                target.File3Byte,
+                target.File3SourceBytes);
+
+            if (path != null)
+            {
+                // Update File3
+                target.File3 = path;
+            }
+
+            path = SaveImage(mapPath, target.File4,
+                target.ItemId + target.ProductCode + target.ProductName + "_File4_",
+                target.File4Name,
+                target.File4Byte,
+                target.File4SourceBytes);
+
+            if (path != null)
+            {
+                // Update File4
+                target.File4 = path;
+            }
+
+            path = SaveImage(mapPath, target.File5,
+                target.ItemId + target.ProductCode + target.ProductName + "_File5_",
+                target.File5Name,
+                target.File5Byte,
+                target.File5SourceBytes);
+
+            if (path != null)
+            {
+                // Update File5
+                target.File5 = path;
+            }
+        }
+
+        /// <summary>
+        /// Saves Image to File System
+        /// </summary>
+        /// <param name="mapPath">File System Path for Item</param>
+        /// <param name="existingImage">Existing File if any</param>
+        /// <param name="caption">Unique file caption e.g. ItemId + ItemProductCode + ItemProductName + "_thumbnail_"</param>
+        /// <param name="fileName">Name of file being saved</param>
+        /// <param name="fileSource">Base64 representation of file being saved</param>
+        /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <returns>Path of File being saved</returns>
+        private string SaveImage(string mapPath, string existingImage, string caption, string fileName, 
+            string fileSource, byte[] fileSourceBytes)
+        {
+            if (!string.IsNullOrEmpty(fileSource))
+            {
+                // Look if file already exists then replace it
+                if (!string.IsNullOrEmpty(existingImage) && File.Exists(existingImage))
+                {
+                    // Remove Existing File
+                    File.Delete(existingImage);
+                }
+
+                // First Time Upload
+                string imageurl = mapPath + "\\" + caption + fileName;
+                File.WriteAllBytes(imageurl, fileSourceBytes);
+
+                // Return path
+                return imageurl;
+            }
+
+            return null;
+        }
+        
         #endregion
 
         #region Constructor

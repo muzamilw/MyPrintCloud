@@ -105,6 +105,7 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
+    <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
     <Compile Include="Common\MatchingSets.cs" />
@@ -134,6 +135,17 @@
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
+    <Compile Include="DomainModels\CostCentreAnswer.cs" />
+    <Compile Include="DomainModels\CostcentreInstruction.cs" />
+    <Compile Include="DomainModels\CostCentreMatrix.cs" />
+    <Compile Include="DomainModels\CostCentreMatrixDetail.cs" />
+    <Compile Include="DomainModels\CostCentreQuestion.cs" />
+    <Compile Include="DomainModels\CostcentreResource.cs" />
+    <Compile Include="DomainModels\CostcentreSystemType.cs" />
+    <Compile Include="DomainModels\CostCentreTemplate.cs" />
+    <Compile Include="DomainModels\CostCentreVariable.cs" />
+    <Compile Include="DomainModels\CostCentreVariableType.cs" />
+    <Compile Include="DomainModels\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
