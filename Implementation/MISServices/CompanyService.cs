@@ -625,10 +625,9 @@ namespace MPC.Implementation.MISServices
                 //Add New companyContacts
                 foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
                 {
-                    //address.CompanyId = companySavingModel.Company.CompanyId;
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContact.CompanyId = companySavingModel.Company.CompanyId;
                     companyContact.OrganisationId = companyContactRepository.OrganisationId;
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Add(companyContact);
                 }
             }
@@ -642,8 +641,8 @@ namespace MPC.Implementation.MISServices
                         //If already image exist
                         File.Delete(companyContact.image);
                     }
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContact.CompanyId = companySavingModel.Company.CompanyId;
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Update(companyContact);
                 }
             }
@@ -676,8 +675,13 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
+            
+            if (companyToBeUpdated.Image != null)
+            {
+                companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);    
+            }
             companyRepository.Update(companyToBeUpdated);
-
+            
             companyRepository.SaveChanges();
 
 
@@ -1461,14 +1465,44 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-            string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CompanyContactProfileImages");
+                //stores/organisation1/company505/CompanyProfileImage
+                string directoryPath =
+                   System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
+                                                                 itemRepository.OrganisationId + "/Company" +
+                                                                 companyContact.CompanyId + "/CompanyContacts/CompanyContact" +companyContact.ContactId);
+
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                Guid newGuid = Guid.NewGuid();
-                string savePath = directoryPath + "\\" + newGuid + "_" + companyContact.FileName;
+                string savePath = directoryPath + "\\"  + "_" + companyContact.FileName;
                 File.WriteAllBytes(savePath, data);
+                
+                return savePath;
+            }
+            return null;
+        }
+        private string SaveCompanyProfileImage(Company company)
+        {
+            if (company.Image != null)
+            {
+                string base64 = company.Image.Substring(company.Image.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                //stores/organisation1/company505/CompanyProfileImage
+                string directoryPath =
+                   System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
+                                                                 itemRepository.OrganisationId + "/Company" +
+                                                                 company.CompanyId + "/CompanyProfileImage");
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + "_" + company.ImageName;
+                File.WriteAllBytes(savePath, data);
+
                 return savePath;
             }
             return null;

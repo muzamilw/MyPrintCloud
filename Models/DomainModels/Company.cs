@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -122,6 +123,8 @@ namespace MPC.Models.DomainModels
         public long? StoreId { get; set; }
 
         public bool? isAddCropMarks { get; set; }
+        [NotMapped]
+        public string ImageName { get; set; }
 
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 

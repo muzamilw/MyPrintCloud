@@ -187,14 +187,12 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <div id="" class="">
-                                                                <input type="file" id="image_files" data-bind="files: { onLoaded: $root.UserProfileImageFileLoadedCallback, fileFilter: 'image.*'}">
-                                                                @*<form id="demo-uploadMM" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                                    <div class="dz-default dz-message">
-                                                                        <span>Drop file here to upload</span>
-                                                                    </div>
-                                                                </form>*@
-                                                                <img style="min-height: 200px; width: 250px;" data-bind="attr: { src: image }" />
+                                                            <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: image }" />
+                                                            <div class="col-lg-1 pull-right">
+                                                                <div class="fileUpload btn btn-primary">
+                                                                    <span>....</span>
+                                                                    <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.UserProfileImageFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                                </div>
                                                             </div>
                                                             <span class="help-block text-right"></span>
                                                         </div>

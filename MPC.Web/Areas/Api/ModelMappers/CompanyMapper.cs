@@ -121,7 +121,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
-                //Image = source.Image,
+                Image = source.ImageBytes,
                 AccountNumber = source.AccountNumber,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
@@ -185,6 +185,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard ,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady ,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                ImageName = source.ImageName,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =
