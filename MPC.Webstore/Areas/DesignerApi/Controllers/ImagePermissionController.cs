@@ -33,7 +33,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         // long imgID
-        public HttpResponseMessage GetProductBackgroundImages(long id)
+        public HttpResponseMessage GetTerritories(long id)
         {
             var result = imagePermissionService.getTerritories(id);
             var formatter = new JsonMediaTypeFormatter();
@@ -46,7 +46,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         // long imgID, string territory
-        public HttpResponseMessage GetProductBackgroundImages(long parameter1, string parameter2)
+        public HttpResponseMessage UpdateImageTerritories(long parameter1, string parameter2)
         {
             var result = imagePermissionService.UpdateImagTerritories(parameter1, parameter2);
             var formatter = new JsonMediaTypeFormatter();
