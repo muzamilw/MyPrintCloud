@@ -237,12 +237,12 @@ namespace MPC.MIS.Areas.Api.Models
         {
             get
             {
-                if (Image == null)
+                if (StoreBackgroudImage == null)
                 {
                     return string.Empty;
                 }
 
-                string base64 = Convert.ToBase64String(Image);
+                string base64 = Convert.ToBase64String(StoreBackgroudImage);
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }
