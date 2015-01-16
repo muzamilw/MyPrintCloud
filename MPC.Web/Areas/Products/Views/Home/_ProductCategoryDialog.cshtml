@@ -1,0 +1,38 @@
+﻿<div class="modal fade" id="productCategoryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Categories</h4>
+            </div>
+            <div class="col-lg-12">
+                <div style="padding-right: 5px;" id="nestable2">
+                    <ol id ="productCategoryDialogCategories" class="dd-list">
+                        <!-- ko template: { name: 'productCategoryDialogTemplate', foreach: $root.parentProductCategories } -->
+                        <!-- /ko -->
+                    </ol>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.updateProductCategories">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Product Category Template *@
+<script id="productCategoryDialogTemplate" type="text/html">
+    <li class="dd-item dd-item-list" data-bind="attr: { id: 'liElement-' + id }">
+        <div class="dd-handle-list" data-bind="click: $root.toggleChildCategories"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle">
+            <span data-bind="text: name"></span>
+            <div class="nested-links">
+                <input type="checkbox" data-bind="checked: isSelected" />
+            </div>
+        </div>
+    </li>
+</script>
+
+
+@* Wizard Popup ends here*@

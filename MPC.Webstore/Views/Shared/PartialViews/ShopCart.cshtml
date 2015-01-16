@@ -5,8 +5,7 @@
 @using MPC.Webstore.ViewModels;
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    double AmountOfDiscount = 0;
+    Layout = "~/Views/Shared/_Layout.cshtml";;
     string EstimateDispatchTime = string.Empty;
     double _priceTotal = 0;
     double _vatTotal = 0;
@@ -15,7 +14,6 @@
     decimal _numOfProductionDays = 0;
     decimal numberOfDaysAddedTodelivery = 0;
     decimal ProductProductionTime = 0;
-    double PriceTotal = 0;
     double GrossTotal = 0;
     string VatTotal = string.Empty;
     string subtotal = string.Empty;
@@ -90,7 +88,7 @@
                                              string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
                                              if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
                                              {
-                                                 string completeImgPath = prod.ThumbnailPath;
+                                                 string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
                                                  pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                  imgToShowURL = completeImgPath;
                                              }
@@ -112,7 +110,7 @@
                                          {
                                              if (prod.ProductType == (int)ProductType.FinishedGoodWithBanner || prod.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
                                              {
-                                                 string completeImgPath = prod.ThumbnailPath;
+                                                 string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
                                                  pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                  imgToShowURL = completeImgPath;
                                              }

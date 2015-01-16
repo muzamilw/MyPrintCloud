@@ -131,6 +131,12 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public ItemSearchResponse ItemsResponse { get; set; }
 
+        /// <summary>
+        /// Color Pallete
+        /// </summary>
+        public List<ColorPallete> ColorPalletes { get; set; }
+
+
         #region CMS Pages
 
         public List<CmsPage> NewAddedCmsPages { get; set; }
@@ -208,6 +214,40 @@ namespace MPC.MIS.Areas.Api.Models
 
         #endregion
 
+        #region Backgroud Image
+        /// <summary>
+        /// Store Backgroud Image Image Source
+        /// </summary>
+        public string StoreBackgroudImageImageSource { get; set; }
+
+        /// <summary>
+        /// Store Backgroud Image File Name
+        /// </summary>
+        public string StoreBackgroudImageFileName { get; set; }
+
+        /// <summary>
+        /// Store Backgroud Image Bytes
+        /// </summary>
+        public byte[] StoreBackgroudImage { get; set; }
+
+        /// <summary>
+        /// Store Backgroud Image Source
+        /// </summary>
+        public string StoreBackgroudImageSource
+        {
+            get
+            {
+                if (StoreBackgroudImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(StoreBackgroudImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        #endregion
         #endregion
     }
 }

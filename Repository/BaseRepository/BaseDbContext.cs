@@ -433,6 +433,61 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Phrase> Phrases { get; set; }
 
         /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostCentreAnswer> CostCentreAnswers { get; set; }
+
+        /// <summary>
+        /// Cost center Instuction DbSet
+        /// </summary>
+        public  DbSet<CostcentreInstruction> CostcentreInstructions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix Detail DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrixDetail> CostCentreMatrixDetails { get; set; }
+
+        /// <summary>
+        /// Cost Centre Question DbSet
+        /// </summary>
+        public  DbSet<CostCentreQuestion> CostCentreQuestions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostcentreResource> CostcentreResources { get; set; }
+
+        /// <summary>
+        /// Cost Centre System Type DbSet
+        /// </summary>
+        public  DbSet<CostcentreSystemType> CostcentreSystemTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Template DbSet
+        /// </summary>
+        public  DbSet<CostCentreTemplate> CostCentreTemplates { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariable> CostCentreVariables { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable Type DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariableType> CostCentreVariableTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Work Instruction Choice DbSet
+        /// </summary>
+        public  DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
@@ -539,6 +594,59 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.
                 ExecuteFunction<usp_GetRealEstateProducts_Result>("BaseDbContext.usp_GetRealEstateProducts", contactCompanyIdParameter).ToList();
         }
+
+        /// <summary>
+        /// Get Template Images Result
+        /// </summary>
+        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateID, long? contactCompanyID, 
+            long? contactID, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
+        {
+            var isCalledFromParameter = isCalledFrom.HasValue ?
+                new ObjectParameter("isCalledFrom", isCalledFrom) :
+                new ObjectParameter("isCalledFrom", typeof(int));
+
+            var imageSetTypeParameter = imageSetType.HasValue ?
+                new ObjectParameter("imageSetType", imageSetType) :
+                new ObjectParameter("imageSetType", typeof(int));
+
+            var templateIDParameter = templateID.HasValue ?
+                new ObjectParameter("templateID", templateID) :
+                new ObjectParameter("templateID", typeof(long));
+
+            var contactCompanyIDParameter = contactCompanyID.HasValue ?
+                new ObjectParameter("contactCompanyID", contactCompanyID) :
+                new ObjectParameter("contactCompanyID", typeof(long));
+
+            var contactIDParameter = contactID.HasValue ?
+                new ObjectParameter("contactID", contactID) :
+                new ObjectParameter("contactID", typeof(long));
+
+            var territoryParameter = territory.HasValue ?
+                new ObjectParameter("territory", territory) :
+                new ObjectParameter("territory", typeof(long));
+
+            var pageNumberParameter = pageNumber.HasValue ?
+                new ObjectParameter("pageNumber", pageNumber) :
+                new ObjectParameter("pageNumber", typeof(int));
+
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("pageSize", pageSize) :
+                new ObjectParameter("pageSize", typeof(int));
+
+            var sortColumnParameter = sortColumn != null ?
+                new ObjectParameter("sortColumn", sortColumn) :
+                new ObjectParameter("sortColumn", typeof(string));
+
+            var searchParameter = search != null ?
+                new ObjectParameter("search", search) :
+                new ObjectParameter("search", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.
+                ExecuteFunction<sp_GetTemplateImages_Result>("sp_GetTemplateImages", isCalledFromParameter, imageSetTypeParameter, 
+                templateIDParameter, contactCompanyIDParameter, contactIDParameter, territoryParameter, pageNumberParameter, 
+                pageSizeParameter, sortColumnParameter, searchParameter, imageCount).ToList();
+        }
+
 
         #endregion
     }

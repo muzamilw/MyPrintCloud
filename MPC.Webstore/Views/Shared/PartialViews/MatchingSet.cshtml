@@ -32,32 +32,32 @@
             <a id="hlImage1" href="#">
                 <div id="divShd" class="matching_set_image_container">
                     @{
-                            if (matchSet.Orientation != null)
-                            {
-                                if (matchSet.Orientation == 1) // Portrait
-                                {
+        if (matchSet.Orientation != null)
+        {
+            if (matchSet.Orientation == 1) // Portrait
+            {
 
-                                    <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image_horizontal"
-                                         style="border-style:none;" />
-                                }
-                                else if (matchSet.Orientation == 2)
-                                {
-                                    // Landescape
-                                    <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image_vertical"
-                                         style="border-style:none;" />
-                                }
-                                else  // Fixed both if it doesn't have a valid Orientation
-                                {
+                <img id="imgPic1" src='@Html.GetAppBasePath()@matchSet.Thumbnail' class="matching_set_image_horizontal"
+                     style="border-style:none;" />
+            }
+            else if (matchSet.Orientation == 2)
+            {
+                // Landescape
+                <img id="imgPic1" src='@Html.GetAppBasePath()@matchSet.Thumbnail' class="matching_set_image_vertical"
+                     style="border-style:none;" />
+            }
+            else  // Fixed both if it doesn't have a valid Orientation
+            {
 
-                                    <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image_fixed"
-                                         style="border-style:none;" />
-                                }
-                            }
-                            else
-                            {
-                                <img id="imgPic1" src='@matchSet.Thumbnail' class="matching_set_image"
-                                     style="border-style:none;" />
-                            }
+                <img id="imgPic1" src='@Html.GetAppBasePath()@matchSet.Thumbnail' class="matching_set_image_fixed"
+                     style="border-style:none;" />
+            }
+        }
+        else
+        {
+            <img id="imgPic1" src='@Html.GetAppBasePath()@matchSet.Thumbnail' class="matching_set_image"
+                 style="border-style:none;" />
+        }
 }
 
                 </div>

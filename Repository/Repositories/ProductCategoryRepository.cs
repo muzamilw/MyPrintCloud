@@ -179,5 +179,12 @@ namespace MPC.Repository.Repositories
 
         }
 
+        /// <summary>
+        /// Get Parent Categories For Organisation
+        /// </summary>
+        public IEnumerable<ProductCategory> GetParentCategories()
+        {
+            return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId).ToList();
+        }
     }
 }

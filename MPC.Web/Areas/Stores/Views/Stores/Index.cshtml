@@ -15,7 +15,7 @@
                 <div class="clearfix">
                     <h1 class="pull-left">Stores</h1>
                     <div class="pull-right top-page-ui">
-                        <a href="~/CRM/AddStore" class="btn btn-primary">
+                        <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
                         </a>
                     </div>
@@ -129,6 +129,9 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
+@*<link href="~/Content/colorpicker.css" rel="stylesheet" />*@
+    @*<script src="~/Scripts/Ace/ace.js"></script>*@
+@*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
     @*<link href="~/Content/colorpicker.css" rel="stylesheet" />
         <link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />
         <script src="~/Content/themes/Centaurus/js/wizard.js"></script>

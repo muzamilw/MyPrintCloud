@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
@@ -71,11 +72,14 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Company
         /// </summary>
-        private Company SaveNewCompany(Company company)
+        private Company SaveNewCompany(CompanySavingModel companySaving)
         {
-            companyRepository.Add(company);
+            //companySaving.Company.CmsPages = companySaving.NewAddedCmsPages;
+            companyRepository.Add(companySaving.Company);
             companyRepository.SaveChanges();
-            return company;
+            var companyId = companySaving.Company.CompanyId;
+            UpdateCompany(companySaving, companySaving.Company);
+            return companySaving.Company;
         }
         private Company UpdateRaveReviewsOfUpdatingCompany(Company company)
         {
@@ -88,6 +92,7 @@ namespace MPC.Implementation.MISServices
                 {
                     if (companyDbVersion.RaveReviews.All(x => x.ReviewId != item.ReviewId) || item.ReviewId == 0)
                     {
+                        item.OrganisationId = companyRepository.OrganisationId;
                         item.CompanyId = company.CompanyId;
                         companyDbVersion.RaveReviews.Add(item);
                     }
@@ -97,23 +102,27 @@ namespace MPC.Implementation.MISServices
 
             List<RaveReview> missingRaveReviews = new List<RaveReview>();
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (RaveReview dbversionRaveReviews in companyDbVersion.RaveReviews)
+            if (companyDbVersion.RaveReviews != null)
             {
-                if (company.RaveReviews != null && company.RaveReviews.All(x => x.ReviewId != dbversionRaveReviews.ReviewId))
+                foreach (RaveReview dbversionRaveReviews in companyDbVersion.RaveReviews)
                 {
-                    missingRaveReviews.Add(dbversionRaveReviews);
+                    if (company.RaveReviews != null && company.RaveReviews.All(x => x.ReviewId != dbversionRaveReviews.ReviewId))
+                    {
+                        missingRaveReviews.Add(dbversionRaveReviews);
+                    }
                 }
-            }
 
-            //remove missing items
-            foreach (RaveReview missingRaveReview in missingRaveReviews)
-            {
 
-                RaveReview dbVersionMissingItem = companyDbVersion.RaveReviews.First(x => x.ReviewId == missingRaveReview.ReviewId);
-                if (dbVersionMissingItem.ReviewId > 0)
+                //remove missing items
+                foreach (RaveReview missingRaveReview in missingRaveReviews)
                 {
-                    companyDbVersion.RaveReviews.Remove(dbVersionMissingItem);
-                    raveReviewRepository.Delete(dbVersionMissingItem);
+
+                    RaveReview dbVersionMissingItem = companyDbVersion.RaveReviews.First(x => x.ReviewId == missingRaveReview.ReviewId);
+                    if (dbVersionMissingItem.ReviewId > 0)
+                    {
+                        companyDbVersion.RaveReviews.Remove(dbVersionMissingItem);
+                        raveReviewRepository.Delete(dbVersionMissingItem);
+                    }
                 }
             }
             if (company.RaveReviews != null)
@@ -147,23 +156,25 @@ namespace MPC.Implementation.MISServices
 
             List<PaymentGateway> missingPaymentGateways = new List<PaymentGateway>();
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (PaymentGateway dbversionPaymentGateways in companyDbVersion.PaymentGateways)
+            if (companyDbVersion.PaymentGateways != null)
             {
-                if (company.PaymentGateways != null && company.PaymentGateways.All(x => x.PaymentGatewayId != dbversionPaymentGateways.PaymentGatewayId))
+                foreach (PaymentGateway dbversionPaymentGateways in companyDbVersion.PaymentGateways)
                 {
-                    missingPaymentGateways.Add(dbversionPaymentGateways);
+                    if (company.PaymentGateways != null && company.PaymentGateways.All(x => x.PaymentGatewayId != dbversionPaymentGateways.PaymentGatewayId))
+                    {
+                        missingPaymentGateways.Add(dbversionPaymentGateways);
+                    }
                 }
-            }
-
-            //remove missing items
-            foreach (PaymentGateway missingPaymentGateway in missingPaymentGateways)
-            {
-
-                PaymentGateway dbVersionMissingItem = companyDbVersion.PaymentGateways.First(x => x.PaymentGatewayId == missingPaymentGateway.PaymentGatewayId);
-                if (dbVersionMissingItem.PaymentGatewayId > 0)
+                //remove missing items
+                foreach (PaymentGateway missingPaymentGateway in missingPaymentGateways)
                 {
-                    companyDbVersion.PaymentGateways.Remove(dbVersionMissingItem);
-                    paymentGatewayRepository.Delete(dbVersionMissingItem);
+
+                    PaymentGateway dbVersionMissingItem = companyDbVersion.PaymentGateways.First(x => x.PaymentGatewayId == missingPaymentGateway.PaymentGatewayId);
+                    if (dbVersionMissingItem.PaymentGatewayId > 0)
+                    {
+                        companyDbVersion.PaymentGateways.Remove(dbVersionMissingItem);
+                        paymentGatewayRepository.Delete(dbVersionMissingItem);
+                    }
                 }
             }
             if (company.PaymentGateways != null)
@@ -197,24 +208,29 @@ namespace MPC.Implementation.MISServices
 
             List<CompanyCMYKColor> missingCompanyCMYKColors = new List<CompanyCMYKColor>();
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (CompanyCMYKColor dbversionCompanyCMYKColors in companyDbVersion.CompanyCMYKColors)
+            if (companyDbVersion.CompanyCMYKColors != null)
             {
-                if (company.CompanyCMYKColors != null && company.CompanyCMYKColors.All(x => x.ColorId != dbversionCompanyCMYKColors.ColorId && x.CompanyId != dbversionCompanyCMYKColors.ColorId))
+
+
+                foreach (CompanyCMYKColor dbversionCompanyCMYKColors in companyDbVersion.CompanyCMYKColors)
                 {
-                    missingCompanyCMYKColors.Add(dbversionCompanyCMYKColors);
+                    if (company.CompanyCMYKColors != null && company.CompanyCMYKColors.All(x => x.ColorId != dbversionCompanyCMYKColors.ColorId && x.CompanyId != dbversionCompanyCMYKColors.ColorId))
+                    {
+                        missingCompanyCMYKColors.Add(dbversionCompanyCMYKColors);
+                    }
                 }
-            }
 
-            //remove missing items
-            foreach (CompanyCMYKColor missingCompanyCMYKColor in missingCompanyCMYKColors)
-            {
+                //remove missing items
+                foreach (CompanyCMYKColor missingCompanyCMYKColor in missingCompanyCMYKColors)
+                {
 
-                CompanyCMYKColor dbVersionMissingItem = companyDbVersion.CompanyCMYKColors.First(x => x.ColorId == missingCompanyCMYKColor.ColorId && x.CompanyId == missingCompanyCMYKColor.CompanyId);
-                //if (dbVersionMissingItem.ColorId > 0)
-                //{
-                companyDbVersion.CompanyCMYKColors.Remove(dbVersionMissingItem);
-                companyCmykColorRepository.Delete(dbVersionMissingItem);
-                //}
+                    CompanyCMYKColor dbVersionMissingItem = companyDbVersion.CompanyCMYKColors.First(x => x.ColorId == missingCompanyCMYKColor.ColorId && x.CompanyId == missingCompanyCMYKColor.CompanyId);
+                    //if (dbVersionMissingItem.ColorId > 0)
+                    //{
+                    companyDbVersion.CompanyCMYKColors.Remove(dbVersionMissingItem);
+                    companyCmykColorRepository.Delete(dbVersionMissingItem);
+                    //}
+                }
             }
             if (company.CompanyCMYKColors != null)
             {
@@ -264,6 +280,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var address in companySavingModel.NewAddedAddresses)
                 {
                     address.CompanyId = companySavingModel.Company.CompanyId;
+                    address.OrganisationId = addressRepository.OrganisationId;
                     addressRepository.Add(address);
                 }
             }
@@ -575,6 +592,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var productCategory in companySavingModel.NewProductCategories)
                 {
                     productCategory.CompanyId = companySavingModel.Company.CompanyId;
+                    productCategory.OrganisationId = productCategoryRepository.OrganisationId;
                     SaveProductCategoryThumbNailImage(productCategory);
                     productCategoryRepository.Add(productCategory);
                     //companyToBeUpdated.ProductCategories.Add(productCategory);
@@ -609,6 +627,8 @@ namespace MPC.Implementation.MISServices
                 {
                     //address.CompanyId = companySavingModel.Company.CompanyId;
                     companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    companyContact.CompanyId = companySavingModel.Company.CompanyId;
+                    companyContact.OrganisationId = companyContactRepository.OrganisationId;
                     companyContactRepository.Add(companyContact);
                 }
             }
@@ -623,6 +643,7 @@ namespace MPC.Implementation.MISServices
                         File.Delete(companyContact.image);
                     }
                     companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    companyContact.CompanyId = companySavingModel.Company.CompanyId;
                     companyContactRepository.Update(companyContact);
                 }
             }
@@ -655,20 +676,82 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
+            UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             companyRepository.Update(companyToBeUpdated);
-
+            companyRepository.Update(companySavingModel.Company);
+            SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             companyRepository.SaveChanges();
-
-
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
+            
 
             return companySavingModel.Company;
         }
 
+        private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
+        {
+            if (company.StoreBackgroudImageImageSource != null)
+            {
+                string base64 = company.StoreBackgroudImageImageSource.Substring(company.StoreBackgroudImageImageSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + company.CompanyId);
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + "StoreBackgroundImage" + company.CompanyId + "_" + company.StoreBackgroudImageFileName + ".jpeg";
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
+                File.WriteAllBytes(savePath, data);
+
+                if (companyDbVersion != null)
+                {
+                    companyDbVersion.StoreBackgroundImage = savePath;
+                }
+                else
+                {
+                    company.StoreBackgroundImage = savePath;
+                }
+            }
+        }
+        private void UpdateColorPallete(Company company, Company companyDbVersion)
+        {
+
+
+            foreach (var colorPalleteItem in company.ColorPalletes)
+            {
+                if (companyDbVersion.ColorPalletes == null)
+                {
+                    List<ColorPallete> colorPalletes = new List<ColorPallete>();
+                    companyDbVersion.ColorPalletes = colorPalletes;
+
+                }
+                if (colorPalleteItem.PalleteId == 0)
+                {
+                    companyDbVersion.ColorPalletes.Add(colorPalleteItem);
+                }
+                else
+                {
+                    ColorPallete colorPallete = companyDbVersion.ColorPalletes.FirstOrDefault(c => c.PalleteId == colorPalleteItem.PalleteId);
+                    if (colorPallete != null)
+                    {
+                        colorPallete.Color1 = colorPalleteItem.Color1;
+                        colorPallete.Color2 = colorPalleteItem.Color2;
+                        colorPallete.Color3 = colorPalleteItem.Color3;
+                        colorPallete.Color4 = colorPalleteItem.Color4;
+                        colorPallete.Color5 = colorPalleteItem.Color5;
+                        colorPallete.Color6 = colorPalleteItem.Color6;
+                    }
+                }
+            }
+        }
         private void SaveFilesOfProductCategories(Company company)
         {
             // Update Organisation MISLogoStreamId
@@ -762,6 +845,10 @@ namespace MPC.Implementation.MISServices
 
             if (cmsPageWithWidgetList != null)
             {
+                if (companyDbVersion.CmsSkinPageWidgets == null)
+                {
+                    companyDbVersion.CmsSkinPageWidgets = new Collection<CmsSkinPageWidget>();
+                }
                 #region Add/Edit
                 foreach (var item in cmsPageWithWidgetList)
                 {
@@ -843,6 +930,10 @@ namespace MPC.Implementation.MISServices
 
             if (campaigns != null)
             {
+                if (companyDbVersion.Campaigns == null)
+                {
+                    companyDbVersion.Campaigns = new Collection<Campaign>();
+                }
                 foreach (var campaign in campaigns)
                 {
                     //New Added
@@ -881,22 +972,27 @@ namespace MPC.Implementation.MISServices
 
             //find missing items
             List<Campaign> missingCampaignListItems = new List<Campaign>();
-            foreach (var dbversionCampaignItem in companyDbVersion.Campaigns)
+            if (companyDbVersion.Campaigns != null)
             {
-                if (campaigns != null && campaigns.All(x => x.CampaignId != dbversionCampaignItem.CampaignId))
+
+
+                foreach (var dbversionCampaignItem in companyDbVersion.Campaigns)
                 {
-                    missingCampaignListItems.Add(dbversionCampaignItem);
+                    if (campaigns != null && campaigns.All(x => x.CampaignId != dbversionCampaignItem.CampaignId))
+                    {
+                        missingCampaignListItems.Add(dbversionCampaignItem);
+                    }
+                    //In case user delete all Campaigns
+                    if (campaigns == null)
+                    {
+                        missingCampaignListItems.Add(dbversionCampaignItem);
+                    }
                 }
-                //In case user delete all Campaigns
-                if (campaigns == null)
+                //remove missing items
+                foreach (Campaign missingCampaignItem in missingCampaignListItems)
                 {
-                    missingCampaignListItems.Add(dbversionCampaignItem);
+                    companyDbVersion.Campaigns.Remove(missingCampaignItem);
                 }
-            }
-            //remove missing items
-            foreach (Campaign missingCampaignItem in missingCampaignListItems)
-            {
-                companyDbVersion.Campaigns.Remove(missingCampaignItem);
             }
             #endregion
         }
@@ -909,6 +1005,11 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in companySavingModel.NewAddedCmsPages)
                 {
+                    if (companyDbVersion.CmsPages == null)
+                    {
+                        List<CmsPage> cmsPages = new List<CmsPage>();
+                        companyDbVersion.CmsPages = cmsPages;
+                    }
                     item.PageId = 0;
                     item.CompanyId = companySavingModel.Company.CompanyId;
                     item.OrganisationId = companyRepository.OrganisationId;
@@ -984,6 +1085,10 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var bannerItem in company.CompanyBannerSets)
                 {
+                    if (companyDbVersion.CompanyBannerSets == null)
+                    {
+                        companyDbVersion.CompanyBannerSets = new Collection<CompanyBannerSet>();
+                    }
                     //Company Banner Set New Added and company banner also added under this banner set
                     if (bannerItem.CompanySetId < 0)
                     {
@@ -1049,32 +1154,38 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             #region Delete Banners
-            foreach (var bannerSetDbVersion in companyDbVersion.CompanyBannerSets)
+
+            if (companyDbVersion.CompanyBannerSets != null)
             {
 
-                //find missing items
-                List<CompanyBanner> missingCompanyBannerListItems = new List<CompanyBanner>();
-                foreach (var dbversionCompanyBannerItem in bannerSetDbVersion.CompanyBanners)
+
+                foreach (var bannerSetDbVersion in companyDbVersion.CompanyBannerSets)
                 {
-                    CompanyBannerSet bannerSetItem = company.CompanyBannerSets != null ? company.CompanyBannerSets.FirstOrDefault(x => x.CompanySetId == dbversionCompanyBannerItem.CompanySetId) : null;
-                    if (bannerSetItem != null && bannerSetItem.CompanyBanners != null && bannerSetItem.CompanyBanners.All(x => x.CompanyBannerId != dbversionCompanyBannerItem.CompanyBannerId))
+
+                    //find missing items
+                    List<CompanyBanner> missingCompanyBannerListItems = new List<CompanyBanner>();
+                    foreach (var dbversionCompanyBannerItem in bannerSetDbVersion.CompanyBanners)
                     {
-                        missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
+                        CompanyBannerSet bannerSetItem = company.CompanyBannerSets != null ? company.CompanyBannerSets.FirstOrDefault(x => x.CompanySetId == dbversionCompanyBannerItem.CompanySetId) : null;
+                        if (bannerSetItem != null && bannerSetItem.CompanyBanners != null && bannerSetItem.CompanyBanners.All(x => x.CompanyBannerId != dbversionCompanyBannerItem.CompanyBannerId))
+                        {
+                            missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
+                        }
+                        //In case user delete all Stock Cost And Price items from client side then it delete all items from db
+                        if (bannerSetItem == null || bannerSetItem.CompanyBanners == null)
+                        {
+                            missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
+                        }
                     }
-                    //In case user delete all Stock Cost And Price items from client side then it delete all items from db
-                    if (bannerSetItem == null || bannerSetItem.CompanyBanners == null)
+                    //remove missing items
+                    foreach (CompanyBanner missingCompanyBannerItem in missingCompanyBannerListItems)
                     {
-                        missingCompanyBannerListItems.Add(dbversionCompanyBannerItem);
-                    }
-                }
-                //remove missing items
-                foreach (CompanyBanner missingCompanyBannerItem in missingCompanyBannerListItems)
-                {
-                    CompanyBanner dbVersionMissingItem = bannerSetDbVersion.CompanyBanners.First(x => x.CompanyBannerId == missingCompanyBannerItem.CompanyBannerId);
-                    if (dbVersionMissingItem.CompanyBannerId > 0)
-                    {
-                        companyBannerRepository.Delete(dbVersionMissingItem);
-                        companyBannerRepository.SaveChanges();
+                        CompanyBanner dbVersionMissingItem = bannerSetDbVersion.CompanyBanners.First(x => x.CompanyBannerId == missingCompanyBannerItem.CompanyBannerId);
+                        if (dbVersionMissingItem.CompanyBannerId > 0)
+                        {
+                            companyBannerRepository.Delete(dbVersionMissingItem);
+                            companyBannerRepository.SaveChanges();
+                        }
                     }
                 }
             }
@@ -1372,32 +1483,6 @@ namespace MPC.Implementation.MISServices
             itemRepository.SaveChanges();
         }
 
-        private void updatePreviousImages(Item prevProduct, Item item)
-        {
-            #region Check Deleted Files
-
-            if (item.File1Byte == null && prevProduct.File1 != null)
-            {
-                File.Delete(prevProduct.File1);
-            }
-            if (item.File2Byte == null && prevProduct.File2 != null)
-            {
-                File.Delete(prevProduct.File2);
-            }
-            if (item.File3Byte == null && prevProduct.File3 != null)
-            {
-                File.Delete(prevProduct.File3);
-            }
-            if (item.File4Byte == null && prevProduct.File4 != null)
-            {
-                File.Delete(prevProduct.File4);
-            }
-            if (item.File5Byte == null && prevProduct.File5 != null)
-            {
-                File.Delete(prevProduct.File5);
-            }
-            #endregion
-        }
 
         /// <summary>
         /// Save Images for CMS Page(Secondary Page Images)
@@ -1432,20 +1517,23 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private string SaveCompanyContactProfileImage(CompanyContact companyContact)
         {
-            string base64 = companyContact.image.Substring(companyContact.image.IndexOf(',') + 1);
-            base64 = base64.Trim('\0');
-            byte[] data = Convert.FromBase64String(base64);
-
-            string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CompanyContactProfileImages");
-            if (directoryPath != null && !Directory.Exists(directoryPath))
+            if (companyContact.image != null)
             {
-                Directory.CreateDirectory(directoryPath);
-            }
-            Guid newGuid = Guid.NewGuid();
-            string savePath = directoryPath + "\\" + newGuid + "_" + companyContact.FileName;
-            File.WriteAllBytes(savePath, data);
-            return savePath;
+                string base64 = companyContact.image.Substring(companyContact.image.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
 
+                string directoryPath = HttpContext.Current.Server.MapPath("~/Resources/CompanyContactProfileImages");
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                Guid newGuid = Guid.NewGuid();
+                string savePath = directoryPath + "\\" + newGuid + "_" + companyContact.FileName;
+                File.WriteAllBytes(savePath, data);
+                return savePath;
+            }
+            return null;
         }
 
 
@@ -1576,6 +1664,19 @@ namespace MPC.Implementation.MISServices
                        Widgets = widgetRepository.GetAll(),
                    };
         }
+        public CompanyBaseResponse GetBaseDataForNewCompany()
+        {
+            return new CompanyBaseResponse
+            {
+                SystemUsers = systemUserRepository.GetAll(),
+                CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
+                RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                PaymentMethods = paymentMethodRepository.GetAll().ToList(),
+                EmailEvents = emailEventRepository.GetAll(),
+                Widgets = widgetRepository.GetAll(),
+            };
+        }
         public void SaveFile(string filePath, long companyId)
         {
             Company company = companyRepository.GetCompanyById(companyId).Company;
@@ -1594,9 +1695,10 @@ namespace MPC.Implementation.MISServices
         public Company SaveCompany(CompanySavingModel companyModel)
         {
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
+
             if (companyDbVersion == null)
             {
-                return SaveNewCompany(companyModel.Company);
+                return SaveNewCompany(companyModel);
             }
             else
             {
@@ -1656,6 +1758,15 @@ namespace MPC.Implementation.MISServices
         public ItemListViewSearchResponse GetItems(CompanyProductSearchRequestModel request)
         {
             return itemsListViewRepository.GetItemsForCompany(request);
+        }
+
+        public Company DeleteCompany(long companyId)
+        {
+            var companyResponse = companyRepository.GetCompanyById(companyId);
+            companyResponse.Company.isArchived = true;
+            companyRepository.Update(companyResponse.Company);
+            companyRepository.SaveChanges();
+            return companyResponse.Company;
         }
         #endregion
     }
