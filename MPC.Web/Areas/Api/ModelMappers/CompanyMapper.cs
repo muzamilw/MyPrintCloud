@@ -56,22 +56,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isDisplayMenuBar = source.isDisplayMenuBar,
                 isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
-                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline ,
+                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
                 isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
                 isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
                 isDisplaySiteFooter = source.isDisplaySiteFooter,
                 isDisplaySiteHeader = source.isDisplaySiteHeader,
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
-                isTextWatermark = source.isTextWatermark == true? "true":"false",
+                isTextWatermark = source.isTextWatermark == true ? "true" : "false",
                 WatermarkText = source.WatermarkText,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
                 twitterAppKey = source.twitterAppKey,
-                isStoreModePrivate = source.isStoreModePrivate == true? "true": "false",
+                isStoreModePrivate = source.isStoreModePrivate == true ? "true" : "false",
                 TaxPercentageId = source.TaxPercentageId,
-                canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval ,
+                canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                 CanUserEditProfile = source.CanUserEditProfile,
                 SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
                 SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
@@ -82,13 +82,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
-                isBrokerPaymentRequired = source.isBrokerPaymentRequired == true? "true": "false",
-                isIncludeVAT = source.isIncludeVAT == true? "true": "false",
-                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport ,
-                includeEmailBrokerArtworkOrderXML= source.includeEmailBrokerArtworkOrderXML,
-                includeEmailBrokerArtworkOrderJobCard= source.includeEmailBrokerArtworkOrderJobCard,
-                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady ,
-                
+                isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
+                isIncludeVAT = source.isIncludeVAT == true ? "true" : "false",
+                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
+                includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
+                includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
+                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
+
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
@@ -101,13 +101,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                         ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
                         : null,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                CompanyBannerSets = source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList(),
+                CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Take(10).Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
                 CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
+                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null
                 //Items = source.produ
             };
         }
@@ -152,22 +153,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isDisplayMenuBar = source.isDisplayMenuBar,
                 isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
-                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline ,
+                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
                 isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
                 isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
                 isDisplaySiteFooter = source.isDisplaySiteFooter,
                 isDisplaySiteHeader = source.isDisplaySiteHeader,
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
-                isTextWatermark = source.isTextWatermark == "true"? true: false,
+                isTextWatermark = source.isTextWatermark == "true" ? true : false,
                 WatermarkText = source.WatermarkText,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
                 twitterAppKey = source.twitterAppKey,
-                isStoreModePrivate = source.isStoreModePrivate == "true"? true: false,
+                isStoreModePrivate = source.isStoreModePrivate == "true" ? true : false,
                 TaxPercentageId = source.TaxPercentageId,
-                canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval ,
+                canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                 CanUserEditProfile = source.CanUserEditProfile,
                 SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
                 SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
@@ -178,12 +179,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
-                isBrokerPaymentRequired = source.isBrokerPaymentRequired == "true"? true:false,
-                isIncludeVAT = source.isIncludeVAT == "true"? true: false,
-                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport ,
+                isBrokerPaymentRequired = source.isBrokerPaymentRequired == "true" ? true : false,
+                isIncludeVAT = source.isIncludeVAT == "true" ? true : false,
+                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
                 includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
-                includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard ,
-                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady ,
+                includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
+                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
@@ -202,8 +203,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                         : null,
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null,
-                    PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x=> x.CreateFrom()).ToList(): null,
-                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null
+                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
+                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
+                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null
             };
 
             return company;
@@ -281,7 +283,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyResponse
             {
                 Company = source.Company.CreateFrom(),
-                
+
                 SecondaryPageResponse = new SecondaryPageResponse
                 {
                     CmsPages =

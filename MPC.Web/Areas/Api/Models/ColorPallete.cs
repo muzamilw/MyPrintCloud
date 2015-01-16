@@ -1,7 +1,7 @@
-﻿namespace MPC.Models.DomainModels
+﻿namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// Color Pallete Domain Model
+    /// Color Pallete Api Model
     /// </summary>
     public class ColorPallete
     {
@@ -66,12 +66,6 @@
         /// Company Id
         /// </summary>
         public long? CompanyId { get; set; }
-
-        /// <summary>
-        /// Company
-        /// </summary>
-        public virtual Company Company { get; set; }
-
         #endregion
     }
 }

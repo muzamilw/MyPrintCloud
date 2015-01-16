@@ -121,7 +121,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
-        specifiedmakeEmailBrokerArtworkOrderProductionReady
+        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreBackgroudImageSource
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -195,6 +195,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             productCategories = ko.observableArray([]),
             //Products
             products = ko.observableArray([]),
+            //store Backgroud Image Image Source
+            storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
+            //store Backgroud Image File Name
+            storeBackgroudImageFileName = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -259,6 +263,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
                 makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
                 isDisplayBanners: isDisplayBanners,
+                storeBackgroudImageImageSource: storeBackgroudImageImageSource,
+                storeBackgroudImageFileName: storeBackgroudImageFileName,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -307,7 +313,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
                 result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
-                result.CompanyType = CompanyType().convertToServerData(source.companyType());
+                result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.RaveReviews = [];
                 result.PaymentGateways = [];
                 result.CompanyContacts = [];
@@ -322,9 +328,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 _.each(source.companyCMYKColors(), function (item) {
                     result.CompanyCmykColors.push(item.convertToServerData());
                 });
-                _.each(source.users(), function (item) {
-                    result.CompanyContacts.push(item.convertToServerData());
-                });
+                //_.each(source.users(), function (item) {
+                //    result.CompanyContacts.push(item.convertToServerData());
+                //});
                 //#region Arrays
                 result.NewAddedCompanyTerritories = [];
                 result.EdittedCompanyTerritories = [];
@@ -351,6 +357,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 _.each(source.paymentGateway(), function (item) {
                     result.PaymentGateways.push(item.convertToServerData());
                 });
+
+                result.ColorPalletes = [];
+                result.StoreBackgroudImageImageSource = source.storeBackgroudImageImageSource();
+                result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
                 //#endregion
                 return result;
             },
@@ -413,6 +423,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             paymentMethod: paymentMethod,
             productCategories: productCategories,
             products: products,
+            storeBackgroudImageImageSource: storeBackgroudImageImageSource,
+            storeBackgroudImageFileName: storeBackgroudImageFileName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -532,7 +544,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
-            source.makeEmailBrokerArtworkOrderProductionReady
+            source.makeEmailBrokerArtworkOrderProductionReady,
+            source.StoreBackgroudImageSource
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -1023,7 +1036,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         var self,
             id = ko.observable(specifiedPalleteId),
             palleteName = ko.observable(specifiedPalleteName),
-            color1 = ko.observable("#320B0B"),
+            color1 = ko.observable(specifiedColor1),
             color2 = ko.observable(specifiedColor2),
             color3 = ko.observable(specifiedColor3),
             color4 = ko.observable(specifiedColor4),
@@ -1052,9 +1065,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 color5: color5,
                 color6: color6,
                 color7: color7,
-                skinId: skinId,
-                isDefault: isDefault,
-                companyId: companyId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1098,6 +1108,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         };
         return self;
     };
+    ColorPalette.Create = function (source) {
+        return new ColorPalette(source.PalleteId, source.PalleteName, source.Color1, source.Color2, source.Color3, source.Color4, source.Color5, source.Color5, "", "", 0);
+    }
     // #endregion ______________  Color Palettes   _________________
 
     // #region ______________  A D D R E S S   _________________
