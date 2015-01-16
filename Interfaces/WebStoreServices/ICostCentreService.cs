@@ -8,6 +8,6 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICostCentreService
     {
-
+        object CompileBinaries(string sOutputPath, string Source, string CompanyName);
     }
 }
