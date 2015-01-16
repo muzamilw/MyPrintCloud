@@ -250,6 +250,7 @@ define("common/supplier.viewModel",
                 format = function (item) {
                     return $ + item.FlagName;
                 }
+
                 // Initialize the view model
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -258,7 +259,7 @@ define("common/supplier.viewModel",
                     supplierPager(pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
                     view.initializeForm();
                 };
-
+                
                 return {
                     selectedSupplier: selectedSupplier,
                     addSupplier: addSupplier,

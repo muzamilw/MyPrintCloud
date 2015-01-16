@@ -138,6 +138,8 @@
         headerComputedValue = ko.observable(),
         //Stock Cost And Price List
         stockCostAndPriceListInInventory = ko.observableArray([]),
+        //Paper Type
+        paperType = ko.observable(),
         // Errors
         errors = ko.validation.group({
             itemName: itemName,
@@ -292,6 +294,7 @@
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
+            paperType: paperType,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
