@@ -758,6 +758,29 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// Update Images
+        /// </summary>
+        private static void UpdateImages(Item source, Item target)
+        {
+            target.ThumbnailImageName = source.ThumbnailImageName;
+            target.ThumbnailImage = source.ThumbnailImage;
+            target.GridImageSourceName = source.GridImageSourceName;
+            target.GridImageBytes = source.GridImageBytes;
+            target.ImagePathImageName = source.ImagePathImageName;
+            target.ImagePathImage = source.ImagePathImage;
+            target.File1Name = source.File1Name;
+            target.File1Byte = source.File1Byte;
+            target.File2Name = source.File2Name;
+            target.File2Byte = source.File2Byte;
+            target.File3Name = source.File3Name;
+            target.File3Byte = source.File3Byte;
+            target.File4Name = source.File4Name;
+            target.File4Byte = source.File4Byte;
+            target.File5Name = source.File5Name;
+            target.File5Byte = source.File5Byte;
+        }
+
+        /// <summary>
         /// Update the header
         /// </summary>
         private static void UpdateHeader(Item source, Item target)
@@ -773,6 +796,9 @@ namespace MPC.Models.ModelMappers
             target.IsStockControl = source.IsStockControl;
             target.SortOrder = source.SortOrder;
             target.ItemLastUpdateDateTime = DateTime.Now;
+           
+            // Update Images
+            UpdateImages(source, target);
 
             // Update Internal Description
             UpdateInternalDescription(source, target);
