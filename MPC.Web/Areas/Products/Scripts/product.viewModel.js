@@ -155,7 +155,6 @@ define("product/product.viewModel",
                     // Open Editor
                     openProductEditor = function () {
                         isProductDetailsVisible(true);
-                        view.initializeDropZones();
                         // Set Product Category true/false for popup
                         productCategories.each(function (productCategory) {
                             var productCategoryItem = selectedProduct().productCategoryItems.find(function (pci) {
