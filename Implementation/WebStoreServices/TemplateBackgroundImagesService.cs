@@ -117,6 +117,8 @@ namespace MPC.Implementation.WebStoreServices
             this._templateImagesRepository = templateImagesRepository;
         }
         #endregion
+        #region public
+        
         //delete all template images of the given tempalte // added by saqib
         public void DeleteTemplateBackgroundImages(long productID, long OrganisationID)
         {
@@ -149,6 +151,7 @@ namespace MPC.Implementation.WebStoreServices
                             objBackground.BackgroundImageRelativePath = "MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + objBackground.ImageName;
                         }
                     }
+                    return backgrounds;
                 }
             }
             catch (Exception ex)
@@ -167,7 +170,7 @@ namespace MPC.Implementation.WebStoreServices
                 TemplateBackgroundImage objImage =  _templateImagesRepository.DeleteBackgroundImage(ImageID);
                 if(objImage != null)
                 {
-                    var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + productID.ToString());
+                    var drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" );
                     string sfilePath = drURL + "/"+  objImage.ImageName;
                     if (File.Exists(sfilePath))
                     {
@@ -196,8 +199,8 @@ namespace MPC.Implementation.WebStoreServices
                 string newImgName = Path.GetFileNameWithoutExtension(ImgName);
                 string NewImgPath;
                 ImgName = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + ImgName);
-                string imgNameWtihoutExt = Path.GetFileNameWithoutExtension(ImgName);
-                thumbName = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + imgNameWtihoutExt + "_thumb" + Path.GetExtension(ImgName));
+
+                thumbName = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + ImProductName + "/" + newImgName + "_thumb" + Path.GetExtension(ImgName));
                 using (Image OriginalImage = Image.FromFile(ImgName))
                 {
                     using (Bitmap bmp = new Bitmap(ImWidth1,ImHeight1))
@@ -218,7 +221,7 @@ namespace MPC.Implementation.WebStoreServices
                             string bgImgName = ImProductName + "/" + newImgName + numIterations + ext;
                             NewImgPath = "~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + ImProductName + "/" + newImgName + numIterations + ext;
                             string NewImgPrdoctPath = ImProductName + "/" + newImgName + numIterations + ext;
-                            NewPath = System.Web.Hosting.HostingEnvironment.MapPath("~/" + NewImgPath);
+                            NewPath =System.Web.Hosting.HostingEnvironment.MapPath(NewImgPath);
                             if (ext == ".jpg")
                             {
                                 bmp.Save(NewPath, ImageFormat.Jpeg);
@@ -399,7 +402,7 @@ namespace MPC.Implementation.WebStoreServices
             imgDescription = imgDescription.Replace("__", ",");
             return _templateImagesRepository.UpdateImage(imageID, imgTitle, imgDescription, imgKeywords, imType);
         }
-
+        #endregion
     }
    
 }
