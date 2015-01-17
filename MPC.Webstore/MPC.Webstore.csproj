@@ -296,6 +296,7 @@
     <Compile Include="Controllers\RealEstateHeaderController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
+    <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\QuickLinksController.cs" />
@@ -603,12 +604,14 @@
     <Content Include="Views\Shared\PartialViews\RealEstateHeader.cshtml" />
     <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateBanner.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ShopCartAddressSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
+    <Folder Include="Views\ShopCartAddressSelect\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

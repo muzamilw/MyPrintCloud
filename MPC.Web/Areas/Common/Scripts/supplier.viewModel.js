@@ -108,6 +108,7 @@ define("common/supplier.viewModel",
                     },
                 //Create New Supplier
                     onCreateSupplier = function () {
+                        errorList.removeAll();
                         addSupplier(model.Supplier.Create());
                         view.initializeForm();
                         isSupplierEditorVisible(true);

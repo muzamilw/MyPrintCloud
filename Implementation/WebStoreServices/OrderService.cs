@@ -209,7 +209,74 @@ namespace MPC.Implementation.WebStoreServices
                throw ex;
            }
        }
+        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime,StoreMode isCorpFlow)
+       {
+            try
+            {
+                return _OrderRepository.UpdateOrderWithDetails(orderID, loggedInContactID, orderTotal, deliveryEstimatedCompletionTime, isCorpFlow);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+       }
+       public bool IsOrderBelongToCorporate(long orderID, out long customerID)
+        {
 
+           try
+           {
+               return _OrderRepository.IsOrderBelongToCorporate(orderID, out customerID);
+
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+
+        }
+
+       public bool ValidateOrderForCorporateLogin(long orderID, bool isPlaceOrder, int IsCustomer, bool isWebAccess,out long CustomerID)
+       {
+
+           if (this.IsOrderInCorporateScenario(orderID, out CustomerID, IsCustomer, isWebAccess) && _myClaimHelper.isUserLoggedIn() == false)
+           {
+              // this.CreateCorpLoginRedirect(CustomerID);
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+       }
+
+       public bool IsOrderInCorporateScenario(long orderID, out long customerID, int IsCustomer, bool isWebAccess)
+       {
+           bool result = false;
+           customerID = 0;
+
+           if (this.IsUserCorporate(isWebAccess, IsCustomer) || this.IsOrderCorporate(orderID, out customerID))
+               result = true;
+
+           return result;
+       }
+
+       public bool IsOrderCorporate(long itemID, out long customerID)
+       {
+           customerID = 0;
+           return _OrderRepository.IsOrderBelongToCorporate(itemID, out customerID);
+       }
+
+       public bool IsUserCorporate(bool IsWebAccess, int IsCustomer)
+       {
+
+           //check whether the logged in company is acorporate user or not. also check if someone is already logged in.
+           bool result = Convert.ToBoolean(IsCustomer == (int)CustomerTypes.Corporate);
+
+           //further check if logged in user has corporate access or not.
+           result = result && (_myClaimHelper.loginContactID() > 0 && (IsWebAccess));
+
+           return result;
+       }
     
     }
 }

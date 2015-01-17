@@ -1448,6 +1448,7 @@
     <Content Include="Areas\Common\Views\Shared\_phraseLibraryDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\PhraseLibrary.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_EditJobTitlePhraseLibrary.cshtml" />
+    <Content Include="Content\less\Store.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2645,7 +2646,6 @@
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
-    <Folder Include="MPC_Content\Resources\" />
     <Folder Include="MPC_Content\SecondaryPages\" />
     <Folder Include="MPC_Content\Stores\" />
     <Folder Include="Reports\" />

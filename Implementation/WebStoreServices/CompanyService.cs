@@ -417,6 +417,10 @@ namespace MPC.Implementation.WebStoreServices
             return _cmsPageRepositary.getPageByID(PageID);
         }
 
+        public bool canContactPlaceOrder(long contactID,out bool hasWebAccess)
+        {
+            return _CompanyContactRepository.canContactPlaceOrder(contactID,out hasWebAccess);
+        }
         #endregion
     }
 

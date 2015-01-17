@@ -31,5 +31,7 @@ namespace MPC.Interfaces.Repository
         long GetContactIdByCustomrID(long customerID);
         string GetContactMobile(long CID);
 
+        bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
+
     }
 }
