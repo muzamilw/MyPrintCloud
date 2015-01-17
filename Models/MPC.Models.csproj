@@ -104,6 +104,7 @@
     <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
+    <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />

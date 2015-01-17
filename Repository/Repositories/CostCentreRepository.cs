@@ -521,18 +521,15 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-              var query =  from ccType in db.CostCentreTypes
-                           join cc in db.CostCentres on ccType.TypeId equals cc.Type  
-                           join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
-                           where ((ccType.IsExternal ==  1 && ccType.IsSystem == 0) 
-                           && Org.OrganisationId == OrganisationId)
-                           select new CostCentre()
-                           {
-                               CostCentreId = cc.CostCentreId,
-                               CompleteCode = cc.CompleteCode
+              //var query =  (from ccType in db.CostCentreTypes
+              //             join cc in db.CostCentres on ccType.TypeId equals cc.Type  
+              //             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
+              //             where ((ccType.IsExternal ==  1 && ccType.IsSystem == 0 && cc.CompleteCode != null) 
+              //             && Org.OrganisationId == OrganisationId )select cc);
+                          
+              //return query.ToList<CostCentre>();
 
-                           };
-              return query.ToList<CostCentre>();
+                return null;
             }
             catch (Exception ex)
             {
@@ -635,27 +632,23 @@ namespace MPC.Repository.Repositories
         {
             string sSqlString = null;
             double dResult = 0;
-            object temp = null;
             try
             {
-                //formatting the query
-                System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = null;
+               
                 if (Convert.ToBoolean( oVariable.IsCriteriaUsed) == true)
                 {
-                    result = db.Database.SqlQuery<string>("select top 1 cast(" + oVariable.RefFieldName + " as varchar(100)) from " + oVariable.RefTableName + " where " + oVariable.CriteriaFieldName + "= " + oVariable.Criteria + "", "");
-                    sSqlString = result.FirstOrDefault();
+                    sSqlString = db.Database.SqlQuery<string>("select top 1 cast(" + oVariable.RefFieldName + " as varchar(100)) from " + oVariable.RefTableName + " where " + oVariable.CriteriaFieldName + "= " + oVariable.Criteria + "", "").FirstOrDefault();
                    
                    
                 }
                 else
                 {
-                    result = db.Database.SqlQuery<string>("select top 1 cast(" + oVariable.RefFieldName + " as varchar(100)) from " + oVariable.RefTableName + "", "");
-                    sSqlString = result.FirstOrDefault();
+                    sSqlString = db.Database.SqlQuery<string>("select top 1 cast(" + oVariable.RefFieldName + " as varchar(100)) from " + oVariable.RefTableName + "", "").FirstOrDefault();
                 }
 
                
                 //we have received a propper result, continue else raise exception
-                if ((result != null))
+                if ((sSqlString != null))
                 {
                     dResult = Convert.ToDouble(sSqlString);
                 }
@@ -690,7 +683,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public double ExecuteUserStockItem(long StockID, StockPriceType StockPriceType, out double PerQtyQty)
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double PerQtyQty)
         {
             string sSqlString = null;
             object temp = null;
@@ -698,10 +691,7 @@ namespace MPC.Repository.Repositories
             try
             {
 
-                //[sp_CostCentreExecution_get_StockPriceByCalculationType]
-
-
-
+                //PerQtyQty = db.sp_CostCentreExecution_get_StockPriceByCalculationType(StockID, (int)StockPriceType, 0, PerQtyQty);
                 //expect  out params PerQtyQty
                 //if ((temp != null))
                 //{
