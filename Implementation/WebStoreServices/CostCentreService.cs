@@ -129,7 +129,7 @@ namespace MPC.Implementation.WebStoreServices
             double MinCost = 0.0d;
             double DefaultProfitMargin = 0.0d;
 
-            string sCostPlant = TokenParse( "EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"}");
+            string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} ");  //* {question, ID=\"13\",caption=\"How many boxes\"}
     //="EstimatedPlantCost =  BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,"1")  *  BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,"13",CostCentreID) ";
             string sCostLabour ="EstimatedLabourCost = 0";
             string sCostStock ="EstimatedMaterialCost = 0";
@@ -247,7 +247,7 @@ namespace MPC.Implementation.WebStoreServices
                 oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
                 oSource += "imports MPC.Models.Common" + Environment.NewLine;
                 oSource += "Imports System.Reflection" + Environment.NewLine;
-
+                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
                 oSource += "Namespace UserCostCentres" + Environment.NewLine;
 
 
@@ -413,7 +413,7 @@ namespace MPC.Implementation.WebStoreServices
                         case "systemvariable":
                              GetID = oSpiltTokens[1].Split('\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,\"" + GetID[1] + "\") ";
+                                return " _CostCentreService.ExecuteVariable(ParamsArray ,\"" + GetID[1] + "\") ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -423,7 +423,7 @@ namespace MPC.Implementation.WebStoreServices
                         case "question":
                              GetID = oSpiltTokens[1].Split('\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,\"" + GetID[1] + "\",CostCentreID) ";
+                                return " _CostCentreService.ExecuteQuestion(ParamsArray,\"" + GetID[1] + "\",CostCentreID) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -435,7 +435,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetID = oSpiltTokens[1].Split( '\"');
                             GetReturnValue = oSpiltTokens[3].Split('\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteCostCentre(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                                return " _CostCentreService.ExecuteCostCentre(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -447,7 +447,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetID = oSpiltTokens[1].Split('\"');
                             GetReturnValue = oSpiltTokens[3].Split( '\"');
                             if (GetID.Length == 3 & GetReturnValue.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteResource(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                                return " _CostCentreService.ExecuteResource(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -465,7 +465,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetValue = oSpiltTokens[5].Split( '\"');
 
                             if (((GetID.Length == 3 & GetName.Length == 3) & (GetQType.Length == 3 & GetQtyType.Length == 3) & GetValue.Length == 3)) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
+                                return " _CostCentreService.ExecuteStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -476,7 +476,7 @@ namespace MPC.Implementation.WebStoreServices
 
                             GetID = oSpiltTokens[1].Split( '\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteMatrix(ParamsArray,\"" + GetID[1] + "\",cint(CostCentreID)) ";
+                                return " _CostCentreService.ExecuteMatrix(ParamsArray,\"" + GetID[1] + "\",cint(CostCentreID)) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -492,7 +492,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetValue = oSpiltTokens[5].Split('\"');
 
                             if ((((GetID.Length == 3 & GetQuestion.Length == 3) & (GetTypes.Length == 3 & GetValue.Length == 3)) & GetInputTypes.Length == 3)) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteInput(ParamsArray,\"" + GetID[1] + "\",\"" + GetQuestion[1] + "\"," + GetTypes[1] + "," + GetInputTypes[1] + ",\"" + GetValue[1] + "\",cint(CostCentreID)) ";
+                                return " _CostCentreService.ExecuteInput(ParamsArray,\"" + GetID[1] + "\",\"" + GetQuestion[1] + "\"," + GetTypes[1] + "," + GetInputTypes[1] + ",\"" + GetValue[1] + "\",cint(CostCentreID)) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";

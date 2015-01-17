@@ -88,6 +88,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<IProductCategoryItemRepository, ProductCategoryItemRepository>();
             unityContainer.RegisterType<IPhraseFieldRepository, PhraseFieldRepository>();
             unityContainer.RegisterType<IImagePermissionsRepository, ImagePermissionRepository>();
+
+            unityContainer.RegisterType<ICostCentreVariableRepository, CostCentreVariableRepository>();
+            unityContainer.RegisterType<ICostCentreMatrixRepository, CostCentreMatrixRepository>();
         }
     }
 }

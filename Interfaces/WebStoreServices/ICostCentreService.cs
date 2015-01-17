@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -14,5 +15,11 @@ namespace MPC.Interfaces.WebStoreServices
         void CompileCostCentreTest();
 
         void SaveCostCentre(long _CostCentreID, long OrganisationId, string OrganisationName);
+
+        double ExecuteVariable(ref object[] oParamsArray, int VariableID);
+
+        double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue);
+
+        double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
     }
 }
