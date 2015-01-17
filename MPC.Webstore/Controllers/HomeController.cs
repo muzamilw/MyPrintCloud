@@ -101,7 +101,9 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About()
         {
-            _CostCentreService.CompileBinaries("","","");
+
+
+            _CostCentreService.SaveCostCentre(335, 1, "Test");
             return View();
         }
 

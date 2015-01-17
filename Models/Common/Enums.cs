@@ -186,4 +186,10 @@ namespace MPC.Models.Common
           PerPack = 2
     }
 
+    public enum CostCentreExecutionMode : int
+    {
+        PromptMode = 1,
+        ExecuteMode = 2
+    }
+
 }

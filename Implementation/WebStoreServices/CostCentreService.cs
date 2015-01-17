@@ -10,16 +10,341 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Implementation.WebStoreServices
 {
     public class CostCentreService : ICostCentreService
     {
         private readonly ICostCentreRepository _CostCentreRepository;
-        public CostCentreService(ICostCentreRepository CostCentreRepository)
+        private readonly ICostCentreVariableRepository _CostCentreVariableRepository;
+        public CostCentreService(ICostCentreRepository CostCentreRepository,
+            ICostCentreVariableRepository CostCentreVariableRepository)
         {
             this._CostCentreRepository = CostCentreRepository;
+            this._CostCentreVariableRepository = CostCentreVariableRepository;
         }
+
+
+        public void CompileCostCentreTest()
+        {
+
+            List<CostCentre> oCostCentresSource = this.GetCompleteCodeofAllCostCentres(1);
+            string oSource = "";
+            
+            //oSource += "Imports MPC" + Environment.NewLine;
+            oSource += "Imports System" + Environment.NewLine;
+            oSource += "Imports System.Data" + Environment.NewLine;
+            oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+            //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+            oSource += "Imports MPC.Implementation.WebStoreServices" + Environment.NewLine;
+            oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
+            oSource += "Imports System.Reflection" + Environment.NewLine;
+
+            oSource += "Namespace UserCostCentres" + Environment.NewLine;
+
+
+            //if (IsNewCostCentre == true) {
+            //    string Str = sCode.ToString;
+            //    Str = Str, "Namespace UserCostCentres", "");
+
+            //    Str = Str, "End Namespace", "");
+
+            //    oSource += Environment.NewLine + Str + Environment.NewLine;
+
+            //}
+
+
+
+            foreach (var oCostCentre in oCostCentresSource)
+            {
+                string Str = "";
+                Str = oCostCentre.CompleteCode;
+
+
+                Str = Str.Replace("Namespace UserCostCentres", "");
+                Str = Str.Replace("End Namespace", "");
+
+                oSource += Environment.NewLine + Str + Environment.NewLine;
+
+            }
+
+            oSource += "End Namespace" + Environment.NewLine;
+
+            //'if compilation fails then delete the code file
+
+            System.IO.FileStream oFileStream;
+            string oCompanyName = "Test";
+
+            //replacing any unwanted characters in the CompanyNames and create file name
+
+            bool IsCompiled = true;
+
+            try
+            {
+                //Compile Code of CostCentres
+                this.CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, oCompanyName);
+
+                //Get CostCentre File Open it in Read Mode
+                oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + oCompanyName + "UserCostCentres.dll");
+
+                //Get Byte Array of the file and write it in the db
+                //byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+
+                //oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+
+                //CostCentreByte = null;
+            }
+            catch (Exception ex)
+            {
+                //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
+                IsCompiled = false;
+                throw new Exception("Error Compiling Costcentre", ex);
+
+            }
+            finally
+            {
+                //CostCentreDLL = null;
+                oFileStream = null;
+
+            }
+            if (IsCompiled == false)
+            {
+                return;
+            }
+
+
+
+        }
+
+        public void SaveCostCentre(long _CostCentreID, long OrganisationId, string OrganisationName)
+        {
+
+            //creating a costcentre code file and updating it and compile it.
+            bool  IsNewCostCentre = false;
+            CostCentreTemplate oTemplate = _CostCentreRepository.LoadCostCentreTemplate(2);
+            string Header, Footer, Middle;
+            double SetupCost = 0.0d;
+            int SetupTime = 0;
+            double MinCost = 0.0d;
+            double DefaultProfitMargin = 0.0d;
+
+            string sCostPlant = TokenParse( "EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"}");
+    //="EstimatedPlantCost =  BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,"1")  *  BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,"13",CostCentreID) ";
+            string sCostLabour ="EstimatedLabourCost = 0";
+            string sCostStock ="EstimatedMaterialCost = 0";
+            string sTime ="EstimatedTime = 0";
+            string sPricePlant ="QuotedPlantPrice = 0";
+            string sPriceLabour ="QuotedLabourPrice = 0";
+            string sPriceStock ="QuotedMaterialPrice = 0";
+            string sActualPlantCost ="";
+            string sActualStockCost ="";
+            string sActualLabourCost ="";
+            StringBuilder sCode = new StringBuilder();
+
+
+
+            //#Zone " Compiling CostCentre "
+
+            {
+                char spacechar = '\0';
+                spacechar = (char)95;
+                //replacing any unwanted characters in the costcentrename and create file name
+                
+                Header = oTemplate.Header.Substring(0, oTemplate.Header.IndexOf( "''<cost>") - 2);
+                Middle = oTemplate.Middle.Substring(0, oTemplate.Middle.IndexOf( "''<price>") - 2);
+                Footer = oTemplate.Footer;
+
+                //'getting new Cost centreID from Database
+
+                if (_CostCentreID == 0)
+                {
+                    _CostCentreID = this.GetMaxCostCentreID();
+                    IsNewCostCentre = true;
+                }
+
+
+                //'replacing the CostCentre name and ID in the header string
+                Header = Header.Replace( "ccname", "CLS_" + _CostCentreID.ToString());
+                Header = Header.Replace( "<ccid>", _CostCentreID.ToString());
+
+                //replacing the attribs of cost centre
+                Header = Header.Replace( "<ccsc>", SetupCost.ToString());
+                Header = Header.Replace( "<ccst>", SetupTime.ToString());
+                Header = Header.Replace( "<ccmc>", MinCost.ToString());
+                Header = Header.Replace("<ccva>", DefaultProfitMargin.ToString());
+
+                //'now making a code file string
+
+                sCode.Append(Header);
+                sCode.Append(Environment.NewLine + "''<cost>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                sCode.Append(sCostPlant);
+                sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                sCode.Append(sCostLabour);
+                sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                sCode.Append(sCostStock);
+                sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<time>" + Environment.NewLine);
+                sCode.Append(sTime);
+                sCode.Append(Environment.NewLine + "''</time>" + Environment.NewLine);
+
+                sCode.Append(Environment.NewLine + "''</cost>" + Environment.NewLine);
+
+                sCode.Append(Middle);
+
+                sCode.Append(Environment.NewLine + "''<price>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                sCode.Append(sPricePlant);
+                sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                sCode.Append(sPriceLabour);
+                sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                sCode.Append(sPriceStock);
+                sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''</price>" + Environment.NewLine);
+
+
+                //process the footer here..
+                //since footer also contains the ActualCOST area, we have to remove that AREA
+                //and replace it with the new ACTUAL COST code
+
+                //our code is between ''<actualcost>   and  ''</actualcost>
+                int iStart = 0;
+                int iStart2 = 0;
+                int iLength = 0;
+                string sActualCostString = null;
+
+                sActualCostString = "''<plant>" + sActualPlantCost + "''</plant>" + "''</material>" + sActualStockCost + "''</material>" + "''</labour>" + sActualLabourCost + "''</labour>";
+
+                iStart = Footer.IndexOf("''<actualcost>") + 14;
+                iStart2 = Footer.IndexOf("''</actualcost>");
+                Footer.Remove(iStart, iStart2 - iStart);
+                Footer.Insert(iStart, sActualCostString);
+
+                sCode.Append(Footer);
+
+
+                CostCentre oCostCentre = GetCostCentreByID(_CostCentreID);
+
+
+                oCostCentre.CodeFileName = "CLS_" + _CostCentreID.ToString();
+                string oSource = "";
+
+                //Get Complete Code of the CostCentre from the DB and Recompile it with the new changes
+                List<CostCentre> oAllCostCentresCode = GetCompleteCodeofAllCostCentres(OrganisationId);
+
+
+                //oSource += "Imports Infinity" + Environment.NewLine;
+                oSource += "Imports System" + Environment.NewLine;
+                oSource += "Imports System.Data" + Environment.NewLine;
+                oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+                //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+                oSource += "Imports MPC.Implementation.WebStoreServices" + Environment.NewLine;
+                oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
+                oSource += "imports MPC.Models.Common" + Environment.NewLine;
+                oSource += "Imports System.Reflection" + Environment.NewLine;
+
+                oSource += "Namespace UserCostCentres" + Environment.NewLine;
+
+
+                if (IsNewCostCentre == true)
+                {
+                    string Str = sCode.ToString();
+                    Str = Str.Replace("Namespace UserCostCentres", "");
+
+                    Str = Str.Replace("End Namespace", "");
+
+                    oSource += Environment.NewLine + Str + Environment.NewLine;
+
+                }
+
+                if (oAllCostCentresCode != null)
+                {
+                    foreach (var oOtherCostCentre in oAllCostCentresCode)
+                    {
+                        string Str = "";
+                        if (_CostCentreID == oOtherCostCentre.CostCentreId)
+                        {
+                            Str = sCode.ToString();
+                        }
+                        else
+                        {
+                            Str = oOtherCostCentre.CompleteCode;
+                        }
+
+
+                        Str = Str.Replace("Namespace UserCostCentres", "");
+                        Str = Str.Replace("End Namespace", "");
+
+                        oSource += Environment.NewLine + Str + Environment.NewLine;
+
+                    }
+                }
+                else
+                {
+                    string Str = "";
+                    Str = sCode.ToString();
+                    Str = Str.Replace("Namespace UserCostCentres", "");
+                    Str = Str.Replace("End Namespace", "");
+                    oSource += Environment.NewLine + Str + Environment.NewLine;
+                }
+
+                oSource += "End Namespace" + Environment.NewLine;
+
+                //'if compilation fails then delete the code file
+
+                System.IO.FileStream oFileStream; ;
+                //string oCompanyName = OrganisationName;
+
+                //replacing any unwanted characters in the CompanyNames and create file name
+
+                bool IsCompiled = true;
+
+                try
+                {
+                    //Compile Code of CostCentres
+                    CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, OrganisationName);
+
+                    //Get CostCentre File Open it in Read Mode
+                    oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
+
+                    //Get Byte Array of the file and write it in the db
+                    byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+
+                    oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+
+                    CostCentreByte = null;
+                }
+                catch (Exception ex)
+                {
+                    //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
+                    IsCompiled = false;
+                    throw new Exception("Error Compiling Costcentre", ex);
+
+                }
+                finally
+                {
+
+                    oFileStream = null;
+
+                }
+
+                oCostCentre.CompleteCode = sCode.ToString();
+
+                _CostCentreRepository.Update(oCostCentre);
+
+            }
+
+
+
+
+        }
+
+
 
         
         /// <summary>
@@ -241,7 +566,8 @@ namespace MPC.Implementation.WebStoreServices
                     //co.ReferencedAssemblies.Add(oAsm.Location)
                     //End If
 
-                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder)))) {
+                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder))) && !oAsm.IsDynamic)
+                    {
                         if (oAsm.Location.Length > 0) {
                             co.ReferencedAssemblies.Add(oAsm.Location);
                         }
@@ -344,12 +670,14 @@ namespace MPC.Implementation.WebStoreServices
                 //for /////////the simplest            // applications.
                 //System.Reflection.Assembly oAsm = default(System.Reflection.Assembly);
 
-                foreach (System.Reflection.Assembly oAsm in AppDomain.CurrentDomain.GetAssemblies()) {
+                foreach (System.Reflection.Assembly oAsm in AppDomain.CurrentDomain.GetAssemblies())
+                {
                     //If Not (oAsm.GetType Is System.Reflection.Emit.AssemblyBuilder) Then
                     //co.ReferencedAssemblies.Add(oAsm.Location)
                     //End If
 
-                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder)))) {
+                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder))) && !oAsm.IsDynamic)
+                    {
                         co.ReferencedAssemblies.Add(oAsm.Location);
                     }
 
@@ -409,11 +737,11 @@ namespace MPC.Implementation.WebStoreServices
 
         //        if (CompleteCode.Length == 2) {
         //            //oCostCentre.CostCentreID = BLL.CostCentres.CostCentre.GetMaxCostCentreID(g_GlobalData);
-        //            oCostCentre.CompleteCode = "Namespace UserCostCentres" + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Public Class copyof" + oCostCentre.CodeFileName + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Inherits MarshalByRefObject" + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Implements Infinity.Model.CostCentres.ICostCentreLoader" + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Private Const CostCentreID As String = \"" + (oCostCentre.CostCentreID + 1).ToString + '\"' + Constants.vbCrLf;
+        //            oCostCentre.CompleteCode = "Namespace UserCostCentres" + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Public Class copyof" + oCostCentre.CodeFileName + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Inherits MarshalByRefObject" + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Implements Infinity.Model.CostCentres.ICostCentreLoader" + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Private Const CostCentreID As String = \"" + (oCostCentre.CostCentreID + 1).ToString + '\"' + Environment.NewLine;
         //            oCostCentre.CompleteCode += "Private Const SetupCost As Double";
         //            oCostCentre.CompleteCode += CompleteCode(1);
 
@@ -473,29 +801,29 @@ namespace MPC.Implementation.WebStoreServices
         //            oCompanyName = oCompanyName.Replace(",", "");
         //            oCompanyName = oCompanyName.Replace(".", "");
 
-        //            oSource += "Imports Infinity" + Constants.vbCrLf;
-        //            oSource += "Imports System" + Constants.vbCrLf;
-        //            oSource += "Imports System.Data" + Constants.vbCrLf;
-        //            oSource += "Imports Microsoft.VisualBasic" + Constants.vbCrLf;
-        //            oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Constants.vbCrLf;
-        //            oSource += "Imports Infinity.Bll.CostCentres" + Constants.vbCrLf;
-        //            oSource += "imports Infinity.Model.CostCentres" + Constants.vbCrLf;
-        //            oSource += "Imports System.Reflection" + Constants.vbCrLf;
+        //            oSource += "Imports Infinity" + Environment.NewLine;
+        //            oSource += "Imports System" + Environment.NewLine;
+        //            oSource += "Imports System.Data" + Environment.NewLine;
+        //            oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+        //            oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+        //            oSource += "Imports Infinity.Bll.CostCentres" + Environment.NewLine;
+        //            oSource += "imports Infinity.Model.CostCentres" + Environment.NewLine;
+        //            oSource += "Imports System.Reflection" + Environment.NewLine;
 
-        //            oSource += "Namespace UserCostCentres" + Constants.vbCrLf;
+        //            oSource += "Namespace UserCostCentres" + Environment.NewLine;
 
 
         //            foreach (var oRow in oTable.Rows) {
         //                string Str = "";
         //                Str = oRow(1).ToString;
-        //                Str = Strings.Replace(Str, "Namespace UserCostCentres", "");
-        //                Str = Strings.Replace(Str, "End Namespace", "");
+        //                Str = Str, "Namespace UserCostCentres", "");
+        //                Str = Str, "End Namespace", "");
 
-        //                oSource += Constants.vbCrLf + Str + Constants.vbCrLf;
+        //                oSource += Environment.NewLine + Str + Environment.NewLine;
 
         //            }
 
-        //            oSource += "End Namespace" + Constants.vbCrLf;
+        //            oSource += "End Namespace" + Environment.NewLine;
 
         //            //'if compilation fails then delete the code file
         //            System.IO.File CostCentreDLL = default(System.IO.File);
@@ -955,5 +1283,569 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
+
+        //public double ExecuteVariable(ref object[] oParamsArray, int VariableID)
+        //{
+        //    double functionReturnValue = 0;
+        //    try
+        //    {
+        //        CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray(1);
+        //        Model.Items.ItemSectionDTO oItemSection = (Model.Items.ItemSectionDTO)oParamsArray(8);
+        //        int CurrentQuantity = Convert.ToInt32(oParamsArray(5));
+
+        //        //if its Queue populating mode then return 0
+        //        if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+        //        {
+        //            return 0;
+
+        //            //its porpper execution mode
+        //        }
+        //        else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+        //        {
+
+        //            CostCentreVariable oVariable;
+        //            //First we have to fetch the Variable object which contains the information
+        //            oVariable = _CostCentreVariableRepository.LoadVariable(VariableID);
+
+        //            //now check the type of the variable.
+        //            //type 1 = system variable
+        //            //type 2 = Customized Variable
+        //            //type 3 = CostCentre Variable
+
+        //            // in this type the Criteria will be used that will be
+
+        //            if (oVariable.VariableType == 1)
+        //            {
+        //                switch (oVariable.VariablePropertyType)
+        //                {
+
+        //                    case Model.CostCentres.VariableProperty.Side1Inks:
+        //                        functionReturnValue = oItemSection.Side1Inks;
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.Side2Inks:
+        //                        functionReturnValue = oItemSection.Side1Inks;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PrintSheetQty_ProRata:
+
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.PrintSheetQty1;
+        //                                break;
+        //                            case 2:
+        //                                if (oItemSection.PrintSheetQty2 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.PrintSheetQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.PrintSheetQty2;
+        //                                }
+        //                                break;
+        //                            case 3:
+        //                                if (oItemSection.PrintSheetQty3 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.PrintSheetQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.PrintSheetQty3;
+        //                                }
+        //                                break;
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PressSpeed_ProRata:
+
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.PressSpeed1;
+        //                                break;
+        //                            case 2:
+        //                                if (oItemSection.PressSpeed2 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.PressSpeed1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.PressSpeed2;
+        //                                }
+        //                                break;
+        //                            case 3:
+        //                                if (oItemSection.PressSpeed3 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.PressSpeed1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.PressSpeed3;
+        //                                }
+        //                                functionReturnValue = oItemSection.PressSpeed3;
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.PressSpeed4
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.PressSpeed5
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.ColourHeads:
+        //                        if ((oItemSection.Press != null))
+        //                        {
+        //                            functionReturnValue = oItemSection.Press.ColourHeads;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = 0;
+        //                        }
+
+        //                        break;
+
+        //                    case Model.CostCentres.VariableProperty.ImpressionQty_ProRata:
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.ImpressionQty1;
+        //                                break;
+        //                            case 2:
+        //                                if (oItemSection.ImpressionQty2 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.ImpressionQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.ImpressionQty2;
+        //                                }
+        //                                break;
+        //                            case 3:
+        //                                if (oItemSection.ImpressionQty3 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.ImpressionQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.ImpressionQty3;
+        //                                }
+
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.ImpressionQty4
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.ImpressionQty5
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PressHourlyCharge:
+        //                        functionReturnValue = oItemSection.PressHourlyCharge;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.MinInkDuctqty:
+        //                        if (oItemSection.Press == null)
+        //                        {
+        //                            functionReturnValue = 0;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = oItemSection.Press.MinInkDuctqty;
+
+        //                        }
+
+        //                        break;
+
+        //                    case Model.CostCentres.VariableProperty.MakeReadycharge:
+        //                        if (oItemSection.Press == null)
+        //                        {
+        //                            functionReturnValue = 0;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = oItemSection.Press.MakeReadyCost;
+        //                        }
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PrintChargeExMakeReady_ProRata:
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.ImpressionQty1;
+        //                                break;
+        //                            case 2:
+        //                                functionReturnValue = oItemSection.ImpressionQty2;
+        //                                break;
+        //                            case 3:
+        //                                functionReturnValue = oItemSection.ImpressionQty3;
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.ImpressionQty4
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.ImpressionQty5
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PaperGsm:
+        //                        functionReturnValue = oItemSection.PaperGsm;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.SetupSpoilage:
+        //                        functionReturnValue = oItemSection.SetupSpoilage;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.RunningSpoilage:
+        //                        functionReturnValue = oItemSection.RunningSpoilage;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PaperPackPrice:
+        //                        functionReturnValue = oItemSection.PaperPackPrice;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.AdditionalPlateUsed:
+        //                        functionReturnValue = oItemSection.AdditionalPlateUsed;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.AdditionalFilmUsed:
+        //                        functionReturnValue = oItemSection.AdditionalFilmUsed;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.ItemGutterHorizontal:
+        //                        functionReturnValue = oItemSection.ItemGutterHorizontal;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.ItemGutterVertical:
+        //                        functionReturnValue = oItemSection.ItemGutterVertical;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PTVRows:
+        //                        functionReturnValue = oItemSection.PTVRows;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PTVColoumns:
+        //                        functionReturnValue = oItemSection.PTVColoumns;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PrintViewLayoutLandScape:
+        //                        functionReturnValue = oItemSection.PrintViewLayoutLandScape;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PrintViewLayoutPortrait:
+        //                        functionReturnValue = oItemSection.PrintViewLayoutPortrait;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PrintToView:
+        //                        if (oItemSection.PrintViewLayout == Model.Items.ItemSectionDTO.PrintViewOrientation.Landscape)
+        //                        {
+        //                            functionReturnValue = oItemSection.PrintViewLayoutLandScape;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = oItemSection.PrintViewLayoutPortrait;
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.FilmQty:
+        //                        functionReturnValue = oItemSection.FilmQty;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PlateQty:
+        //                        functionReturnValue = oItemSection.PlateQty;
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.GuilotineMakeReadycharge:
+        //                        if (oItemSection.Guilotine == null)
+        //                        {
+        //                            functionReturnValue = 0;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = oItemSection.Guilotine.MakeReadyCost;
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.GuilotineChargePerCut:
+        //                        if (oItemSection.Guilotine == null)
+        //                        {
+        //                            functionReturnValue = 0;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = oItemSection.Guilotine.CostPerCut;
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.GuillotineFirstCut:
+        //                        functionReturnValue = oItemSection.GuillotineFirstCut;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.GuillotineSecondCut:
+        //                        functionReturnValue = oItemSection.GuillotineSecondCut;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.FinishedItemQty_ProRata:
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.Qty1;
+        //                                break;
+        //                            case 2:
+        //                                if (oItemSection.Qty2 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.Qty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.Qty2;
+        //                                }
+        //                                break;
+        //                            case 3:
+        //                                if (oItemSection.Qty3 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.Qty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.Qty3;
+        //                                }
+
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.Qty1
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.Qty1
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.TotalSections:
+        //                        functionReturnValue = oItemSection.TotalSection;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PaperWeight_ProRata:
+
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.PaperWeight1;
+        //                                break;
+        //                            case 2:
+        //                                if (oItemSection.PaperWeight2 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.PaperWeight1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.PaperWeight2;
+        //                                }
+        //                                break;
+        //                            case 3:
+        //                                if (oItemSection.PaperWeight3 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.PaperWeight1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.PaperWeight3;
+        //                                }
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.PaperWeight4
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.PaperWeight5
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PrintSheetQtyIncSpoilage_ProRata:
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.PrintSheetQty1 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100);
+        //                                break;
+        //                            case 2:
+        //                                functionReturnValue = oItemSection.PrintSheetQty2 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty2 * oItemSection.RunningSpoilage / 100);
+        //                                break;
+        //                            case 3:
+        //                                functionReturnValue = oItemSection.PrintSheetQty3 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty3 * oItemSection.RunningSpoilage / 100);
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.PrintSheetQty4 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty4 * oItemSection.RunningSpoilage / 100)
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.PrintSheetQty5 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty5 * oItemSection.RunningSpoilage / 100)
+        //                        }
+
+        //                        break;
+
+        //                    case Model.CostCentres.VariableProperty.FinishedItemQtyIncSpoilage_ProRata:
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.FinishedItemQty1;
+        //                                break;
+        //                            case 2:
+        //                                if (oItemSection.FinishedItemQty2 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.FinishedItemQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.FinishedItemQty2;
+        //                                }
+        //                                break;
+        //                            case 3:
+        //                                if (oItemSection.FinishedItemQty3 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.FinishedItemQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.FinishedItemQty3;
+        //                                }
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.FinishedItemQty4
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.FinishedItemQty5
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.NoOfSides:
+        //                        if (Convert.ToBoolean(oItemSection.IsDoubleSided) == true)
+        //                        {
+        //                            functionReturnValue = 2;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = 1;
+        //                        }
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.PressSizeRatio:
+        //                        if (oItemSection.Press == null)
+        //                        {
+        //                            functionReturnValue = 0;
+        //                        }
+        //                        else
+        //                        {
+        //                            functionReturnValue = oItemSection.Press.PressSizeRatio;
+        //                        }
+
+        //                        break;
+
+        //                    case Model.CostCentres.VariableProperty.SectionPaperWeightExSelfQty_ProRata:
+        //                        switch (CurrentQuantity)
+        //                        {
+        //                            case 1:
+        //                                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+        //                                break;
+        //                            case 2:
+        //                                if (oItemSection.SectionPaperWeightExSelfQty2 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty2;
+        //                                }
+        //                                break;
+        //                            case 3:
+        //                                if (oItemSection.SectionPaperWeightExSelfQty3 == 0)
+        //                                {
+        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+        //                                }
+        //                                else
+        //                                {
+        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty3;
+        //                                }
+        //                                break;
+        //                            //Case 4
+        //                            //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty4
+        //                            //Case 5
+        //                            //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty5
+        //                        }
+
+        //                        break;
+
+        //                    case Model.CostCentres.VariableProperty.WashupQty:
+        //                        functionReturnValue = oItemSection.WashupQty;
+
+        //                        break;
+        //                    case Model.CostCentres.VariableProperty.MakeReadyQty:
+        //                        functionReturnValue = oItemSection.MakeReadyQty;
+
+        //                        break;
+        //                    default:
+        //                        functionReturnValue = 0;
+
+        //                        break;
+        //                }
+
+
+        //            }
+        //            else if (oVariable.VariableType == 2)
+        //            {
+        //                return _CostCentreVariableRepository.ExecUserVariable(oVariable);
+        //            }
+        //            else if (oVariable.VariableType == 3)
+        //            {
+        //                return oVariable.VariableValue;
+        //            }
+
+
+        //            oVariable = null;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("ExecuteVariable", ex);
+        //    }
+        //    return functionReturnValue;
+
+        //}
+
+
+
+        public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
+        {
+            double functionReturnValue = 0;
+
+            try
+            {
+                CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+
+                // If execution mode is for populating the Queue then return 0
+                if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    return 0;
+
+                    //if its execution mode then
+
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
+                    if (ReturnValue == "costperhour")
+                    {
+                        functionReturnValue = _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+                    }
+                    else
+                    {
+                        functionReturnValue = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteResource", ex);
+            }
+            return functionReturnValue;
+        }
+
+
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price ,out double PerQtyQty)
+        {
+            try
+            {
+                return _CostCentreRepository.ExecuteUserStockItem(StockID, StockPriceType,out Price ,out PerQtyQty);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
     }
 }
