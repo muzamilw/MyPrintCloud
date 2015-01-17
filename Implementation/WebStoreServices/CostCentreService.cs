@@ -1800,52 +1800,52 @@ namespace MPC.Implementation.WebStoreServices
 
 
 
-        //public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
-        //{
-        //    double functionReturnValue = 0;
+        public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
+        {
+            double functionReturnValue = 0;
 
-        //    try
-        //    {
-        //        CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray(1);
+            try
+            {
+                CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
 
-        //        // If execution mode is for populating the Queue then return 0
-        //        if (ExecutionMode == CostCentreExecutionMode.PromptMode)
-        //        {
-        //            return 0;
+                // If execution mode is for populating the Queue then return 0
+                if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    return 0;
 
-        //            //if its execution mode then
+                    //if its execution mode then
 
-        //        }
-        //        else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
-        //        {
-        //            if (ReturnValue == "costperhour")
-        //            {
-        //                functionReturnValue = _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
-        //            }
-        //            else
-        //            {
-        //                functionReturnValue = 0;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ExecuteResource", ex);
-        //    }
-        //    return functionReturnValue;
-        //}
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
+                    if (ReturnValue == "costperhour")
+                    {
+                        functionReturnValue = _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+                    }
+                    else
+                    {
+                        functionReturnValue = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteResource", ex);
+            }
+            return functionReturnValue;
+        }
 
 
-        //public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double PerQtyQty)
-        //{
-        //    try
-        //    {
-        //        return _CostCentreRepository.ExecuteUserStockItem(StockID, StockPriceType,out PerQtyQty);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ExecuteUserStockItem", ex);
-        //    }
-        //}
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price ,out double PerQtyQty)
+        {
+            try
+            {
+                return _CostCentreRepository.ExecuteUserStockItem(StockID, StockPriceType,out Price ,out PerQtyQty);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
     }
 }

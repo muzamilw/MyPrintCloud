@@ -47,6 +47,6 @@ namespace MPC.Interfaces.Repository
         CostCentreTemplate LoadCostCentreTemplate(int TemplateID);
         double ExecUserVariable(CostCentreVariable oVariable);
         double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour);
-        double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double PerQtyQty);
+        double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
     }
 }
