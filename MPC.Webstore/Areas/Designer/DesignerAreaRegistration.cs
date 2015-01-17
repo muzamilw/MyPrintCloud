@@ -18,8 +18,8 @@ namespace MPC.Webstore.Areas.Designer
             //string designName, int categoryIDV2, int templateID, int itemID, int customerID, int contactID, bool printCropMarks, bool printWaterMarks,int isCalledFrom ,bool isEmbedded)
             context.MapRoute(
                   "DesignerDefault_MultiParams",
-                  AreaName + "/{designName}/{categoryIDV2}/{templateID}/{itemID}/{customerID}/{contactID}/{printCropMarks}/{printWaterMarks}/{isCalledFrom}/{isEmbedded}",
-                  new { controller = "Designer", action = "Index", designName = RouteParameter.Optional, categoryID = RouteParameter.Optional, categoryIDV2 = RouteParameter.Optional, templateID = RouteParameter.Optional, itemID = RouteParameter.Optional, customerID = RouteParameter.Optional, contactID = RouteParameter.Optional, printCropMarks = RouteParameter.Optional, printWaterMarks = RouteParameter.Optional, isCalledFrom = RouteParameter.Optional, isEmbedded = RouteParameter.Optional }
+                  AreaName + "/{designName}/{categoryIDV2}/{templateID}/{itemID}/{customerID}/{contactID}/{isCalledFrom}/{organisationId}/{printCropMarks}/{printWaterMarks}/{isEmbedded}",
+                  new { controller = "Designer", action = "Index", designName = RouteParameter.Optional, categoryID = RouteParameter.Optional, categoryIDV2 = RouteParameter.Optional, templateID = RouteParameter.Optional, itemID = RouteParameter.Optional, customerID = RouteParameter.Optional, contactID = RouteParameter.Optional, printCropMarks = RouteParameter.Optional, printWaterMarks = RouteParameter.Optional, isCalledFrom = RouteParameter.Optional, isEmbedded = RouteParameter.Optional, organisationId = RouteParameter.Optional }
             );
         }
     }

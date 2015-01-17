@@ -124,6 +124,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -151,6 +153,11 @@
     <Compile Include="MISServices\PrefixService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\GlobalTemplateDesigner\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="WebStoreServices\CampaignService.cs" />
     <Compile Include="WebStoreServices\CmsSkinPageWidgetService.cs" />
     <Compile Include="WebStoreServices\CompanyService.cs" />
@@ -198,6 +205,79 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.BaseColors.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.CategoryRegions.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.CategoryTypes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.sp_GetTemplateIndustryTags_Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.sp_GetTemplateThemeTags_Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.sp_SearchTemplate_Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.Tags.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategoryFoldLines.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateBackgroundImages.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateFonts.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateObjects.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplatePages.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.Templates.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.vw_ProductCategoriesLeafNodes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.vw_ProductCategoriesLeafNodesWithRes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.vw_WebStore_MatchingSets.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.wsdl" />
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP6.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LanguageResources.resx">
@@ -205,6 +285,27 @@
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\GlobalTemplateDesigner\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GlobalTemplateDesigner\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' == ''" />
