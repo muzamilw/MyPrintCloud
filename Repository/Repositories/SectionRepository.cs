@@ -43,6 +43,22 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
+
+        /// <summary>
+        /// Get All Sections For Phrase Library
+        /// </summary>
+        public IEnumerable<Section> GetSectionsForPhraseLibrary()
+        {
+            return DbSet.OrderBy(s => s.SecOrder).ToList();
+        }
+
+        /// <summary>
+        /// Get Sections By Parent Id
+        /// </summary>
+        public IEnumerable<Section> GetSectionsByParentId(long parentId)
+        {
+            return DbSet.Where(s => s.ParentId == parentId).OrderBy(s => s.SecOrder).ToList();
+        }
         #endregion
     }
 }

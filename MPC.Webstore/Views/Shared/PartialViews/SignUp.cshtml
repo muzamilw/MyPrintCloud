@@ -24,15 +24,15 @@
 
 
                             <script>
-                                function SocialSignUp(isFacebook) {
-                                    var w = 820;
-                                    var h = 560;
-                                    var left = (screen.width / 2) - (w / 2);
-                                    var top = (screen.height / 2) - (h / 2);
-                                    if (isFacebook == 1)
-                                        window.open("/Home/oAuth?id=1&isRegWithSM=1", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                            function SocialSignUp(isFacebook) {
+                                var w = 820;
+                                var h = 560;
+                                var left = (screen.width / 2) - (w / 2);
+                                var top = (screen.height / 2) - (h / 2);
+                                if (isFacebook == 1)
+                                         window.open("/Home/oAuth?id=1&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                                     else
-                                        window.open("/Home/oAuth?id=0&isRegWithSM=1", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                                        window.open("/Home/oAuth?id=0&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
                                     return false;
                                 }
                             </script>
@@ -77,7 +77,7 @@
 
                             <div id="MessageBox"></div>
                          
-                            <div class="errorMesgLoginPage">
+                            @*<div class="errorMesgLoginPage">
                                 
                                 @Html.ValidationMessageFor(u => u.FirstName)<br />
                                 @Html.ValidationMessageFor(u => u.LastName)<br />
@@ -85,20 +85,32 @@
                                 @Html.ValidationMessageFor(u => u.Email)<br />
                                 @Html.ValidationMessageFor(u => u.Password)<br />
 
-                            </div>
+                            </div>*@
                             @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox cntRegisterFN", placeholder = ViewData.ModelMetadata.DisplayName })
-                            @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", placeholder = "Last Name" })
-                            @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", placeholder = "Phone" })
-                            @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", placeholder = "Email" })
-                            @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
+           
+                            @Html.ValidationMessageFor(u => u.FirstName,string.Empty, new { @style = "color:red" })
 
+                            @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", placeholder = "Last Name" })
                             <br />
-                            <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" onclick="return ValidateUSer();" value="CREATE ACCOUNT" /><br />
+                            @Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })
+                             @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", placeholder = "Phone" })
+                            <br />
+                            @Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })
+                            @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", placeholder = "Email"})
+                            <br />
+                           
+                            @Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })
+                             @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
+                             <br />
+                            @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
+                            <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="CREATE ACCOUNT" /><br />
 
                             <div class="clear">
                                 &nbsp;
                             </div>
+                        <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
                         }
+                      
                     </div>
                     <div class="signup_width col-md-6 col-lg-6 col-xs-12">
                         <div class="BackgroundColor">
@@ -169,31 +181,4 @@
         </div>
     </div>
 
-    <script type="text/javascript" language="javascript">
-
-        function ValidateUSer() {
-            var isValid = true;
-            var isDataFilles = 0;
-
-            isDataFilles = validateRegistrationProcess();
-            if (isDataFilles == 1) {
-                $("#<%= hfisRegisterUserValid.ClientID %>").val(0);
-                isValid = false;
-            } else {
-                var IsEmailValid = ValidateEmail($('#<%= txtEmail.ClientID %>').val());
-                if (IsEmailValid == true) {
-                    $("#<%= hfisRegisterUserValid.ClientID %>").val(1);
-                    isValid = true;
-                } else {
-                    $("#<%= hfisRegisterUserValid.ClientID %>").val(2);
-                    isValid = false;
-                    $('.UEmail').css("display", "block");
-                    $('.UEmail').text("Please enter valid email.");
-                    $("#<%= txtEmail.ClientID %>").parent().addClass("field-with-errors");
-                }
-
-            }
-
-            return isValid;
-        }
-    </script>
+   

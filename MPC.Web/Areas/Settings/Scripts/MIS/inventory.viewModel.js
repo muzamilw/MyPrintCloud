@@ -127,6 +127,13 @@ define("inventory/inventory.viewModel",
                                     _.each(data.StockCostAndPrices, function (item) {
                                         costPriceList.push(model.StockCostAndPrice.CreateForClient(item));
                                     });
+
+                                    if (selectedInventory().paperTypeId() === 1) {
+                                        selectedInventory().paperType("Sheet");
+                                    }
+                                    if (selectedInventory().paperTypeId() === 2) {
+                                        selectedInventory().paperType("Roll Paper");
+                                    }
                                     selectedInventory().reset();
                                     showInventoryEditor();
                                 }
@@ -297,6 +304,7 @@ define("inventory/inventory.viewModel",
                                 inventory.stockCostAndPriceListInInventory.push(item.convertToServerData());
                             });
                             saveInventory(inventory);
+                            supplierVm.selectedSupplier(undefined);
                         }
                     },
                      // Do Before Logic
@@ -394,6 +402,7 @@ define("inventory/inventory.viewModel",
                     },
                     //Create New Inventory Item
                     createInventory = function () {
+                        supplierVm.selectedSupplier(undefined);
                         costPriceList.removeAll();
                         errorList.removeAll();
                         selectedInventory(model.StockItem.Create());
@@ -527,6 +536,7 @@ define("inventory/inventory.viewModel",
                     },
 
                     onAddSupplier = function () {
+                        supplierVm.supplierPager().reset();
                         supplierVm.getSuppliers();
                         supplierVm.show();
                     },

@@ -8,17 +8,13 @@ namespace MPC.Models.Common
     public enum StoreMode : int
     {
         Retail = 1,
-        Corp = 2,
-        Broker = 3,
+        Corp = 3,
         NotSet = 99
 
     }
-    public enum ContactCompanyTypes
+    public enum CompanyTypes
     {
-      
         TemporaryCustomer = 53,
-
-       
         SalesCustomer = 57
     }
 
@@ -122,31 +118,31 @@ namespace MPC.Models.Common
 
     public enum OrderStatus
     {
-        
+
         ShoppingCart = 3,
 
-     
+
         PendingOrder = 4,
 
-       
+
         ConfirmedOrder = 5,
 
-        
+
         InProduction = 6,
 
-      
+
         Completed_NotShipped = 7,
 
-    
+
         CompletedAndShipped_Invoiced = 8,
 
-       
+
         CancelledOrder = 9,
 
-   
+
         ArchivedOrder = 23,
 
-      
+
         PendingCorporateApprovel = 34, //corporate case
 
         RejectOrder = 35,
@@ -155,4 +151,45 @@ namespace MPC.Models.Common
         //Rejected = 25 //corporate case
 
     };
+
+    [Serializable]
+    public enum UploadFileTypes : int
+    {
+        Artwork,
+        Document,
+        Draft,
+        None
+    };
+
+
+
+    public enum CostCentresForWeb : int
+    {
+        WebOrderCostCentre = 206
+    }
+
+    public enum TypeReturnMode : int
+    {
+        All = 1,
+        System = 2,
+        UserDefined = 3
+    }
+
+    public enum ResourceReturnType : int
+    {
+        CostPerHour = 1
+    }
+
+    public enum StockPriceType : int
+    {
+        PerUnit = 1,
+          PerPack = 2
+    }
+
+    public enum CostCentreExecutionMode : int
+    {
+        PromptMode = 1,
+        ExecuteMode = 2
+    }
+
 }

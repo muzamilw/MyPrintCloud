@@ -99,8 +99,6 @@ namespace MPC.Models.DomainModels
         public Nullable<double> CostingActualTime { get; set; }
         public Nullable<double> CostingActualQty { get; set; }
         public string Name { get; set; }
-        public Nullable<double> QtyChargeBroker { get; set; }
-        public Nullable<double> MarkUpValueBroker { get; set; }
         public Nullable<int> Qty1 { get; set; }
         public Nullable<int> Qty2 { get; set; }
         public Nullable<int> Qty3 { get; set; }

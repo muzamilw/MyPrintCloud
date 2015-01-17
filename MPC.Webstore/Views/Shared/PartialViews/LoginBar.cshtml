@@ -1,5 +1,9 @@
-﻿
-@{ Layout = null;}
+﻿@using MPC.Webstore.Common;
+@{ Layout = null;
+   
+   }
+@if ((UserCookieManager.StoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.StoreMode == 1)
+{
 <div class="container content_area">
     <div class="row left_right_padding">
         <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
@@ -14,12 +18,12 @@
                         <a href="/Signup.aspx"><i class="fa fa-unlock usercolorSize"></i></a>
                     </li>
                     <li class="sub PinkBtnMyAccS6">
-                        <a id="lnkLogin" href="/Login" class="lnkSignInCs">@Resources.MyResource.SignInRegister</a>
+                        <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId))</a>
                     </li>
                     <li class="ZeroRightMargin BlackBtnCS">
-                        <a href="#" class="top_sub_section_links hyperlinkCart ">
+                        <a href="/ShopCart" class="top_sub_section_links hyperlinkCart ">
                             <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                            <span class="carttxtcolorSize classicthemeLoginMenu">@Resources.MyResource.ShoppingCart</span>
+                            <span class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId))<</span>
                             <div class="lblCartCounter" id="lblCartCount">
                             </div>
                         </a>
@@ -56,14 +60,15 @@
                     <li class="liMarginRight">
 
                         <div class="CartBtn">
-                            <a href="#" class="top_sub_section_links hyperlinkCart">
+                            <a href="/ShopCart" class="top_sub_section_links hyperlinkCart">
                                 <div class="lblItemsCartCounter" id="lblCartCounter">
                                 </div>
                             </a>
                         </div>
                     </li>
                     <li>
-                        @Html.ActionLink(Resources.MyResource.LogOut, "LogOut", "LoginBar")
+                        
+                        @Html.ActionLink("Logoutt", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();" })
                     </li>
                 </ul>
             </div>
@@ -73,3 +78,4 @@
         </div>
     </div>
 </div>
+}

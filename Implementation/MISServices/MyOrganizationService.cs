@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Web;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using System.Collections.Generic;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
+using System.Resources;
+
 
 namespace MPC.Implementation.MISServices
 {
@@ -23,7 +28,14 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IMarkupRepository markupRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
-        private readonly IMpcFileTableViewRepository mpcFileTableViewRepository;
+        private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
+        private readonly IStateRepository stateRepository;
+        private readonly ICountryRepository countryRepository;
+        private readonly IPrefixRepository prefixRepository;
+        private readonly ICurrencyRepository currencyRepository;
+        private readonly IWeightUnitRepository weightUnitRepository;
+        private readonly ILengthUnitRepository lengthUnitRepository;
+        private readonly IGlobalLanguageRepository globalLanguageRepository;
 
         #endregion
 
@@ -33,7 +45,10 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
-         IChartOfAccountRepository chartOfAccountRepository, IMpcFileTableViewRepository mpcFileTableViewRepository)
+         IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
+            ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository,
+           ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository,
+            IGlobalLanguageRepository globalLanguageRepository)
         {
             if (mpcFileTableViewRepository == null)
             {
@@ -43,6 +58,13 @@ namespace MPC.Implementation.MISServices
             this.markupRepository = markupRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
             this.mpcFileTableViewRepository = mpcFileTableViewRepository;
+            this.countryRepository = countryRepository;
+            this.stateRepository = stateRepository;
+            this.prefixRepository = prefixRepository;
+            this.currencyRepository = currencyRepository;
+            this.weightUnitRepository = weightUnitRepository;
+            this.lengthUnitRepository = lengthUnitRepository;
+            this.globalLanguageRepository = globalLanguageRepository;
         }
 
         #endregion
@@ -57,6 +79,12 @@ namespace MPC.Implementation.MISServices
             {
                 ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
+                Countries = countryRepository.GetAll(),
+                States = stateRepository.GetAll(),
+                Currencies = currencyRepository.GetAll(),
+                LengthUnits = lengthUnitRepository.GetAll(),
+                WeightUnits = weightUnitRepository.GetAll(),
+                GlobalLanguages = globalLanguageRepository.GetAll(),
             };
         }
 
@@ -66,30 +94,24 @@ namespace MPC.Implementation.MISServices
         public Organisation GetOrganisationDetail()
         {
             Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
-            
-            if (organization.MISLogoStreamId.HasValue)
-            {
-                MpcFileTableView fileTableView = mpcFileTableViewRepository.GetByStreamId(organization.MISLogoStreamId.Value);
-                if (fileTableView != null)
-                {
-                    organization.MisLogoBytes = fileTableView.FileStream;
-                }
-            }
-
             IEnumerable<Markup> markups = markupRepository.GetAll();
             if (markups != null)
             {
                 organization.MarkupId = markupRepository.GetAll().First(x => x.IsDefault != null).MarkUpId;
             }
-            return organization;
+            return SetLanguageEditor(organization);
         }
+
+
 
         /// <summary>
         /// Add/Update Organization
         /// </summary>
         public MyOrganizationSaveResponse SaveOrganization(Organisation organisation)
         {
+
             Organisation organisationDbVersion = organisationRepository.Find(organisation.OrganisationId);
+
             if (organisationDbVersion == null)
             {
                 return Save(organisation);
@@ -122,7 +144,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Save(Organisation organisation)
         {
-            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
+            organisation.OrganisationId = organisationRepository.OrganisationId;
             organisationRepository.Add(organisation);
             organisationRepository.SaveChanges();
 
@@ -132,7 +154,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in organisation.Markups)
                 {
-                    item.UserDomainKey = (int)organisationRepository.OrganisationId;
+                    item.OrganisationId = organisationRepository.OrganisationId;
                     markupRepository.Add(item);
                     markupRepository.SaveChanges();
                 }
@@ -154,6 +176,7 @@ namespace MPC.Implementation.MISServices
 
             #endregion
 
+            UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
             {
                 OrganizationId = organisation.OrganisationId,
@@ -167,10 +190,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
-            organisation.UserDomainKey = (int)organisationRepository.OrganisationId;
+            organisation.OrganisationId = organisationRepository.OrganisationId;
             organisation.MISLogo = organisationDbVersion.MISLogo;
-            organisationRepository.Update(organisation);
-            organisationRepository.SaveChanges();
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
             #region Markup
@@ -198,7 +219,7 @@ namespace MPC.Implementation.MISServices
                                 x.MarkUpId != item.MarkUpId ||
                                 item.MarkUpId == 0))
                     {
-                        item.UserDomainKey = (int)organisationRepository.OrganisationId;
+                        item.OrganisationId = organisationRepository.OrganisationId;
                         markupRepository.Add(item);
                         markupRepository.SaveChanges();
                     }
@@ -234,6 +255,20 @@ namespace MPC.Implementation.MISServices
                     missingMarkupListItems.Add(dbversionMarkupItem);
                 }
             }
+
+            //Check whether deleted markup used in prefix
+            foreach (Markup missingMarkupItem in missingMarkupListItems)
+            {
+                Markup dbVersionMissingItem = markupsDbVersion.First(x => x.MarkUpId == missingMarkupItem.MarkUpId);
+                if (dbVersionMissingItem.MarkUpId > 0)
+                {
+                    if (prefixRepository.PrefixUseMarkupId(dbVersionMissingItem.MarkUpId))
+                    {
+                        throw new MPCException("Deleted Markup used in Prefix.", 0);
+                    }
+                }
+            }
+
             //remove missing items
             foreach (Markup missingMarkupItem in missingMarkupListItems)
             {
@@ -305,7 +340,9 @@ namespace MPC.Implementation.MISServices
                 }
             }
             #endregion
-
+            organisationRepository.Update(organisation);
+            organisationRepository.SaveChanges();
+            UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
             {
                 OrganizationId = organisation.OrganisationId,
@@ -321,9 +358,9 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Save File to File Table
+        /// Save File Path
         /// </summary>
-        public void SaveFileToFileTable(string fileName, byte[] fileStream)
+        public void SaveFilePath(string path)
         {
             // Update Organisation MISLogoStreamId
             Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
@@ -333,35 +370,181 @@ namespace MPC.Implementation.MISServices
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.MyOrganisationService_OrganisationNotFound,
                     organisationRepository.OrganisationId));
             }
-
-            string pathLocator = "\\Organisation" + organisation.OrganisationId;
-            if (string.IsNullOrEmpty(mpcFileTableViewRepository.GetNewPathLocator(pathLocator)))
-            {
-                MpcFileTableView mpcFile = mpcFileTableViewRepository.Create();
-                mpcFileTableViewRepository.Add(mpcFile);
-                mpcFile.Name = "Organisation" + organisation.OrganisationId;
-                mpcFile.UncPath = pathLocator;
-                mpcFile.IsDirectory = true;
-                // Save to File Table
-                mpcFileTableViewRepository.SaveChanges();
-            }
-
-            // Add File
-            MpcFileTableView mpcFileTableView = mpcFileTableViewRepository.Create();
-            mpcFileTableViewRepository.Add(mpcFileTableView);
-            mpcFileTableView.Name = fileName;
-            mpcFileTableView.FileStream = fileStream;
-            mpcFileTableView.UncPath = pathLocator;
-
-            // Save to File Table
-            mpcFileTableViewRepository.SaveChanges();
-
-            organisation.MISLogoStreamId = mpcFileTableView.StreamId;
-
-            // Save Changes to Organisation
-            mpcFileTableViewRepository.SaveChanges();
+            organisation.MISLogo = path;
+            organisationRepository.SaveChanges();
         }
 
+        public LanguageEditor ReadResourceFileByLanguageId(long organisationId, long lanuageId)
+        {
+            LanguageEditor languageEditor = new LanguageEditor();
+            GlobalLanguage globalLanguage = globalLanguageRepository.Find(lanuageId);
+            string sResxPath = null;
+            if (globalLanguage != null)
+            {
+                sResxPath =
+                    HttpContext.Current.Server.MapPath("~/MPC_Content/Resources/Organisation" +
+                                                                  organisationId);
+                sResxPath = sResxPath + "\\" + globalLanguage.culture + "\\LanguageResource.resx";
+            }
+            if (sResxPath != null && File.Exists(sResxPath))
+            {
+                //Get existing resources
+                ResXResourceReader reader = new ResXResourceReader(sResxPath);
+                foreach (DictionaryEntry d in reader)
+                {
+                    switch (d.Key.ToString())
+                    {
+                        case "DefaultAddress":
+                            languageEditor.DefaultAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "DefaultShippingAddress":
+                            languageEditor.DefaultShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "PONumber":
+                            languageEditor.PONumber = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Prices":
+                            languageEditor.Prices = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "UserShippingAddress":
+                            languageEditor.UserShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Details":
+                            languageEditor.Details = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "NewsLetter":
+                            languageEditor.NewsLetter = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "ConfirmDesign":
+                            languageEditor.ConfirmDesign = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+
+                    }
+                }
+                reader.Close();
+            }
+
+            return languageEditor;
+        }
+
+        /// <summary>
+        /// Add/Update Lanuage Resource File
+        /// </summary>
+        /// <param name="organisation"></param>
+        private void UpdateLanguageResource(Organisation organisation)
+        {
+            if (organisation.LanguageId != null)
+            {
+                GlobalLanguage globalLanguage = globalLanguageRepository.Find(organisation.LanguageId.Value);
+                string sResxPath =
+                    HttpContext.Current.Server.MapPath("~/MPC_Content/Resources/Organisation" +
+                                                                  organisation.OrganisationId);
+                if (globalLanguage != null)
+                {
+                    sResxPath = sResxPath + "\\" + globalLanguage.culture + "\\LanguageResource.resx";
+                }
+                if (sResxPath != null && File.Exists(sResxPath))
+                {
+                    Hashtable data = new Hashtable();
+                    data.Add("DefaultAddress", organisation.LanguageEditor.DefaultAddress);
+                    data.Add("DefaultShippingAddress", organisation.LanguageEditor.DefaultShippingAddress);
+                    data.Add("PONumber", organisation.LanguageEditor.PONumber);
+                    data.Add("Prices", organisation.LanguageEditor.Prices);
+                    data.Add("UserShippingAddress", organisation.LanguageEditor.UserShippingAddress);
+                    data.Add("Details", organisation.LanguageEditor.Details);
+                    data.Add("NewsLetter", organisation.LanguageEditor.NewsLetter);
+                    data.Add("ConfirmDesign", organisation.LanguageEditor.ConfirmDesign);
+                    UpdateResourceFile(data, sResxPath);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Write Resource File
+        /// </summary>
+        public static void UpdateResourceFile(Hashtable data, String path)
+        {
+            Hashtable resourceEntries = new Hashtable();
+            //Modify resources here...
+            foreach (String key in data.Keys)
+            {
+                if (!resourceEntries.ContainsKey(key))
+                {
+                    String value = data[key] == null ? "" : data[key].ToString();
+                    resourceEntries.Add(key, value);
+                }
+                else
+                {
+                    String value = data[key] == null ? "" : data[key].ToString();
+                    resourceEntries.Remove(key);
+                    resourceEntries.Add(key, value);
+                }
+            }
+            //Write the combined resource file
+            ResXResourceWriter resourceWriter = new ResXResourceWriter(path);
+            foreach (String key in resourceEntries.Keys)
+            {
+                resourceWriter.AddResource(key, resourceEntries[key]);
+            }
+            resourceWriter.Generate();
+            resourceWriter.Close();
+        }
+
+        /// <summary>
+        /// Set Properites Language Editor(Read Resource File)
+        /// </summary>
+        private Organisation SetLanguageEditor(Organisation organisation)
+        {
+            LanguageEditor languageEditor = new LanguageEditor();
+            organisation.LanguageEditor = languageEditor;
+            string sResxPath = null;
+            if (organisation.GlobalLanguage != null)
+            {
+                sResxPath =
+                    HttpContext.Current.Server.MapPath("~/MPC_Content/Resources/Organisation" +
+                                                                  organisation.OrganisationId);
+                sResxPath = sResxPath + "\\" + organisation.GlobalLanguage.culture + "\\LanguageResource.resx";
+            }
+            if (sResxPath != null && File.Exists(sResxPath))
+            {
+                //Get existing resources
+                ResXResourceReader reader = new ResXResourceReader(sResxPath);
+                foreach (DictionaryEntry d in reader)
+                {
+                    switch (d.Key.ToString())
+                    {
+                        case "DefaultAddress":
+                            organisation.LanguageEditor.DefaultAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "DefaultShippingAddress":
+                            organisation.LanguageEditor.DefaultShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "PONumber":
+                            organisation.LanguageEditor.PONumber = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Prices":
+                            organisation.LanguageEditor.Prices = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "UserShippingAddress":
+                            organisation.LanguageEditor.UserShippingAddress = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "Details":
+                            organisation.LanguageEditor.Details = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "NewsLetter":
+                            organisation.LanguageEditor.NewsLetter = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+                        case "ConfirmDesign":
+                            organisation.LanguageEditor.ConfirmDesign = (d.Value != null && d.Value.ToString().Trim() != "") ? d.Value.ToString() : string.Empty;
+                            break;
+
+                    }
+                }
+                reader.Close();
+            }
+
+            return organisation;
+        }
         #endregion
 
     }

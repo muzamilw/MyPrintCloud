@@ -404,7 +404,7 @@ namespace MPC.Models.ModelMappers
         private static void DeleteItemAddonCostCentres(ItemStockOption source, ItemStockOption target, ItemMapperActions actions)
         {
             List<ItemAddonCostCentre> linesToBeRemoved = target.ItemAddonCostCentres.Where(
-                so => !IsNewItemAddonCostCentre(so) && source.ItemAddonCostCentres.All(sourceItemAddonCostCentre => sourceItemAddonCostCentre.ProductAddOnId != 
+                so => !IsNewItemAddonCostCentre(so) && source.ItemAddonCostCentres.All(sourceItemAddonCostCentre => sourceItemAddonCostCentre.ProductAddOnId !=
                     so.ProductAddOnId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
@@ -424,7 +424,7 @@ namespace MPC.Models.ModelMappers
                 UpdateOrAddItemStockOption(sourceLine, target, actions);
             }
         }
-        
+
         /// <summary>
         /// Update target Stock Options
         /// </summary>
@@ -467,7 +467,7 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
-        /// Update RelatedItems
+        /// Update Item Stock Options
         /// </summary>
         private static void UpdateItemStockOptions(Item source, Item target, ItemMapperActions actions)
         {
@@ -477,7 +477,309 @@ namespace MPC.Models.ModelMappers
             UpdateOrAddItemStockOptions(source, target, actions);
             DeleteItemStockOptions(source, target, actions);
         }
-        
+
+        /// <summary>
+        /// True if the ItemPriceMatrix is new
+        /// </summary>
+        private static bool IsNewItemPriceMatrix(ItemPriceMatrix source)
+        {
+            return source.PriceMatrixId == 0;
+        }
+
+        /// <summary>
+        /// Initialize target Item Price Matrices
+        /// </summary>
+        private static void InitializeItemPriceMatrices(Item item)
+        {
+            if (item.ItemPriceMatrices == null)
+            {
+                item.ItemPriceMatrices = new List<ItemPriceMatrix>();
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Price Matrix
+        /// </summary>
+        private static void UpdateOrAddItemPriceMatrix(ItemPriceMatrix source, Item target, ItemMapperActions actions)
+        {
+            ItemPriceMatrix targetLine;
+            if (IsNewItemPriceMatrix(source))
+            {
+                targetLine = actions.CreateItemPriceMatrix();
+                target.ItemPriceMatrices.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemPriceMatrices.FirstOrDefault(so => so.PriceMatrixId == source.PriceMatrixId);
+            }
+
+            source.UpdateTo(targetLine, target);
+        }
+
+        /// <summary>
+        /// Update or add Item Price Matrices
+        /// </summary>
+        private static void UpdateOrAddItemPriceMatrices(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemPriceMatrix sourceLine in source.ItemPriceMatrices.ToList())
+            {
+                UpdateOrAddItemPriceMatrix(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update Item Price Matrices
+        /// </summary>
+        private static void UpdateItemPriceMatrices(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemPriceMatrices(source);
+            InitializeItemPriceMatrices(target);
+
+            UpdateOrAddItemPriceMatrices(source, target, actions);
+        }
+
+        /// <summary>
+        /// True if the ItemStateTax is new
+        /// </summary>
+        private static bool IsNewItemStateTax(ItemStateTax sourceItemStateTax)
+        {
+            return sourceItemStateTax.ItemStateTaxId == 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemStateTaxs
+        /// </summary>
+        private static void InitializeItemStateTaxs(Item item)
+        {
+            if (item.ItemStateTaxes == null)
+            {
+                item.ItemStateTaxes = new List<ItemStateTax>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Vdp Prices
+        /// </summary>
+        private static void UpdateOrAddItemStateTaxs(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemStateTax sourceLine in source.ItemStateTaxes.ToList())
+            {
+                UpdateOrAddItemStateTax(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target StateTaxs 
+        /// </summary>
+        private static void UpdateOrAddItemStateTax(ItemStateTax sourceItemStateTax, Item target, ItemMapperActions actions)
+        {
+            ItemStateTax targetLine;
+            if (IsNewItemStateTax(sourceItemStateTax))
+            {
+                targetLine = actions.CreateItemStateTax();
+                target.ItemStateTaxes.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemStateTaxes.FirstOrDefault(vdp => vdp.ItemStateTaxId == sourceItemStateTax.ItemStateTaxId);
+            }
+            sourceItemStateTax.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete StateTaxs no longer needed
+        /// </summary>
+        private static void DeleteItemStateTaxs(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemStateTax> linesToBeRemoved = target.ItemStateTaxes.Where(
+                vdp => !IsNewItemStateTax(vdp) && source.ItemStateTaxes.All(sourceVdp => sourceVdp.ItemStateTaxId != vdp.ItemStateTaxId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemStateTaxes.Remove(line);
+                actions.DeleteItemStateTax(line);
+            });
+        }
+
+        /// <summary>
+        /// Update StateTaxs
+        /// </summary>
+        private static void UpdateItemStateTaxes(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemStateTaxs(source);
+            InitializeItemStateTaxs(target);
+
+            UpdateOrAddItemStateTaxs(source, target, actions);
+            DeleteItemStateTaxs(source, target, actions);
+        }
+
+        /// <summary>
+        /// Initialize Item Product Detail
+        /// </summary>
+        private static void InitializeItemProductDetails(Item item)
+        {
+            if (item.ItemProductDetails == null)
+            {
+                item.ItemProductDetails = new List<ItemProductDetail>();
+            }
+        }
+
+        /// <summary>
+        /// True if the ItemProductDetail is new
+        /// </summary>
+        private static bool IsNewItemProductDetail(ItemProductDetail sourceItemProductDetail)
+        {
+            return sourceItemProductDetail.ItemDetailId == 0;
+        }
+
+        /// <summary>
+        /// Update Item Product Detail
+        /// </summary>
+        private static void UpdateOrAddItemProductDetail(ItemProductDetail sourceItemProductDetail, Item target, ItemMapperActions actions)
+        {
+            ItemProductDetail targetLine;
+            if (IsNewItemProductDetail(sourceItemProductDetail))
+            {
+                targetLine = actions.CreateItemProductDetail();
+                target.ItemProductDetails.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemProductDetails.FirstOrDefault(vdp => vdp.ItemDetailId == sourceItemProductDetail.ItemDetailId);
+            }
+
+            sourceItemProductDetail.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Update Item Product Detail
+        /// </summary>
+        private static void UpdateItemProductDetail(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemProductDetails(source);
+            InitializeItemProductDetails(target);
+
+            UpdateOrAddItemProductDetail(source.ItemProductDetails.FirstOrDefault() ?? new ItemProductDetail(), target, actions);
+        }
+
+        /// <summary>
+        /// True if the ProductCategoryItem is new
+        /// </summary>
+        private static bool IsNewProductCategoryItem(ProductCategoryItemCustom sourceProductCategoryItem)
+        {
+            return sourceProductCategoryItem.ProductCategoryItemId == 0 && sourceProductCategoryItem.IsSelected.HasValue && sourceProductCategoryItem.IsSelected.Value;
+        }
+
+        /// <summary>
+        /// True if the ProductCategoryItem is to be deleted
+        /// </summary>
+        private static bool IsRemovedProductCategoryItem(ProductCategoryItemCustom sourceProductCategoryItem)
+        {
+            return sourceProductCategoryItem.ProductCategoryItemId > 0 && !sourceProductCategoryItem.IsSelected.HasValue;
+        }
+
+        /// <summary>
+        /// Initialize target ProductCategoryItems
+        /// </summary>
+        private static void InitializeProductCategoryItems(Item item)
+        {
+            if (item.ProductCategoryItems == null)
+            {
+                item.ProductCategoryItems = new List<ProductCategoryItem>();
+            }
+        }
+
+        /// <summary>
+        /// Initialize source ProductCategoryItems custom
+        /// </summary>
+        private static void InitializeProductCategoryCustomItems(Item item)
+        {
+            if (item.ProductCategoryCustomItems == null)
+            {
+                item.ProductCategoryCustomItems = new List<ProductCategoryItemCustom>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Product Category Item
+        /// </summary>
+        private static void AddProductCategoryItems(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ProductCategoryItemCustom sourceLine in source.ProductCategoryCustomItems.ToList())
+            {
+                AddProductCategoryItem(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Add target Product Category Items 
+        /// </summary>
+        private static void AddProductCategoryItem(ProductCategoryItemCustom sourceProductCategoryItem, Item target, ItemMapperActions actions)
+        {
+            if (IsNewProductCategoryItem(sourceProductCategoryItem))
+            {
+                ProductCategoryItem targetLine = actions.CreateProductCategoryItem();
+                target.ProductCategoryItems.Add(targetLine);
+                sourceProductCategoryItem.UpdateTo(targetLine);
+            }
+        }
+
+        /// <summary>
+        /// Delete Product Category UnSelected
+        /// </summary>
+        private static void DeleteProductCategoryItems(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ProductCategoryItemCustom> lines = source.ProductCategoryCustomItems.Where(IsRemovedProductCategoryItem).ToList();
+            
+            lines.ForEach(line =>
+            {
+                ProductCategoryItem lineToRemove = target.ProductCategoryItems.FirstOrDefault(
+                    lineToBeRemoved => lineToBeRemoved.ProductCategoryItemId == line.ProductCategoryItemId);
+                
+                if (lineToRemove != null && lineToRemove.ProductCategoryItemId > 0)
+                {
+                    target.ProductCategoryItems.Remove(lineToRemove);
+                    actions.DeleteProductCategoryItem(lineToRemove);
+                }
+                
+            });
+        }
+
+        /// <summary>
+        /// Update Product Category Items
+        /// </summary>
+        private static void UpdateProductCategoryItems(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeProductCategoryCustomItems(source);
+            InitializeProductCategoryItems(target);
+
+            AddProductCategoryItems(source, target, actions);
+            DeleteProductCategoryItems(source, target, actions);
+        }
+
+        /// <summary>
+        /// Update Images
+        /// </summary>
+        private static void UpdateImages(Item source, Item target)
+        {
+            target.ThumbnailImageName = source.ThumbnailImageName;
+            target.ThumbnailImage = source.ThumbnailImage;
+            target.GridImageSourceName = source.GridImageSourceName;
+            target.GridImageBytes = source.GridImageBytes;
+            target.ImagePathImageName = source.ImagePathImageName;
+            target.ImagePathImage = source.ImagePathImage;
+            target.File1Name = source.File1Name;
+            target.File1Byte = source.File1Byte;
+            target.File2Name = source.File2Name;
+            target.File2Byte = source.File2Byte;
+            target.File3Name = source.File3Name;
+            target.File3Byte = source.File3Byte;
+            target.File4Name = source.File4Name;
+            target.File4Byte = source.File4Byte;
+            target.File5Name = source.File5Name;
+            target.File5Byte = source.File5Byte;
+        }
+
         /// <summary>
         /// Update the header
         /// </summary>
@@ -494,9 +796,18 @@ namespace MPC.Models.ModelMappers
             target.IsStockControl = source.IsStockControl;
             target.SortOrder = source.SortOrder;
             target.ItemLastUpdateDateTime = DateTime.Now;
+           
+            // Update Images
+            UpdateImages(source, target);
 
             // Update Internal Description
             UpdateInternalDescription(source, target);
+
+            // Update Price Table Defaults
+            UpdatePriceTableDefaultsHeader(source, target);
+
+            // Update Supplier Prices
+            UpdateSupplierPricesHeader(source, target);
         }
 
         /// <summary>
@@ -543,7 +854,29 @@ namespace MPC.Models.ModelMappers
             target.JobDescription10 = source.JobDescription10;
         }
 
+        /// <summary>
+        /// Update Price Table Defaults Headers
+        /// </summary>
+        private static void UpdatePriceTableDefaultsHeader(Item source, Item target)
+        {
+            target.FlagId = source.FlagId;
+            target.IsQtyRanged = source.IsQtyRanged;
+            target.PackagingWeight = source.PackagingWeight;
+            target.DefaultItemTax = source.DefaultItemTax;
+        }
+
+        /// <summary>
+        /// Update Supplier Prices Headers
+        /// </summary>
+        private static void UpdateSupplierPricesHeader(Item source, Item target)
+        {
+            target.EstimateProductionTime = source.EstimateProductionTime;
+            target.SupplierId = source.SupplierId;
+            target.SupplierId2 = source.SupplierId2;
+        }
+
         #endregion
+
         #region Public
 
         /// <summary>
@@ -579,6 +912,10 @@ namespace MPC.Models.ModelMappers
             UpdateItemRelatedItems(source, target, actions);
             UpdateTemplate(source, target, actions);
             UpdateItemStockOptions(source, target, actions);
+            UpdateItemPriceMatrices(source, target, actions);
+            UpdateItemStateTaxes(source, target, actions);
+            UpdateItemProductDetail(source, target, actions);
+            UpdateProductCategoryItems(source, target, actions);
         }
 
         #endregion

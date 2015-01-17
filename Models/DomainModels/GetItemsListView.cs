@@ -47,6 +47,7 @@ namespace MPC.Models.DomainModels
         public bool? IsTemplateDesignMode { get; set; }
         public double? DefaultItemTax { get; set; }
         public bool? IsUploadImage { get; set; }
+        public long? CompanyId { get; set; }
 
         #endregion
     }

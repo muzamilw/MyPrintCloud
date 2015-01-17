@@ -39,33 +39,69 @@ namespace MPC.MIS.Areas.Settings.Controllers
 
         [HttpPost]
         //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
-        public ActionResult Index(HttpPostedFileBase file, long organizationId)
+        public ActionResult MyOrganization(HttpPostedFileBase file, long organizationId)
         {
             if (file != null && file.InputStream != null)
             {
                 // Before attempting to save the file, verify
-                SaveFile(file);
+                SaveFile(file, organizationId);
 
             }
             return null;
         }
 
         //upload Files
-        private void SaveFile(HttpPostedFileBase file)
+        private void SaveFile(HttpPostedFileBase file, long organizationId)
         {
             if (file == null || file.InputStream == null)
             {
                 return;
             }
 
-            byte[] fileBytes;
-            using (var memoryStream = new MemoryStream())
+            string path = Server.MapPath("~/MPC_Content/Organisations/Organisation" + organizationId);
+            if (!Directory.Exists(path))
             {
-                file.InputStream.CopyTo(memoryStream);
-                fileBytes = memoryStream.ToArray();
+                Directory.CreateDirectory(path);
             }
 
-            myOrganizationService.SaveFileToFileTable(file.FileName, fileBytes);
+            path = path + "\\Organisation" + organizationId + "_" + file.FileName + ".jpeg";
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            file.SaveAs(path);
+            myOrganizationService.SaveFilePath(path);
+        }
+
+        public ActionResult MyOrganization()
+        {
+            return View();
+        }
+
+        public ActionResult MachinesList()
+        {
+            return View();
+        }
+        public ActionResult MachinesDetail()
+        {
+            return View();
+        }
+        public ActionResult DeliveryCostCentres()
+        {
+            return View();
+        }
+        public ActionResult DeliveryAddOnsDetail()
+        {
+            return View();
+        }
+        public ActionResult DeliveryCarrier()
+        {
+            return View();
+        }
+
+        public ActionResult PhraseLibrary()
+        {
+            return View();
         }
 
     }

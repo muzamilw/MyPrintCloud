@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MPC.MIS.Areas.Api.Controllers;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -42,12 +43,12 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// State
         /// </summary>
-        public string State { get; set; }
+        public long? StateId { get; set; }
 
         /// <summary>
         /// Country
         /// </summary>
-        public string Country { get; set; }
+        public long? CountryId { get; set; }
 
         /// <summary>
         /// Zip Code
@@ -235,7 +236,7 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }
-          #endregion
+        #endregion
 
         #region Reference Properties
         /// <summary>
@@ -255,5 +256,12 @@ namespace MPC.MIS.Areas.Api.Models
 
         #endregion
 
+        #region Additional Properties
+
+        /// <summary>
+        /// Language Editor
+        /// </summary>
+        public LanguageEditor LanguageEditor { get; set; }
+        #endregion
     }
 }

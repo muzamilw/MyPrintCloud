@@ -32,6 +32,10 @@ namespace MPC.Implementation.WebStoreServices
             return _UserRepository.GetSalesManagerDataByID(ManagerId);
            
         }
+        public string GetMarketingRoleIDByName()
+        {
+            return _UserRepository.GetMarketingRoleIDByName();
+        }
         
          
     }

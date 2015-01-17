@@ -32,9 +32,9 @@
         public string flagDescription { get; set; }
 
         /// <summary>
-        /// Company Id
+        /// Organisation Id
         /// </summary>
-        public int CompanyId { get; set; }
+        public long? OrganisationId { get; set; }
 
         /// <summary>
         /// Flag Column

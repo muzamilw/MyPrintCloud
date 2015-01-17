@@ -69,6 +69,25 @@ namespace MPC.Repository
             unityContainer.RegisterType<IPaymentGatewayRepository, PaymentGatewayRepository>();
             unityContainer.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>();
             unityContainer.RegisterType<IWidgetRepository, WidgetRepository>();
+            unityContainer.RegisterType<IOrganisationFileTableViewRepository, OrganisationFileTableViewRepository>();
+            unityContainer.RegisterType<IItemPriceMatrixRepository, ItemPriceMatrixRepository>();
+            unityContainer.RegisterType<IItemStateTaxRepository, ItemStateTaxRepository>();
+            unityContainer.RegisterType<IStateRepository, StateRepository>();
+            unityContainer.RegisterType<ICountryRepository, CountryRepository>();
+            unityContainer.RegisterType<IItemStockControlRepository, ItemStockControlRepository>();
+            unityContainer.RegisterType<ITemplateObjectRepository, TemplateObjectRepository>();
+            unityContainer.RegisterType<ITemplateColorStylesRepository, TemplateColorStylesRepository>();
+            unityContainer.RegisterType<IProductCategoryFileTableViewRepository, ProductCategoryFileTableViewRepository>();
+            unityContainer.RegisterType<ITemplateFontsRepository, TemplateFontsRepository>();
+            unityContainer.RegisterType<IItemProductDetailRepository, ItemProductDetailRepository>();
+            unityContainer.RegisterType<ITemplateBackgroundImagesRepository, TemplateBackgroundImagesRepository>();
+            unityContainer.RegisterType<IItemAttachmentRepository, ItemAttachmentRepository>();
+            unityContainer.RegisterType<IFavoriteDesignRepository, FavoriteDesignRepository>();
+            unityContainer.RegisterType<IListingRepository, ListingRepository>();
+            unityContainer.RegisterType<IPhraseRespository, PhraseRespository>();
+            unityContainer.RegisterType<IProductCategoryItemRepository, ProductCategoryItemRepository>();
+            unityContainer.RegisterType<IPhraseFieldRepository, PhraseFieldRepository>();
+            unityContainer.RegisterType<IImagePermissionsRepository, ImagePermissionRepository>();
         }
     }
 }

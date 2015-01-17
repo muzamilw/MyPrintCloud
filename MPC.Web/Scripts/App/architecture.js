@@ -43,6 +43,7 @@ var spinnerVisibleCounter = 0;
 function showProgress() {
     ++spinnerVisibleCounter;
     if (spinnerVisibleCounter > 0) {
+        $.blockUI({ message: "" });
         $("div#spinner").fadeIn("fast");
     }
 };
@@ -55,6 +56,7 @@ function hideProgress() {
         var spinner = $("div#spinner");
         spinner.stop();
         spinner.fadeOut("fast");
+        $.unblockUI(spinner);
     }
 };
 
@@ -116,8 +118,136 @@ require(["ko", "knockout-validation"], function (ko) {
             return false;
         return string.substring(0, startsWith.length) === startsWith;
     };
+    function colorHelper(col) {
+        if (col.length === 4) {
+            var first = col[1] + col[1];
+            var second = col[2] + col[2];
+            var third = col[3] + col[3];
+            col = "#" + first + second + third;
+        }
+        return col;
+    }
+    var defaultoptions;
+    ko.bindingHandlers.colorpicker = {
+        init: function (element, valueAccessor) {
+            //initialize colorpicker with some optional options
+            defaultoptions = {
+                showInput: true,
+                className: "full-spectrum",
+                showInitial: true,
+                showPalette: true,
+                showSelectionPalette: true,
+                maxPaletteSize: 10,
+                preferredFormat: "hex",
+                localStorageKey: "spectrum.demo",
+                change: function (color) {
+                    $(element).val(color.toHexString());
+                },
+                palette: [
+                    ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
+                        "rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(255, 255, 255)"],
+                    ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+                        "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
+                    ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
+                        "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
+                        "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
+                        "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+                        "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
+                        "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
+                        "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
+                        "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
+                        "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
+                        "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
+                ]
+            };
+            defaultoptions.color = "#FFFFFF";
+            $(element).spectrum(defaultoptions);
+            $(element).val("#FFF");
+            var obser = valueAccessor();
+            if (obser() === undefined || obser === null) {
+                obser(colorHelper($(element).val()));
+            }
 
+            //handle the field changing
+            ko.utils.registerEventHandler(element, "change", function () {
+                var observable = valueAccessor();
 
+                observable(colorHelper($(element).val()));
+            });
+
+            //handle disposal (if KO removes by the template binding)
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).spectrum("destroy");
+            });
+
+        },
+        update: function (element, valueAccessor) {
+            var value = ko.utils.unwrapObservable(valueAccessor()),
+                current = colorHelper($(element).val());
+
+            if (value !== current) {
+                defaultoptions.color = value;
+                $(element).spectrum(defaultoptions);
+            }
+        }
+    };
+
+    ko.bindingHandlers.editor = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var valueUnwrapped = ko.unwrap(value);
+            var allBindings = allBindingsAccessor();
+            var $element = $(element);
+            var myinstance = CKEDITOR.instances['content'];
+            //check if my instance already exist
+            if (myinstance !== undefined) {
+                CKEDITOR.remove(myinstance);
+            }
+            CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
+            //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
+            if (ko.isObservable(value)) {
+                var isSubscriberChange = false;
+                var isEditorChange = true;
+                $element.html(value());
+                visEditorChange = false;
+                $.fn.modal.Constructor.prototype.enforceFocus = function () {
+                    modal_this = this;
+                    $(document).on('focusin.modal', function (e) {
+                        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+                            // add whatever conditions you need here:
+                            &&
+                            !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+                            modal_this.$element.focus();
+                        }
+                    });
+                };
+                $element.on('input, change, keyup, mouseup', function () {
+                    if (!isSubscriberChange) {
+                        isEditorChange = true;
+                        value($element.html());
+                        isEditorChange = false;
+
+                    }
+                });
+                value.subscribe(function (newValue) {
+                    if (!isEditorChange) {
+                        isSubscriberChange = true;
+                        $element.html(newValue);
+                        isSubscriberChange = false;
+                    }
+                });
+            }
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            //handle programmatic updates to the observable
+            var existingEditor = CKEDITOR.instances && CKEDITOR.instances[element.id];
+            if (existingEditor) {
+                existingEditor.setData(ko.utils.unwrapObservable(valueAccessor()), function () {
+                    this.checkDirty(); // true
+                });
+            }
+        }
+    }
     ko.bindingHandlers.drag = {
         init: function (element, valueAccessor, allBindingsAccessor,
                        viewModel, context) {
@@ -168,72 +298,6 @@ require(["ko", "knockout-validation"], function (ko) {
             });
         }
     };
-
-    //var _dragged;
-    //ko.bindingHandlers.drag = {
-    //    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-    //        var dragElement = $(element);
-    //        var dragOptions = {
-    //            helper: 'clone',
-    //            revert: true,
-    //            revertDuration: 0,
-    //            start: function () {
-    //                _dragged = ko.utils.unwrapObservable(valueAccessor().value);
-    //            },
-    //            cursor: 'default'
-    //        };
-    //        dragElement.draggable(dragOptions).disableSelection();
-    //    }
-    //};
-
-    //ko.bindingHandlers.drop = {
-    //    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-    //        var dropElement = $(element);
-    //        var dropOptions = {
-    //            drop: function (event, ui) {
-    //                valueAccessor().value(_dragged);
-    //            }
-    //        };
-    //        dropElement.droppable(dropOptions);
-    //    }
-    //};
-
-
-    //connect items with observableArrays
-    //ko.bindingHandlers.sortableList = {
-    //    init: function (element, valueAccessor, allBindingsAccessor, context) {
-    //        $(element).data("sortList", valueAccessor()); //attach meta-data
-    //        $(element).sortable({
-    //            update: function (event, ui) {
-    //                var item = ui.item.data("sortItem");
-    //                if (item) {
-    //                    //identify parents
-    //                    var originalParent = ui.item.data("parentList");
-    //                    var newParent = ui.item.parent().data("sortList");
-    //                    //figure out its new position
-    //                    var position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
-    //                    if (position >= 0) {
-    //                        originalParent.remove(item);
-    //                        newParent.splice(position, 0, item);
-    //                    }
-
-    //                    ui.item.remove();
-    //                }
-    //            },
-    //            connectWith: '.container'
-    //        });
-    //    }
-    //};
-
-    ////attach meta-data
-    //ko.bindingHandlers.sortableItem = {
-    //    init: function (element, valueAccessor) {
-    //        var options1 = valueAccessor();
-    //        $(element).data("sortItem", options1.item);
-    //        $(element).data("parentList", options1.parentList);
-    //    }
-    //};
-
 
     // jquery date picker binding. Usage: <input data-bind="datepicker: myDate, datepickerOptions: { minDate: new Date() }" />. Source: http://jsfiddle.net/rniemeyer/NAgNV/
     ko.bindingHandlers.datepicker = {
@@ -354,80 +418,7 @@ require(["ko", "knockout-validation"], function (ko) {
 
         }
     };
-    
-    ko.bindingHandlers.colorpicker = {
-        init: function (element, valueAccessor, allBindingsAccessor) {
 
-            // set default value
-            var value = ko.utils.unwrapObservable(valueAccessor());
-            $(element).val(value);
-
-            //initialize datepicker with some optional options
-            var options1 = allBindingsAccessor().colorPickerOptions || {};
-            $(element).colorpicker(options1);
-
-            //handle the field changing
-            ko.utils.registerEventHandler(element, "change", function () {
-                var observable = valueAccessor();
-                observable($(element).val());
-            });
-
-            //handle disposal (if KO removes by the template binding)
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).colorpicker("destroy");
-            });
-
-        },
-        update: function (element, valueAccessor, allBindingsAccessor) {
-            var value = ko.utils.unwrapObservable(valueAccessor());
-            $(element).val(value);
-            $(element).change();
-        }
-    };
-
-    var windowURL = window.URL || window.webkitURL;
-    ko.bindingHandlers.file = {
-        init: function (element, valueAccessor) {
-            $(element).change(function () {
-                var file = this.files[0];
-                if (ko.isObservable(valueAccessor())) {
-                    valueAccessor()(file);
-                }
-            });
-        },
-
-        update: function (element, valueAccessor, allBindingsAccessor) {
-            var file = ko.utils.unwrapObservable(valueAccessor());
-            var bindings = allBindingsAccessor();
-
-            if (bindings.imageBase64 && ko.isObservable(bindings.imageBase64)) {
-                if (!file) {
-                    bindings.imageBase64(null);
-                    bindings.imageType(null);
-                } else {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var result = e.target.result || {};
-                        var resultParts = result.split(",");
-                        if (resultParts.length === 2) {
-                            bindings.imageBase64(resultParts[1]);
-                            bindings.imageType(resultParts[0]);
-                        }
-
-                        //Now update fileObjet, we do this last thing as implementation detail, it triggers post
-                        if (bindings.fileObjectURL && ko.isObservable(bindings.fileObjectURL)) {
-                            var oldUrl = bindings.fileObjectURL();
-                            if (oldUrl) {
-                                windowURL.revokeObjectURL(oldUrl);
-                            }
-                            bindings.fileObjectURL(file && windowURL.createObjectURL(file));
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-    };
     ko.bindingHandlers.files = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var allBindings = allBindingsAccessor();
@@ -528,6 +519,18 @@ require(["ko", "knockout-validation"], function (ko) {
                     $element.tooltip('destroy');
                 }
             }
+        }
+    };
+
+    // Knockout Extender for Element
+    ko.extenders.element = function (target, element) {
+        target.domElement = element;
+    }
+
+    // Custom Binding for handling validation elements
+    ko.bindingHandlers.validationOnElement = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            valueAccessor().extend({ element: element });
         }
     };
 
@@ -705,27 +708,7 @@ function handleSorting(tableId, sortOn, sortAsc, callback) {
     });
 }
 
-//Unit length
-unitLengthsGlobal = [{ Id: 1, Text: 'mm' },
-    { Id: 2, Text: 'cm' },
-    { Id: 3, Text: 'inch' }
-];
-//Currency Symbol
-currencySymbolsGlobal = [{ Id: 1, Text: 'USD $' },
-    { Id: 2, Text: 'GBD ' },
-    { Id: 3, Text: 'AUD A$' },
-    { Id: 3, Text: 'CAD C$' }
-];
-//Language Pack
-languagePacksGlobal = [{ Id: 1, Text: 'English' },
-    { Id: 2, Text: 'Frech' },
-    { Id: 3, Text: 'Dutch' }
-];
-//Unit Weights
-unitWeightsGlobal = [{ Id: 1, Text: 'lbs' },
-    { Id: 2, Text: 'gsm' },
-    { Id: 3, Text: 'kg' }
-];
+
 $(function () {
     // Fix for bootstrap popovers, sometimes they are left in the DOM when they shouldn't be.
     $('body').on('hidden.bs.popover', function () {

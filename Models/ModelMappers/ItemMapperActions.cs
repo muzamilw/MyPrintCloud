@@ -75,6 +75,36 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Action<ItemAddonCostCentre> DeleteItemAddonCostCentre { get; set; }
 
+        /// <summary>
+        /// Action to create a Item Price Matrix
+        /// </summary>
+        public Func<ItemPriceMatrix> CreateItemPriceMatrix { get; set; }
+
+        /// <summary>
+        /// Action to create a Item State Tax
+        /// </summary>
+        public Func<ItemStateTax> CreateItemStateTax { get; set; }
+
+        /// <summary>
+        /// Action to delete a Item State Tax
+        /// </summary>
+        public Action<ItemStateTax> DeleteItemStateTax { get; set; }
+
+        /// <summary>
+        /// Action to create a Item Product Detail
+        /// </summary>
+        public Func<ItemProductDetail> CreateItemProductDetail { get; set; }
+
+        /// <summary>
+        /// Action to create a Product Category Item
+        /// </summary>
+        public Func<ProductCategoryItem> CreateProductCategoryItem { get; set; }
+
+        /// <summary>
+        /// Action to delete a Product Category Item
+        /// </summary>
+        public Action<ProductCategoryItem> DeleteProductCategoryItem { get; set; }
+
         #endregion
     }
 }

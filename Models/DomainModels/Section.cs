@@ -43,10 +43,6 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool Independent { get; set; }
 
-        /// <summary>
-        /// Organisation Id
-        /// </summary>
-        public long OrganisationId { get; set; }
         #endregion
 
         #region Reference Properties
@@ -54,6 +50,11 @@ namespace MPC.Models.DomainModels
         /// Section Flags
         /// </summary>
         public virtual ICollection<SectionFlag> SectionFlags { get; set; }
+
+        /// <summary>
+        /// Phrase Fields
+        /// </summary>
+        public virtual ICollection<PhraseField> PhraseFields { get; set; }
         #endregion
 
     }

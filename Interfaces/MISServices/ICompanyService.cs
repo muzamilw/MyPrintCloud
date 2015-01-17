@@ -13,6 +13,7 @@ namespace MPC.Interfaces.MISServices
         AddressResponse SearchAddresses(AddressRequestModel request);
         PaymentGatewayResponse SearchPaymentGateways(PaymentGatewayRequestModel request);
         CompanyResponse GetCompanyById(long companyId);
+        CompanyBaseResponse GetBaseDataForNewCompany();
         CompanyBaseResponse GetBaseData(long clubId);
         /// <summary>
         /// Save File Path In Db against organization ID
@@ -37,5 +38,11 @@ namespace MPC.Interfaces.MISServices
         /// Get Cms Page Widget By Page Id
         /// </summary>
         IEnumerable<CmsSkinPageWidget> GetCmsPageWidgetByPageId(long pageId, long companyId);
+        /// <summary>
+        /// Load Items, based on search filters
+        /// </summary>
+        ItemListViewSearchResponse GetItems(CompanyProductSearchRequestModel request);
+
+        Company DeleteCompany(long companyId);
     }
 }

@@ -51,7 +51,10 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,13 +62,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ICostCentreLoader.cs" />
     <Compile Include="Data\AuthorizationCheckRequest.cs" />
     <Compile Include="Data\SecurityAccessRight.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
+    <Compile Include="MISServices\ICategoryService.cs" />
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
+    <Compile Include="MISServices\IPhraseLibraryService.cs" />
+    <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
     <Compile Include="Repository\ICampaignRepository.cs" />
     <Compile Include="Repository\IColorPalleteRepository.cs" />
@@ -75,18 +82,38 @@
     <Compile Include="Repository\ICompanyContactRoleRepository.cs" />
     <Compile Include="Repository\ICompanyTerritoryRepository.cs" />
     <Compile Include="Repository\ICompanyTypeRepository.cs" />
+    <Compile Include="Repository\ICostCentreMatrixRepository.cs" />
+    <Compile Include="Repository\ICountryRepository.cs" />
     <Compile Include="Repository\ICurrencyRepository.cs" />
     <Compile Include="Repository\IEmailEventRepository.cs" />
+    <Compile Include="Repository\IFavoriteDesignRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
+    <Compile Include="Repository\IImagePermissionsRepository.cs" />
+    <Compile Include="Repository\IItemAttachmentRepository.cs" />
+    <Compile Include="Repository\IIProductCategoryItemRepository.cs" />
+    <Compile Include="Repository\IItemStateTaxRepository.cs" />
     <Compile Include="Repository\IItemRelatedItemRepository.cs" />
     <Compile Include="Repository\IItemAddOnCostCentreRepository.cs" />
+    <Compile Include="Repository\IItemStockControlRepository.cs" />
     <Compile Include="Repository\IItemStockOptionRepository.cs" />
     <Compile Include="Repository\ICostCentreRepository.cs" />
+    <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
+    <Compile Include="Repository\IItemProductDetailRepository.cs" />
+    <Compile Include="Repository\IListingRepository.cs" />
+    <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
     <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
+    <Compile Include="Repository\IPhraseFieldRepository.cs" />
+    <Compile Include="Repository\IPhraseRespository.cs" />
+    <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
+    <Compile Include="Repository\IStateRepository.cs" />
+    <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />
+    <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
+    <Compile Include="Repository\ITemplateFontsRepository.cs" />
+    <Compile Include="Repository\ITemplateObjectRepository.cs" />
     <Compile Include="Repository\ITemplatePageRepository.cs" />
     <Compile Include="Repository\ITemplateRepository.cs" />
     <Compile Include="Repository\IItemVideoRepository.cs" />
@@ -121,6 +148,10 @@
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\ICompanyBannerService.cs" />
+    <Compile Include="WebStoreServices\ICostCentreService.cs" />
+    <Compile Include="WebStoreServices\ICostCentreVariableRepository.cs" />
+    <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
+    <Compile Include="WebStoreServices\IListingService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />
     <Compile Include="Logger\IMPCLogWriter.cs" />
     <Compile Include="MISServices\IPaperSheetService.cs" />
@@ -135,6 +166,12 @@
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
+    <Compile Include="WebStoreServices\ITemplateBackgroundImagesService.cs" />
+    <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />
+    <Compile Include="WebStoreServices\ITemplateFontsService.cs" />
+    <Compile Include="WebStoreServices\ITemplateObjectService.cs" />
+    <Compile Include="WebStoreServices\ITemplatePageService.cs" />
+    <Compile Include="WebStoreServices\ITemplateService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\IUserManagerService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsSecurityService.cs" />

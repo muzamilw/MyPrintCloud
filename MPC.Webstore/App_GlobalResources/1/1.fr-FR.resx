@@ -1,0 +1,1053 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnfrench" xml:space="preserve">
+    <value>Button french</value>
+  </data>
+  <data name="lnkContactUs" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="hlRequestQuote" xml:space="preserve">
+    <value>Request a Quote</value>
+  </data>
+  <data name="hlSpecialProducts" xml:space="preserve">
+    <value>Special Offers</value>
+  </data>
+  <data name="HyperLink4" xml:space="preserve">
+    <value>Dash Board</value>
+    <comment>//Header Control</comment>
+  </data>
+  <data name="lnkAboutUs" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="lnkBtnViewMyCart" xml:space="preserve">
+    <value>Cart(0)</value>
+  </data>
+  <data name="lnkLogin" xml:space="preserve">
+    <value>Sign in to My Account</value>
+  </data>
+  <data name="lnkMyAccount" xml:space="preserve">
+    <value>My Account</value>
+  </data>
+  <data name="lnkProducts" xml:space="preserve">
+    <value>All Products</value>
+  </data>
+  <data name="lnkRegisterInWPrint" xml:space="preserve">
+    <value>Sign Up / Register</value>
+    <comment>//TopHeader</comment>
+  </data>
+  <data name="chkEmailMeOffers" xml:space="preserve">
+    <value>Send Me Email</value>
+  </data>
+  <data name="chkSendMeNewsLetters" xml:space="preserve">
+    <value>Send Me Newsletters</value>
+  </data>
+  <data name="cmdRegister" xml:space="preserve">
+    <value>CREATEA ACCOUNT</value>
+  </data>
+  <data name="divFeaturedProducts" xml:space="preserve">
+    <value>Featured Products</value>
+  </data>
+  <data name="divgetintouch" xml:space="preserve">
+    <value>Get in touch...</value>
+  </data>
+  <data name="divPopularProducts" xml:space="preserve">
+    <value>Popular Products</value>
+  </data>
+  <data name="divProductandServices" xml:space="preserve">
+    <value>Products and Services</value>
+    <comment>//Default</comment>
+  </data>
+  <data name="divSpecialOffers" xml:space="preserve">
+    <value>Special Offers</value>
+    <comment>//speacialProducts page</comment>
+  </data>
+  <data name="divsubscribelbl" xml:space="preserve">
+    <value>Subscribe to our Newsletter :</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>E-Mail address</value>
+  </data>
+  <data name="EnterPassword" xml:space="preserve">
+    <value>Enter Password</value>
+  </data>
+  <data name="Fname" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="hlPrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="hlPweredBy" xml:space="preserve">
+    <value>Powered by MyPrintCloud</value>
+  </data>
+  <data name="hplinkTermsCondition" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+    <comment>//Footer</comment>
+  </data>
+  <data name="lblPageTitle" xml:space="preserve">
+    <value>Contact US</value>
+    <comment>// contact us page</comment>
+  </data>
+  <data name="Lname" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="ReTypeEmailAddress" xml:space="preserve">
+    <value>Re type E-Mail Address</value>
+  </data>
+  <data name="RetypePassword" xml:space="preserve">
+    <value>Re type Password</value>
+  </data>
+  <data name="SecretAnswer" xml:space="preserve">
+    <value>Secret Answer</value>
+  </data>
+  <data name="SecretQuestion" xml:space="preserve">
+    <value>Secret Question</value>
+  </data>
+  <data name="tdenquiry" xml:space="preserve">
+    <value>Enquiry</value>
+  </data>
+  <data name="tdnoi" xml:space="preserve">
+    <value>Nature of Enquiry</value>
+  </data>
+  <data name="tdycompany" xml:space="preserve">
+    <value>Your company</value>
+  </data>
+  <data name="tdyemail" xml:space="preserve">
+    <value>Your email</value>
+  </data>
+  <data name="tdyourname" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="cmdNext" xml:space="preserve">
+    <value>NEXT</value>
+  </data>
+  <data name="cmdSubmit" xml:space="preserve">
+    <value>SEND PASSWORD</value>
+  </data>
+  <data name="lblResetPwd" xml:space="preserve">
+    <value>Reset password.</value>
+  </data>
+  <data name="lblSendBymail" xml:space="preserve">
+    <value>Send password by e-mail.</value>
+  </data>
+  <data name="lnkReturnLogin" xml:space="preserve">
+    <value>Return to home Page</value>
+    <comment>//ForgotPassowrd</comment>
+  </data>
+  <data name="SpnChangePass" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="tdforgotPassord" xml:space="preserve">
+    <value>Please enter your registered email address below. Your password will be mailed to your email address upon verification.</value>
+  </data>
+  <data name="btnAutoPostBackDiscountVoucherCode" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btnCheckOut1" xml:space="preserve">
+    <value>CHECKOUT</value>
+    <comment>//Shopcart</comment>
+  </data>
+  <data name="btnContinueShopping1" xml:space="preserve">
+    <value>CONTINUE SHOPPING</value>
+  </data>
+  <data name="btnReset" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="btnSelectTemplate1" xml:space="preserve">
+    <value>Select Template</value>
+  </data>
+  <data name="btnSend" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="btnSide1Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="btnStartCreating" xml:space="preserve">
+    <value>START CREATING</value>
+  </data>
+  <data name="btnSubmit" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="divaddNewitem" xml:space="preserve">
+    <value>Add New Item</value>
+  </data>
+  <data name="divCdesign" xml:space="preserve">
+    <value>1. Confirm Design</value>
+    <comment>//ProductconfirmSelection</comment>
+  </data>
+  <data name="divchecked" xml:space="preserve">
+    <value>Checked?</value>
+  </data>
+  <data name="divdeliverydate" xml:space="preserve">
+    <value>Delivery Date :</value>
+  </data>
+  <data name="divform2createaccount" xml:space="preserve">
+    <value>Complete the form below to register and create an account...</value>
+  </data>
+  <data name="divideastxt" xml:space="preserve">
+    <value>Ideas</value>
+  </data>
+  <data name="divinquiryAttachement" xml:space="preserve">
+    <value>Inquiry Attachment's</value>
+  </data>
+  <data name="divinquirytitle" xml:space="preserve">
+    <value>Titre enquête:</value>
+  </data>
+  <data name="divitemnotes" xml:space="preserve">
+    <value>Item Notes :</value>
+  </data>
+  <data name="divitemtitle" xml:space="preserve">
+    <value>Item Title :</value>
+  </data>
+  <data name="divOpt1" xml:space="preserve">
+    <value>Option 1</value>
+  </data>
+  <data name="divoptadedd" xml:space="preserve">
+    <value>Options added</value>
+  </data>
+  <data name="divOrderOpt" xml:space="preserve">
+    <value>2. Order options</value>
+  </data>
+  <data name="divOrderSumm" xml:space="preserve">
+    <value>3. Order Summary</value>
+  </data>
+  <data name="divordertotal" xml:space="preserve">
+    <value>Order Total:</value>
+  </data>
+  <data name="divProductsDetails" xml:space="preserve">
+    <value>Product details</value>
+  </data>
+  <data name="divQuantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="divreorderq" xml:space="preserve">
+    <value>Re-order quickly</value>
+  </data>
+  <data name="divsaveurdeisgn" xml:space="preserve">
+    <value>Save your designs</value>
+  </data>
+  <data name="divSearchOrder" xml:space="preserve">
+    <value>Search Orders</value>
+  </data>
+  <data name="divselecctstock" xml:space="preserve">
+    <value>Select Stock</value>
+  </data>
+  <data name="divsubs2newsl" xml:space="preserve">
+    <value>Subscribe to our Newsletters on new marketing products and services</value>
+  </data>
+  <data name="divsubtotal" xml:space="preserve">
+    <value>Sub Total</value>
+  </data>
+  <data name="divviewntrackoh" xml:space="preserve">
+    <value>View and track order history</value>
+  </data>
+  <data name="divwhyregister" xml:space="preserve">
+    <value>Why Register?</value>
+    <comment>//Sign Up</comment>
+  </data>
+  <data name="hlProductDetail" xml:space="preserve">
+    <value>See Pricing, Specifications and Matching Sets</value>
+    <comment>//ProductDesignTemplate</comment>
+  </data>
+  <data name="Label1" xml:space="preserve">
+    <value>Upload Your Design</value>
+  </data>
+  <data name="Label3" xml:space="preserve">
+    <value>Occassion</value>
+  </data>
+  <data name="lblBack" xml:space="preserve">
+    <value>Back of the Card</value>
+  </data>
+  <data name="lblCategoriesLinks1" xml:space="preserve">
+    <value>Saved Designes</value>
+    <comment>//SavedDesignes</comment>
+  </data>
+  <data name="lblCheckSpelling" xml:space="preserve">
+    <value>Checked spellings and details on ALL sides?</value>
+  </data>
+  <data name="LblDimenssionandspecs" xml:space="preserve">
+    <value>Dimensions and specifications</value>
+  </data>
+  <data name="lblFront" xml:space="preserve">
+    <value>Front of the Card</value>
+  </data>
+  <data name="lblideas" xml:space="preserve">
+    <value>Ideas</value>
+    <comment>//ProductDetails</comment>
+  </data>
+  <data name="lblMessage" xml:space="preserve">
+    <value>No Record Found!</value>
+  </data>
+  <data name="lblMsg" xml:space="preserve">
+    <value>Your Cart is empty!</value>
+  </data>
+  <data name="lblNewCustomer" xml:space="preserve">
+    <value>New User Registration</value>
+  </data>
+  <data name="lblProdSelectOption" xml:space="preserve">
+    <value>Online Prices</value>
+  </data>
+  <data name="lblRedeemHeading" xml:space="preserve">
+    <value>Redeem voucher codes</value>
+  </data>
+  <data name="lblRegistering" xml:space="preserve">
+    <value>By registering you are able to:</value>
+  </data>
+  <data name="lblStockHeaer" xml:space="preserve">
+    <value>Extras</value>
+  </data>
+  <data name="lblStyle" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="lblSubHeading" xml:space="preserve">
+    <value>Select A Template from below</value>
+  </data>
+  <data name="lblTitle" xml:space="preserve">
+    <value>Favorite Designs</value>
+    <comment>//favourite Design</comment>
+  </data>
+  <data name="lblTitlePC" xml:space="preserve">
+    <value>Order Options</value>
+  </data>
+  <data name="lblTitlePendingOrder" xml:space="preserve">
+    <value>Pending Orders For Approvel</value>
+    <comment>// ProductPendingOrders</comment>
+  </data>
+  <data name="lblTitleRequestQuote" xml:space="preserve">
+    <value>Request A Quote</value>
+    <comment>//RequestQuote</comment>
+  </data>
+  <data name="lblTitleShopCart" xml:space="preserve">
+    <value>Shopping cart</value>
+  </data>
+  <data name="lblTotalRecords" xml:space="preserve">
+    <value>matches found</value>
+  </data>
+  <data name="lblTotalSavingText" xml:space="preserve">
+    <value>Total Saving</value>
+  </data>
+  <data name="lblVoucherDiscPercentageDisplay" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="ltrlClcktempnStart" xml:space="preserve">
+    <value>Click on a template below and start</value>
+  </data>
+  <data name="ltrlDesignonline" xml:space="preserve">
+    <value>designing online now for free</value>
+  </data>
+  <data name="ltrlfrom" xml:space="preserve">
+    <value>FROM</value>
+  </data>
+  <data name="ltrlMatchesfound" xml:space="preserve">
+    <value>matches found</value>
+  </data>
+  <data name="ltrlUploaddesign" xml:space="preserve">
+    <value>Upload a design that you have and would like</value>
+  </data>
+  <data name="ltrlustoprint" xml:space="preserve">
+    <value>us to print and/ or modify</value>
+  </data>
+  <data name="tdBaseColor" xml:space="preserve">
+    <value>Base Color</value>
+  </data>
+  <data name="tdfromdate" xml:space="preserve">
+    <value>From Date</value>
+  </data>
+  <data name="tdIndusrtyType" xml:space="preserve">
+    <value>Industry Type</value>
+  </data>
+  <data name="tdorderref" xml:space="preserve">
+    <value>Order Ref</value>
+  </data>
+  <data name="tdorderstatus" xml:space="preserve">
+    <value>Order Status</value>
+  </data>
+  <data name="tdSearchTemplate" xml:space="preserve">
+    <value>Search templates</value>
+  </data>
+  <data name="tdshowing" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="todate" xml:space="preserve">
+    <value>To Date</value>
+  </data>
+  <data name="agohome" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="btnAddNew" xml:space="preserve">
+    <value>Add New</value>
+    <comment>//ManageAddressess</comment>
+  </data>
+  <data name="btnApplySetting" xml:space="preserve">
+    <value>Apply Setting</value>
+  </data>
+  <data name="btnConfirmOrder" xml:space="preserve">
+    <value>MAKE PAYMENT</value>
+  </data>
+  <data name="BtnCreateacc" xml:space="preserve">
+    <value>CREATE ACCOUNT</value>
+  </data>
+  <data name="btnSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="btnUploadFile" xml:space="preserve">
+    <value>Upload Image</value>
+  </data>
+  <data name="Button1" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="chkBoxDeliverySameAsBilling" xml:space="preserve">
+    <value>Same as billing address</value>
+  </data>
+  <data name="chkCreatShippingAddress" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Users can create Shipping Addresses</value>
+  </data>
+  <data name="chkIsDefaulShippingAddr" xml:space="preserve">
+    <value>Is Default Delivery Address</value>
+  </data>
+  <data name="chkIsDefaultAddr" xml:space="preserve">
+    <value>Is Default Billing Address</value>
+  </data>
+  <data name="chkPayByCreditCard" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Users pay by personal Credit Card</value>
+  </data>
+  <data name="chkPORequired" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;PO Number is required when ordering</value>
+  </data>
+  <data name="chkShowPrices" xml:space="preserve">
+    <value>&amp;nbsp;&amp;nbsp;&amp;nbsp;Show Prices to Users</value>
+  </data>
+  <data name="cmdLogin" xml:space="preserve">
+    <value>LOGIN</value>
+  </data>
+  <data name="departname" xml:space="preserve">
+    <value>Department Name</value>
+  </data>
+  <data name="designBarLeftPnl" xml:space="preserve">
+    <value>Start personalizing template below</value>
+    <comment>//TempDesigner</comment>
+  </data>
+  <data name="designBarRightPnl" xml:space="preserve">
+    <value>Save design as</value>
+  </data>
+  <data name="divaddressdeatails" xml:space="preserve">
+    <value>Address Details</value>
+  </data>
+  <data name="divaddressline1" xml:space="preserve">
+    <value>Address line 1</value>
+  </data>
+  <data name="divaddressline2" xml:space="preserve">
+    <value>Address line 2</value>
+  </data>
+  <data name="divAllproducts" xml:space="preserve">
+    <value>Products and Services</value>
+    <comment>//AllProductsControl</comment>
+  </data>
+  <data name="divBillingname" xml:space="preserve">
+    <value>Billing Name</value>
+  </data>
+  <data name="divcanapprove" xml:space="preserve">
+    <value>Can Approve</value>
+  </data>
+  <data name="divcanorder" xml:space="preserve">
+    <value>Can Order</value>
+  </data>
+  <data name="divcellnumber" xml:space="preserve">
+    <value>Cell Number</value>
+  </data>
+  <data name="divchangepassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="divcheckoutfirstdiv" xml:space="preserve">
+    <value>Your Ref / PO</value>
+  </data>
+  <data name="divchoosebillingadd" xml:space="preserve">
+    <value>Choose Billing Address</value>
+  </data>
+  <data name="divchoosedeliveryadd" xml:space="preserve">
+    <value>Choose Delivery Address</value>
+  </data>
+  <data name="divcity" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="divcompanyname" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="divconfirmurorderdetails" xml:space="preserve">
+    <value>Confirm your order details...</value>
+  </data>
+  <data name="divcontactdetails" xml:space="preserve">
+    <value>Contact details</value>
+    <comment>//DashBoard</comment>
+  </data>
+  <data name="divcontactnum" xml:space="preserve">
+    <value>Contact Number</value>
+  </data>
+  <data name="divcontacttelnum" xml:space="preserve">
+    <value>Contact Tel Number</value>
+  </data>
+  <data name="divcountry" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="divDelivery" xml:space="preserve">
+    <value>Delivery</value>
+  </data>
+  <data name="divdepart" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="divdepartcode" xml:space="preserve">
+    <value>Department Code</value>
+    <comment>//CRUDDepartmentControl</comment>
+  </data>
+  <data name="divDnthaveacc" xml:space="preserve">
+    <value>Don't have an account</value>
+  </data>
+  <data name="diveditnuploadurdd" xml:space="preserve">
+    <value>Edit and upload your design details</value>
+  </data>
+  <data name="divemail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="divestimated" xml:space="preserve">
+    <value>Delivery options</value>
+  </data>
+  <data name="divfax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="divfname" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="divimgliblogoqt" xml:space="preserve">
+    <value>Image Library, Logo &amp; Quick text</value>
+  </data>
+  <data name="divjobtitle" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="divlname" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="divloplaced" xml:space="preserve">
+    <value>Last order placed</value>
+  </data>
+  <data name="divmaincontent" xml:space="preserve">
+    <value>Main Contact</value>
+    <comment>//CRUDTerritory</comment>
+  </data>
+  <data name="divmanagenviewsd" xml:space="preserve">
+    <value>Manage and view your saved designs</value>
+  </data>
+  <data name="divmatchingset" xml:space="preserve">
+    <value>Matching Set</value>
+    <comment>//MatchinSetControl</comment>
+  </data>
+  <data name="divmyfavd" xml:space="preserve">
+    <value>My favorite designs</value>
+  </data>
+  <data name="divname" xml:space="preserve">
+    <value>Name</value>
+    <comment>//CRUDUsers</comment>
+  </data>
+  <data name="divnew" xml:space="preserve">
+    <value>New</value>
+    <comment>//CRUDShippingcontrol</comment>
+  </data>
+  <data name="divnoresourcefound" xml:space="preserve">
+    <value>No Resource Found - 404</value>
+  </data>
+  <data name="divorderhistory" xml:space="preserve">
+    <value>Order history</value>
+  </data>
+  <data name="divorderlimit" xml:space="preserve">
+    <value>Order Limit</value>
+  </data>
+  <data name="divorderpolicy" xml:space="preserve">
+    <value>Ordering Policy</value>
+  </data>
+  <data name="divpendingo" xml:space="preserve">
+    <value>Pending Orders</value>
+  </data>
+  <data name="divpersonalinfo" xml:space="preserve">
+    <value>1. Personal Details</value>
+    <comment>//PersonalInfoControl</comment>
+  </data>
+  <data name="divphonenumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="divprofilepic" xml:space="preserve">
+    <value>Profile Picture</value>
+  </data>
+  <data name="divresetnchangeaccpassword" xml:space="preserve">
+    <value>Reset and change your account password</value>
+  </data>
+  <data name="divrole" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="divroq" xml:space="preserve">
+    <value>Re-order quickly</value>
+  </data>
+  <data name="divsavedesign" xml:space="preserve">
+    <value>Saved designs</value>
+  </data>
+  <data name="divsaveurdesign" xml:space="preserve">
+    <value>Save your designs</value>
+  </data>
+  <data name="divshippingaddresses" xml:space="preserve">
+    <value>Shipping Addresses</value>
+  </data>
+  <data name="divshippingname" xml:space="preserve">
+    <value>Shipping Name</value>
+  </data>
+  <data name="divshoppingcart" xml:space="preserve">
+    <value>Shopping cart</value>
+  </data>
+  <data name="divsorrypaypal" xml:space="preserve">
+    <value>Sorry! Your Paypal payment was not successful.</value>
+    <comment>//BlankDetails</comment>
+  </data>
+  <data name="divstate" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="divsubscribe2Nwzl" xml:space="preserve">
+    <value>Get latest Newsletter promotions.</value>
+  </data>
+  <data name="divteritory" xml:space="preserve">
+    <value>Territory</value>
+  </data>
+  <data name="divterritories" xml:space="preserve">
+    <value>Territories /</value>
+  </data>
+  <data name="divterritorycode" xml:space="preserve">
+    <value>Territory Code</value>
+  </data>
+  <data name="divterritoryname" xml:space="preserve">
+    <value>Territory Name</value>
+  </data>
+  <data name="divthnxordersuccessfull" xml:space="preserve">
+    <value>Thanks, Your orders is placed successfully!</value>
+    <comment>//ShopPayment</comment>
+  </data>
+  <data name="divupdateurcontactdeatails" xml:space="preserve">
+    <value>Update your contact details</value>
+  </data>
+  <data name="divviewdttulike" xml:space="preserve">
+    <value>View design templates that you like</value>
+  </data>
+  <data name="divviewitemnshppngcart" xml:space="preserve">
+    <value>View items in your shopping cart</value>
+  </data>
+  <data name="divviewnropo" xml:space="preserve">
+    <value>View and/or re-order pending orders</value>
+  </data>
+  <data name="divviewrocompletedo" xml:space="preserve">
+    <value>View and/or re-order completed orders</value>
+  </data>
+  <data name="divviewtoh" xml:space="preserve">
+    <value>View and track order history</value>
+  </data>
+  <data name="divwebsite" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="divyourcompanylogo" xml:space="preserve">
+    <value>Your Company Logo</value>
+  </data>
+  <data name="divywstore" xml:space="preserve">
+    <value>Your WebStore Users</value>
+    <comment>//CorporateAdminHomeControl</comment>
+  </data>
+  <data name="divzipcodeP" xml:space="preserve">
+    <value>Zip Code / Post Code</value>
+  </data>
+  <data name="FavrBtn" xml:space="preserve">
+    <value>My Favorites</value>
+  </data>
+  <data name="HistryBtn" xml:space="preserve">
+    <value>Order History</value>
+  </data>
+  <data name="hlShopingCart" xml:space="preserve">
+    <value>Here</value>
+  </data>
+  <data name="label11" xml:space="preserve">
+    <value>Your Company Name</value>
+  </data>
+  <data name="label12" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="label15" xml:space="preserve">
+    <value>Telephone</value>
+  </data>
+  <data name="label18" xml:space="preserve">
+    <value>Website Address</value>
+  </data>
+  <data name="label19" xml:space="preserve">
+    <value>Company Message</value>
+  </data>
+  <data name="label9" xml:space="preserve">
+    <value>Your Name</value>
+  </data>
+  <data name="lblCheckout" xml:space="preserve">
+    <value>Checkout</value>
+    <comment>//ShopCartaddrSelect   //MyAddressescontrol</comment>
+  </data>
+  <data name="lblCompanyMessage" xml:space="preserve">
+    <value>Set Company Message for Landing Page</value>
+  </data>
+  <data name="lblCorporateName" xml:space="preserve">
+    <value>Coporate Name</value>
+  </data>
+  <data name="lblFollowusText" xml:space="preserve">
+    <value>Folow Us :</value>
+    <comment>//FooterFollowus</comment>
+  </data>
+  <data name="lblMainControlHeading" xml:space="preserve">
+    <value>Billing Address</value>
+  </data>
+  <data name="lblMyaddresstitle" xml:space="preserve">
+    <value>Address Title</value>
+    <comment>//MyaddressesControl</comment>
+  </data>
+  <data name="lblPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="lblshipping" xml:space="preserve">
+    <value>Shipping</value>
+  </data>
+  <data name="lblspecailinstruction" xml:space="preserve">
+    <value>Special Instructions</value>
+  </data>
+  <data name="lbltitlelogin" xml:space="preserve">
+    <value>Sign In</value>
+    <comment>//Weblogin</comment>
+  </data>
+  <data name="lbltitlemyaddress" xml:space="preserve">
+    <value>My Addresses</value>
+  </data>
+  <data name="lblUserProfile" xml:space="preserve">
+    <value>Personal Information</value>
+    <comment>//UserProfile</comment>
+  </data>
+  <data name="lblUserquickinfo" xml:space="preserve">
+    <value>Quick Text Information</value>
+    <comment>//UserQuicktextinfo</comment>
+  </data>
+  <data name="lnkForgotPassword" xml:space="preserve">
+    <value>Forgot your Password?</value>
+  </data>
+  <data name="lnkWhatisPassword" xml:space="preserve">
+    <value>Are you already registered?</value>
+  </data>
+  <data name="ltrlapprovethisorder" xml:space="preserve">
+    <value>approves this order.</value>
+  </data>
+  <data name="ltrlclicktomodify" xml:space="preserve">
+    <value>Click on row to modify.</value>
+  </data>
+  <data name="ltrlcliclk" xml:space="preserve">
+    <value>Click</value>
+  </data>
+  <data name="ltrlcopyrite" xml:space="preserve">
+    <value>Copyrights 2012. All Rights Reserved.</value>
+    <comment>//FooterControl</comment>
+  </data>
+  <data name="ltrldepart" xml:space="preserve">
+    <value>Departments</value>
+  </data>
+  <data name="ltrlgoback2cart" xml:space="preserve">
+    <value>to go back to your cart.</value>
+  </data>
+  <data name="ltrlhere" xml:space="preserve">
+    <value>Here are other products with the</value>
+  </data>
+  <data name="ltrlmessgmemobox" xml:space="preserve">
+    <value>MESSAGE? MEMO BOX</value>
+  </data>
+  <data name="ltrlofferdelivered" xml:space="preserve">
+    <value>offers delivered to your inbox...</value>
+  </data>
+  <data name="ltrlorderwillbed" xml:space="preserve">
+    <value>Order will be delivered after</value>
+  </data>
+  <data name="ltrlpi1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlpi2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlpi3" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlpi4" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ltrlsameasdesignconcept" xml:space="preserve">
+    <value>same design concepts</value>
+  </data>
+  <data name="ltrlselectacat" xml:space="preserve">
+    <value>Select a Category below and then a product to Order and personalize</value>
+    <comment>//CorporateProductsControl</comment>
+  </data>
+  <data name="ltrlsigninwithaccount" xml:space="preserve">
+    <value>Sign in to my account</value>
+  </data>
+  <data name="ltrlsigninwithsocial" xml:space="preserve">
+    <value>Sign in with these networks—</value>
+    <comment>//LoginControl</comment>
+  </data>
+  <data name="ltrlsubscribe" xml:space="preserve">
+    <value>Subscribe and get the latest exclusive</value>
+  </data>
+  <data name="rbHavePassword" xml:space="preserve">
+    <value>Yes, I have a password</value>
+  </data>
+  <data name="rbNoPassword" xml:space="preserve">
+    <value>No, I am a new customer</value>
+  </data>
+  <data name="spnbillingname" xml:space="preserve">
+    <value>Billing Name:</value>
+  </data>
+  <data name="spndileverydate" xml:space="preserve">
+    <value>Delivery Date:</value>
+  </data>
+  <data name="spngrndtotal" xml:space="preserve">
+    <value>Grand Total:</value>
+  </data>
+  <data name="spnorderdate" xml:space="preserve">
+    <value>Order Date:</value>
+  </data>
+  <data name="spnordernum" xml:space="preserve">
+    <value>Order Number:</value>
+    <comment>//OrderDeatailsControl</comment>
+  </data>
+  <data name="spnorderstatus" xml:space="preserve">
+    <value>Order Status:</value>
+  </data>
+  <data name="spnshppingname" xml:space="preserve">
+    <value>Shipping Name:</value>
+  </data>
+  <data name="spnsubtotal" xml:space="preserve">
+    <value>Sub Total:</value>
+  </data>
+  <data name="spnvattotal" xml:space="preserve">
+    <value>Vat Total:</value>
+  </data>
+  <data name="SvdDsgnBtn" xml:space="preserve">
+    <value>My Saved Designs</value>
+  </data>
+  <data name="tdblack" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="tdcanonlydesignorder" xml:space="preserve">
+    <value>can only design and order</value>
+  </data>
+  <data name="tdcolorpicker" xml:space="preserve">
+    <value>Colour Picker</value>
+    <comment>//DesignToolWin</comment>
+  </data>
+  <data name="tdcompanyopolicy" xml:space="preserve">
+    <value>COMPANY ORDERING POLICY</value>
+  </data>
+  <data name="tdconfirmpass" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="tdcyan" xml:space="preserve">
+    <value>Cyan</value>
+  </data>
+  <data name="tddelivery" xml:space="preserve">
+    <value>Delivery:</value>
+  </data>
+  <data name="tdgrandtotal" xml:space="preserve">
+    <value>Grand Total:</value>
+  </data>
+  <data name="tdmagenta" xml:space="preserve">
+    <value>Magenta</value>
+  </data>
+  <data name="tdnewpass" xml:space="preserve">
+    <value>New Password</value>
+    <comment>//Reset PasswordControl</comment>
+  </data>
+  <data name="tdsigninwithacc" xml:space="preserve">
+    <value>Authorizer</value>
+  </data>
+  <data name="tdSubtotal" xml:space="preserve">
+    <value>Sub Total:</value>
+  </data>
+  <data name="tdsuperuser" xml:space="preserve">
+    <value>Super user</value>
+  </data>
+  <data name="tdUsername" xml:space="preserve">
+    <value>User Name</value>
+    <comment>//CorpLogin</comment>
+  </data>
+  <data name="tdyellow" xml:space="preserve">
+    <value>Yellow</value>
+  </data>
+  <data name="CPassNotM" xml:space="preserve">
+    <value>Confirm Password not matched</value>
+  </data>
+  <data name="Cpasswordxreq" xml:space="preserve">
+    <value>Confirm Password is required.</value>
+  </data>
+  <data name="EnterAnswOfUQ" xml:space="preserve">
+    <value>Enter Answer of your question</value>
+  </data>
+  <data name="passwordNotM" xml:space="preserve">
+    <value>Password not match!</value>
+  </data>
+  <data name="PlxenterCEmail" xml:space="preserve">
+    <value>Please enter Confirm Email address.</value>
+  </data>
+  <data name="plxenterCompanyName" xml:space="preserve">
+    <value>Company Name is required</value>
+  </data>
+  <data name="PlxenterCPass" xml:space="preserve">
+    <value>Please enter Confirm Password</value>
+  </data>
+  <data name="Plxenteremail" xml:space="preserve">
+    <value>Please enter Email</value>
+  </data>
+  <data name="PlxenterEmailNotS" xml:space="preserve">
+    <value>Email addresses are not the same</value>
+  </data>
+  <data name="PlxenterFname" xml:space="preserve">
+    <value>Please enter First Name</value>
+  </data>
+  <data name="PlxenterLname" xml:space="preserve">
+    <value>Please enter Last Name</value>
+  </data>
+  <data name="PlxenterPass" xml:space="preserve">
+    <value>Please enter Password</value>
+  </data>
+  <data name="PlxenterSecretAns" xml:space="preserve">
+    <value>Please enter Secret Answer</value>
+  </data>
+  <data name="PlxenterSQ" xml:space="preserve">
+    <value>Please enter secret answer</value>
+  </data>
+  <data name="PlxenterVEmail" xml:space="preserve">
+    <value>Please enter Valid Email address.</value>
+  </data>
+  <data name="popupPasswordxreq" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="selectaSQ" xml:space="preserve">
+    <value>Select a secret question</value>
+  </data>
+</root>

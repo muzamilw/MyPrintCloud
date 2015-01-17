@@ -63,6 +63,140 @@ define("product/product.view",
                 hideItemAddonCostCentreDialog = function () {
                     $("#itemAddonCostCentreDialog").modal("hide");
                 },
+                // Show Product Category dialog
+                showProductCategoryDialog = function () {
+                    $("#productCategoryDialog").modal("show");
+                },
+                // Hide Product Category dialog
+                hideProductCategoryDialog = function () {
+                    $("#productCategoryDialog").modal("hide");
+                },
+                // Go To Element with Validation Errors
+                gotoElement = function (element) {
+                    var tab = $(element).closest(".tab-pane");
+                    if (!tab) {
+                        return;
+                    }
+
+                    var liElement = $('a[href=#' + tab.attr('id') + ']');
+                    if (!liElement) {
+                        return;
+                    }
+
+                    liElement.click();
+
+                    // Scroll to Element
+                    setTimeout(function () {
+                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                        // Focus on element
+                        $(element).focus();
+                    }, 1000);
+                },
+                // Show/Hide Child Categories
+                toggleChildCategories = function (event) {
+
+                    if (!event) {
+                        return false;
+                    }
+
+                    var targetElement = $(event.target);
+                    if (!targetElement) {
+                        return false;
+                    }
+
+                    var childList = targetElement.closest('li').children('ol');
+                    if (childList.length === 0) {
+                        return false;
+                    }
+
+                    // Toggle Child List
+                    if (childList.is(':hidden')) {
+                        childList.show();
+                    }
+                    else {
+                        childList.hide();
+                    }
+
+                    return true;
+                },
+                // Get Category Id From li
+                getCategoryIdFromliElement = function (categoryliElement) {
+                    var categoryliId = categoryliElement.id.split("-");
+                    if (!categoryliId || categoryliId.length < 2) {
+                        return null;
+                    }
+
+                    var categoryId = categoryliId[1];
+                    if (!categoryId) {
+                        return null;
+                    }
+
+                    return parseInt(categoryId);
+                },
+                // Get Category Id from Binding li Element
+                getCategoryIdFromElement = function(event) {
+                    if (!event || !event.target) {
+                        return null;
+                    }
+
+                    var categoryliElement = $(event.target).closest('li')[0];
+                    if (!categoryliElement) {
+                        return null;
+                    }
+
+                    return getCategoryIdFromliElement(categoryliElement);
+                },
+                // Append Child Category to list
+                appendChildCategory = function(event, category) {
+                    if (!event) {
+                        return;
+                    }
+
+                    var targetElement = $(event.target).closest('li');
+                    if (!targetElement) {
+                        return;
+                    }
+                    
+                    var inputElement = category.isSelected() ?
+                        '<input type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
+                        '<input type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+
+                    var childCategoryHtml = '<ol class="dd-list"> ' +
+                        '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                        '<div class="dd-handle-list" data-bind="click: $root.toggleChildCategories"><i class="fa fa-bars"></i></div>' +
+                        '<div class="dd-handle">' +
+                        '<span>' + category.name + '</span>' +
+                        '<div class="nested-links"> ' +
+                        inputElement +
+                        '</div></div></li></ol>';
+
+                    targetElement.append(childCategoryHtml);
+
+                    ko.applyBindings(viewModel, $("#liElement-" + category.id)[0]);
+                },
+                // Update Input Checked States
+                updateInputCheckedStates = function() {
+                    $.each($("#productCategoryDialogCategories").find("input:checkbox"), function(index, inputElement) {
+                        var categoryliElement = $(inputElement).closest('li')[0];
+                        if (categoryliElement) {
+                            var categoryId = getCategoryIdFromliElement(categoryliElement);
+                            if (categoryId) {
+                                var category = viewModel.productCategories.find(function (productCategory) {
+                                    return productCategory.id === categoryId;
+                                });
+
+                                if (category) {
+                                    if (category.isSelected()) {
+                                        $(inputElement).prop('checked', true);
+                                    }
+                                    else {
+                                        $(inputElement).prop('checked', false);    
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
                 // Initiate Dropzone events 
                 initiateDropzoneEvents = function (element, itemId, itemImageType, imageCaption, filePath) {
 
@@ -82,9 +216,9 @@ define("product/product.view",
                         });
                     });
 
-                    self.on("addedfile", function(file) {
+                    self.on("addedfile", function (file) {
                         var img = $(file.previewTemplate).find("img");
-                        img[0].onload = function() {
+                        img[0].onload = function () {
                             var max = this.width > this.height ? this.width : this.height;
                             var ratio = 100.0 / max;
 
@@ -113,52 +247,62 @@ define("product/product.view",
 
                     // Create Dropzone's
                     // "demoUpload1" is the HTML element's ID
-                    $("#demoUpload1").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function() {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.thumbnail, "Thumbnail",
-                                viewModel.selectedProduct().thumbnail());
-                        }
-                    });
+                    if (!$("#demoUpload1").dropzone) {
+                        $("#demoUpload1").dropzone({
+                            paramName: "file", // The name that will be used to transfer the file
+                            maxFilesize: 1,
+                            addRemoveLinks: true,
+                            dictRemoveFile: "Delete",
+                            init: function () {
+                                initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.thumbnail, "Thumbnail",
+                                    viewModel.selectedProduct().thumbnail());
+                            }
+                        });
+                    }
 
-                    // Image Path
-                    $("#demoUpload2").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function() {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.imagePath, "Image Path",
-                                viewModel.selectedProduct().imagePath());
-                        }
-                    });
+                    if (!$("#demoUpload2").dropzone) {
+                        // Image Path
+                        $("#demoUpload2").dropzone({
+                            paramName: "file", // The name that will be used to transfer the file
+                            maxFilesize: 1,
+                            addRemoveLinks: true,
+                            dictRemoveFile: "Delete",
+                            init: function () {
+                                initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.imagePath, "Image Path",
+                                    viewModel.selectedProduct().imagePath());
+                            }
+                        });
+                    }
 
-                    // Grid Image
-                    $("#demoUpload3").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function() {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.grid, "Grid",
-                                viewModel.selectedProduct().gridImage());
-                        }
-                    });
+                    if (!$("#demoUpload3").dropzone) {
+                        // Grid Image
+                        $("#demoUpload3").dropzone({
+                            paramName: "file", // The name that will be used to transfer the file
+                            maxFilesize: 1,
+                            addRemoveLinks: true,
+                            dictRemoveFile: "Delete",
+                            init: function () {
+                                initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.grid, "Grid",
+                                    viewModel.selectedProduct().gridImage());
+                            }
+                        });
+                    }
 
-                    // Grid Image
-                    $("#demoUpload4").dropzone({
-                        paramName: "file", // The name that will be used to transfer the file
-                        maxFilesize: 1,
-                        addRemoveLinks: true,
-                        dictRemoveFile: "Delete",
-                        init: function() {
-                            initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.file1, "File1",
-                                viewModel.selectedProduct().file1());
-                        }
-                    });
+
+                    if (!$("#demoUpload4").dropzone) {
+                        // Files
+                        $("#demoUpload4").dropzone({
+                            paramName: "file", // The name that will be used to transfer the file
+                            maxFilesize: 1,
+                            addRemoveLinks: true,
+                            dictRemoveFile: "Delete",
+                            init: function () {
+                                initiateDropzoneEvents(this, viewModel.selectedProduct().id(), viewModel.itemFileTypes.file1, "File1",
+                                    viewModel.selectedProduct().file1());
+                            }
+                        });
+                    }
+
                 },
                 // Initialize
                 initialize = function () {
@@ -179,7 +323,14 @@ define("product/product.view",
                 hideStockItemDialog: hideStockItemDialog,
                 showItemAddonCostCentreDialog: showItemAddonCostCentreDialog,
                 hideItemAddonCostCentreDialog: hideItemAddonCostCentreDialog,
-                initializeDropZones: initializeDropZones
+                initializeDropZones: initializeDropZones,
+                gotoElement: gotoElement,
+                toggleChildCategories: toggleChildCategories,
+                appendChildCategory: appendChildCategory,
+                showProductCategoryDialog: showProductCategoryDialog,
+                hideProductCategoryDialog: hideProductCategoryDialog,
+                getCategoryIdFromElement: getCategoryIdFromElement,
+                updateInputCheckedStates: updateInputCheckedStates
             };
         })(productViewModel);
 

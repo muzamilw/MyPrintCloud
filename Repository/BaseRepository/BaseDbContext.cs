@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -144,7 +145,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ItemProductDetail> ItemProductDetails { get; set; }
         public DbSet<ItemRelatedItem> ItemRelatedItems { get; set; }
         public DbSet<ItemSection> ItemSections { get; set; }
-        public DbSet<ItemStateTax> ItemStateTaxs { get; set; }
+        public DbSet<ItemStateTax> ItemStateTaxes { get; set; }
         public DbSet<ItemStockControl> ItemStockControls { get; set; }
         public DbSet<ItemStockOption> ItemStockOptions { get; set; }
         public DbSet<ItemVdpPrice> ItemVdpPrices { get; set; }
@@ -202,7 +203,7 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Template> Templates { get; set; }
 
         /// <summary>
-        /// Get next id for a table
+        /// Get Minimum Product Value
         /// </summary>
         public double GetMinimumProductValue(long itemId)
         {
@@ -211,11 +212,10 @@ namespace MPC.Repository.BaseRepository
                 throw new ArgumentException(LanguageResources.InvalidItem, "itemId");
             }
 
-            ObjectParameter itemIdParameter = new ObjectParameter("ItemID", itemId);
-            ObjectParameter result = new ObjectParameter("Result", typeof(int));
-            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction(
-                "BaseDbContext.funGetMiniumProductValue", itemIdParameter, result);
-            return (double)result.Value;
+            ObjectParameter itemIdParameter = new ObjectParameter("ItemId", itemId);
+            ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter);
+            
+            return result.FirstOrDefault() ?? 0;
         }
 
         public DbSet<Currency> Currencies { get; set; }
@@ -273,21 +273,233 @@ namespace MPC.Repository.BaseRepository
         public DbSet<TemplateObject> TemplateObjects { get; set; }
 
         /// <summary>
-        /// MPC File Table View DbSet
+        /// Organisation File Table View DbSet
         /// </summary>
-        public DbSet<MpcFileTableView> MpcFileTableViews { get; set; }
+        public DbSet<OrganisationFileTableView> OrganisationFileTableViews { get; set; }
+
+        /// <summary>
+        /// Artwork File Table View DbSet
+        /// </summary>
+        public DbSet<ArtworkFileTableView> ArtworkFileTableViews { get; set; }
+
+        /// <summary>
+        /// Attachment File Table View DbSet
+        /// </summary>
+        public DbSet<AttachmentFileTableView> AttachmentFileTableViews { get; set; }
+
+        /// <summary>
+        /// Category File Table View DbSet
+        /// </summary>
+        public DbSet<CategoryFileTableView> CategoryFileTableViews { get; set; }
+
+        /// <summary>
+        /// CompanyBanner File Table View DbSet
+        /// </summary>
+        public DbSet<CompanyBannerFileTableView> CompanyBannerFileTableViews { get; set; }
+
+        /// <summary>
+        /// CostCentre File Table View DbSet
+        /// </summary>
+        public DbSet<CostCentreFileTableView> CostCentreFileTableViews { get; set; }
+
+        /// <summary>
+        /// Media File Table View DbSet
+        /// </summary>
+        public DbSet<MediaFileTableView> MediaFileTableViews { get; set; }
+
+        /// <summary>
+        /// Product File Table View DbSet
+        /// </summary>
+        public DbSet<ProductFileTableView> ProductFileTableViews { get; set; }
+
+        /// <summary>
+        /// SecondaryPage File Table View DbSet
+        /// </summary>
+        public DbSet<SecondaryPageFileTableView> SecondaryPageFileTableViews { get; set; }
+
+        /// <summary>
+        /// Store File Table View DbSet
+        /// </summary>
+        public DbSet<StoreFileTableView> StoreFileTableViews { get; set; }
+
+        /// <summary>
+        /// Template File Table View DbSet
+        /// </summary>
+        public DbSet<TemplateFileTableView> TemplateFileTableViews { get; set; }
+
+        /// <summary>
+        /// Product Market Brief Question DbSet
+        /// </summary>
+        public DbSet<ProductMarketBriefQuestion> ProductMarketBriefQuestions { get; set; }
+
+        /// <summary>
+        /// Product Market Brief Answer DbSet
+        /// </summary>
+        public DbSet<ProductMarketBriefAnswer> ProductMarketBriefAnswers { get; set; }
+
+        /// <summary>
+        /// Role DbSet
+        /// </summary>
+        public DbSet<Role> Roles { get; set; }
+
+        /// <summary>
+        /// Product Category Item DbSet
+        /// </summary>
+        public DbSet<ProductCategoryItem> ProductCategoryItems { get; set; }
+
+        /// <summary>
+        /// Template Color Style DbSet
+        /// </summary>
+        public DbSet<TemplateColorStyle> TemplateColorStyles { get; set; }
+
+        /// <summary>
+        /// Template Font DbSet
+        /// </summary>
+        public DbSet<TemplateFont> TemplateFonts { get; set; }
+
+        /// <summary>
+        /// Product Categories View DbSet
+        /// </summary>
+        public DbSet<ProductCategoriesView> ProductCategoriesViews { get; set; }
+
+        /// <summary>
+        /// Image Permission DbSet
+        /// </summary>
+        public DbSet<ImagePermission> ImagePermissions { get; set; }
+
+        /// <summary>
+        /// Listing DbSet
+        /// </summary>
+        public DbSet<Listing> Listings { get; set; }
+
+        /// <summary>
+        /// Listing Agent DbSet
+        /// </summary>
+        public DbSet<ListingAgent> ListingAgents { get; set; }
+
+        /// <summary>
+        /// Listing Conjunction Agent DbSet
+        /// </summary>
+        public DbSet<ListingConjunctionAgent> ListingConjunctionAgents { get; set; }
+
+        /// <summary>
+        /// Listing Floor Plan DbSet
+        /// </summary>
+        public DbSet<ListingFloorPlan> ListingFloorPlans { get; set; }
+
+        /// <summary>
+        /// Listing Image DbSet
+        /// </summary>
+        public DbSet<ListingImage> ListingImages { get; set; }
+
+        /// <summary>
+        /// Listing Link DbSet
+        /// </summary>
+        public DbSet<ListingLink> ListingLinks { get; set; }
+
+        /// <summary>
+        /// Listing OFI DbSet
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public DbSet<ListingOFI> ListingOFIs { get; set; }
+// ReSharper restore InconsistentNaming
+
+        /// <summary>
+        /// Listing Vendor DbSet
+        /// </summary>
+        public DbSet<ListingVendor> ListingVendors { get; set; }
+
+        /// <summary>
+        /// Favorite Design DbSet
+        /// </summary>
+        public DbSet<FavoriteDesign> FavoriteDesigns { get; set; }
+
+        /// <summary>
+        /// Company Variable Icon DbSet
+        /// </summary>
+        public DbSet<CompanyVariableIcon> CompanyVariableIcons { get; set; }
+
+        /// <summary>
+        /// Custom Copy DbSet
+        /// </summary>
+        public DbSet<CustomCopy> CustomCopies { get; set; }
+
+        /// <summary>
+        /// Phrase Field DbSet
+        /// </summary>
+        public DbSet<PhraseField> PhraseFields { get; set; }
+
+        /// <summary>
+        /// Phrase DbSet
+        /// </summary>
+        public DbSet<Phrase> Phrases { get; set; }
+
+        /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostCentreAnswer> CostCentreAnswers { get; set; }
+
+        /// <summary>
+        /// Cost center Instuction DbSet
+        /// </summary>
+        public  DbSet<CostcentreInstruction> CostcentreInstructions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix Detail DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrixDetail> CostCentreMatrixDetails { get; set; }
+
+        /// <summary>
+        /// Cost Centre Question DbSet
+        /// </summary>
+        public  DbSet<CostCentreQuestion> CostCentreQuestions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostcentreResource> CostcentreResources { get; set; }
+
+        /// <summary>
+        /// Cost Centre System Type DbSet
+        /// </summary>
+        public  DbSet<CostcentreSystemType> CostcentreSystemTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Template DbSet
+        /// </summary>
+        public  DbSet<CostCentreTemplate> CostCentreTemplates { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariable> CostCentreVariables { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable Type DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariableType> CostCentreVariableTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Work Instruction Choice DbSet
+        /// </summary>
+        public  DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
-        public int sp_cloneTemplate(int templateId, int submittedBy, string submittedByName)
+        public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
         {
             ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
             ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
-            ObjectResult<int?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
+            ObjectResult<long?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
                 submittedByNameParameter);
-            int? newTemplateId = result.FirstOrDefault();
+            long? newTemplateId = result.FirstOrDefault();
 
             return newTemplateId.HasValue ? newTemplateId.Value : 0;
         }
@@ -295,7 +507,7 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Stored Procedure to Add File to FileTable
         /// </summary>
-        public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, bool isDirectory = false)
+        public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, string fileTableName, bool isDirectory = false)
         {
             var filenameParameter = filename != null ?
                 new ObjectParameter("filename", filename) :
@@ -309,33 +521,151 @@ namespace MPC.Repository.BaseRepository
                new ObjectParameter("pathlocator", pathlocator) :
                new ObjectParameter("pathlocator", typeof(string));
 
+            var fileTableParameter = fileTableName != null ?
+                new ObjectParameter("fileTableName", fileTableName) :
+                new ObjectParameter("fileTableName", typeof(string));
+
             var isDirectoryParameter = new ObjectParameter("isdirectory", isDirectory);
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter, 
-                pathLocatorParameter, isDirectoryParameter);
+                pathLocatorParameter, isDirectoryParameter, fileTableParameter);
         }
 
         /// <summary>
         /// Stored Procedure to Delete File from FileTable
         /// </summary>
-        public int MPCFileTable_Del(Guid docId)
+        public int MPCFileTable_Del(Guid docId, string fileTableName)
         {
             var docIdParameter = new ObjectParameter("docId", docId);
+            var fileTableParameter = fileTableName != null ?
+                new ObjectParameter("fileTableName", fileTableName) :
+                new ObjectParameter("fileTableName", typeof(string));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter, fileTableParameter);
         }
 
         /// <summary>
         /// Get New Path Locator
         /// </summary>
-        public string GetNewPathLocator(string filePath)
+        public string GetNewPathLocator(string filePath, string fileTableName)
         {
             var filePathParameter = filePath != null ?
                 new ObjectParameter("filePath", filePath) :
                 new ObjectParameter("filePath", typeof(string));
 
-            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter);
+            var fileTableParameter = fileTableName != null ?
+                new ObjectParameter("fileTableName", fileTableName) :
+                new ObjectParameter("fileTableName", typeof(string));
+
+            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter, 
+                fileTableParameter);
             return result.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// GetUsedFonts Updated 
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public IEnumerable<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(long? templateID, long? customerID)
+// ReSharper restore InconsistentNaming
+        {
+            var templateIdParameter = templateID.HasValue ?
+                new ObjectParameter("TemplateID", templateID) :
+                new ObjectParameter("TemplateID", typeof(long));
+
+            var customerIdParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(long));
+
+            ObjectResult<sp_GetUsedFontsUpdated_Result> templateFontsUpdatedResults = 
+                ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("BaseDbContext.sp_GetUsedFontsUpdated", templateIdParameter, 
+                customerIdParameter);
+
+            return templateFontsUpdatedResults.ToList();
+        }
+
+        /// <summary>
+        /// Get Real Estate Products 
+        /// </summary>
+        public IEnumerable<usp_GetRealEstateProducts_Result> usp_GetRealEstateProducts(int? contactCompanyId)
+        {
+            var contactCompanyIdParameter = contactCompanyId.HasValue ?
+                new ObjectParameter("ContactCompanyID", contactCompanyId) :
+                new ObjectParameter("ContactCompanyID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.
+                ExecuteFunction<usp_GetRealEstateProducts_Result>("BaseDbContext.usp_GetRealEstateProducts", contactCompanyIdParameter).ToList();
+        }
+
+        /// <summary>
+        /// Get Template Images Result
+        /// </summary>
+        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateId, long? contactCompanyId, 
+            long? contactId, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
+        {
+            var isCalledFromParameter = isCalledFrom.HasValue ?
+                new ObjectParameter("isCalledFrom", isCalledFrom) :
+                new ObjectParameter("isCalledFrom", typeof(int));
+
+            var imageSetTypeParameter = imageSetType.HasValue ?
+                new ObjectParameter("imageSetType", imageSetType) :
+                new ObjectParameter("imageSetType", typeof(int));
+
+            var templateIdParameter = templateId.HasValue ?
+                new ObjectParameter("templateID", templateId) :
+                new ObjectParameter("templateID", typeof(long));
+
+            var contactCompanyIdParameter = contactCompanyId.HasValue ?
+                new ObjectParameter("contactCompanyID", contactCompanyId) :
+                new ObjectParameter("contactCompanyID", typeof(long));
+
+            var contactIdParameter = contactId.HasValue ?
+                new ObjectParameter("contactID", contactId) :
+                new ObjectParameter("contactID", typeof(long));
+
+            var territoryParameter = territory.HasValue ?
+                new ObjectParameter("territory", territory) :
+                new ObjectParameter("territory", typeof(long));
+
+            var pageNumberParameter = pageNumber.HasValue ?
+                new ObjectParameter("pageNumber", pageNumber) :
+                new ObjectParameter("pageNumber", typeof(int));
+
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("pageSize", pageSize) :
+                new ObjectParameter("pageSize", typeof(int));
+
+            var sortColumnParameter = sortColumn != null ?
+                new ObjectParameter("sortColumn", sortColumn) :
+                new ObjectParameter("sortColumn", typeof(string));
+
+            var searchParameter = search != null ?
+                new ObjectParameter("search", search) :
+                new ObjectParameter("search", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.
+                ExecuteFunction<sp_GetTemplateImages_Result>("sp_GetTemplateImages", isCalledFromParameter, imageSetTypeParameter, 
+                templateIdParameter, contactCompanyIdParameter, contactIdParameter, territoryParameter, pageNumberParameter, 
+                pageSizeParameter, sortColumnParameter, searchParameter, imageCount).ToList();
+        }
+
+        /// <summary>
+        /// Stored Procedure sp_CostCentreExecution_get_StockPriceByCalculationType
+        /// </summary>
+        public double sp_CostCentreExecution_get_StockPriceByCalculationType(int? stockId, int? calculationType, ObjectParameter returnPrice, ObjectParameter perQtyQty)
+        {
+            var stockIdParameter = stockId.HasValue ?
+                new ObjectParameter("StockID", stockId) :
+                new ObjectParameter("StockID", typeof(int));
+
+            var calculationTypeParameter = calculationType.HasValue ?
+                new ObjectParameter("CalculationType", calculationType) :
+                new ObjectParameter("CalculationType", typeof(int));
+
+            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CostCentreExecution_get_StockPriceByCalculationType", stockIdParameter, 
+                calculationTypeParameter, returnPrice, perQtyQty);
+
+            return perQtyQty.Value != null ? (double)perQtyQty.Value : 0;
         }
 
         #endregion

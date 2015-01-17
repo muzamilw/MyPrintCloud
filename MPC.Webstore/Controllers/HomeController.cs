@@ -19,6 +19,8 @@ using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 
+
+
 namespace MPC.Webstore.Controllers
 {
     public class HomeController : Controller
@@ -29,14 +31,22 @@ namespace MPC.Webstore.Controllers
 
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
-        #endregion
+        private readonly ICostCentreService _CostCentreService;
 
+        #endregion
+        [Dependency]
+        public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService)
         {
             if (myCompanyService == null)
             {
@@ -46,6 +56,11 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("webstoreAuthorizationChecker");
             }
+            if (CostCentreService == null)
+            {
+                throw new ArgumentNullException("CostCentreService");
+            }
+            this._CostCentreService = CostCentreService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
         }
@@ -56,6 +71,9 @@ namespace MPC.Webstore.Controllers
        
         public ActionResult Index()
         {
+           
+            SetUserClaim();
+
             List<CmsSkinPageWidget> model = null;
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
@@ -68,7 +86,7 @@ namespace MPC.Webstore.Controllers
             return View(model);
         }
 
-        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPage> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
+        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPageModel> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
@@ -84,6 +102,8 @@ namespace MPC.Webstore.Controllers
         public ActionResult About()
         {
 
+
+            _CostCentreService.SaveCostCentre(335, 1, "Test");
             return View();
         }
 
@@ -93,13 +113,7 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-        public ActionResult oAuth(int id,int isRegWithSM)
+        public ActionResult oAuth(int id,int isRegWithSM, string MarketBriefReturnURL)
         {
             int isFacebook = id;
             if (isFacebook == 1)
@@ -138,15 +152,16 @@ namespace MPC.Webstore.Controllers
                             lastname = ResponseJon.last_name;
                         }
                     }
+             
                     if (isRegWithSM == 1)
                     {
-                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
 
                         return View();
                     }
                     else
                     {
-                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "' </script>";
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
                         return View();
                     }
 
@@ -177,18 +192,18 @@ namespace MPC.Webstore.Controllers
 
 
 
-
+                   
                     if (string.IsNullOrEmpty(oauthhelper.oauth_error))
                     {
                         if (isRegWithSM == 1)
                         {
-                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "' </script>";
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
 
                             return View();
                         }
                         else
                         {
-                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "' </script>";
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
                             return View();
                         }
 
@@ -197,6 +212,35 @@ namespace MPC.Webstore.Controllers
             }
             return View();
         }
-     
+
+       private void SetUserClaim()
+       {
+           if(UserCookieManager.isRegisterClaims == 1)
+            {
+                // login 
+
+                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email);
+
+                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+
+                ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
+
+                var claimsPriciple = new ClaimsPrincipal(identity);
+                // Make sure the Principal's are in sync
+                HttpContext.User = claimsPriciple;
+
+                Thread.CurrentPrincipal = HttpContext.User;
+
+                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
+                UserCookieManager.isRegisterClaims = 0;
+            }
+            else if (UserCookieManager.isRegisterClaims == 2)
+            {
+                //signout
+                AuthenticationManager.SignOut();
+                UserCookieManager.isRegisterClaims = 0;
+            }
+       }
     }
 }

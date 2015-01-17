@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
+using System.IO;
+using System.Web;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -33,6 +37,15 @@ namespace MPC.Implementation.MISServices
         private readonly IItemAddOnCostCentreRepository itemAddOnCostCentreRepository;
         private readonly ICostCentreRepository costCentreRepository;
         private readonly IStockItemRepository stockItemRepository;
+        private readonly IItemPriceMatrixRepository itemPriceMatrixRepository;
+        private readonly IItemStateTaxRepository itemStateTaxRepository;
+        private readonly ICountryRepository countryRepository;
+        private readonly IStateRepository stateRepository;
+        private readonly ISectionFlagRepository sectionFlagRepository;
+        private readonly ICompanyRepository companyRepository;
+        private readonly IItemProductDetailRepository itemProductDetailRepository;
+        private readonly IProductCategoryItemRepository productCategoryItemRepository;
+        private readonly IProductCategoryRepository productCategoryRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -152,6 +165,278 @@ namespace MPC.Implementation.MISServices
             itemAddOnCostCentreRepository.Delete(line);
         }
 
+        /// <summary>
+        /// Create Item State Tax
+        /// </summary>
+        private ItemStateTax CreateItemStateTax()
+        {
+            ItemStateTax line = itemStateTaxRepository.Create();
+            itemStateTaxRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item State Tax
+        /// </summary>
+        private void DeleteItemStateTax(ItemStateTax line)
+        {
+            itemStateTaxRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create Item Price Matrix
+        /// </summary>
+        private ItemPriceMatrix CreateItemPriceMatrix()
+        {
+            ItemPriceMatrix line = itemPriceMatrixRepository.Create();
+            itemPriceMatrixRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Create Item Product Detail
+        /// </summary>
+        private ItemProductDetail CreateItemProductDetail()
+        {
+            ItemProductDetail line = itemProductDetailRepository.Create();
+            itemProductDetailRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Create Product Category Item
+        /// </summary>
+        private ProductCategoryItem CreateProductCategoryItem()
+        {
+            ProductCategoryItem line = productCategoryItemRepository.Create();
+            productCategoryItemRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Product Category Item
+        /// </summary>
+        private void DeleteProductCategoryItem(ProductCategoryItem line)
+        {
+            productCategoryItemRepository.Delete(line);
+        }
+        
+        /// <summary>
+        /// Save Product Images
+        /// </summary>
+        private void SaveProductImages(Item target)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+            
+            // Create directory if not there
+            if (!Directory.Exists(mapPath))
+            {
+                Directory.CreateDirectory(mapPath);
+            }
+
+            // Save Item Stock Option Images
+            SaveItemStockOptionImages(target, mapPath);
+
+            // Thumbnail Path
+            SaveThumbnailPath(target, mapPath);
+
+            // Grid Image
+            SaveGridImage(target, mapPath);
+
+            // Image Path
+            SaveImagePath(target, mapPath);
+
+            // Files 1,2,3,4,5
+            SaveItemFiles(target, mapPath);
+
+            // Save Changes
+            itemRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Saves Item Stock Option Images
+        /// </summary>
+        private void SaveItemStockOptionImages(Item target, string mapPath)
+        {
+            foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
+            {
+                // Write Image
+                SaveItemStockOptionImage(target, mapPath, itemStockOption);
+            }
+        }
+
+        /// <summary>
+        /// Save Item Stock Option Image
+        /// </summary>
+        private void SaveItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
+        {
+            string imageUrl = SaveImage(mapPath, itemStockOption.ImageURL,
+                target.ItemId + itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence + "_StockOption_",
+                itemStockOption.FileName,
+                itemStockOption.FileSource,
+                itemStockOption.FileSourceBytes);
+
+            if (imageUrl != null)
+            {
+                itemStockOption.ImageURL = imageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save Image Path
+        /// </summary>
+        private void SaveImagePath(Item target, string mapPath)
+        {
+            string imagePathUrl = SaveImage(mapPath, target.ImagePath,
+                target.ItemId + target.ProductCode + target.ProductName + "_ImagePath_",
+                target.ImagePathImageName,
+                target.ImagePathImage,
+                target.ImagePathSourceBytes);
+
+            if (imagePathUrl != null)
+            {
+                // Update Image Path
+                target.ImagePath = imagePathUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save Grid Image
+        /// </summary>
+        private void SaveGridImage(Item target, string mapPath)
+        {
+            string gridImageUrl = SaveImage(mapPath, target.GridImage,
+                target.ItemId + target.ProductCode + target.ProductName + "_GridImage_",
+                target.GridImageSourceName,
+                target.GridImageBytes,
+                target.GridImageSourceBytes);
+
+            if (gridImageUrl != null)
+            {
+                // Update Grid Image
+                target.GridImage = gridImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save Thumbnail Path
+        /// </summary>
+        private void SaveThumbnailPath(Item target, string mapPath)
+        {
+            string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
+                target.ItemId + target.ProductCode + target.ProductName + "_ThumbnailPath_",
+                target.ThumbnailImageName,
+                target.ThumbnailImage,
+                target.ThumbnailSourceBytes);
+
+            if (thumbnailImageUrl != null)
+            {
+                // Update Thumbnail Path
+                target.ThumbnailPath = thumbnailImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save File1,File2,File3,File4,File5
+        /// </summary>
+        private void SaveItemFiles(Item target, string mapPath)
+        {
+            string path = SaveImage(mapPath, target.File1,
+                target.ItemId + target.ProductCode + target.ProductName + "_File1_",
+                target.File1Name,
+                target.File1Byte,
+                target.File1SourceBytes);
+
+            if (path != null)
+            {
+                // Update File1
+                target.File1 = path;
+            }
+
+            path = SaveImage(mapPath, target.File2,
+                target.ItemId + target.ProductCode + target.ProductName + "_File2_",
+                target.File2Name,
+                target.File2Byte,
+                target.File2SourceBytes);
+
+            if (path != null)
+            {
+                // Update File2
+                target.File2 = path;
+            }
+
+            path = SaveImage(mapPath, target.File3,
+                target.ItemId + target.ProductCode + target.ProductName + "_File3_",
+                target.File3Name,
+                target.File3Byte,
+                target.File3SourceBytes);
+
+            if (path != null)
+            {
+                // Update File3
+                target.File3 = path;
+            }
+
+            path = SaveImage(mapPath, target.File4,
+                target.ItemId + target.ProductCode + target.ProductName + "_File4_",
+                target.File4Name,
+                target.File4Byte,
+                target.File4SourceBytes);
+
+            if (path != null)
+            {
+                // Update File4
+                target.File4 = path;
+            }
+
+            path = SaveImage(mapPath, target.File5,
+                target.ItemId + target.ProductCode + target.ProductName + "_File5_",
+                target.File5Name,
+                target.File5Byte,
+                target.File5SourceBytes);
+
+            if (path != null)
+            {
+                // Update File5
+                target.File5 = path;
+            }
+        }
+
+        /// <summary>
+        /// Saves Image to File System
+        /// </summary>
+        /// <param name="mapPath">File System Path for Item</param>
+        /// <param name="existingImage">Existing File if any</param>
+        /// <param name="caption">Unique file caption e.g. ItemId + ItemProductCode + ItemProductName + "_thumbnail_"</param>
+        /// <param name="fileName">Name of file being saved</param>
+        /// <param name="fileSource">Base64 representation of file being saved</param>
+        /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <returns>Path of File being saved</returns>
+        private string SaveImage(string mapPath, string existingImage, string caption, string fileName, 
+            string fileSource, byte[] fileSourceBytes)
+        {
+            if (!string.IsNullOrEmpty(fileSource))
+            {
+                // Look if file already exists then replace it
+                if (!string.IsNullOrEmpty(existingImage) && File.Exists(existingImage))
+                {
+                    // Remove Existing File
+                    File.Delete(existingImage);
+                }
+
+                // First Time Upload
+                string imageurl = mapPath + "\\" + caption + fileName;
+                File.WriteAllBytes(imageurl, fileSourceBytes);
+
+                // Return path
+                return imageurl;
+            }
+
+            return null;
+        }
+        
         #endregion
 
         #region Constructor
@@ -162,7 +447,11 @@ namespace MPC.Implementation.MISServices
         public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
             IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository, 
             ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
-            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository)
+            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository, 
+            IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
+            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository, 
+            IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository, 
+            IProductCategoryRepository productCategoryRepository)
         {
             if (itemRepository == null)
             {
@@ -212,6 +501,42 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("stockItemRepository");
             }
+            if (itemPriceMatrixRepository == null)
+            {
+                throw new ArgumentNullException("itemPriceMatrixRepository");
+            }
+            if (itemStateTaxRepository == null)
+            {
+                throw new ArgumentNullException("itemStateTaxRepository");
+            }
+            if (countryRepository == null)
+            {
+                throw new ArgumentNullException("countryRepository");
+            }
+            if (stateRepository == null)
+            {
+                throw new ArgumentNullException("stateRepository");
+            }
+            if (sectionFlagRepository == null)
+            {
+                throw new ArgumentNullException("sectionFlagRepository");
+            }
+            if (companyRepository == null)
+            {
+                throw new ArgumentNullException("companyRepository");
+            }
+            if (itemProductDetailRepository == null)
+            {
+                throw new ArgumentNullException("itemProductDetailRepository");
+            }
+            if (productCategoryItemRepository == null)
+            {
+                throw new ArgumentNullException("productCategoryItemRepository");
+            }
+            if (productCategoryRepository == null)
+            {
+                throw new ArgumentNullException("productCategoryRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -225,6 +550,15 @@ namespace MPC.Implementation.MISServices
             this.itemAddOnCostCentreRepository = itemAddOnCostCentreRepository;
             this.costCentreRepository = costCentreRepository;
             this.stockItemRepository = stockItemRepository;
+            this.itemPriceMatrixRepository = itemPriceMatrixRepository;
+            this.itemStateTaxRepository = itemStateTaxRepository;
+            this.countryRepository = countryRepository;
+            this.stateRepository = stateRepository;
+            this.sectionFlagRepository = sectionFlagRepository;
+            this.companyRepository = companyRepository;
+            this.itemProductDetailRepository = itemProductDetailRepository;
+            this.productCategoryItemRepository = productCategoryItemRepository;
+            this.productCategoryRepository = productCategoryRepository;
         }
 
         #endregion
@@ -332,6 +666,7 @@ namespace MPC.Implementation.MISServices
                 itemRepository.Add(itemTarget);
                 itemTarget.ItemCreationDateTime = DateTime.Now;
                 itemTarget.ItemCode = itemCode;
+                itemTarget.OrganisationId = itemRepository.OrganisationId;
             }
 
             // Update
@@ -349,14 +684,26 @@ namespace MPC.Implementation.MISServices
                 CreateItemStockOption = CreateItemStockOption,
                 DeleteItemStockOption = DeleteItemStockOption,
                 CreateItemAddonCostCentre = CreateItemAddonCostCentre,
-                DeleteItemAddonCostCentre = DeleteItemAddonCostCentre
+                DeleteItemAddonCostCentre = DeleteItemAddonCostCentre,
+                CreateItemStateTax = CreateItemStateTax,
+                DeleteItemStateTax = DeleteItemStateTax,
+                CreateItemPriceMatrix = CreateItemPriceMatrix,
+                CreateItemProductDetail = CreateItemProductDetail,
+                CreateProductCategoryItem = CreateProductCategoryItem,
+                DeleteProductCategoryItem = DeleteProductCategoryItem
             });
 
             // Save Changes
             itemRepository.SaveChanges();
 
+            // Save Images and Update Item
+            SaveProductImages(itemTarget);
+
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
+
+            // Get Updated Minimum Price
+            itemTarget.MinPrice = itemRepository.GetMinimumProductValue(itemTarget.ItemId);
 
             // Return Item
             return itemTarget;
@@ -385,7 +732,12 @@ namespace MPC.Implementation.MISServices
         {
             return new ItemBaseResponse
             {
-                CostCentres = costCentreRepository.GetAllNonSystemCostCentres()
+                CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
+                SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
+                Countries = countryRepository.GetAll(),
+                States = stateRepository.GetAll(),
+                Suppliers = companyRepository.GetAllSuppliers(),
+                ProductCategories = productCategoryRepository.GetParentCategories()
             };
         }
         
@@ -396,6 +748,14 @@ namespace MPC.Implementation.MISServices
         public InventorySearchResponse GetStockItems(StockItemRequestModel request)
         {
             return stockItemRepository.GetStockItemsForProduct(request);
+        }
+
+        /// <summary>
+        /// Get Item Price Matrices for Item by Section Flag
+        /// </summary>
+        public IEnumerable<ItemPriceMatrix> GetItemPriceMatricesBySectionFlagForItem(long sectionFlagId, long itemId)
+        {
+            return itemPriceMatrixRepository.GetForItemBySectionFlag(sectionFlagId, itemId);
         }
 
         #endregion

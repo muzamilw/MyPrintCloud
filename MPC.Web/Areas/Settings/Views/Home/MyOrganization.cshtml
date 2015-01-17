@@ -1,0 +1,738 @@
+﻿@{
+    ViewBag.Title = "My Organization";
+}
+@section leftmenue {
+
+}
+<div class="row" id="myOrganizationBinding">
+    <div data-bind="with:selectedMyOrganization">
+        <form method="post" enctype="multipart/form-data" id="fileUploadForm">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="#">Settings</a></li>
+                            <li><a href="#">General Settings</a></li>
+                            <li class="active"><span>My Organization</span></li>
+                        </ol>
+                        <h1>My Organization</h1>
+                        <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
+                            <p> Please corresct these errors.</p>
+                            <table id="table">
+                                <tbody>
+                                    <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="user-profile">
+                    <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.onSaveMyOrganization, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <div class="col-lg-12 col-md-8 col-sm-8">
+                        <div class="main-box clearfix">
+                            <div class="tabs-wrapper profile-tabs">
+                                <ul class="nav nav-tabs" id="myTab">
+                                    <li class="active"><a href="#tab-ORGDetail" data-toggle="tab">Organization Details</a></li>
+                                    <li><a href="#tab-RegionalSettings" data-toggle="tab">Regional Settings</a></li>
+                                    <li><a href="#tab-NominalCodes" data-toggle="tab">Nominal Codes</a></li>
+                                    @*<li><a href="#tab-Managers" data-toggle="tab">Managers and Departements</a></li>*@
+                                    <li><a href="#tab-languageeditor" data-toggle="tab">Language Editor</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active" id="tab-ORGDetail">
+                                        <div class="main-box-body clearfix">
+                                            <div class="col-md-12 form-horizontal">
+                                                <h3>My Organization</h3>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Name</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value:name , validationTooltip:name">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Addres Line 1</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="Enter Address Line 1" data-bind="value:address1 , validationTooltip:address1">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Addres Line 2</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtAddressLine2" placeholder="Enter Address Line 2" data-bind="value:address2 , validationTooltip:address2">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">City</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtCity" placeholder="Enter City" data-bind="value:city , validationTooltip:city">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">State</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"></select>
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Country</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <select id="country" class="form-control" data-bind="options: $root.countries , optionsText: 'CountryName', optionsValue: 'CountryId' ,value:country,validationtooltip:country"></select>
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Post Code</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtPostCode" placeholder="Enter Post Code" data-bind="value:zipCode,validationTooltip:zipCode">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Main Tel</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtMainTel" placeholder="Enter Telephone Number" data-bind="value:tel,validationTooltip:tel">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Fax</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtFax" placeholder="Enter Fax" data-bind="value:fax,validationTooltip:fax">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Email</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtEmail" placeholder="Enter Email" data-bind="value:email,validationTooltip:email">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Mobile</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtEmail" placeholder="Enter Mobile Number" data-bind="value:mobile,validationTooltip:mobile">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Web Site URL</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" id="txtWebsite" placeholder="Enter WebSite URL" data-bind="value:url,validationTooltip:url">
+                                                            <span class="help-block text-right"></span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-lg-4 text-right">
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+
+                                                            </div>
+
+                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>
+
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <div class="fileUpload btn btn-primary col-md-2">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary"> Upload</button>
+                                                            </div>
+
+                                                            <div class="col-md-12" style="margin-top: 10px;">
+                                                                <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: $root.orgnizationImage }" />
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <span class="help-block text-right">Company logo on MIS Dashboard</span>
+                                                            </div>
+                                                            <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab-RegionalSettings">
+                                        <div class="col-md-12 form-horizontal">
+                                            <h3>Regional Settings</h3>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+                                                        <label for="txtCompanyName" class="control-label text-right tooltip-float">
+                                                            Currency Symbol
+                                                        </label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <select id="currency" class="form-control" data-bind="options: $root.currencySymbols, optionsText: 'CurrencyName', optionsValue: 'CurrencyId' ,value:currencyId,validationtooltip:currencyId"></select>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+                                                        <label for="txtCompanyName" class="control-label text-right tooltip-float">Language pack</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <select id="language" class="form-control" data-bind="options: $root.languagePacks, optionsText: 'FriendlyName', optionsValue: 'LanguageId' ,value:languageId,validationtooltip:languageId, event: { change : $root.getLanguageEditorDataByLanguageId}"></select>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+                                                        <label for="txtCompanyName" class="control-label text-right tooltip-float">Defaults of Unit Lengths</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <select id="lengthUnit" class="form-control" data-bind="options: $root.unitLengths, optionsText: 'UnitName', optionsValue: 'Id' ,value:lengthUnitId,validationtooltip:lengthUnitId"></select>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the company or organization." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+                                                        <label for="txtCompanyName" class="control-label text-right tooltip-float">Defaults of Unit Weights</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <select id="currency" class="form-control" data-bind="options: $root.unitWeights, optionsText: 'UnitName', optionsValue: 'Id' ,value:weightUnitId,validationtooltip:weightUnitId"></select>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <h3>Markups</h3>
+                                            <div class="col-md-6">
+                                                <div class="main-box clearfix">
+                                                    <header class="main-box-header clearfix">
+                                                        <h2>Markups</h2>
+                                                        <div class="filter-block pull-right">
+                                                            <div class="form-group pull-left">
+                                                                <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.markupSearchString">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchMarkup"></i>
+                                                            </div>
+                                                            <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewMarkup">
+                                                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer"></i>&nbsp;Add Markup
+                                                            </a>
+                                                        </div>
+                                                    </header>
+                                                    <div class="clearfix">
+                                                        <div class="table-responsive">
+                                                            <table id="markupTablle" class="table table-striped table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th> <span>Markup Code<span></span></span></th>
+                                                                        <th> <span>% Rate<span></span></span></th>
+                                                                        <th>&nbsp;</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: $root.templateToUseMarkup , foreach: $root.filteredMarkups } -->
+                                                                    <!-- /ko -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Enter in the default MARKUP to apply on all new estimates</label>
+                                                    <select id="language" class="form-control" data-bind="options: $root.markupsForDropDown, optionsText: 'MarkUpName', optionsValue: 'MarkUpId' ,value:markupId,validationtooltip:markupId"></select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab-NominalCodes">
+                                        <div class="clearfix">
+                                            <div class="col-md-12">
+                                                <h3>Nominal Codes</h3>
+                                                <div class="col-md-6">
+                                                    <div class="main-box clearfix">
+                                                        <header class="main-box-header clearfix">
+                                                            <h2>Nominal Codes</h2>
+                                                            <div class="filter-block pull-right">
+                                                                <div class="form-group pull-left">
+                                                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.nominalCodeSearchString">
+                                                                    <i class="fa fa-search search-icon" data-bind="click:$root.searchNominalCode"></i>
+                                                                </div>
+                                                                <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateChartOfAccounts">
+                                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Nominal Code
+                                                                </a>
+                                                            </div>
+                                                        </header>
+                                                        <div class="main-box-body clearfix">
+                                                            <div class="table-responsive">
+                                                                <table id="chartOfAccountTablle" class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th> <span>Name<span></span></span></th>
+                                                                            <th> <span>Account No<span></span></span></th>
+                                                                            <th>&nbsp;</th>
+                                                                            <th>&nbsp;</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- ko template: { name: $root.templateToUseChartOfAccounts , foreach: $root.filteredNominalCodes } -->
+                                                                        <!-- /ko -->
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane clearfix fade" id="tab-languageeditor" data-bind="with:languageEditor">
+                                        <h3 class="group-header">Edit Regional Languages</h3>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="txtCompanyName" style="color:green;" class="control-label text-right">Modifying Language File for : en-US</label>
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="main-box-body clearfix">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><a href="#"><span>Caption</span></a></th>
+
+                                                            <th><span>Details</span></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption" placeholder="Default Address" data-bind="value:defaultAddress" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                Default Address
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption4" placeholder="Default Shipping Address" data-bind="value:defaultShippingAddress" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                Default Shipping Address
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption5" placeholder="PO Number" data-bind="value:pONumber" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                PO Number is required when ordering
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption6" placeholder="Prices" data-bind="value:prices" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                Show Prices to Users
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption7" placeholder="User Shipping Addresses" data-bind="value:userShippingAddress" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                Users can create Shipping Addresses
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption8" placeholder="Detail" data-bind="value:details" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                Detail
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption9" data-bind="value:newsLetter" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                // NewsLetter subscriber page
+
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="txtCaption10" placeholder="Confirm Design" data-bind="value:confirmDesign" />
+                                                            </td>
+                                                            <td style="width: 442px;">
+                                                                1. Confirm Design //ProductconfirmSelection
+                                                            </td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ko stopBinding: true -->
+    @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+    <!-- /ko -->
+    @*Markup*@
+    <script id="editActionMarkupTemplate" type="text/html">
+        <a href="#" class="table-link" data-bind="click: $root.selectMarkup, css: { selectedRow: $data === $root.selectedMarkup() }">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="deleteActionMarkupTemplate" type="text/html">
+        <a href="#" class="table-link danger" data-bind="click: $root.onDeleteMarkup" title="Delete">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="editMarkupTemplate" type="text/html">
+        <tr data-bind="css: { selectedRow: $data === $root.selectedMarkup() }">
+            <td>
+                <input type="text" data-bind="value: name, validationTooltip: name, attr: { id: 'markupName' + $index() }" />
+            </td>
+            <td>
+                <input style="width: 70px;" type="text" data-bind="value: rate, validationTooltip: rate" />
+            </td>
+            <td>
+                <!-- ko template: { name: 'editActionMarkupTemplate' } -->
+                <!-- /ko -->
+                <!-- ko template: { name: 'deleteActionMarkupTemplate' } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    <script id="itemMarkupTemplate" type="text/html">
+        <tr>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: rate"></td>
+            <td style="width: 20%">
+                <!-- ko template: { name: 'editActionMarkupTemplate' } -->
+                <!-- /ko -->
+                <!-- ko template: { name: 'deleteActionMarkupTemplate' } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    @*Chart Of Accounts*@
+    <script id="editActionChartOfAccountsTemplate" type="text/html">
+        <a href="#" class="table-link" data-bind="click: $root.selectChartOfAccounts, css: { selectedRow: $data === $root.selectedChartOfAccounts() }">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="deleteActionChartOfAccountsTemplate" type="text/html">
+        <a href="#" class="table-link danger" data-bind="click: $root.onDeleteChartOfAccounts" title="Delete">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="editChartOfAccountsTemplate" type="text/html">
+        <tr data-bind="css: { selectedRow: $data === $root.selectedChartOfAccounts() }">
+            <td>
+                <input type="text" data-bind="value: name, validationTooltip: name, attr: { id: 'nominalCodeName' + $index() }" />
+            </td>
+            <td>
+                <input style="width: 70px;" type="text" data-bind="value: accountNo, validationTooltip: accountNo" />
+            </td>
+            <td>
+                <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
+                <!-- /ko -->
+                <!-- ko template: { name: 'deleteActionChartOfAccountsTemplate' } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    <script id="itemChartOfAccountsTemplate" type="text/html">
+        <tr>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'nominalCodeName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: accountNo"></td>
+            <td style="width: 20%">
+                <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
+                <!-- /ko -->
+                <!-- ko template: { name: 'deleteActionChartOfAccountsTemplate' } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    @**Error Template*@
+    <script id="itemErrorTemplate" type="text/html">
+        <tr>
+            <!-- ko if: tabId === 1 -->
+            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+            <!-- /ko -->
+        </tr>
+        <tr>
+            <!-- ko if: tabId === 2 -->
+            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+            <!-- /ko -->
+        </tr>
+        <tr>
+            <!-- ko if: tabId === 3 -->
+            <td><a data-bind="text: name,click: $root.selectTab" class="errorMsgText"></a></td>
+            <!-- /ko -->
+        </tr>
+    </script>
+</div>
+@section Scripts{
+
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script>
+        require(["myOrganization/myOrganization.view", "common/confirmation.view"]);
+        $(function () {
+            $('#lisettings').addClass('active');
+            $('#ligeneralsettings').addClass('active');
+            $('#limyorganization').addClass('active');
+        });
+    </script>
+}

@@ -12,7 +12,7 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
         CompanyContact GetContactByEmail(string Email);
-        Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
+        long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
         CompanyContact GetContactByID(Int64 ContactID);
@@ -28,6 +28,10 @@ namespace MPC.Interfaces.Repository
 
         CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId);
 
-        int GetContactIdByCustomrID(int customerID);
+        long GetContactIdByCustomrID(long customerID);
+        string GetContactMobile(long CID);
+
+        bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
+
     }
 }

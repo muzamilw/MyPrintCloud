@@ -34,6 +34,9 @@ namespace MPC.MIS
 
             bundles.Add(new ScriptBundle("~/Bundle/BaseLibs")
                 .Include("~/Scripts/jquery-ui-1.10.4.js")
+                .Include("~/Scripts/jquery.blockUI.js")
+                .Include("~/Scripts/spectrum.js")
+                .Include("~/Scripts/Ace/colorpicker.js")
                 .Include("~/Scripts/json2.js")
                 .Include("~/Scripts/knockout-3.1.0.js")
                 .Include("~/Scripts/knockout.mapping-latest.js")
@@ -44,6 +47,7 @@ namespace MPC.MIS
                 .Include("~/Scripts/toastr.js")
                 .Include("~/Scripts/amplify.js")
                 .Include("~/Scripts/knockout-sortable.js")
+                .Include("~/RichTextEditor/ckeditor.js")
                 .Include("~/Scripts/require.js")
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/App/architecture.js")
@@ -52,9 +56,11 @@ namespace MPC.MIS
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                  "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Bundles/BaseCss").Include(
-                      "~/Content/CSS/toastr.css")
-                      );
+            bundles.Add(new StyleBundle("~/Bundles/BaseCss")
+                .Include("~/Content/CSS/toastr.css")
+                .Include("~/Content/colorpicker.css")
+                .Include("~/Content/CSS/spectrum.css")
+                      .Include("~/RichTextEditor/skins/moono/editor.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                                         "~/Content/themes/base/jquery.ui.core.css",

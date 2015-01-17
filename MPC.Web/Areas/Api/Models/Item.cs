@@ -332,7 +332,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsArchived { get; set; }
         public int? NominalCodeId { get; set; }
         public int? RefItemId { get; set; }
-        public int? TemplateId { get; set; }
+        public long? TemplateId { get; set; }
         public string WebDescription { get; set; }
         public int? ItemTypeId { get; set; }
         public bool? IsOrderedItem { get; set; }
@@ -348,6 +348,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string File3 { get; set; }
         public string File4 { get; set; }
         public string File5 { get; set; }
+        public string File1Name { get; set; }
+        public string File2Name { get; set; }
+        public string File3Name { get; set; }
+        public string File4Name { get; set; }
+        public string File5Name { get; set; }
         public string GridImage { get; set; }
         public bool? IsQtyRanged { get; set; }
         public double? CostCentreProfitBroker { get; set; }
@@ -373,7 +378,13 @@ namespace MPC.MIS.Areas.Api.Models
         public long? OrganisationId { get; set; }
         public double? PackagingWeight { get; set; }
         public bool? IsVdpProduct { get; set; }
-
+        public string ThumbnailImageName { get; set; }
+        public string ImagePathImageName { get; set; }
+        public string GridImageSourceName { get; set; }
+        
+        public string ThumbnailImageByte { get; set; }
+        public string ImagePathImageByte { get; set; }
+        public string GridImageSourceByte { get; set; }
         /// <summary>
         /// Thumbnail Image
         /// </summary>
@@ -444,6 +455,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// File1 Image
         /// </summary>
         public byte[] File1Bytes { get; set; }
+        public byte[] File2Bytes { get; set; }
+        public byte[] File3Bytes { get; set; }
+        public byte[] File4Bytes { get; set; }
+        public byte[] File5Bytes { get; set; }
+        
 
         /// <summary>
         /// File1 Source
@@ -461,6 +477,374 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }
+        /// <summary>
+        /// File2 Source
+        /// </summary>
+        public string File2BytesSource
+        {
+            get
+            {
+                if (File2Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File2Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        /// <summary>
+        /// File3 Source
+        /// </summary>
+        public string File3BytesSource
+        {
+            get
+            {
+                if (File3Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File3Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        /// <summary>
+        /// File4 Source
+        /// </summary>
+        public string File4BytesSource
+        {
+            get
+            {
+                if (File4Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File4Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        /// <summary>
+        /// File5 Source
+        /// </summary>
+        public string File5BytesSource
+        {
+            get
+            {
+                if (File5Bytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(File5Bytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        /// <summary>
+        /// Thumbnail Image Bytes - byte[] representation of Base64 string Thumbnail Image
+        /// </summary>
+        public byte[] ThumbnailSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ThumbnailImageByte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = ThumbnailImageByte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (ThumbnailImageByte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = ThumbnailImageByte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Grid Image Bytes - byte[] representation of Base64 string Grid Image
+        /// </summary>
+        public byte[] GridImageSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(GridImageSourceByte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = GridImageSourceByte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (GridImageSourceByte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = GridImageSourceByte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Image Path Source Bytes - byte[] representation of Base64 string Image Path
+        /// </summary>
+        public byte[] ImagePathSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ImagePathImageByte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = ImagePathImageByte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (ImagePathImageByte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = ImagePathImageByte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public string File1Byte { get; set; }
+        public string File2Byte { get; set; }
+        public string File3Byte { get; set; }
+        public string File4Byte { get; set; }
+        public string File5Byte { get; set; }
+
+        /// <summary>
+        /// File1 Source Bytes - byte[] representation of Base64 string File1
+        /// </summary>
+        public byte[] File1SourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(File1Byte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = File1Byte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (File1Byte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = File1Byte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// File2 Source Bytes - byte[] representation of Base64 string File2
+        /// </summary>
+        public byte[] File2SourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(File2Byte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = File2Byte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (File2Byte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = File2Byte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// File3 Source Bytes - byte[] representation of Base64 string File3
+        /// </summary>
+        public byte[] File3SourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(File3Byte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = File3Byte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (File3Byte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = File3Byte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// File4 Source Bytes - byte[] representation of Base64 string File4
+        /// </summary>
+        public byte[] File4SourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(File4Byte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = File4Byte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (File4Byte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = File4Byte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// File5 Source Bytes - byte[] representation of Base64 string File5
+        /// </summary>
+        public byte[] File5SourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(File5Byte))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = File5Byte.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (File5Byte.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = File5Byte.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public double MinPrice { get; set; }
 
         public IEnumerable<ItemVdpPrice> ItemVdpPrices { get; set; }
         public IEnumerable<ItemVideo> ItemVideos { get; set; }
@@ -470,6 +854,14 @@ namespace MPC.MIS.Areas.Api.Models
         public Template Template { get; set; }
 
         public IEnumerable<ItemStockOption> ItemStockOptions { get; set; }
+
+        public IEnumerable<ItemStateTax> ItemStateTaxes { get; set; }
+
+        public IEnumerable<ItemPriceMatrix> ItemPriceMatrices { get; set; }
+
+        public ItemProductDetail ItemProductDetail { get; set; }
+
+        public IEnumerable<ProductCategoryItem> ProductCategoryItems { get; set; }
 
         #endregion
     }

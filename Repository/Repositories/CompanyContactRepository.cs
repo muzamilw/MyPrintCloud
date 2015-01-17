@@ -59,6 +59,11 @@ namespace MPC.Repository.Repositories
             return qry.ToList().FirstOrDefault();
 
         }
+        public string GetContactMobile(long CID)
+        {
+            return db.CompanyContacts.Where(c => c.ContactId == CID).Select(s => s.Mobile).FirstOrDefault();
+
+        }
         public string GeneratePasswordHash(string plainText)
         {
             return ComputeHashSHA1(plainText);
@@ -272,12 +277,12 @@ namespace MPC.Repository.Repositories
 
             return salt;
         }
-        public Int64 CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName)
+        public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName,long SaleAndOrderManagerID,long StoreID)
         {
             Address address = null;
             CompanyContact tblContacts = null;
 
-            Int64 customerID = 0;
+            long customerID = 0;
 
             //CompanySiteManager companySiteManager = new CompanySiteManager();
             Company Company = new Company();
@@ -298,7 +303,10 @@ namespace MPC.Repository.Repositories
             Company.AccountManagerId = Company.AccountManagerId;
             Company.CreditLimit = 0;
             Company.IsCustomer = Convert.ToInt16(CustomerType);
-
+           
+            Company.SalesAndOrderManagerId1 = SaleAndOrderManagerID;
+            Company.StoreId = StoreID;
+            Company.OrganisationId = OrganizationID;
             //if (BrokerContactCompanyID != null)
             //{
             //    contactCompany.BrokerContactCompanyID = BrokerContactCompanyID;
@@ -579,13 +587,13 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public int GetContactIdByCustomrID(int customerID)
+        public long GetContactIdByCustomrID(long customerID)
         {
             
             CompanyContact contact = db.CompanyContacts.Where(i => i.CompanyId == customerID).FirstOrDefault();
             if (contact != null)
             {
-                        return (int)contact.ContactId;
+                        return contact.ContactId;
             }
             else
              {
@@ -593,6 +601,29 @@ namespace MPC.Repository.Repositories
              }
               
            
+        }
+        public bool canContactPlaceOrder(long contactID, out bool hasWebAccess)
+        {
+            try
+            {
+                CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == contactID).FirstOrDefault();
+                if(contact != null)
+                {
+                    hasWebAccess = contact.isWebAccess ?? false;
+                    return contact.isPlaceOrder ?? false;
+                }
+                else
+                {
+                    hasWebAccess = false;
+                    return false;
+                }
+
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

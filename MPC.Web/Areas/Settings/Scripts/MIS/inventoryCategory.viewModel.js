@@ -215,17 +215,17 @@ define("inventoryCategory/inventoryCategory.viewModel",
                      },
                      // Delete a Stock Sub Category
                     onDeleteStockSubCategory = function (stockSubCategory) {
-                        if (stockSubCategory.categoryId() > 0) {
+                       // if (stockSubCategory.categoryId() > 0) {
                             selectedStockCategory().stockSubCategories.remove(stockSubCategory);
                             return;
-                        }
+                       // }
                     },
 
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(pagination.Pagination({ PageSize: 5 }, stockCategories, getStockCategories));
+                    pager(pagination.Pagination({ PageSize: 10 }, stockCategories, getStockCategories));
                     getStockCategories();
                 };
 

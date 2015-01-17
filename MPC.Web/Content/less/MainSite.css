@@ -21,6 +21,89 @@
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
   width: 838px;
 }
+#productBinding .form-group .input-group-addon {
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+#productBinding .form-group .input-group .input-group-addon {
+  border: 1px solid #ccc;
+}
+#productBinding #tab-pricetable .form-group #txtDiscountsContainer {
+  padding: 0;
+}
+#productBinding #tab-pricetable .form-group #packagingWeightUnitLabel {
+  padding-top: 10px;
+}
+#productBinding #tab-pricetable .form-group #txtTaxContainer {
+  width: 50%;
+}
+#productBinding #tab-pricetable .form-group #stateTaxSectionLabel {
+  font-weight: bold;
+}
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#Qty {
+  width: 104px;
+}
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeFrom,
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeTo {
+  width: 104px;
+}
+#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th.paperStockType {
+  width: 10%;
+}
+#productBinding #tab-supplierPrice .labelBold {
+  font-weight: bold;
+}
+#productBinding #tab-supplierPrice #estProductionTimeContainer #txtEstProductionTime {
+  width: 30%;
+}
+#productBinding #tab-supplierPrice #estProductionTimeContainer span {
+  width: 30%;
+}
+#productBinding #tab-supplierPrice #switchAutoCreateGraterContainer {
+  padding-left: 0;
+  padding-right: 0;
+  width: 12%;
+}
+#productBinding #tab-supplierPrice .deliveryTimeContiner input,
+#productBinding #tab-supplierPrice .deliveryTimeContiner span {
+  width: 40%;
+}
+#productBinding #tab-supplierPrice #supplierTabs {
+  border: dotted;
+  border-width: 1px;
+  border-color: lightgray;
+}
+#productBinding #tab-supplierPrice #qtyLimitLabel {
+  width: 17%;
+}
+#productBinding #tab-supplierPrice #qtyLimitInputContainer {
+  width: 15%;
+}
+#productBinding #tab-supplierPrice #qtyLimitInputContainer input {
+  width: 100px;
+}
+#productBinding #productCategoryDialog ol.dd-list li.dd-item .nested-links {
+  margin-top: -3px;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle th.markupCodeTh {
+  width: 10% !important;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle th.markupRateTh {
+  width: 30% !important;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle th.actionTh {
+  width: 20% !important;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle td.markupCode {
+  width: 10%;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle td.markupRate {
+  width: 30%;
+}
+#myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
+  width: 20%;
+}
 .fileUpload {
   position: relative;
   overflow: hidden;
@@ -35,4 +118,8 @@
   cursor: pointer;
   opacity: 0;
   filter: alpha(opacity=0);
+}
+#phraseLibraryDialog .selectedSection,
+#phraseLibraryDialog .selectedPhraseField {
+  background: yellow;
 }

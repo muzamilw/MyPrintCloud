@@ -9,6 +9,7 @@ using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.Models;
+using MPC.Models.Common;
 
 namespace MPC.Webstore.Controllers
 {
@@ -18,19 +19,22 @@ namespace MPC.Webstore.Controllers
 
         private readonly ICompanyService _myCompanyService;
 
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
+
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public HeaderController(ICompanyService myCompanyService)
+        public HeaderController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
             this._myCompanyService = myCompanyService;
+            this._myClaimHelper = myClaimHelper;
         }
 
         #endregion
@@ -46,6 +50,16 @@ namespace MPC.Webstore.Controllers
                 model = baseResponse.Company;
             }
 
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactID() == 0)
+            {
+                ViewBag.DefaultUrl = "/Login";
+            }
+            else 
+            {
+                ViewBag.DefaultUrl = "/";
+            }
+
+           
 
             return PartialView("PartialViews/Header", model);
         }

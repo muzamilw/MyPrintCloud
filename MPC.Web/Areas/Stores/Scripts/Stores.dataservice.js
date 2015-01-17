@@ -13,6 +13,18 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get product category childs
+                    amplify.request.define('getProductCategoryChilds', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Product Category By Id 
+                    amplify.request.define('getProductCategoryById', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -43,9 +55,15 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get Store By StoreId
+                    // Define request to get Page Layout widgets
                     amplify.request.define('getCmsPageLayoutWidget', 'ajax', {
                         url: ist.siteUrl + '/Api/CmsPageLayoutDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Widget Detail
+                    amplify.request.define('getWidgetDetail', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetWidgetDetail',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -56,12 +74,17 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store
+                    amplify.request.define('getBaseDataForNewCompany', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to delete Store
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
-                        decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'DELETE'
+                        type: 'Delete'
                     });
                     // Define request to save Store
                     amplify.request.define('saveStore', 'ajax', {
@@ -78,6 +101,26 @@
                     });
                     isInitialized = true;
                 }
+            },
+            // get ProductCategory Childs
+            getProductCategoryChilds = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getProductCategoryChilds',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // get Product Category By Id
+            getProductCategoryById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getProductCategoryById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             },
             // get Store
             getStores = function (params, callbacks) {
@@ -149,8 +192,29 @@
                     data: params
                 });
             },
-            // get Store by id
+              // get Widget Detail 
+            getWidgetDetail= function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getWidgetDetail',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
+            // get Base Data By Store Id
             getBaseData = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // get Base Data for new company
+            getBaseDataForNewCompany = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
@@ -192,8 +256,10 @@
 
         return {
             getStores: getStores,
+            getProductCategoryChilds: getProductCategoryChilds,
             getStoreById: getStoreById,
             getBaseData: getBaseData,
+            getBaseDataForNewCompany: getBaseDataForNewCompany,
             deleteStore: deleteStore,
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
@@ -202,6 +268,8 @@
             getSecondaryPages: getSecondaryPages,
             getSecondryPageById: getSecondryPageById,
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
+            getWidgetDetail: getWidgetDetail,
+            getProductCategoryById: getProductCategoryById
         };
     })();
 

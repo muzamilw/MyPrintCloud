@@ -63,9 +63,9 @@
             //Item Code
             itemCode = ko.observable(specifiedItemCode),
             //Supplier Id
-            supplierId = ko.observable(specifiedSupplierId),
+            supplierId = ko.observable(specifiedSupplierId).extend({ required: true }),
             //SupplierName
-            supplierName = ko.observable(),
+            supplierName = ko.observable().extend({ required: true }),
             //Category Id
             categoryId = ko.observable(specifiedCategoryId),
             //Sub Category Id
@@ -138,6 +138,8 @@
         headerComputedValue = ko.observable(),
         //Stock Cost And Price List
         stockCostAndPriceListInInventory = ko.observableArray([]),
+        //Paper Type
+        paperType = ko.observable(),
         // Errors
         errors = ko.validation.group({
             itemName: itemName,
@@ -152,6 +154,8 @@
             reorderQty: reorderQty,
             itemWeight: itemWeight,
             inkAbsorption: inkAbsorption,
+            supplierId: supplierId,
+            supplierName: supplierName,
         }),
         // Is Valid 
         isValid = ko.computed(function () {
@@ -290,6 +294,7 @@
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
+            paperType: paperType,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

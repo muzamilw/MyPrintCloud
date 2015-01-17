@@ -66,6 +66,12 @@
         /// Company Id
         /// </summary>
         public long? CompanyId { get; set; }
+
+        /// <summary>
+        /// Company
+        /// </summary>
+        public virtual Company Company { get; set; }
+
         #endregion
     }
 }

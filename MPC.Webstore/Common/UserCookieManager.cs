@@ -9,7 +9,7 @@ namespace MPC.Webstore.Common
 {
     public sealed class UserCookieManager
     {
-
+        public static bool isWritePresistentCookie = false;
 
         public static long StoreId
         {
@@ -67,6 +67,34 @@ namespace MPC.Webstore.Common
             }
         }
 
+        public static string Email
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["Email"] != null)
+                {
+                    return (HttpContext.Current.Request.Cookies["Email"].Value);
+                }
+                else
+                {
+                    return "";
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["Email"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("Email");
+
+                }
+                HttpCookie contactEmailCookie = null;
+                contactEmailCookie = new HttpCookie("Email", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(contactEmailCookie);
+
+            }
+        }
+
         public static string ContactLastName
         {
             get
@@ -100,6 +128,7 @@ namespace MPC.Webstore.Common
                 }
             }
         }
+
         public static bool ContactCanEditProfile
         {
             get
@@ -127,6 +156,7 @@ namespace MPC.Webstore.Common
 
             }
         }
+
         public static bool ShowPriceOnWebstore
         {
             get
@@ -239,7 +269,7 @@ namespace MPC.Webstore.Common
             }
         }
 
-        public static double StoreTax
+        public static double TaxRate
         {
             get
             {
@@ -263,7 +293,92 @@ namespace MPC.Webstore.Common
 
                 HttpCookie TaxPriceCookie = null;
                 TaxPriceCookie = new HttpCookie("TaxPrice", value.ToString());
+                 
                 HttpContext.Current.Response.Cookies.Add(TaxPriceCookie);
+            }
+        }
+
+        public static long TemporaryCompanyId
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["TemporaryCompanyId"] != null)
+                {
+                    return Convert.ToInt32((HttpContext.Current.Request.Cookies["TemporaryCompanyId"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["TemporaryCompanyId"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("TemporaryCompanyId");
+
+                }
+
+                HttpCookie TemporaryCompanyId = null;
+                TemporaryCompanyId = new HttpCookie("TemporaryCompanyId", value.ToString());
+                TemporaryCompanyId.Expires = DateTime.Now.AddDays(30);
+                HttpContext.Current.Response.Cookies.Add(TemporaryCompanyId);
+            }
+        }
+
+        public static long OrderId
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["OrderId"] != null)
+                {
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["OrderId"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["OrderId"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("OrderId");
+
+                }
+
+                HttpCookie OrderIdCookie = null;
+                OrderIdCookie = new HttpCookie("OrderId", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(OrderIdCookie);
+            }
+        }
+
+        public static int isRegisterClaims
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["isRegisterClaims"] != null)
+                {
+                    return Convert.ToInt32( HttpContext.Current.Request.Cookies["isRegisterClaims"].Value);
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["isRegisterClaims"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("isRegisterClaims");
+
+                }
+                HttpCookie  RegisterClaimCookie = null;
+                RegisterClaimCookie = new HttpCookie("isRegisterClaims", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(RegisterClaimCookie);
             }
         }
     }

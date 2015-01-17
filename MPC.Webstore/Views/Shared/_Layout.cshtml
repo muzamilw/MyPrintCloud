@@ -3,30 +3,34 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @RenderSection("metatags", false);
+
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("metatags", false)
     @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/js-image-slider.css")
-   
-
+    @Styles.Render("~/Content/ListingPropertiesCarousel.css")
+    @RenderSection("headerScripts", required: false)
 </head>
 <body class="bodycolor">
+    <div id="layer" class="opaqueLayer"></div>
+    <div id="innerLayer">
+    </div>
     <div class="body-content">
         @RenderBody()
-
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/modalEffects")
+    @Scripts.Render("~/bundles/PopUps")
     @RenderSection("scripts", required: false)
-
     <script type="text/javascript">
 
         $(document).ready(function () {
+
             $('.bxslider').bxSlider({
                 auto: true,
                 speed: 2200
@@ -35,5 +39,4 @@
         });
     </script>
 </body>
-
 </html>

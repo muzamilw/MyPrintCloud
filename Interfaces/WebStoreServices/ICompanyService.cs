@@ -22,7 +22,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByEmail(string Email);
 
-        long CreateContact(CompanyContact Contact, string Name, int OrganizationID, int CustomerType, string TwitterScreanName);
+        long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
 
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
@@ -70,8 +70,11 @@ namespace MPC.Interfaces.WebStoreServices
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
         double CalculateDiscount(double price, double discountPrecentage);
-        int CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, ContactCompanyTypes customerType, string RegWithTwitter, CompanyContact regContact = null, int? BrokerContactCompanyID = null);
-
+        long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, CompanyContact regContact = null);
         Organisation getOrganisatonByID(int OID);
+        string GetContactMobile(long CID);
+
+        CmsPage getPageByID(long PageID);
+        bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
     }
 }

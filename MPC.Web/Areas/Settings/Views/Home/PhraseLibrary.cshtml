@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "PhraseLibrary";
+}
+
+@section leftmenue {
+
+}
+
+@Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
+
+
+@section Scripts{
+    <script>
+        require(["common/phraseLibrary.view"], function() {
+            ist.phraseLibrary.viewModel.show();
+        });
+    </script>
+}

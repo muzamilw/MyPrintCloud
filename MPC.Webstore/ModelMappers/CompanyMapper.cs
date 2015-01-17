@@ -60,7 +60,10 @@ namespace MPC.Webstore.ModelMappers
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 WebMasterTag = source.WebMasterTag,
                 WebAnalyticCode = source.WebAnalyticCode,
-                TaxRate = source.TaxRate
+                TaxRate = source.TaxRate,
+                isIncludeVAT = source.isIncludeVAT,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+               
             };
         }
 
@@ -117,7 +120,9 @@ namespace MPC.Webstore.ModelMappers
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 WebMasterTag = source.WebMasterTag,
                 WebAnalyticCode = source.WebAnalyticCode,
-                TaxRate = source.TaxRate
+                TaxRate = source.TaxRate,
+                isIncludeVAT = source.isIncludeVAT,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode
             };
         }
 

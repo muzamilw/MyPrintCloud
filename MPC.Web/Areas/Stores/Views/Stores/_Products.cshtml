@@ -1,0 +1,295 @@
+﻿@section Scripts{
+    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
+
+    <script>
+        $(function () {
+            $('#liProducts').addClass('active');
+        });
+    </script>
+
+    <script>
+        function redirectToProductDetail() {
+            window.location.href = '/Products/ProductDetail';
+        }
+        function changeToListView() {
+            $("#listViewIcon").css("background-color", "#ff7e47");
+            $("#gridViewIcon").css("background-color", "#ffffff");
+            $("#gridViewIcon").css("color", "black");
+            $("#listViewIcon").css("color", "white");
+            $("#gridForm").css("display", "none");
+            $("#ListForm").css("display", "block");
+        }
+        function changeToGridView() {
+            $("#gridViewIcon").css("background-color", "#ff7e47");
+            $("#listViewIcon").css("background-color", "#ffffff");
+            $("#gridViewIcon").css("color", "white");
+            $("#listViewIcon").css("color", "black");
+            $("#gridForm").css("display", "block");
+            $("#ListForm").css("display", "none");
+        }
+
+        function enableProductBoxes() {
+            $("#ProductDisableEditICon").css("display", "block");
+            $("#ProductEditICon").css("display", "none");
+            $(".editableName").css("display", "block");
+            $(".NoneditableName").css("display", "none");
+        }
+        function DisableProductBoxes() {
+            $("#ProductDisableEditICon").css("display", "none");
+            $("#ProductEditICon").css("display", "block");
+            $(".editableName").css("display", "none");
+            $(".NoneditableName").css("display", "block");
+        }
+        function enablePriceBoxes() {
+            $("#PriceDisableEditICon").css("display", "block");
+            $("#PriceEditICon").css("display", "none");
+            $(".editablePrice").css("display", "block");
+            $(".NoneditablePrice").css("display", "none");
+        }
+        function DisablePriceBoxes() {
+            $("#PriceDisableEditICon").css("display", "none");
+            $("#PriceEditICon").css("display", "block");
+            $(".editablePrice").css("display", "none");
+            $(".NoneditablePrice").css("display", "block");
+        }
+        function enableCategoryBoxes() {
+            $("#CategoryDisableEditICon").css("display", "block");
+            $("#CategoryEditICon").css("display", "none");
+            $(".editableCat").css("display", "block");
+            $(".NoneditableCat").css("display", "none");
+        }
+        function DisableCategoryBoxes() {
+            $("#CategoryDisableEditICon").css("display", "none");
+            $("#CategoryEditICon").css("display", "block");
+            $(".editableCat").css("display", "none");
+            $(".NoneditableCat").css("display", "block");
+        }
+        $(document).ready(function () {
+            //min/max slider
+            $('.slider-minmax').noUiSlider({
+                range: [0, 100],
+                start: [100],
+                handles: 1,
+                connect: 'upper',
+                slide: function () {
+
+
+                },
+                set: function () {
+                    var val = $(this).val();
+                    if (val >= 60) {
+
+                        $('.Top_Cat_Body').css("width", "22%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "239px");
+                    } else if (val >= 40) {
+
+                        $('.Top_Cat_Body').css("width", "18%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "194px");
+                    } else if (val <= 20) {
+
+                        $('.Top_Cat_Body').css("width", "13%");
+                        $('.FI_TL').css("height", "140px");
+                        $('.productListIcons').css("width", "139px");
+                    }
+                }
+
+            });
+            $('.slider-minmax').val(100, true);
+            $('.productListIcons').css("width", "153px");
+        });
+    </script>
+}
+<div class="row" data-bind="visible: !isProductDetailsVisible()">
+    <header class="main-box-header clearfix">
+        <h1>Products</h1>
+    </header>
+    <div class="col-lg-12">
+        <div id="changeViewSection" class="pull-left col-lg-5">
+            <a id="listViewIcon" class="productListGrayIcon pull-left" data-bind="click: toggleView, css: { inactiveView: isGridViewVisible, activeView: isListViewVisible }">
+                <i class="fa fa-list"></i>
+            </a>
+            <a id="gridViewIcon" class="productListOrangeIcon pull-left activeView" data-bind="click: toggleView, css: { inactiveView: isListViewVisible, activeView: isGridViewVisible }">
+                <i class="fa fa-th-large"></i>
+            </a>
+            <div class="pull-left width105 padTop13">
+                <div class="slider-minmax"></div>
+            </div>
+        </div>
+        <div class="pull-right">
+            <button id="open-wizard" data-bind="click: createProduct" class="btn btn-primary pull-right">
+                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
+            </button>
+        </div>
+    </div>
+    <div>
+        &nbsp;
+    </div>
+    <div id="gridForm" data-bind="visible: isGridViewVisible" style="display: none;">
+        <div class="col-lg-12">
+            <!-- ko template: { name: 'productFilterTemplate' } -->
+            <!-- /ko -->
+            <div class="clearfix">
+            </div>
+            <div class="main-box-body main-box clearfix">
+                <div id="gridZoomSlider">
+                    <!-- ko template: { name: 'gridViewTemplate', foreach: products } -->
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </div>
+    <div id="ListForm" data-bind="visible: isListViewVisible" style="display: none;">
+        <div class="col-lg-12">
+            <!-- ko template: { name: 'productFilterTemplate' } -->
+            <!-- /ko -->
+            <div class="clearfix">
+            </div>
+            <div class="main-box-body main-box clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <div class="productHeadingsCnt width12Perc">
+                            Product Code
+                        </div>
+                        <div class="productHeadingsCnt width24Perc" style="min-height: 76px;">
+                            Main Image
+                        </div>
+                        <div class="productHeadingsCnt width25Perc" style="min-height: 76px;">
+                            Product Name
+                        </div>
+                        <div class="productHeadingsCnt width13Per">
+                            Product Price
+                        </div>
+                        <div class="productHeadingsCnt width12Perc">
+                            Is Published
+                        </div>
+                        <div class="productHeadingsCnt width7Perc">
+                            Is Archived
+                        </div>
+                        <table id="ProductListtbl" class="table">
+                            <tbody>
+                                <!-- ko template: { name: 'listViewTemplate', foreach: products } -->
+                                <!-- /ko -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Filter Template *@
+    <script id="productFilterTemplate" type="text/html">
+        <div class="filter-body">
+            <div class="filter-block pull-left">
+                <div class="pull-left spanfilterlbl">
+                    Search: &nbsp;
+                </div>
+                <div class="form-group pull-left">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
+                    <i class="fa fa-search search-icon"></i>
+                </div>
+                <div class="pull-left">
+                    <button type="submit" class="btn btn-primary" data-bind="click: filterProducts">Search</button>
+                    <button type="reset" class="btn btn-default" data-bind="click: resetFilter">Reset</button>
+                </div>
+            </div>
+            <div class="pull-right">
+                <div class="pull-right spanfilterlbl" data-bind="">
+                    <a class=" pagerLeftIcon " data-bind="click: pager().previousPage">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                    <a class="pagerRightIcon" data-bind="click: pager().nextPage">
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+                <span class="pull-right spanfilterlbl">of <span data-bind="text: pager().totalPages"></span></span>
+                <div class="pull-right col-xs-3">
+                    <input type="text" class="form-control" data-bind="value: currentPageCustom" />
+                </div>
+                <span class="pull-right spanfilterlbl">Page</span>
+
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </script>
+
+    @* Grid View Template *@
+    <script id="gridViewTemplate" type="text/html">
+        <div class="Top_Cat_Body">
+            <div class="LCLB">
+                <div class="PDTC_TL FI_TL">
+                    <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/thumbnail2.png")" alt="image" class="Top_Cat_ThumbnailPath" />
+                </div>
+                <div class="productListIcons" style="width: 153px;" >
+                    <!-- ko template: { name: 'productActionTemplate' } -->
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div>
+                <span data-bind="text: productNameForGrid"></span>
+            </div>
+            <div class="">
+                <span data-bind="text: '$' + miniPrice()"></span>
+            </div>
+        </div>
+    </script>
+
+    @* Action Template *@
+    <script id="productActionTemplate" type="text/html">
+        <a class="table-link" title="Edit" data-bind="click: $parent.editProduct.bind($data)">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="#" class="table-link copy" title="Copy">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        
+        <a href="#" class="table-link danger" title="Archive" data-bind="click: $parent.onArchiveProduct.bind($data), visible: !isArchived()">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+
+    @* List View Template *@
+    <script id="listViewTemplate" type="text/html">
+        <tr>
+            <td class="width12Perc text-center">
+                <a data-bind="click: $parent.editProduct"><span data-bind="text: productCode"></span></a>
+            </td>
+            <td class="width24Perc text-center">
+                <div class="LCLB Product-Body-List">
+                    <div class="PDTC_TL Product-Body-List-TL">
+                        <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/thumbnail1.png")" alt="image" class="Top_Cat_ThumbnailPath" />
+                    </div>
+                </div>
+            </td>
+            <td class="text-center width25Perc">
+                <span class="NoneditableName" data-bind="text: productName"></span>
+            </td>
+            <td class="text-center width13Per">
+                <span class="NoneditablePrice" data-bind="text: '$' + miniPrice()"></span>
+            </td>
+            <td class="text-center width12Perc">
+                <span class="label label-success" data-bind="text: isPublishedUi"></span>
+            </td>
+            <td class="text-center width7Perc">
+                <span data-bind="text: isArchivedUi"></span>
+            </td>
+        </tr>
+    </script>
+
+</div>
+

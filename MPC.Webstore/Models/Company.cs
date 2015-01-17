@@ -104,10 +104,11 @@ namespace MPC.Webstore.Models
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
         public double? TaxRate { get; set; }
+        public bool? IsDisplayDiscountVoucherCode { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
-        public virtual ICollection<CmsPage> CmsPages { get; set; }
+        public virtual ICollection<CmsPageModel> CmsPages { get; set; }
     }
 }

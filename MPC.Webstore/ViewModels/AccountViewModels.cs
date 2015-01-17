@@ -22,6 +22,8 @@ namespace MPC.Webstore.Models
         [Display(Name = "KeepMeLoggedIn")]
         public bool KeepMeLoggedIn { get; set; }
 
+        public string ReturnURL { get; set; }
+
 
     }
     public class ExternalLoginConfirmationViewModel
@@ -35,6 +37,27 @@ namespace MPC.Webstore.Models
     {
         public string ReturnUrl { get; set; }
     }
+
+    public class ItemCartViewModel
+    {
+        public string ItemId { get; set; }
+
+        public string OrderId { get; set; }
+
+        public string JsonPriceMatrix { get; set; }
+
+        public string JsonAddOnsPrice { get; set; }
+
+        public string ItemPrice { get; set; }
+
+        public string AddOnPrice { get; set; }
+
+        public string StockId { get; set; }
+
+        public int QuantityOrdered { get; set; }
+
+    }
+
 
     public class SendCodeViewModel
     {
@@ -111,7 +134,7 @@ namespace MPC.Webstore.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-      
+        public string ReturnURL { get; set; }
     }
 
     public class ResetPasswordViewModel

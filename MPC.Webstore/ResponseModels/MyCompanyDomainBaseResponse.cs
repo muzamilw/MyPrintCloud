@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml;
 
 namespace MPC.Webstore.ResponseModels
 {
@@ -27,12 +28,12 @@ namespace MPC.Webstore.ResponseModels
         /// <summary>
         /// All System pages and secondary pages of stores
         /// </summary>
-        public List<CmsPage> SystemPages { get; set; }
+        public List<CmsPageModel> SystemPages { get; set; }
 
         /// <summary>
         /// All secondary pages of stores
         /// </summary>
-        public List<CmsPage> SecondaryPages { get; set; }
+        public List<CmsPageModel> SecondaryPages { get; set; }
 
         /// <summary>
         ///  Page Categories of secondary pages 
@@ -53,5 +54,9 @@ namespace MPC.Webstore.ResponseModels
         /// Organisation
         /// </summary>
         public Organisation Organisation { get; set; }
+        /// <summary>
+        /// Resource file
+        /// </summary>
+        public XmlDocument ResourceFile { get; set; }
     }
 }

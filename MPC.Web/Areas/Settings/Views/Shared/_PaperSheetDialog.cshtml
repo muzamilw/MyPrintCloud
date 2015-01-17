@@ -8,31 +8,56 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Paper Sheet</h4>
             </div>
-            <div class="col-lg-12" data-bind="with: $root.selectedPaperSheet">
-                <div class="col-lg-12 clearfix">
-                    <header class="main-box-header clearfix"></header>
-                    <div class="main-box-body clearfix">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <tr>
-                                    <th><a href="#"><span> Name</span></a></th>
-                                    <th><input type="text" data-bind="value: name, validationTooltip: name" /></th>
-                                </tr>
-                                <tr>
-                                    <th><a href="#"><span>Height</span></a></th>
-                                    <th><input type="text" data-bind="value: height, validationTooltip: height" /></th>
-                                </tr>
-                                <tr>
-                                    <th><a href="#"><span>Width</span></a></th>
-                                    <th><input type="text" data-bind="value: width, validationTooltip: width" /></th>
-                                </tr>
-                                <tr>
-                                    <th><a href="#"><span>Is Default</span></a></th>
-                                    <th>
-                                        <input type="checkbox" id="isDefault" data-bind="checked: isArchived">
-                                    </th>
-                                </tr>
-                            </table>
+            <div class="clearfix">
+            </div>
+            <br />
+            <div class=" form-horizontal clearfix" data-bind="with: $root.selectedPaperSheet">
+
+                <header class="main-box-header clearfix"></header>
+
+                <div class="form-horizontal clearfix">
+                    <div class=" col-lg-4">
+                        <div class="form-group ">
+                            <div class="col-lg-5 text-right">
+
+                                <label class="control-label text-right tooltip-float">Name</label>
+                            </div>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" id="name" data-bind="value: name, validationTooltip: name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-4">
+                        <div class="form-group ">
+                            <div class="col-lg-5 text-right">
+
+                                <label class="control-label text-right tooltip-float">Height</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" id="name" data-bind="value: height,validationTooltip: height">
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-4">
+                        <div class="form-group ">
+                            <div class="col-lg-5 text-right">
+
+                                <label class="control-label text-right tooltip-float">Width</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" id="name" data-bind="value: width,validationTooltip: width">
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-4">
+                        <div class="form-group ">
+                            <div class="col-lg-5 text-right">
+
+                                <label class="control-label text-right tooltip-float">Is Default</label>
+                            </div>
+                            <div class="col-lg-7">
+                                <input type="checkbox" id="isDefault" data-bind="checked: isArchived">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,7 +65,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-bind="click: $root.closeEditDialog">Close</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $root.savePaperSheet">OK</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.savePaperSheet">Save</button>
             </div>
         </div>
     </div>

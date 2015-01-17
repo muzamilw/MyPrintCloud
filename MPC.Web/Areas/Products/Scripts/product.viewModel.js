@@ -2,8 +2,9 @@
     Module with the view model for the Product.
 */
 define("product/product.viewModel",
-    ["jquery", "amplify", "ko", "product/product.dataservice", "product/product.model", "common/pagination", "common/confirmation.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation) {
+    ["jquery", "amplify", "ko", "product/product.dataservice", "product/product.model", "common/pagination", "common/confirmation.viewModel",
+        "common/phraseLibrary.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary) {
         var ist = window.ist || {};
         ist.product = {
             viewModel: (function () {
@@ -20,6 +21,26 @@ define("product/product.viewModel",
                     stockItems = ko.observableArray([]),
                     // Cost Centres
                     costCentres = ko.observableArray([]),
+                    // Section Flags
+                    sectionFlags = ko.observableArray([]),
+                    // Countries
+                    countries = ko.observableArray([]),
+                    // States
+                    states = ko.observableArray([]),
+                    // Suppliers
+                    suppliers = ko.observableArray([]),
+                    // Product Categories
+                    productCategories = ko.observableArray([]),
+                    // Parent Product Categories
+                    parentProductCategories = ko.computed(function () {
+                        if (!productCategories) {
+                            return [];
+                        }
+
+                        return productCategories.filter(function (productCategory) {
+                            return !productCategory.parentCategoryId;
+                        });
+                    }),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
@@ -97,8 +118,13 @@ define("product/product.viewModel",
                         },
                         onCostCentreChange: function (costCentreId, activeItemAddonCostCentre) {
                             setCostCentreToActiveItemAddonCostCentre(costCentreId, activeItemAddonCostCentre);
+                        },
+                        onFlagChange: function (flagId, itemId) {
+                            getItemPriceMatricesForItemByFlag(flagId, itemId);
                         }
                     },
+                    // Item State Tax Constructor Params
+                    itemStateTaxConstructorParams = { countries: countries(), states: states() },
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
                     // Stock Dialog Filter
@@ -119,7 +145,7 @@ define("product/product.viewModel",
                     },
                     // Create New Product
                     createProduct = function () {
-                        selectedProduct(model.Item.Create({}, itemActions));
+                        selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
                         openProductEditor();
                     },
                     // Edit Product
@@ -129,7 +155,21 @@ define("product/product.viewModel",
                     // Open Editor
                     openProductEditor = function () {
                         isProductDetailsVisible(true);
-                        view.initializeDropZones();
+                        // Set Product Category true/false for popup
+                        productCategories.each(function (productCategory) {
+                            var productCategoryItem = selectedProduct().productCategoryItems.find(function (pci) {
+                                return pci.categoryId() === productCategory.id;
+                            });
+
+                            if (productCategoryItem) {
+                                productCategory.isSelected(true);
+                            }
+                            else {
+                                productCategory.isSelected(false);
+                            }
+                        });
+                        // Update Input Checked States in Bindings
+                        view.updateInputCheckedStates();
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {
@@ -147,7 +187,7 @@ define("product/product.viewModel",
                     },
                     // Close Editor
                     closeProductEditor = function () {
-                        selectedProduct(model.Item.Create({}, itemActions));
+                        selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
                         resetVideoCounter();
                         isProductDetailsVisible(false);
                     },
@@ -248,25 +288,103 @@ define("product/product.viewModel",
                         view.hideItemAddonCostCentreDialog();
                     },
                     // Get Cost Centre By Id
-                    getCostCentreById = function(id) {
+                    getCostCentreById = function (id) {
                         if (costCentres().length === 0) {
                             return null;
                         }
 
-                        return costCentres.find(function(costCentre) {
+                        return costCentres.find(function (costCentre) {
                             return costCentre.id === id;
                         });
                     },
                     // Set Cost Centre to active Item Add on cost centre
-                    setCostCentreToActiveItemAddonCostCentre = function(costCentreId, activeItemAddonCostCentre) {
+                    setCostCentreToActiveItemAddonCostCentre = function (costCentreId, activeItemAddonCostCentre) {
                         var costCentre = getCostCentreById(costCentreId);
-                        
+
                         if (!costCentre) {
                             return;
                         }
 
                         activeItemAddonCostCentre.costCentreName(costCentre.name);
                         activeItemAddonCostCentre.costCentreType(costCentre.type);
+                    },
+                    // open Product Category Dialog
+                    openProductCategoryDialog = function () {
+                        view.showProductCategoryDialog();
+                    },
+                    // open Product Category Dialog
+                    closeProductCategoryDialog = function () {
+                        view.hideProductCategoryDialog();
+                    },
+                    // Toggle Child Categories
+                    toggleChildCategories = function (data, event) {
+                        // If Child Categories exist then don't send call
+                        if (view.toggleChildCategories(event)) {
+                            return;
+                        }
+                        var categoryId = view.getCategoryIdFromElement(event);
+                        getChildCategories(categoryId, event);
+                    },
+                    // Update Product Categories to Selected Product
+                    updateProductCategories = function () {
+                        selectedProduct().updateProductCategoryItems(productCategories());
+                        view.hideProductCategoryDialog();
+                    },
+                    // update Checked state for category
+                    updateCheckedStateForCategory = function (data, event) {
+                        var categoryId = view.getCategoryIdFromElement(event);
+                        // get category by id
+                        var productCategory = productCategories.find(function (pcat) {
+                            return pcat.id === categoryId;
+                        });
+
+                        if (!productCategory) {
+                            return false;
+                        }
+
+                        if ($(event.target).is(':checked')) {
+                            productCategory.isSelected(true);
+                        }
+                        else {
+                            productCategory.isSelected(false);
+                        }
+
+                        return true;
+                    },
+                    // Open Phrase Library
+                    openPhraseLibrary = function () {
+                        phraseLibrary.show(function(phrase) {
+                            updateJobDescription(phrase);
+                        });
+                    },
+                    // Update Job Description
+                    updateJobDescription = function (phrase) {
+                        if (!phrase) {
+                            return;
+                        }
+
+                        // Set Phrase to selected Job Description
+                        if (selectedJobDescription() === 'txtDescription1') {
+                            selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription2') {
+                            selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription3') {
+                            selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription4') {
+                            selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription5') {
+                            selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription6') {
+                            selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription7') {
+                            selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
+                        }
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -284,6 +402,9 @@ define("product/product.viewModel",
 
                         // Get Items
                         getItems();
+
+                        // Set Open From Flag to false - so that popup don't show until button gets clicked
+                        phraseLibrary.isOpenFromPhraseLibrary(false);
                     },
                     // Map Products 
                     mapProducts = function (data) {
@@ -364,10 +485,15 @@ define("product/product.viewModel",
                     doBeforeSave = function () {
                         var flag = true;
                         if (!selectedProduct().isValid()) {
-                            selectedProduct().errors.showAllMessages();
+                            selectedProduct().showAllErrors();
+                            selectedProduct().setValidationSummary(errorList);
                             flag = false;
                         }
                         return flag;
+                    },
+                    // Go To Element
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
                     },
                     // Get Item From List
                     getItemFromList = function (id) {
@@ -386,13 +512,103 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(costCentres(), itemsList);
                         costCentres.valueHasMutated();
                     },
+                    // Map Countreis
+                    mapCountries = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.Country.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(countries(), itemsList);
+                        countries.valueHasMutated();
+                    },
+                    // Map State
+                    mapStates = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.State.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(states(), itemsList);
+                        states.valueHasMutated();
+                    },
+                    // Map Section Flags
+                    mapSectionFlags = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.SectionFlag.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(sectionFlags(), itemsList);
+                        sectionFlags.valueHasMutated();
+                    },
+                    // Map Suppliers
+                    mapSuppliers = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.Company.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(suppliers(), itemsList);
+                        suppliers.valueHasMutated();
+                    },
+                    // Map Product Categories
+                    mapProductCategories = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.ProductCategory.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(productCategories(), itemsList);
+                        productCategories.valueHasMutated();
+                    },
+                    // Set Item Price Matrices to Current Item against selected Flag
+                    setItemPriceMatricesToItem = function (itemPriceMatrices) {
+                        // Only ask for confirmation if it is not a new product
+                        if ((!itemPriceMatrices || itemPriceMatrices.length === 0) && selectedProduct().id()) {
+                            confirmation.messageText("There are no price items against this flag. Do you want to Add New?");
+                            confirmation.afterProceed(selectedProduct().setItemPriceMatrices);
+                            confirmation.afterCancel(selectedProduct().removeExistingPriceMatrices);
+                            confirmation.show();
+                            return;
+                        }
+
+                        // Set Price Matrix to Item against selected Flag
+                        selectedProduct().setItemPriceMatrices(itemPriceMatrices);
+                    },
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
                                 costCentres.removeAll();
+                                countries.removeAll();
+                                states.removeAll();
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
+
+                                    // Map Countries
+                                    mapCountries(data.Countries);
+
+                                    // Map States
+                                    mapStates(data.States);
+
+                                    // Map Section Flags
+                                    mapSectionFlags(data.SectionFlags);
+
+                                    // Map Suppliers
+                                    mapSuppliers(data.Suppliers);
+
+                                    // Map Product Categories
+                                    mapProductCategories(data.ProductCategories);
+
+                                    // Assign countries & states to StateTaxConstructorParam
+                                    itemStateTaxConstructorParams.countries = countries();
+                                    itemStateTaxConstructorParams.states = states();
                                 }
                             },
                             error: function (response) {
@@ -408,6 +624,9 @@ define("product/product.viewModel",
                                     // Update Id
                                     selectedProduct().id(data.ItemId);
 
+                                    // Update Min Price
+                                    selectedProduct().miniPrice(data.MinPrice || 0);
+
                                     // Add to top of list
                                     products.splice(0, 0, selectedProduct());
                                 }
@@ -419,6 +638,7 @@ define("product/product.viewModel",
                                         item.productName(data.ProductName);
                                         item.isEnabled(data.IsEnabled);
                                         item.isPublished(data.IsPublished);
+                                        item.miniPrice(data.MinPrice || 0);
                                     }
                                 }
 
@@ -444,6 +664,20 @@ define("product/product.viewModel",
                             },
                             error: function (response) {
                                 toastr.error("Failed to archive Product. Error: " + response);
+                            }
+                        });
+                    },
+                    // Get Item Price Matrices for Item By Flag
+                    getItemPriceMatricesForItemByFlag = function (flagId, itemId) {
+                        dataservice.getItemPriceMatricesForItemByFlagId({
+                            FlagId: flagId,
+                            ItemId: itemId
+                        }, {
+                            success: function (data) {
+                                setItemPriceMatricesToItem(data);
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load item price matrix" + response);
                             }
                         });
                     },
@@ -518,7 +752,7 @@ define("product/product.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    selectedProduct(model.Item.Create(data, itemActions));
+                                    selectedProduct(model.Item.Create(data, itemActions, itemStateTaxConstructorParams));
 
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -529,6 +763,36 @@ define("product/product.viewModel",
                             error: function (response) {
                                 isLoadingProducts(false);
                                 toastr.error("Failed to load item details" + response);
+                            }
+                        });
+                    },
+                    //Get Category Child List Items
+                    getChildCategories = function (id, event) {
+                        dataservice.getProductCategoryChilds({
+                            id: id,
+                        }, {
+                            success: function (data) {
+                                if (data.ProductCategories != null) {
+                                    _.each(data.ProductCategories, function (productCategory) {
+                                        productCategory.ParentCategoryId = id;
+                                        var category = model.ProductCategory.Create(productCategory);
+                                        if (selectedProduct()) {
+                                            var productCategoryItem = selectedProduct().productCategoryItems.find(function (pCatItem) {
+                                                return pCatItem.categoryId() === category.id;
+                                            });
+
+                                            if (productCategoryItem) {
+                                                category.isSelected(true);
+                                            }
+                                        }
+                                        productCategories.push(category);
+                                        view.appendChildCategory(event, category);
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Categories " + response);
                             }
                         });
                     };
@@ -559,6 +823,10 @@ define("product/product.viewModel",
                     stockDialogFilter: stockDialogFilter,
                     stockItems: stockItems,
                     costCentres: costCentres,
+                    sectionFlags: sectionFlags,
+                    suppliers: suppliers,
+                    productCategories: productCategories,
+                    parentProductCategories: parentProductCategories,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -584,7 +852,14 @@ define("product/product.viewModel",
                     openStockItemDialog: openStockItemDialog,
                     closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
-                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog
+                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
+                    gotoElement: gotoElement,
+                    toggleChildCategories: toggleChildCategories,
+                    updateProductCategories: updateProductCategories,
+                    openProductCategoryDialog: openProductCategoryDialog,
+                    closeProductCategoryDialog: closeProductCategoryDialog,
+                    updateCheckedStateForCategory: updateCheckedStateForCategory,
+                    openPhraseLibrary: openPhraseLibrary
                     // Utility Methods
 
                 };

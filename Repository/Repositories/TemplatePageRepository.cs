@@ -3,6 +3,8 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MPC.Repository.Repositories
 {
@@ -46,6 +48,14 @@ namespace MPC.Repository.Repositories
         public TemplatePage Find(int id)
         {
             return DbSet.Find(id);
+        }
+        // get list of template pages called from designer// added by saqib ali
+        public List<TemplatePage> GetTemplatePages(long productId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            var result = db.TemplatePages.Where(g => g.ProductId == productId).OrderBy(g => g.PageNo).ToList();
+            return result;
         }
 
         #endregion

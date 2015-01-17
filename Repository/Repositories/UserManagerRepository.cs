@@ -32,6 +32,19 @@ namespace MPC.Repository.Repositories
             return rec;
         }
 
-      
+        public string GetMarketingRoleIDByName()
+        {
+             //var rec = db.roles.Where(i => i.RoleName.Contains("Marketing") || i.RoleName.Contains("marketing")).FirstOrDefault();
+             //if (rec != null)
+             //{
+             //     var Email = db.SystemUsers.Where(g => g.RoleId == rec.RoleId).Select(j => j.Email).FirstOrDefault();
+             //     return Email;
+             //}
+             //else
+             //{
+                  return string.Empty;
+            // }
+           
+        }
     }
 }

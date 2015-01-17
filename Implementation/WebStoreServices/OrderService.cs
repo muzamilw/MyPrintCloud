@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -18,18 +19,21 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyService _myCompanyService;
         private readonly ICompanyContactRepository _myCompanyContact;
         private readonly IPrefixRepository _prefixRepository;
+        
           #region Constructor
 
         /// <summary>
         ///  Constructor
         /// </summary>
-        public OrderService(IOrderRepository OrderRepository,IWebstoreClaimsHelperService myClaimHelper,ICompanyService myCompanyService,ICompanyContactRepository myCompanyContact,IPrefixRepository prefixRepository)
+        public OrderService(IOrderRepository OrderRepository,IWebstoreClaimsHelperService myClaimHelper,ICompanyService myCompanyService,ICompanyContactRepository myCompanyContact,IPrefixRepository prefixRepository
+            )
         {
             this._OrderRepository = OrderRepository;
             this._myClaimHelper = myClaimHelper;
             this._myCompanyService = myCompanyService;
             this._myCompanyContact = myCompanyContact;
             this._prefixRepository = prefixRepository;
+           
         }
 
 
@@ -41,50 +45,42 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public int ProcessPublicUserOrder(string orderTitle,Organisation org)
+        // if user order cookie is null the we process the order
+        public long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId)
         {
-            int customerID = 0;
             long orderID = 0;
             if (!IsUserLoggedIn())
             {
-                if (!CheckCustomerCookie()) // need to update
+                if (TemporaryRetailCompanyId == 0) // temporary customer doesn't exists in cookie
                 {
-                    customerID = CreateCustomer();
-                    int CID = _myCompanyContact.GetContactIdByCustomrID(customerID);
-                    Company company = _myCompanyService.GetCompanyByCompanyID(customerID);
-                    Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                    orderID = _OrderRepository.CreateNewOrder(customerID, CID, company, org, prefix, orderTitle);
-                    //Here Ofcourse for new Customer There shall not be an order exists so we need to create one
+                    if (storeMode == 1) // retail
+                    {
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                        long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
+                        orderID = _OrderRepository.CreateNewOrder(TemporaryRetailCompanyId, TemporaryContactId, OrganisationId, orderTitle);
+                    }
                 }
                 else
                 {
-                    customerID = (int)_myClaimHelper.loginContactCompanyID(); //dummy customer
-                    Company tblCustomer = _myCompanyService.GetCompanyByCompanyID((Int64)customerID);
-                    if (tblCustomer == null)
-                        customerID = this.CreateCustomer();
-                     Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                    int CID = _myCompanyContact.GetContactIdByCustomrID(customerID);
+                   // temporary customer exists in cookie
+                    Company temporaryCompany = _myCompanyService.GetCompanyByCompanyID(TemporaryRetailCompanyId);
+                    if (temporaryCompany == null)
+                    {
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                    }
 
-
-                    // start from here
-
-                    orderID = _OrderRepository.GetOrderID(customerID, CID, orderTitle, tblCustomer, org, prefix);
+                    long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
+                    orderID = _OrderRepository.GetOrderID(TemporaryRetailCompanyId, TemporaryContactId, orderTitle, OrganisationId);
                 }
             }
             else
             {
-                //user is Loggged in
-                //Then get customer
-                 Company tblCustomer = _myCompanyService.GetCompanyByCompanyID((Int64)customerID);
-                 Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                customerID = (int)_myClaimHelper.loginContactCompanyID();
-                int contactID = (int)_myClaimHelper.loginContactID();
-                // When user is logged in then we have the contact id why to get order by customer id.
-                orderID = _OrderRepository.GetOrderID(customerID, contactID, orderTitle, tblCustomer,org,prefix);
-              //  customerID = SessionParameters.CustomerID;
+                orderID = _OrderRepository.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), orderTitle, OrganisationId);
+                 
             }
 
-            return (int)orderID;
+            TemporaryRetailCompanyId = TemporaryRetailCompanyId;
+            return orderID;
                  
         }
 
@@ -100,47 +96,187 @@ namespace MPC.Implementation.WebStoreServices
 
             }
         }
-        public bool CheckCustomerCookie()
+     
+        private long CreateTemporaryCustomer(long OrganisationId)
+        {
+            return _myCompanyService.CreateCustomer("Web Store Customer", true, false, CompanyTypes.TemporaryCustomer, "", OrganisationId);
+        }
+        public long GetUserShopCartOrderID(int status)
+        {
+            return _OrderRepository.GetUserShopCartOrderID(status);
+        }
+        public ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus)
+        {
+            return _OrderRepository.GetShopCartOrderAndDetails(orderID, orderStatus);
+        }
+        public DiscountVoucher GetVoucherRecord(int VId)
         {
 
-            bool result = false;
-            //HttpCookie customerCookie = null;
-
-
-            //customerCookie = Request.Cookies[CUSTOMER_COOKIE];
-            //if (customerCookie != null && !string.IsNullOrWhiteSpace(customerCookie.Value) && customerCookie.Value != "0")
-            //    result = true;
-
-
-            return result;
+            return _OrderRepository.GetVoucherRecord(VId); 
         }
-        public int CreateCustomer()
+        public Estimate GetOrderByID(long orderId)
         {
-            int customerID = 0;
-          
-           
-                customerID = _myCompanyService.CreateCustomer("Web Store Customer", true, false, ContactCompanyTypes.TemporaryCustomer, "");
-                if (customerID > 0)
-                    this.SetCustomerCookie(customerID); // sets the customer into the cookie
-          
-
-            return customerID;
+            try
+            {
+                return _OrderRepository.GetOrderByID(orderId);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
-        public bool SetCustomerCookie(int customerID)
+        public bool IsVoucherValid(string voucherCode)
         {
-            bool result = false;
-            HttpCookie customerCookie = null;
-          
-                //customerCookie = new HttpCookie(CUSTOMER_COOKIE, customerID.ToString());
-                //customerCookie.Expires = DateTime.Today.AddDays(365);
-                //Response.Cookies.Add(customerCookie);
-                //result = true;
-           
-          
-
-            return result;
+            try
+            {
+                return _OrderRepository.IsVoucherValid(voucherCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public Estimate CheckDiscountApplied(int orderId)
+        {
+            try
+            {
+                return _OrderRepository.CheckDiscountApplied(orderId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
+        public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
+        {
+            try
+            {
+                return _OrderRepository.RollBackDiscountedItems(orderId,StateTax,Mode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public double SaveVoucherCodeAndRate(int orderId, string VCode)
+        {
+            try
+            {
+                return _OrderRepository.SaveVoucherCodeAndRate(orderId, VCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate,StoreMode Mode)
+        {
+            try
+            {
+                return _OrderRepository.PerformVoucherdiscountOnEachItem(orderId, orderStatus, StateTax, VDiscountRate, Mode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       public bool ResetOrderVoucherCode(int orderId)
+       {
+           try
+           {
+               return _OrderRepository.ResetOrderVoucherCode(orderId);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
 
+        /// <summary>
+        /// Get the OrderId by login User 
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+       public long GetOrderIdByContactId(long contactId, long CompanyId)
+       {
+           try
+           {
+               return _OrderRepository.GetCartOrderId(contactId, CompanyId);
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
+        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime,StoreMode isCorpFlow)
+       {
+            try
+            {
+                return _OrderRepository.UpdateOrderWithDetails(orderID, loggedInContactID, orderTotal, deliveryEstimatedCompletionTime, isCorpFlow);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+       }
+       public bool IsOrderBelongToCorporate(long orderID, out long customerID)
+        {
+
+           try
+           {
+               return _OrderRepository.IsOrderBelongToCorporate(orderID, out customerID);
+
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+
+        }
+
+       public bool ValidateOrderForCorporateLogin(long orderID, bool isPlaceOrder, int IsCustomer, bool isWebAccess,out long CustomerID)
+       {
+
+           if (this.IsOrderInCorporateScenario(orderID, out CustomerID, IsCustomer, isWebAccess) && _myClaimHelper.isUserLoggedIn() == false)
+           {
+              // this.CreateCorpLoginRedirect(CustomerID);
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+       }
+
+       public bool IsOrderInCorporateScenario(long orderID, out long customerID, int IsCustomer, bool isWebAccess)
+       {
+           bool result = false;
+           customerID = 0;
+
+           if (this.IsUserCorporate(isWebAccess, IsCustomer) || this.IsOrderCorporate(orderID, out customerID))
+               result = true;
+
+           return result;
+       }
+
+       public bool IsOrderCorporate(long itemID, out long customerID)
+       {
+           customerID = 0;
+           return _OrderRepository.IsOrderBelongToCorporate(itemID, out customerID);
+       }
+
+       public bool IsUserCorporate(bool IsWebAccess, int IsCustomer)
+       {
+
+           //check whether the logged in company is acorporate user or not. also check if someone is already logged in.
+           bool result = Convert.ToBoolean(IsCustomer == (int)CustomerTypes.Corporate);
+
+           //further check if logged in user has corporate access or not.
+           result = result && (_myClaimHelper.loginContactID() > 0 && (IsWebAccess));
+
+           return result;
+       }
+    
     }
 }

@@ -34,7 +34,7 @@ namespace MPC.Repository.Repositories
         {
             get
             {
-                return db.MpcFileTableViews;
+                return null;
             }
         }
 
@@ -61,9 +61,9 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Returns new path for directory/file
         /// </summary>
-        public string GetNewPathLocator(string path)
+        public string GetNewPathLocator(string path, string fileTableName)
         {
-            return db.GetNewPathLocator(path);
+            return db.GetNewPathLocator(path, fileTableName);
         }
 
         #endregion

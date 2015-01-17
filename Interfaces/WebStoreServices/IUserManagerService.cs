@@ -11,6 +11,6 @@ namespace MPC.Interfaces.WebStoreServices
     {
         SystemUser GetSalesManagerDataByID(int ManagerId);
 
-      
+        string GetMarketingRoleIDByName();
     }
 }

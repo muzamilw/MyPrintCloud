@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MPC.MIS.Areas.Api.ModelMappers;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using ResponseDomainModels = MPC.Models.ResponseModels;
@@ -117,8 +119,9 @@ namespace MPC.MIS.Areas.Api.Models
                 RowCount = source.RowCount
             };
         }
+
         /// <summary>
-        /// Create From Domain Response Model
+        /// Create From Domain Model
         /// </summary>
         public static CmsSkinPageWidget CreateFrom(this DomainModels.CmsSkinPageWidget source)
         {
@@ -129,21 +132,32 @@ namespace MPC.MIS.Areas.Api.Models
                 Sequence = source.Sequence,
                 WidgetId = source.WidgetId,
                 Html = source.Widget != null ? ReadCshtml(source.Widget) : string.Empty,
+                WidgetName = source.Widget != null ? source.Widget.WidgetName : string.Empty,
+                CmsSkinPageWidgetParams = source.CmsSkinPageWidgetParams != null ? source.CmsSkinPageWidgetParams.Select(pw => pw.CreateFrom()) : null
             };
         }
 
 
         #endregion
-        #region
 
+        #region Private
+        /// <summary>
+        /// Read Cshtml
+        /// </summary>
         private static string ReadCshtml(DomainModels.Widget widget)
         {
-            switch (widget.WidgetCode)
+            string html = string.Empty;
+            switch (widget.WidgetControlName)
             {
-                case "001":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
+                case "SavedDesignsWidget.ascx":
+                    html = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
+                    break;
+                case "LoginBar.ascx":
+                    html = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
+                    break;
+
             }
-            return string.Empty;
+            return html;
         }
 
         #endregion

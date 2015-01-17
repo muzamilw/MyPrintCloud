@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ABCpdf, Version=9.1.2.3, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ABCpdf.9.1.2.3\lib\net40\ABCpdf.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
@@ -117,11 +121,13 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -135,11 +141,14 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="MISServices\AuthorizationChecker.cs" />
+    <Compile Include="MISServices\CategoryService.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
     <Compile Include="MISServices\CompanyService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\PaperSheetService.cs" />
+    <Compile Include="MISServices\PhraseLibraryService.cs" />
+    <Compile Include="MISServices\PrefixService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebStoreServices\CampaignService.cs" />
@@ -147,10 +156,19 @@
     <Compile Include="WebStoreServices\CompanyService.cs" />
     <Compile Include="MISServices\MyOrganizationService.cs" />
     <Compile Include="WebStoreServices\CompanyBannerService.cs" />
+    <Compile Include="WebStoreServices\CostCentreService.cs" />
+    <Compile Include="WebStoreServices\ImagePermissionService.cs" />
     <Compile Include="WebStoreServices\ItemService.cs" />
+    <Compile Include="WebStoreServices\ListingService.cs" />
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />
+    <Compile Include="WebStoreServices\TemplateBackgroundImagesService.cs" />
+    <Compile Include="WebStoreServices\TemplateColorStylesService.cs" />
+    <Compile Include="WebStoreServices\TemplateFontsService.cs" />
+    <Compile Include="WebStoreServices\TemplateObjectService.cs" />
+    <Compile Include="WebStoreServices\TemplatePageService.cs" />
+    <Compile Include="WebStoreServices\TemplateService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\UserManagerService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsSecurityService.cs" />
