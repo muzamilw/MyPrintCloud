@@ -59,7 +59,7 @@ namespace MPC.Repository.Repositories
         public Template GetTemplate(long productID)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            var template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            var template = db.Templates.Include("TemplatePages").Where(g => g.ProductId == productID).SingleOrDefault();
             return template;
 
         }
@@ -686,98 +686,98 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public Template ReflectTemplateObject(GlobalTemplateDesigner.Templates ObjGlobalTempDesigner)
-        {
-            Template ObjTemplate = new Template();
-            try
-            {
-                ObjTemplate.ApprovalDate = ObjGlobalTempDesigner.ApprovalDate;
-                ObjTemplate.ApprovedBy = ObjGlobalTempDesigner.ApprovedBy;
-                ObjTemplate.ApprovedByName = ObjGlobalTempDesigner.ApprovedByName;
-                ObjTemplate.ApprovedDate = ObjGlobalTempDesigner.ApprovedDate;
-                ObjTemplate.BaseColorID = ObjGlobalTempDesigner.BaseColorID;
-                ObjTemplate.Code = ObjGlobalTempDesigner.Code;
-                ObjTemplate.ColorHex = ObjGlobalTempDesigner.ColorHex;
-                ObjTemplate.CuttingMargin = ObjGlobalTempDesigner.CuttingMargin;
-                ObjTemplate.Description = ObjGlobalTempDesigner.Description;
-                ObjTemplate.FullView = ObjGlobalTempDesigner.FullView;
-                ObjTemplate.Image = ObjGlobalTempDesigner.Image;
-                ObjTemplate.IsCorporateEditable = ObjGlobalTempDesigner.IsCorporateEditable;
-                ObjTemplate.isCreatedManual = ObjGlobalTempDesigner.isCreatedManual;
-                ObjTemplate.IsDisabled = ObjGlobalTempDesigner.IsDisabled;
-                ObjTemplate.isEditorChoice = ObjGlobalTempDesigner.isEditorChoice;
-                ObjTemplate.IsPrivate = ObjGlobalTempDesigner.IsPrivate;
-                ObjTemplate.isSpotTemplate = ObjGlobalTempDesigner.isSpotTemplate;
-                ObjTemplate.isWatermarkText = ObjGlobalTempDesigner.isWatermarkText;
-                ObjTemplate.MatchingSetID = ObjGlobalTempDesigner.MatchingSetID;
-                ObjTemplate.MatchingSetTheme = ObjGlobalTempDesigner.MatchingSetTheme;
-                ObjTemplate.MPCRating = ObjGlobalTempDesigner.MPCRating;
-                ObjTemplate.MultiPageCount = ObjGlobalTempDesigner.MultiPageCount;
-                ObjTemplate.Orientation = ObjGlobalTempDesigner.Orientation;
-                ObjTemplate.PDFTemplateHeight = ObjGlobalTempDesigner.PDFTemplateHeight;
-                ObjTemplate.PDFTemplateWidth = ObjGlobalTempDesigner.PDFTemplateWidth;
-                ObjTemplate.ProductCategoryId = ObjGlobalTempDesigner.ProductCategoryID;
-                ObjTemplate.ProductId = ObjGlobalTempDesigner.ProductID;
-                ObjTemplate.ProductName = ObjGlobalTempDesigner.ProductName;
-                ObjTemplate.RejectionReason = ObjGlobalTempDesigner.RejectionReason;
-                ObjTemplate.SLThumbnail = ObjGlobalTempDesigner.SLThumbnail;
-                ObjTemplate.SubmitDate = ObjGlobalTempDesigner.SubmitDate;
-                ObjTemplate.SubmittedBy = ObjGlobalTempDesigner.SubmittedBy;
-                ObjTemplate.SubmittedByName = ObjGlobalTempDesigner.SubmittedByName;
-                ObjTemplate.SuperView = ObjGlobalTempDesigner.SuperView;
-                ObjTemplate.TemplateOwner = ObjGlobalTempDesigner.TemplateOwner;
-                ObjTemplate.TemplateOwnerName = ObjGlobalTempDesigner.TemplateOwnerName;
-                ObjTemplate.TemplateType = ObjGlobalTempDesigner.TemplateType;
-                ObjTemplate.TempString = ObjGlobalTempDesigner.TempString;
-                ObjTemplate.Thumbnail = ObjGlobalTempDesigner.Thumbnail;
-                ObjTemplate.UsedCount = ObjGlobalTempDesigner.UsedCount;
-                ObjTemplate.UserRating = ObjGlobalTempDesigner.UserRating;
-                return ObjTemplate;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public Template ReflectTemplateObject(GlobalTemplateDesigner.Templates ObjGlobalTempDesigner)
+        //{
+        //    Template ObjTemplate = new Template();
+        //    try
+        //    {
+        //        ObjTemplate.ApprovalDate = ObjGlobalTempDesigner.ApprovalDate;
+        //        ObjTemplate.ApprovedBy = ObjGlobalTempDesigner.ApprovedBy;
+        //        ObjTemplate.ApprovedByName = ObjGlobalTempDesigner.ApprovedByName;
+        //        ObjTemplate.ApprovedDate = ObjGlobalTempDesigner.ApprovedDate;
+        //        ObjTemplate.BaseColorID = ObjGlobalTempDesigner.BaseColorID;
+        //        ObjTemplate.Code = ObjGlobalTempDesigner.Code;
+        //        ObjTemplate.ColorHex = ObjGlobalTempDesigner.ColorHex;
+        //        ObjTemplate.CuttingMargin = ObjGlobalTempDesigner.CuttingMargin;
+        //        ObjTemplate.Description = ObjGlobalTempDesigner.Description;
+        //        ObjTemplate.FullView = ObjGlobalTempDesigner.FullView;
+        //        ObjTemplate.Image = ObjGlobalTempDesigner.Image;
+        //        ObjTemplate.IsCorporateEditable = ObjGlobalTempDesigner.IsCorporateEditable;
+        //        ObjTemplate.isCreatedManual = ObjGlobalTempDesigner.isCreatedManual;
+        //        ObjTemplate.IsDisabled = ObjGlobalTempDesigner.IsDisabled;
+        //        ObjTemplate.isEditorChoice = ObjGlobalTempDesigner.isEditorChoice;
+        //        ObjTemplate.IsPrivate = ObjGlobalTempDesigner.IsPrivate;
+        //        ObjTemplate.isSpotTemplate = ObjGlobalTempDesigner.isSpotTemplate;
+        //        ObjTemplate.isWatermarkText = ObjGlobalTempDesigner.isWatermarkText;
+        //        ObjTemplate.MatchingSetID = ObjGlobalTempDesigner.MatchingSetID;
+        //        ObjTemplate.MatchingSetTheme = ObjGlobalTempDesigner.MatchingSetTheme;
+        //        ObjTemplate.MPCRating = ObjGlobalTempDesigner.MPCRating;
+        //        ObjTemplate.MultiPageCount = ObjGlobalTempDesigner.MultiPageCount;
+        //        ObjTemplate.Orientation = ObjGlobalTempDesigner.Orientation;
+        //        ObjTemplate.PDFTemplateHeight = ObjGlobalTempDesigner.PDFTemplateHeight;
+        //        ObjTemplate.PDFTemplateWidth = ObjGlobalTempDesigner.PDFTemplateWidth;
+        //        ObjTemplate.ProductCategoryId = ObjGlobalTempDesigner.ProductCategoryID;
+        //        ObjTemplate.ProductId = ObjGlobalTempDesigner.ProductID;
+        //        ObjTemplate.ProductName = ObjGlobalTempDesigner.ProductName;
+        //        ObjTemplate.RejectionReason = ObjGlobalTempDesigner.RejectionReason;
+        //        ObjTemplate.SLThumbnail = ObjGlobalTempDesigner.SLThumbnail;
+        //        ObjTemplate.SubmitDate = ObjGlobalTempDesigner.SubmitDate;
+        //        ObjTemplate.SubmittedBy = ObjGlobalTempDesigner.SubmittedBy;
+        //        ObjTemplate.SubmittedByName = ObjGlobalTempDesigner.SubmittedByName;
+        //        ObjTemplate.SuperView = ObjGlobalTempDesigner.SuperView;
+        //        ObjTemplate.TemplateOwner = ObjGlobalTempDesigner.TemplateOwner;
+        //        ObjTemplate.TemplateOwnerName = ObjGlobalTempDesigner.TemplateOwnerName;
+        //        ObjTemplate.TemplateType = ObjGlobalTempDesigner.TemplateType;
+        //        ObjTemplate.TempString = ObjGlobalTempDesigner.TempString;
+        //        ObjTemplate.Thumbnail = ObjGlobalTempDesigner.Thumbnail;
+        //        ObjTemplate.UsedCount = ObjGlobalTempDesigner.UsedCount;
+        //        ObjTemplate.UserRating = ObjGlobalTempDesigner.UserRating;
+        //        return ObjTemplate;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        public List<TemplatePage> ReflectTemplatePages(GlobalTemplateDesigner.TemplatePages[] tempPages)
-        {
-            List<TemplatePage> tempPagesList = new List<TemplatePage>();
-            TemplatePage objTempPage = new TemplatePage();
-            try
-            {
-                foreach(var page in tempPages)
-                {
-                    objTempPage.BackgroundFileName = page.BackgroundFileName;
-                    objTempPage.BackGroundType = page.BackGroundType;
-                    objTempPage.ColorC = page.ColorC;
-                    objTempPage.ColorK = page.ColorK;
-                    objTempPage.ColorM = page.ColorM;
-                    objTempPage.ColorY = page.ColorY;
-                    objTempPage.hasOverlayObjects = page.hasOverlayObjects;
-               //     objTempPage.Height = page.Height;
-                    objTempPage.IsPrintable = page.IsPrintable;
-                    objTempPage.Orientation = page.Orientation;
-                    objTempPage.PageName = page.PageName;
-                    objTempPage.PageNo = page.PageNo;
-                    objTempPage.PageType = page.PageType;
-                  //  objTempPage.ProductId = page.ProductId;
-                 //   objTempPage.ProductPageId = page.ProductPageId;
-                 //   objTempPage.Template = page.Template;
-                //    objTempPage.Width = page.Width;
+        //public List<TemplatePage> ReflectTemplatePages(GlobalTemplateDesigner.TemplatePages[] tempPages)
+        //{
+        //    List<TemplatePage> tempPagesList = new List<TemplatePage>();
+        //    TemplatePage objTempPage = new TemplatePage();
+        //    try
+        //    {
+        //        foreach(var page in tempPages)
+        //        {
+        //            objTempPage.BackgroundFileName = page.BackgroundFileName;
+        //            objTempPage.BackGroundType = page.BackGroundType;
+        //            objTempPage.ColorC = page.ColorC;
+        //            objTempPage.ColorK = page.ColorK;
+        //            objTempPage.ColorM = page.ColorM;
+        //            objTempPage.ColorY = page.ColorY;
+        //            objTempPage.hasOverlayObjects = page.hasOverlayObjects;
+        //       //     objTempPage.Height = page.Height;
+        //            objTempPage.IsPrintable = page.IsPrintable;
+        //            objTempPage.Orientation = page.Orientation;
+        //            objTempPage.PageName = page.PageName;
+        //            objTempPage.PageNo = page.PageNo;
+        //            objTempPage.PageType = page.PageType;
+        //          //  objTempPage.ProductId = page.ProductId;
+        //         //   objTempPage.ProductPageId = page.ProductPageId;
+        //         //   objTempPage.Template = page.Template;
+        //        //    objTempPage.Width = page.Width;
                    
-                    tempPagesList.Add(objTempPage);
+        //            tempPagesList.Add(objTempPage);
                    
 
-                }
-                 return tempPagesList;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+        //        }
+        //         return tempPagesList;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
-        }
+        //}
                
         /// <summary>
         /// get template pages by productID added by zohaib

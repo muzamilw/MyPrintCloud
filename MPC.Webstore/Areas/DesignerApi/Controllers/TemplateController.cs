@@ -64,6 +64,19 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return "true".ToString();
 
         }
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage mergeTemplate(int parameter1, long parameter2, long parameter3)
+        {
+            var template = templateService.MergeRetailTemplate(parameter1,parameter2,parameter3);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
+
+        }
+ 
         // public string preview(Stream data)
         //    public string update(Stream data)// not used in new designer 
         // public string savecontine(Stream data)// not used in new designer 

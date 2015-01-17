@@ -499,8 +499,10 @@
     <Content Include="Scripts\Designer\p15-v2.js" />
     <Content Include="Scripts\Designer\p19.js" />
     <Content Include="Scripts\Designer\p21-v2.js" />
+    <Content Include="Scripts\Designer\p25.js" />
     <Content Include="Scripts\Designer\p35-v2.js" />
     <Content Include="Scripts\Designer\p40.js" />
+    <Content Include="Scripts\Designer\p50.js" />
     <Content Include="Scripts\Designer\p55-ease.js" />
     <Content Include="Scripts\Designer\p55.js" />
     <Content Include="Scripts\Designer\p64test.js" />

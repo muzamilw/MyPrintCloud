@@ -1,4 +1,6 @@
-﻿var var1 = null;
+﻿var loc = window.location.toString();
+var locVars = loc.split('/');
+var var1 = null;
 var var2 = null;
 var var3 = 1;
 var cID = 0;
@@ -6,6 +8,7 @@ var cIDv2 = 0;
 var tID = 0;
 var temp;
 var CustomerID = 0;
+var ogranisationId = 0;
 var printCropMarks = false;
 var printWaterMarks = false;
 var orderCode = null;
@@ -137,3 +140,17 @@ var firstLoad = true, loaderLoading = false;
 var lAObj = 0;
 var spPanel = "";
 var spBkPanel = "";
+function buildParams() {
+  
+    printCropMarks = locVars[locVars.length - 3];
+    printWaterMarks = locVars[locVars.length - 2];
+    CustomerName =parseInt(  locVars[locVars.length - 7]);
+    tID = parseInt(locVars[locVars.length - 9]);
+    IsCalledFrom =parseInt(  locVars[locVars.length - 5]);
+    IsEmbedded = locVars[locVars.length - 1];
+    CustomerID = parseInt( locVars[locVars.length - 7]);
+    ContactID =parseInt(  locVars[locVars.length - 6]);
+    ogranisationId = parseInt( locVars[locVars.length - 4]);
+    cIDv2 =parseInt( locVars[locVars.length - 10]);
+  
+}

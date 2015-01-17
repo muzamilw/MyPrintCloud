@@ -17,9 +17,12 @@ namespace MPC.Implementation.WebStoreServices
     public class CostCentreService : ICostCentreService
     {
         private readonly ICostCentreRepository _CostCentreRepository;
-        public CostCentreService(ICostCentreRepository CostCentreRepository)
+        private readonly ICostCentreVariableRepository _CostCentreVariableRepository;
+        public CostCentreService(ICostCentreRepository CostCentreRepository,
+            ICostCentreVariableRepository CostCentreVariableRepository)
         {
             this._CostCentreRepository = CostCentreRepository;
+            this._CostCentreVariableRepository = CostCentreVariableRepository;
         }
 
 
@@ -126,7 +129,7 @@ namespace MPC.Implementation.WebStoreServices
             double MinCost = 0.0d;
             double DefaultProfitMargin = 0.0d;
 
-            string sCostPlant = TokenParse( "EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"}");
+            string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} ");  //* {question, ID=\"13\",caption=\"How many boxes\"}
     //="EstimatedPlantCost =  BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,"1")  *  BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,"13",CostCentreID) ";
             string sCostLabour ="EstimatedLabourCost = 0";
             string sCostStock ="EstimatedMaterialCost = 0";
@@ -244,7 +247,7 @@ namespace MPC.Implementation.WebStoreServices
                 oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
                 oSource += "imports MPC.Models.Common" + Environment.NewLine;
                 oSource += "Imports System.Reflection" + Environment.NewLine;
-
+                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
                 oSource += "Namespace UserCostCentres" + Environment.NewLine;
 
 
@@ -410,7 +413,7 @@ namespace MPC.Implementation.WebStoreServices
                         case "systemvariable":
                              GetID = oSpiltTokens[1].Split('\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,\"" + GetID[1] + "\") ";
+                                return " _CostCentreService.ExecuteVariable(ParamsArray ,\"" + GetID[1] + "\") ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -420,7 +423,7 @@ namespace MPC.Implementation.WebStoreServices
                         case "question":
                              GetID = oSpiltTokens[1].Split('\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,\"" + GetID[1] + "\",CostCentreID) ";
+                                return " _CostCentreService.ExecuteQuestion(ParamsArray,\"" + GetID[1] + "\",CostCentreID) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -432,7 +435,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetID = oSpiltTokens[1].Split( '\"');
                             GetReturnValue = oSpiltTokens[3].Split('\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteCostCentre(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                                return " _CostCentreService.ExecuteCostCentre(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -444,7 +447,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetID = oSpiltTokens[1].Split('\"');
                             GetReturnValue = oSpiltTokens[3].Split( '\"');
                             if (GetID.Length == 3 & GetReturnValue.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteResource(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                                return " _CostCentreService.ExecuteResource(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -462,7 +465,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetValue = oSpiltTokens[5].Split( '\"');
 
                             if (((GetID.Length == 3 & GetName.Length == 3) & (GetQType.Length == 3 & GetQtyType.Length == 3) & GetValue.Length == 3)) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
+                                return " _CostCentreService.ExecuteStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -473,7 +476,7 @@ namespace MPC.Implementation.WebStoreServices
 
                             GetID = oSpiltTokens[1].Split( '\"');
                             if (GetID.Length == 3) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteMatrix(ParamsArray,\"" + GetID[1] + "\",cint(CostCentreID)) ";
+                                return " _CostCentreService.ExecuteMatrix(ParamsArray,\"" + GetID[1] + "\",cint(CostCentreID)) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -489,7 +492,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetValue = oSpiltTokens[5].Split('\"');
 
                             if ((((GetID.Length == 3 & GetQuestion.Length == 3) & (GetTypes.Length == 3 & GetValue.Length == 3)) & GetInputTypes.Length == 3)) {
-                                return " BLL.CostCentres.CostCentreExecution.ExecuteInput(ParamsArray,\"" + GetID[1] + "\",\"" + GetQuestion[1] + "\"," + GetTypes[1] + "," + GetInputTypes[1] + ",\"" + GetValue[1] + "\",cint(CostCentreID)) ";
+                                return " _CostCentreService.ExecuteInput(ParamsArray,\"" + GetID[1] + "\",\"" + GetQuestion[1] + "\"," + GetTypes[1] + "," + GetInputTypes[1] + ",\"" + GetValue[1] + "\",cint(CostCentreID)) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";
@@ -1281,523 +1284,568 @@ namespace MPC.Implementation.WebStoreServices
         }
 
 
-        //public double ExecuteVariable(ref object[] oParamsArray, string VariableID)
-        //{
-        //    double functionReturnValue = 0;
-        //    try
-        //    {
-        //        CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray(1);
-        //        Model.Items.ItemSectionDTO oItemSection = (Model.Items.ItemSectionDTO)oParamsArray(8);
-        //        int CurrentQuantity = Convert.ToInt32(oParamsArray(5));
+        public double ExecuteVariable(ref object[] oParamsArray, int VariableID)
+        {
+            double functionReturnValue = 0;
+            try
+            {
+                CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+                ItemSection oItemSection = (ItemSection)oParamsArray[8];
+                int CurrentQuantity = Convert.ToInt32(oParamsArray[5]);
 
-        //        //if its Queue populating mode then return 0
-        //        if (ExecutionMode == CostCentreExecutionMode.PromptMode)
-        //        {
-        //            return 0;
+                //if its Queue populating mode then return 0
+                if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    return 0;
 
-        //            //its porpper execution mode
-        //        }
-        //        else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
-        //        {
-                    
-        //            CostCentreVariable oVariable;
-        //            //First we have to fetch the Variable object which contains the information
-        //            oVariable = BLL.CostCentres.Variables.LoadVariable((Model.ApplicationSettings.GlobalData)oParamsArray(0), VariableID);
+                    //its porpper execution mode
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
 
-        //            //now check the type of the variable.
-        //            //type 1 = system variable
-        //            //type 2 = Customized Variable
-        //            //type 3 = CostCentre Variable
+                    CostCentreVariable oVariable;
+                    //First we have to fetch the Variable object which contains the information
+                    oVariable = _CostCentreVariableRepository.LoadVariable(VariableID);
 
-        //            // in this type the Criteria will be used that will be
+                    //now check the type of the variable.
+                    //type 1 = system variable
+                    //type 2 = Customized Variable
+                    //type 3 = CostCentre Variable
 
-        //            if (oVariable.VariableType == 1)
-        //            {
-        //                switch (oVariable.VariablePropertyType)
-        //                {
+                    // in this type the Criteria will be used that will be
 
-        //                    case Model.CostCentres.VariableProperty.Side1Inks:
-        //                        functionReturnValue = oItemSection.Side1Inks;
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.Side2Inks:
-        //                        functionReturnValue = oItemSection.Side1Inks;
+                    if (oVariable.Type == 1)
+                    {
+                        switch (oVariable.PropertyType)
+                        {
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PrintSheetQty_ProRata:
+                            case (int)VariableProperty.Side1Inks:
+                                functionReturnValue = Convert.ToDouble(oItemSection.Side1Inks);
+                                break;
+                            case (int)VariableProperty.Side2Inks:
+                                functionReturnValue = Convert.ToDouble(oItemSection.Side1Inks);
 
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.PrintSheetQty1;
-        //                                break;
-        //                            case 2:
-        //                                if (oItemSection.PrintSheetQty2 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.PrintSheetQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.PrintSheetQty2;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                if (oItemSection.PrintSheetQty3 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.PrintSheetQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.PrintSheetQty3;
-        //                                }
-        //                                break;
-        //                        }
+                                break;
+                            case (int)VariableProperty.PrintSheetQty_ProRata:
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PressSpeed_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.PrintSheetQty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.PrintSheetQty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3);
+                                        }
+                                        break;
+                                }
 
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.PressSpeed1;
-        //                                break;
-        //                            case 2:
-        //                                if (oItemSection.PressSpeed2 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.PressSpeed1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.PressSpeed2;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                if (oItemSection.PressSpeed3 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.PressSpeed1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.PressSpeed3;
-        //                                }
-        //                                functionReturnValue = oItemSection.PressSpeed3;
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.PressSpeed4
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.PressSpeed5
-        //                        }
+                                break;
+                            case (int)VariableProperty.PressSpeed_ProRata:
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.ColourHeads:
-        //                        if ((oItemSection.Press != null))
-        //                        {
-        //                            functionReturnValue = oItemSection.Press.ColourHeads;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = 0;
-        //                        }
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.PressSpeed2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.PressSpeed3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed3);
+                                        }
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed3);
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.PressSpeed4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.PressSpeed5
+                                }
 
-        //                        break;
+                                break;
+                            //case (int)VariableProperty.ColourHeads:
+                            //    if ((oItemSection.Press != null)) //  ask sir nv to add referece in press to itemsection
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.ColourHeads;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
 
-        //                    case Model.CostCentres.VariableProperty.ImpressionQty_ProRata:
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.ImpressionQty1;
-        //                                break;
-        //                            case 2:
-        //                                if (oItemSection.ImpressionQty2 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.ImpressionQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.ImpressionQty2;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                if (oItemSection.ImpressionQty3 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.ImpressionQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.ImpressionQty3;
-        //                                }
+                            //    break;
 
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.ImpressionQty4
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.ImpressionQty5
-        //                        }
+                            case (int)VariableProperty.ImpressionQty_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.ImpressionQty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.ImpressionQty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty3);
+                                        }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PressHourlyCharge:
-        //                        functionReturnValue = oItemSection.PressHourlyCharge;
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.ImpressionQty4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.ImpressionQty5
+                                }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.MinInkDuctqty:
-        //                        if (oItemSection.Press == null)
-        //                        {
-        //                            functionReturnValue = 0;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = oItemSection.Press.MinInkDuctqty;
+                                break;
+                            case (int)VariableProperty.PressHourlyCharge:
+                                functionReturnValue = oItemSection.PressHourlyCharge ?? 0;
 
-        //                        }
+                                break;
+                            //case (int)VariableProperty.MinInkDuctqty:
+                            //    if (oItemSection.Press == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.MinInkDuctqty;
 
-        //                        break;
+                            //    }
 
-        //                    case Model.CostCentres.VariableProperty.MakeReadycharge:
-        //                        if (oItemSection.Press == null)
-        //                        {
-        //                            functionReturnValue = 0;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = oItemSection.Press.MakeReadyCost;
-        //                        }
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PrintChargeExMakeReady_ProRata:
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.ImpressionQty1;
-        //                                break;
-        //                            case 2:
-        //                                functionReturnValue = oItemSection.ImpressionQty2;
-        //                                break;
-        //                            case 3:
-        //                                functionReturnValue = oItemSection.ImpressionQty3;
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.ImpressionQty4
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.ImpressionQty5
-        //                        }
+                            //    break;
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PaperGsm:
-        //                        functionReturnValue = oItemSection.PaperGsm;
+                            //case (int)VariableProperty.MakeReadycharge:
+                            //    if (oItemSection.Press == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.MakeReadyCost;
+                            //    }
+                            //    break;
+                            case (int)VariableProperty.PrintChargeExMakeReady_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        break;
+                                    case 2:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty2);
+                                        break;
+                                    case 3:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty3);
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.ImpressionQty4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.ImpressionQty5
+                                }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.SetupSpoilage:
-        //                        functionReturnValue = oItemSection.SetupSpoilage;
+                                break;
+                            case (int)VariableProperty.PaperGsm:
+                                functionReturnValue = oItemSection.PaperGsm ?? 0;
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.RunningSpoilage:
-        //                        functionReturnValue = oItemSection.RunningSpoilage;
+                                break;
+                            case (int)VariableProperty.SetupSpoilage:
+                                functionReturnValue = Convert.ToDouble(oItemSection.SetupSpoilage);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PaperPackPrice:
-        //                        functionReturnValue = oItemSection.PaperPackPrice;
+                                break;
+                            case (int)VariableProperty.RunningSpoilage:
+                                functionReturnValue = Convert.ToDouble(oItemSection.RunningSpoilage);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.AdditionalPlateUsed:
-        //                        functionReturnValue = oItemSection.AdditionalPlateUsed;
+                                break;
+                            case (int)VariableProperty.PaperPackPrice:
+                                functionReturnValue = oItemSection.PaperPackPrice ?? 0;
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.AdditionalFilmUsed:
-        //                        functionReturnValue = oItemSection.AdditionalFilmUsed;
+                                break;
+                            case (int)VariableProperty.AdditionalPlateUsed:
+                                functionReturnValue = Convert.ToDouble(oItemSection.AdditionalPlateUsed);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.ItemGutterHorizontal:
-        //                        functionReturnValue = oItemSection.ItemGutterHorizontal;
+                                break;
+                            case (int)VariableProperty.AdditionalFilmUsed:
+                                functionReturnValue = Convert.ToDouble(oItemSection.AdditionalFilmUsed);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.ItemGutterVertical:
-        //                        functionReturnValue = oItemSection.ItemGutterVertical;
+                                break;
+                            case (int)VariableProperty.ItemGutterHorizontal:
+                                functionReturnValue = oItemSection.ItemGutterHorizontal ?? 0;
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PTVRows:
-        //                        functionReturnValue = oItemSection.PTVRows;
+                                break;
+                            case (int)VariableProperty.ItemGutterVertical:
+                                functionReturnValue = oItemSection.ItemGutterVertical ?? 0;
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PTVColoumns:
-        //                        functionReturnValue = oItemSection.PTVColoumns;
+                                break;
+                            case (int)VariableProperty.PTVRows:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PTVRows);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PrintViewLayoutLandScape:
-        //                        functionReturnValue = oItemSection.PrintViewLayoutLandScape;
+                                break;
+                            case (int)VariableProperty.PTVColoumns:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PTVColoumns);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PrintViewLayoutPortrait:
-        //                        functionReturnValue = oItemSection.PrintViewLayoutPortrait;
+                                break;
+                            case (int)VariableProperty.PrintViewLayoutLandScape:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutLandScape);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PrintToView:
-        //                        if (oItemSection.PrintViewLayout == Model.Items.ItemSectionDTO.PrintViewOrientation.Landscape)
-        //                        {
-        //                            functionReturnValue = oItemSection.PrintViewLayoutLandScape;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = oItemSection.PrintViewLayoutPortrait;
-        //                        }
+                                break;
+                            case (int)VariableProperty.PrintViewLayoutPortrait:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutPortrait);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.FilmQty:
-        //                        functionReturnValue = oItemSection.FilmQty;
+                                break;
+                            case (int)VariableProperty.PrintToView:
+                                if (oItemSection.PrintViewLayout.Value == (int)PrintViewOrientation.Landscape)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutLandScape);
+                                }
+                                else
+                                {
+                                    functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutPortrait);
+                                }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PlateQty:
-        //                        functionReturnValue = oItemSection.PlateQty;
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.GuilotineMakeReadycharge:
-        //                        if (oItemSection.Guilotine == null)
-        //                        {
-        //                            functionReturnValue = 0;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = oItemSection.Guilotine.MakeReadyCost;
-        //                        }
+                                break;
+                            case (int)VariableProperty.FilmQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.FilmQty);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.GuilotineChargePerCut:
-        //                        if (oItemSection.Guilotine == null)
-        //                        {
-        //                            functionReturnValue = 0;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = oItemSection.Guilotine.CostPerCut;
-        //                        }
+                                break;
+                            case (int)VariableProperty.PlateQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.Side1PlateQty + oItemSection.Side2PlateQty);
+                                break;
+                            //case (int)VariableProperty.GuilotineMakeReadycharge:
+                            //    if (oItemSection.Guilotine == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Guilotine.MakeReadyCost;
+                            //    }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.GuillotineFirstCut:
-        //                        functionReturnValue = oItemSection.GuillotineFirstCut;
+                            //    break;
+                            //case (int)VariableProperty.GuilotineChargePerCut:
+                            //    if (oItemSection.Guilotine == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Guilotine.CostPerCut;
+                            //    }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.GuillotineSecondCut:
-        //                        functionReturnValue = oItemSection.GuillotineSecondCut;
+                            //    break;
+                            case (int)VariableProperty.GuillotineFirstCut:
+                                functionReturnValue = Convert.ToDouble(oItemSection.GuillotineFirstCut);
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.FinishedItemQty_ProRata:
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.Qty1;
-        //                                break;
-        //                            case 2:
-        //                                if (oItemSection.Qty2 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.Qty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.Qty2;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                if (oItemSection.Qty3 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.Qty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.Qty3;
-        //                                }
+                                break;
+                            case (int)VariableProperty.GuillotineSecondCut:
+                                functionReturnValue = Convert.ToDouble(oItemSection.GuillotineSecondCut);
 
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.Qty1
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.Qty1
-        //                        }
+                                break;
+                            case (int)VariableProperty.FinishedItemQty_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.Qty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.Qty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.Qty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty3);
+                                        }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.TotalSections:
-        //                        functionReturnValue = oItemSection.TotalSection;
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.Qty1
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.Qty1
+                                }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PaperWeight_ProRata:
+                                break;
+                            //case (int)VariableProperty.TotalSections:
+                            //    functionReturnValue = oItemSection.TotalSection;
 
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.PaperWeight1;
-        //                                break;
-        //                            case 2:
-        //                                if (oItemSection.PaperWeight2 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.PaperWeight1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.PaperWeight2;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                if (oItemSection.PaperWeight3 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.PaperWeight1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.PaperWeight3;
-        //                                }
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.PaperWeight4
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.PaperWeight5
-        //                        }
+                            //    break;
+                            case (int)VariableProperty.PaperWeight_ProRata:
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PrintSheetQtyIncSpoilage_ProRata:
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.PrintSheetQty1 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100);
-        //                                break;
-        //                            case 2:
-        //                                functionReturnValue = oItemSection.PrintSheetQty2 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty2 * oItemSection.RunningSpoilage / 100);
-        //                                break;
-        //                            case 3:
-        //                                functionReturnValue = oItemSection.PrintSheetQty3 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty3 * oItemSection.RunningSpoilage / 100);
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.PrintSheetQty4 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty4 * oItemSection.RunningSpoilage / 100)
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.PrintSheetQty5 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty5 * oItemSection.RunningSpoilage / 100)
-        //                        }
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = oItemSection.PaperWeight1 ?? 0;
+                                        break;
+                                    case 2:
+                                        if (oItemSection.PaperWeight2 == 0)
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight1 ?? 0;
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight2 ?? 0;
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.PaperWeight3 == 0)
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight1 ?? 0;
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight3 ?? 0;
+                                        }
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.PaperWeight4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.PaperWeight5
+                                }
 
-        //                        break;
+                                break;
+                            case (int)VariableProperty.PrintSheetQtyIncSpoilage_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100));
+                                        break;
+                                    case 2:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty2 * oItemSection.RunningSpoilage / 100));
+                                        break;
+                                    case 3:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty3 * oItemSection.RunningSpoilage / 100));
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.PrintSheetQty4 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty4 * oItemSection.RunningSpoilage / 100)
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.PrintSheetQty5 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty5 * oItemSection.RunningSpoilage / 100)
+                                }
 
-        //                    case Model.CostCentres.VariableProperty.FinishedItemQtyIncSpoilage_ProRata:
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.FinishedItemQty1;
-        //                                break;
-        //                            case 2:
-        //                                if (oItemSection.FinishedItemQty2 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.FinishedItemQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.FinishedItemQty2;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                if (oItemSection.FinishedItemQty3 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.FinishedItemQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.FinishedItemQty3;
-        //                                }
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.FinishedItemQty4
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.FinishedItemQty5
-        //                        }
+                                break;
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.NoOfSides:
-        //                        if (Convert.ToBoolean(oItemSection.IsDoubleSided) == true)
-        //                        {
-        //                            functionReturnValue = 2;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = 1;
-        //                        }
+                            case (int)VariableProperty.FinishedItemQtyIncSpoilage_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.FinishedItemQty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.FinishedItemQty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty3);
+                                        }
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.FinishedItemQty4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.FinishedItemQty5
+                                }
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.PressSizeRatio:
-        //                        if (oItemSection.Press == null)
-        //                        {
-        //                            functionReturnValue = 0;
-        //                        }
-        //                        else
-        //                        {
-        //                            functionReturnValue = oItemSection.Press.PressSizeRatio;
-        //                        }
+                                break;
+                            case (int)VariableProperty.NoOfSides:
+                                if (Convert.ToBoolean(oItemSection.IsDoubleSided) == true)
+                                {
+                                    functionReturnValue = 2;
+                                }
+                                else
+                                {
+                                    functionReturnValue = 1;
+                                }
 
-        //                        break;
+                                break;
+                            //case (int)VariableProperty.PressSizeRatio:
+                            //    if (oItemSection.Press == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.PressSizeRatio;
+                            //    }
 
-        //                    case Model.CostCentres.VariableProperty.SectionPaperWeightExSelfQty_ProRata:
-        //                        switch (CurrentQuantity)
-        //                        {
-        //                            case 1:
-        //                                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
-        //                                break;
-        //                            case 2:
-        //                                if (oItemSection.SectionPaperWeightExSelfQty2 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty2;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                if (oItemSection.SectionPaperWeightExSelfQty3 == 0)
-        //                                {
-        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
-        //                                }
-        //                                else
-        //                                {
-        //                                    functionReturnValue = oItemSection.SectionPaperWeightExSelfQty3;
-        //                                }
-        //                                break;
-        //                            //Case 4
-        //                            //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty4
-        //                            //Case 5
-        //                            //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty5
-        //                        }
+                            //    break;
 
-        //                        break;
+                            //case (int)VariableProperty.SectionPaperWeightExSelfQty_ProRata:
+                            //    switch (CurrentQuantity)
+                            //    {
+                            //        case 1:
+                            //            functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+                            //            break;
+                            //        case 2:
+                            //            if (oItemSection.SectionPaperWeightExSelfQty2 == 0)
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+                            //            }
+                            //            else
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty2;
+                            //            }
+                            //            break;
+                            //        case 3:
+                            //            if (oItemSection.SectionPaperWeightExSelfQty3 == 0)
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+                            //            }
+                            //            else
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty3;
+                            //            }
+                            //            break;
+                            //        //Case 4
+                            //        //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty4
+                            //        //Case 5
+                            //        //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty5
+                            //    }
 
-        //                    case Model.CostCentres.VariableProperty.WashupQty:
-        //                        functionReturnValue = oItemSection.WashupQty;
+                            //    break;
 
-        //                        break;
-        //                    case Model.CostCentres.VariableProperty.MakeReadyQty:
-        //                        functionReturnValue = oItemSection.MakeReadyQty;
+                            case (int)VariableProperty.WashupQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.WashupQty);
 
-        //                        break;
-        //                    default:
-        //                        functionReturnValue = 0;
+                                break;
+                            case (int)VariableProperty.MakeReadyQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.MakeReadyQty);
 
-        //                        break;
-        //                }
+                                break;
+                            default:
+                                functionReturnValue = 0;
 
-
-        //            }
-        //            else if (oVariable.VariableType == 2)
-        //            {
-        //                return ExecUserVariable((Model.ApplicationSettings.GlobalData)oParamsArray(0), oVariable);
-        //            }
-        //            else if (oVariable.VariableType == 3)
-        //            {
-        //                return oVariable.VariableValue;
-        //            }
+                                break;
+                        }
 
 
-        //            oVariable = null;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ExecuteVariable", ex);
-        //    }
-        //    return functionReturnValue;
-
-        //}
-
-
-       
+                    }
+                    else if (oVariable.Type == 2)
+                    {
+                        return _CostCentreVariableRepository.ExecUserVariable(oVariable);
+                    }
+                    else if (oVariable.Type == 3)
+                    {
+                        return oVariable.VariableValue ?? 0;
+                    }
 
 
+                    oVariable = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteVariable", ex);
+            }
+            return functionReturnValue;
+
+        }
+
+
+
+        public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
+        {
+            double functionReturnValue = 0;
+
+            try
+            {
+                CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+
+                // If execution mode is for populating the Queue then return 0
+                if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    return 0;
+
+                    //if its execution mode then
+
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
+                    if (ReturnValue == "costperhour")
+                    {
+                        functionReturnValue = _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+                    }
+                    else
+                    {
+                        functionReturnValue = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteResource", ex);
+            }
+            return functionReturnValue;
+        }
+
+
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price ,out double PerQtyQty)
+        {
+            try
+            {
+                return _CostCentreRepository.ExecuteUserStockItem(StockID, StockPriceType,out Price ,out PerQtyQty);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
     }
 }

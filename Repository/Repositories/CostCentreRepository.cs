@@ -8,6 +8,8 @@ using MPC.Repository.BaseRepository;
 using System;
 using System.Data;
 using MPC.Models.Common;
+using System.Data.SqlClient;
+using System.Data.Entity.Core.Objects;
 
 namespace MPC.Repository.Repositories
 {
@@ -683,38 +685,17 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double PerQtyQty)
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty)
         {
-            string sSqlString = null;
-            object temp = null;
-
             try
             {
-
-                //PerQtyQty = db.sp_CostCentreExecution_get_StockPriceByCalculationType(StockID, (int)StockPriceType, 0, PerQtyQty);
-                //expect  out params PerQtyQty
-                //if ((temp != null))
-                //{
-                //    if ((!object.ReferenceEquals(temp, DBNull.Value)))
-                //    {
-                //        //returen the value
-                //        return Convert.ToDouble(temp);
-                //    }
-                //}
-
-                //temp = oParams(3).Value;
-
-                //if ((temp != null))
-                //{
-                //    if ((!object.ReferenceEquals(temp, DBNull.Value)))
-                //    {
-                //        //returen the value
-                //        PerQtyQty = oParams(3).Value;
-                //    }
-                //}
-                PerQtyQty = 0;
-
-                return 0;
+                ObjectParameter paramPrice = new ObjectParameter("Price", typeof(float));
+                ObjectParameter paramQty = new ObjectParameter("PerQtyQty", typeof(float));
+                
+                db.sp_CostCentreExecution_get_StockPriceByCalculationType(StockID, (int)StockPriceType, paramPrice, paramQty);
+                Price = Convert.ToDouble(paramPrice);
+                PerQtyQty = Convert.ToDouble(paramQty);
+                return Price;
             }
             catch (Exception ex)
             {
