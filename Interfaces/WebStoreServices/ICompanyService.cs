@@ -75,5 +75,6 @@ namespace MPC.Interfaces.WebStoreServices
         string GetContactMobile(long CID);
 
         CmsPage getPageByID(long PageID);
+        bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
     }
 }

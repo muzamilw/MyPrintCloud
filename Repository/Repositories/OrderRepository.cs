@@ -9,6 +9,7 @@ using System.Linq;
 using MPC.Models.Common;
 using MPC.Interfaces.WebStoreServices;
 using System.Web;
+using System.Data.Common;
 namespace MPC.Repository.Repositories
 {
     public class OrderRepository : BaseRepository<Estimate>, IOrderRepository
@@ -129,7 +130,7 @@ namespace MPC.Repository.Repositories
         private long GetOrderByContactID(long contactID, OrderStatus orderStatus)
         {
             int orderStatusID = (int)orderStatus;
-            List<Estimate> ordesList = db.Estimates.Include("tbl_items").Where(order => order.ContactId == contactID && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
+            List<Estimate> ordesList = db.Estimates.Include("Items").Where(order => order.ContactId == contactID && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
             if (ordesList.Count > 0)
                 return ordesList[0].EstimateId;
             else
@@ -728,6 +729,134 @@ namespace MPC.Repository.Repositories
             return db.Estimates.Where(c => c.ContactId == contactId && c.CompanyId == CompanyId && c.StatusId == (int)OrderStatus.ShoppingCart).Select(i => i.EstimateId).FirstOrDefault();
 
         }
-       
+        /// <summary>
+        /// update order detail for checkout page
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="loggedInContactID"></param>
+        /// <param name="orderTotal"></param>
+        /// <param name="voucherCode"></param>
+        /// <param name="voucherDiscRate"></param>
+        /// <param name="deliverCostCenterID"></param>
+        /// <param name="deliveryEstimatedCompletionTime"></param>
+        /// <param name="deliverCost"></param>
+        /// <param name="isCorpFlow"></param>
+        /// <returns></returns>
+        /// UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal,deliveryCompletionTime, deliveryCost, UserCookieManager.StoreMode)
+        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime,StoreMode isCorpFlow)
+        {
+            bool result = false;
+            Estimate tblOrder = null;
+
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+
+                try
+                {
+
+                    tblOrder = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
+
+                    if (tblOrder != null)
+                    {
+
+                        tblOrder.Estimate_Total = orderTotal;
+
+                       
+                        tblOrder.DeliveryCompletionTime = deliveryEstimatedCompletionTime;
+                        tblOrder.CreationDate = DateTime.Now;
+                        UpdateNewOrderData(tblOrder, deliveryEstimatedCompletionTime, loggedInContactID); // sets end and start delivery data                    
+
+                        if (db.SaveChanges() > 0)
+                        {
+                            result = true;
+                            dbContextTransaction.Commit(); 
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    result = false;
+                    dbContextTransaction.Rollback();
+                }
+               
+            }
+         
+            return result;
+        }
+
+        private void UpdateNewOrderData(Estimate tblOrder, int stardDilveryDasys, long? loggedInContactID)
+        {
+            tblOrder.Order_Date = DateTime.Now;
+
+            if (stardDilveryDasys > 0)
+            {
+                DateTime StartDate =  AddBusinessdays(stardDilveryDasys, DateTime.Now);
+
+                tblOrder.StartDeliveryDate = StartDate;
+
+                tblOrder.FinishDeliveryDate = AddBusinessdays(2, StartDate);
+            }
+            else
+            {
+                DateTime StartDate = AddBusinessdays(1, DateTime.Now);
+                tblOrder.StartDeliveryDate = StartDate;
+                tblOrder.FinishDeliveryDate = AddBusinessdays(2, StartDate);
+            }
+
+
+            tblOrder.OrderManagerId = (int)loggedInContactID;
+            tblOrder.Created_by = (int)loggedInContactID;
+
+        }
+        public DateTime AddBusinessdays(int ProductionDays, DateTime StartingDay)
+        {
+            var sign = ProductionDays < 0 ? -1 : 1;
+
+            var unsignedDays = Math.Abs(ProductionDays);
+
+            var weekdaysAdded = 0;
+
+            DateTime Estimateddate = StartingDay;
+
+            while (weekdaysAdded < unsignedDays)
+            {
+                Estimateddate = Estimateddate.AddDays(sign);
+
+                if (Estimateddate.DayOfWeek != DayOfWeek.Saturday && Estimateddate.DayOfWeek != DayOfWeek.Sunday)
+
+                    weekdaysAdded++;
+
+            }
+            return Estimateddate;
+        }
+        /// <summary>
+        /// to check either order belongs to corporate or not base on order and customer id
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
+        public bool IsOrderBelongToCorporate(long orderID, out long customerID)
+        {
+           bool result = false;
+            try
+            {
+                
+                customerID = 0;
+
+                Estimate tblOrder = db.Estimates.Where(order => order.EstimateId == orderID).FirstOrDefault();
+                if (tblOrder != null && tblOrder.Company.IsCustomer == (int)CustomerTypes.Corporate)
+                {
+                    customerID = tblOrder.Company.CompanyId;
+                    result = true;
+                }
+          
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

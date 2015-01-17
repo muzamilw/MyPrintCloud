@@ -602,6 +602,29 @@ namespace MPC.Repository.Repositories
               
            
         }
+        public bool canContactPlaceOrder(long contactID, out bool hasWebAccess)
+        {
+            try
+            {
+                CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == contactID).FirstOrDefault();
+                if(contact != null)
+                {
+                    hasWebAccess = contact.isWebAccess ?? false;
+                    return contact.isPlaceOrder ?? false;
+                }
+                else
+                {
+                    hasWebAccess = false;
+                    return false;
+                }
+
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

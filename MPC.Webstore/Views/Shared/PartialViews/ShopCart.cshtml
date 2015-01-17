@@ -164,6 +164,7 @@
                                                 }
 
                                                 <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
+                                                <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery"  >
                                                 <br>
                                                 <br>
                                             </td>
@@ -253,8 +254,7 @@
                             <div class="clearBoth">
                             </div>
                           
-                            <button id="btnCheckout" onclick="return CanCheckOut(this);" class="start_creating_btn_checkout float_right  rounded_corners5"
-                                    >CHECKOUT</button><br />
+                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" /><br />
                             <button id="btnContinueShopping" onclick="ContinueShopping();"
                                     class="btn_brown  rounded_corners5" style="float: right;" >CONTINUE SHOPPING </button>
                             <div class="clearBoth">
@@ -266,6 +266,11 @@
                     <div class="clearBoth">
                         &nbsp;
                     </div>
+                    <input type="hidden" id="hfIsCallFrom" name="hfIsCallFrom" value="Checkout" />
+                    <input type="hidden" id="hfIsItemID" name="hfIsItemID" value="0" />
+                    <input type="hidden" id="hfNumOfRec" value="@ViewBag.NumberOfRecords" />
+                    <input type="hidden" id="hfOrderID" name="hfOrderID" value="@ViewBag.OrderID" />
+                    <input type="hidden" id="hfGrandTotal" name="hfGrandTotal" value="@ViewBag.GrossTotal" />
 
                 }
             }
@@ -310,11 +315,7 @@
             {
                 @Html.Partial("PartialViews/MatchingSet", MSViewModel);
             }
-            else
-            {
-                <label id="lblMesg" class="errorMsgClss">No Matching set found</label>
-            }
-
+          
             
             // call related items to show lists of related items
             RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
@@ -333,8 +334,7 @@
    
     
     <br />
-    <input type="hidden" id="hfIsCallFrom" name="hfIsCallFrom" value="0" />
-    <input type="hidden" id="hfIsItemID" name="hfIsItemID" value="0" />
+  
 
     <div class="clearBoth">
         &nbsp;
@@ -399,6 +399,7 @@
 <label id="lblQuantityHeaderTxt" visible="false"></label>
 <label id="lblPriceHeaderTxt" visible="false"></label>
 <button id="btnYesNO" style="display: none; width: 0px; height: 0px" />
+
 @section scripts
 {
     <script src="~/Scripts/PopUp.js"></script>
@@ -422,19 +423,12 @@
         }
         function CanCheckOut(sender) {
             if (Page_ClientValidate()) {
-
-                var numOfRec = '<%=NumberOfRecords %>';
-                var zeroItemincart = '<%=ZeroItems %>';
+               
+                var numOfRec = @ViewBag.NumberOfRecords;
+              
                 if (parseInt(numOfRec) > 0) {
-                    if (zeroItemincart == 0) {
-                        showProgress();
-                        AvoidReClickOnPostBack(sender);
-                        return true;
-                    } else {
-                        ShowPopup('Message', 'Please remove the items of price zero.');
-                        return false;
-                    }
-
+                    $("hfIsCallFrom").val("CheckOut");
+                    return true;
                 }
                 else {
                     ShowPopup('Message', 'No item(s) to checkout');
@@ -517,7 +511,7 @@
         {
             $("#RemoveProductDiv1").css("display", "block");
             $("hfIsItemID").val(ItemID);
-            $("hfIsCallFrom").val(1);
+            $("hfIsCallFrom").val("Delete");
             var html = $("div.RemoveProductDiv").html();
             alert(html);
             ConfirmDeleteItemPopUP(html);
