@@ -118,31 +118,31 @@ namespace MPC.Models.Common
 
     public enum OrderStatus
     {
-        
+
         ShoppingCart = 3,
 
-     
+
         PendingOrder = 4,
 
-       
+
         ConfirmedOrder = 5,
 
-        
+
         InProduction = 6,
 
-      
+
         Completed_NotShipped = 7,
 
-    
+
         CompletedAndShipped_Invoiced = 8,
 
-       
+
         CancelledOrder = 9,
 
-   
+
         ArchivedOrder = 23,
 
-      
+
         PendingCorporateApprovel = 34, //corporate case
 
         RejectOrder = 35,
@@ -161,11 +161,29 @@ namespace MPC.Models.Common
         None
     };
 
-  
 
-     public enum CostCentresForWeb : int 
+
+    public enum CostCentresForWeb : int
     {
         WebOrderCostCentre = 206
+    }
+
+    public enum TypeReturnMode : int
+    {
+        All = 1,
+        System = 2,
+        UserDefined = 3
+    }
+
+    public enum ResourceReturnType : int
+    {
+        CostPerHour = 1
+    }
+
+    public enum StockPriceType : int
+    {
+        PerUnit = 1,
+          PerPack = 2
     }
 
 }

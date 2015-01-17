@@ -2,8 +2,9 @@
     Module with the view model for the Product.
 */
 define("product/product.viewModel",
-    ["jquery", "amplify", "ko", "product/product.dataservice", "product/product.model", "common/pagination", "common/confirmation.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation) {
+    ["jquery", "amplify", "ko", "product/product.dataservice", "product/product.model", "common/pagination", "common/confirmation.viewModel",
+        "common/phraseLibrary.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary) {
         var ist = window.ist || {};
         ist.product = {
             viewModel: (function () {
@@ -31,12 +32,12 @@ define("product/product.viewModel",
                     // Product Categories
                     productCategories = ko.observableArray([]),
                     // Parent Product Categories
-                    parentProductCategories = ko.computed(function() {
+                    parentProductCategories = ko.computed(function () {
                         if (!productCategories) {
                             return [];
                         }
 
-                        return productCategories.filter(function(productCategory) {
+                        return productCategories.filter(function (productCategory) {
                             return !productCategory.parentCategoryId;
                         });
                     }),
@@ -118,7 +119,7 @@ define("product/product.viewModel",
                         onCostCentreChange: function (costCentreId, activeItemAddonCostCentre) {
                             setCostCentreToActiveItemAddonCostCentre(costCentreId, activeItemAddonCostCentre);
                         },
-                        onFlagChange: function(flagId, itemId) {
+                        onFlagChange: function (flagId, itemId) {
                             getItemPriceMatricesForItemByFlag(flagId, itemId);
                         }
                     },
@@ -154,10 +155,9 @@ define("product/product.viewModel",
                     // Open Editor
                     openProductEditor = function () {
                         isProductDetailsVisible(true);
-                        view.initializeDropZones();
                         // Set Product Category true/false for popup
-                        productCategories.each(function(productCategory) {
-                            var productCategoryItem = selectedProduct().productCategoryItems.find(function(pci) {
+                        productCategories.each(function (productCategory) {
+                            var productCategoryItem = selectedProduct().productCategoryItems.find(function (pci) {
                                 return pci.categoryId() === productCategory.id;
                             });
 
@@ -288,19 +288,19 @@ define("product/product.viewModel",
                         view.hideItemAddonCostCentreDialog();
                     },
                     // Get Cost Centre By Id
-                    getCostCentreById = function(id) {
+                    getCostCentreById = function (id) {
                         if (costCentres().length === 0) {
                             return null;
                         }
 
-                        return costCentres.find(function(costCentre) {
+                        return costCentres.find(function (costCentre) {
                             return costCentre.id === id;
                         });
                     },
                     // Set Cost Centre to active Item Add on cost centre
-                    setCostCentreToActiveItemAddonCostCentre = function(costCentreId, activeItemAddonCostCentre) {
+                    setCostCentreToActiveItemAddonCostCentre = function (costCentreId, activeItemAddonCostCentre) {
                         var costCentre = getCostCentreById(costCentreId);
-                        
+
                         if (!costCentre) {
                             return;
                         }
@@ -317,7 +317,7 @@ define("product/product.viewModel",
                         view.hideProductCategoryDialog();
                     },
                     // Toggle Child Categories
-                    toggleChildCategories = function(data, event) {
+                    toggleChildCategories = function (data, event) {
                         // If Child Categories exist then don't send call
                         if (view.toggleChildCategories(event)) {
                             return;
@@ -326,7 +326,7 @@ define("product/product.viewModel",
                         getChildCategories(categoryId, event);
                     },
                     // Update Product Categories to Selected Product
-                    updateProductCategories = function() {
+                    updateProductCategories = function () {
                         selectedProduct().updateProductCategoryItems(productCategories());
                         view.hideProductCategoryDialog();
                     },
@@ -351,6 +351,41 @@ define("product/product.viewModel",
 
                         return true;
                     },
+                    // Open Phrase Library
+                    openPhraseLibrary = function () {
+                        phraseLibrary.show(function(phrase) {
+                            updateJobDescription(phrase);
+                        });
+                    },
+                    // Update Job Description
+                    updateJobDescription = function (phrase) {
+                        if (!phrase) {
+                            return;
+                        }
+
+                        // Set Phrase to selected Job Description
+                        if (selectedJobDescription() === 'txtDescription1') {
+                            selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription2') {
+                            selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription3') {
+                            selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription4') {
+                            selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription5') {
+                            selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription6') {
+                            selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription7') {
+                            selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
+                        }
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -367,6 +402,9 @@ define("product/product.viewModel",
 
                         // Get Items
                         getItems();
+
+                        // Set Open From Flag to false - so that popup don't show until button gets clicked
+                        phraseLibrary.isOpenFromPhraseLibrary(false);
                     },
                     // Map Products 
                     mapProducts = function (data) {
@@ -454,7 +492,7 @@ define("product/product.viewModel",
                         return flag;
                     },
                     // Go To Element
-                    gotoElement = function(validation) {
+                    gotoElement = function (validation) {
                         view.gotoElement(validation.element);
                     },
                     // Get Item From List
@@ -534,7 +572,7 @@ define("product/product.viewModel",
                         // Only ask for confirmation if it is not a new product
                         if ((!itemPriceMatrices || itemPriceMatrices.length === 0) && selectedProduct().id()) {
                             confirmation.messageText("There are no price items against this flag. Do you want to Add New?");
-                            confirmation.afterProceed(selectedProduct().setItemPriceMatrices); 
+                            confirmation.afterProceed(selectedProduct().setItemPriceMatrices);
                             confirmation.afterCancel(selectedProduct().removeExistingPriceMatrices);
                             confirmation.show();
                             return;
@@ -630,7 +668,7 @@ define("product/product.viewModel",
                         });
                     },
                     // Get Item Price Matrices for Item By Flag
-                    getItemPriceMatricesForItemByFlag = function(flagId, itemId) {
+                    getItemPriceMatricesForItemByFlag = function (flagId, itemId) {
                         dataservice.getItemPriceMatricesForItemByFlagId({
                             FlagId: flagId,
                             ItemId: itemId
@@ -739,7 +777,7 @@ define("product/product.viewModel",
                                         productCategory.ParentCategoryId = id;
                                         var category = model.ProductCategory.Create(productCategory);
                                         if (selectedProduct()) {
-                                            var productCategoryItem = selectedProduct().productCategoryItems.find(function(pCatItem) {
+                                            var productCategoryItem = selectedProduct().productCategoryItems.find(function (pCatItem) {
                                                 return pCatItem.categoryId() === category.id;
                                             });
 
@@ -820,7 +858,8 @@ define("product/product.viewModel",
                     updateProductCategories: updateProductCategories,
                     openProductCategoryDialog: openProductCategoryDialog,
                     closeProductCategoryDialog: closeProductCategoryDialog,
-                    updateCheckedStateForCategory: updateCheckedStateForCategory
+                    updateCheckedStateForCategory: updateCheckedStateForCategory,
+                    openPhraseLibrary: openPhraseLibrary
                     // Utility Methods
 
                 };

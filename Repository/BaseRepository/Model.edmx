@@ -740,6 +740,80 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="CostCentreAnswer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" />
+          <Property Name="AnswerString" Type="float" />
+        </EntityType>
+        <EntityType Name="CostcentreInstruction">
+          <Key>
+            <PropertyRef Name="InstructionId" />
+          </Key>
+          <Property Name="InstructionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Instruction" Type="varchar" MaxLength="255" />
+          <Property Name="CostCentreId" Type="bigint" />
+          <Property Name="CostCenterOption" Type="int" />
+        </EntityType>
+        <EntityType Name="CostCentreMatrix">
+          <Key>
+            <PropertyRef Name="MatrixId" />
+          </Key>
+          <Property Name="MatrixId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="RowsCount" Type="int" Nullable="false" />
+          <Property Name="ColumnsCount" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostCentreMatrixDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MatrixId" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CostCentreQuestion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionString" Type="varchar" MaxLength="150" />
+          <Property Name="Type" Type="smallint" />
+          <Property Name="DefaultAnswer" Type="varchar" MaxLength="100" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostcentreResource">
+          <Key>
+            <PropertyRef Name="CostCenterResourceId" />
+          </Key>
+          <Property Name="CostCentreId" Type="bigint" />
+          <Property Name="ResourceId" Type="int" />
+          <Property Name="CostCenterResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostcentreSystemType">
+          <Key>
+            <PropertyRef Name="SystemTypeId" />
+          </Key>
+          <Property Name="SystemTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SystemTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostCentreTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Header" Type="text" Nullable="false" />
+          <Property Name="Footer" Type="text" Nullable="false" />
+          <Property Name="Middle" Type="text" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="CostCentreType">
           <Key>
             <PropertyRef Name="TypeId" />
@@ -749,6 +823,39 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsSystem" Type="smallint" Nullable="false" />
           <Property Name="IsExternal" Type="smallint" Nullable="false" />
           <Property Name="CompanyId" Type="int" />
+        </EntityType>
+        <EntityType Name="CostCentreVariable">
+          <Key>
+            <PropertyRef Name="VarId" />
+          </Key>
+          <Property Name="VarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RefTableName" Type="varchar" MaxLength="100" />
+          <Property Name="RefFieldName" Type="varchar" MaxLength="100" />
+          <Property Name="CriteriaFieldName" Type="varchar" MaxLength="100" />
+          <Property Name="Criteria" Type="varchar" MaxLength="100" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="IsCriteriaUsed" Type="varchar" MaxLength="1" />
+          <Property Name="Type" Type="smallint" Nullable="false" />
+          <Property Name="PropertyType" Type="int" />
+          <Property Name="VariableDescription" Type="text" />
+          <Property Name="VariableValue" Type="float" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostCentreVariableType">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CostcentreWorkInstructionsChoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Choice" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InstructionId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -3123,6 +3230,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ColorPallete_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="ColorPallete" Type="Self.ColorPallete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ColorPallete">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Company_Campaign">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Campaign" Type="Self.Campaign" Multiplicity="*" />
@@ -3568,6 +3687,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="CompanyContact">
               <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_costcentre_resources_tbl_costcentres">
+          <End Role="CostCentre" Type="Self.CostCentre" Multiplicity="0..1" />
+          <End Role="CostcentreResource" Type="Self.CostcentreResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="CostcentreResource">
+              <PropertyRef Name="CostCentreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4111,6 +4242,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices">
+          <End Role="CostcentreInstruction" Type="Self.CostcentreInstruction" Multiplicity="1" />
+          <End Role="CostcentreWorkInstructionsChoice" Type="Self.CostcentreWorkInstructionsChoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostcentreInstruction">
+              <PropertyRef Name="InstructionId" />
+            </Principal>
+            <Dependent Role="CostcentreWorkInstructionsChoice">
+              <PropertyRef Name="InstructionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tbl_costcentres_tbl_costcentre_instructions">
+          <End Role="CostCentre" Type="Self.CostCentre" Multiplicity="0..1" />
+          <End Role="CostcentreInstruction" Type="Self.CostcentreInstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="CostcentreInstruction">
+              <PropertyRef Name="CostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="funGetMiniumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="ItemID" Type="int" Mode="In" />
         </Function>
@@ -4137,6 +4292,12 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="submittedBy" Type="bigint" Mode="In" />
           <Parameter Name="submittedByName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_CostCentreExecution_get_StockPriceByCalculationType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StockID" Type="int" Mode="In" />
+          <Parameter Name="CalculationType" Type="int" Mode="In" />
+          <Parameter Name="returnPrice" Type="float" Mode="InOut" />
+          <Parameter Name="PerQtyQty" Type="float" Mode="InOut" />
         </Function>
         <Function Name="sp_GetMinimumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="itemId" Type="bigint" Mode="In" />
@@ -4186,7 +4347,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="CompanyTerritory" EntityType="Self.CompanyTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyType" EntityType="Self.CompanyType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentre" EntityType="Self.CostCentre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreAnswer" EntityType="Self.CostCentreAnswer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostcentreInstruction" EntityType="Self.CostcentreInstruction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreMatrix" EntityType="Self.CostCentreMatrix" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreMatrixDetail" EntityType="Self.CostCentreMatrixDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreQuestion" EntityType="Self.CostCentreQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostcentreResource" EntityType="Self.CostcentreResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostcentreSystemType" EntityType="Self.CostcentreSystemType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreTemplate" EntityType="Self.CostCentreTemplate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentreType" EntityType="Self.CostCentreType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreVariable" EntityType="Self.CostCentreVariable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCentreVariableType" EntityType="Self.CostCentreVariableType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostcentreWorkInstructionsChoice" EntityType="Self.CostcentreWorkInstructionsChoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomCopy" EntityType="Self.CustomCopy" Schema="dbo" store:Type="Tables" />
@@ -4513,6 +4685,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
+          <AssociationSet Name="FK_ColorPallete_Company" Association="Self.FK_ColorPallete_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="ColorPallete" EntitySet="ColorPallete" />
+          </AssociationSet>
           <AssociationSet Name="FK_Company_Campaign" Association="Self.FK_Company_Campaign">
             <End Role="Company" EntitySet="Company" />
             <End Role="Campaign" EntitySet="Campaign" />
@@ -4660,6 +4836,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_tbl_contacts_tbl_Registration_Questions" Association="Self.FK_tbl_contacts_tbl_Registration_Questions">
             <End Role="RegistrationQuestion" EntitySet="RegistrationQuestion" />
             <End Role="CompanyContact" EntitySet="CompanyContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_costcentre_resources_tbl_costcentres" Association="Self.FK_tbl_costcentre_resources_tbl_costcentres">
+            <End Role="CostCentre" EntitySet="CostCentre" />
+            <End Role="CostcentreResource" EntitySet="CostcentreResource" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_costcentres_tbl_costcentretypes" Association="Self.FK_tbl_costcentres_tbl_costcentretypes">
             <End Role="CostCentreType" EntitySet="CostCentreType" />
@@ -4836,6 +5016,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="itemmidfk" Association="Self.itemmidfk">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemStockOption" EntitySet="ItemStockOption" />
+          </AssociationSet>
+          <AssociationSet Name="tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" Association="Self.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices">
+            <End Role="CostcentreInstruction" EntitySet="CostcentreInstruction" />
+            <End Role="CostcentreWorkInstructionsChoice" EntitySet="CostcentreWorkInstructionsChoice" />
+          </AssociationSet>
+          <AssociationSet Name="tbl_costcentres_tbl_costcentre_instructions" Association="Self.tbl_costcentres_tbl_costcentre_instructions">
+            <End Role="CostCentre" EntitySet="CostCentre" />
+            <End Role="CostcentreInstruction" EntitySet="CostcentreInstruction" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -5382,6 +5570,39 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <Parameter Name="search" Mode="In" Type="String" />
             <Parameter Name="imageCount" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_ColorPallete_Company" Association="DomainModels.FK_ColorPallete_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="ColorPallete" EntitySet="ColorPalletes" />
+          </AssociationSet>
+          <EntitySet Name="CostCentreAnswers" EntityType="DomainModels.CostCentreAnswer" />
+          <EntitySet Name="CostcentreInstructions" EntityType="DomainModels.CostcentreInstruction" />
+          <EntitySet Name="CostCentreMatrices" EntityType="DomainModels.CostCentreMatrix" />
+          <EntitySet Name="CostCentreMatrixDetails" EntityType="DomainModels.CostCentreMatrixDetail" />
+          <EntitySet Name="CostCentreQuestions" EntityType="DomainModels.CostCentreQuestion" />
+          <EntitySet Name="CostcentreResources" EntityType="DomainModels.CostcentreResource" />
+          <EntitySet Name="CostcentreSystemTypes" EntityType="DomainModels.CostcentreSystemType" />
+          <EntitySet Name="CostCentreTemplates" EntityType="DomainModels.CostCentreTemplate" />
+          <EntitySet Name="CostCentreVariables" EntityType="DomainModels.CostCentreVariable" />
+          <EntitySet Name="CostCentreVariableTypes" EntityType="DomainModels.CostCentreVariableType" />
+          <EntitySet Name="CostcentreWorkInstructionsChoices" EntityType="DomainModels.CostcentreWorkInstructionsChoice" />
+          <AssociationSet Name="FK_tbl_costcentre_resources_tbl_costcentres" Association="DomainModels.FK_tbl_costcentre_resources_tbl_costcentres">
+            <End Role="CostCentre" EntitySet="CostCentres" />
+            <End Role="CostcentreResource" EntitySet="CostcentreResources" />
+          </AssociationSet>
+          <AssociationSet Name="tbl_costcentres_tbl_costcentre_instructions" Association="DomainModels.tbl_costcentres_tbl_costcentre_instructions">
+            <End Role="CostCentre" EntitySet="CostCentres" />
+            <End Role="CostcentreInstruction" EntitySet="CostcentreInstructions" />
+          </AssociationSet>
+          <AssociationSet Name="tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" Association="DomainModels.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices">
+            <End Role="CostcentreInstruction" EntitySet="CostcentreInstructions" />
+            <End Role="CostcentreWorkInstructionsChoice" EntitySet="CostcentreWorkInstructionsChoices" />
+          </AssociationSet>
+          <FunctionImport Name="sp_CostCentreExecution_get_StockPriceByCalculationType">
+            <Parameter Name="StockID" Mode="In" Type="Int32" />
+            <Parameter Name="CalculationType" Mode="In" Type="Int32" />
+            <Parameter Name="returnPrice" Mode="InOut" Type="Double" />
+            <Parameter Name="PerQtyQty" Mode="InOut" Type="Double" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5505,6 +5726,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="StoreId" Type="Int64" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
           <Property Name="isAddCropMarks" Type="Boolean" />
+          <NavigationProperty Name="ColorPalletes" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="Company" ToRole="ColorPallete" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6459,6 +6681,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" FromRole="CostCentre" ToRole="SectionCostcentre" />
           <NavigationProperty Name="ItemAddonCostCentres" Relationship="DomainModels.FK_tbl_Items_AddonCostCentres_tbl_costcentres" FromRole="CostCentre" ToRole="ItemAddonCostCentre" />
           <NavigationProperty Name="CostCentreType" Relationship="DomainModels.FK_tbl_costcentres_tbl_costcentretypes" FromRole="CostCentre" ToRole="CostCentreType" />
+          <NavigationProperty Name="CostcentreResources" Relationship="DomainModels.FK_tbl_costcentre_resources_tbl_costcentres" FromRole="CostCentre" ToRole="CostcentreResource" />
+          <NavigationProperty Name="CostcentreInstructions" Relationship="DomainModels.tbl_costcentres_tbl_costcentre_instructions" FromRole="CostCentre" ToRole="CostcentreInstruction" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -8433,6 +8657,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SkinId" Type="Int64" />
           <Property Name="IsDefault" Type="Boolean" />
           <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="ColorPallete" ToRole="Company" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -9696,6 +9921,165 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Type="Int32" Name="ContactCompanyID" Nullable="true" />
           <Property Type="Int32" Name="ContactID" Nullable="true" />
         </ComplexType>
+        <Association Name="FK_ColorPallete_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.ColorPallete" Role="ColorPallete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ColorPallete">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CostCentreAnswer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" />
+          <Property Name="AnswerString" Type="Double" />
+        </EntityType>
+        <EntityType Name="CostcentreInstruction">
+          <Key>
+            <PropertyRef Name="InstructionId" />
+          </Key>
+          <Property Name="InstructionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Instruction" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CostCentreId" Type="Int64" />
+          <Property Name="CostCenterOption" Type="Int32" />
+          <NavigationProperty Name="CostCentre" Relationship="DomainModels.tbl_costcentres_tbl_costcentre_instructions" FromRole="CostcentreInstruction" ToRole="CostCentre" />
+          <NavigationProperty Name="CostcentreWorkInstructionsChoices" Relationship="DomainModels.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" FromRole="CostcentreInstruction" ToRole="CostcentreWorkInstructionsChoice" />
+        </EntityType>
+        <EntityType Name="CostCentreMatrix">
+          <Key>
+            <PropertyRef Name="MatrixId" />
+          </Key>
+          <Property Name="MatrixId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RowsCount" Type="Int32" Nullable="false" />
+          <Property Name="ColumnsCount" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostCentreMatrixDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MatrixId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CostCentreQuestion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionString" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int16" />
+          <Property Name="DefaultAnswer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostcentreResource">
+          <Key>
+            <PropertyRef Name="CostCenterResourceId" />
+          </Key>
+          <Property Name="CostCentreId" Type="Int64" />
+          <Property Name="ResourceId" Type="Int32" />
+          <Property Name="CostCenterResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_costcentre_resources_tbl_costcentres" FromRole="CostcentreResource" ToRole="CostCentre" />
+        </EntityType>
+        <EntityType Name="CostcentreSystemType">
+          <Key>
+            <PropertyRef Name="SystemTypeId" />
+          </Key>
+          <Property Name="SystemTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SystemTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CostCentreTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Header" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Footer" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Middle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostCentreVariable">
+          <Key>
+            <PropertyRef Name="VarId" />
+          </Key>
+          <Property Name="VarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RefTableName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RefFieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CriteriaFieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Criteria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="IsCriteriaUsed" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="PropertyType" Type="Int32" />
+          <Property Name="VariableDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VariableValue" Type="Double" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostCentreVariableType">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CostcentreWorkInstructionsChoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Choice" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InstructionId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CostcentreInstruction" Relationship="DomainModels.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" FromRole="CostcentreWorkInstructionsChoice" ToRole="CostcentreInstruction" />
+        </EntityType>
+        <Association Name="FK_tbl_costcentre_resources_tbl_costcentres">
+          <End Type="DomainModels.CostCentre" Role="CostCentre" Multiplicity="0..1" />
+          <End Type="DomainModels.CostcentreResource" Role="CostcentreResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="CostcentreResource">
+              <PropertyRef Name="CostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tbl_costcentres_tbl_costcentre_instructions">
+          <End Type="DomainModels.CostCentre" Role="CostCentre" Multiplicity="0..1" />
+          <End Type="DomainModels.CostcentreInstruction" Role="CostcentreInstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="CostcentreInstruction">
+              <PropertyRef Name="CostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices">
+          <End Type="DomainModels.CostcentreInstruction" Role="CostcentreInstruction" Multiplicity="1" />
+          <End Type="DomainModels.CostcentreWorkInstructionsChoice" Role="CostcentreWorkInstructionsChoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostcentreInstruction">
+              <PropertyRef Name="InstructionId" />
+            </Principal>
+            <Dependent Role="CostcentreWorkInstructionsChoice">
+              <PropertyRef Name="InstructionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12975,6 +13359,125 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CostCentreAnswers">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreAnswer">
+              <MappingFragment StoreEntitySet="CostCentreAnswer">
+                <ScalarProperty Name="AnswerString" ColumnName="AnswerString" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostcentreInstructions">
+            <EntityTypeMapping TypeName="DomainModels.CostcentreInstruction">
+              <MappingFragment StoreEntitySet="CostcentreInstruction">
+                <ScalarProperty Name="CostCenterOption" ColumnName="CostCenterOption" />
+                <ScalarProperty Name="CostCentreId" ColumnName="CostCentreId" />
+                <ScalarProperty Name="Instruction" ColumnName="Instruction" />
+                <ScalarProperty Name="InstructionId" ColumnName="InstructionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCentreMatrices">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreMatrix">
+              <MappingFragment StoreEntitySet="CostCentreMatrix">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ColumnsCount" ColumnName="ColumnsCount" />
+                <ScalarProperty Name="RowsCount" ColumnName="RowsCount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MatrixId" ColumnName="MatrixId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCentreMatrixDetails">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreMatrixDetail">
+              <MappingFragment StoreEntitySet="CostCentreMatrixDetail">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="MatrixId" ColumnName="MatrixId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCentreQuestions">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreQuestion">
+              <MappingFragment StoreEntitySet="CostCentreQuestion">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="DefaultAnswer" ColumnName="DefaultAnswer" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="QuestionString" ColumnName="QuestionString" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostcentreResources">
+            <EntityTypeMapping TypeName="DomainModels.CostcentreResource">
+              <MappingFragment StoreEntitySet="CostcentreResource">
+                <ScalarProperty Name="CostCenterResourceId" ColumnName="CostCenterResourceId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="CostCentreId" ColumnName="CostCentreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostcentreSystemTypes">
+            <EntityTypeMapping TypeName="DomainModels.CostcentreSystemType">
+              <MappingFragment StoreEntitySet="CostcentreSystemType">
+                <ScalarProperty Name="SystemTypeName" ColumnName="SystemTypeName" />
+                <ScalarProperty Name="SystemTypeId" ColumnName="SystemTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCentreTemplates">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreTemplate">
+              <MappingFragment StoreEntitySet="CostCentreTemplate">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Middle" ColumnName="Middle" />
+                <ScalarProperty Name="Footer" ColumnName="Footer" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCentreVariables">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreVariable">
+              <MappingFragment StoreEntitySet="CostCentreVariable">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="VariableValue" ColumnName="VariableValue" />
+                <ScalarProperty Name="VariableDescription" ColumnName="VariableDescription" />
+                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsCriteriaUsed" ColumnName="IsCriteriaUsed" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Criteria" ColumnName="Criteria" />
+                <ScalarProperty Name="CriteriaFieldName" ColumnName="CriteriaFieldName" />
+                <ScalarProperty Name="RefFieldName" ColumnName="RefFieldName" />
+                <ScalarProperty Name="RefTableName" ColumnName="RefTableName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VarId" ColumnName="VarId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCentreVariableTypes">
+            <EntityTypeMapping TypeName="DomainModels.CostCentreVariableType">
+              <MappingFragment StoreEntitySet="CostCentreVariableType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostcentreWorkInstructionsChoices">
+            <EntityTypeMapping TypeName="DomainModels.CostcentreWorkInstructionsChoice">
+              <MappingFragment StoreEntitySet="CostcentreWorkInstructionsChoice">
+                <ScalarProperty Name="InstructionId" ColumnName="InstructionId" />
+                <ScalarProperty Name="Choice" ColumnName="Choice" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_CostCentreExecution_get_StockPriceByCalculationType" FunctionName="DomainModels.Store.sp_CostCentreExecution_get_StockPriceByCalculationType" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

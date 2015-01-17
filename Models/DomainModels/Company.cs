@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -122,6 +123,8 @@ namespace MPC.Models.DomainModels
         public long? StoreId { get; set; }
 
         public bool? isAddCropMarks { get; set; }
+        [NotMapped]
+        public string ImageName { get; set; }
 
         public virtual ICollection<CompanyBannerSet> CompanyBannerSets { get; set; }
 
@@ -138,8 +141,22 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
         public virtual ICollection<Campaign> Campaigns { get; set; }
-
         public virtual ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual ICollection<Item> Items { get; set; }
+        public virtual ICollection<ColorPallete> ColorPalletes { get; set; }
+
+        #region Additional Properties
+        /// <summary>
+        /// Store Backgroud Image Image Source
+        /// </summary>
+        [NotMapped]
+        public string StoreBackgroudImageImageSource { get; set; }
+
+        /// <summary>
+        /// Store Backgroud Image File Name
+        /// </summary>
+        [NotMapped]
+        public string StoreBackgroudImageFileName { get; set; }
+        #endregion
     }
 }

@@ -68,12 +68,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         [HttpPost]
         public Company Post(Company company)
         {
-            //FormCollection
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-
             CompanySavingModel companySavingModel = new CompanySavingModel();
             companySavingModel.Company = company.CreateFrom();
             companySavingModel.NewAddedCompanyTerritories = company.NewAddedCompanyTerritories != null ? company.NewAddedCompanyTerritories.Select(x => x.CreateFrom()) : null;
@@ -102,17 +100,16 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.PageCategories = company.PageCategories != null ? company.PageCategories.Select(x => x.CreateFrom()).ToList() : null;
             companySavingModel.CmsPageWithWidgetList = company.CmsPageWithWidgetList != null ? company.CmsPageWithWidgetList.Select(x => x.CreateFrom()).ToList() : null;
 
-            companySavingModel.NewAddedProducts = company.NewAddedProducts != null ? company.NewAddedProducts.Select(x => x.CreateFrom()) : null;
-            companySavingModel.EdittedProducts = company.EdittedProducts != null ? company.EdittedProducts.Select(x => x.CreateFrom()) : null;
-            companySavingModel.Deletedproducts = company.Deletedproducts != null ? company.Deletedproducts.Select(x => x.CreateFrom()) : null;
-
+            companySavingModel.NewAddedProducts = company.NewAddedProducts != null ? company.NewAddedProducts.Select(x => x.CreateFromForCompany()) : null;
+            companySavingModel.EdittedProducts = company.EdittedProducts != null ? company.EdittedProducts.Select(x => x.CreateFromForCompany()) : null;
+            companySavingModel.Deletedproducts = company.Deletedproducts != null ? company.Deletedproducts.Select(x => x.CreateFromForCompany()) : null;
 
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
-
-        public Company Delete(int companyId)
+        [HttpDelete]
+        public Company Delete(CompanyRequestModel model)
         {
-            return null;//todo
+            return companyService.DeleteCompany(model.CompanyId).CreateFrom();
         }
     }
 }

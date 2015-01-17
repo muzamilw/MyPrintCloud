@@ -1417,7 +1417,7 @@
                                                                 <div class="col-lg-6">
 
                                                                     <textarea class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" style="width:91%;float:left;" rows="3"></textarea>
-                                                                    <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1'" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                                     </a>
                                                                 </div>
@@ -1430,7 +1430,7 @@
                                                                 </div>
                                                                 <div class="col-lg-6">
                                                                     <textarea class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" style="width:91%;float:left;" rows="3"></textarea>
-                                                                    <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2'" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                                     </a>
                                                                     <span class="help-block text-right"></span>
@@ -1444,7 +1444,7 @@
                                                                 <div class="col-lg-6">
                                                                     <textarea class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3'" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
 
                                                                     </a>
@@ -1459,7 +1459,7 @@
                                                                 <div class="col-lg-6">
                                                                     <textarea class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4'" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
 
                                                                     </a>
@@ -1474,7 +1474,7 @@
                                                                 <div class="col-lg-6">
                                                                     <textarea class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5'" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
 
                                                                     </a>
@@ -1489,7 +1489,7 @@
                                                                 <div class="col-lg-6">
                                                                     <textarea class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6'" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
 
                                                                     </a>
@@ -1504,7 +1504,7 @@
                                                                 <div class="col-lg-6">
                                                                     <textarea class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" style="width:91%;float:left;" rows="3"></textarea>
 
-                                                                    <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7'" style="display:none;" class="btn btn-primary pull-right">
+                                                                    <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                                     </a>
 
@@ -1968,7 +1968,7 @@
                             <!-- /ko -->
                             <!-- /ko -->
 
-                            <div class="tab-pane clearfix fade" id="tab-imageManagment">
+                            <div class="tab-pane clearfix fade" id="tab-imageManagment" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Image Management</h3>
                                     <div class="col-lg-9">
@@ -1976,22 +1976,22 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Thumbnail" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Thumbnail</label>
+                                                <label class="control-label text-right tooltip-float">Thumbnail</label>
 
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div id="dropzone1" class="dropzonepl">
-                                                    <form id="demoUpload1" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
-                                                        </div>
-                                                    </form>
+                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: thumbnail }" />
+                                                <div class="col-lg-1" style="float: right">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="thumbnail_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 1); }, fileFilter: 'image.*'}" />
+                                                    </div>
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -2001,7 +2001,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -2012,12 +2012,12 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div id="dropzone2" class="dropzonepl">
-                                                    <form id="demoUpload2" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
-                                                        </div>
-                                                    </form>
+                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: imagePath }" />
+                                                <div class="col-lg-1" style="float: right">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="imagePath_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 3); }, fileFilter: 'image.*'}" />
+                                                    </div>
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -2027,25 +2027,22 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Grid Image Layout" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Grid Image Layout" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
-
-
-
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Grid Image Layout</label>
+                                                <label class="control-label text-right tooltip-float">Grid Image Layout</label>
 
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div id="dropzone3" class="dropzonepl">
-                                                    <form id="demoUpload3" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload (200 x 200 pixels)</span>
-                                                        </div>
-                                                    </form>
+                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: gridImage }" />
+                                                <div class="col-lg-1" style="float: right">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="gridImage_file" data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 2); }, fileFilter: 'image.*'}" />
+                                                    </div>
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -2055,28 +2052,42 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Files" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Files" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
 
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload Files</label>
+                                                <label class="control-label text-right tooltip-float">Upload Files</label>
 
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div id="dropzone4" class="dropzonepl">
-                                                    <form id="demoUpload4" class="dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
-                                                        </div>
-                                                    </form>
+                                                <div>
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="Itemfiles_file" multiple data-bind="files: { onLoaded: function(file, data){ onSelectImage(file, data, 4); } }" />
+                                                    </div>
+                                                    <input type="button" class="btn btn-primary" value="Reset" data-bind="click: resetFiles" />
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
-
                                         </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <label class="control-label text-right tooltip-float">&nbsp;</label>
+
+                                            </div>
+
+                                            <div class="col-lg-8" style="background: gainsboro; border: 4px solid rgba(0, 0, 0, 0.30); ">
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file1 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file2 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file3 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file4 }" />
+                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file5 }" />
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -2206,7 +2217,7 @@
 
     @* Stock Label *@
     <script id="stockLabelTemplate" type="text/html">
-        <div>
+        <div style="clear: both">
             <div>
                 <div class="col-lg-12">
                     <div class="col-lg-11" style="text-align:right;">

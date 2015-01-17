@@ -92,8 +92,8 @@ namespace MPC.Repository.Repositories
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<Company, bool>> query =
                 s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                     !isStringSpecified);
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) && s.OrganisationId == OrganisationId && s.isArchived != true ||
+                     !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true);
 
             int rowCount = DbSet.Count(query);
             IEnumerable<Company> companies = request.IsAsc
@@ -155,7 +155,7 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(c => c.CompanyId == CompanyId).Select(f => f.PriceFlagId).FirstOrDefault();
         }
-        
+
         /// <summary>
         /// Get All Suppliers For Current Organisation
         /// </summary>
@@ -171,7 +171,7 @@ namespace MPC.Repository.Repositories
 
             long customerID = 0;
 
-           
+
             Company ContactCompany = new Company();
 
             ContactCompany.isArchived = false;
@@ -195,9 +195,9 @@ namespace MPC.Repository.Repositories
 
             ContactCompany.IsCustomer = 0; //prospect
 
-            
-            Markup OrgMarkup =  db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
-          
+
+            Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
+
             if (OrgMarkup != null)
             {
                 ContactCompany.DefaultMarkUpId = (int)OrgMarkup.MarkUpId;
@@ -207,7 +207,7 @@ namespace MPC.Repository.Repositories
                 ContactCompany.DefaultMarkUpId = 0;
             }
 
-           
+
             //Create Customer
             db.Companies.Add(ContactCompany);
 
@@ -264,7 +264,7 @@ namespace MPC.Repository.Repositories
 
             return customerID;
         }
-        private  CompanyContact PopulateContactsObject(long customerID, long addressID, bool isDefaultContact)
+        private CompanyContact PopulateContactsObject(long customerID, long addressID, bool isDefaultContact)
         {
             CompanyContact contactObject = new CompanyContact();
             contactObject.CompanyId = customerID;
@@ -293,10 +293,10 @@ namespace MPC.Repository.Repositories
         {
             string salt = string.Empty;
 
-          
-                salt = ComputeHash(plainText, "SHA1", null);
 
-          
+            salt = ComputeHash(plainText, "SHA1", null);
+
+
             return salt;
         }
         private static string ComputeHash(string plainText,

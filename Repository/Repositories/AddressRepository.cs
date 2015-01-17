@@ -45,7 +45,7 @@ namespace MPC.Repository.Repositories
                     (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
                      (s.AddressName.Contains(request.SearchFilter)) ||
                      !isSearchFilterSpecified)
-                     && isTerritoryInSearch && (s.TerritoryId == request.TerritoryId) && (s.CompanyId == request.CompanyId) || !isTerritoryInSearch
+                     && (isTerritoryInSearch && (s.TerritoryId == request.TerritoryId) && (s.CompanyId == request.CompanyId)) || !isTerritoryInSearch && (s.CompanyId == request.CompanyId)
                      ;
 
             int rowCount = DbSet.Count(query);

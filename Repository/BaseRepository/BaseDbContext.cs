@@ -213,7 +213,7 @@ namespace MPC.Repository.BaseRepository
             }
 
             ObjectParameter itemIdParameter = new ObjectParameter("ItemId", itemId);
-            ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter); ;
+            ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter);
             
             return result.FirstOrDefault() ?? 0;
         }
@@ -400,7 +400,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Listing OFI DbSet
         /// </summary>
+// ReSharper disable InconsistentNaming
         public DbSet<ListingOFI> ListingOFIs { get; set; }
+// ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Listing Vendor DbSet
@@ -431,6 +433,61 @@ namespace MPC.Repository.BaseRepository
         /// Phrase DbSet
         /// </summary>
         public DbSet<Phrase> Phrases { get; set; }
+
+        /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostCentreAnswer> CostCentreAnswers { get; set; }
+
+        /// <summary>
+        /// Cost center Instuction DbSet
+        /// </summary>
+        public  DbSet<CostcentreInstruction> CostcentreInstructions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
+
+        /// <summary>
+        /// Cost Centre Matrix Detail DbSet
+        /// </summary>
+        public  DbSet<CostCentreMatrixDetail> CostCentreMatrixDetails { get; set; }
+
+        /// <summary>
+        /// Cost Centre Question DbSet
+        /// </summary>
+        public  DbSet<CostCentreQuestion> CostCentreQuestions { get; set; }
+
+        /// <summary>
+        /// Cost Centre Answer DbSet
+        /// </summary>
+        public  DbSet<CostcentreResource> CostcentreResources { get; set; }
+
+        /// <summary>
+        /// Cost Centre System Type DbSet
+        /// </summary>
+        public  DbSet<CostcentreSystemType> CostcentreSystemTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Template DbSet
+        /// </summary>
+        public  DbSet<CostCentreTemplate> CostCentreTemplates { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariable> CostCentreVariables { get; set; }
+
+        /// <summary>
+        /// Cost Centre Variable Type DbSet
+        /// </summary>
+        public  DbSet<CostCentreVariableType> CostCentreVariableTypes { get; set; }
+
+        /// <summary>
+        /// Cost Centre Work Instruction Choice DbSet
+        /// </summary>
+        public  DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure
@@ -543,8 +600,8 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Template Images Result
         /// </summary>
-        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateID, long? contactCompanyID, 
-            long? contactID, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
+        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateId, long? contactCompanyId, 
+            long? contactId, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
         {
             var isCalledFromParameter = isCalledFrom.HasValue ?
                 new ObjectParameter("isCalledFrom", isCalledFrom) :
@@ -554,16 +611,16 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("imageSetType", imageSetType) :
                 new ObjectParameter("imageSetType", typeof(int));
 
-            var templateIDParameter = templateID.HasValue ?
-                new ObjectParameter("templateID", templateID) :
+            var templateIdParameter = templateId.HasValue ?
+                new ObjectParameter("templateID", templateId) :
                 new ObjectParameter("templateID", typeof(long));
 
-            var contactCompanyIDParameter = contactCompanyID.HasValue ?
-                new ObjectParameter("contactCompanyID", contactCompanyID) :
+            var contactCompanyIdParameter = contactCompanyId.HasValue ?
+                new ObjectParameter("contactCompanyID", contactCompanyId) :
                 new ObjectParameter("contactCompanyID", typeof(long));
 
-            var contactIDParameter = contactID.HasValue ?
-                new ObjectParameter("contactID", contactID) :
+            var contactIdParameter = contactId.HasValue ?
+                new ObjectParameter("contactID", contactId) :
                 new ObjectParameter("contactID", typeof(long));
 
             var territoryParameter = territory.HasValue ?
@@ -588,10 +645,28 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.
                 ExecuteFunction<sp_GetTemplateImages_Result>("sp_GetTemplateImages", isCalledFromParameter, imageSetTypeParameter, 
-                templateIDParameter, contactCompanyIDParameter, contactIDParameter, territoryParameter, pageNumberParameter, 
+                templateIdParameter, contactCompanyIdParameter, contactIdParameter, territoryParameter, pageNumberParameter, 
                 pageSizeParameter, sortColumnParameter, searchParameter, imageCount).ToList();
         }
 
+        /// <summary>
+        /// Stored Procedure sp_CostCentreExecution_get_StockPriceByCalculationType
+        /// </summary>
+        public double sp_CostCentreExecution_get_StockPriceByCalculationType(int? stockId, int? calculationType, ObjectParameter returnPrice, ObjectParameter perQtyQty)
+        {
+            var stockIdParameter = stockId.HasValue ?
+                new ObjectParameter("StockID", stockId) :
+                new ObjectParameter("StockID", typeof(int));
+
+            var calculationTypeParameter = calculationType.HasValue ?
+                new ObjectParameter("CalculationType", calculationType) :
+                new ObjectParameter("CalculationType", typeof(int));
+
+            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CostCentreExecution_get_StockPriceByCalculationType", stockIdParameter, 
+                calculationTypeParameter, returnPrice, perQtyQty);
+
+            return perQtyQty.Value != null ? (double)perQtyQty.Value : 0;
+        }
 
         #endregion
     }
