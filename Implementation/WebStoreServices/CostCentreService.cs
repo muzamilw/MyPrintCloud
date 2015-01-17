@@ -17,9 +17,12 @@ namespace MPC.Implementation.WebStoreServices
     public class CostCentreService : ICostCentreService
     {
         private readonly ICostCentreRepository _CostCentreRepository;
-        public CostCentreService(ICostCentreRepository CostCentreRepository)
+        private readonly ICostCentreVariableRepository _CostCentreVariableRepository;
+        public CostCentreService(ICostCentreRepository CostCentreRepository,
+            ICostCentreVariableRepository CostCentreVariableRepository)
         {
             this._CostCentreRepository = CostCentreRepository;
+            this._CostCentreVariableRepository = CostCentreVariableRepository;
         }
 
 
@@ -1281,7 +1284,7 @@ namespace MPC.Implementation.WebStoreServices
         }
 
 
-        //public double ExecuteVariable(ref object[] oParamsArray, string VariableID)
+        //public double ExecuteVariable(ref object[] oParamsArray, int VariableID)
         //{
         //    double functionReturnValue = 0;
         //    try
@@ -1299,10 +1302,10 @@ namespace MPC.Implementation.WebStoreServices
         //        }
         //        else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
         //        {
-                    
+
         //            CostCentreVariable oVariable;
         //            //First we have to fetch the Variable object which contains the information
-        //            oVariable = BLL.CostCentres.Variables.LoadVariable((Model.ApplicationSettings.GlobalData)oParamsArray(0), VariableID);
+        //            oVariable = _CostCentreVariableRepository.LoadVariable(VariableID);
 
         //            //now check the type of the variable.
         //            //type 1 = system variable
@@ -1776,7 +1779,7 @@ namespace MPC.Implementation.WebStoreServices
         //            }
         //            else if (oVariable.VariableType == 2)
         //            {
-        //                return ExecUserVariable((Model.ApplicationSettings.GlobalData)oParamsArray(0), oVariable);
+        //                return _CostCentreVariableRepository.ExecUserVariable(oVariable);
         //            }
         //            else if (oVariable.VariableType == 3)
         //            {
@@ -1796,8 +1799,53 @@ namespace MPC.Implementation.WebStoreServices
         //}
 
 
-       
+
+        //public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
+        //{
+        //    double functionReturnValue = 0;
+
+        //    try
+        //    {
+        //        CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray(1);
+
+        //        // If execution mode is for populating the Queue then return 0
+        //        if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+        //        {
+        //            return 0;
+
+        //            //if its execution mode then
+
+        //        }
+        //        else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+        //        {
+        //            if (ReturnValue == "costperhour")
+        //            {
+        //                functionReturnValue = _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+        //            }
+        //            else
+        //            {
+        //                functionReturnValue = 0;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("ExecuteResource", ex);
+        //    }
+        //    return functionReturnValue;
+        //}
 
 
+        //public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double PerQtyQty)
+        //{
+        //    try
+        //    {
+        //        return _CostCentreRepository.ExecuteUserStockItem(StockID, StockPriceType,out PerQtyQty);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("ExecuteUserStockItem", ex);
+        //    }
+        //}
     }
 }

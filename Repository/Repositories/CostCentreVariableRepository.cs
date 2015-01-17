@@ -227,6 +227,25 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        /// <summary>
+        /// returns variable Category list
+        /// </summary>
+        /// <param name="oconnection">Data Connection</param>
+        /// <returns>Datatable</returns>
+        public List<CostCentreVariableType> returnVariableCateogories()
+        {
+           
+            try
+            {
+                return db.CostCentreVariableTypes.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+    
         #endregion
     }
 }
