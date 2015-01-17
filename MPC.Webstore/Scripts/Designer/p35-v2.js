@@ -1,22 +1,49 @@
 ﻿$(".search").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage1");
+   
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    canvas.discardActiveObject();
+   
 });
 $(".layout").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage2");
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    canvas.discardActiveObject();
 });
 $(".QuickTxt").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
+    canvas.discardActiveObject();
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage3");
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
 });
-$(".text").click(function (event) {
+$("#btnAdd").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     if (spPanel != "") {
         $(spPanel).click();
         spPanel = "";
     }
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage4");
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    if (canvas._activeObject) {
+        if (canvas._activeObject.type == "text" || canvas._activeObject.type == "i-text") {
+            canvas.discardActiveObject();
+        }
+        
+}
     //var D1AO = canvas.getActiveObject();
     //var D1AG = canvas.getActiveGroup();
     //if (D1AG) canvas.discardActiveGroup();
@@ -30,6 +57,11 @@ $(".backgrounds").click(function (event) {
         spBkPanel = "";
     }
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage5");
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    canvas.discardActiveObject();
 });
 $(".uploads").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
@@ -41,11 +73,21 @@ $(".layersPanel").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     isBkPnlUploads = true;
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage8");
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    canvas.discardActiveObject();
 });
 $(".layoutsPanel").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage10");
     l2_temp();
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
+    canvas.discardActiveObject();
 });
 $("#BtnCopyObjTxtRetail").click(function (event) {
     pcL10();
@@ -65,68 +107,597 @@ $("#BtnImgScaleOutRetail").click(function (event) {
     pcL15();
 
 });
-document.getElementById('BtnImgRotateLeftRetail').onclick = function (ev) {
+$('#btnAddRectangle').click(function (event) {
+    //c12
+    var D1NTO = {};
+    D1NTO = fabric.util.object.clone(TO[0]);
+    D1NTO.Name = "rectangle";
+    D1NTO.ContentString = "rectangle";
+    D1NTO.ObjectID = --NCI;
+    D1NTO.ColorHex = "#000000";
+    D1NTO.ColorC = 0;
+    D1NTO.ColorM = 0;
+    D1NTO.ColorY = 0;
+    D1NTO.ColorK = 100;
+    D1NTO.IsBold = false;
+    D1NTO.IsItalic = false;
+    D1NTO.ObjectType = 6; //rectangle
+    D1NTO.ProductPageId = SP;
+    D1NTO.MaxWidth = 200;
+    D1NTO.MaxHeight = 200;
+    D1NTO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+        D1NTO.IsSpotColor = true;
+        D1NTO.SpotColorName = 'Black';
+    }
+    var ROL = new fabric.Rect({
+        left: 0,
+        top: 0,
+        fill: '#000000',
+        width: 100 * dfZ1l,
+        height: 100 * dfZ1l,
+        opacity: 1
+    })
+
+    ROL.maxWidth = 200;
+    ROL.maxHeight = 200;
+    ROL.set({
+        borderColor: 'red',
+        cornerColor: 'orange',
+        cornersize: 10
+    });
+
+    ROL.ObjectID = D1NTO.ObjectID;
+    canvas.add(ROL);
+
+    canvas.centerObject(ROL);
+    // getting object index
+    var index;
+    var OBS = canvas.getObjects();
+    $.each(OBS, function (i, IT) {
+        if (IT.ObjectID == ROL.ObjectID) {
+            index = i;
+        }
+    });
+    D1NTO.DisplayOrderPdf = index;
+
+    D1NTO.PositionX = ROL.left - ROL.maxWidth / 2;
+    D1NTO.PositionY = ROL.top - ROL.maxHeight / 2;
+    ROL.setCoords();
+
+    ROL.C = "0";
+    ROL.M = "0";
+    ROL.Y = "0";
+    ROL.K = "100";
+    canvas.renderAll();
+    TO.push(D1NTO);
+    f1(6);
+    pcL36('hide', '#divImageDAM');
+});
+
+$('#btnAddCircle').click(function (event) {
+    //c13
+    var NewCircleObejct = {};
+    NewCircleObejct = fabric.util.object.clone(TO[0]);
+    NewCircleObejct.Name = "Ellipse";
+    NewCircleObejct.ContentString = "Ellipse";
+    NewCircleObejct.ObjectID = --NCI;
+    NewCircleObejct.ColorHex = "#000000";
+    NewCircleObejct.ColorC = 0;
+    NewCircleObejct.ColorM = 0;
+    NewCircleObejct.ColorY = 0;
+    NewCircleObejct.ColorK = 100;
+
+    NewCircleObejct.IsItalic = false;
+    NewCircleObejct.ObjectType = 7; //ellipse/circle
+    NewCircleObejct.ProductPageId = SP;
+    NewCircleObejct.MaxWidth = 100;
+    NewCircleObejct.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    NewCircleObejct.CircleRadiusX = 50;
+    NewCircleObejct.CircleRadiusY = 50;
+    NewCircleObejct.Opacity = 1;
+    if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+        NewCircleObejct.IsSpotColor = true;
+        NewCircleObejct.SpotColorName = 'Black';
+    }
+    var COL = new fabric.Ellipse({
+        left: 0,
+        top: 0,
+        fill: '#000000',
+        rx: 50 * dfZ1l,
+        ry: 50 * dfZ1l,
+        opacity: 1
+    })
+
+    COL.set({
+        borderColor: 'red',
+        cornerColor: 'orange',
+        cornersize: 10
+    });
+
+    COL.ObjectID = NewCircleObejct.ObjectID;
+    canvas.add(COL);
+    canvas.centerObject(COL);
+
+
+    // getting object index
+    var index;
+    var OBS = canvas.getObjects();
+    $.each(OBS, function (i, IT) {
+        if (IT.ObjectID == COL.ObjectID) {
+            index = i;
+        }
+    });
+    NewCircleObejct.DisplayOrderPdf = index;
+
+    NewCircleObejct.PositionX = COL.left - COL.width / 2;
+    NewCircleObejct.PositionY = COL.top - COL.width / 2;
+    COL.setCoords();
+    COL.C = "0";
+    COL.M = "0";
+    COL.Y = "0";
+    COL.K = "100";
+    canvas.renderAll();
+    TO.push(NewCircleObejct);
+    //COL.setFill(""black"");
+    //c2(COL,undefined,""abc"");
+    // c2(COL);
+    pcL36('hide', '#divImageDAM');
+});
+
+$("#LockPositionImg").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+
+    if (thisCheck.is(':checked')) {
+        D1AO.IsPositionLocked = true;
+        D1AO.lockMovementX = true;
+        D1AO.lockMovementY = true;
+        D1AO.lockScalingX = true;
+        D1AO.lockScalingY = true;
+        D1AO.lockRotation = true;
+    }
+    else {
+        D1AO.IsPositionLocked = false;
+        D1AO.lockMovementX = false;
+        D1AO.lockMovementY = false;
+        D1AO.lockScalingX = false;
+        D1AO.lockScalingY = false;
+        D1AO.lockRotation = false;
+    }
+
+});
+$("#LockImgProperties").click(function () {
+
+    var thisCheck = $(this);
+   
+    var D1AO = canvas.getActiveObject();
+    if (thisCheck.is(':checked')) {
+        D1AO.IsTextEditable = true;
+        D1AO.IsPositionLocked = true;
+        $("#LockPositionImg").prop('checked', true);
+    }
+    else {
+        D1AO.IsTextEditable = false;
+    }
+    //  c2(D1AO);
+    g1_(D1AO);
+});
+
+function g1_(D1AO) {
+    $("#BtnSearchTxt").removeAttr("disabled");
+    //if (IsCalledFrom == 3) {
+    //    $("#BtnSelectFontsRetail").fontSelector('option', 'font', D1AO.get('fontFamily'));
+    //} else {
+    //    $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
+    //}
+    //$("#BtnFontSize").val(k13(D1AO.get('fontSize')));
+    //$("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
+    //$("#txtLineHeight").val(D1AO.get('lineHeight'));
+    //$("#inputcharSpacing").val(k13(D1AO.get('charSpacing')));
+    //  $("#txtAreaUpdateTxtPropPanel").val(D1AO.text);
+    if (D1AO.IsPositionLocked) {
+        $("#LockPositionImg").prop('checked', true);
+    }
+    else {
+        $("#LockPositionImg").prop('checked', false);
+    }
+    if (D1AO.IsHidden) {
+        $("#BtnPrintImage").prop('checked', true);
+    }
+    else {
+        $("#BtnPrintImage").prop('checked', false);
+    } //alert(IsEmbedded + " " +  IT.IsTextEditable);
+    if (D1AO.IsTextEditable) {
+        $("#LockImgProperties").prop('checked', true);
+    }
+    else {
+        $("#LockImgProperties").prop('checked', false);
+    }
+    if (D1AO.IsOverlayObject) {
+        $("#chkboxOverlayImg").prop('checked', true);
+    }
+    else {
+        $("#chkboxOverlayImg").prop('checked', false);
+    }
+    if (D1AO.IsTextEditable != true) {
+        $("#BtnTxtarrangeOrder1").removeAttr("disabled");
+        $("#BtnTxtarrangeOrder2").removeAttr("disabled");
+        $("#BtnTxtarrangeOrder3").removeAttr("disabled");
+        $("#BtnTxtarrangeOrder4").removeAttr("disabled");
+        $("#AddColorShape").removeAttr("disabled");
+        $("#BtnDeleteTxtObj").removeAttr("disabled");
+        $("#BtnImgRotateLeft").removeAttr("disabled");
+        $("#BtnImgRotateRight").removeAttr("disabled");
+        $(".rotateSlider").removeAttr("disabled");
+        $("#LockPositionImg").removeAttr("disabled");
+        $("#BtnPrintImage").removeAttr("disabled");
+        $("#btnImgCanvasAlignLeft").removeAttr("disabled");
+        $("#BtnImgCanvasAlignCenter").removeAttr("disabled");
+        $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
+        $("#BtnImgCanvasAlignRight").removeAttr("disabled");
+        $("#inputObjectWidth").spinner("option", "disabled", false);
+        $("#inputObjectHeight").spinner("option", "disabled", false);
+        $("#inputPositionX").spinner("option", "disabled", false);
+        $("#inputPositionY").spinner("option", "disabled", false);
+    }
+    else {
+        $("#BtnTxtarrangeOrder1").attr("disabled", "disabled");
+        $("#BtnTxtarrangeOrder2").attr("disabled", "disabled");
+        $("#BtnTxtarrangeOrder3").attr("disabled", "disabled");
+        $("#BtnTxtarrangeOrder4").attr("disabled", "disabled");
+        $("#AddColorShape").attr("disabled", "disabled");
+        $("#BtnDeleteTxtObj").attr("disabled", "disabled");
+        $("#BtnImgRotateLeft").attr("disabled", "disabled");
+        $("#BtnImgRotateRight").attr("disabled", "disabled");
+        $(".rotateSlider").attr("disabled", "disabled");
+        $("#LockPositionImg").attr("disabled", "disabled");
+        $("#BtnPrintImage").attr("disabled", "disabled");
+        $("#btnImgCanvasAlignLeft").attr("disabled", "disabled");
+        $("#BtnImgCanvasAlignCenter").attr("disabled", "disabled");
+        $("#BtnImgCanvasAlignMiddle").attr("disabled", "disabled");
+        $("#BtnImgCanvasAlignRight").attr("disabled", "disabled");
+        $("#inputObjectWidth").spinner("option", "disabled", true);
+        $("#inputObjectHeight").spinner("option", "disabled", true);
+        $("#inputPositionX").spinner("option", "disabled", true);
+        $("#inputPositionY").spinner("option", "disabled", true);
+
+         //=============
+     
+    }
+ 
+    //if ((IsEmbedded && (IsCalledFrom == 4)) || (IsEmbedded && (IsCalledFrom == 3))) {
+    //    $("#LockPositionImg").css("visibility", "hidden");
+    //    $("#lblLockPositionImg").css("visibility", "hidden");
+    //    $("#LockImgProperties").css("visibility", "hidden");
+    //    $("#lblLockImgProperties").css("visibility", "hidden");
+    //    $("#BtnPrintImage").css("display", "none");
+    //    $("#lblBtnPrintImage").css("display", "none");
+    //    $("#objPropertyPanel").css("height", "330px");
+       
+    //}
+}
+
+function g1(D1AO) {
+    $("#BtnSearchTxt").removeAttr("disabled");
+    if (IsCalledFrom == 3) {
+        $("#BtnSelectFontsRetail").fontSelector('option', 'font', D1AO.get('fontFamily'));
+    } else
+    {
+        $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
+    }
+    $("#BtnFontSize").val(k13(D1AO.get('fontSize')));
+    $("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
+    $("#txtLineHeight").val(D1AO.get('lineHeight'));
+    $("#inputcharSpacing").val(k13(D1AO.get('charSpacing')));
+    //  $("#txtAreaUpdateTxtPropPanel").val(D1AO.text);
+    if (D1AO.IsPositionLocked) {
+        $("#BtnLockTxtPosition").prop('checked', true);
+    }
+    else {
+        $("#BtnLockTxtPosition").prop('checked', false);
+    }
+    if (D1AO.IsHidden) {
+        $("#BtnPrintObj").prop('checked', true);
+    }
+    else {
+        $("#BtnPrintObj").prop('checked', false);
+    } //alert(IsEmbedded + " " +  IT.IsTextEditable);
+    if (D1AO.IsTextEditable) {
+        $("#BtnAllowOnlyTxtChange").prop('checked', true);
+    }
+    else {
+        $("#BtnAllowOnlyTxtChange").prop('checked', false);
+    }
+    if (D1AO.AutoShrinkText) {
+        $("#chkboxAutoShrink").prop('checked', true);
+    }
+    else {
+        $("#chkboxAutoShrink").prop('checked', false);
+    }
+
+    if (!D1AO.IsEditable) {
+        $("#BtnLockEditing").prop('checked', true);
+    } else {
+        $("#BtnLockEditing").prop('checked', false);
+    }
+    if (D1AO.IsOverlayObject) {
+        $("#chkboxOverlayTxt").prop('checked', true);
+    }
+    else {
+        $("#chkboxOverlayTxt").prop('checked', false);
+    }
+    if (D1AO.IsTextEditable != true) {
+        if (D1AO.IsEditable) {
+            $("#BtnLockEditing").prop('checked', false);
+        }
+        $("#BtnJustifyTxt1").removeAttr("disabled");
+        $("#BtnJustifyTxt2").removeAttr("disabled");
+        $("#BtnJustifyTxt3").removeAttr("disabled");
+        $("#BtnTxtarrangeOrder1").removeAttr("disabled");
+        $("#BtnTxtarrangeOrder2").removeAttr("disabled");
+        $("#BtnTxtarrangeOrder3").removeAttr("disabled");
+        $("#BtnTxtarrangeOrder4").removeAttr("disabled");
+        //$("#EditTXtArea").removeAttr("disabled");
+        $("#BtnSearchTxt").removeAttr("disabled");
+        //$("#BtnUpdateText").removeAttr("disabled");
+        $("#BtnSelectFonts").removeAttr("disabled");
+        if (IsCalledFrom == 3) {
+            $("#BtnSelectFontsRetail").removeAttr("disabled");
+        }
+        $("#BtnFontSize").removeAttr("disabled");
+        $("#BtnFontSizeRetail").removeAttr("disabled");
+        $("#BtnBoldTxt").removeAttr("disabled");
+        $("#BtnBoldTxtRetail").removeAttr("disabled");
+        $("#BtnItalicTxt").removeAttr("disabled");
+        $("#BtnItalicTxtRetail").removeAttr("disabled");
+        $("#txtLineHeight").removeAttr("disabled");
+        $("#BtnChngeClr").removeAttr("disabled");
+        $("#BtnDeleteTxtObj").removeAttr("disabled");
+        $("#BtnRotateTxtLft").removeAttr("disabled");
+        $("#BtnRotateTxtRight").removeAttr("disabled");
+        $("#BtnLockTxtPosition").removeAttr("disabled");
+        $("#BtnPrintObj").removeAttr("disabled");
+        if (IsEmbedded && !D1AO.IsEditable) {
+            $("#BtnLockEditing").attr("disabled", "disabled");
+        }
+        if (IsEmbedded && D1AO.IsPositionLocked) {
+            $("#BtnLockTxtPosition").attr("disabled", "disabled");
+        } $(".fontSelector").removeAttr("disabled");
+        $("#BtnTxtCanvasAlignLeft").removeAttr("disabled");
+        $("#BtnTxtCanvasAlignCenter").removeAttr("disabled");
+        $("#BtnTxtCanvasAlignRight").removeAttr("disabled");
+        $("#BtnTxtCanvasAlignTop").removeAttr("disabled");
+        $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
+        $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
+        $("#inputcharSpacing").spinner("option", "disabled", false);
+        $("#BtnFontSize").spinner("option", "disabled", false);
+        $("#txtLineHeight").spinner("option", "disabled", false);
+        $("#inputObjectWidthTxt").spinner("option", "disabled", false);
+        $("#inputObjectHeightTxt").spinner("option", "disabled", false);
+        $("#inputPositionXTxt").spinner("option", "disabled", false);
+        $("#inputPositionYTxt").spinner("option", "disabled", false);
+    }
+    else {
+        $("#inputcharSpacing").spinner("option", "disabled", true);
+        if (!D1AO.IsEditable) {
+            $("#BtnLockEditing").prop('checked', true);
+        }
+        $("#BtnJustifyTxt1").attr("disabled", "disabled");
+        $("#BtnJustifyTxt2").attr("disabled", "disabled");
+        $("#BtnJustifyTxt3").attr("disabled", "disabled");
+        $("#BtnTxtarrangeOrder1").attr("disabled", "disabled");
+        $("#BtnTxtarrangeOrder2").attr("disabled", "disabled");
+        $("#BtnTxtarrangeOrder3").attr("disabled", "disabled");
+        $("#BtnTxtarrangeOrder4").attr("disabled", "disabled");
+        //$("#EditTXtArea").attr("disabled", "disabled");
+        $("#BtnSearchTxt").attr("disabled", "disabled");
+        //$("#BtnUpdateText").attr("disabled", "disabled");
+        $("#BtnSelectFonts").attr("disabled", "disabled");
+        if (IsCalledFrom == 3) {
+            $("#BtnSelectFontsRetail").attr("disabled", "disabled");
+        }
+        $("#BtnFontSize").attr("disabled", "disabled");
+        $("#BtnFontSizeRetail").attr("disabled", "disabled");
+        $("#BtnBoldTxt").attr("disabled", "disabled");
+        $("#BtnBoldTxtRetail").attr("disabled", "disabled");
+        $("#BtnItalicTxt").attr("disabled", "disabled");
+        $("#BtnItalicTxtRetail").attr("disabled", "disabled");
+        $("#txtLineHeight").attr("disabled", "disabled");
+        $("#BtnChngeClr").attr("disabled", "disabled");
+        $("#BtnDeleteTxtObj").attr("disabled", "disabled");
+        $("#BtnRotateTxtLft").attr("disabled", "disabled");
+        $("#BtnRotateTxtRight").attr("disabled", "disabled");
+        $("#BtnLockTxtPosition").attr("disabled", "disabled");
+        $("#BtnPrintObj").attr("disabled", "disabled");
+
+        $("#BtnTxtCanvasAlignLeft").attr("disabled", "disabled");
+        $("#BtnTxtCanvasAlignCenter").attr("disabled", "disabled");
+        $("#BtnTxtCanvasAlignRight").attr("disabled", "disabled");
+        $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
+        $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
+        $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
+        $("#BtnFontSize").spinner("option", "disabled", true);
+        $("#txtLineHeight").spinner("option", "disabled", true);
+
+        $("#inputObjectWidthTxt").spinner("option", "disabled", true);
+        $("#inputObjectHeightTxt").spinner("option", "disabled", true);
+        $("#inputPositionXTxt").spinner("option", "disabled", true);
+        $("#inputPositionYTxt").spinner("option", "disabled", true);
+        $(".fontSelector").attr("disabled", "disabled");
+    }
+    //$.each(TO, function (i, IT) {
+
+    //    if (IT.ObjectID == D1AO.ObjectID) {
+
+    //    }
+    //});
+
+
+    if ((IsEmbedded && (IsCalledFrom == 4)) || (IsEmbedded && (IsCalledFrom == 3))) {
+        $("#BtnLockTxtPosition").css("visibility", "hidden");
+        $("#lblLockPositionTxt").css("visibility", "hidden");
+        $("#BtnAllowOnlyTxtChange").css("visibility", "hidden");
+        $("#lblAllowOnlyTxtChng").css("visibility", "hidden");
+        $("#BtnLockEditing").css("visibility", "hidden");
+        $("#lblLockEditingTxt").css("visibility", "hidden");
+        $("#BtnPrintObj").css("display", "none");
+        $("#lblDoNotPrintTxt").css("display", "none");
+        $("#BtnUploadFont").css("visibility", "hidden");
+        $("#textPropertPanel").css("height", "330px");
+        $("#divSepratrTxtPos").css("visibility", "hidden");
+        $("#chkboxAutoShrink").css("visibility", "hidden");
+        $("#lblAutoShrink").css("visibility", "hidden");
+    }
+}
+$("#BtnImgRotateLeft").click(function () {
     pcL16();
-}
+});
 
-document.getElementById('BtnImgRotateRightRetail').onclick = function (ev) {
+$("#BtnImgRotateRight").click(function () {
     pcL17();
-}
-document.getElementById('BtnImageArrangeOrdr1Retail').onclick = function (ev) {
+});
+$("#BtnImgRotateLeftRetail").click(function () {
+    pcL16();
+});
+$("#BtnImgRotateRightRetail").click(function () {
+    pcL17();
+});
+$("#BtnImageArrangeOrdr1Retail").click(function () {
     pcL26();
-}
-document.getElementById('BtnImageArrangeOrdr4Retail').onclick = function (ev) {
-    pcL25();
-}
-document.getElementById('BtnImageArrangeOrdr2Retail').onclick = function (ev) {
-    pcL18();
-}
+});
 
-document.getElementById('BtnImageArrangeOrdr3Retail').onclick = function (ev) {
-    pcL19();
-}
-document.getElementById('BtnRotateTxtLftRetail').onclick = function (ev) {
-    pcL11();
-}
-document.getElementById('BtnRotateTxtRightRetail').onclick = function (ev) {
-    pcL12();
-}
-document.getElementById('BtnTxtarrangeOrder1Retail').onclick = function (ev) {
-    pcL26();
-}
-document.getElementById('BtnTxtarrangeOrder2Retail').onclick = function (ev) {
-    pcL27();
-}
-document.getElementById('BtnTxtarrangeOrder3Retail').onclick = function (ev) {
-    pcL28();
-}
-document.getElementById('BtnTxtarrangeOrder4Retail').onclick = function (ev) {
-    pcL25();
-}
-document.getElementById('BtnSelectFontsRetail').onchange = function (ev) {
-    pcL04();
-}
-document.getElementById('btnDeleteTxt').onclick = function (ev) {
-    pcL03();
+
+//document.getElementById('BtnImgRotateLeft').onclick = function (ev) {
+//    pcL16();
+//}
+
+//document.getElementById('BtnImgRotateRight').onclick = function (ev) {
+//    pcL17();
+//}
+//document.getElementById('BtnImgRotateLeftRetail').onclick = function (ev) {
+//    pcL16();
+//}
+
+//document.getElementById('BtnImgRotateRightRetail').onclick = function (ev) {
+//    pcL17();
+//}
+//document.getElementById('BtnImageArrangeOrdr1Retail').onclick = function (ev) {
+//    pcL26();
+//}
+//document.getElementById('BtnImageArrangeOrdr4Retail').onclick = function (ev) {
+//    pcL25();
+//}
+//document.getElementById('BtnImageArrangeOrdr2Retail').onclick = function (ev) {
+//    pcL18();
+//}
+
+//document.getElementById('BtnImageArrangeOrdr3Retail').onclick = function (ev) {
+//    pcL19();
+//}
+//document.getElementById('BtnRotateTxtLft').onclick = function (ev) {
+//    pcL11();
+//}
+//document.getElementById('BtnRotateTxtRight').onclick = function (ev) {
+//    pcL12();
+//}
+//document.getElementById('BtnRotateTxtLftRetail').onclick = function (ev) {
+//    pcL11();
+//}
+//document.getElementById('BtnRotateTxtRightRetail').onclick = function (ev) {
+//    pcL12();
+//}
+//document.getElementById('BtnTxtarrangeOrder1Retail').onclick = function (ev) {
+//    pcL26();
+//}
+//document.getElementById('BtnTxtarrangeOrder2Retail').onclick = function (ev) {
+//    pcL27();
+//}
+//document.getElementById('BtnTxtarrangeOrder3Retail').onclick = function (ev) {
+//    pcL28();
+//}
+//document.getElementById('BtnTxtarrangeOrder4Retail').onclick = function (ev) {
+//    pcL25();
+//}
+//document.getElementById('BtnSelectFontsRetail').onchange = function (ev) {
+//    pcL04();
+//}
+//document.getElementById('btnDeleteTxt').onclick = function (ev) {
+//    pcL03();
   
-}
-document.getElementById('BtnBoldTxtRetail').onclick = function (ev) {
-    pcL05();
+//}
+//document.getElementById('BtnBoldTxtRetail').onclick = function (ev) {
+//    pcL05();
 
-}
-document.getElementById('BtnItalicTxtRetail').onclick = function (ev) {
-    pcL06();
-}
-document.getElementById('BtnJustifyTxt1Retail').onclick = function (ev) {
-    pcL07();
-}
+//}
+//document.getElementById('BtnItalicTxtRetail').onclick = function (ev) {
+//    pcL06();
+//}
+//document.getElementById('BtnJustifyTxt1Retail').onclick = function (ev) {
+//    pcL07();
+//}
 
-document.getElementById('BtnJustifyTxt2Retail').onclick = function (ev) {
-    pcL08();
-}
-document.getElementById('BtnJustifyTxt3Retail').onclick = function (ev) {
+//document.getElementById('BtnJustifyTxt2Retail').onclick = function (ev) {
+//    pcL08();
+//}
+//document.getElementById('BtnJustifyTxt3Retail').onclick = function (ev) {
+//    pcL09();
+//}
+$('#BtnJustifyTxt3Retail').click(function (event) {
     pcL09();
-}
+});
+$('#BtnJustifyTxt2Retail').click(function (event) {
+    pcL08();
+});
+$('#BtnJustifyTxt1Retail').click(function (event) {
+    pcL07();
+});
+$('#BtnTxtarrangeOrder2Retail').click(function (event) {
+    pcL27();
+});
+$('#BtnTxtarrangeOrder3Retail').click(function (event) {
+    pcL28();
+});
+$('#BtnTxtarrangeOrder4Retail').click(function (event) {
+    pcL25();
+});
+$('#BtnSelectFontsRetail').click(function (event) {
+    pcL04();
+});
+$('#btnDeleteTxt').click(function (event) {
+    pcL03();
+});
+$('#BtnBoldTxtRetail').click(function (event) {
+    pcL05();
+});
+$('#BtnItalicTxtRetail').click(function (event) {
+    pcL06();
+});
+$('#BtnImageArrangeOrdr4Retail').click(function (event) {
+    pcL25();
+});
+$('#BtnImageArrangeOrdr2Retail').click(function (event) {
+    pcL18();
+});
+$('#BtnImageArrangeOrdr3Retail').click(function (event) {
+    pcL19();
+});
+$('#BtnRotateTxtLft').click(function (event) {
+    pcL11();
+});
+$('#BtnRotateTxtRight').click(function (event) {
+    pcL12();
+});
+$('#BtnRotateTxtLftRetail').click(function (event) {
+    pcL11();
+});
+$('#BtnRotateTxtRightRetail').click(function (event) {
+    pcL12();
+});
+$('#BtnTxtarrangeOrder1Retail').click(function (event) {
+    pcL26();
+});
+
 $('#AddColorTxtRetailNew').click(function (event) {
     pcL02();
 });
@@ -154,15 +725,15 @@ $(".freeBackgrounds").click(function (event) {
 }); 
 $(".btnBkBkimgs").click(function (event) {
     fu13(2, 2, 1, 1);
-    pcL29_pcRestore(7);
+    pcL29_pcRestore(7); spBkPanel = "";
 });
 $(".btnBkmyBk").click(function (event) {
     fu13(2, 2, 1, 2);
-    pcL29_pcRestore(7);
+    pcL29_pcRestore(7); spBkPanel = "";
 });
 $(".btnBkTempBk").click(function (event) {
     fu13(2, 2, 1, 3);
-    pcL29_pcRestore(7);
+    pcL29_pcRestore(7); spBkPanel = "";
 });
 $(".myBackgrounds").click(function (event) {
     fu13(2, 2, 1, 2);
@@ -183,7 +754,7 @@ $(".btnFreeImgs").click(function (event) {
 });
 $(".btnBackGlImgs").click(function (event) {
     fu13(2, 1, 1, 1);
-    pcL29_pcRestore(3);
+    pcL29_pcRestore(4); spPanel = ".btnBackFromImgs ";
 });
 $(".btnIllustrations").click(function (event) {
     fu13(2, 1, 1, 2);
@@ -191,7 +762,7 @@ $(".btnIllustrations").click(function (event) {
 });
 $(".btnBackMyImg").click(function (event) {
     fu13(2, 1, 1, 2);
-    pcL29_pcRestore(4);
+    pcL29_pcRestore(4); spPanel = ".btnBackFromImgs ";
 });
 $(".btnFrames").click(function (event) {
     fu13(2, 1, 1, 3);
@@ -200,6 +771,7 @@ $(".btnFrames").click(function (event) {
 $(".btnBackMyLogos").click(function (event) {
     fu13(2, 1, 1, 3);
     pcL29_pcRestore(5);
+    spPanel = ".btnBackFromImgs ";
 });
 $(".BtnBanners").click(function (event) {
     fu13(2, 1, 2, 1);
@@ -216,7 +788,7 @@ $(".btnTemplateImages").click(function (event) {
 });
 $(".btnBackTimgs").click(function (event) {
     fu13(2, 1, 3, 1);
-    pcL29_pcRestore(6);
+    pcL29_pcRestore(6); spPanel = ".btnBackFromImgs ";
 });
 $(".yourUploads").click(function (event) {
     fu13(2, 3, 1, 1);
@@ -232,21 +804,45 @@ $(".btnAtext").click(function (event) {
     fu13(2, 4, 1, 2);
     pcL29_pcMove(1);
     spPanel = ".btnBackFromTxt";
+    
 });
 $(".btnBackFromImgs").click(function (event) {
     fu13(2, 4, 1, 3);
-    pcL29_pcRestore(2);
+    pcL29_pcRestore(2); spPanel = "";
 });
 $(".btnBackFromTxt").click(function (event) {
     fu13(2, 4, 1, 2);
     pcL29_pcRestore(1);
     
 });
+$(".btnBackFromShapes").click(function (event) {
+    fu13(2, 4, 1, 4);
+    pcL29_pcRestore(1);
+});
 $(".btnAFrames").click(function (event) {
     fu13(2, 4, 1, 3);
     pcL29_pcMove(2);
-    spPanel = ".btnBackFromImgs";
+
+        spPanel = ".btnBackFromImgs";
+
+    
 });
+//$(".btnAShapes").click(function (event) {
+//    pcL29_pcMove(1);
+//    spPanel = ".btnBackFromShapes";
+//    fu13(2, 4, 1, 4);
+//    //setTimeout(function () {
+//    //    fu13(2, 5, 1, 4);
+//    //}, 20);
+    
+//});
+$(".btnAShapes").click(function (event) {
+    fu13(2, 4, 1, 4);
+    pcL29_pcMove(1);
+        spPanel = ".btnBackFromShapes";
+
+});
+
 $("#zoomIn").click(function (event) {
     var D1AO = canvas.getActiveObject();
     var D1AG = canvas.getActiveGroup();
@@ -312,9 +908,11 @@ $('#btnaddbody').click(function () {
     $("#txtareaAddTxt").val("");
 });
 $('#btnReplaceImage').click(function () {
-    fu13(2, 4, 1, 3);
-    pcL29_pcMove(2);
+    //fu13(2, 4, 1, 3);
+    //pcL29_pcMove(2);
     $('.btnAdd').click();
+    $('.btnAFrames').click();
+    
 });
 $('#editorLogo').click(function () {
     StartLoader("Saving and generating preview, Please wait...");
@@ -542,7 +1140,8 @@ $("#uploadBackgroundMn").click(function (event) {
     isBKpnl = true;
      $("#uploadBackground").click();
 });
-document.getElementById('BtnAlignObjCenter').onclick = function (ev) {
+
+$("#BtnAlignObjCenter").click(function (ev) {
     if (canvas.getActiveGroup()) {
         var D1AG = canvas.getActiveGroup().getObjects();
         if (D1AG) {
@@ -564,9 +1163,10 @@ document.getElementById('BtnAlignObjCenter').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
+});
 
-document.getElementById('BtnAlignObjLeft').onclick = function (ev) {
+
+$("#BtnAlignObjLeft").click(function (ev) {
     if (canvas.getActiveGroup()) {
         var D1AG = canvas.getActiveGroup().getObjects();
         if (D1AG) {
@@ -587,9 +1187,8 @@ document.getElementById('BtnAlignObjLeft').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
-
-document.getElementById('BtnAlignObjRight').onclick = function (ev) {
+});
+$("#BtnAlignObjRight").click(function (ev) {
     if (canvas.getActiveGroup()) {
         var D1AG = canvas.getActiveGroup().getObjects();
         if (D1AG) {
@@ -611,9 +1210,8 @@ document.getElementById('BtnAlignObjRight').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
-
-document.getElementById('BtnAlignObjTop').onclick = function (ev) {
+});
+$("#BtnAlignObjTop").click(function (ev) {
     if (canvas.getActiveGroup()) {
         var D1AG = canvas.getActiveGroup().getObjects();
         if (D1AG) {
@@ -634,9 +1232,8 @@ document.getElementById('BtnAlignObjTop').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
-
-document.getElementById('BtnAlignObjMiddle').onclick = function (ev) {
+});
+$("#BtnAlignObjMiddle").click(function (ev) {
     if (canvas.getActiveGroup()) {
         var D1AG = canvas.getActiveGroup().getObjects();
         if (D1AG) {
@@ -657,9 +1254,8 @@ document.getElementById('BtnAlignObjMiddle').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
-
-document.getElementById('BtnAlignObjBottom').onclick = function (ev) {
+});
+$("#BtnAlignObjBottom").click(function (ev) {
     if (canvas.getActiveGroup()) {
         var D1AG = canvas.getActiveGroup().getObjects();
         if (D1AG) {
@@ -680,7 +1276,125 @@ document.getElementById('BtnAlignObjBottom').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
+});
+
+
+
+//document.getElementById('BtnAlignObjLeft').onclick = function (ev) {
+//    if (canvas.getActiveGroup()) {
+//        var D1AG = canvas.getActiveGroup().getObjects();
+//        if (D1AG) {
+//            var minID = 0;
+//            var mintop = 0;
+//            var left = 0
+//            mintop = D1AG[0].top;
+//            minID = D1AG[0].ObjectID;
+//            left = D1AG[0].left - D1AG[0].currentWidth / 2;
+//            if (D1AG) {
+//                for (i = 0; i < D1AG.length; i++) {
+//                    if (D1AG[i].ObjectID != minID) {
+//                        D1AG[i].left = left + D1AG[i].currentWidth / 2;
+//                    }
+//                }
+//                canvas.discardActiveGroup();
+//            }
+//            canvas.renderAll();
+//        }
+//    }
+//}
+
+//document.getElementById('BtnAlignObjRight').onclick = function (ev) {
+//    if (canvas.getActiveGroup()) {
+//        var D1AG = canvas.getActiveGroup().getObjects();
+//        if (D1AG) {
+//            var minID = 0;
+//            var mintop = 0;
+//            var left = 0
+//            mintop = D1AG[0].top;
+//            minID = D1AG[0].ObjectID;
+//            left = D1AG[0].left + D1AG[0].currentWidth / 2;
+
+//            if (D1AG) {
+//                for (i = 0; i < D1AG.length; i++) {
+//                    if (D1AG[i].ObjectID != minID) {
+//                        D1AG[i].left = left - D1AG[i].currentWidth / 2;
+//                    }
+//                }
+//                canvas.discardActiveGroup();
+//            }
+//            canvas.renderAll();
+//        }
+//    }
+//}
+
+//document.getElementById('BtnAlignObjTop').onclick = function (ev) {
+//    if (canvas.getActiveGroup()) {
+//        var D1AG = canvas.getActiveGroup().getObjects();
+//        if (D1AG) {
+//            var minID = 0;
+//            var minLeft = 99999;
+//            var top = 0
+//            minLeft = D1AG[0].left;
+//            minID = D1AG[0].ObjectID;
+//            top = D1AG[0].top - D1AG[0].currentHeight / 2;
+//            if (D1AG) {
+//                for (i = 0; i < D1AG.length; i++) {
+//                    if (D1AG[i].ObjectID != minID) {
+//                        D1AG[i].top = top + D1AG[i].currentHeight / 2;
+//                    }
+//                }
+//                canvas.discardActiveGroup();
+//            }
+//            canvas.renderAll();
+//        }
+//    }
+//}
+
+//document.getElementById('BtnAlignObjMiddle').onclick = function (ev) {
+//    if (canvas.getActiveGroup()) {
+//        var D1AG = canvas.getActiveGroup().getObjects();
+//        if (D1AG) {
+//            var minID = 0;
+//            var minLeft = 99999;
+//            var top = 0
+//            minLeft = D1AG[0].left;
+//            minID = D1AG[0].ObjectID;
+//            top = D1AG[0].top;
+//            if (D1AG) {
+//                for (i = 0; i < D1AG.length; i++) {
+//                    if (D1AG[i].ObjectID != minID) {
+//                        D1AG[i].top = top;
+//                    }
+//                }
+//                canvas.discardActiveGroup();
+//            }
+//            canvas.renderAll();
+//        }
+//    }
+//}
+
+//document.getElementById('BtnAlignObjBottom').onclick = function (ev) {
+//    if (canvas.getActiveGroup()) {
+//        var D1AG = canvas.getActiveGroup().getObjects();
+//        if (D1AG) {
+//            var minID = 0;
+//            var minLeft = 99999;
+//            var top = 0
+//            minLeft = D1AG[0].left;
+//            minID = D1AG[0].ObjectID;
+//            top = D1AG[0].top + D1AG[0].currentHeight / 2;
+//            if (D1AG) {
+//                for (i = 0; i < D1AG.length; i++) {
+//                    if (D1AG[i].ObjectID != minID) {
+//                        D1AG[i].top = top - D1AG[i].currentHeight / 2;
+//                    }
+//                }
+//                canvas.discardActiveGroup();
+//            }
+//            canvas.renderAll();
+//        }
+//    }
+//}
 function g4(event) {
 
 }
@@ -699,9 +1413,9 @@ function g3(event) {
     } else if (D1AO) {
     }
 }
-document.getElementById('BtnBoldTxt').onclick = function (ev) {
-    pcL05();
-}
+//document.getElementById('BtnBoldTxt').onclick = function (ev) {
+//    pcL05();
+//}
 var cmdItalicBtn = document.getElementById('BtnItalicTxt');
 if (cmdItalicBtn) {
     cmdItalicBtn.onclick = function () {
@@ -711,30 +1425,35 @@ if (cmdItalicBtn) {
 $('#BtnChngeClr').click(function (event) {
     pcL02_main();
 });
-document.getElementById('BtnJustifyTxt1').onclick = function (ev) {
+
+$("#BtnBoldTxt").click(function (ev) {
+    pcL05();
+});
+$("#BtnBulletedLstTxt").click(function (ev) {
+   
+});
+$("#BtnJustifyTxt1").click(function (ev) {
     pcL07();
-}
-
-document.getElementById('BtnJustifyTxt2').onclick = function (ev) {
+});
+$("#BtnJustifyTxt2").click(function (ev) {
     pcL08();
-}
-document.getElementById('BtnJustifyTxt3').onclick = function (ev) {
+});
+$("#BtnJustifyTxt3").click(function (ev) {
     pcL09();
-}
-
-document.getElementById('BtnTxtarrangeOrder1').onclick = function (ev) {
+});
+$("#BtnTxtarrangeOrder1").click(function (ev) {
     pcL26();
-}
-document.getElementById('BtnTxtarrangeOrder2').onclick = function (ev) {
+});
+$("#BtnTxtarrangeOrder2").click(function (ev) {
     pcL27();
-}
-document.getElementById('BtnTxtarrangeOrder3').onclick = function (ev) {
+});
+$("#BtnTxtarrangeOrder3").click(function (ev) {
     pcL28();
-}
-document.getElementById('BtnTxtarrangeOrder4').onclick = function (ev) {
+});
+$("#BtnTxtarrangeOrder4").click(function (ev) {
     pcL25();
-}
-document.getElementById('BtnTxtCanvasAlignLeft').onclick = function (ev) {
+});
+$("#BtnTxtCanvasAlignLeft").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
         if (!IsBC) {
@@ -755,16 +1474,16 @@ document.getElementById('BtnTxtCanvasAlignLeft').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
-document.getElementById('BtnTxtCanvasAlignCenter').onclick = function (ev) {
+});
+$("#BtnTxtCanvasAlignCenter").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         D1AO.left = canvas.getWidth() / 2;
         D1AO.setCoords();
         canvas.renderAll();
     }
-}
-document.getElementById('BtnTxtCanvasAlignMiddle').onclick = function (ev) {
+});
+$("#BtnTxtCanvasAlignMiddle").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         D1AO.top = canvas.getHeight() / 2;
@@ -772,8 +1491,72 @@ document.getElementById('BtnTxtCanvasAlignMiddle').onclick = function (ev) {
         D1AO.setCoords();
         canvas.renderAll();
     }
-}
-document.getElementById('BtnTxtCanvasAlignRight').onclick = function (ev) {
+});
+
+
+
+//document.getElementById('BtnJustifyTxt1').onclick = function (ev) {
+//    pcL07();
+//}
+//document.getElementById('BtnJustifyTxt2').onclick = function (ev) {
+//    pcL08();
+//}
+//document.getElementById('BtnJustifyTxt3').onclick = function (ev) {
+//    pcL09();
+//}
+//document.getElementById('BtnTxtarrangeOrder1').onclick = function (ev) {
+//    pcL26();
+//}
+//document.getElementById('BtnTxtarrangeOrder2').onclick = function (ev) {
+//    pcL27();
+//}
+//document.getElementById('BtnTxtarrangeOrder3').onclick = function (ev) {
+//    pcL28();
+//}
+//document.getElementById('BtnTxtarrangeOrder4').onclick = function (ev) {
+//    pcL25();
+//}
+//document.getElementById('BtnTxtCanvasAlignLeft').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
+//        if (!IsBC) {
+//            D1AO.left = Template.CuttingMargin + D1AO.width / 2 + 8.49;
+//        } else {
+//            D1AO.left = Template.CuttingMargin + D1AO.width / 2 + 8.49 + 5;
+//        }
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    } else {
+//        if (D1AO) {
+//            if (!IsBC) {
+//                D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+//            } else {
+//                D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+//            }
+//            D1AO.setCoords();
+//            canvas.renderAll();
+//        }
+//    }
+//}
+//document.getElementById('BtnTxtCanvasAlignCenter').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO) {
+//        D1AO.left = canvas.getWidth() / 2;
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    }
+//}
+//document.getElementById('BtnTxtCanvasAlignMiddle').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO) {
+//        D1AO.top = canvas.getHeight() / 2;
+//        //  c2(D1AO);
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    }
+//}
+
+$("#BtnTxtCanvasAlignRight").click(function (ev) {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
         if (!IsBC) {
@@ -794,7 +1577,29 @@ document.getElementById('BtnTxtCanvasAlignRight').onclick = function (ev) {
             canvas.renderAll();
         }
     }
-}
+});
+//document.getElementById('BtnTxtCanvasAlignRight').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO && (D1AO.type == "text" || D1AO.type === 'i-text')) {
+//        if (!IsBC) {
+//            D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.width / 2 - 8.49;
+//        } else {
+//            D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.width / 2 - 8.49 - 5;
+//        }
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    } else {
+//        if (D1AO) {
+//            if (!IsBC) {
+//                D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.currentWidth / 2 - 8.49;
+//            } else {
+//                D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.currentWidth / 2 - 8.49;
+//            }
+//            D1AO.setCoords();
+//            canvas.renderAll();
+//        }
+//    }
+//}
 var removeSelectedEl = document.getElementById('BtnDeleteTxtObj');
 removeSelectedEl.onclick = function () {
     pcL03();
@@ -811,65 +1616,116 @@ $("#BtnImgScaleOut").click(function (event) {
 $('#AddColorShape').click(function (event) {
     pcL02_main2();
 });
-document.getElementById('BtnImageArrangeOrdr1').onclick = function (ev) {
+
+$('#BtnImageArrangeOrdr1').click(function (event) {
     pcL26();
-}
-document.getElementById('BtnImageArrangeOrdr2').onclick = function (ev) {
+});
+$('#BtnImageArrangeOrdr2').click(function (event) {
     pcL18();
-}
-
-document.getElementById('BtnImageArrangeOrdr3').onclick = function (ev) {
+});
+$('#BtnImageArrangeOrdr3').click(function (event) {
     pcL19();
-}
-document.getElementById('BtnImageArrangeOrdr4').onclick = function (ev) {
+});
+$('#BtnImageArrangeOrdr4').click(function (event) {
     pcL25();
-}
-//document.getElementById('BtnImgRotateLeft').onclick = function (ev) {
-//    pcL16();
-//}
-
-//document.getElementById('BtnImgRotateRight').onclick = function (ev) {
-//    pcL17();
-//}
-document.getElementById('BtnImgCanvasAlignCenter').onclick = function (ev) {
+});
+$('#BtnImgCanvasAlignCenter').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         D1AO.left = canvas.getWidth() / 2;
         D1AO.setCoords();
         canvas.renderAll();
     }
-}
-document.getElementById('btnImgCanvasAlignLeft').onclick = function (ev) {
+});
+$('#btnImgCanvasAlignLeft').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
         D1AO.setCoords();
         canvas.renderAll();
     }
-}
-
-document.getElementById('BtnImgCanvasAlignRight').onclick = function (ev) {
+});
+$('#BtnImgCanvasAlignRight').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.currentWidth / 2 - 8.49;
         D1AO.setCoords();
         canvas.renderAll();
     }
-}
+});
 
-document.getElementById('BtnImgCanvasAlignMiddle').onclick = function (ev) {
+
+//document.getElementById('BtnImageArrangeOrdr1').onclick = function (ev) {
+//    pcL26();
+//}
+//document.getElementById('BtnImageArrangeOrdr2').onclick = function (ev) {
+//    pcL18();
+//}
+
+//document.getElementById('BtnImageArrangeOrdr3').onclick = function (ev) {
+//    pcL19();
+//}
+//document.getElementById('BtnImageArrangeOrdr4').onclick = function (ev) {
+//    pcL25();
+//}
+////document.getElementById('BtnImgRotateLeft').onclick = function (ev) {
+////    pcL16();
+////}
+
+////document.getElementById('BtnImgRotateRight').onclick = function (ev) {
+////    pcL17();
+////}
+//document.getElementById('BtnImgCanvasAlignCenter').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO) {
+//        D1AO.left = canvas.getWidth() / 2;
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    }
+//}
+//document.getElementById('btnImgCanvasAlignLeft').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO) {
+//        D1AO.left = Template.CuttingMargin + D1AO.currentWidth / 2 + 8.49;
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    }
+//}
+
+//document.getElementById('BtnImgCanvasAlignRight').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO) {
+//        D1AO.left = canvas.getWidth() - Template.CuttingMargin - D1AO.currentWidth / 2 - 8.49;
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    }
+//}
+
+$('#BtnImgCanvasAlignMiddle').click(function (event) {
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         D1AO.top = canvas.getHeight() / 2;
         D1AO.setCoords();
         canvas.renderAll();
     }
-}
-var removeSelectedEl = document.getElementById('btnDeleteImage');
-removeSelectedEl.onclick = function () {
+});
+
+//document.getElementById('BtnImgCanvasAlignMiddle').onclick = function (ev) {
+//    var D1AO = canvas.getActiveObject();
+//    if (D1AO) {
+//        D1AO.top = canvas.getHeight() / 2;
+//        D1AO.setCoords();
+//        canvas.renderAll();
+//    }
+//}
+$('#btnDeleteImage').click(function (event) {
     pcL21();
     $(".btnAdd").click();
-};
+});
+//var removeSelectedEl = document.getElementById('btnDeleteImage');
+//removeSelectedEl.onclick = function () {
+   
+//};
 $("#clearBackground").click(function (event) {
     $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
     $(".BkImgPanels").addClass("disappearing");
@@ -898,9 +1754,12 @@ $("#clearBackground").click(function (event) {
 //document.getElementById('BtnRotateTxtRight').onclick = function (ev) {
 //    pcL12();
 //}
-document.getElementById('BtnGuides').onclick = function (ev) {
+$('#BtnGuides').click(function (event) {
     f9();
-}
+});
+
+
+
 $('#btnAddTxt').click(function (event) {
     pcL29(13.33, false, $("#txtareaAddTxt").val());
     $("#txtareaAddTxt").val("");
@@ -953,4 +1812,200 @@ $("#btnMenuPaste").click(function (event) {
             canvas.renderAll();
         }
     }
+});
+
+
+$("#BtnLockTxtPosition").click(function () {
+
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'text' || D1AO.type === 'i-text') {
+        if (thisCheck.is(':checked')) {
+            D1AO.IsPositionLocked = true;
+            D1AO.lockMovementX = true;
+            D1AO.lockMovementY = true;
+            D1AO.lockScalingX = true;
+            D1AO.lockScalingY = true;
+            D1AO.lockRotation = true;
+        }
+        else {
+            D1AO.IsPositionLocked = false;
+            D1AO.lockMovementX = false;
+            D1AO.lockMovementY = false;
+            D1AO.lockScalingX = false;
+            D1AO.lockScalingY = false;
+            D1AO.lockRotation = false;
+        }
+        // c2(D1AO);
+
+    }
+    else if (D1AO.type === 'group') {
+        var objectsInGroup = D1AO.getObjects();
+        objectsInGroup.forEach(function (OPT) {
+            if (thisCheck.is(':checked')) {
+                OPT.IsPositionLocked = true;
+                OPT.lockMovementX = true;
+                OPT.lockMovementY = true;
+                OPT.lockScalingX = true;
+                OPT.lockScalingY = true;
+                OPT.lockRotation = true;
+            }
+            else {
+                OPT.IsPositionLocked = false;
+                OPT.lockMovementX = false;
+                OPT.lockMovementY = false;
+                OPT.lockScalingX = false;
+                OPT.lockScalingY = false;
+                OPT.lockRotation = false;
+            }
+            //  c2(OPT);
+        });
+
+    }
+});
+
+$("#BtnPrintObj").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'text' || D1AO.type === 'i-text') {
+        if (thisCheck.is(':checked')) {
+            D1AO.IsHidden = true;
+        }
+        else {
+            D1AO.IsHidden = false;
+        }
+        //   c2(D1AO);
+    }
+    else if (D1AO.type === 'group') {
+        var objectsInGroup = D1AO.getObjects();
+        objectsInGroup.forEach(function (OPT) {
+            if (thisCheck.is(':checked')) {
+                D1AO.IsHidden = true;
+            }
+            else {
+                D1AO.IsHidden = false;
+            }
+        });
+    }
+});
+$("#TxtQSequence").keydown(function (event) {
+    // Allow: backspace, delete, tab, escape, and enter
+    if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+        // Allow: Ctrl+A
+        (event.keyCode == 65 && event.ctrlKey === true) ||
+        // Allow: home, end, left, right
+        (event.keyCode >= 35 && event.keyCode <= 39)) {
+        // let it happen, don't do anything
+        return;
+    }
+    else {
+        // Ensure that it is a number and stop the keypress
+        if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+            event.preventDefault();
+        }
+    }
+});
+$("#BtnLockEditing").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'text' || D1AO.type === 'i-text') {
+
+        if (D1AO.get('IsEditable') == true) {
+            D1AO.IsEditable = false;
+            D1AO.IsTextEditable = false;
+            // $("#BtnAllowOnlyTxtChange").prop('checked', false);
+            pcL13();
+            pcL36('hide', '#divPopupUpdateTxt , #divVariableContainer ');
+
+        }
+        else {
+            D1AO.IsEditable = true;
+        }
+        // c2(D1AO);
+    }
+    g1(D1AO);
+
+});
+$("#chkboxAutoShrink").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'text' || D1AO.type === 'i-text') {
+
+        if (D1AO.get('AutoShrinkText')) {
+            D1AO.AutoShrinkText = false;
+            $("#chkboxAutoShrink").prop('checked', false);
+            pcL13();
+        }
+        else {
+            D1AO.AutoShrinkText = true;
+            $("#chkboxAutoShrink").prop('checked', true);
+        }
+    }
+
+    g1(D1AO);
+});
+$("#chkboxOverlayTxt").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'text' || D1AO.type === 'i-text') {
+
+        if (D1AO.get('IsOverlayObject')) {
+            D1AO.IsOverlayObject = false;
+            $("#chkboxOverlayTxt").prop('checked', false);
+            pcL13();
+        }
+        else {
+            D1AO.IsOverlayObject = true;
+            $("#chkboxOverlayTxt").prop('checked', true);
+        }
+    }
+
+    g1(D1AO);
+});
+$("#chkboxOverlayImg").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.get('IsOverlayObject')) {
+        D1AO.IsOverlayObject = false;
+        $("#chkboxOverlayImg").prop('checked', false);
+        pcL13();
+    }
+    else {
+        D1AO.IsOverlayObject = true;
+        $("#chkboxOverlayImg").prop('checked', true);
+    }
+    //  c2(D1AO);
+    g1(D1AO);
+});
+
+$("#IsQuickTxtCHK").click(function () {
+    var thisCheck = $(this);
+    if (thisCheck.is(':checked')) {
+        $("#addText").css("height", "308px");
+        $("#QtxtINRow").css("display", "block");
+
+        $(".popUpQuickTextPanel").css("top", "248px");
+    }
+    else {
+        $("#addText").css("height", "192px");
+        $("#QtxtINRow").css("display", "none");
+        $(".popUpQuickTextPanel").css("top", "131px");
+    }
+});
+$("#BtnAllowOnlyTxtChange").click(function () {
+    var thisCheck = $(this);
+    var D1AO = canvas.getActiveObject();
+    if (D1AO.type === 'i-text') {
+        if (D1AO.get('IsTextEditable')) {
+            D1AO.IsTextEditable = false;
+
+        }
+        else {
+            D1AO.IsTextEditable = true;
+            //   D1AO.IsEditable = false; 
+        }
+        //  c2(D1AO);
+    }
+    g1(D1AO);
+    //animatedcollapse.toggle('textPropertPanel');
 });
