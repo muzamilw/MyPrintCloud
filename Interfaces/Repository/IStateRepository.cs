@@ -7,5 +7,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IStateRepository : IBaseRepository<State, long>
     {
+        string GetStateNameById(long StateId);
     }
 }

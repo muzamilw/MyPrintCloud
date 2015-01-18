@@ -18,6 +18,7 @@ using System.IO;
 using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
+using MPC.Models.Common;
 
 
 
@@ -86,7 +87,7 @@ namespace MPC.Webstore.Controllers
             return View(model);
         }
 
-        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPageModel> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
+        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Webstore.Models.CmsPageModel> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
@@ -240,6 +241,14 @@ namespace MPC.Webstore.Controllers
                 //signout
                 AuthenticationManager.SignOut();
                 UserCookieManager.isRegisterClaims = 0;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                {
+                    Response.Redirect("/Login");
+                }
+                else 
+                {
+                    Response.Redirect("/");
+                }
             }
        }
     }

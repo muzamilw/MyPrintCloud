@@ -238,4 +238,13 @@ namespace MPC.Models.Common
          Landscape = 1,
          Portrait = 0
      }
+     public enum SecondryPagesInfo : int
+     {
+         AboutUs = 2,
+         ContactUs = 3,
+         SpecialOffer = 35,
+         HowToOrder = 36,
+         PrivacyPolicy = 5,
+         TermsAndConditions = 11
+     }
 }

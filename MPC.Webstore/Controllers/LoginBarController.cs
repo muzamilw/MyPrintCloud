@@ -35,11 +35,7 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-        private IAuthenticationManager AuthenticationManager
-        {
-            get { return HttpContext.GetOwinContext().Authentication; }
-        }
-
+      
        
         // GET: LoginBar
         public ActionResult Index()
@@ -66,8 +62,7 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.ShowPriceOnWebstore = true;
             UserCookieManager.isRegisterClaims = 2;
          
-            //ControllerContext.HttpContext.Response.Redirect("/Home/Index");
-            Response.Redirect("/"); //return //RedirectToAction("Index", "Home");
+            Response.Redirect("/"); 
             return null;
 
         }

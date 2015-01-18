@@ -279,6 +279,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
@@ -607,12 +608,14 @@
     <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\ShopCartAddressSelect.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
+    <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\ShopCartAddressSelect\" />
   </ItemGroup>
   <ItemGroup>
