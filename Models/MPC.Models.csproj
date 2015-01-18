@@ -110,6 +110,7 @@
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
     <Compile Include="Common\MatchingSets.cs" />
+    <Compile Include="Common\OrderDetail.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />

@@ -197,6 +197,7 @@ namespace MPC.Repository.Repositories
                 if (tblOrder != null)
                 {
                     shopCart = ExtractShoppingCart(tblOrder);
+                    
                 }
 
             }
@@ -857,6 +858,63 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
             return result;
+        }
+        /// <summary>
+        /// Get order, items, addresses details by order id
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="BrokerID"></param>
+        /// <returns></returns>
+        public OrderDetail GetOrderReceipt(long orderID)
+        {
+            Estimate Order = null;
+            //Model.ShoppingCart shopCart = null;
+            OrderDetail userOrder = null;
+
+            try
+            {
+                    Order = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
+                    if (Order != null)
+                    {
+                        userOrder = new OrderDetail()
+                        {
+
+                            OrderID = Order.EstimateId,
+                            OrderCode = Order.Order_Code,
+                            ProductName = Order.Estimate_Name,
+                            StatusID = Order.StatusId,
+                            //StatusName = Order.tbl_Statuses.StatusName,
+                            //StatusTypeID = Order.tbl_Statuses.StatusType,
+                            ContactUserID = Order.ContactId ?? 0,
+                            CustomerID = Order.CompanyId,
+                            CustomerName = Order.Company.Name,
+                            OrderDate = Order.Order_Date,
+                            DeliveryDate = Order.StartDeliveryDate, //estimated Delivery date
+                            DeliveryAddressID = Order.AddressId,
+                            BillingAddressID = Order.BillingAddressId ?? 0,
+                            DeliveryCostCentreID = Order.DeliveryCostCenterId ?? 0,
+                            //InvoiceDate
+                            YourRef = Order.CustomerPO,
+                            SpecialInstNotes = Order.UserNotes,
+                            PlacedBy = string.Format("{0} {1}", Order.CompanyContact == null ? "" : Order.CompanyContact.FirstName, Order.CompanyContact == null ? "" : Order.CompanyContact.LastName),
+                            
+                        };
+                        //order details or shopping details
+                        
+                        userOrder.ItemDetail = this.ExtractShoppingCart(Order);
+                        userOrder.BillingAdress = db.Addesses.Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
+                        userOrder.ShippingAddress = db.Addesses.Where(i => i.AddressId == Order.AddressId).FirstOrDefault();
+                    userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
+                    }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return userOrder;
+
         }
     }
 }

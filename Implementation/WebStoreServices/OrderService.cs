@@ -277,6 +277,15 @@ namespace MPC.Implementation.WebStoreServices
 
            return result;
        }
-    
+        /// <summary>
+        /// Get order, items, addresses details by order id
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="BrokerID"></param>
+        /// <returns></returns>
+       public OrderDetail GetOrderReceipt(long orderID)
+       {
+           return _OrderRepository.GetOrderReceipt(orderID);
+       }
     }
 }

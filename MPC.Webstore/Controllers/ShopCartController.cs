@@ -19,10 +19,8 @@ namespace MPC.Webstore.Controllers
         private readonly IItemService _ItemService;
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
-        private List<AddOnCostsCenter> _selectedItemsAddonsList = null;
         RelatedItemViewModel RIviewModel = new RelatedItemViewModel();
 
-        private double _deliveryCost = 0;
         private int NumberOfRecords = 0;
         public ShopCartController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService, ITemplateService TemplateService)
         {
@@ -258,10 +256,8 @@ namespace MPC.Webstore.Controllers
             ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(orderID, OrderStatus.ShoppingCart);
             if (shopCart != null)
             {
-                _selectedItemsAddonsList = shopCart.ItemsSelectedAddonsList; //global values for all items
                 ViewData["selectedItemsAddonsList"] = shopCart.ItemsSelectedAddonsList;
-                _deliveryCost = shopCart.DeliveryCost;
-
+            
             }
 
             return shopCart;
