@@ -22,6 +22,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
         specifiedFile2, specifiedFile3, specifiedFile4, specifiedFile5, specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight,
         specifiedDefaultItemTax, specifiedSupplierId, specifiedSupplierId2, specifiedEstimateProductionTime, specifiedItemProductDetail,
+        specifiedIsTemplateDesignMode, specifiedDesignerCategoryId, specifiedScalar, specifiedZoomFactor, specifiedIsCMYK,
         callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
@@ -253,6 +254,61 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             internalSupplierId2 = ko.observable(specifiedSupplierId2 || undefined),
             // Estimate Production Time
             estimateProductionTime = ko.observable(specifiedEstimateProductionTime || undefined),
+            // Is Template Design Mode
+            isTemplateDesignMode = ko.observable(specifiedIsTemplateDesignMode || 1),
+            // Is TemplateDesignMode for ui
+            isTemplateDesignModeUi = ko.computed({
+                read: function () {
+                    return '' + isTemplateDesignMode();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var templateDesignMode = parseInt(value);
+                    if (templateDesignMode === isTemplateDesignMode()) {
+                        return;
+                    }
+
+                    isTemplateDesignMode(templateDesignMode);
+                }
+            }),
+            // Is Template Design Mode
+            isCmyk = ko.observable(specifiedIsCMYK || 2),
+            // Is Cmyk for ui
+            isCmykUi = ko.computed({
+                read: function () {
+                    return '' + isCmyk();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var cmyk = parseInt(value);
+                    if (cmyk === isCmyk()) {
+                        return;
+                    }
+
+                    if (template()) {
+                        if (cmyk === 2) {
+                            template().isSpotTemplate(1);
+                        }
+                        else if(cmyk === 1) {
+                            template().isSpotTemplate(0);
+                        }
+                    }
+
+                    isCmyk(cmyk);
+                }
+            }),
+            // Scalar
+            scalar = ko.observable(specifiedScalar || undefined),
+            // Zoom Factor
+            zoomFactor = ko.observable(specifiedZoomFactor || undefined),
+            // Designer Category Id
+            designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
             // Item Vdp Prices
@@ -911,6 +967,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 file3: file3,
                 file4: file4,
                 file5: file5,
+                isTemplateDesignMode: isTemplateDesignMode,
+                isCmyk: isCmyk,
+                scalar: scalar,
+                zoomFactor: zoomFactor,
+                designerCategoryId: designerCategoryId,
                 itemProductDetail: itemProductDetail,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
@@ -1042,6 +1103,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     File4Byte: file4FileSource(),
                     File5Name: file5FileName(),
                     File5Byte: file5FileSource(),
+                    IsTemplateDesignMode: isTemplateDesignMode(),
+                    IsCMYK: isCmykUi() === '2' ? 0 : isCmyk(),
+                    Scalar: scalar(),
+                    ZoomFactor: zoomFactor(),
+                    DesignerCategoryId: designerCategoryId(),
                     ItemVdpPrices: itemVdpPrices.map(function (itemVdpPrice) {
                         return itemVdpPrice.convertToServerData();
                     }),
@@ -1136,6 +1202,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             supplierId: supplierId,
             supplierId2: supplierId2,
             estimateProductionTime: estimateProductionTime,
+            isTemplateDesignModeUi: isTemplateDesignModeUi,
+            isCmykUi: isCmykUi,
+            scalar: scalar,
+            zoomFactor: zoomFactor,
+            DesignerCategoryId: designerCategoryId,
             itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
             itemRelatedItems: itemRelatedItems,
@@ -1379,14 +1450,51 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual || 1),
+            // Is Created Manual Ui
+            isCreatedManualUi = ko.computed({
+                read: function() {
+                    return '' + isCreatedManual();
+                },
+                write: function(value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var createdManual = parseInt(value);
+
+                    if (createdManual === isCreatedManual()) {
+                        return;
+                    }
+
+                    if (createdManual === 2) {
+                        // Changing from option 1 to 2
+                        // Ask if want to keep old template objects or not
+                        if (id() && (specifiedIsCreatedManual === 1)) {
+                            // Set Mode to 1 if yes else set to 2 // Mode will be passed to generateTemplateFromPDF function                                
+                            // that will decide whether to delete old template or not
+
+                        }
+                    }
+
+                    isCreatedManual(createdManual);
+                }
+            }),
             // Can Start Designer Empty
             canStartDesignerEmpty = ko.computed(function() {
-                return isCreatedManual() === '3' || isCreatedManual() === 3;
+                return isCreatedManualUi() === '3';
             }),
             // Is Spot Template
             isSpotTemplate = ko.observable(specifiedIsSpotTemplate || undefined),
+            // File Source
+            fileSource = ko.observable(),
+            // File Name
+            fileName = ko.observable(),
             // Template Pages
             templatePages = ko.observableArray([]),
+            // Can add Template Pages
+            canAddTemplatePages = ko.computed(function () {
+                return isCreatedManualUi() === '1' || (isCreatedManualUi() === '2' && !fileSource());
+            }),
             // Add Template Page
             addTemplatePage = function () {
                 templatePages.push(TemplatePage.Create({ ProductId: id() }));
@@ -1410,6 +1518,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (i < array.length) {
                     templatePages.splice(i, 2, array[i + 1], array[i]);
                 }
+            },
+            // On Select File
+            onSelectFile = function(data, file) {
+                fileSource(data);
+                fileName(file.name);
             },
             // Errors
             errors = ko.validation.group({
@@ -1464,8 +1577,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
             isCreatedManual: isCreatedManual,
+            isCreatedManualUi: isCreatedManualUi,
             canStartDesignerEmpty: canStartDesignerEmpty,
             isSpotTemplate: isSpotTemplate,
+            canAddTemplatePages: canAddTemplatePages,
+            fileSource: fileSource,
+            fileName: fileName,
+            onSelectFile: onSelectFile,
             templatePages: templatePages,
             addTemplatePage: addTemplatePage,
             removeTemplatePage: removeTemplatePage,
@@ -2357,7 +2475,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Factory
     Template.Create = function (source) {
-        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.ItemId);
+        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {
@@ -2459,7 +2577,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
             source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.File2BytesSource,
             source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId, source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax,
-            source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, callbacks, constructorParams);
+            source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, source.IsTemplateDesignMode, source.DesignerCategoryId,
+            source.Scalar, source.ZoomFactor, source.IsCMYK, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {
