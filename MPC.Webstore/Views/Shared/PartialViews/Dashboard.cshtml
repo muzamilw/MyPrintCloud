@@ -1,0 +1,116 @@
+﻿<div class="container content_area">
+    <div class="row left_right_padding">
+        <div id="BCTitle" class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
+            <label id="lblORderManagment" class="sign_in_heading">get from resource file</label>
+        </div>
+        <div class="clearboth">
+        </div>
+        <div id="BCDIV" class="white-container-lightgrey-border rounded_corners">
+            <div class="padding50">
+                @foreach (var item in ViewData["rptBrokerCorpDasHBItems"] as List<MPC.Webstore.Models.DashboardViewModel>)
+                {
+                    <div class="cntDashboardItems">
+                        <a href="@item.PageNavigateURl">
+                            <div id="dashIcons" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
+                                @Html.Raw(item.ImageURL)
+                            </div>
+
+                            <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
+                                <div class="dashboard_item_main_heading">
+                                    <label id="lblBCName">@item.Name</label>
+                                </div>
+                                <div class="dashboard_item_detail">
+                                    <label id="lblBCDescription">@item.Description</label>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+
+        </div>
+        <div class="spacer10pxtop">
+            &nbsp;
+        </div>
+        @if (ViewData["rptStorePreferences"] != null) { 
+        <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
+            <label id="Label2" class="sign_in_heading">Store Preferences</label>
+        </div>
+        <div id="SPDIV" class="white-container-lightgrey-border rounded_corners">
+            <div id="Store_Pre_Left_Panel" class="padding50">
+                @foreach (var item in ViewData["rptStorePreferences"] as List<MPC.Webstore.Models.DashboardViewModel>)
+                {
+                    <div class="cntDashboardItemsSP">
+                        <a href="@item.PageNavigateURl">
+                            <div id="dashIconsSp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
+                                @Html.Raw(item.ImageURL)
+                            </div>
+
+                            <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
+                                <div class="dashboard_item_main_heading">
+                                    <label>@item.Name</label>
+                                </div>
+                                <div class="dashboard_item_detail">
+                                    <label>@item.Description</label>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+        <div class="spacer10pxtop">
+            &nbsp;
+        </div>
+        }
+        @if (ViewData["rptRetailDashboardItem"] != "")
+        {
+            <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
+                <label id="lblTitle" class="sign_in_heading">Dashboard</label>
+            </div>
+            <div id="cntDashboardItems" class="white-container-lightgrey-border rounded_corners">
+                <div class="padding50">
+                    @foreach (var item in ViewData["rptRetailDashboardItem"] as List<MPC.Webstore.Models.DashboardViewModel>)
+                    {
+                        <div class="cntDashboardItems">
+                            <a href="@item.PageNavigateURl">
+
+
+                                <div id="dashIconsrp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
+                                    @Html.Raw(item.ImageURL)
+                                </div>
+                                <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
+                                    <div class="dashboard_item_main_heading">
+                                        <label id="lblName">@item.Name</label>
+                                        <label id="StoreBrandtxt" class="dashboard_item_main_heading">@item.Description</label>
+                                    </div>
+                                </div>
+                                <div class="clearBoth">
+
+                                </div>
+
+                            </a>
+                        </div>
+                    }
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="spacer10pxtop">
+                &nbsp;
+            </div>
+        }
+
+
+    </div>
+    <br />
+    <br />
+    <br />
+</div>

@@ -5,7 +5,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
         // ReSharper disable once InconsistentNaming
-        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer) {
+        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary) {
             var
                 self,
                 companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
@@ -14,6 +14,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 image = ko.observable(specifiedImage),
                 url = ko.observable(specifiedUrl),
                 isCustomer = ko.observable(specifiedIsCustomer),
+                storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
                 type = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
@@ -63,6 +64,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 url: url,
                 type: type,
                 isCustomer: isCustomer,
+                storeImageFileBinary: storeImageFileBinary,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -90,7 +92,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.Status,
             source.Image,
             source.URL,
-            source.IsCustomer
+            source.IsCustomer,
+            source.ImageSource
         );
 
         //if (source.IsCustomer == 0) {
@@ -121,7 +124,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
-        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreBackgroudImageSource
+        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -170,6 +173,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
             makeEmailBrokerArtworkOrderProductionReady = ko.observable(specifiedmakeEmailBrokerArtworkOrderProductionReady),
+            //store Image
+            storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
+            storeImageName = ko.observable(),
             //company type
             companyType = ko.observable(),
             //type = ko.observable(),
@@ -262,6 +268,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 includeEmailBrokerArtworkOrderXML: includeEmailBrokerArtworkOrderXML,
                 includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
                 makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
+                storeImageFileBinary: storeImageFileBinary,
+                storeImageName: storeImageName,
                 isDisplayBanners: isDisplayBanners,
                 storeBackgroudImageImageSource: storeBackgroudImageImageSource,
                 storeBackgroudImageFileName: storeBackgroudImageFileName,
@@ -276,7 +284,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.CompanyId = source.companyId();
                 result.Name = source.name();
                 result.Status = source.status();
-                result.Image = source.image();
+                //result.ImageBytes = source.image();
                 result.URL = source.url();
                 result.AccountOpenDate = source.accountOpenDate();
                 result.AccountManagerId = source.accountManagerId();
@@ -362,6 +370,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.StoreBackgroudImageImageSource = source.storeBackgroudImageImageSource();
                 result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
                 //#endregion
+                result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
+                result.ImageBytes = source.image() === undefined ? null : source.image();
                 return result;
             },
             // Reset
@@ -410,6 +420,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
             makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
             isDisplayBanners: isDisplayBanners,
+            storeImageFileBinary: storeImageFileBinary,
+            storeImageName: storeImageName,
             type: type,
             raveReviews: raveReviews,
             companyTerritories: companyTerritories,
@@ -545,6 +557,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
             source.makeEmailBrokerArtworkOrderProductionReady,
+            source.ImageSource
             source.StoreBackgroudImageSource
         );
 

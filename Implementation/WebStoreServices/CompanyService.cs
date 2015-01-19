@@ -37,6 +37,9 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICampaignRepository _campaignRepository;
         private readonly IItemRepository _itemRepository;
         private readonly IMarkupRepository _markupRepository;
+        private readonly ICountryRepository _countryRepository;
+        private readonly IStateRepository _stateRepository;
+        private readonly IFavoriteDesignRepository _favoriteRepository;
        
 
         private string pageTitle = string.Empty;
@@ -53,7 +56,8 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository,IMarkupRepository markuprepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository,IMarkupRepository markuprepository
+            , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -69,6 +73,9 @@ namespace MPC.Implementation.WebStoreServices
             this._itemRepository = itemRepository;
             this._markupRepository = markuprepository;
             this._addressRepository = addressRepository;
+            this._countryRepository = countryRepository;
+            this._stateRepository = stateRepository;
+            this._favoriteRepository = favoriteRepository;
         }
 
         #endregion
@@ -417,6 +424,162 @@ namespace MPC.Implementation.WebStoreServices
             return _cmsPageRepositary.getPageByID(PageID);
         }
 
+        public bool canContactPlaceOrder(long contactID,out bool hasWebAccess)
+        {
+            return _CompanyContactRepository.canContactPlaceOrder(contactID,out hasWebAccess);
+        }
+
+        public string GetCountryNameById(long CountryId) 
+        {
+            return _countryRepository.GetCountryNameById(CountryId);
+        }
+
+        public string GetStateNameById(long StateId)
+        {
+            return _stateRepository.GetStateNameById(StateId);
+        }
+
+        /// <summary>
+        /// Gets the count of users register against a company by its id
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public int GetContactCountByCompanyId(long CompanyId)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetContactCountByCompanyId(CompanyId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Gets favorite design count Of a login user to display on dashboard
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <returns></returns>
+        public int GetFavDesignCountByContactId(long contactId)
+        {
+            try
+            {
+                return _favoriteRepository.GetFavDesignCountByContactId(contactId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Gets the contact orders count by Status
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        public int GetOrdersCountByStatus(long contactId, OrderStatus statusId)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetOrdersCountByStatus(contactId, statusId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Gets pending approval orders count
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="isApprover"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        public int GetPendingOrdersCountByTerritory(long companyId, OrderStatus statusId, int TerritoryID)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetPendingOrdersCountByTerritory(companyId, statusId, TerritoryID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Gets all pending approval orders count for corporate customers
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="isApprover"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        public int GetAllPendingOrders(long CompanyId, OrderStatus statusId)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetAllPendingOrders(CompanyId, statusId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Get all orders count placed against a company
+        /// </summary>
+        /// <param name="CCID"></param>
+        /// <returns></returns>
+        public int GetAllOrdersCount(long CompanyId)
+        {
+            try
+            {
+
+                return _CompanyContactRepository.GetAllOrdersCount(CompanyId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Gets login user orders count which are placed and not archieved
+        /// </summary>
+        /// <param name="CID"></param>
+        /// <param name="CCID"></param>
+        /// <returns></returns>
+        public int AllOrders(long contactID, long CompanyID)
+        {
+            try
+            {
+
+                return _CompanyContactRepository.AllOrders(contactID, CompanyID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Get retail user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public CompanyContact GetRetailUser(string email, string password)
+        {
+            return _CompanyContactRepository.GetRetailUser(email, password);
+        }
         #endregion
     }
 

@@ -9,7 +9,7 @@ function GetIDs() {
 
 
 
-    PageMethods.GetIDs(OnGetIDSucceeded, OnFailed);
+  //  PageMethods.GetIDs(OnGetIDSucceeded, OnFailed);
 }
 
 function OnGetIDSucceeded(result, userContext, methodName) {
@@ -264,7 +264,8 @@ function SubmitItem(e) {
 //}
 var Count = 0;
 function InsertFileRecord(idOfObject1, idOfObject2, fileID, fileName) {
-    idOfObject1 = fu01('t');
+    // idOfObject1 = fu01('t');
+    idOfObject1 = tID;
     console.log(isBkPnlUploads);
     if (isBkPnlUploads) {
         PageMethods.InsertFileRecord(idOfObject1, idOfObject2, fileID, fileName, tID, IsCalledFrom, 3, CustomerID, ContactID, OnSucceedFileRecord, OnFailed);

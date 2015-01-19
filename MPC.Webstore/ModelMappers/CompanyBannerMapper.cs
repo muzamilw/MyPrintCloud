@@ -19,6 +19,7 @@ namespace MPC.Webstore.ModelMappers
                 ItemURL = source.ItemURL,
                 Description = source.Description,
                 CompanySetId = source.CompanySetId,
+                ImageURL = source.ImageURL,
             };
         }
 
@@ -35,6 +36,7 @@ namespace MPC.Webstore.ModelMappers
                 ItemURL = source.ItemURL,
                 Description = source.Description,
                 CompanySetId = source.CompanySetId,
+                ImageURL = source.ImageURL,
             };
         }
 

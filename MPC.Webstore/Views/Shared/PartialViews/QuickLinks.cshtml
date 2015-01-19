@@ -1,43 +1,87 @@
-﻿
-<div id="Footer">
-    <div class="spclColor">
-        <div class="GreyBackS6">
-            <div class="container heightauto content_area">
-                <div class="row left_right_padding">
-                    <div class="space5">
-                        &nbsp;
-                    </div>
-                    <div class="footer_portion themeFontColor">
-                        @foreach (var item in ViewData["PageCategory"] as List<MPC.Webstore.Models.PageCategory>)
-                        {
-                            <div class="footer_left_portion_division float_left_simple">
-                                <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@item.CategoryName</label>
+﻿@model MPC.Webstore.Models.AddressViewModel
+@if (ViewBag.Display == "1")
+{
+    <div id="Footer">
+        <div class="spclColor">
+            <div class="GreyBackS6">
+                <div class="container heightauto content_area">
+                    <div class="row left_right_padding">
+                        <div class="space5">
+                            &nbsp;
+                        </div>
+                        <div class="footer_portion themeFontColor">
+                            @foreach (var item in ViewData["PageCategory"] as List<MPC.Webstore.Models.PageCategory>)
+                            {
+                                <div class="footer_left_portion_division float_left_simple">
+                                    <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@item.CategoryName</label>
 
-                                @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPageModel>)
-                                {
-                                    if (page.CategoryId == item.CategoryId)
+                                    @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPageModel>)
                                     {
-                                        <ul>
-                                            <li>
-                                                <a href="/SecondaryPages/@page.PageId" id="secPages" class="uSecPageList" style="color:white !important;">@page.PageTitle</a>
-                                            </li>
-                                        </ul>
+                                        if (page.CategoryId == item.CategoryId)
+                                        {
+                                            <ul class="uSecPageList  themeFontColor">
+                                                <li>
+                                                    <a href="/pages/@page.PageTitle/@page.PageId" id="secPages" class="uSecPageList" style="color:white !important;">@page.PageTitle</a>
+                                                </li>
+                                            </ul>
+                                        }
                                     }
-                                }
+                                </div>
+                            }
+                        </div>
+                        <div class="footer_portion themeFontColor">
+                            <div class="footer_left_portion_division float_left_simple">
+                                <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">Contact Info</label>
+
+                                <ul class="uSecPageList  themeFontColor">
+                                    <li>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Address1</a>
+                                    </li>
+                                    @if (Model.Address2 != null)
+                                    {
+                                        <li>
+                                            <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Address1</a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.City, @Model.State</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Country</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.ZipCode</a>
+                                    </li>
+                                    @if (Model.Tel != null)
+                                    {
+                                        <li>
+                                            <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Tel</a>
+                                        </li>
+                                    }
+                                    @if (Model.Email != null)
+                                    {
+                                        <li>
+                                            <a href="#" id="secPages" class="uSecPageList" style="color:white !important;">@Model.Email</a>
+                                        </li>
+                                    }
+                                </ul>
+                                <div class="uSecPageList CreditCardCS" style=" width:200px; margin-top:20px;">
+
+                                </div>
                             </div>
-                        }
-                    </div>
-                    <div class="space5">
-                        &nbsp;
+                        </div>
+                        <div class="space5">
+                            &nbsp;
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
                     </div>
                     <div class="clearBoth">
                         &nbsp;
                     </div>
                 </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
             </div>
         </div>
     </div>
-</div>
+}

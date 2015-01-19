@@ -31,6 +31,165 @@ namespace MPC.Implementation.WebStoreServices
     }
     class TemplateService : ITemplateService
     {
+        #region projection
+        private Template returnLocalTempalte(GlobalTemplateDesigner.Templates objGlobal)
+        {
+            Template objTemplate = new Template();
+            objTemplate.ApprovalDate = objGlobal.ApprovalDate;
+            objTemplate.ApprovedBy = objGlobal.ApprovedBy;
+            objTemplate.ApprovedByName = objGlobal.ApprovedByName;
+            objTemplate.ApprovedDate = objGlobal.ApprovedDate;
+            objTemplate.BaseColorID = objGlobal.BaseColorID;
+            objTemplate.Code = objGlobal.Code;
+            objTemplate.ColorHex = objGlobal.ColorHex;
+            objTemplate.CuttingMargin = objGlobal.CuttingMargin;
+            objTemplate.Description = objGlobal.Description;
+            objTemplate.FullView = objGlobal.FullView;
+            objTemplate.Image = objGlobal.Image;
+            objTemplate.IsCorporateEditable = objGlobal.IsCorporateEditable;
+            objTemplate.isCreatedManual = objGlobal.isCreatedManual;
+            objTemplate.IsDisabled = objGlobal.IsDisabled;
+            objTemplate.isEditorChoice = objGlobal.isEditorChoice;
+            objTemplate.IsPrivate = objGlobal.IsPrivate;
+            objTemplate.isSpotTemplate = objGlobal.isSpotTemplate;
+            objTemplate.isWatermarkText = objGlobal.isWatermarkText;
+            objTemplate.MatchingSetID = objGlobal.MatchingSetID;
+            objTemplate.MatchingSetTheme = objGlobal.MatchingSetTheme;
+            objTemplate.MPCRating = objGlobal.MPCRating;
+            objTemplate.MultiPageCount = objGlobal.MultiPageCount;
+            objTemplate.Orientation = objGlobal.Orientation;
+            objTemplate.PDFTemplateHeight = objGlobal.PDFTemplateHeight;
+            objTemplate.PDFTemplateWidth = objGlobal.PDFTemplateWidth;
+            objTemplate.ProductCategoryId = objGlobal.ProductCategoryID; 
+            objTemplate.ProductId = objGlobal.ProductID;
+            objTemplate.ProductName = objGlobal.ProductName;
+            objTemplate.RejectionReason = objGlobal.RejectionReason;
+            objTemplate.TemplateType = objGlobal.TemplateType;
+            objTemplate.TempString = objGlobal.TempString;
+            return objTemplate;
+        }
+        private TemplatePage returnLocalPage(GlobalTemplateDesigner.TemplatePages objGlobalPage)
+        {
+           TemplatePage obj = new TemplatePage();
+           obj.BackgroundFileName = objGlobalPage.BackgroundFileName;
+           obj.BackGroundType = objGlobalPage.BackGroundType;
+           obj.ColorC = objGlobalPage.ColorC;
+           obj.ColorK = objGlobalPage.ColorK;
+           obj.ColorM = objGlobalPage.ColorM;
+           obj.ColorY = objGlobalPage.ColorY;
+           obj.hasOverlayObjects = objGlobalPage.hasOverlayObjects;
+         //  obj.Height = objGlobalPage.Height;
+           obj.IsPrintable = objGlobalPage.IsPrintable;
+           obj.Orientation = objGlobalPage.Orientation;
+           obj.PageName = objGlobalPage.PageName;
+           obj.PageNo = objGlobalPage.PageNo;
+           obj.PageType = objGlobalPage.PageType;
+           obj.ProductId = objGlobalPage.ProductID;
+           obj.ProductPageId = objGlobalPage.ProductPageID;
+      //     obj.Width = objGlobalPage.Width;
+           return obj;
+        }
+        private TemplateObject returnLocalObject(GlobalTemplateDesigner.TemplateObjects tempObj)
+        {
+            TemplateObject obj = new TemplateObject();
+            obj.Allignment = tempObj.Allignment;
+            obj.AutoShrinkText = tempObj.AutoShrinkText;
+            obj.BColor = tempObj.BColor;
+            obj.CharSpacing = tempObj.CharSpacing;
+            obj.CircleRadiusX = tempObj.CircleRadiusX;
+            obj.CircleRadiusY = tempObj.CircleRadiusY;
+            obj.ClippedInfo = tempObj.ClippedInfo;
+            obj.ColorC = tempObj.ColorC;
+            obj.ColorHex = tempObj.ColorHex;
+            obj.ColorK = tempObj.ColorK;
+            obj.ColorM = tempObj.ColorM;
+            obj.ColorName = tempObj.ColorName;
+            obj.ColorType = tempObj.ColorType;
+            obj.ColorY = tempObj.ColorY;
+            obj.ContentCaseType = tempObj.ContentCaseType;
+            obj.ContentString = tempObj.ContentString;
+            obj.DisplayOrderPdf = tempObj.DisplayOrderPdf;
+            obj.DisplayOrderTxtControl = tempObj.DisplayOrderTxtControl;
+            obj.FontName = tempObj.FontName;
+            obj.FontSize = tempObj.FontSize;
+            obj.GColor = tempObj.GColor;
+            obj.Indent = tempObj.Indent;
+            obj.IsBold = tempObj.IsBold;
+            obj.IsEditable = tempObj.IsEditable;
+            obj.IsFontCustom = tempObj.IsFontCustom;
+            obj.IsFontNamePrivate = tempObj.IsFontNamePrivate;
+            obj.IsHidden = tempObj.IsHidden;
+            obj.IsItalic = tempObj.IsItalic;
+            obj.IsMandatory = tempObj.IsMandatory;
+            obj.IsOverlayObject = tempObj.IsOverlayObject;
+            obj.IsPositionLocked = tempObj.IsPositionLocked;
+            obj.IsQuickText = tempObj.IsQuickText;
+            obj.IsSpotColor = tempObj.IsSpotColor;
+            obj.IsTextEditable = tempObj.IsTextEditable;
+            obj.IsUnderlinedText = tempObj.IsUnderlinedText;
+            obj.LineSpacing = tempObj.LineSpacing;
+            obj.MaxCharacters = tempObj.MaxCharacters;
+            obj.MaxHeight = tempObj.MaxHeight;
+            obj.MaxWidth = tempObj.MaxWidth;
+            obj.Name = tempObj.Name;
+            obj.ObjectId = tempObj.ObjectID;
+            obj.ObjectType = tempObj.ObjectType;
+            obj.Opacity = tempObj.Opacity;
+            obj.ParentId = tempObj.ParentId;
+            obj.PositionX = tempObj.PositionX;
+            obj.PositionY = tempObj.PositionY;
+            obj.ProductId = tempObj.ProductID;
+            obj.ProductPageId = tempObj.ProductPageId;
+            obj.QuickTextOrder = tempObj.QuickTextOrder;
+            obj.RColor = tempObj.RColor;
+            obj.RotationAngle = tempObj.RotationAngle;
+            obj.SpotColorName = tempObj.SpotColorName;
+            //obj.textCase = tempObj.textCase;
+            obj.textStyles = tempObj.textStyles;
+            obj.Tint = tempObj.Tint;
+            obj.VAllignment = tempObj.VAllignment;
+            obj.watermarkText = tempObj.watermarkText;
+            return obj;
+
+        }
+        private TemplateBackgroundImage returnLocalImage(GlobalTemplateDesigner.TemplateBackgroundImages v2Img)
+        {
+            TemplateBackgroundImage objImage = new TemplateBackgroundImage();
+            objImage.BackgroundImageAbsolutePath = v2Img.BackgroundImageAbsolutePath;
+            objImage.BackgroundImageRelativePath = v2Img.BackgroundImageRelativePath;
+            objImage.ContactCompanyId = v2Img.ContactCompanyID;
+            objImage.ContactId = v2Img.ContactID;
+            objImage.flgCover = v2Img.flgCover;
+            objImage.flgPhotobook = v2Img.flgPhotobook;
+            objImage.Id = v2Img.ID;
+            objImage.ImageDescription = v2Img.ImageDescription;
+            objImage.ImageHeight = v2Img.ImageHeight;
+            objImage.ImageKeywords = v2Img.ImageKeywords;
+            objImage.ImageName = v2Img.ImageName;
+            objImage.ImageTitle = v2Img.ImageTitle;
+            objImage.ImageType = v2Img.ImageType;
+            objImage.ImageWidth = v2Img.ImageWidth;
+            objImage.Name = v2Img.Name;
+            objImage.ProductId = v2Img.ProductID;
+            objImage.UploadedFrom = v2Img.UploadedFrom;
+            return objImage;
+        }
+        private TemplateFont returnLocalFont(GlobalTemplateDesigner.TemplateFonts v2Font)
+        {
+            TemplateFont objFont = new TemplateFont();
+            objFont.CustomerId = v2Font.CustomerID;
+            objFont.DisplayIndex = v2Font.DisplayIndex;
+            objFont.FontDisplayName = v2Font.FontDisplayName;
+            objFont.FontFile = v2Font.FontFile;
+            objFont.FontName = v2Font.FontName;
+            objFont.FontPath = v2Font.FontPath;
+            objFont.IsEnable = v2Font.IsEnable;
+            objFont.IsPrivateFont = v2Font.IsPrivateFont;
+            objFont.ProductFontId = v2Font.ProductFontId;
+            objFont.ProductId = v2Font.ProductId;
+            return objFont;
+        }
+        #endregion
         #region privateGeneratePdf
         // helper functions to generate pdf 
         private void LoadBackColor(ref Doc oPdf, TemplatePage oTemplate)
@@ -1846,8 +2005,13 @@ namespace MPC.Implementation.WebStoreServices
             long newProductID = 0;
             List<TemplateFont> fontsToDownload = new List<TemplateFont>();
             //string BasePath = System.Web.HttpContext.Current.Server.MapPath("../Designer/Products/");
-            newProductID = _templateRepository.SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFonts, organisationID, out fontsToDownload,mode,localTemplateID);
-
+            if (mode == 1)
+            {
+                newProductID = _templateRepository.SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFonts, organisationID, out fontsToDownload, mode, localTemplateID);
+            } else
+            {
+                newProductID = localTemplateID;
+            }
             string targetFolder = BasePath + "/Templates/" + newProductID.ToString(); //System.Web.HttpContext.Current.Server.MapPath("../Designer/Products/" + newProductID.ToString());
             if (!System.IO.Directory.Exists(targetFolder))
             {
@@ -1861,6 +2025,27 @@ namespace MPC.Implementation.WebStoreServices
                     string destinationUrl = BasePath + "Templates/" + newProductID.ToString() + "/" + oPage.BackgroundFileName.Substring(oPage.BackgroundFileName.IndexOf("/"), oPage.BackgroundFileName.Length - oPage.BackgroundFileName.IndexOf("/"));
                     DesignerUtils.DownloadFile(remoteUrl, destinationUrl);
                 }
+            }
+            foreach (TemplateBackgroundImage item in oTemplateImages)
+            {
+                string ext = Path.GetExtension(item.ImageName);
+                // generate thumbnail 
+                if (!ext.Contains("svg"))
+                {
+                    string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
+                    string destPath = results[0] + "_thumb" + ext;
+                    string localThumbnail = newProductID.ToString() + "/" + Path.GetFileName(destPath);
+                    string localPath = BasePath + "/Templates/" + localThumbnail;
+                    DesignerUtils.DownloadFile(RemoteUrlBasePath + "products/" + destPath, localPath);
+                }
+                item.ProductId = newProductID;
+                string NewLocalFileName = newProductID.ToString() + "/" + Path.GetFileName(item.ImageName);
+                string localFilePath = BasePath + "/Templates/" + NewLocalFileName;
+                DesignerUtils.DownloadFile(RemoteUrlBasePath + "products/" + item.ImageName, localFilePath);
+            }
+            if (mode == 2)
+            {
+                _templateRepository.SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFonts, organisationID, out fontsToDownload, mode, localTemplateID);
             }
             foreach (var objFont in fontsToDownload)
             {
@@ -1901,24 +2086,9 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     throw ex;
                 }
-                foreach (TemplateBackgroundImage item in oTemplateImages)
-                {
-                    string ext = Path.GetExtension(item.ImageName);
-                    // generate thumbnail 
-                    if (!ext.Contains("svg"))
-                    {
-                        string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
-                        string destPath = results[0] + "_thumb" + ext;
-                        string localThumbnail = newProductID.ToString() + "/" + Path.GetFileName(destPath);
-                        string localPath = BasePath + "/Templates/" + localThumbnail;
-                        DesignerUtils.DownloadFile(RemoteUrlBasePath + "products/" + destPath, localPath);
-                    }
-                    item.ProductId = newProductID;
-                    string NewLocalFileName = newProductID.ToString() + "/" + Path.GetFileName(item.ImageName);
-                    string localFilePath = BasePath + "/Templates/" + NewLocalFileName;
-                    DesignerUtils.DownloadFile(RemoteUrlBasePath + "products/" + item.ImageName, localFilePath);
-                }
+
             }
+           
             return newProductID;
         }
 
@@ -1978,6 +2148,70 @@ namespace MPC.Implementation.WebStoreServices
             catch (Exception ex)
             {
                 return ex.ToString();
+            }
+        }
+
+        // download tempate from v2 and merge it locally 
+        public long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId)
+        {
+            try
+            {
+                long LocalProductID = 0;
+                using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
+                {
+                    GlobalTemplateDesigner.Templates oTemplateV2 = pSc.GetTemplateWebStore(RemoteTemplateID);
+
+                    oTemplateV2.TemplateOwner = oTemplateV2.ProductCategoryID;
+
+                    GlobalTemplateDesigner.TemplatePages[] oTemplatePagesV2 = pSc.GetTemplatePages(RemoteTemplateID);
+
+                    GlobalTemplateDesigner.TemplateObjects[] oTemplateObjectsV2 = pSc.GetTemplateObjects(RemoteTemplateID);
+
+                    GlobalTemplateDesigner.TemplateBackgroundImages[] oTemplateImagesV2 = pSc.GettemplateImages(RemoteTemplateID);
+
+                    GlobalTemplateDesigner.TemplateFonts[] oTemplateFontV2 = pSc.GetTemplateFonts(RemoteTemplateID);
+                    // added for 2 sided business cards 
+                    if (oTemplateV2.TemplateType == 2)
+                    {
+                        GlobalTemplateDesigner.TemplatePages[] oTemp = new GlobalTemplateDesigner.TemplatePages[2];
+                        oTemp[0] = oTemplatePagesV2[0];
+                        oTemp[1] = oTemplatePagesV2[1];
+                        oTemplatePagesV2 = oTemp;
+                    }
+                    Template oTemplate = returnLocalTempalte(oTemplateV2);
+                    List<TemplatePage> oTemplatePages = new List<TemplatePage>();
+                    foreach(var obj in oTemplatePagesV2)
+                    {
+                        oTemplatePages.Add(returnLocalPage(obj));
+                    }
+                    List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
+                    foreach(var oObj in oTemplateObjectsV2)
+                    {
+                        oTemplateObjects.Add(returnLocalObject(oObj));
+                    }
+                    List<TemplateBackgroundImage> oTemplateImages = new List<TemplateBackgroundImage>();
+                    foreach (var bkImg in oTemplateImagesV2)
+                    {
+                        oTemplateImages.Add(returnLocalImage(bkImg));
+                    }
+                    List<TemplateFont> oTemplateFont = new List<TemplateFont>();
+                    foreach (var objFont in oTemplateFontV2)
+                    {
+                        oTemplateFont.Add(returnLocalFont(objFont));
+                    }
+                    string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/");
+                   // LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();
+                    LocalProductID = SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages,oTemplateFont, "http://designerv2.myprintcloud.com/designer/", drURL, organisationId, 2, LocalTempalteID); //products/
+
+                    //ProductManager productManager = new ProductManager();
+                   // productManager.ResolveTemplateVariables(LocalProductID, SessionParameters.ContactCompany, SessionParameters.CustomerContact, StoreMode.Retail);
+
+                    return LocalProductID;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID)

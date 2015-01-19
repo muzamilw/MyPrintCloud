@@ -183,7 +183,76 @@ namespace MPC.Models.Common
     public enum StockPriceType : int
     {
         PerUnit = 1,
-          PerPack = 2
+        PerPack = 2
     }
 
+    public enum CostCentreExecutionMode : int
+    {
+        PromptMode = 1,
+        ExecuteMode = 2
+    }
+    public enum VariableProperty : int
+    {
+        Side1Inks = 1,
+        Side2Inks = 2,
+        PrintSheetQty_ProRata = 3,
+        PressSpeed_ProRata = 4,
+        ColourHeads = 5,
+        ImpressionQty_ProRata = 6,
+        PressHourlyCharge = 7,
+        MinInkDuctqty = 8,
+        MakeReadycharge = 9,
+        PrintChargeExMakeReady_ProRata = 10,
+        PaperGsm = 11,
+        SetupSpoilage = 12,
+        RunningSpoilage = 13,
+        PaperPackPrice = 14,
+        AdditionalPlateUsed = 15,
+        AdditionalFilmUsed = 16,
+        ItemGutterHorizontal = 17,
+        ItemGutterVertical = 18,
+        PTVRows = 19,
+        PTVColoumns = 20,
+        PrintViewLayoutLandScape = 21,
+        PrintViewLayoutPortrait = 22,
+        FilmQty = 23,
+        PlateQty = 24,
+        GuilotineMakeReadycharge = 25,
+        GuilotineChargePerCut = 26,
+        GuillotineFirstCut = 27,
+        GuillotineSecondCut = 28,
+        PrintToView = 29,
+        FinishedItemQtyIncSpoilage_ProRata = 30,
+        TotalSections = 31,
+        PaperWeight_ProRata = 32,
+        PrintSheetQtyIncSpoilage_ProRata = 33,
+        FinishedItemQty_ProRata = 34,
+        NoOfSides = 35,
+        PressSizeRatio = 36,
+        SectionPaperWeightExSelfQty_ProRata = 37,
+        WashupQty = 38,
+        MakeReadyQty = 39
+    }
+    public enum PrintViewOrientation : int
+    {
+        Landscape = 1,
+        Portrait = 0
+    }
+    public enum SecondryPagesInfo : int
+    {
+        AboutUs = 2,
+        ContactUs = 3,
+        SpecialOffer = 35,
+        HowToOrder = 36,
+        PrivacyPolicy = 5,
+        TermsAndConditions = 11
+    }
+
+    public enum QuestionType : int
+    {
+        InputQuestion = 1,
+        BooleanQuestion = 2,
+        MultipleChoiceQuestion = 3,
+
+    }
 }

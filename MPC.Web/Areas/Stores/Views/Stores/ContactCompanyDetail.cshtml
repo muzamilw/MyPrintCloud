@@ -206,47 +206,55 @@
                                                     <div class="profile-status">
                                                     </div>
 
-                                                    <a id="uploadLogoIcon" class="logoUploadIcon" style="display: block;">
+                                                    @*<a id="uploadLogoIcon" class="logoUploadIcon" style="display: block;">
                                                         <i class="fa fa-upload" onclick="readURL(this);"></i>
                                                     </a>
-                                                    @*<div class="fa fa-upload" onclick="readURL(this);"></div>*@
+                                                 
                                                     <img id="companyImage" class="profile-img img-responsive center-block" src="#" alt="" style="min-height: 200px; width: 230px;" data-bind="attr:{ src: $root.storeImage }" />
 
                                                     <input type="file" id="my_file" style="display: none;" name="file" onchange="readURL(this);" />
                                                     <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary" style="margin-left: 33%;">Upload</button>
-                                                    <input type="hidden" id="companyId" name="companyId" data-bind="value:companyId" />
+                                                    <input type="hidden" id="companyId" name="companyId" data-bind="value:companyId" />*@
+                                                    
+                                                    <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: storeImageFileBinary }" />
+                                                        <div class="col-lg-1 pull-right">
+                                                            <div class="fileUpload btn btn-primary">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                            </div>
+                                                        </div>
+                                                      
+                                                        <div class="profile-label">
 
-                                                    <div class="profile-label">
-
-                                                        <!-- ko if: status() == 1 -->
-                                                        <span class="label label-success">Active</span>
-                                                        <!-- /ko -->
-                                                        <!-- ko if: status() != 1 -->
-                                                        <span class="label label-danger">DeActive</span>
-                                                        <!-- /ko -->
+                                                            <!-- ko if: status() == 1 -->
+                                                            <span class="label label-success">Active</span>
+                                                            <!-- /ko -->
+                                                            <!-- ko if: status() != 1 -->
+                                                            <span class="label label-danger">DeActive</span>
+                                                            <!-- /ko -->
 
 
-                                                    </div>
-                                                    <div class="profile-stars">
+                                                        </div>
+                                                        <div class="profile-stars">
 
-                                                        <span data-bind="value: type"></span>
+                                                            <span data-bind="value: type"></span>
+                                                        </div>
+                                                        <div class="profile-since" data-bind="value: accountOpenDate">
+                                                        </div>
+                                                        <div class="profile-details">
+                                                            <ul class="fa-ul">
+                                                                <li><i class="fa-li fa fa-truck"></i>New orders in last <span>5</span> days</li>
+                                                                <li><i class="fa-li fa fa-comment"></i>New users in last <span>5</span> days</li>
+                                                                <li><i class="fa-li fa fa-tasks"></i>Tasks/Events: <span>1024</span></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="profile-message-btn center-block text-center">
+                                                            <a href="#" class="btn btn-success">
+                                                                <i class="fa fa-envelope"></i>
+                                                                Send message
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                    <div class="profile-since" data-bind="value: accountOpenDate">
-                                                    </div>
-                                                    <div class="profile-details">
-                                                        <ul class="fa-ul">
-                                                            <li><i class="fa-li fa fa-truck"></i>New orders in last <span>5</span> days</li>
-                                                            <li><i class="fa-li fa fa-comment"></i>New users in last <span>5</span> days</li>
-                                                            <li><i class="fa-li fa fa-tasks"></i>Tasks/Events: <span>1024</span></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="profile-message-btn center-block text-center">
-                                                        <a href="#" class="btn btn-success">
-                                                            <i class="fa fa-envelope"></i>
-                                                            Send message
-                                                        </a>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
 
