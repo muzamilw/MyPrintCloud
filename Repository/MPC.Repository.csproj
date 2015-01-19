@@ -191,6 +191,7 @@
     <Compile Include="Repositories\CompanyTerritoryRepository.cs" />
     <Compile Include="Repositories\CompanyTypeRepository.cs" />
     <Compile Include="Repositories\CostCentreMatrixRepository.cs" />
+    <Compile Include="Repositories\CostCentreQuestionRepository.cs" />
     <Compile Include="Repositories\CostCentreVariableRepository.cs" />
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\CurrencyRepository.cs" />
