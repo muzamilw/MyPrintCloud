@@ -41,5 +41,11 @@ if (Test-Path $siteName -pathType container)
 #create the site
 $iisApp = New-Item $siteName -bindings @{protocol="http";bindingInformation=":80:" + $siteName} -physicalPath $sitePhysicalPath
 $iisApp | Set-ItemProperty -Name "applicationPool" -Value $siteName
+$virtualDirectoryName = "mpc-content"
+
+$virtualDirectoryPath = physicalPath $sitePhysicalPath $virtualDirectoryName"
+## Init
+
+$iisApp = New-Item $virtualDirectoryPath -type $virtualDirectoryName -physicalPath $sitePhysicalPath
 
 return "App Created" + $siteName
