@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ABCpdf">
-      <HintPath>..\packages\ABCpdf.9.1.2.3\lib\net40\ABCpdf.dll</HintPath>
+      <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
