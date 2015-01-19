@@ -8,5 +8,6 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICostCentreQuestionRepository
     {
+        double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID);
     }
 }

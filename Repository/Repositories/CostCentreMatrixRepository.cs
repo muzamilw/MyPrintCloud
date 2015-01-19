@@ -88,7 +88,7 @@ namespace MPC.Repository.Repositories
         /// <param name="ExecutionMode"></param>
         /// <param name="QuestionQueue"></param>
         /// <returns>Double</returns>
-//        public static double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID)
+//        public double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID)
 //{
 //    bool bFlag = false;
 //    QueueItemDTO QuestionITEM = default(QueueItemDTO);

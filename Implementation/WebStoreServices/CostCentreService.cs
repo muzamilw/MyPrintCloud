@@ -18,11 +18,16 @@ namespace MPC.Implementation.WebStoreServices
     {
         private readonly ICostCentreRepository _CostCentreRepository;
         private readonly ICostCentreVariableRepository _CostCentreVariableRepository;
+        private readonly ICostCentreQuestionRepository _CostCentreQuestionRepository;
+        private readonly ICostCentreMatrixRepository _CostCentreMatrixRepository;
         public CostCentreService(ICostCentreRepository CostCentreRepository,
-            ICostCentreVariableRepository CostCentreVariableRepository)
+            ICostCentreVariableRepository CostCentreVariableRepository, ICostCentreQuestionRepository CostCentreQuestionRepository
+            , ICostCentreMatrixRepository CostCentreMatrixRepository)
         {
             this._CostCentreRepository = CostCentreRepository;
             this._CostCentreVariableRepository = CostCentreVariableRepository;
+            this._CostCentreQuestionRepository = CostCentreQuestionRepository;
+            this._CostCentreMatrixRepository = CostCentreMatrixRepository;
         }
 
 
@@ -1841,6 +1846,30 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
                 return _CostCentreRepository.ExecuteUserStockItem(StockID, StockPriceType,out Price ,out PerQtyQty);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
+
+        public double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID)
+        {
+            try
+            {
+                return _CostCentreQuestionRepository.ExecuteQuestion(ref oParamsArray, QuestionID, CostCentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
+
+        public double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID)
+        {
+            try
+            {
+                return 1;//_CostCentreMatrixRepository.ExecuteMatrix(oParamsArray, MatrixID, CostCentreID);
             }
             catch (Exception ex)
             {
