@@ -1585,7 +1585,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios1" id="optionManuallyYes" onclick="HideTempDesginerControl(1);" value="option2" checked>
+                                                    <input type="radio" name="optionsRadios1" data-bind="checked: isCreatedManual" value="1">
                                                     <label for="optionManuallyYes">
                                                         A blank Template with Custom Size
                                                     </label>
@@ -1600,7 +1600,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Width" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Width" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -1617,7 +1617,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Height" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Height" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -1655,7 +1655,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios1" onclick="HideTempDesginerControl(2);" id="optionUploadPDF" value="option2">
+                                                    <input type="radio" name="optionsRadios1" data-bind="checked: isCreatedManual" id="optionUploadPDF" value="2">
                                                     <label for="optionUploadPDF">
                                                         A Pre built template e.g. corporate store template, uplod your PDF
                                                     </label>
@@ -1692,7 +1692,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" onclick="HideTempDesginerControl(3);" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="option2">
+                                                    <input type="radio" data-bind="checked: isCreatedManual" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
                                                     <label for="optionManuallyNoStartDesigner">
                                                         Start the Designer Empty but Link it With Template Category from Global Library.
                                                     </label>
@@ -1703,7 +1703,7 @@
                                             </div>
 
                                         </div>
-                                        <div id="LinkDesign" style="display:none;">
+                                        <div id="LinkDesign" data-bind="visible: canStartDesignerEmpty" style="display:none;">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">

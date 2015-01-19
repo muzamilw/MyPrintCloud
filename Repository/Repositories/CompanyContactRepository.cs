@@ -625,7 +625,20 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        /// <summary>
+        public CompanyContact GetCorporateAdmin(long contactCompanyId)
+        {
+            try
+            {
+
+                return db.CompanyContacts.Where(c => c.CompanyId == contactCompanyId && c.ContactRoleId.HasValue && c.ContactRoleId.Value == (int)ContactCompanyUserRoles.Administrator).FirstOrDefault();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+	 /// <summary>
         /// Gets the count of users register against a company by its id
         /// </summary>
         /// <param name="CompanyId"></param>
@@ -642,6 +655,8 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+      
+
         /// <summary>
         /// Gets the contact orders count by Status
         /// </summary>

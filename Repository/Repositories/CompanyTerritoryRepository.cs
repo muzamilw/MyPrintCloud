@@ -61,7 +61,18 @@ namespace MPC.Repository.Repositories
         public IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId)
         {
             return DbSet.Where(x => x.CompanyId == companyId).ToList();
-        } 
+        }
+        public CompanyTerritory GetTerritoryById(long territoryId)
+        {
+            try
+            {
+                return db.CompanyTerritories.Where(c => c.TerritoryId == territoryId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
+        }
     }
 }

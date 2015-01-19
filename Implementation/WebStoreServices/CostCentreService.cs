@@ -18,11 +18,16 @@ namespace MPC.Implementation.WebStoreServices
     {
         private readonly ICostCentreRepository _CostCentreRepository;
         private readonly ICostCentreVariableRepository _CostCentreVariableRepository;
+        private readonly ICostCentreQuestionRepository _CostCentreQuestionRepository;
+        private readonly ICostCentreMatrixRepository _CostCentreMatrixRepository;
         public CostCentreService(ICostCentreRepository CostCentreRepository,
-            ICostCentreVariableRepository CostCentreVariableRepository)
+            ICostCentreVariableRepository CostCentreVariableRepository, ICostCentreQuestionRepository CostCentreQuestionRepository
+            , ICostCentreMatrixRepository CostCentreMatrixRepository)
         {
             this._CostCentreRepository = CostCentreRepository;
             this._CostCentreVariableRepository = CostCentreVariableRepository;
+            this._CostCentreQuestionRepository = CostCentreQuestionRepository;
+            this._CostCentreMatrixRepository = CostCentreMatrixRepository;
         }
 
 
@@ -1282,7 +1287,18 @@ namespace MPC.Implementation.WebStoreServices
                 throw new Exception("IsCostCentreAvailable", ex);
             }
         }
+ 	public List<CostCentre> GetDeliveryCostCentersList()
+        {
+            try
+            {
+                return _CostCentreRepository.GetDeliveryCostCentersList();
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetDeliveryCostCentersList", ex);
+            }
+        }
 
         public double ExecuteVariable(ref object[] oParamsArray, int VariableID)
         {
@@ -1846,6 +1862,46 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw new Exception("ExecuteUserStockItem", ex);
             }
+        }
+
+        public double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID)
+        {
+            try
+            {
+                return _CostCentreQuestionRepository.ExecuteQuestion(ref oParamsArray, QuestionID, CostCentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
+
+        public double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID)
+        {
+            try
+            {
+                return 1;//_CostCentreMatrixRepository.ExecuteMatrix(oParamsArray, MatrixID, CostCentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
+
+        public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
+        {
+
+           try
+           {
+               return _CostCentreRepository.GetCorporateDeliveryCostCentersList(CompanyID);
+           }
+           catch(Exception ex)
+           {
+               throw ex;
+           }
+               
+            
+
         }
     }
 }

@@ -76,6 +76,70 @@ namespace MPC.Repository.Repositories
         {
             return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
         }
-       
+        public Address GetAddressByID(long AddressID)
+        {
+            try
+            {
+                return db.Addesses.Where(a => a.AddressId == AddressID).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Address> GetAddressByCompanyID(long companyID)
+        {
+            try
+            {
+
+                return db.Addesses.Where(c => c.CompanyId == companyID && (c.isArchived == null || c.isArchived.Value == false) && (c.isPrivate == false || c.isPrivate == null)).OrderBy(ad => ad.AddressName).ToList();
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Address> GetAdressesByContactID(long contactID)
+        {
+
+            try
+            {
+                    return db.Addesses.Where(a => a.ContactId == contactID && a.isPrivate == true).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<Address> GetBillingAndShippingAddresses(long TerritoryID)
+        {
+            try
+            {
+                    return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isPrivate == null || a.isPrivate == false)).OrderBy(ad => ad.AddressName).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public List<Address> GetContactCompanyAddressesList(long customerID)
+        {           
+                var query = from Addr in db.Addesses
+                            orderby Addr.AddressName
+                            where Addr.CompanyId == customerID && Addr.isArchived == false
+                            select Addr;
+
+                return query.ToList();
+           
+
+        }
+
     }
 }
