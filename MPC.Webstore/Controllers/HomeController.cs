@@ -20,6 +20,8 @@ using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 using MPC.Models.Common;
 using MPC.Interfaces.Common;
+using System.Reflection;
+using MPC.Models.DomainModels;
 
 
 
@@ -41,7 +43,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-        
+
         private IAuthenticationManager AuthenticationManager
         {
             get { return HttpContext.GetOwinContext().Authentication; }
@@ -68,19 +70,19 @@ namespace MPC.Webstore.Controllers
             this._CostCentreService = CostCentreService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
-          
+
         }
 
         #endregion
-       
 
-       
+
+
         public ActionResult Index()
         {
-           
+
             SetUserClaim();
 
-            List<CmsSkinPageWidget> model = null;
+            List<MPC.Webstore.Models.CmsSkinPageWidget> model = null;
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
@@ -92,7 +94,7 @@ namespace MPC.Webstore.Controllers
             return View(model);
         }
 
-        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Webstore.Models.CmsPageModel> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
+        public List<MPC.Webstore.Models.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Webstore.Models.CmsPageModel> pageList, string pageName, List<MPC.Webstore.Models.CmsSkinPageWidget> allPageWidgets)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
@@ -107,46 +109,66 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About()
         {
-
+            
+           
 
             //_CostCentreService.SaveCostCentre(335, 1, "Test");
-
+            string OrganizationName = "Test";
             AppDomainSetup _AppDomainSetup = new AppDomainSetup();
             AppDomain _AppDomain;
-            
+
             object _oLocalObject;
             ICostCentreLoader _oRemoteObject;
 
             object[] _CostCentreParamsArray = new object[12];
 
+            _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+            _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+
+
             _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
             //Me._AppDomain.InitializeLifetimeService()
 
+            List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
 
-            
 
             //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
             CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
             _CostCentreLaoderFactory.InitializeLifetimeService();
 
-            //this._CostCentreParamsArray(0) = Common.g_GlobalData;
-            ////GlobalData
-            //this._CostCentreParamsArray(1) = CostCentreExecutionMode.PromptMode;
-            ////this mode will load the questionqueue
-            //this._CostCentreParamsArray(2) = new ExecutionQueueDTO();
-            ////QuestionQueue / Execution Queue
-            //this._CostCentreParamsArray(3) = new CostCentreQueueDTO();
-            ////CostCentreQueue
-            //this._CostCentreParamsArray(4) = 1;
-            ////MultipleQuantities
-            //this._CostCentreParamsArray(5) = 1;
-            ////CurrentQuantity
-            //this._CostCentreParamsArray(6) = new StockQueueDTO();
-            ////StockQueue
-            //this._CostCentreParamsArray(7) = new InputQueueDTO();
-            ////InputQueue
-            //this._CostCentreParamsArray(8) = this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
-            //this._CostCentreParamsArray(9) = 1;
+           
+            //_CostCentreParamsArray(0) = Common.g_GlobalData;
+            //GlobalData
+            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+            //this mode will load the questionqueue
+            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+            //QuestionQueue / Execution Queue
+            _CostCentreParamsArray[3] = CostCentreQueue;
+            //CostCentreQueue
+            _CostCentreParamsArray[4] = 1;
+            //MultipleQuantities
+            _CostCentreParamsArray[5] = 1;
+            //CurrentQuantity
+            _CostCentreParamsArray[6] = new List<StockQueueItem>();
+            //StockQueue
+            _CostCentreParamsArray[7] = new List<InputQueueItem>();
+            //InputQueue
+            _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
+            _CostCentreParamsArray[9] = 1;
+
+
+            CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(335);
+
+            CostCentreQueue.Add( new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name,  1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+
+
+
+            _oLocalObject = _CostCentreLaoderFactory.Create(ControllerContext.HttpContext.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+            _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+
+            _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+
+            AppDomain.Unload(_AppDomain);
             return View();
         }
 
@@ -156,7 +178,7 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-        public ActionResult oAuth(int id,int isRegWithSM, string MarketBriefReturnURL)
+        public ActionResult oAuth(int id, int isRegWithSM, string MarketBriefReturnURL)
         {
             //int isFacebook = id;
             //if (isFacebook == 1)
@@ -235,7 +257,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-                   
+
             //        if (string.IsNullOrEmpty(oauthhelper.oauth_error))
             //        {
             //            if (isRegWithSM == 1)
@@ -256,9 +278,9 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-       private void SetUserClaim()
-       {
-           if(UserCookieManager.isRegisterClaims == 1)
+        private void SetUserClaim()
+        {
+            if (UserCookieManager.isRegisterClaims == 1)
             {
                 // login 
 
@@ -287,11 +309,11 @@ namespace MPC.Webstore.Controllers
                 {
                     Response.Redirect("/Login");
                 }
-                else 
+                else
                 {
                     Response.Redirect("/");
                 }
             }
-       }
+        }
     }
 }
