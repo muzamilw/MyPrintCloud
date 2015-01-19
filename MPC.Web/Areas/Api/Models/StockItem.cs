@@ -76,6 +76,11 @@ namespace MPC.MIS.Areas.Api.Models
         public long? SupplierId { get; set; }
 
         /// <summary>
+        /// SupplierName
+        /// </summary>
+        public string SupplierName { get; set; }
+
+        /// <summary>
         /// Cost Price
         /// </summary>
         public double? CostPrice { get; set; }

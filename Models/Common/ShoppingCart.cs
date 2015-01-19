@@ -70,5 +70,15 @@ namespace MPC.Models.Common
             get;
             set;
         }
+        public long BillingAddressID
+        {
+            get;
+            set;
+        }
+        public long ShippingAddressID
+        {
+            get;
+            set;
+        }
     }
 }

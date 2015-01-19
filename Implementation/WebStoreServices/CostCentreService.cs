@@ -1287,7 +1287,18 @@ namespace MPC.Implementation.WebStoreServices
                 throw new Exception("IsCostCentreAvailable", ex);
             }
         }
+ 	public List<CostCentre> GetDeliveryCostCentersList()
+        {
+            try
+            {
+                return _CostCentreRepository.GetDeliveryCostCentersList();
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetDeliveryCostCentersList", ex);
+            }
+        }
 
         public double ExecuteVariable(ref object[] oParamsArray, int VariableID)
         {
@@ -1875,6 +1886,22 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw new Exception("ExecuteUserStockItem", ex);
             }
+        }
+
+        public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
+        {
+
+           try
+           {
+               return _CostCentreRepository.GetCorporateDeliveryCostCentersList(CompanyID);
+           }
+           catch(Exception ex)
+           {
+               throw ex;
+           }
+               
+            
+
         }
     }
 }

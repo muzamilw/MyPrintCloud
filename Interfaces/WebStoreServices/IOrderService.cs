@@ -49,6 +49,15 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="BrokerID"></param>
         /// <returns></returns>
         OrderDetail GetOrderReceipt(long orderID);
-       
+
+        List<State> GetStates();
+
+        List<Country> PopulateBillingCountryDropDown();
+
+        Country GetCountryByID(long CountryID);
+
+
+
+
     }
 }

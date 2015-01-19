@@ -100,5 +100,8 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
         long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
+
+        Item GetItemByOrderID(long OrderID);
+
     }
 }
