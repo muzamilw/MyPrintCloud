@@ -1379,6 +1379,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual || 1),
+            // Can Start Designer Empty
+            canStartDesignerEmpty = ko.computed(function() {
+                return isCreatedManual() === '3' || isCreatedManual() === 3;
+            }),
             // Is Spot Template
             isSpotTemplate = ko.observable(specifiedIsSpotTemplate || undefined),
             // Template Pages
@@ -1460,6 +1464,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
             isCreatedManual: isCreatedManual,
+            canStartDesignerEmpty: canStartDesignerEmpty,
             isSpotTemplate: isSpotTemplate,
             templatePages: templatePages,
             addTemplatePage: addTemplatePage,

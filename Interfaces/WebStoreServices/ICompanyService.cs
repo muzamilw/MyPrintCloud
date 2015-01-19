@@ -76,7 +76,25 @@ namespace MPC.Interfaces.WebStoreServices
 
         CmsPage getPageByID(long PageID);
         bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
-        /// <summary>
+        Address GetAddressByID(long AddressID);
+
+        CompanyContact GetCorporateAdmin(long contactCompanyId);
+
+        List<Address> GetAddressByCompanyID(long companyID);
+
+        CompanyTerritory GetTerritoryById(long territoryId);
+
+        List<Address> GetAdressesByContactID(long contactID);
+
+        List<Address> GetBillingAndShippingAddresses(long TerritoryID);
+
+        List<Address> GetContactCompanyAddressesList(long customerID);
+
+
+        State GetStateFromStateID(long StateID);
+
+        
+          /// <summary>
         /// gets the name of the country by its id
         /// </summary>
         /// <param name="CountryId"></param>
@@ -94,6 +112,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="CompanyId"></param>
         /// <returns></returns>
         int GetContactCountByCompanyId(long CompanyId);
+        
 
         /// <summary>
         /// Gets favorite design count Of a login user to display on dashboard

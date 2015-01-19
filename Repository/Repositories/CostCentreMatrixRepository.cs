@@ -80,92 +80,7 @@ namespace MPC.Repository.Repositories
 
 
 
-        /// <summary>
-        /// Executes a Matrix
-        /// </summary>
-        /// <param name="MatrixID"></param>
-        /// <param name="oConnection"></param>
-        /// <param name="ExecutionMode"></param>
-        /// <param name="QuestionQueue"></param>
-        /// <returns>Double</returns>
-//        public double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID)
-//{
-//    bool bFlag = false;
-//    QueueItemDTO QuestionITEM = default(QueueItemDTO);
-
-//    CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
-//    ItemSection oItemSection = (ItemSection)oParamsArray[8];
-//    int CurrentQuantity = Convert.ToInt32(oParamsArray[5]);
-//    int MultipleQutantities = Convert.ToInt32(oParamsArray[4]);
-//    ExecutionQueueDTO QuestionQueue = (ExecutionQueueDTO)oParamsArray[2];
-
-
-//    try {
-//        //check if its the visual mode or Execution Mode
-//        if (ExecutionMode == CostCentreExecutionMode.ExecuteMode) {
-//            //here the questions returned asnwer will ahave been loaded in the queue
-//            //retreive the queue answer for this question and use.. :D
-//            //use is simple only cast it in double and return..
-
-
-//            foreach (var item in QuestionQueue.Item) {
-//                //matching
-//                if (item.ID == MatrixID.ToString & item.ItemType == 4) {
-//                    bFlag = true;
-//                    QuestionITEM = item;
-//                    break; // TODO: might not be correct. Was : Exit For
-//                }
-//            }
-
-//            //if found question in queue then use its values
-//            if (bFlag == true) {
-//                //Return CDbl(item.Answer)
-//                //multiple qty logic goes here
-
-//                if (CurrentQuantity <= MultipleQutantities) {
-//                    switch (CurrentQuantity) {
-//                        case 1:
-//                            return Convert.ToDouble(QuestionITEM.Qty1Answer);
-//                        case 2:
-//                            if (Convert.ToDouble(QuestionITEM.Qty2Answer) == 0)
-//                            {
-//                                return Convert.ToDouble(QuestionITEM.Qty1Answer);
-//                            } else {
-//                                return Convert.ToDouble(QuestionITEM.Qty2Answer);
-//                            }
-//                            break;
-//                        case 3:
-//                            if (Convert.ToDouble(QuestionITEM.Qty3Answer) == 0)
-//                            {
-//                                return Convert.ToDouble(QuestionITEM.Qty1Answer);
-//                            } else {
-//                                return Convert.ToDouble(QuestionITEM.Qty3Answer);
-//                            }
-//                            break;
-//                    }
-//                } else {
-//                    throw new Exception("Invalid  Current Selected Multiple Quantitity");
-//                }
-//            } else {
-//                throw new Exception("Answer not found in Queue");
-//            }
-
-
-//        } else if (ExecutionMode == CostCentreExecutionMode.PromptMode) {
-//            //populate the question in the executionQueue
-//            //loading the Questions Information for populating in the Queue
-//            CostMatixDTO oMatrix = GetMatrix(MatrixID);
-//            QuestionQueue.addItem(MatrixID.ToString, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false, null);
-//            oMatrix = null;
-//            return 1;
-//            //exit normally 
-//        }
-
-//    } catch (Exception ex) {
-//        throw new Exception("ExecuteMatrix", ex);
-//    }
-
-//}
+        
 
 
         /// <summary>
@@ -173,23 +88,17 @@ namespace MPC.Repository.Repositories
         /// </summary>
         /// <param name="MatrixID"></param>
         /// <returns></returns>
-        public CostMatixDTO GetMatrix(int MatrixID)
+        public CostCentreMatrix GetMatrix(int MatrixID)
         {
             try
             {
-                CostMatixDTO oMatrix = new CostMatixDTO();
 
-                CostCentreMatrix result = db.CostCentreMatrices.Where(m => m.MatrixId == MatrixID).FirstOrDefault();
-               
-                if (result != null)
+
+                CostCentreMatrix oMatrix = db.CostCentreMatrices.Where(m => m.MatrixId == MatrixID).FirstOrDefault();
+
+                if (oMatrix != null)
                 {
-                    oMatrix.ID = MatrixID;
-                    oMatrix.Name = result.Name;
-                    oMatrix.Description = result.Description;
-                    oMatrix.Rows = result.RowsCount;
-                    oMatrix.Columns = result.ColumnsCount;
-
-                    oMatrix.Items = GetMatrixDetail(MatrixID);
+                   oMatrix.items = GetMatrixDetail(MatrixID);
                 }
 
                 return oMatrix;

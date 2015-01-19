@@ -1852,13 +1852,25 @@ namespace MPC.Repository.Repositories
             return true;
         }
 
-        /// <summary>
+        public Item GetItemByOrderID(long OrderID)
+        {
+            try
+            {
+                return db.Items.Where(c => c.EstimateId == OrderID && c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+      /// <summary>
         /// Get Items For Widgets 
         /// </summary>
         public List<Item> GetItemsForWidgets()
         {
             return DbSet.Where(i => i.IsPublished.HasValue && i.OrganisationId == OrganisationId).ToList();
         }
+
         #endregion
     }
 }

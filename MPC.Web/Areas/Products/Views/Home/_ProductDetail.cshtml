@@ -1692,7 +1692,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" data-bind="checked: isCreatedManual" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="option2">
+                                                    <input type="radio" data-bind="checked: isCreatedManual" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
                                                     <label for="optionManuallyNoStartDesigner">
                                                         Start the Designer Empty but Link it With Template Category from Global Library.
                                                     </label>
@@ -1703,7 +1703,7 @@
                                             </div>
 
                                         </div>
-                                        <div id="LinkDesign" style="display:none;">
+                                        <div id="LinkDesign" data-bind="visible: canStartDesignerEmpty" style="display:none;">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
