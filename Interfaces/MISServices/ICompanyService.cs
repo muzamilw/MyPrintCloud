@@ -44,5 +44,10 @@ namespace MPC.Interfaces.MISServices
         ItemListViewSearchResponse GetItems(CompanyProductSearchRequestModel request);
 
         Company DeleteCompany(long companyId);
+
+        /// <summary>
+        /// Get Items For Widgets
+        /// </summary>
+        List<Item> GetItemsForWidgets();
     }
 }

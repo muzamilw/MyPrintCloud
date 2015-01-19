@@ -3291,6 +3291,30 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________________P R O D U C T   C A T E G O R Y  _________________________________
 
+    // #region ______________ Item For Widgets _________________
+
+    // ReSharper disable once InconsistentNaming
+    var ItemForWidgets = function (specifiedItemId, specifiedProductName) {
+        var self,
+            id = ko.observable(specifiedItemId),
+            productName = ko.observable(specifiedProductName),
+            isInSelectedList = ko.observable(false);
+
+        self = {
+            id: id,
+            productName: productName,
+            isInSelectedList: isInSelectedList,
+        };
+        return self;
+    };
+    ItemForWidgets.Create = function (source) {
+        return new ItemForWidgets(
+            source.ItemId,
+            source.ProductName);
+    };
+
+    // #endregion ______________ Email _________________
+
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -3318,5 +3342,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CmsSkingPageWidget: CmsSkingPageWidget,
         CmsPageWithWidgetList: CmsPageWithWidgetList,
         CmsSkinPageWidgetParam: CmsSkinPageWidgetParam,
+        ItemForWidgets: ItemForWidgets,
     };
 });

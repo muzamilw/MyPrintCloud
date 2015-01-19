@@ -39,7 +39,7 @@ namespace MPC.Interfaces.Repository
         bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
 
         List<ProductItem> GetRelatedItemsList();
-    
+
         Item GetItemByOrderAndItemID(long ItemID, long OrderID);
 
         double FindMinimumPriceOfProduct(long itemID);
@@ -65,5 +65,10 @@ namespace MPC.Interfaces.Repository
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
         long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
+
+        /// <summary>
+        /// Get Items For Widgets 
+        /// </summary>
+        List<Item> GetItemsForWidgets();
     }
 }
