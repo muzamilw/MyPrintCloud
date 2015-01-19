@@ -70,8 +70,8 @@
                 &nbsp;
             </div>
             <div id="trVatNumb" style="height: 30px;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
-                <label id="lblTaxName" style="font-weight: bold;"></label>
-                <label id="lblVatNum" class="receiptVatNum" style="font-weight: bold;" />
+                <label id="lblTaxName" style="font-weight: bold;">VAT Registration Number</label>
+                <label id="lblVatNum" class="receiptVatNum" style="font-weight: bold;" >@ViewBag.Organisation.VATRegNumber</label>
             </div>
             <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
             </div>
@@ -234,7 +234,7 @@
                             <label id="lblTaxLabelTotal"></label>
                         </td>
                         <td width="20%">
-                            <label id="lblVatTotal" >@_vatTotal</label>
+                            <label id="lblVatTotal" >@_vatTotal + @item.DeliveryTaxValue</label>
                         </td>
                     </tr>
                     <tr>

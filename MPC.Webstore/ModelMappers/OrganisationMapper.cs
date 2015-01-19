@@ -32,7 +32,7 @@ namespace MPC.Webstore.ModelMappers
                 Tel = source.Tel,
                 Email = source.Email,
                 Fax = source.Fax,
-                
+                VATRegNumber = source.VATRegNumber,
             };
         }
 
@@ -60,6 +60,7 @@ namespace MPC.Webstore.ModelMappers
                 Tel = source.Tel,
                 Email = source.Email,
                 Fax = source.Fax,
+                VATRegNumber = source.VATRegNumber,
             };
         }
 

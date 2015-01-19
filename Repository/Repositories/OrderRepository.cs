@@ -904,7 +904,7 @@ namespace MPC.Repository.Repositories
                         userOrder.ItemDetail = this.ExtractShoppingCart(Order);
                         userOrder.BillingAdress = db.Addesses.Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
                         userOrder.ShippingAddress = db.Addesses.Where(i => i.AddressId == Order.AddressId).FirstOrDefault();
-                    userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
+                        userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
                     }
                 
             }
