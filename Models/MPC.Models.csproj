@@ -107,6 +107,7 @@
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
+    <Compile Include="Common\DesignerPostSettings.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
     <Compile Include="Common\MatchingSets.cs" />

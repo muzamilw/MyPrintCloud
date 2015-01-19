@@ -2,6 +2,7 @@
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,5 +37,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="template"></param>
         /// <param name="tempPages"></param>
         void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages);
+
+        string GenerateProof(DesignerPostSettings data);
     }
 }
