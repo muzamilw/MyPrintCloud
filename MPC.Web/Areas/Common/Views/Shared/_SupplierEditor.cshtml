@@ -3,354 +3,847 @@
 <div class="row" id="supplierEditor" data-bind="visible: $root.isSupplierEditorVisible" style="display: none;">
     <form class="form-horizontal" method="post" enctype="multipart/form-data" id="fileUploadForm">
         <div class="col-lg-12" data-bind="with:$root.addSupplier">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="clearfix">
-                        <h1 class="pull-left">Supplier Detail</h1>
-                        <div class="pull-right top-page-ui" style="margin-top: 5px;margin-right: 18px">
-                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveSupplier">Save</button>
-                            <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeSupplierEditor">Cancel</button>
-                        </div>
+            <div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="clearfix">
+                            <h1 class="pull-left">Supplier Detail</h1>
+                            <div class="pull-right top-page-ui" style="margin-top: 5px;margin-right: 18px">
+                                <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveSupplier">Save</button>
+                                <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeSupplierEditor">Cancel</button>
+                            </div>
 
+                        </div>
+                        <hr />
+                        <div data-bind="visible:$root.errorList().length > 0" style="display: none;margin-left:100px">
+                            <p> Please corresct these errors.</p>
+                            <table id="table">
+                                <tbody>
+                                    <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <br />
                     </div>
-                    <hr />
-                    <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
-                        <p> Please corresct these errors.</p>
-                        <table id="table">
-                            <tbody>
-                                <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
-                                <!-- /ko -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <br />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="main-box no-header clearfix">
-                        <div class="main-box-body clearfix">
-                            <div class="form-group">
-                                <label class="control-label h5 col-sm-2">Status</label>
-                                <div class="col-md-2">
+                    <div class="col-md-12">
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <div class="col-lg-5 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtEmail" class="control-label text-right tooltip-float">Status</label>
+                                </div>
+
+                                <div class="col-lg-7">
                                     <input type="text" class="form-control" data-bind="value:status,disable:true" />
                                 </div>
-                                <label class="control-label h5 col-sm-2">Company Name</label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" data-bind="value:name, validationTooltip: name" />
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-lg-5 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtFName" class="control-label text-right tooltip-float">First Name</label>
                                 </div>
-                                <label class="control-label h5 col-sm-2">Account Number</label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" data-bind="value:accountNumber,disable:true" />
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control" id="txtFName" data-bind="value:name, validationTooltip: name">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-lg-5 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="accNUmber" class="control-label text-right tooltip-float">Account Number</label>
+                                </div>
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control" id="accNUmber" data-bind="value:accountNumber,disable:true">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-lg-5 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="cType" class="control-label text-right tooltip-float">Company Type</label>
+                                </div>
+                                <div class="col-lg-7">
+                                    <select class="form-control" id="cType" data-bind="options: $root.companyTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:typeId"></select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-lg-5 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="flag" class="control-label text-right tooltip-float">Flag</label>
+                                </div>
+                                <div class="col-lg-7">
+                                    <select class="form-control" id="flag" data-bind="options: $root.flags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId"></select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-lg-5 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="pFlag" class="control-label text-right tooltip-float">Prices Flags</label>
+                                </div>
+                                <div class="col-lg-7">
+                                    <select class="form-control" id="pFlag" data-bind="options: $root.priceFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:priceFlagId"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <div class="col-lg-3 text-right"></div>
+                                <div class="col-lg-7">
+                                    <div id="" class="">
+                                        <img id="companyLogo" style="min-height:190px; width: 230px;" src="#" />
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-1">
+                                    <div class="fileUpload btn btn-primary">
+                                        <span>....</span>
+                                        <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label h5 col-sm-2">Company Type</label>
-                                <div class="col-md-2">
-                                    <select class="form-control" data-bind="options: $root.companyTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:typeId"></select>
-                                </div>
-                                <label class="control-label h5 col-sm-2">Flag</label>
-                                <div class="col-md-2">
-                                    <select class="form-control" data-bind="options: $root.flags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId"></select>
-                                </div>
-                                <label class="control-label h5 col-sm-2">Prices Flags </label>
-                                <div class="col-md-2">
-                                    <select class="form-control" data-bind="options: $root.priceFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:priceFlagId"></select>
-                                    @*<select class="form-control" data-bind="options: $root.priceFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:priceFlagId"></select>*@
+                                <div class="col-lg-9">
+                                    <label class="control-label text-right tooltip-float">Company logo for web segment</label>
                                 </div>
                             </div>
+                            <input type="hidden" id="supplierId" name="supplierId" data-bind="value:id" />
+                        </div>
 
-                            <div class="form-group">
+                        <hr />
+                    </div>
+                </div>
 
-                                <div class="col-md-12" style="margin-top: 10px;">
-                                    <div class="col-md-2">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img id="companyLogo" src="#" alt="" style="min-height: 170px; width: 200px;" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="fileUpload btn btn-primary">
-                                            <span>....</span>
-                                            <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
+            </div>
+            <div class="row" style="background-color:#f5faed;margin-right: 15px;margin-left: 15px;margin-top: 25px; ">
+                <div class="main-box clearfix" style="margin-right: 5px;margin-left: 5px;margin-top: 10px;">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs" id="myTab">
+                            <li class="active"><a href="#tab-CompanyDetail" data-toggle="tab">Company Detail</a></li>
+                            <li><a href="#tab-AccountDetail" data-toggle="tab">Account Detail</a></li>
+                            <li><a href="#tab-AddressDetail" data-toggle="tab">Address Detail</a></li>
+                            <li><a href="#tab-ContactDetail" data-toggle="tab">Contact Detail</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-CompanyDetail">
+                                <div class="main-box-body clearfix">
+                                    <div class="col-md-12 form-horizontal">
+                                        <h3>Company Detail</h3>
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="url" class="control-label text-right tooltip-float">Url</label>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input type="text" class="form-control" id="url" data-bind="value:url" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="aStatus" class="control-label text-right tooltip-float">Account Status</label>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <select class="form-control" id="aStatus" data-bind="options: $root.accountStatusList, optionsText: 'Text', optionsValue: 'Id',value:accountStatusId"></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="notes" class="control-label text-right tooltip-float">Notes</label>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <textarea id="notes" class="form-control" rows="4" data-bind="value:notes,valueUpdate: 'keyup'"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                </div>
-                                <div class="col-md-3">
-                                    <span class="help-block text-right">Company logo for web segment</span>
-                                </div>
-                                <input type="hidden" id="supplierId" name="supplierId" data-bind="value:id" />
                             </div>
-                            <hr />
-                            <div class="row" style="background-color: #f5faed">
-                                <div class="main-box clearfix" style="margin-top: 15px;margin-left: 8px;margin-right: 8px;">
-                                    <div class="tabs-wrapper profile-tabs">
-                                        <ul class="nav nav-tabs" id="myTab">
-                                            <li class="active"><a href="#tab-CompanyDetail" data-toggle="tab">Company Detail</a></li>
-                                            <li><a href="#tab-AccountDetail" data-toggle="tab">Account Detail</a></li>
-                                            <li><a href="#tab-AddressDetail" data-toggle="tab">Address Detail</a></li>
-                                            <li><a href="#tab-ContactDetail" data-toggle="tab">Contact Detail</a></li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <div class="tab-pane fade in active" id="tab-CompanyDetail">
-                                                <div class="main-box-body clearfix">
-                                                    <div class="col-md-12 form-horizontal">
-                                                        <h3>Company Detail</h3>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label h5 col-sm-2">URL</label>
-                                                                <div class="col-md-5">
-                                                                    <input type="text" class="form-control" data-bind="value:url" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label h5 col-sm-2">Account Status</label>
-                                                                <div class="col-md-5">
-                                                                    <select class="form-control" data-bind="options: $root.accountStatusList, optionsText: 'Text', optionsValue: 'Id',value:accountStatusId"></select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label h5 col-sm-2">Notes</label>
-                                                                <div class="col-md-5">
-                                                                    <textarea class="form-control" rows="4" data-bind="value:notes,valueUpdate: 'keyup'"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                            <div class="tab-pane fade" id="tab-AccountDetail">
+                                <div class="main-box-body clearfix">
+                                    <div class="col-md-12 form-horizontal">
+                                        <h3>Account Detail</h3>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
                                                     </div>
+                                                    <label for="cRef" class="control-label text-right tooltip-float">Credit Reference</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" id="cRef" class="form-control" data-bind="value:creditReference" />
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="tab-AccountDetail">
-                                                <div class="main-box-body clearfix">
-                                                    <div class="col-md-12 form-horizontal">
-                                                        <h3>Account Detail</h3>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Credit Reference</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:creditReference" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Default Markup</label>
-                                                            <div class="col-md-2">
-                                                                <select class="form-control" data-bind="options: $root.markups, optionsText: 'MarkUpName', optionsValue: 'MarkUpId',value:defaultMarkUpId"></select>
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Default Nominal Code</label>
-                                                            <div class="col-md-2">
-                                                                <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsValue: 'Id',value:defaultNominalCode"></select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">TAX Reg. No</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:vATRegNumber" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">TAX Reg. Ref</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:vATRegReference" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Default Manager</label>
-                                                            <div class="col-md-2">
-                                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:accountManagerId"></select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Credit Limit $</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:creditLimit" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">A/C Opened</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="datepicker:accountOpenDate" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Terms</label>
-                                                            <div class="col-md-6">
-                                                                <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:terms"></textarea>
-                                                            </div>
-                                                        </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
                                                     </div>
+                                                    <label class="control-label text-right tooltip-float">Default Nominal Code</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsValue: 'Id',value:defaultNominalCode"></select>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="tab-AddressDetail" data-bind="with:addressInSupplier">
-                                                <div class="main-box-body clearfix">
-                                                    <div class="col-md-12 form-horizontal">
-                                                        <h3>Address Detail</h3>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Address Name</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:addressName" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Tel 1</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:tel1" tel1 />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Ext 1</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:extension1" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Address</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:address1" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Tel 2</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:tel2" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Ext 2</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:extension2" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2"></label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:address2" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Fax</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:fax" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Email</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2"></label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:address3" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">URL</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:url" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Ref</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:reference" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">City</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:city" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">State</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:state" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">FAO</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:fao" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Country</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:country" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Post Code</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:postCode" />
-                                                            </div>
-                                                        </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
                                                     </div>
+                                                    <label class="control-label text-right tooltip-float">TAX Reg. No</label>
                                                 </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="tab-ContactDetail" data-bind="with:companyContact">
-                                                <div class="main-box-body clearfix">
-                                                    <div class="col-md-12 form-horizontal">
-                                                        <h3>Contact Detail</h3>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">First Name</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:firstName,validationTooltip: firstName " />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Home Tel 1</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:homeTel1" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Ext 1</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:homeExtension1" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Last Name</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:lastName" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Home Tel 2</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:homeTel2" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Ext 2</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:homeExtension2" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Home Address</label>
-                                                            <div class="col-md-6">
-                                                                <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:homeAddress1"></textarea>
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Email</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Home City</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:homeCity" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Password</label>
-                                                            <div class="col-md-2">
-                                                                <input type="password" class="form-control" data-bind="value:password, validationTooltip: password" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Confirm Password</label>
-                                                            <div class="col-md-2">
-                                                                <input type="password" class="form-control" data-bind="value:password1, validationTooltip: password1" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Home State</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:homeState" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Secret Question</label>
-                                                            <div class="col-md-2">
-                                                                <select class="form-control" data-bind="options: $root.registrationQuestions, optionsText: 'Question', optionsValue: 'Question',value:secretQuestion"></select>
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Secret Answer</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:secretAnswer" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Mobile</label>
-                                                            <div class="col-md-2">
-                                                                <input type="text" class="form-control" data-bind="value:mobile" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Mail Subscription</label>
-                                                            <div class="col-md-2">
-                                                                <input type="checkbox" class="form-control" data-bind="checked:isEmailSubscription" />
-                                                            </div>
-                                                            <label class="control-label h5 col-sm-2">Newsletters Subscription</label>
-                                                            <div class="col-md-1">
-                                                                <input type="checkbox" class="form-control" data-bind="checked:isNewsLetterSubscription" />
-                                                            </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" data-bind="value:vATRegNumber" />
 
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label h5 col-sm-2">Notes</label>
-                                                            <div class="col-md-6">
-                                                                <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:contactNotes"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">TAX Reg. Ref</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" data-bind="value:vATRegReference" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="dMArkup" class="control-label text-right tooltip-float">Default Markup</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <select class="form-control" id="dMArkup" data-bind="options: $root.markups, optionsText: 'MarkUpName', optionsValue: 'MarkUpId',value:defaultMarkUpId"></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="dMArkup" class="control-label text-right tooltip-float">Credit Limit $</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" data-bind="value:creditLimit" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="dMArkup" class="control-label text-right tooltip-float">A/C Opened</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" data-bind="datepicker:accountOpenDate" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-6 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Default Manager</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:accountManagerId"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Terms</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <textarea class="form-control" rows="4" id="description" data-bind="valueUpdate: 'keyup',value:terms"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-AddressDetail" data-bind="with:addressInSupplier">
+                                <div class="main-box-body clearfix">
+                                    <div class="col-md-12 form-horizontal">
+                                        <h3>Address Detail</h3>
+
+                                        <div class="col-lg-5">
+
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtAdd1" class="control-label text-right tooltip-float">Address 1</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtAdd1" data-bind="value: address1">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtAdd2" class="control-label text-right tooltip-float">Address 2</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtAdd2" data-bind="value: address2">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtAdd3" class="control-label text-right tooltip-float">Address 3</label>
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtAdd3" data-bind="value: address3">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCity" class="control-label text-right tooltip-float">City</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtCity" data-bind="value: city">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtState" class="control-label text-right tooltip-float">State</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtState" data-bind="value: state">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCountry" class="control-label text-right tooltip-float">Country</label>
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtCountry" data-bind="value: country">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtPostalCode" class="control-label text-right tooltip-float">Postal Code</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtPostalCode" data-bind="value: postCode">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtTel1" class="control-label text-right tooltip-float">Tel 1</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtTel1" data-bind="value: tel1">
+                                                </div>
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtExt1" class="control-label text-right tooltip-float">Ext 1</label>
+                                                </div>
+                                                <div class="col-lg-1">
+                                                    <input type="text" class="form-control" id="txtExt1" data-bind="value: extension1">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtTel2" class="control-label text-right tooltip-float">Tel 2</label>
+                                                </div>
+
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtTel2" data-bind="value: tel2">
+                                                </div>
+                                                <div class="col-lg-3 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label for="txtExt2" class="control-label text-right tooltip-float">Ext 2</label>
+                                                </div>
+
+                                                <div class="col-lg-1">
+                                                    <input type="text" class="form-control" id="txtExt2" data-bind="value: extension2">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtReference" class="control-label text-right tooltip-float">Reference</label>
+
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtReference" data-bind="value: reference">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtFax" class="control-label text-right tooltip-float">Fax</label>
+
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtFax" data-bind="value: fax">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="url" class="control-label text-right tooltip-float">URL</label>
+
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="url" data-bind="value: url">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtFAQ" class="control-label text-right tooltip-float">FAO</label>
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtFAQ" data-bind="value: fao">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtAddressName" class="control-label text-right tooltip-float">Address Name</label>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" id="txtAddressName" data-bind="value: addressName">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-ContactDetail" data-bind="with:companyContact">
+                                <div class="main-box-body clearfix">
+                                    <div class="col-md-12 form-horizontal">
+                                        <h3>Contact Detail</h3>
+
+                                        <div class="col-lg-5">
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label for="txtAddressName" class="control-label text-right tooltip-float">First Name</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" data-bind="value:firstName,validationTooltip: firstName " />
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtAdd1" class="control-label text-right tooltip-float">Last Name</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" data-bind="value:lastName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtAdd2" class="control-label text-right tooltip-float">Email</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtAdd3" class="control-label text-right tooltip-float">Home City</label>
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtAdd3" data-bind="value: homeCity">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCity" class="control-label text-right tooltip-float">Password</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="password" class="form-control" data-bind="value:password, validationTooltip: password" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="htxtTel1" class="control-label text-right tooltip-float">Home Tel 1</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" id="htxtTel1" class="form-control" data-bind="value:homeTel1" />
+                                                </div>
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtExt1" class="control-label text-right tooltip-float">Ext 1</label>
+                                                </div>
+                                                <div class="col-lg-1">
+                                                    <input type="text" class="form-control" id="txtExt1" data-bind="value: homeExtension1">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtTel2" class="control-label text-right tooltip-float">Home Tel 2</label>
+                                                </div>
+
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtTel2" data-bind="value: homeTel2">
+                                                </div>
+                                                <div class="col-lg-3 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label for="txtExt2" class="control-label text-right tooltip-float">Ext 2</label>
+                                                </div>
+
+                                                <div class="col-lg-1">
+                                                    <input type="text" class="form-control" id="txtExt2" data-bind="value: homeExtension2">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label for="txtReference" class="control-label text-right tooltip-float">Mobile</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtReference" data-bind="value: mobile">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCountry" class="control-label text-right tooltip-float">Home State</label>
+                                                </div>
+
+                                                <div class="col-lg-7">
+                                                    <input type="text" class="form-control" id="txtCountry" data-bind="value: homeState">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtState" class="control-label text-right tooltip-float">Confirm Password</label>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <input type="password" class="form-control" data-bind="value:password1, validationTooltip: password1" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtPostalCode" class="control-label text-right tooltip-float">Secret Question</label>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <select class="form-control" data-bind="options: $root.registrationQuestions, optionsText: 'Question', optionsValue: 'Question',value:secretQuestion"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtPostalCode" class="control-label text-right tooltip-float">Secret Answer</label>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" data-bind="value:secretAnswer" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtReference" class="control-label text-right tooltip-float">Mail Subscription</label>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <input type="checkbox" data-bind="checked:isEmailSubscription" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtReference" class="control-label text-right tooltip-float">Newsletters Subscription</label>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <input type="checkbox" data-bind="checked:isNewsLetterSubscription" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="hAddress" class="control-label text-right tooltip-float">Home Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <textarea class="form-control" rows="4" id="hAddress" data-bind="valueUpdate: 'keyup',value:homeAddress1"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="hAddress" class="control-label text-right tooltip-float">Notes</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <textarea class="form-control" rows="4" id="notes" data-bind="valueUpdate: 'keyup',value:contactNotes"></textarea>
                                             </div>
                                         </div>
                                     </div>

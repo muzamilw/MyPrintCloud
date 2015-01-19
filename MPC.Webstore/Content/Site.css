@@ -13317,7 +13317,7 @@ ul.LogBar li a
 .cntAddressContactUS
 {
 	font-size: 15px;
-	width: 236px;
+	width: 225px;
 }
 
 .cntgMapContactUs
@@ -20357,14 +20357,14 @@ margin-left: 10px;
 	.dashboard_item_main_heading
 	{
 		/* font-weight: bold;*/
-		font-size: 16px !important;
+		font-size: 13px !important;
 		padding-bottom: 5px;
 	}
 
 		.dashboard_item_main_heading:link
 		{
 			/* font-weight: bold;*/
-			font-size: 16px !important;
+			font-size: 13px !important;
 			padding-bottom: 5px;
 		}
 
@@ -21927,19 +21927,7 @@ margin-left: 10px;
 		line-height: 1.9;
 	}
 
-	.dashboard_item_main_heading
-	{
-		/* font-weight: bold;*/
-		font-size: 16px !important;
-		padding-bottom: 5px;
-	}
 
-		.dashboard_item_main_heading:link
-		{
-			/* font-weight: bold;*/
-			font-size: 16px !important;
-			padding-bottom: 5px;
-		}
 
 	.dashboard_item_detail
 	{
@@ -23883,14 +23871,14 @@ margin-left: 10px;
 	.dashboard_item_main_heading
 	{
 		/* font-weight: bold;*/
-		font-size: 16px !important;
+		font-size: 13px !important;
 		padding-bottom: 5px;
 	}
 
 		.dashboard_item_main_heading:link
 		{
 			/* font-weight: bold;*/
-			font-size: 16px !important;
+			font-size: 13px !important;
 			padding-bottom: 5px;
 		}
 
@@ -23908,8 +23896,8 @@ margin-left: 10px;
 
 	.contact_log
 	{
-		height: 63px !important;
-		width: 65px !important;
+		height: 57px !important;
+		width: 57px !important;
 	}
 
 	.dashboard_logo_des_div
@@ -26443,4 +26431,8 @@ height: 40px;
 background: black;
 padding: 7px;
 border-radius: 5px;
+}
+label {
+display: block;
+font-size: 13px;
 }

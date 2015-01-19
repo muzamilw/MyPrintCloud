@@ -36,6 +36,19 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="orderId"></param>
         /// <returns></returns>
         long GetOrderIdByContactId(long contactId, long CompanyId);
+
+        bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow);
+
+        bool IsOrderBelongToCorporate(long orderID, out long customerID);
+
+        bool ValidateOrderForCorporateLogin(long orderID, bool isPlaceOrder, int IsCustomer, bool isWebAccess, out long CustomerID);
+        /// <summary>
+        /// Get order, items, addresses details by order id
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="BrokerID"></param>
+        /// <returns></returns>
+        OrderDetail GetOrderReceipt(long orderID);
        
     }
 }

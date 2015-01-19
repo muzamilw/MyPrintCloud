@@ -193,5 +193,42 @@ namespace MPC.Webstore.Models
 
 
     }
- 
+
+    public class AddressViewModel
+    {
+
+
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
+        public string ZipCode { get; set; }
+        public string Email { get; set; }
+        public string Fax { get; set; }
+        public string Tel { get; set; }
+
+
+
+    }
+
+    public class DashboardViewModel
+    {
+
+        public DashboardViewModel(int Sort)
+        {
+            this.SortOrder = Sort;
+        }
+
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string ImageURL { get; set; }
+        public string PageNavigateURl { get; set; }
+        public bool? IsChangePassword { get; set; }
+        public bool? IsCompanyLogo { get; set; }
+        public int? SortOrder { get; set; }
+        public bool? IsShowBranding { get; set; }
+        public bool? IsDeleteAccount { get; set; }
+    }
+
 }

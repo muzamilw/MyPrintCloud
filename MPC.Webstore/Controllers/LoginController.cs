@@ -125,7 +125,7 @@ namespace MPC.Webstore.Controllers
                  }
                  else
                  {
-                     user = _myCompanyService.GetUserByEmailAndPassword(model.Email, model.Password);
+                     user = _myCompanyService.GetRetailUser(model.Email, model.Password);
                  }
 
                  
