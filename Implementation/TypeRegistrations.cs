@@ -54,6 +54,11 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICostCentreService, CostCentreService>();
             unityContainer.RegisterType<webstoreInterfaces.IListingService, webstoreImplementation.ListingService>();
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
+
+
+        
+            
+
         }
     }
 }

@@ -19,6 +19,7 @@ using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 using MPC.Models.Common;
+using MPC.Interfaces.Common;
 
 
 
@@ -38,6 +39,9 @@ namespace MPC.Webstore.Controllers
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
 
+
+
+        
         private IAuthenticationManager AuthenticationManager
         {
             get { return HttpContext.GetOwinContext().Authentication; }
@@ -64,6 +68,7 @@ namespace MPC.Webstore.Controllers
             this._CostCentreService = CostCentreService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+          
         }
 
         #endregion
@@ -104,7 +109,44 @@ namespace MPC.Webstore.Controllers
         {
 
 
-            _CostCentreService.SaveCostCentre(335, 1, "Test");
+            //_CostCentreService.SaveCostCentre(335, 1, "Test");
+
+            AppDomainSetup _AppDomainSetup = new AppDomainSetup();
+            AppDomain _AppDomain;
+            
+            object _oLocalObject;
+            ICostCentreLoader _oRemoteObject;
+
+            object[] _CostCentreParamsArray = new object[12];
+
+            _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+            //Me._AppDomain.InitializeLifetimeService()
+
+
+            
+
+            //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
+            CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+            _CostCentreLaoderFactory.InitializeLifetimeService();
+
+            //this._CostCentreParamsArray(0) = Common.g_GlobalData;
+            ////GlobalData
+            //this._CostCentreParamsArray(1) = CostCentreExecutionMode.PromptMode;
+            ////this mode will load the questionqueue
+            //this._CostCentreParamsArray(2) = new ExecutionQueueDTO();
+            ////QuestionQueue / Execution Queue
+            //this._CostCentreParamsArray(3) = new CostCentreQueueDTO();
+            ////CostCentreQueue
+            //this._CostCentreParamsArray(4) = 1;
+            ////MultipleQuantities
+            //this._CostCentreParamsArray(5) = 1;
+            ////CurrentQuantity
+            //this._CostCentreParamsArray(6) = new StockQueueDTO();
+            ////StockQueue
+            //this._CostCentreParamsArray(7) = new InputQueueDTO();
+            ////InputQueue
+            //this._CostCentreParamsArray(8) = this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
+            //this._CostCentreParamsArray(9) = 1;
             return View();
         }
 

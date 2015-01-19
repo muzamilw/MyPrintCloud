@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using MPC.Interfaces.Common;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
@@ -8,6 +9,8 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -1852,29 +1855,228 @@ namespace MPC.Implementation.WebStoreServices
                 throw new Exception("ExecuteUserStockItem", ex);
             }
         }
-
+        /// <summary>
+        /// Question Execution Function
+        /// </summary>
+        /// <param name="QuestionID"></param>
+        /// <param name="oConnection"></param>
+        /// <param name="ExecutionMode"></param>
+        /// <param name="QuestionQueue"></param>
+        /// <returns></returns>
         public double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID)
         {
+
+            CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+            ItemSection oItemSection = (ItemSection)oParamsArray[8];
+            int CurrentQuantity = Convert.ToInt32(oParamsArray[5]);
+            int MultipleQutantities = Convert.ToInt32(oParamsArray[4]);
+            List<QuestionQueueItem> QuestionQueue = oParamsArray[2] as List<QuestionQueueItem>;
+
+
+
+            bool bFlag = false;
+            QuestionQueueItem QuestionItem = null;
             try
             {
-                return _CostCentreQuestionRepository.ExecuteQuestion(ref oParamsArray, QuestionID, CostCentreID);
+                //check if its the visual mode or Execution Mode
+                if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
+                    //here the questions returned asnwer will ahave been loaded in the queue
+                    //retreive the queue answer for this question and use.. :D
+                    //use is simple only cast it in double and return..
+
+
+
+                    foreach (QuestionQueueItem item in QuestionQueue)
+                    {
+                        //matching
+                        if (item.ID == QuestionID & item.CostCentreID == CostCentreID)
+                        {
+                            bFlag = true;
+                            QuestionItem = item;
+                            break; // TODO: might not be correct. Was : Exit For
+                        }
+                    }
+
+                    //if found question in queue then use its values
+                    if (bFlag == true)
+                    {
+                        //Return CDbl(item.Answer)
+                        //if MultipleQutantities
+                        //new multiple qty logic goes here
+
+                        if (CurrentQuantity <= MultipleQutantities)
+                        {
+                            switch (CurrentQuantity)
+                            {
+                                case 1:
+                                    return Convert.ToDouble(QuestionItem.Qty1Answer);
+                                case 2:
+                                    if (QuestionItem.Qty2Answer == 0)
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty1Answer);
+                                    }
+                                    else
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty2Answer);
+                                    }
+                                    break;
+                                case 3:
+                                    if (Convert.ToDouble(QuestionItem.Qty3Answer) == 0)
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty1Answer);
+                                    }
+                                    else
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty3Answer);
+                                    }
+
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid  Current Selected Multiple Quantitity");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Answer not find in Queue");
+                    }
+
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    //populate the question in the executionQueue
+                    //loading the Questions Information for populating in the Queue
+                    CostCentreQuestions ovariable = _CostCentreQuestionRepository.LoadQuestion(Convert.ToInt32(QuestionID));
+                    QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
+                    QuestionQueue.Add(QuestionItem);
+                    ovariable = null;
+
+                    //exit normally 
+                }
+                return 1;
             }
             catch (Exception ex)
             {
-                throw new Exception("ExecuteUserStockItem", ex);
+                throw new Exception("ExecuteQuestion", ex);
             }
+
         }
 
+        /// <summary>
+        /// Executes a Matrix
+        /// </summary>
+        /// <param name="MatrixID"></param>
+        /// <param name="oConnection"></param>
+        /// <param name="ExecutionMode"></param>
+        /// <param name="QuestionQueue"></param>
+        /// <returns>Double</returns>
         public double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID)
         {
+            bool bFlag = false;
+
+
+            CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+            ItemSection oItemSection = (ItemSection)oParamsArray[8];
+            int CurrentQuantity = Convert.ToInt32(oParamsArray[5]);
+            int MultipleQutantities = Convert.ToInt32(oParamsArray[4]);
+            List<QuestionQueueItem> QuestionQueue = oParamsArray[2] as List<QuestionQueueItem>;
+            QuestionQueueItem QuestionItem = null;
+
             try
             {
-                return 1;//_CostCentreMatrixRepository.ExecuteMatrix(oParamsArray, MatrixID, CostCentreID);
+                //check if its the visual mode or Execution Mode
+                if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
+                    //here the questions returned asnwer will ahave been loaded in the queue
+                    //retreive the queue answer for this question and use.. :D
+                    //use is simple only cast it in double and return..
+
+
+                    foreach (var item in QuestionQueue)
+                    {
+                        //matching
+                        if (item.ID == MatrixID & item.ItemType == 4)
+                        {
+                            bFlag = true;
+                            QuestionItem = item;
+                            break; // TODO: might not be correct. Was : Exit For
+                        }
+                    }
+
+                    //if found question in queue then use its values
+                    if (bFlag == true)
+                    {
+                        //Return CDbl(item.Answer)
+                        //multiple qty logic goes here
+
+                        if (CurrentQuantity <= MultipleQutantities)
+                        {
+                            switch (CurrentQuantity)
+                            {
+                                case 1:
+                                    return Convert.ToDouble(QuestionItem.Qty1Answer);
+                                case 2:
+                                    if (Convert.ToDouble(QuestionItem.Qty2Answer) == 0)
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty1Answer);
+                                    }
+                                    else
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty2Answer);
+                                    }
+                                    break;
+                                case 3:
+                                    if (Convert.ToDouble(QuestionItem.Qty3Answer) == 0)
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty1Answer);
+                                    }
+                                    else
+                                    {
+                                        return Convert.ToDouble(QuestionItem.Qty3Answer);
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid  Current Selected Multiple Quantitity");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Answer not found in Queue");
+                    }
+
+
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    //populate the question in the executionQueue
+                    //loading the Questions Information for populating in the Queue
+                    CostCentreMatrix oMatrix = _CostCentreMatrixRepository.GetMatrix(MatrixID);
+                   QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false,0);
+                   QuestionQueue.Add(QuestionItem);
+                    oMatrix = null;
+                  
+                    //exit normally 
+                }
+                return 1;
+
             }
             catch (Exception ex)
             {
-                throw new Exception("ExecuteUserStockItem", ex);
+                throw new Exception("ExecuteMatrix", ex);
             }
+
         }
     }
+
+
+
+    
+
+
 }
