@@ -109,6 +109,9 @@
   font-size: 1.25em;
   padding-top: 3px;
 }
+.profileLabelPadding {
+  margin-top: 15px;
+}
 .fileUpload {
   position: relative;
   overflow: hidden;
