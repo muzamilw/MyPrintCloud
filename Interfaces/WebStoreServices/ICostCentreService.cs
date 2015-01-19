@@ -32,6 +32,12 @@ namespace MPC.Interfaces.WebStoreServices
         double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
         double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID);
         double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID);
+
+        CostCentre GetCostCentreByID(long CostCentreID);
+
+        CostCentre GetCostCentreSummaryByID(long CostCentreID);
+
+        CostCentre GetSystemCostCentre(long SystemTypeID, long OrganisationID);
     }
 
 
