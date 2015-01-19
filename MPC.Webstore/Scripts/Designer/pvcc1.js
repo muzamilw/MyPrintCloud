@@ -134,12 +134,13 @@ var crv2 = 0;
 var crv3 = 0;
 var crv4 = 0;
 var crv5 = 0;
-var showEBtn = false;
-var panelMode = 2;
+var showEBtn = true;
+var panelMode = 1;
 var firstLoad = true, loaderLoading = false;
 var lAObj = 0;
 var spPanel = "";
 var spBkPanel = "";
+var previewUrl = "/designerapi/Template/Preview/";
 function buildParams() {
   
     printCropMarks = locVars[locVars.length - 3];
