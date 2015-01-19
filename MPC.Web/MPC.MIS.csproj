@@ -1449,6 +1449,7 @@
     <Content Include="Areas\Settings\Views\Home\PhraseLibrary.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_EditJobTitlePhraseLibrary.cshtml" />
     <Content Include="Content\less\Store.less" />
+    <Content Include="Content\less\Inventory.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
