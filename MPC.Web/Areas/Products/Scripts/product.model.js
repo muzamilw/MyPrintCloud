@@ -1369,7 +1369,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -1377,6 +1377,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined),
             // Pdf Template Height
             pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
+            // Is Created Manual
+            isCreatedManual = ko.observable(specifiedIsCreatedManual || 1),
+            // Is Spot Template
+            isSpotTemplate = ko.observable(specifiedIsSpotTemplate || undefined),
             // Template Pages
             templatePages = ko.observableArray([]),
             // Add Template Page
@@ -1417,6 +1421,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag = new ko.dirtyFlag({
                 pdfTemplateWidth: pdfTemplateWidth,
                 pdfTemplateHeight: pdfTemplateHeight,
+                isCreatedManual: isCreatedManual,
+                isSpotTemplate: isSpotTemplate,
                 templatePages: templatePages
             }),
             // Has Changes
@@ -1439,6 +1445,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ProductId: id(),
                     PdfTemplateWidth: pdfTemplateWidth(),
                     PdfTemplateHeight: pdfTemplateHeight(),
+                    IsCreatedManual: isCreatedManual(),
+                    IsSpotTemplate: isSpotTemplate(),
                     TemplatePages: templatePages.map(function (templatePage, index) {
                         var templatePageItem = templatePage.convertToServerData();
                         templatePageItem.PageNo = index + 1;
@@ -1451,6 +1459,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
+            isCreatedManual: isCreatedManual,
+            isSpotTemplate: isSpotTemplate,
             templatePages: templatePages,
             addTemplatePage: addTemplatePage,
             removeTemplatePage: removeTemplatePage,

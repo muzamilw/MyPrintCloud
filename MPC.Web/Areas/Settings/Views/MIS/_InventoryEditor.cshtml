@@ -220,8 +220,8 @@
                                             <label for="disabled" class="control-label text-right tooltip-float">Disabled</label>
                                         </div>
                                         <div class="col-lg-7">
-                                            <input type="checkbox" class="checkbox checkbox-nice" id="disabled" data-bind="checked:isDisabled" />
-                                            <label></label>
+                                            <input type="checkbox"  class="checkbox checkbox-nice" id="disabled" data-bind="checked:isDisabled" />
+                                            <label for="disabled"></label>
                                         </div>
                                     </div>
 
@@ -718,7 +718,7 @@
 <script id="editCostTemplate" type="text/html">
     <tr data-bind="css: { selectedRow: $data === $root.selectedCostItem() }">
         <td>
-            $<input style="width: 70px;" type="text" data-bind="value: costPrice, validationTooltip: costPrice" />
+            $<input style="width: 70px;height:23px;" type="text" data-bind="value: costPrice, validationTooltip: costPrice" />
         </td>
         <td>
             <input style="width: 70px;" type="text" data-bind="datepicker: fromDate, validationTooltip: fromDate" />
@@ -759,7 +759,7 @@
 <script id="editPriceTemplate" type="text/html">
     <tr data-bind="css: { selectedRow: $data === $root.selectedPriceItem() }">
         <td>
-            $<input style="width: 70px;" type="text" data-bind="value: costPrice, validationTooltip: costPrice" />
+            $<input style="width: 70px;height:23px;" type="text" data-bind="value: costPrice, validationTooltip: costPrice" />
         </td>
         <td>
             <input style="width: 70px;" type="text" data-bind="datepicker: fromDate, validationTooltip: fromDate" />
