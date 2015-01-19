@@ -21,5 +21,7 @@ namespace MPC.Interfaces.WebStoreServices
         double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue);
 
         double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
+        double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID);
+        double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID);
     }
 }
