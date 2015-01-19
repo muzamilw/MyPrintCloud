@@ -186,7 +186,7 @@ namespace MPC.Repository.Repositories
         public ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus)
         {
             Estimate tblOrder = null;
-            ShoppingCart shopCart = null;
+            ShoppingCart shopCart = new ShoppingCart();
             short orderStsID = Convert.ToInt16(orderStatus);
 
             try
@@ -196,6 +196,11 @@ namespace MPC.Repository.Repositories
                 tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid && estm.StatusId == orderStsID).FirstOrDefault();
                 if (tblOrder != null)
                 {
+                    if (tblOrder.BillingAddressId != null)
+                        shopCart.BillingAddressID = (long)tblOrder.BillingAddressId;
+                    else
+                        shopCart.BillingAddressID = 0;
+                    shopCart.ShippingAddressID = tblOrder.AddressId;
                     shopCart = ExtractShoppingCart(tblOrder);
                     
                 }

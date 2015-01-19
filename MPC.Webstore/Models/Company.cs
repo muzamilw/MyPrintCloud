@@ -105,6 +105,9 @@ namespace MPC.Webstore.Models
         public long? DeliveryPickUpAddressId { get; set; }
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
+
+        public long? PickupAddressId { get; set; }
+        public string TaxLabel { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }

@@ -1,4 +1,5 @@
 ﻿using MPC.Models.DomainModels;
+using System.Collections.Generic;
 
 namespace MPC.Interfaces.Repository
 {
@@ -7,6 +8,9 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IStateRepository : IBaseRepository<State, long>
     {
+        List<State> GetStates();
         string GetStateNameById(long StateId);
+
+        State GetStateFromStateID(long StateID);
     }
 }

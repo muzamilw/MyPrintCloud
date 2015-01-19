@@ -557,7 +557,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
             source.makeEmailBrokerArtworkOrderProductionReady,
-            source.ImageSource
+            source.ImageSource,
             source.StoreBackgroudImageSource
         );
 

@@ -56,11 +56,11 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         int GetPendingOrdersCountByTerritory(long companyId, OrderStatus statusId, int TerritoryID);
 
-        /// <summary>
-        /// Gets all pending approval orders count for corporate customers
-        /// </summary>
-        /// <param name="contactId"></param>
-        /// <param name="isApprover"></param>
+        CompanyContact GetCorporateAdmin(long contactCompanyId);
+
+    
+
+
         /// <param name="statusId"></param>
         /// <returns></returns>
         int GetAllPendingOrders(long CompanyId, OrderStatus statusId);

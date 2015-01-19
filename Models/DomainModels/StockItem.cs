@@ -74,7 +74,7 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Supplier Id
         /// </summary>
-        public int? SupplierId { get; set; }
+        public long? SupplierId { get; set; }
 
         /// <summary>
         /// Cost Price
@@ -378,6 +378,11 @@ namespace MPC.Models.DomainModels
         /// Item Stock Options
         /// </summary>
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
+
+        /// <summary>
+        /// Supplier
+        /// </summary>
+        public virtual Company Company { get; set; }
 
         #endregion
 
