@@ -32,7 +32,7 @@ namespace MPC.Implementation.WebStoreServices
     class TemplateService : ITemplateService
     {
         #region projection
-        private Template returnLocalTempalte(GlobalTemplateDesigner.Templates objGlobal)
+        private Template returnLocalTemplate(GlobalTemplateDesigner.Templates objGlobal)
         {
             Template objTemplate = new Template();
             objTemplate.ApprovalDate = objGlobal.ApprovalDate;
@@ -501,9 +501,6 @@ namespace MPC.Implementation.WebStoreServices
                     oPdf.AddHtml(sNewLineNormalized);
                 }
                 oPdf.Transform.Reset();
-                // for commented old styles algo see commit of 13 april 2014
-
-
 
             }
             catch (Exception ex)
@@ -1127,7 +1124,20 @@ namespace MPC.Implementation.WebStoreServices
                         if (objProductPage.BackGroundType == 1)  //PDF background
                         {
                             if (File.Exists(ProductFolderPath + objProductPage.BackgroundFileName))
+                            {
                                 doc.Read(ProductFolderPath + objProductPage.BackgroundFileName);
+                               // doc.HPos = 0.5;
+                               // doc.VPos = 0.3;
+                               // doc.Transform.Reset();
+                               // doc.PageNumber = 1; 
+                               //doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
+                               // doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
+                               // doc.Rect.String = doc.MediaBox.String;
+                               // doc.Rect.Left = 0;
+                               // doc.Rect.Top = 0;
+                               
+                               
+                            }
                         }
                         else if (objProductPage.BackGroundType == 2) //background color
                         {
@@ -1736,6 +1746,7 @@ namespace MPC.Implementation.WebStoreServices
                             generatePagePreview(overlayPDFFile, drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
                         }
                     }
+                    result = true;
             }
             catch (Exception ex)
             {
@@ -2092,7 +2103,7 @@ namespace MPC.Implementation.WebStoreServices
             return newProductID;
         }
 
-        // called from designer while generating funciton  // added by saqib ali // not tested yet
+        // called from designer while generating proof  // added by saqib ali // not tested yet
         public string SaveTemplate(List<TemplateObject> lstTemplatesObjects,List<TemplatePage> lstTemplatePages,long organisationID,bool printCropMarks,bool printWaterMarks,bool isRoundCorners)
         {
             try
@@ -2178,7 +2189,7 @@ namespace MPC.Implementation.WebStoreServices
                         oTemp[1] = oTemplatePagesV2[1];
                         oTemplatePagesV2 = oTemp;
                     }
-                    Template oTemplate = returnLocalTempalte(oTemplateV2);
+                    Template oTemplate = returnLocalTemplate(oTemplateV2);
                     List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                     foreach(var obj in oTemplatePagesV2)
                     {
@@ -2251,7 +2262,29 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-       
+        public string GenerateProof(DesignerPostSettings objSettings)
+        {
+           // StreamReader reader = new StreamReader(data);
+        //    string res = reader.ReadToEnd();
+        //    reader.Close();
+         //   reader.Dispose();
+
+          //  Settings objSettings = JsonConvert.DeserializeObject<Settings>(data);
+            //List<TemplateObjects> lstTemplatesObjects = JsonConvert.DeserializeObject<List<TemplateObjects>>(res);
+            List<TemplateObject> lstTemplatesObjects = objSettings.objects;
+            return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs);
+        }
         #endregion
     }
+    //public class Settings
+    //{
+    //    public bool printCropMarks = false;
+    //    public bool printWaterMarks = false;
+    //    public List<TemplateObject> objects = null;
+    //    public string orderCode = null;
+    //    public string CustomerName = null;
+    //    public List<TemplatePage> objPages = null;
+    //    public bool isRoundCornerrs = false;
+    //    public int organisationId = 0;
+    //}
 }

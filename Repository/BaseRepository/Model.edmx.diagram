@@ -235,6 +235,8 @@
         <AssociationConnector Association="DomainModels.tbl_costcentres_tbl_costcentre_instructions" />
         <AssociationConnector Association="DomainModels.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" />
         <AssociationConnector Association="DomainModels.FK_StockItem_Company" />
+        <EntityTypeShape EntityType="DomainModels.CmsOffer" Width="1.5" PointX="3" PointY="38.875" />
+        <AssociationConnector Association="DomainModels.FK_CmsOffer_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

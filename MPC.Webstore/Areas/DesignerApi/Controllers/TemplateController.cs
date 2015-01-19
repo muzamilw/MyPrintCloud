@@ -1,9 +1,12 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.ResponseModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -49,21 +52,21 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
          
         }
 
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
+        //[System.Web.Http.AcceptVerbs("GET", "POST")]
+        //[System.Web.Http.HttpGet]
         // Important: if called from MIS call implementation function instead of this function because OrganisationID will not exist in cookie when called from MIS
-        public string testTemplate(long id)
-        {
-            long OrganisationId = UserCookieManager.OrganisationID;
-            //var result = templateService.generateTemplateFromPDF("F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\Organisation1\\Templates\\random__CorporateTemplateUpload.pdf",2, id, 1);
-            templateService.processTemplatePDF(id, 1, true, true, true);
-            var formatter = new JsonMediaTypeFormatter();
-            var json = formatter.SerializerSettings;
-            json.Formatting = Newtonsoft.Json.Formatting.Indented;
-            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return "true".ToString();
+        //public string testTemplate(long id)
+        //{
+        //    long OrganisationId = UserCookieManager.OrganisationID;
+        //    //var result = templateService.generateTemplateFromPDF("F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\Organisation1\\Templates\\random__CorporateTemplateUpload.pdf",2, id, 1);
+        //    templateService.processTemplatePDF(id, 1, true, true, true);
+        //    var formatter = new JsonMediaTypeFormatter();
+        //    var json = formatter.SerializerSettings;
+        //    json.Formatting = Newtonsoft.Json.Formatting.Indented;
+        //    json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        //    return "true".ToString();
 
-        }
+        //}
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         public HttpResponseMessage mergeTemplate(int parameter1, long parameter2, long parameter3)
@@ -76,6 +79,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
 
         }
+        [HttpPost]
+        public HttpResponseMessage Preview([FromBody]  DesignerPostSettings obj)
+        {
+            var result = templateService.GenerateProof(obj);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
  
         // public string preview(Stream data)
         //    public string update(Stream data)// not used in new designer 
@@ -85,5 +98,9 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         //public Stream GetProductV2(string TemplateID,string CategoryIDStr,string heightStr, string widthStr) // called from v2 service
         //public Stream GetCatListV2(string CategoryIDStr, string pageNoStr, string pageSizeStr) // called from v2 service
         #endregion
+    }
+    public class Settings
+    {
+       
     }
 }
