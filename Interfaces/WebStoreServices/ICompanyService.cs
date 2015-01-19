@@ -76,5 +76,23 @@ namespace MPC.Interfaces.WebStoreServices
 
         CmsPage getPageByID(long PageID);
         bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
+        Address GetAddressByID(long AddressID);
+
+        CompanyContact GetCorporateAdmin(long contactCompanyId);
+
+        List<Address> GetAddressByCompanyID(long companyID);
+
+        CompanyTerritory GetTerritoryById(long territoryId);
+
+        List<Address> GetAdressesByContactID(long contactID);
+
+        List<Address> GetBillingAndShippingAddresses(long TerritoryID);
+
+        List<Address> GetContactCompanyAddressesList(long customerID);
+
+
+        State GetStateFromStateID(long StateID);
+
+        
     }
 }

@@ -37,6 +37,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICampaignRepository _campaignRepository;
         private readonly IItemRepository _itemRepository;
         private readonly IMarkupRepository _markupRepository;
+        private readonly ICompanyTerritoryRepository _CompanyTerritoryRepository;
+        private readonly IStateRepository _StateRepository;
        
 
         private string pageTitle = string.Empty;
@@ -53,7 +55,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository,IMarkupRepository markuprepository)
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository, ICompanyTerritoryRepository CompanyTerritoryRepository,IStateRepository StateRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -69,6 +71,8 @@ namespace MPC.Implementation.WebStoreServices
             this._itemRepository = itemRepository;
             this._markupRepository = markuprepository;
             this._addressRepository = addressRepository;
+            this._CompanyTerritoryRepository = CompanyTerritoryRepository;
+            this._StateRepository = StateRepository;
         }
 
         #endregion
@@ -421,6 +425,100 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.canContactPlaceOrder(contactID,out hasWebAccess);
         }
+        public Address GetAddressByID(long AddressID)
+        {
+            try
+            {
+                return _addressRepository.GetAddressByID(AddressID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CompanyContact GetCorporateAdmin(long contactCompanyId)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetCorporateAdmin(contactCompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Address> GetAddressByCompanyID(long companyID)
+        {
+            try
+            {
+                return _addressRepository.GetAddressByCompanyID(companyID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public  CompanyTerritory GetTerritoryById(long territoryId)
+        {
+            try
+            {
+                return _CompanyTerritoryRepository.GetTerritoryById(territoryId);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Address> GetAdressesByContactID(long contactID)
+        {
+            try
+            {
+                return _addressRepository.GetAdressesByContactID(contactID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+        public List<Address> GetBillingAndShippingAddresses(long TerritoryID)
+        {
+            try
+            {
+                return _addressRepository.GetBillingAndShippingAddresses(TerritoryID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Address> GetContactCompanyAddressesList(long customerID)
+        {
+            try
+            {
+                return _addressRepository.GetContactCompanyAddressesList(customerID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public State GetStateFromStateID(long StateID)
+        {
+            try
+            {
+                return _StateRepository.GetStateFromStateID(StateID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+       
         #endregion
     }
 

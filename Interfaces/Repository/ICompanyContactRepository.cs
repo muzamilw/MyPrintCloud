@@ -33,5 +33,10 @@ namespace MPC.Interfaces.Repository
 
         bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
 
+        CompanyContact GetCorporateAdmin(long contactCompanyId);
+
+    
+
+
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -45,6 +46,30 @@ namespace MPC.Repository.Repositories
             return DbSet.ToList();
         }
 
+        public List<State> GetStates()
+        {
+            try
+            {
+                return db.States.ToList();
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+        public State GetStateFromStateID(long StateID)
+        {
+            State State = null;
+            
+            State = db.States.Where(i => i.StateId == StateID).FirstOrDefault();
+
+
+           
+            return State;
+
+        }
         #endregion
     }
 }

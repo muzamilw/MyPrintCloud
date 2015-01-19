@@ -48,5 +48,9 @@ namespace MPC.Interfaces.Repository
         double ExecUserVariable(CostCentreVariable oVariable);
         double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour);
         double ExecuteUserStockItem(long StockID, StockPriceType StockPriceType, out double PerQtyQty);
+
+        List<CostCentre> GetDeliveryCostCentersList();
+
+        List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID);
     }
 }

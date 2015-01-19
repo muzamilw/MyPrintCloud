@@ -625,6 +625,22 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public CompanyContact GetCorporateAdmin(long contactCompanyId)
+        {
+            try
+            {
+
+                return db.CompanyContacts.Where(c => c.CompanyId == contactCompanyId && c.ContactRoleId.HasValue && c.ContactRoleId.Value == (int)ContactCompanyUserRoles.Administrator).FirstOrDefault();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+      
+        
     }
 }
 

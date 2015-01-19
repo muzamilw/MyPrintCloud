@@ -955,5 +955,31 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
+        public List<CostCentre> GetDeliveryCostCentersList()
+        {
+            try
+            {
+                return _CostCentreRepository.GetDeliveryCostCentersList();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetDeliveryCostCentersList", ex);
+            }
+        }
+
+        public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCorporateDeliveryCostCentersList(CompanyID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCorporateDeliveryCostCentersList", ex);
+            }
+        }
+
+
     }
 }

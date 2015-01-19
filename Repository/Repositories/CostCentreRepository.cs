@@ -732,5 +732,55 @@ namespace MPC.Repository.Repositories
             }
         }
         #endregion
+
+        #region AddressSelect
+        public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
+        {
+
+                var query = from tblCostCenter in db.CostCentres
+                            join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
+                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
+                            && CorpCostCenter.CompanyId == CompanyID
+                            orderby tblCostCenter.MinimumCost
+                            select new CostCentre()
+                            {
+
+                                CostCentreId = tblCostCenter.CostCentreId,
+                                CompletionTime = tblCostCenter.CompletionTime,
+                                MinimumCost = tblCostCenter.MinimumCost,
+                                Description = tblCostCenter.Description,
+                                Name = tblCostCenter.Name,
+                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            };
+
+
+                return query.ToList();
+
+        }
+        public List<CostCentre> GetDeliveryCostCentersList()
+        {
+
+           
+                var query = from tblCostCenter in db.CostCentres
+                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
+                            orderby tblCostCenter.MinimumCost
+                            select new CostCentre()
+                            {
+                                CostCentreId = tblCostCenter.CostCentreId,
+                                CompletionTime = tblCostCenter.CompletionTime,
+                                MinimumCost = tblCostCenter.MinimumCost,
+                                Description = tblCostCenter.Description,
+                                Name = tblCostCenter.Name,
+                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            };
+
+
+                return query.ToList();
+            
+
+        }
+        #endregion
     }
 }
