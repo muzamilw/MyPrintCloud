@@ -18,6 +18,7 @@ using System.IO;
 using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
+using MPC.Models.Common;
 
 
 
@@ -30,6 +31,8 @@ namespace MPC.Webstore.Controllers
         private readonly ICompanyService _myCompanyService;
 
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
+
+        private readonly ICostCentreService _CostCentreService;
 
         #endregion
         [Dependency]
@@ -44,7 +47,7 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
+        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService)
         {
             if (myCompanyService == null)
             {
@@ -54,6 +57,11 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("webstoreAuthorizationChecker");
             }
+            if (CostCentreService == null)
+            {
+                throw new ArgumentNullException("CostCentreService");
+            }
+            this._CostCentreService = CostCentreService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
         }
@@ -79,7 +87,7 @@ namespace MPC.Webstore.Controllers
             return View(model);
         }
 
-        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<CmsPageModel> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
+        public List<CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Webstore.Models.CmsPageModel> pageList, string pageName, List<CmsSkinPageWidget> allPageWidgets)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
@@ -95,6 +103,8 @@ namespace MPC.Webstore.Controllers
         public ActionResult About()
         {
 
+
+            _CostCentreService.SaveCostCentre(335, 1, "Test");
             return View();
         }
 
@@ -104,12 +114,6 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         public ActionResult oAuth(int id,int isRegWithSM, string MarketBriefReturnURL)
         {
             int isFacebook = id;
@@ -237,6 +241,14 @@ namespace MPC.Webstore.Controllers
                 //signout
                 AuthenticationManager.SignOut();
                 UserCookieManager.isRegisterClaims = 0;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                {
+                    Response.Redirect("/Login");
+                }
+                else 
+                {
+                    Response.Redirect("/");
+                }
             }
        }
     }

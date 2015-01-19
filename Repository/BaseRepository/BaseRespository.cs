@@ -149,6 +149,7 @@ namespace MPC.Repository.BaseRepository
             {
                 IEnumerable<OrganisationClaimValue> organisationClaimValues = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(MpcClaimTypes.Organisation);
                 return organisationClaimValues != null && organisationClaimValues.Any() ? organisationClaimValues.ElementAt(0).OrganisationId : 1;
+                
             }
         }
         

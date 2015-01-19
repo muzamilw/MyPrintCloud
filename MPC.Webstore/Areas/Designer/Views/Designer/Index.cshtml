@@ -291,9 +291,9 @@
                                     </a>
                                 </li>
                             </ul>
-                            <section class="ImagesScrollContainer">
-                                <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
-                                    <div class="inlineFolderPointer" style="left: 84.5px;"></div>
+                            <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
+                                <div class="inlineFolderPointer" style="left: 84.5px;"></div>
+                                <section class="ImagesScrollContainer">
                                     <div class="inlineFolderGroup searchGroup hasContent" style="">
                                         <div class="">
                                             <div class="paletteToolbarWrapper static" style="display: block;">
@@ -868,7 +868,7 @@
 <section class="proofsContainer">
     <div id="DivShadow" class="opaqueLayer"></div>
     <div id="LargePreviewer" class="LargePreviewer" title="Full Size Image" style="display:none">
-        <iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>
+        @*<iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>*@
     </div>
     <div id="PreviewerContainer" class="ui-corner-all propertyPanel">
         <a class="PreviewerDownloadPDF" onclick="k9()" target="_blank">Download PDF </a>
@@ -923,8 +923,8 @@
 
     </div>
     <form id="form1" runat="server" class="imageUploadForm" style="display:none;">
-        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true">
-        </asp:ScriptManager>
+        @*<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true">
+        </asp:ScriptManager>*@
         <div id="uploader">
             <p class="textWhite">
                 You browser doesn't have Flash, Silverlight or HTML5 support.

@@ -167,11 +167,17 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                     //Store Image Files Loaded Callback
+                    storeImageFilesLoadedCallback = function (file, data) {
+                        selectedStore().image(data);
+                        selectedStore().storeImageName(file.name);
+                        //selectedProductCategoryForEditting().fileType(data.imageType);
                     //store Backgroud Image Upload Callback
                      storeBackgroudImageUploadCallback = function (file, data) {
                          selectedStore().storeBackgroudImageImageSource(data);
                          selectedStore().storeBackgroudImageFileName(file.name);
                      },
+                    },
                     //#endregion _____________________  S T O R E ____________________
 
 
@@ -1656,6 +1662,23 @@ define("stores/stores.viewModel",
                                             selectedStore().companyId(data.CompanyId);
                                             stores.splice(0, 0, selectedStore());
                                         }
+                                        if (selectedStoreListView().companyId() == selectedStore().companyId()) {
+                                            _.each(stores(), function (store) {
+                                                if (store.companyId() == selectedStore().companyId()) {
+                                                    store.name(selectedStore().name());
+                                                    store.url(selectedStore().url());
+                                                    store.status(selectedStore().status());
+                                                    if (selectedStore().type() == "1") {
+                                                        store.type("Retail Customer");
+                                                    }
+                                                    else if (selectedStore().type() == "3") {
+                                                        store.type("Corporate");
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        
+                                        
                                         //selectedStore().storeId(data.StoreId);
                                         isStoreEditorVisible(false);
                                         isEditorVisible(false);
@@ -2180,6 +2203,7 @@ define("stores/stores.viewModel",
                     templateToUse: templateToUse,
                     makeEditable: makeEditable,
                     createNewStore: createNewStore,
+                    storeImageFilesLoadedCallback: storeImageFilesLoadedCallback,
                     onEditItem: onEditItem,
                     isStoreEditorVisible: isStoreEditorVisible,
                     deleteStore: deleteStore,

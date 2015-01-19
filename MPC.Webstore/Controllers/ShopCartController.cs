@@ -19,10 +19,8 @@ namespace MPC.Webstore.Controllers
         private readonly IItemService _ItemService;
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
-        private List<AddOnCostsCenter> _selectedItemsAddonsList = null;
         RelatedItemViewModel RIviewModel = new RelatedItemViewModel();
 
-        private double _deliveryCost = 0;
         private int NumberOfRecords = 0;
         public ShopCartController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService, ITemplateService TemplateService)
         {
@@ -109,7 +107,7 @@ namespace MPC.Webstore.Controllers
                     BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
 
                 }
-
+                ViewBag.OrderID = OrderId;
                 if (baseResponseCompany.Company.TaxRate != null)
                     ViewBag.TaxRate = baseResponseCompany.Company.TaxRate;
                 else
@@ -151,24 +149,138 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index()
         {
-            ShoppingCart shopCart = null;
 
-            return View("PartialViews/ShopCart", shopCart);
+            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            string IsCallFrom = Request.Form["hfIsCallFrom"];
+            ShoppingCart shopCart = null;
+            if(IsCallFrom == "Checkout")// to redirect add select page if login successfull
+            {
+                bool result = false;
+
+                long sOrderID = 0;
+                string voucherCode = string.Empty;
+                int deliverCostCenterID = 0;
+                double deliveryCost = 0;
+                string deliveryCompletionTime = string.Empty;
+                int DeliveryTime = 0;//Standard is seven
+                bool hasWebAccess;
+                bool IsPlaceOrder = _myCompanyService.canContactPlaceOrder(_myClaimHelper.loginContactID(),out hasWebAccess);
+                double grandOrderTotal = 0;
+                string DeliveryName = null;
+                string OrderID = Request.Form["hfOrderID"].ToString();
+                if (!string.IsNullOrEmpty(OrderID))
+                {
+                    sOrderID = Convert.ToInt32(OrderID);
+                }
+                if(_myClaimHelper.isUserLoggedIn())
+                {
+                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    {
+                        
+                        if (IsPlaceOrder == false)
+                        {
+
+                            //ShowMessage((string)GetGlobalResourceObject("MyResource", "shopcartCorporateOrderCantPlace"));
+                            //return;
+                        }
+                    }
+
+                    //These parameters are going to update in Order and Of course Order Total
+                  //  double voucherDiscountRate = Convert.ToDouble(txtVoucherDiscountRate.Value);
+                 //   voucherCode = txtDiscountVoucherCode.Text.Trim();
+                    string total = Request.Form["hfGrandTotal"].ToString();
+                    if(!string.IsNullOrEmpty(total))
+                    {
+                        grandOrderTotal = Convert.ToDouble(total);
+                    }
+                    
+
+
+                    deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"].ToString();
+
+                    if (!string.IsNullOrEmpty(deliveryCompletionTime))
+                    {
+                        DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                    }
+                  
+                    if (!string.IsNullOrEmpty(deliveryCompletionTime))
+                    {
+                        DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                    }
+                   
+                    if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    {
+                        result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp);
+                    }
+                    else if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    {
+                        result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime,StoreMode.Retail);
+                    }
+                    
+
+                    if (result)
+                    {
+                        string URL = "ShopCartAddSelect/"+ sOrderID;
+                        return View(URL);
+                    }
+                    else
+                    {
+
+                        return null;
+                    }
+                }
+                else
+                {
+                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    {
+                        ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder,baseResponseCompany,hasWebAccess); // rediret user to the corp login page.
+                    }
+
+
+                   return RedirectToAction("Login");
+                   
+                }
+
+            }
+            else
+            {
+                
+                return View("PartialViews/ShopCart", shopCart);
+
+            }
+
+            
         }
         private ShoppingCart LoadShoppingCart(long orderID)
         {
             ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(orderID, OrderStatus.ShoppingCart);
             if (shopCart != null)
             {
-                _selectedItemsAddonsList = shopCart.ItemsSelectedAddonsList; //global values for all items
                 ViewData["selectedItemsAddonsList"] = shopCart.ItemsSelectedAddonsList;
-                _deliveryCost = shopCart.DeliveryCost;
-
+            
             }
 
             return shopCart;
         }
 
+
+        public void ValidateOrderForCorporateLogin(long orderID,bool isPlaceOrder,MyCompanyDomainBaseResponse baseResponse,bool isWebAccess)
+        {
+            long CustomerID = 0;
+            bool result = _OrderService.ValidateOrderForCorporateLogin(orderID, isPlaceOrder, baseResponse.Company.IsCustomer, isWebAccess,out CustomerID);
+            if(result)
+            {
+                RedirectToAction("Login");
+            }
+            else
+            {
+                // nothing
+            }
+         
+        }
+
+
+      
 
         private void BindGridView(ShoppingCart shopCart, MyCompanyDomainBaseResponse baseResponseCurrency, bool IsShowPrices)
         {
@@ -199,7 +311,7 @@ namespace MPC.Webstore.Controllers
                 NumberOfRecords = 0;
             }
 
-
+            ViewBag.NumberOfRecords = NumberOfRecords;
             //Hide the PRogress bar contrl
             //OrderStepsControl.Visible = true;
             ViewData["ProductItemList"] = itemsList;

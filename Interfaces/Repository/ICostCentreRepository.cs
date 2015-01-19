@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.Repository
 {
@@ -17,6 +18,35 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         /// <param name="CostCentreID"></param>
         /// <returns></returns>
-        //bool Delete(int CostCentreID);
+        bool Delete(long CostCentreID);
+        long GetMaxCostCentreID();
+        bool UpdateSystemCostCentre(long CostCentreID, int ProfitMarginID, int NominalCodeId, double MinCost, int UserID, string Description, bool DirectCost, bool IsScheduleable);
+        CostCentre GetCostCentreByID(long CostCentreID);
+        CostcentreResource GetCostCentreResources(long CostcentreID);
+        List<CostCentreResource> GetCostCentreResourcesWithNames(long CostcentreID);
+        List<CostCentreType> GetCostCentreTypes(TypeReturnMode ReturnMode);
+        List<CostcentreSystemType> GetCostCentreSystemTypes();
+        CostcentreInstruction GetCostCentreWorkInstruction(long CostcentreID);
+        List<CostCentreType> ReturnCostCentreCategories();
+        List<CostCentre> GetCostCentreList();
+        bool CheckCostCentreName(long CostCentreID, string CostCentreName, long OrganisationId);
+        long InsertWorkInstruction(CostcentreInstruction oInstruction);
+        long UpdateWorkInstruction(CostcentreInstruction oInstruction);
+        bool DeleteWorkInstruction(long InstructionID);
+        long InsertChoice(CostcentreWorkInstructionsChoice ochoice);
+        long UpdateChoice(CostcentreWorkInstructionsChoice ochoice);
+        bool DeleteChoice(long ChoiceID);
+        long InsertCostCentre(CostCentre oCostCentre);
+        bool UpdateCostCentre(CostCentre oCostCentre);
+        CostCentre GetCostCentreSummary(long CostCentreID);
+        List<CostCentre> GetCompleteCodeofAllCostCentres(long OrganisationId);
+        bool ChangeFlag(int FlagID, long CostCentreID);
+        CostCentre GetSystemCostCentre(long SystemTypeID, long OrganisationID);
+        List<CostCentreType> GetCostCentreCategories(long OrganisationId);
+        bool IsCostCentreAvailable(int CategoryID);
+        CostCentreTemplate LoadCostCentreTemplate(int TemplateID);
+        double ExecUserVariable(CostCentreVariable oVariable);
+        double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour);
+        double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
     }
 }

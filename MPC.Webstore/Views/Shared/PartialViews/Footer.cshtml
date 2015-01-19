@@ -1,29 +1,31 @@
 ﻿@model MPC.Webstore.Models.Company
 @using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@using System;
 <div class="clearBoth">
-   
-    <div id="FooterContainer" class="PDTCWB" >
+
+    <div id="FooterContainer" class="PDTCWB">
         <div class="container content_area">
             <div class="row left_right_padding">
                 <div class="footer_sub">
                     <div class="footer_sub_height">
                         <div class="txtAlignLeft footerLogoContainer col-xs-12 col-sm-2 col-md-3 col-lg-3">
 
-                            <a href='/Home/Index'>
+                            <a href='/'>
                                 <img id="imgfooterLogo" class="footerLogoBranding" src="@Html.GetAppBasePath()@Model.Image" />
                             </a>
                         </div>
                         <div class="txtAlignLeft col-md-6 col-sm-6 col-xs-12 col-lg-6 payment_sec NoPadding">
                             <div class="copyTerms">
-                                <label>  ltrlcopyrite</label>
+                                <label>  CopyRight 2015</label>
                                 <a class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
-                                   href="#">TermsAndConditions</a>
+                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">Terms And Conditions</a>
                             </div>
 
                             <div class="powerPrivacy">
                                 <a id="hlPweredBy" href="http://www.myprintcloud.com/"
                                    class="poweredby"></a>
-                                <a ID="hlPrivacyPolicy" href="#" class="small_gray_hyperlink hyPrivacyP">Privacy Policy</a>
+                                <a id="hlPrivacyPolicy" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)" class="small_gray_hyperlink hyPrivacyP" onclick="ShowLoader();">Privacy Policy</a>
                             </div>
                         </div>
                         <div class="txtAlignLeft col-xs-12 col-md-3 col-sm-4  col-lg-3 social_icons" id="pnlFollowUs">
@@ -35,22 +37,22 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td valign="top">
-                                        <a ID="linkFollowUs1">
-                                            <img ID="imgFollowUs1"  class="imgFollowUs" />
+                                        <a id="linkFollowUs1">
+                                            <img id="imgFollowUs1" class="imgFollowUs" />
                                         </a>
                                     </td>
                                     <td valign="top">
-                                        <a ID="linkFollowUs2"  >
-                                            <img ID="imgFollowUs2"  class="imgFollowUs" />
+                                        <a id="linkFollowUs2">
+                                            <img id="imgFollowUs2" class="imgFollowUs" />
                                         </a>
                                     </td>
                                     <td valign="top">
-                                        <a ID="linkFollowUs3"  >
+                                        <a id="linkFollowUs3">
                                             <img id="imgFollowUs3" class="imgFollowUs" />
                                         </a>
                                     </td>
                                     <td valign="top">
-                                        <a ID="linkFollowUs4" >
+                                        <a id="linkFollowUs4">
                                             <img id="imgFollowUs4" class="imgFollowUs" />
                                         </a>
                                     </td>

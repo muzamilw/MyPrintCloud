@@ -10,16 +10,346 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Implementation.WebStoreServices
 {
     public class CostCentreService : ICostCentreService
     {
         private readonly ICostCentreRepository _CostCentreRepository;
-        public CostCentreService(ICostCentreRepository CostCentreRepository)
+        private readonly ICostCentreVariableRepository _CostCentreVariableRepository;
+        private readonly ICostCentreQuestionRepository _CostCentreQuestionRepository;
+        private readonly ICostCentreMatrixRepository _CostCentreMatrixRepository;
+        public CostCentreService(ICostCentreRepository CostCentreRepository,
+            ICostCentreVariableRepository CostCentreVariableRepository, ICostCentreQuestionRepository CostCentreQuestionRepository
+            , ICostCentreMatrixRepository CostCentreMatrixRepository)
         {
             this._CostCentreRepository = CostCentreRepository;
+            this._CostCentreVariableRepository = CostCentreVariableRepository;
+            this._CostCentreQuestionRepository = CostCentreQuestionRepository;
+            this._CostCentreMatrixRepository = CostCentreMatrixRepository;
         }
+
+
+        public void CompileCostCentreTest()
+        {
+
+            List<CostCentre> oCostCentresSource = this.GetCompleteCodeofAllCostCentres(1);
+            string oSource = "";
+            
+            //oSource += "Imports MPC" + Environment.NewLine;
+            oSource += "Imports System" + Environment.NewLine;
+            oSource += "Imports System.Data" + Environment.NewLine;
+            oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+            //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+            oSource += "Imports MPC.Implementation.WebStoreServices" + Environment.NewLine;
+            oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
+            oSource += "Imports System.Reflection" + Environment.NewLine;
+
+            oSource += "Namespace UserCostCentres" + Environment.NewLine;
+
+
+            //if (IsNewCostCentre == true) {
+            //    string Str = sCode.ToString;
+            //    Str = Str, "Namespace UserCostCentres", "");
+
+            //    Str = Str, "End Namespace", "");
+
+            //    oSource += Environment.NewLine + Str + Environment.NewLine;
+
+            //}
+
+
+
+            foreach (var oCostCentre in oCostCentresSource)
+            {
+                string Str = "";
+                Str = oCostCentre.CompleteCode;
+
+
+                Str = Str.Replace("Namespace UserCostCentres", "");
+                Str = Str.Replace("End Namespace", "");
+
+                oSource += Environment.NewLine + Str + Environment.NewLine;
+
+            }
+
+            oSource += "End Namespace" + Environment.NewLine;
+
+            //'if compilation fails then delete the code file
+
+            System.IO.FileStream oFileStream;
+            string oCompanyName = "Test";
+
+            //replacing any unwanted characters in the CompanyNames and create file name
+
+            bool IsCompiled = true;
+
+            try
+            {
+                //Compile Code of CostCentres
+                this.CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, oCompanyName);
+
+                //Get CostCentre File Open it in Read Mode
+                oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + oCompanyName + "UserCostCentres.dll");
+
+                //Get Byte Array of the file and write it in the db
+                //byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+
+                //oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+
+                //CostCentreByte = null;
+            }
+            catch (Exception ex)
+            {
+                //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
+                IsCompiled = false;
+                throw new Exception("Error Compiling Costcentre", ex);
+
+            }
+            finally
+            {
+                //CostCentreDLL = null;
+                oFileStream = null;
+
+            }
+            if (IsCompiled == false)
+            {
+                return;
+            }
+
+
+
+        }
+
+        public void SaveCostCentre(long _CostCentreID, long OrganisationId, string OrganisationName)
+        {
+
+            //creating a costcentre code file and updating it and compile it.
+            bool  IsNewCostCentre = false;
+            CostCentreTemplate oTemplate = _CostCentreRepository.LoadCostCentreTemplate(2);
+            string Header, Footer, Middle;
+            double SetupCost = 0.0d;
+            int SetupTime = 0;
+            double MinCost = 0.0d;
+            double DefaultProfitMargin = 0.0d;
+
+            string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} ");  //* {question, ID=\"13\",caption=\"How many boxes\"}
+    //="EstimatedPlantCost =  BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,"1")  *  BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,"13",CostCentreID) ";
+            string sCostLabour ="EstimatedLabourCost = 0";
+            string sCostStock ="EstimatedMaterialCost = 0";
+            string sTime ="EstimatedTime = 0";
+            string sPricePlant ="QuotedPlantPrice = 0";
+            string sPriceLabour ="QuotedLabourPrice = 0";
+            string sPriceStock ="QuotedMaterialPrice = 0";
+            string sActualPlantCost ="";
+            string sActualStockCost ="";
+            string sActualLabourCost ="";
+            StringBuilder sCode = new StringBuilder();
+
+
+
+            //#Zone " Compiling CostCentre "
+
+            {
+                char spacechar = '\0';
+                spacechar = (char)95;
+                //replacing any unwanted characters in the costcentrename and create file name
+                
+                Header = oTemplate.Header.Substring(0, oTemplate.Header.IndexOf( "''<cost>") - 2);
+                Middle = oTemplate.Middle.Substring(0, oTemplate.Middle.IndexOf( "''<price>") - 2);
+                Footer = oTemplate.Footer;
+
+                //'getting new Cost centreID from Database
+
+                if (_CostCentreID == 0)
+                {
+                    _CostCentreID = this.GetMaxCostCentreID();
+                    IsNewCostCentre = true;
+                }
+
+
+                //'replacing the CostCentre name and ID in the header string
+                Header = Header.Replace( "ccname", "CLS_" + _CostCentreID.ToString());
+                Header = Header.Replace( "<ccid>", _CostCentreID.ToString());
+
+                //replacing the attribs of cost centre
+                Header = Header.Replace( "<ccsc>", SetupCost.ToString());
+                Header = Header.Replace( "<ccst>", SetupTime.ToString());
+                Header = Header.Replace( "<ccmc>", MinCost.ToString());
+                Header = Header.Replace("<ccva>", DefaultProfitMargin.ToString());
+
+                //'now making a code file string
+
+                sCode.Append(Header);
+                sCode.Append(Environment.NewLine + "''<cost>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                sCode.Append(sCostPlant);
+                sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                sCode.Append(sCostLabour);
+                sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                sCode.Append(sCostStock);
+                sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<time>" + Environment.NewLine);
+                sCode.Append(sTime);
+                sCode.Append(Environment.NewLine + "''</time>" + Environment.NewLine);
+
+                sCode.Append(Environment.NewLine + "''</cost>" + Environment.NewLine);
+
+                sCode.Append(Middle);
+
+                sCode.Append(Environment.NewLine + "''<price>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                sCode.Append(sPricePlant);
+                sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                sCode.Append(sPriceLabour);
+                sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                sCode.Append(sPriceStock);
+                sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''</price>" + Environment.NewLine);
+
+
+                //process the footer here..
+                //since footer also contains the ActualCOST area, we have to remove that AREA
+                //and replace it with the new ACTUAL COST code
+
+                //our code is between ''<actualcost>   and  ''</actualcost>
+                int iStart = 0;
+                int iStart2 = 0;
+                int iLength = 0;
+                string sActualCostString = null;
+
+                sActualCostString = "''<plant>" + sActualPlantCost + "''</plant>" + "''</material>" + sActualStockCost + "''</material>" + "''</labour>" + sActualLabourCost + "''</labour>";
+
+                iStart = Footer.IndexOf("''<actualcost>") + 14;
+                iStart2 = Footer.IndexOf("''</actualcost>");
+                Footer.Remove(iStart, iStart2 - iStart);
+                Footer.Insert(iStart, sActualCostString);
+
+                sCode.Append(Footer);
+
+
+                CostCentre oCostCentre = GetCostCentreByID(_CostCentreID);
+
+
+                oCostCentre.CodeFileName = "CLS_" + _CostCentreID.ToString();
+                string oSource = "";
+
+                //Get Complete Code of the CostCentre from the DB and Recompile it with the new changes
+                List<CostCentre> oAllCostCentresCode = GetCompleteCodeofAllCostCentres(OrganisationId);
+
+
+                //oSource += "Imports Infinity" + Environment.NewLine;
+                oSource += "Imports System" + Environment.NewLine;
+                oSource += "Imports System.Data" + Environment.NewLine;
+                oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+                //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+                oSource += "Imports MPC.Implementation.WebStoreServices" + Environment.NewLine;
+                oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
+                oSource += "imports MPC.Models.Common" + Environment.NewLine;
+                oSource += "Imports System.Reflection" + Environment.NewLine;
+                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
+                oSource += "Namespace UserCostCentres" + Environment.NewLine;
+
+
+                if (IsNewCostCentre == true)
+                {
+                    string Str = sCode.ToString();
+                    Str = Str.Replace("Namespace UserCostCentres", "");
+
+                    Str = Str.Replace("End Namespace", "");
+
+                    oSource += Environment.NewLine + Str + Environment.NewLine;
+
+                }
+
+                if (oAllCostCentresCode != null)
+                {
+                    foreach (var oOtherCostCentre in oAllCostCentresCode)
+                    {
+                        string Str = "";
+                        if (_CostCentreID == oOtherCostCentre.CostCentreId)
+                        {
+                            Str = sCode.ToString();
+                        }
+                        else
+                        {
+                            Str = oOtherCostCentre.CompleteCode;
+                        }
+
+
+                        Str = Str.Replace("Namespace UserCostCentres", "");
+                        Str = Str.Replace("End Namespace", "");
+
+                        oSource += Environment.NewLine + Str + Environment.NewLine;
+
+                    }
+                }
+                else
+                {
+                    string Str = "";
+                    Str = sCode.ToString();
+                    Str = Str.Replace("Namespace UserCostCentres", "");
+                    Str = Str.Replace("End Namespace", "");
+                    oSource += Environment.NewLine + Str + Environment.NewLine;
+                }
+
+                oSource += "End Namespace" + Environment.NewLine;
+
+                //'if compilation fails then delete the code file
+
+                System.IO.FileStream oFileStream; ;
+                //string oCompanyName = OrganisationName;
+
+                //replacing any unwanted characters in the CompanyNames and create file name
+
+                bool IsCompiled = true;
+
+                try
+                {
+                    //Compile Code of CostCentres
+                    CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, OrganisationName);
+
+                    //Get CostCentre File Open it in Read Mode
+                    oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
+
+                    //Get Byte Array of the file and write it in the db
+                    byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+
+                    oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+
+                    CostCentreByte = null;
+                }
+                catch (Exception ex)
+                {
+                    //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
+                    IsCompiled = false;
+                    throw new Exception("Error Compiling Costcentre", ex);
+
+                }
+                finally
+                {
+
+                    oFileStream = null;
+
+                }
+
+                oCostCentre.CompleteCode = sCode.ToString();
+
+                _CostCentreRepository.Update(oCostCentre);
+
+            }
+
+
+
+
+        }
+
+
 
         
         /// <summary>
@@ -27,395 +357,410 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// <param name="sText"></param>
         /// <returns></returns>
-        //public static string TokenParse(string sText)
+        public string TokenParse(string sText)
+        {
+            try {
+                string ChangedStr = "";
+                string[] oBeforeStr = sText.Split('{');
+                ChangedStr = oBeforeStr[0];
+                if (oBeforeStr.Length > 1) {
+                    for (int i = 1; i <= oBeforeStr.Length - 1; i++) {
+                        string[] oAfterStr = oBeforeStr[i].Split( '}');
+                        if (oAfterStr.Length == 2) {
+                            string oReplaceStr = ReplaceTag(oAfterStr[0]);
+                            if (!string.IsNullOrEmpty(oReplaceStr)) {
+                                if (oAfterStr[1].Split('}').Length > 1)
+                                {
+                                    throw new Exception("Invalid Calculation String.");
+                                    return "";
+                                }
+                                ChangedStr += oReplaceStr + oAfterStr[1];
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            throw new Exception("Invalid Calculation String.");
+                            return "";
+                        }
+                    }
+                } else {
+                    string[] oAfterStr = sText.Split('}');
+                    if (oAfterStr.Length > 1) {
+                        throw new Exception("Invalid Tag.");
+                        return "";
+                    }
+                }
+                return ChangedStr;
+            } catch (Exception ex) {
+                throw new Exception("Token Parse", ex);
+            }
+        }
+        /// <summary>
+        /// Replace Tags which we use in our visual code with the functions.
+        /// </summary>
+        /// <param name="sText"></param>
+        /// <returns></returns>
+        public string ReplaceTag(string sText)
+        {
+            try {
+                string[] oSpiltTokens = sText.Split(',');
+                // For i As Integer = 0 To oSpiltTokens.Length - 1
+
+                if (oSpiltTokens.Length > 1) {
+
+                    string[] GetID = oSpiltTokens[1].Split('\"');
+                    string[] GetReturnValue = null;
+                    string[] GetValue = null;
+
+                    switch (oSpiltTokens[0].ToLower()) {
+                        
+
+                        case "systemvariable":
+                             GetID = oSpiltTokens[1].Split('\"');
+                            if (GetID.Length == 3) {
+                                return " _CostCentreService.ExecuteVariable(ParamsArray ,\"" + GetID[1] + "\") ";
+                            } else {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "question":
+                             GetID = oSpiltTokens[1].Split('\"');
+                            if (GetID.Length == 3) {
+                                return " _CostCentreService.ExecuteQuestion(ParamsArray,\"" + GetID[1] + "\",CostCentreID) ";
+                            } else {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "subcostcentre":
+
+                            GetID = oSpiltTokens[1].Split( '\"');
+                            GetReturnValue = oSpiltTokens[3].Split('\"');
+                            if (GetID.Length == 3) {
+                                return " _CostCentreService.ExecuteCostCentre(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                            } else {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "resource":
+
+                            GetID = oSpiltTokens[1].Split('\"');
+                            GetReturnValue = oSpiltTokens[3].Split( '\"');
+                            if (GetID.Length == 3 & GetReturnValue.Length == 3) {
+                                return " _CostCentreService.ExecuteResource(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                            } else {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "stock":
+
+                            GetID = oSpiltTokens[1].Split( '\"');
+                            string[] GetName = oSpiltTokens[2].Split( '\"');
+                            string[] GetQType = oSpiltTokens[3].Split( '\"');
+                            //Like per unit , per package
+                            string[] GetQtyType = oSpiltTokens[4].Split( '\"');
+                            //Qty,Variable or string
+                            GetValue = oSpiltTokens[5].Split( '\"');
+
+                            if (((GetID.Length == 3 & GetName.Length == 3) & (GetQType.Length == 3 & GetQtyType.Length == 3) & GetValue.Length == 3)) {
+                                return " _CostCentreService.ExecuteStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
+                            } else {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "matrix":
+
+                            GetID = oSpiltTokens[1].Split( '\"');
+                            if (GetID.Length == 3) {
+                                return " _CostCentreService.ExecuteMatrix(ParamsArray,\"" + GetID[1] + "\",cint(CostCentreID)) ";
+                            } else {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "cinput":
+
+                            GetID = oSpiltTokens[1].Split( '\"');
+                            string[] GetQuestion = oSpiltTokens[2].Split( '\"');
+                            string[] GetTypes = oSpiltTokens[3].Split( '\"');
+                            string[] GetInputTypes = oSpiltTokens[4].Split( '\"');
+                            GetValue = oSpiltTokens[5].Split('\"');
+
+                            if ((((GetID.Length == 3 & GetQuestion.Length == 3) & (GetTypes.Length == 3 & GetValue.Length == 3)) & GetInputTypes.Length == 3)) {
+                                return " _CostCentreService.ExecuteInput(ParamsArray,\"" + GetID[1] + "\",\"" + GetQuestion[1] + "\"," + GetTypes[1] + "," + GetInputTypes[1] + ",\"" + GetValue[1] + "\",cint(CostCentreID)) ";
+                            } else {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        default:
+                            throw new Exception("Invalid Calculation String.");
+                            return "";
+                    }
+                }
+                else
+                {
+                    return "";
+                }
+                //Next
+            } catch (Exception ex) {
+                throw new Exception("", ex);
+            }
+        }
+
+        public bool Delete(ref CostCentreResource GlobalData, int CostCentreID)
+        {
+
+            try
+            {
+                return _CostCentreRepository.Delete(CostCentreID);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Delete", ex);
+            }
+        }
+        /// <summary>
+        ///     Compile the code with the source frovided (Source provided will be in the form of text string)and generate dll.
+        /// </summary>
+        ///         ''' 
+        public object CompileBinaries(string sOutputPath, string Source, string CompanyName)
+        {
+            try {
+                VBCodeProvider csc = new VBCodeProvider();
+                ICodeCompiler icc = csc.CreateCompiler();
+                ICodeParser icp = csc.CreateParser();
+                string errorString = null;
+
+                //// Set input params for the compiler
+                CompilerParameters co = new CompilerParameters();
+                co.OutputAssembly = sOutputPath + CompanyName + "UserCostCentres.dll";
+                //co.OutputAssembly = "c:\UserCostCentres.dll"
+
+                co.GenerateInMemory = false;
+
+
+                ///'''Dim assemblyFileName As String
+                ///'''assemblyFileName = [Assembly].GetExecutingAssembly().GetName().CodeBase
+                ///'''co.ReferencedAssemblies.Add(assemblyFileName.Substring("file:///".Length))
+                ///'''co.ReferencedAssemblies.Add(sOutputPath + "CostCentreEngine.dll")
+                ///'''
+                ///'''
+
+                ///////////////////////////////////
+                //// Add available assemblies - this should be enough
+                //for /////////the simplest            // applications.
+                //System.Reflection.Assembly oAsm = default(System.Reflection.Assembly);
+
+               
+
+                foreach (var oAsm in AppDomain.CurrentDomain.GetAssemblies()) {
+                    //If Not (oAsm.GetType Is System.Reflection.Emit.AssemblyBuilder) Then
+                    //co.ReferencedAssemblies.Add(oAsm.Location)
+                    //End If
+
+                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder))) && !oAsm.IsDynamic)
+                    {
+                        if (oAsm.Location.Length > 0) {
+                            co.ReferencedAssemblies.Add(oAsm.Location);
+                        }
+                    }
+                }
+
+                //Dim oFile As New IO.StreamWriter("c:/Test/Test.txt")
+                //oFile.Write(Source)
+                //oFile.Close()
+
+
+
+
+
+                //For iCounter As Integer = co.ReferencedAssemblies.Count - 1 To 0 Step -1
+                //    If co.ReferencedAssemblies.Item(icounter).Trim() = String.Empty Then
+                //        co.ReferencedAssemblies.RemoveAt(icounter)
+                //    End If
+                //Next
+
+                //co.ReferencedAssemblies.Add("E:\Development\Infinity\Infinity.UI\bin\Infinity.Componetns.CostCentreLoader.dll")
+                //co.ReferencedAssemblies.Add("system.data.dll")
+                //co.ReferencedAssemblies.Add("system.xml.dll")
+                //co.ReferencedAssemblies.Add("system.drawing.dll")
+
+                //co.ReferencedAssemblies.Add(sOutputPath + "ByteFX.Data.dll")
+                //////////////////////////////////
+                co.IncludeDebugInformation = true;
+                //co.TreatWarningsAsErrors = True
+                //co.CompilerOptions
+                //co.WarningLevel = 1
+
+                //// we want to genereate a DLL
+                co.GenerateExecutable = false;
+
+                //here we will have to retrieve the names of all vb files in binaries folder and pass them to compiler for compilation
+
+
+
+                //source(0) = "costcentre.vb"
+                //source(1) = "assemblyinfo.vb"
+                //source(2) = "assemblyinfo.vb"
+
+                //// Run the compiling process
+
+                CompilerResults result = icc.CompileAssemblyFromSource(co, Source);
+
+
+                //Dim result As CompilerResults = icc.CompileAssemblyFromSourceBatch(co, source)
+
+                if (result.Errors.HasErrors == true) {
+                    int iCounter = 0;
+                    for (iCounter = 0; iCounter <= result.Errors.Count - 1; iCounter++) {
+                        errorString += result.Errors[iCounter].ToString() + Environment.NewLine;
+                    }
+                    result = null;
+                    Source = null;
+                    co = null;
+                    throw new Exception("Compilation Errors : " + errorString + "<br><br> Output :");
+                } else {
+                    result = null;
+                    Source = null;
+                    co = null;
+                }
+                return null;
+
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        ///     Compile the code and return the errors.
+        /// </summary>
+        ///
+        public CompilerResults CompileSource(string Source)
+        {
+            try {
+                VBCodeProvider csc = new VBCodeProvider();
+                ICodeCompiler icc = csc.CreateCompiler();
+                ICodeParser icp = csc.CreateParser();
+                string errorString = null;
+
+                //// Set input params for the compiler
+                CompilerParameters co = new CompilerParameters();
+                //co.OutputAssembly = "c:\UserCostCentres.dll"
+
+                co.GenerateInMemory = true;
+
+
+                ///'''Dim assemblyFileName As String
+                ///'''assemblyFileName = [Assembly].GetExecutingAssembly().GetName().CodeBase
+                ///'''co.ReferencedAssemblies.Add(assemblyFileName.Substring("file:///".Length))
+                ///'''co.ReferencedAssemblies.Add(sOutputPath + "CostCentreEngine.dll")
+                ///'''
+                ///'''
+
+                ///////////////////////////////////
+                //// Add available assemblies - this should be enough
+                //for /////////the simplest            // applications.
+                //System.Reflection.Assembly oAsm = default(System.Reflection.Assembly);
+
+                foreach (System.Reflection.Assembly oAsm in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    //If Not (oAsm.GetType Is System.Reflection.Emit.AssemblyBuilder) Then
+                    //co.ReferencedAssemblies.Add(oAsm.Location)
+                    //End If
+
+                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder))) && !oAsm.IsDynamic)
+                    {
+                        co.ReferencedAssemblies.Add(oAsm.Location);
+                    }
+
+                }
+
+                for (int iCounter = co.ReferencedAssemblies.Count - 1; iCounter >= 0; iCounter += -1) {
+                    if (co.ReferencedAssemblies[iCounter].Trim() == string.Empty) {
+                        co.ReferencedAssemblies.RemoveAt(iCounter);
+                    }
+                }
+
+                //co.ReferencedAssemblies.Add("E:\Development\Infinity\Infinity.UI\bin\Infinity.Componetns.CostCentreLoader.dll")
+                //co.ReferencedAssemblies.Add("system.data.dll")
+                //co.ReferencedAssemblies.Add("system.xml.dll")
+                //co.ReferencedAssemblies.Add("system.drawing.dll")
+
+                //co.ReferencedAssemblies.Add(sOutputPath + "ByteFX.Data.dll")
+                //////////////////////////////////
+                co.IncludeDebugInformation = false;
+                //co.TreatWarningsAsErrors = True
+                //co.CompilerOptions
+                //co.WarningLevel = 1
+
+                //// we want to genereate a DLL
+                co.GenerateExecutable = false;
+
+                //here we will have to retrieve the names of all vb files in binaries folder and pass them to compiler for compilation
+
+
+
+                //source(0) = "costcentre.vb"
+                //source(1) = "assemblyinfo.vb"
+                //source(2) = "assemblyinfo.vb"
+
+                //// Run the compiling process
+
+                CompilerResults result = icc.CompileAssemblyFromSource(co, Source);
+
+
+                //Dim result As CompilerResults = icc.CompileAssemblyFromSourceBatch(co, source)
+
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        //public long CopyCostCentre(long CostCentreID)
         //{
         //    try {
-        //        string ChangedStr = "";
-        //        string[] oBeforeStr = Strings.Split(sText, "{");
-        //        ChangedStr = oBeforeStr(0);
-        //        if (oBeforeStr.Length > 1) {
-        //            for (int i = 1; i <= oBeforeStr.Length - 1; i++) {
-        //                string[] oAfterStr = Strings.Split(oBeforeStr(i), "}");
-        //                if (oAfterStr.Length == 2) {
-        //                    string oReplaceStr = ReplaceTag(oAfterStr(0));
-        //                    if (!string.IsNullOrEmpty(oReplaceStr)) {
-        //                        if (Strings.Split(oAfterStr(1), "}").Length > 1) {
-        //                            Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                            return "";
-        //                        }
-        //                        ChangedStr += oReplaceStr + oAfterStr(1);
-        //                    } else {
-        //                        return "";
-        //                    }
-        //                } else {
-        //                    Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                    return "";
-        //                }
-        //            }
-        //        } else {
-        //            string[] oAfterStr = Strings.Split(sText, "}");
-        //            if (oAfterStr.Length > 1) {
-        //                Interaction.MsgBox("Invalid Tag");
-        //                return "";
-        //            }
-        //        }
-        //        return ChangedStr;
-        //    } catch (Exception ex) {
-        //        throw new Exception("Token Parse", ex);
-        //    }
-        //}
-        ///// <summary>
-        ///// Replace Tags which we use in our visual code with the functions.
-        ///// </summary>
-        ///// <param name="sText"></param>
-        ///// <returns></returns>
-        //public static string ReplaceTag(string sText)
-        //{
-        //    try {
-        //        string[] oSpiltTokens = Strings.Split(sText, ",");
-        //        // For i As Integer = 0 To oSpiltTokens.Length - 1
-
-        //        if (oSpiltTokens.Length > 1) {
-        //            switch (oSpiltTokens(0).ToLower) {
-
-        //                case "systemvariable":
-        //                    string[] GetID = Strings.Split(oSpiltTokens(1), "\"");
-        //                    if (GetID.Length == 3) {
-        //                        return " BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,\"" + GetID(1) + "\") ";
-        //                    } else {
-        //                        Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                        return "";
-        //                    }
-
-        //                    break;
-        //                case "question":
-        //                    string[] GetID = Strings.Split(oSpiltTokens(1), "\"");
-        //                    if (GetID.Length == 3) {
-        //                        return " BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,\"" + GetID(1) + "\",CostCentreID) ";
-        //                    } else {
-        //                        Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                        return "";
-        //                    }
-
-        //                    break;
-        //                case "subcostcentre":
-
-        //                    string[] GetID = Strings.Split(oSpiltTokens(1), "\"");
-        //                    string[] GetReturnValue = Strings.Split(oSpiltTokens(3), "\"");
-        //                    if (GetID.Length == 3) {
-        //                        return " BLL.CostCentres.CostCentreExecution.ExecuteCostCentre(ParamsArray,\"" + GetID(1) + "\",\"" + GetReturnValue(1) + "\") ";
-        //                    } else {
-        //                        Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                        return "";
-        //                    }
-
-        //                    break;
-        //                case "resource":
-
-        //                    string[] GetID = Strings.Split(oSpiltTokens(1), "\"");
-        //                    string[] GetReturnValue = Strings.Split(oSpiltTokens(3), "\"");
-        //                    if (GetID.Length == 3 & GetReturnValue.Length == 3) {
-        //                        return " BLL.CostCentres.CostCentreExecution.ExecuteResource(ParamsArray,\"" + GetID(1) + "\",\"" + GetReturnValue(1) + "\") ";
-        //                    } else {
-        //                        Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                        return "";
-        //                    }
-
-        //                    break;
-        //                case "stock":
-
-        //                    string[] GetID = Strings.Split(oSpiltTokens(1), "\"");
-        //                    string[] GetName = Strings.Split(oSpiltTokens(2), "\"");
-        //                    string[] GetQType = Strings.Split(oSpiltTokens(3), "\"");
-        //                    //Like per unit , per package
-        //                    string[] GetQtyType = Strings.Split(oSpiltTokens(4), "\"");
-        //                    //Qty,Variable or string
-        //                    string[] GetValue = Strings.Split(oSpiltTokens(5), "\"");
-
-        //                    if (((GetID.Length == 3 & GetName.Length == 3) & (GetQType.Length == 3 & GetQtyType.Length == 3) & GetValue.Length == 3)) {
-        //                        return " BLL.CostCentres.CostCentreExecution.ExecuteStockItem(ParamsArray,\"" + GetID(1) + "\",\"" + GetName(1) + "\",\"" + GetQtyType(1) + "\",\"" + GetValue(1) + "\",\"" + GetQType(1) + "\",cint(CostCentreID)) ";
-        //                    } else {
-        //                        Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                        return "";
-        //                    }
-
-        //                    break;
-        //                case "matrix":
-
-        //                    string[] GetID = Strings.Split(oSpiltTokens(1), "\"");
-        //                    if (GetID.Length == 3) {
-        //                        return " BLL.CostCentres.CostCentreExecution.ExecuteMatrix(ParamsArray,\"" + GetID(1) + "\",cint(CostCentreID)) ";
-        //                    } else {
-        //                        Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                        return "";
-        //                    }
-
-        //                    break;
-        //                case "cinput":
-
-        //                    string[] GetID = Strings.Split(oSpiltTokens(1), "\"");
-        //                    string[] GetQuestion = Strings.Split(oSpiltTokens(2), "\"");
-        //                    string[] GetTypes = Strings.Split(oSpiltTokens(3), "\"");
-        //                    string[] GetInputTypes = Strings.Split(oSpiltTokens(4), "\"");
-        //                    string[] GetValue = Strings.Split(oSpiltTokens(5), "\"");
-
-        //                    if ((((GetID.Length == 3 & GetQuestion.Length == 3) & (GetTypes.Length == 3 & GetValue.Length == 3)) & GetInputTypes.Length == 3)) {
-        //                        return " BLL.CostCentres.CostCentreExecution.ExecuteInput(ParamsArray,\"" + GetID(1) + "\",\"" + GetQuestion(1) + "\"," + GetTypes(1) + "," + GetInputTypes(1) + ",\"" + GetValue(1) + "\",cint(CostCentreID)) ";
-        //                    } else {
-        //                        Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                        return "";
-        //                    }
-
-        //                    break;
-        //                default:
-        //                    Interaction.MsgBox("Invalid Calculation String.", , "Infinity");
-        //                    return "";
-        //            }
-        //        }
-        //        //Next
-        //    } catch (Exception ex) {
-        //        throw new Exception("", ex);
-        //    }
-        //}
-
-        //public static bool Delete(ref CostCentreResource GlobalData, int CostCentreID)
-        //{
-
-        //    try
-        //    {
-        //        ////IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        //return IDAL.Delete(CostCentreID);
-        //        return _CostCentreRepository.Delete(CostCentreID);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Delete", ex);
-        //    }
-        //}
-        ///// <summary>
-        /////     Compile the code with the source frovided (Source provided will be in the form of text string)and generate dll.
-        ///// </summary>
-        /////         ''' 
-        //public static object CompileBinaries(string sOutputPath, string Source, string CompanyName)
-        //{
-        //    try {
-        //        VBCodeProvider csc = new VBCodeProvider();
-        //        ICodeCompiler icc = csc.CreateCompiler();
-        //        ICodeParser icp = csc.CreateParser();
-        //        string errorString = null;
-
-        //        //// Set input params for the compiler
-        //        CompilerParameters co = new CompilerParameters();
-        //        co.OutputAssembly = sOutputPath + CompanyName + "UserCostCentres.dll";
-        //        //co.OutputAssembly = "c:\UserCostCentres.dll"
-
-        //        co.GenerateInMemory = false;
-
-
-        //        ///'''Dim assemblyFileName As String
-        //        ///'''assemblyFileName = [Assembly].GetExecutingAssembly().GetName().CodeBase
-        //        ///'''co.ReferencedAssemblies.Add(assemblyFileName.Substring("file:///".Length))
-        //        ///'''co.ReferencedAssemblies.Add(sOutputPath + "CostCentreEngine.dll")
-        //        ///'''
-        //        ///'''
-
-        //        ///////////////////////////////////
-        //        //// Add available assemblies - this should be enough
-        //        //for /////////the simplest            // applications.
-        //        System.Reflection.Assembly oAsm = default(System.Reflection.Assembly);
-
-        //        foreach ( oAsm in AppDomain.CurrentDomain.GetAssemblies) {
-        //            //If Not (oAsm.GetType Is System.Reflection.Emit.AssemblyBuilder) Then
-        //            //co.ReferencedAssemblies.Add(oAsm.Location)
-        //            //End If
-
-        //            if ((!object.ReferenceEquals(oAsm.GetType, typeof(System.Reflection.Emit.AssemblyBuilder)))) {
-        //                if (oAsm.Location.Length > 0) {
-        //                    co.ReferencedAssemblies.Add(oAsm.Location);
-        //                }
-        //            }
-        //        }
-
-        //        //Dim oFile As New IO.StreamWriter("c:/Test/Test.txt")
-        //        //oFile.Write(Source)
-        //        //oFile.Close()
-
-
-
-
-
-        //        //For iCounter As Integer = co.ReferencedAssemblies.Count - 1 To 0 Step -1
-        //        //    If co.ReferencedAssemblies.Item(icounter).Trim() = String.Empty Then
-        //        //        co.ReferencedAssemblies.RemoveAt(icounter)
-        //        //    End If
-        //        //Next
-
-        //        //co.ReferencedAssemblies.Add("E:\Development\Infinity\Infinity.UI\bin\Infinity.Componetns.CostCentreLoader.dll")
-        //        //co.ReferencedAssemblies.Add("system.data.dll")
-        //        //co.ReferencedAssemblies.Add("system.xml.dll")
-        //        //co.ReferencedAssemblies.Add("system.drawing.dll")
-
-        //        //co.ReferencedAssemblies.Add(sOutputPath + "ByteFX.Data.dll")
-        //        //////////////////////////////////
-        //        co.IncludeDebugInformation = true;
-        //        //co.TreatWarningsAsErrors = True
-        //        //co.CompilerOptions
-        //        //co.WarningLevel = 1
-
-        //        //// we want to genereate a DLL
-        //        co.GenerateExecutable = false;
-
-        //        //here we will have to retrieve the names of all vb files in binaries folder and pass them to compiler for compilation
-
-
-
-        //        //source(0) = "costcentre.vb"
-        //        //source(1) = "assemblyinfo.vb"
-        //        //source(2) = "assemblyinfo.vb"
-
-        //        //// Run the compiling process
-
-        //        CompilerResults result = icc.CompileAssemblyFromSource(co, Source);
-
-
-        //        //Dim result As CompilerResults = icc.CompileAssemblyFromSourceBatch(co, source)
-
-        //        if (result.Errors.HasErrors == true) {
-        //            int iCounter = 0;
-        //            for (iCounter = 0; iCounter <= result.Errors.Count - 1; iCounter++) {
-        //                errorString += result.Errors.Item(iCounter).ToString() + Constants.vbCrLf;
-        //            }
-        //            result = null;
-        //            Source = null;
-        //            co = null;
-        //            throw new Exception("Compilation Errors : " + errorString + "<br><br> Output :");
-        //        } else {
-        //            result = null;
-        //            Source = null;
-        //            co = null;
-        //        }
-
-        //    } catch (Exception ex) {
-        //        throw new Exception(ex.ToString);
-        //    }
-        //}
-
-        ///// <summary>
-        /////     Compile the code and return the errors.
-        ///// </summary>
-        /////
-        //public static CompilerResults CompileSource(string Source)
-        //{
-        //    try {
-        //        VBCodeProvider csc = new VBCodeProvider();
-        //        ICodeCompiler icc = csc.CreateCompiler();
-        //        ICodeParser icp = csc.CreateParser();
-        //        string errorString = null;
-
-        //        //// Set input params for the compiler
-        //        CompilerParameters co = new CompilerParameters();
-        //        //co.OutputAssembly = "c:\UserCostCentres.dll"
-
-        //        co.GenerateInMemory = true;
-
-
-        //        ///'''Dim assemblyFileName As String
-        //        ///'''assemblyFileName = [Assembly].GetExecutingAssembly().GetName().CodeBase
-        //        ///'''co.ReferencedAssemblies.Add(assemblyFileName.Substring("file:///".Length))
-        //        ///'''co.ReferencedAssemblies.Add(sOutputPath + "CostCentreEngine.dll")
-        //        ///'''
-        //        ///'''
-
-        //        ///////////////////////////////////
-        //        //// Add available assemblies - this should be enough
-        //        //for /////////the simplest            // applications.
-        //        System.Reflection.Assembly oAsm = default(System.Reflection.Assembly);
-
-        //        foreach ( oAsm in AppDomain.CurrentDomain.GetAssemblies) {
-        //            //If Not (oAsm.GetType Is System.Reflection.Emit.AssemblyBuilder) Then
-        //            //co.ReferencedAssemblies.Add(oAsm.Location)
-        //            //End If
-
-        //            if ((!object.ReferenceEquals(oAsm.GetType, typeof(System.Reflection.Emit.AssemblyBuilder)))) {
-        //                co.ReferencedAssemblies.Add(oAsm.Location);
-        //            }
-
-        //        }
-
-        //        for (int iCounter = co.ReferencedAssemblies.Count - 1; iCounter >= 0; iCounter += -1) {
-        //            if (co.ReferencedAssemblies.Item(iCounter).Trim() == string.Empty) {
-        //                co.ReferencedAssemblies.RemoveAt(iCounter);
-        //            }
-        //        }
-
-        //        //co.ReferencedAssemblies.Add("E:\Development\Infinity\Infinity.UI\bin\Infinity.Componetns.CostCentreLoader.dll")
-        //        //co.ReferencedAssemblies.Add("system.data.dll")
-        //        //co.ReferencedAssemblies.Add("system.xml.dll")
-        //        //co.ReferencedAssemblies.Add("system.drawing.dll")
-
-        //        //co.ReferencedAssemblies.Add(sOutputPath + "ByteFX.Data.dll")
-        //        //////////////////////////////////
-        //        co.IncludeDebugInformation = false;
-        //        //co.TreatWarningsAsErrors = True
-        //        //co.CompilerOptions
-        //        //co.WarningLevel = 1
-
-        //        //// we want to genereate a DLL
-        //        co.GenerateExecutable = false;
-
-        //        //here we will have to retrieve the names of all vb files in binaries folder and pass them to compiler for compilation
-
-
-
-        //        //source(0) = "costcentre.vb"
-        //        //source(1) = "assemblyinfo.vb"
-        //        //source(2) = "assemblyinfo.vb"
-
-        //        //// Run the compiling process
-
-        //        CompilerResults result = icc.CompileAssemblyFromSource(co, Source);
-
-
-        //        //Dim result As CompilerResults = icc.CompileAssemblyFromSourceBatch(co, source)
-
-        //        return result;
-        //    } catch (Exception ex) {
-        //        throw new Exception(ex.ToString);
-        //    }
-        //}
-
-        //public static void CopyCostCentre(int CostCentreID, ref CostCentreResource g_GlobalData, ref int oCostCentreID)
-        //{
-        //    try {
-        //        CostCentre oCostCentre = BLL.CostCentres.CostCentre.GetCostCentreByID(CostCentreID, g_GlobalData, true);
+        //        CostCentre oCostCentre = _CostCentreRepository.GetCostCentreByID(CostCentreID);
         //        oCostCentre.Name = "Copy of (" + oCostCentre.Name + ")";
 
         //        string[] CompleteCode = null;
 
-        //        CompleteCode = Strings.Split(oCostCentre.CompleteCode, "Private Const SetupCost As Double");
+        //        CompleteCode = oCostCentre.CompleteCode, "Private Const SetupCost As Double");
 
         //        if (CompleteCode.Length == 2) {
         //            //oCostCentre.CostCentreID = BLL.CostCentres.CostCentre.GetMaxCostCentreID(g_GlobalData);
-        //            oCostCentre.CompleteCode = "Namespace UserCostCentres" + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Public Class copyof" + oCostCentre.CodeFileName + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Inherits MarshalByRefObject" + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Implements Infinity.Model.CostCentres.ICostCentreLoader" + Constants.vbCrLf;
-        //            oCostCentre.CompleteCode += "Private Const CostCentreID As String = \"" + (oCostCentre.CostCentreID + 1).ToString + "\"" + Constants.vbCrLf;
+        //            oCostCentre.CompleteCode = "Namespace UserCostCentres" + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Public Class copyof" + oCostCentre.CodeFileName + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Inherits MarshalByRefObject" + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Implements Infinity.Model.CostCentres.ICostCentreLoader" + Environment.NewLine;
+        //            oCostCentre.CompleteCode += "Private Const CostCentreID As String = \"" + (oCostCentre.CostCentreID + 1).ToString + '\"' + Environment.NewLine;
         //            oCostCentre.CompleteCode += "Private Const SetupCost As Double";
         //            oCostCentre.CompleteCode += CompleteCode(1);
 
-        //            //BLL.CostCentres.CostCentre.InsertUserDefinedCostCentre(g_GlobalData, oCostCentre);
-        //            //BLL.CostCentres.CostCentre.UpdateWorkinstructions(g_GlobalData, oCostCentre.WorkInstructionsList, oCostCentre.CostCentreID, true);
+        //            _CostCentreRepository.InsertCostCentre(oCostCentre);
+        //            _CostCentreRepository.UpdateWorkinstructions(oCostCentre.WorkInstructionsList, oCostCentre.CostCentreID, true);
 
         //            int TotalCount = oCostCentre.CostCentreResources.Rows.Count;
-        //            for (int i = TotalCount - 1; i >= 0; i += -1) {
-        //                DataRow oRRow = oCostCentre.CostCentreResources.NewRow();
-        //                oRRow("CostCentreID") = oCostCentre.CostCentreID;
-        //                oRRow("ResourceID") = oCostCentre.CostCentreResources.Rows(i)("ResourceID");
-        //                oCostCentre.CostCentreResources.Rows.Add(oRRow);
-        //            }
-        //            //BLL.CostCentres.CostCentre.ADDUpdateCostCentreResources(oCostCentre.CostCentreResources, g_GlobalData);
+        //            //for (int i = TotalCount - 1; i >= 0; i += -1) {
+        //            //    DataRow oRRow = oCostCentre.CostCentreResources.NewRow();
+        //            //    oRRow("CostCentreID") = oCostCentre.CostCentreID;
+        //            //    oRRow("ResourceID") = oCostCentre.CostCentreResources.Rows(i)("ResourceID");
+        //            //    oCostCentre.CostCentreResources.Rows.Add(oRRow);
+        //            //}
+        //            BLL.CostCentres.CostCentre.ADDUpdateCostCentreResources(oCostCentre.CostCentreResources, g_GlobalData);
 
 
         //            CostCentreID = oCostCentre.CostCentreID;
@@ -435,14 +780,14 @@ namespace MPC.Implementation.WebStoreServices
         //            oCompanyName = oCompanyName.Replace("-", "");
         //            oCompanyName = oCompanyName.Replace("*", "");
         //            oCompanyName = oCompanyName.Replace("/", "");
-        //            oCompanyName = oCompanyName.Replace("\"", "");
+        //            oCompanyName = oCompanyName.Replace('\"', "");
         //            oCompanyName = oCompanyName.Replace("?", "");
         //            oCompanyName = oCompanyName.Replace("<", "");
         //            oCompanyName = oCompanyName.Replace(">", "");
         //            oCompanyName = oCompanyName.Replace("(", "");
         //            oCompanyName = oCompanyName.Replace(")", "");
-        //            oCompanyName = oCompanyName.Replace("{", "");
-        //            oCompanyName = oCompanyName.Replace("}", "");
+        //            oCompanyName = oCompanyName.Replace('{', "");
+        //            oCompanyName = oCompanyName.Replace('}', "");
         //            oCompanyName = oCompanyName.Replace("[", "");
         //            oCompanyName = oCompanyName.Replace("]", "");
         //            oCompanyName = oCompanyName.Replace("|", "");
@@ -461,29 +806,29 @@ namespace MPC.Implementation.WebStoreServices
         //            oCompanyName = oCompanyName.Replace(",", "");
         //            oCompanyName = oCompanyName.Replace(".", "");
 
-        //            oSource += "Imports Infinity" + Constants.vbCrLf;
-        //            oSource += "Imports System" + Constants.vbCrLf;
-        //            oSource += "Imports System.Data" + Constants.vbCrLf;
-        //            oSource += "Imports Microsoft.VisualBasic" + Constants.vbCrLf;
-        //            oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Constants.vbCrLf;
-        //            oSource += "Imports Infinity.Bll.CostCentres" + Constants.vbCrLf;
-        //            oSource += "imports Infinity.Model.CostCentres" + Constants.vbCrLf;
-        //            oSource += "Imports System.Reflection" + Constants.vbCrLf;
+        //            oSource += "Imports Infinity" + Environment.NewLine;
+        //            oSource += "Imports System" + Environment.NewLine;
+        //            oSource += "Imports System.Data" + Environment.NewLine;
+        //            oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+        //            oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+        //            oSource += "Imports Infinity.Bll.CostCentres" + Environment.NewLine;
+        //            oSource += "imports Infinity.Model.CostCentres" + Environment.NewLine;
+        //            oSource += "Imports System.Reflection" + Environment.NewLine;
 
-        //            oSource += "Namespace UserCostCentres" + Constants.vbCrLf;
+        //            oSource += "Namespace UserCostCentres" + Environment.NewLine;
 
 
-        //            foreach ( oRow in oTable.Rows) {
+        //            foreach (var oRow in oTable.Rows) {
         //                string Str = "";
         //                Str = oRow(1).ToString;
-        //                Str = Strings.Replace(Str, "Namespace UserCostCentres", "");
-        //                Str = Strings.Replace(Str, "End Namespace", "");
+        //                Str = Str, "Namespace UserCostCentres", "");
+        //                Str = Str, "End Namespace", "");
 
-        //                oSource += Constants.vbCrLf + Str + Constants.vbCrLf;
+        //                oSource += Environment.NewLine + Str + Environment.NewLine;
 
         //            }
 
-        //            oSource += "End Namespace" + Constants.vbCrLf;
+        //            oSource += "End Namespace" + Environment.NewLine;
 
         //            //'if compilation fails then delete the code file
         //            System.IO.File CostCentreDLL = default(System.IO.File);
@@ -549,56 +894,13 @@ namespace MPC.Implementation.WebStoreServices
 
         //    }
         //}
-        ///// <summary>
-        /////     A Data table which will return a datatable of costcentre sequences
-        ///// </summary>
-        /////         ''' 
-        //public static DataTable LoadCostCentreSequence()
-        //{
-        //    DataTable oDataTable = new DataTable();
-        //    DataColumn oColoumnID = new DataColumn("ID");
-        //    DataColumn oColoumnName = new DataColumn("Name");
 
-        //    try
-        //    {
-        //        oDataTable.Columns.Add(oColoumnID);
-        //        oDataTable.Columns.Add(oColoumnName);
 
-        //        DataRow oRow = default(DataRow);
-        //        oRow = oDataTable.NewRow;
-        //        oRow(0) = 1;
-        //        oRow(1) = "Pre Press";
-        //        oDataTable.Rows.Add(oRow);
-
-        //        oRow = oDataTable.NewRow;
-        //        oRow(0) = 2;
-        //        oRow(1) = "Post Press";
-        //        oDataTable.Rows.Add(oRow);
-
-        //        oRow = oDataTable.NewRow;
-        //        oRow(0) = 3;
-        //        oRow(1) = "Both";
-        //        oDataTable.Rows.Add(oRow);
-
-        //        return oDataTable;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("LoadCostCentreSequence", ex);
-        //    }
-        //    finally
-        //    {
-        //        oDataTable = null;
-        //        oColoumnID = null;
-        //        oColoumnName = null;
-        //    }
-        //}
-
-        ///// <summary>
-        /////     Return Cost Centre  Calculation methods datatable having (Fixed,PerHour,Per Quantity,Formula base)
-        ///// </summary>
-        /////         ''' 
-        //public static DataTable LoadCalculationMethodType()
+        /// <summary>
+        ///     Return Cost Centre  Calculation methods datatable having (Fixed,PerHour,Per Quantity,Formula base)
+        /// </summary>
+        ///         ''' 
+        //public DataTable LoadCalculationMethodType()
         //{
         //    DataTable oDataTable = new DataTable();
         //    DataColumn oColoumnID = new DataColumn("ID");
@@ -645,462 +947,934 @@ namespace MPC.Implementation.WebStoreServices
 
 
 
-        ///// <summary>
-        /////     Get Max CostCentreID
-        ///// </summary>
-        /////         ''' 
-        //public static int GetMaxCostCentreID(ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        //IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return 0;//IDAL.GetMaxCostCentreID;
+        /// <summary>
+        ///     Get Max CostCentreID
+        /// </summary>
+        ///         ''' 
+        public long GetMaxCostCentreID()
+        {
+            try
+            {
+                return _CostCentreRepository.GetMaxCostCentreID();
+                
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetMaxCostCentreID", ex);
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMaxCostCentreID", ex);
+            }
+        }
 
-        ///// <summary>
-        ///// Get CostCentre Model By ID
-        ///// </summary>
-        ///// <param name="CostCentreID"></param>
-        ///// <returns>Costcentre</returns>
-        //public static CostCentre GetCostCentreByID(int CostCentreID, ref Model.ApplicationSettings.GlobalData GlobalData, bool Complete = true)
-        //{
+        /// <summary>
+        /// Get CostCentre Model By ID
+        /// </summary>
+        /// <param name="CostCentreID"></param>
+        /// <returns>Costcentre</returns>
+        public CostCentre GetCostCentreByID(long CostCentreID)
+        {
 
-        //    try
-        //    {
-        //       // IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return null; //IDAL.GetCostCentreByID(CostCentreID, Complete);
+            try
+            {
+                return _CostCentreRepository.GetCostCentreByID(CostCentreID);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetCostCentreSummaryByID", ex);
-        //    }
-        //}
-
-
-        ///// <summary>
-        ///// Get CostCentre Summary it will not return complete costcentre model, Its for summary costcentres
-        ///// </summary>
-        ///// <param name="CostCentreID"></param>
-        ///// <returns>Costcentre</returns>
-        //public static CostCentre GetCostCentreSummaryByID(int CostCentreID, ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-
-        //    try
-        //    {
-        //        //IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return null;// IDAL.GetCostCentreSummaryByID(CostCentreID);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetCostCentreSummaryByID", ex);
-        //    }
-        //}
-
-        ///// <summary>
-        /////     It will not return complete costcentre object but it will return System Costcentre Parameters only
-        ///// </summary>
-        /////         ''' 
-        //public static CostCentre GetSystemCostCentre(int SystemTypeID, ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-
-        //    try
-        //    {
-        //       // IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return null;// IDAL.GetSystemCostCentre(SystemTypeID);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetCostCentreSummaryByID", ex);
-        //    }
-        //}
-
-        ///// <summary>
-        /////     Return DataSet of CostCentre
-        ///// </summary>
-        /////         ''' 
-        //public static DataSet GetCostCentreListDataset(ref Model.ApplicationSettings.GlobalData GlobalData, int CategoryID = 0, string SearchString = "", bool FromList = false)
-        //{
-
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-
-        //        return IDAL.GetCostCentreListDataSet(CategoryID, Model.Common.FilterInputString(SearchString), FromList);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Get CostCentre List", ex);
-        //    }
-        //}
-
-        ///// <summary>
-        /////     Get Cost Centre List
-        ///// </summary>
-        /////         ''' 
-        //public static DataTable GetCostCentreList(ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-
-        //        return IDAL.GetCostCentreList;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Get CostCentre List", ex);
-        //    }
-        //}
-
-        ///// <summary>
-        /////     Add Update Cost centre Resources table using adapter.
-        ///// </summary>
-        /////         ''' 
-        //public static bool ADDUpdateCostCentreResources(ref DataTable oDataTable, ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.ADDUpdateCostCentreResources(oDataTable);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ADD Update costCentre Resources", ex);
-        //    }
-
-        //}
-
-        ///// <summary>
-        /////     Get Cost Centre Resources table.
-        ///// </summary>
-        /////         ''' 
-        //public static DataTable GetCostCentreResources(int CostCentreID, ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.GetCostCentreResources(CostCentreID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Get Resources", ex);
-        //    }
-        //}
-
-        ///// <summary>
-        /////     Update Only System cost centre attributes in the costcentres
-        ///// </summary>
-        /////         ''' 
-        //public static bool UpdateSystemCostCentre(int CostCentreID, int ProfitMarginID, string NominalCode, double MinCost, int UserID, string Description, bool DirectCost, bool IsScheduleable, ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.UpdateSystemCostCentre(CostCentreID, ProfitMarginID, NominalCode, MinCost, UserID, Description, DirectCost, IsScheduleable);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Get Resources", ex);
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreSummaryByID", ex);
+            }
+        }
 
 
-        ///// <summary>
-        ///// Get Cost Centre Types
-        ///// </summary>
-        ///// <param name="oConnection"></param>
-        ///// <param name="ReturnMode"></param>
-        ///// <returns></returns>
-        //public static DataTable GetCostCentreTypes(ref Model.ApplicationSettings.GlobalData oGlobalData, Model.CostCentres.TypeReturnMode ReturnMode)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobalData);
-        //        return IDAL.GetCostCentreTypes(ReturnMode);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("", ex);
-        //    }
-        //}
+        /// <summary>
+        /// Get CostCentre Summary it will not return complete costcentre model, Its for summary costcentres
+        /// </summary>
+        /// <param name="CostCentreID"></param>
+        /// <returns>Costcentre</returns>
+        public CostCentre GetCostCentreSummaryByID(long CostCentreID)
+        {
+
+            try
+            {
+                return _CostCentreRepository.GetCostCentreByID(CostCentreID);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreSummaryByID", ex);
+            }
+        }
+
+        /// <summary>
+        ///     It will not return complete costcentre object but it will return System Costcentre Parameters only
+        /// </summary>
+        ///         ''' 
+        public CostCentre GetSystemCostCentre(long SystemTypeID, long OrganisationID)
+        {
+
+            try
+            {
+                return _CostCentreRepository.GetSystemCostCentre(SystemTypeID, OrganisationID);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreSummaryByID", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Get Cost Centre List
+        /// </summary>
+        ///         ''' 
+        public List<CostCentre> GetCostCentreList()
+        {
+
+            try
+            {
+                return _CostCentreRepository.GetCostCentreList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Get CostCentre List", ex);
+            }
+        }
+
+    
+
+        /// <summary>
+        ///     Get Cost Centre Resources table.
+        /// </summary>
+        ///         ''' 
+        public CostcentreResource GetCostCentreResources(long CostCentreID)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCostCentreResources(CostCentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Get Resources", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Update Only System cost centre attributes in the costcentres
+        /// </summary>
+        ///         ''' 
+        public bool UpdateSystemCostCentre(long CostCentreID, int ProfitMarginID, int NominalCodeId, double MinCost, int UserID, string Description, bool DirectCost, bool IsScheduleable)
+        {
+            try
+            {
+                return _CostCentreRepository.UpdateSystemCostCentre(CostCentreID, ProfitMarginID, NominalCodeId, MinCost, UserID, Description, DirectCost, IsScheduleable);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Get Resources", ex);
+            }
+        }
 
 
-        ///// <summary>
-        ///// Get Cost Centre System Types
-        ///// </summary>
-        ///// <param name="oConnection"></param>
-        ///// <param name="ReturnMode"></param>
-        ///// <returns></returns>
-        //public static DataTable GetCostCentreSystemTypes(ref Model.ApplicationSettings.GlobalData oGlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobalData);
-        //        return IDAL.GetCostCentreSystemTypes();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("", ex);
-        //    }
-        //}
-
-        ////
+        /// <summary>
+        /// Get Cost Centre Types
+        /// </summary>
+        /// <param name="oConnection"></param>
+        /// <param name="ReturnMode"></param>
+        /// <returns></returns>
+        public List<CostCentreType> GetCostCentreTypes(TypeReturnMode ReturnMode)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCostCentreTypes(ReturnMode);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("", ex);
+            }
+        }
 
 
-        ///// <summary>
-        /////     Load Pre Defined Cost Centre Template in DB
-        ///// </summary>
-        /////         ''' 
-        //public static Model.CostCentres.CostCentreTemplateDTO LoadCostCentreTemplate(string TemplateID, Model.ApplicationSettings.GlobalData oGlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobalData);
-        //        return IDAL.LoadCostCentreTemplate(TemplateID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("LoadCostCentreTemplate", ex);
-        //    }
-        //}
+        /// <summary>
+        /// Get Cost Centre System Types
+        /// </summary>
+        /// <param name="oConnection"></param>
+        /// <param name="ReturnMode"></param>
+        /// <returns></returns>
+        public List<CostcentreSystemType> GetCostCentreSystemTypes()
+        {
+            try
+            {
+                return _CostCentreRepository.GetCostCentreSystemTypes();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("", ex);
+            }
+        }
 
-        ///// <summary>
-        /////     Get WorkInstruction of a costcentre in a dataset
-        ///// </summary>
-        /////         ''' 
-        //public static DataSet GetCostCentreWorkInstruction(int CostcentreID, Model.ApplicationSettings.GlobalData oGlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobalData);
-        //        return IDAL.GetCostCentreWorkInstruction(CostcentreID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetCostCentreWorkInstruction", ex);
-        //    }
-        //}
+        //
 
 
-        ///// <summary>
-        /////     Return Cost Centre Categories Datatable
-        ///// </summary>
-        /////         ''' 
-        //public static DataTable ReturnCostCentreCategories(Model.ApplicationSettings.GlobalData oGlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobalData);
-        //        return IDAL.ReturnCostCentreCategories;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ReturnCostCentreCategories", ex);
-        //    }
-        //}
+        /// <summary>
+        ///     Load Pre Defined Cost Centre Template in DB
+        /// </summary>
+        ///         ''' 
+        public CostCentreTemplate LoadCostCentreTemplate(int TemplateID)
+        {
+            try
+            {
 
-        ///// <summary>
-        /////     Check Cost centre Names
-        ///// </summary>
-        /////         ''' 
-        //public static bool CheckCostCentreName(ref Model.ApplicationSettings.GlobalData oGlobalData, int CostCentreID, string CostCentreName)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobalData);
-        //        return IDAL.CheckCostCentreName(CostCentreID, CostCentreName);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Check CostCentre Name", ex);
-        //    }
-        //}
+                return _CostCentreRepository.LoadCostCentreTemplate(TemplateID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("LoadCostCentreTemplate", ex);
+            }
+        }
 
-        ///// <summary>
-        /////     Update Work Instruction by Dataset
-        ///// </summary>
-        /////         ''' 
-        //public static bool UpdateWorkinstructions(ref Model.ApplicationSettings.GlobalData oGlobaldata, ref DataSet oDataset, int CostCentreID, bool IsCopy = false)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobaldata);
-        //        return IDAL.UpdateWorkinstructions(oDataset, CostCentreID, IsCopy);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Check CostCentre Name", ex);
-        //    }
-        //}
+        /// <summary>
+        ///     Get WorkInstruction of a costcentre in a dataset
+        /// </summary>
+        ///         ''' 
+        public CostcentreInstruction GetCostCentreWorkInstruction(long CostcentreID)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCostCentreWorkInstruction(CostcentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreWorkInstruction", ex);
+            }
+        }
 
-        ///// <summary>
-        /////     It will update complete costcentre model.
-        ///// </summary>
-        /////         ''' 
-        //public static bool UpdateUserDefinedCostCentre(ref Model.ApplicationSettings.GlobalData oGlobaldata, Model.CostCentres.CostCentreDTO oCostCentre)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobaldata);
-        //        return IDAL.UpdateUserDefinedCostCentre(oCostCentre);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UpdateUserDefinedCostCentre", ex);
-        //    }
-        //}
 
-        ///// <summary>
-        /////     Inserts complete costcentre model.
-        ///// </summary>
-        /////         ''' 
-        //public static int InsertUserDefinedCostCentre(ref Model.ApplicationSettings.GlobalData oGlobaldata, Model.CostCentres.CostCentreDTO oCostCentre)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(oGlobaldata);
-        //        return IDAL.InsertUserDefinedCostCentre(oCostCentre);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("InsertUserDefineCostCentre", ex);
-        //    }
-        //}
+        /// <summary>
+        ///     Return Cost Centre Categories Datatable
+        /// </summary>
+        ///         ''' 
+        public List<CostCentreType> ReturnCostCentreCategories()
+        {
+            try
+            {
+                return _CostCentreRepository.ReturnCostCentreCategories();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ReturnCostCentreCategories", ex);
+            }
+        }
 
-        ///// <summary>
-        /////     It will return only name,Description,Type and file name of the costcentre object
-        ///// </summary>
-        /////         ''' 
-        //public static Model.CostCentres.CostCentreDTO LoadCostCentreHeader(int CostCentreID, ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.LoadCostCentreHeader(CostCentreID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("LoadCostCentreHeader", ex);
-        //    }
-        //}
+        /// <summary>
+        ///     Check Cost centre Names
+        /// </summary>
+        ///         ''' 
+        public bool CheckCostCentreName(long CostCentreID, string CostCentreName, long OrganisationId)
+        {
+            try
+            {
+                return _CostCentreRepository.CheckCostCentreName(CostCentreID, CostCentreName, OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Check CostCentre Name", ex);
+            }
+        }
 
-        ///// <summary>
-        /////     Get Cost Centre resources with names
-        ///// </summary>
-        /////         ''' 
-        //public static DataTable GetCostCentreResourcesWithNames(int CostcentreID, ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.GetCostCentreResourcesWithNames(CostcentreID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetCostCentreResourcesWithNames", ex);
-        //    }
-        //}
 
-        ///// <summary>
-        /////    A Datatable with only code attribute will return a complete code of one site
-        ///// </summary>
-        /////         ''' 
-        //public static DataTable GetCompleteCodeofAllCostCentres(ref Model.ApplicationSettings.GlobalData GlobalData, int CompanyID)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.GetCompleteCodeofAllCostCentres(CompanyID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetCompleteCodeofAllCostCentres", ex);
-        //    }
-        //}
+        /// <summary>
+        ///     It will update complete costcentre model.
+        /// </summary>
+        ///         ''' 
+        public bool UpdateUserDefinedCostCentre(CostCentre oCostCentre)
+        {
+            try
+            {
+                return _CostCentreRepository.UpdateCostCentre(oCostCentre);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UpdateUserDefinedCostCentre", ex);
+            }
+        }
 
-        ///// <summary>
-        /////     Change flag of the costcentre
-        ///// </summary>
-        /////         ''' 
-        //public static bool ChangeFlag(ref Model.ApplicationSettings.GlobalData GlobalData, int FlagID, int CostCentreID)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.ChangeFlag(FlagID, CostCentreID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ChangeFlag", ex);
-        //    }
-        //}
+        /// <summary>
+        ///     Inserts complete costcentre model.
+        /// </summary>
+        ///         ''' 
+        public long InsertUserDefinedCostCentre(CostCentre oCostCentre)
+        {
+            try
+            {
+                return _CostCentreRepository.InsertCostCentre(oCostCentre);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("InsertUserDefineCostCentre", ex);
+            }
+        }
 
-        ///// <summary>
-        /////   compares the costcentre dates of registry and database, and if there is differnet then gets the new DLL from DB and write it
-        ///// </summary>
-        /////         ''' 
-        //public static int CheckCostCentresVersion(Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.CheckCostCentresVersion();
+     
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("CheckCostCentresVersion", ex);
-        //    }
+        /// <summary>
+        ///     Get Cost Centre resources with names
+        /// </summary>
+        ///         ''' 
+        public List<CostCentreResource> GetCostCentreResourcesWithNames(long CostcentreID)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCostCentreResourcesWithNames(CostcentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreResourcesWithNames", ex);
+            }
+        }
 
-        //}
+        /// <summary>
+        ///    A Datatable with only code attribute will return a complete code of one site
+        /// </summary>
+        ///         ''' 
+        public List<CostCentre> GetCompleteCodeofAllCostCentres(long OrganisationId)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCompleteCodeofAllCostCentres(OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCompleteCodeofAllCostCentres", ex);
+            }
+        }
 
-        //public static DataTable GetCostCentreCategories(ref Model.ApplicationSettings.GlobalData GlobalData)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.GetCostCentreCategories();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetCostCentreCategories", ex);
-        //    }
-        //}
+        /// <summary>
+        ///     Change flag of the costcentre
+        /// </summary>
+        ///         ''' 
+        public bool ChangeFlag(int FlagID, long CostCentreID)
+        {
+            try
+            {
+                return _CostCentreRepository.ChangeFlag(FlagID, CostCentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ChangeFlag", ex);
+            }
+        }
 
-        //public static bool UpdateCostCentreCategories(ref Model.ApplicationSettings.GlobalData GlobalData, ref DataTable oTable)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.UpdateCostCentreCategories(oTable);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UpdateCostCentreCategories", ex);
-        //    }
-        //}
+        public List<CostCentreType> GetCostCentreCategories(long OrganisationId)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCostCentreCategories(OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreCategories", ex);
+            }
+        }
 
-        //public static bool IsCostCentreAvailable(ref Model.ApplicationSettings.GlobalData GlobalData, int CategoryID)
-        //{
-        //    try
-        //    {
-        //        IDAL = DALFactory.CostCentres.CostCentre.Create(GlobalData);
-        //        return IDAL.IsCostCentreAvailable(CategoryID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("IsCostCentreAvailable", ex);
-        //    }
-        //}
 
+        public bool IsCostCentreAvailable(int CategoryID)
+        {
+            try
+            {
+                return _CostCentreRepository.IsCostCentreAvailable(CategoryID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("IsCostCentreAvailable", ex);
+            }
+        }
+
+
+        public double ExecuteVariable(ref object[] oParamsArray, int VariableID)
+        {
+            double functionReturnValue = 0;
+            try
+            {
+                CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+                ItemSection oItemSection = (ItemSection)oParamsArray[8];
+                int CurrentQuantity = Convert.ToInt32(oParamsArray[5]);
+
+                //if its Queue populating mode then return 0
+                if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    return 0;
+
+                    //its porpper execution mode
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
+
+                    CostCentreVariable oVariable;
+                    //First we have to fetch the Variable object which contains the information
+                    oVariable = _CostCentreVariableRepository.LoadVariable(VariableID);
+
+                    //now check the type of the variable.
+                    //type 1 = system variable
+                    //type 2 = Customized Variable
+                    //type 3 = CostCentre Variable
+
+                    // in this type the Criteria will be used that will be
+
+                    if (oVariable.Type == 1)
+                    {
+                        switch (oVariable.PropertyType)
+                        {
+
+                            case (int)VariableProperty.Side1Inks:
+                                functionReturnValue = Convert.ToDouble(oItemSection.Side1Inks);
+                                break;
+                            case (int)VariableProperty.Side2Inks:
+                                functionReturnValue = Convert.ToDouble(oItemSection.Side1Inks);
+
+                                break;
+                            case (int)VariableProperty.PrintSheetQty_ProRata:
+
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.PrintSheetQty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.PrintSheetQty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3);
+                                        }
+                                        break;
+                                }
+
+                                break;
+                            case (int)VariableProperty.PressSpeed_ProRata:
+
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.PressSpeed2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.PressSpeed3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed3);
+                                        }
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PressSpeed3);
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.PressSpeed4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.PressSpeed5
+                                }
+
+                                break;
+                            //case (int)VariableProperty.ColourHeads:
+                            //    if ((oItemSection.Press != null)) //  ask sir nv to add referece in press to itemsection
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.ColourHeads;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+
+                            //    break;
+
+                            case (int)VariableProperty.ImpressionQty_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.ImpressionQty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.ImpressionQty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty3);
+                                        }
+
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.ImpressionQty4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.ImpressionQty5
+                                }
+
+                                break;
+                            case (int)VariableProperty.PressHourlyCharge:
+                                functionReturnValue = oItemSection.PressHourlyCharge ?? 0;
+
+                                break;
+                            //case (int)VariableProperty.MinInkDuctqty:
+                            //    if (oItemSection.Press == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.MinInkDuctqty;
+
+                            //    }
+
+                            //    break;
+
+                            //case (int)VariableProperty.MakeReadycharge:
+                            //    if (oItemSection.Press == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.MakeReadyCost;
+                            //    }
+                            //    break;
+                            case (int)VariableProperty.PrintChargeExMakeReady_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
+                                        break;
+                                    case 2:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty2);
+                                        break;
+                                    case 3:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty3);
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.ImpressionQty4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.ImpressionQty5
+                                }
+
+                                break;
+                            case (int)VariableProperty.PaperGsm:
+                                functionReturnValue = oItemSection.PaperGsm ?? 0;
+
+                                break;
+                            case (int)VariableProperty.SetupSpoilage:
+                                functionReturnValue = Convert.ToDouble(oItemSection.SetupSpoilage);
+
+                                break;
+                            case (int)VariableProperty.RunningSpoilage:
+                                functionReturnValue = Convert.ToDouble(oItemSection.RunningSpoilage);
+
+                                break;
+                            case (int)VariableProperty.PaperPackPrice:
+                                functionReturnValue = oItemSection.PaperPackPrice ?? 0;
+
+                                break;
+                            case (int)VariableProperty.AdditionalPlateUsed:
+                                functionReturnValue = Convert.ToDouble(oItemSection.AdditionalPlateUsed);
+
+                                break;
+                            case (int)VariableProperty.AdditionalFilmUsed:
+                                functionReturnValue = Convert.ToDouble(oItemSection.AdditionalFilmUsed);
+
+                                break;
+                            case (int)VariableProperty.ItemGutterHorizontal:
+                                functionReturnValue = oItemSection.ItemGutterHorizontal ?? 0;
+
+                                break;
+                            case (int)VariableProperty.ItemGutterVertical:
+                                functionReturnValue = oItemSection.ItemGutterVertical ?? 0;
+
+                                break;
+                            case (int)VariableProperty.PTVRows:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PTVRows);
+
+                                break;
+                            case (int)VariableProperty.PTVColoumns:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PTVColoumns);
+
+                                break;
+                            case (int)VariableProperty.PrintViewLayoutLandScape:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutLandScape);
+
+                                break;
+                            case (int)VariableProperty.PrintViewLayoutPortrait:
+                                functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutPortrait);
+
+                                break;
+                            case (int)VariableProperty.PrintToView:
+                                if (oItemSection.PrintViewLayout.Value == (int)PrintViewOrientation.Landscape)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutLandScape);
+                                }
+                                else
+                                {
+                                    functionReturnValue = Convert.ToDouble(oItemSection.PrintViewLayoutPortrait);
+                                }
+
+                                break;
+                            case (int)VariableProperty.FilmQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.FilmQty);
+
+                                break;
+                            case (int)VariableProperty.PlateQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.Side1PlateQty + oItemSection.Side2PlateQty);
+                                break;
+                            //case (int)VariableProperty.GuilotineMakeReadycharge:
+                            //    if (oItemSection.Guilotine == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Guilotine.MakeReadyCost;
+                            //    }
+
+                            //    break;
+                            //case (int)VariableProperty.GuilotineChargePerCut:
+                            //    if (oItemSection.Guilotine == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Guilotine.CostPerCut;
+                            //    }
+
+                            //    break;
+                            case (int)VariableProperty.GuillotineFirstCut:
+                                functionReturnValue = Convert.ToDouble(oItemSection.GuillotineFirstCut);
+
+                                break;
+                            case (int)VariableProperty.GuillotineSecondCut:
+                                functionReturnValue = Convert.ToDouble(oItemSection.GuillotineSecondCut);
+
+                                break;
+                            case (int)VariableProperty.FinishedItemQty_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.Qty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.Qty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.Qty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.Qty3);
+                                        }
+
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.Qty1
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.Qty1
+                                }
+
+                                break;
+                            //case (int)VariableProperty.TotalSections:
+                            //    functionReturnValue = oItemSection.TotalSection;
+
+                            //    break;
+                            case (int)VariableProperty.PaperWeight_ProRata:
+
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = oItemSection.PaperWeight1 ?? 0;
+                                        break;
+                                    case 2:
+                                        if (oItemSection.PaperWeight2 == 0)
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight1 ?? 0;
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight2 ?? 0;
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.PaperWeight3 == 0)
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight1 ?? 0;
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = oItemSection.PaperWeight3 ?? 0;
+                                        }
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.PaperWeight4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.PaperWeight5
+                                }
+
+                                break;
+                            case (int)VariableProperty.PrintSheetQtyIncSpoilage_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100));
+                                        break;
+                                    case 2:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty2 * oItemSection.RunningSpoilage / 100));
+                                        break;
+                                    case 3:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty3 * oItemSection.RunningSpoilage / 100));
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.PrintSheetQty4 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty4 * oItemSection.RunningSpoilage / 100)
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.PrintSheetQty5 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty5 * oItemSection.RunningSpoilage / 100)
+                                }
+
+                                break;
+
+                            case (int)VariableProperty.FinishedItemQtyIncSpoilage_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty1);
+                                        break;
+                                    case 2:
+                                        if (oItemSection.FinishedItemQty2 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty2);
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.FinishedItemQty3 == 0)
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty1);
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = Convert.ToDouble(oItemSection.FinishedItemQty3);
+                                        }
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.FinishedItemQty4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.FinishedItemQty5
+                                }
+
+                                break;
+                            case (int)VariableProperty.NoOfSides:
+                                if (Convert.ToBoolean(oItemSection.IsDoubleSided) == true)
+                                {
+                                    functionReturnValue = 2;
+                                }
+                                else
+                                {
+                                    functionReturnValue = 1;
+                                }
+
+                                break;
+                            //case (int)VariableProperty.PressSizeRatio:
+                            //    if (oItemSection.Press == null)
+                            //    {
+                            //        functionReturnValue = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        functionReturnValue = oItemSection.Press.PressSizeRatio;
+                            //    }
+
+                            //    break;
+
+                            //case (int)VariableProperty.SectionPaperWeightExSelfQty_ProRata:
+                            //    switch (CurrentQuantity)
+                            //    {
+                            //        case 1:
+                            //            functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+                            //            break;
+                            //        case 2:
+                            //            if (oItemSection.SectionPaperWeightExSelfQty2 == 0)
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+                            //            }
+                            //            else
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty2;
+                            //            }
+                            //            break;
+                            //        case 3:
+                            //            if (oItemSection.SectionPaperWeightExSelfQty3 == 0)
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
+                            //            }
+                            //            else
+                            //            {
+                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty3;
+                            //            }
+                            //            break;
+                            //        //Case 4
+                            //        //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty4
+                            //        //Case 5
+                            //        //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty5
+                            //    }
+
+                            //    break;
+
+                            case (int)VariableProperty.WashupQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.WashupQty);
+
+                                break;
+                            case (int)VariableProperty.MakeReadyQty:
+                                functionReturnValue = Convert.ToDouble(oItemSection.MakeReadyQty);
+
+                                break;
+                            default:
+                                functionReturnValue = 0;
+
+                                break;
+                        }
+
+
+                    }
+                    else if (oVariable.Type == 2)
+                    {
+                        return _CostCentreVariableRepository.ExecUserVariable(oVariable);
+                    }
+                    else if (oVariable.Type == 3)
+                    {
+                        return oVariable.VariableValue ?? 0;
+                    }
+
+
+                    oVariable = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteVariable", ex);
+            }
+            return functionReturnValue;
+
+        }
+
+
+
+        public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
+        {
+            double functionReturnValue = 0;
+
+            try
+            {
+                CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+
+                // If execution mode is for populating the Queue then return 0
+                if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+                {
+                    return 0;
+
+                    //if its execution mode then
+
+                }
+                else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+                {
+                    if (ReturnValue == "costperhour")
+                    {
+                        functionReturnValue = _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+                    }
+                    else
+                    {
+                        functionReturnValue = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteResource", ex);
+            }
+            return functionReturnValue;
+        }
+
+
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price ,out double PerQtyQty)
+        {
+            try
+            {
+                return _CostCentreRepository.ExecuteUserStockItem(StockID, StockPriceType,out Price ,out PerQtyQty);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
+
+        public double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID)
+        {
+            try
+            {
+                return _CostCentreQuestionRepository.ExecuteQuestion(ref oParamsArray, QuestionID, CostCentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
+
+        public double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID)
+        {
+            try
+            {
+                return 1;//_CostCentreMatrixRepository.ExecuteMatrix(oParamsArray, MatrixID, CostCentreID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
     }
 }

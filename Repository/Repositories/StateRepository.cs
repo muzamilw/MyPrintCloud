@@ -45,6 +45,16 @@ namespace MPC.Repository.Repositories
             return DbSet.ToList();
         }
 
+        /// <summary>
+        /// Gets the Name of the state by its id
+        /// </summary>
+        /// <param name="StateId"></param>
+        /// <returns></returns>
+        public string GetStateNameById(long StateId) 
+        {
+            return db.States.Where(s => s.StateId == StateId).Select(n => n.StateName).FirstOrDefault();
+        }
+
         #endregion
     }
 }
