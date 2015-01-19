@@ -104,6 +104,11 @@
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
 }
+.store-user-link {
+  display: block;
+  font-size: 1.25em;
+  padding-top: 3px;
+}
 .fileUpload {
   position: relative;
   overflow: hidden;
@@ -123,3 +128,4 @@
 #phraseLibraryDialog .selectedPhraseField {
   background: yellow;
 }
+/*# sourceMappingURL=MainSite.css.map */
