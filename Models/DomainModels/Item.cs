@@ -7,6 +7,7 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Item Domain Model
     /// </summary>
+    [Serializable()]
     public class Item
     {
         #region Persisted Properties
