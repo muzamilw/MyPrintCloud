@@ -73,7 +73,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Supplier Id
         /// </summary>
-        public int? SupplierId { get; set; }
+        public long? SupplierId { get; set; }
 
         /// <summary>
         /// Cost Price
