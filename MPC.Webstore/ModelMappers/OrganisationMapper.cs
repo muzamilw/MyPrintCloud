@@ -22,8 +22,17 @@ namespace MPC.Webstore.ModelMappers
                 OrganisationName = source.OrganisationName,
                 SmtpServer = source.SmtpServer,
                 SmtpUserName = source.SmtpUserName,
-                SmtpPassword = source.SmtpPassword
-                
+                SmtpPassword = source.SmtpPassword,
+                Address1 = source.Address1,
+                Address2 = source.Address2,
+                City = source.City,
+                StateId = source.StateId,
+                CountryId = source.CountryId,
+                ZipCode = source.ZipCode,
+                Tel = source.Tel,
+                Email = source.Email,
+                Fax = source.Fax,
+                VATRegNumber = source.VATRegNumber,
             };
         }
 
@@ -41,7 +50,17 @@ namespace MPC.Webstore.ModelMappers
                 OrganisationName = source.OrganisationName,
                 SmtpServer = source.SmtpServer,
                 SmtpUserName = source.SmtpUserName,
-                SmtpPassword = source.SmtpPassword
+                SmtpPassword = source.SmtpPassword,
+                Address1 = source.Address1,
+                Address2 = source.Address2,
+                City = source.City,
+                StateId = source.StateId,
+                CountryId = source.CountryId,
+                ZipCode = source.ZipCode,
+                Tel = source.Tel,
+                Email = source.Email,
+                Fax = source.Fax,
+                VATRegNumber = source.VATRegNumber,
             };
         }
 

@@ -638,9 +638,161 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-
+	 /// <summary>
+        /// Gets the count of users register against a company by its id
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public int GetContactCountByCompanyId(long CompanyId)
+        {
+            try
+            {
+                return db.CompanyContacts.Where(c => c.CompanyId == CompanyId).Count();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
       
-        
+
+        /// <summary>
+        /// Gets the contact orders count by Status
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        public int GetOrdersCountByStatus(long contactId, OrderStatus statusId)
+        {
+            try
+            {
+                    return (from estimate in db.Estimates
+                            where estimate.ContactId == contactId && estimate.StatusId == (int)statusId
+                                && estimate.isEstimate == false
+                            select estimate).Count();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Gets pending approval orders count by territory for corporate customers
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="isApprover"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        public int GetPendingOrdersCountByTerritory(long companyId, OrderStatus statusId, int TerritoryID)
+        {
+            try
+            {
+                return (from estimate in db.Estimates
+                        join contact in db.CompanyContacts on estimate.ContactId equals contact.ContactId
+                        where estimate.CompanyId == companyId && estimate.StatusId == (int)statusId && estimate.isEstimate == false
+                        && contact.TerritoryId == TerritoryID
+                        select estimate).Count();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Gets all pending approval orders count for corporate customers
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="isApprover"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        public int GetAllPendingOrders(long CompanyId, OrderStatus statusId)
+        {
+            try
+            {
+                    return (from estimate in db.Estimates
+                            where estimate.CompanyId == CompanyId
+                             && estimate.StatusId == (int)statusId
+                                && estimate.isEstimate == false
+                            select estimate).Count();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Get all orders count placed against a company
+        /// </summary>
+        /// <param name="CCID"></param>
+        /// <returns></returns>
+        public int GetAllOrdersCount(long CompanyId)
+        {
+            try
+            {
+                
+                    return (from estimate in db.Estimates
+                            //join status in db.Status on estimate.StatusID equals status.StatusID
+                            where estimate.CompanyId == CompanyId
+                            && estimate.StatusId != (int)OrderStatus.ShoppingCart && estimate.StatusId != (int)OrderStatus.ArchivedOrder
+                            //&& status.StatusType == 2
+                            && estimate.isEstimate == false
+                            select estimate).Count();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Gets login user orders count which are placed and not archieved
+        /// </summary>
+        /// <param name="CID"></param>
+        /// <param name="CCID"></param>
+        /// <returns></returns>
+        public int AllOrders(long contactID, long CompanyID)
+        {
+            try
+            {
+               
+                    return (from estimate in db.Estimates
+                            //join status in db.Status on estimate.StatusID equals status.StatusID
+                            where estimate.CompanyId == CompanyID && estimate.ContactId == contactID
+                            && estimate.StatusId != (int)OrderStatus.ShoppingCart && estimate.StatusId != (int)OrderStatus.ArchivedOrder
+                            //&& status.StatusType == 2 
+                            && estimate.isEstimate == false
+                            select estimate).Count();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Get retail user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public CompanyContact GetRetailUser(string email, string password)
+        {
+            var qury = from contacts in db.CompanyContacts
+                       join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                       where contactCompany.IsCustomer != (int)CustomerTypes.Corporate && string.Compare(contacts.Email, email, true) == 0
+                       select contacts;
+            if (qury != null)
+            {
+                return qury.ToList().Where(contct => VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();
+            }
+            else 
+            {
+                return null;
+            }
+        }
     }
 }
 

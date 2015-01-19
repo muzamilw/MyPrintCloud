@@ -234,6 +234,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_costcentre_resources_tbl_costcentres" />
         <AssociationConnector Association="DomainModels.tbl_costcentres_tbl_costcentre_instructions" />
         <AssociationConnector Association="DomainModels.tbl_costcentres_instructions_tbl_costcentre_workinstructions_choices" />
+        <AssociationConnector Association="DomainModels.FK_StockItem_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

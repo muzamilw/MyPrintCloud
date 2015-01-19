@@ -168,16 +168,16 @@ define("stores/stores.viewModel",
                         });
                     },
                      //Store Image Files Loaded Callback
-                    storeImageFilesLoadedCallback = function (file, data) {
+                    storeImageFilesLoadedCallback = function(file, data) {
                         selectedStore().image(data);
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
-                    //store Backgroud Image Upload Callback
+                    },
+                //store Backgroud Image Upload Callback
                      storeBackgroudImageUploadCallback = function (file, data) {
                          selectedStore().storeBackgroudImageImageSource(data);
                          selectedStore().storeBackgroudImageFileName(file.name);
                      },
-                    },
                     //#endregion _____________________  S T O R E ____________________
 
 

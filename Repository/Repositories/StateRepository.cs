@@ -70,6 +70,17 @@ namespace MPC.Repository.Repositories
             return State;
 
         }
+        public string GetStateNameById(long StateId)
+        {
+            try
+            {
+                return db.States.Where(s => s.StateId == StateId).Select(c => c.StateName).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

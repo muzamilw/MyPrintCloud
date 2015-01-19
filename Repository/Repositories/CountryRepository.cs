@@ -66,6 +66,15 @@ namespace MPC.Repository.Repositories
 
         }
 
+        /// <summary>
+        /// Gets the Name of the country by its id
+        /// </summary>
+        /// <param name="StateId"></param>
+        /// <returns></returns>
+        public string GetCountryNameById(long CountryId)
+        {
+            return db.Countries.Where(s => s.CountryId == CountryId).Select(n => n.CountryName).FirstOrDefault();
+        }
         #endregion
     }
 }

@@ -290,6 +290,10 @@ namespace MPC.Implementation.WebStoreServices
                throw ex;
            }
        }
+         public OrderDetail GetOrderReceipt(long orderID)
+       {
+           return _OrderRepository.GetOrderReceipt(orderID);
+       }
        public List<Country> PopulateBillingCountryDropDown()
        {
            try
@@ -301,7 +305,6 @@ namespace MPC.Implementation.WebStoreServices
                throw ex;
            }
        }
-       
         public Country GetCountryByID(long CountryID)
         {
             try

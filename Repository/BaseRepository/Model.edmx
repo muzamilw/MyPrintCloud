@@ -2474,7 +2474,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ItemSizeWidth" Type="float" />
           <Property Name="ItemSizeDim" Type="int" />
           <Property Name="ItemUnitSize" Type="int" />
-          <Property Name="SupplierId" Type="int" />
+          <Property Name="SupplierId" Type="bigint" />
           <Property Name="CostPrice" Type="float" />
           <Property Name="CategoryId" Type="bigint" />
           <Property Name="SubCategoryId" Type="bigint" />
@@ -3531,6 +3531,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="StockSubCategory">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockItem_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="StockItem" Type="Self.StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="SupplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4785,6 +4797,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="StockCategory" EntitySet="StockCategory" />
             <End Role="StockSubCategory" EntitySet="StockSubCategory" />
           </AssociationSet>
+          <AssociationSet Name="FK_StockItem_Company" Association="Self.FK_StockItem_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="StockItem" EntitySet="StockItem" />
+          </AssociationSet>
           <AssociationSet Name="FK_StockItem_ItemStockOption" Association="Self.FK_StockItem_ItemStockOption">
             <End Role="StockItem" EntitySet="StockItem" />
             <End Role="ItemStockOption" EntitySet="ItemStockOption" />
@@ -5603,6 +5619,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <Parameter Name="returnPrice" Mode="InOut" Type="Double" />
             <Parameter Name="PerQtyQty" Mode="InOut" Type="Double" />
           </FunctionImport>
+          <AssociationSet Name="FK_StockItem_Company" Association="DomainModels.FK_StockItem_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="StockItem" EntitySet="StockItems" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5727,6 +5747,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
           <Property Name="isAddCropMarks" Type="Boolean" />
           <NavigationProperty Name="ColorPalletes" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="Company" ToRole="ColorPallete" />
+          <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_StockItem_Company" FromRole="Company" ToRole="StockItem" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6194,7 +6215,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="ItemSizeWidth" Type="Double" />
           <Property Name="ItemSizeDim" Type="Int32" />
           <Property Name="ItemUnitSize" Type="Int32" />
-          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="SupplierId" Type="Int64" />
           <Property Name="CostPrice" Type="Double" />
           <Property Name="CategoryId" Type="Int64" />
           <Property Name="SubCategoryId" Type="Int64" />
@@ -6255,6 +6276,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isAllowBackOrder" Type="Boolean" />
           <NavigationProperty Name="SectionCostCentreDetails" Relationship="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" FromRole="StockItem" ToRole="SectionCostCentreDetail" />
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="StockItem" ToRole="ItemStockOption" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_StockItem_Company" FromRole="StockItem" ToRole="Company" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -10077,6 +10099,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="CostcentreWorkInstructionsChoice">
               <PropertyRef Name="InstructionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockItem_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="SupplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

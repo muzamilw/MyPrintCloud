@@ -9,6 +9,7 @@ namespace MPC.Interfaces.Repository
     public interface ICountryRepository : IBaseRepository<Country, long>
     {
         List<Country> PopulateBillingCountryDropDown();
+        string GetCountryNameById(long CountryId);
 
         Country GetCountryByID(long CountryID);
     }

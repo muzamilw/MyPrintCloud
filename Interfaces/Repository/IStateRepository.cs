@@ -9,6 +9,7 @@ namespace MPC.Interfaces.Repository
     public interface IStateRepository : IBaseRepository<State, long>
     {
         List<State> GetStates();
+        string GetStateNameById(long StateId);
 
         State GetStateFromStateID(long StateID);
     }

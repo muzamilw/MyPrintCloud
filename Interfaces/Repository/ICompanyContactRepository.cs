@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.Repository
 {
@@ -32,11 +33,56 @@ namespace MPC.Interfaces.Repository
         string GetContactMobile(long CID);
 
         bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
+         /// <summary>
+        /// Gets the count of users register against a company by its id
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        int GetContactCountByCompanyId(long CompanyId);
+
+         /// <summary>
+        /// Gets the contact orders count by Status
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        int GetOrdersCountByStatus(long contactId, OrderStatus statusId);
+        /// <summary>
+        /// Gets pending approval orders count
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <param name="isApprover"></param>
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        int GetPendingOrdersCountByTerritory(long companyId, OrderStatus statusId, int TerritoryID);
 
         CompanyContact GetCorporateAdmin(long contactCompanyId);
 
     
 
 
+        /// <param name="statusId"></param>
+        /// <returns></returns>
+        int GetAllPendingOrders(long CompanyId, OrderStatus statusId);
+         /// <summary>
+        /// Get all orders count placed against a company
+        /// </summary>
+        /// <param name="CCID"></param>
+        /// <returns></returns>
+        int GetAllOrdersCount(long CompanyId);
+         /// <summary>
+        /// Gets login user orders count which are placed and not archieved
+        /// </summary>
+        /// <param name="CID"></param>
+        /// <param name="CCID"></param>
+        /// <returns></returns>
+        int AllOrders(long contactID, long CompanyID);
+        /// <summary>
+        /// Get retail user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        CompanyContact GetRetailUser(string email, string password);
     }
 }

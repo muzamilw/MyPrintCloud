@@ -43,6 +43,12 @@ namespace MPC.Interfaces.Repository
         bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow);
 
         bool IsOrderBelongToCorporate(long orderID, out long customerID);
-
+        /// <summary>
+        /// Get order, items, addresses details by order id
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="BrokerID"></param>
+        /// <returns></returns>
+        OrderDetail GetOrderReceipt(long orderID);
     }
 }
