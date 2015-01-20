@@ -1,36 +1,5 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function(ko) {
-    var
-    costCentersList = function (specifiedcostCenterId, specifiedName, specifiedType, specifiedSetupCost, specifiedDescription
-                            ) {
-        var
-            self,
-            //Unique ID
-            costCenterId = ko.observable(specifiedcostCenterId),
-            //Name
-            name = ko.observable(specifiedName),
-            //Type
-            costCentertype = ko.observable(specifiedType),
-            //Setup Cost
-            setupCost = ko.observable(specifiedSetupCost),
-            //Description
-            description = ko.observable(specifiedDescription),
-            convertToServerData = function () {
-                return {
-                    CostCentreId: costCenterId(),
-                }
-            };
-        self = {
-            costCenterId: costCenterId,
-            name: name,
-            costCentertype: costCentertype,
-            setupCost: setupCost,
-            description: description,
-            convertToServerData: convertToServerData
-        };
-        return self;
-    };
-
-    var CostCenter = function () {
+   var CostCenter = function () {
 
         var
             self,
@@ -151,7 +120,7 @@
         createdBy:createdBy,
         lockedBy:lockedBy,
         lastModifiedBy:lastModifiedBy,
-            minimumCost:minimumCost,
+        minimumCost:minimumCost,
         setupCost:setupCost,
         setupTime:setupTime,
         defaultVa:defaultVa,
@@ -439,7 +408,6 @@
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
-        costCenterServerMapper: costCenterServerMapper,
-        costCentersList: costCentersList
+        costCenterServerMapper: costCenterServerMapper
     };
 });

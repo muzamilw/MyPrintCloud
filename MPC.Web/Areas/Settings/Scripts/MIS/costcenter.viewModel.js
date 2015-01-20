@@ -24,8 +24,8 @@ define("costcenter/costcenter.viewModel",
                     searchFilter = ko.observable(),
                     editorViewModel = new ist.ViewModel(model.CostCenter),
                     selectedCostCenter = editorViewModel.itemForEditing,
-                    templateToUse = function(paperSheet) {
-                        return (paperSheet === selectedPaperSheet() ? 'editPaperSheetTemplate' : 'itemPaperSheetTemplate');
+                    templateToUse = function(ocostCenter) {
+                        return (ocostCenter === selectedCostCenter() ? 'editCostCenterTemplate' : 'itemCostCenterTemplate');
                     },
                     makeEditable = ko.observable(false),
                     createNewCostCenter = function() {
@@ -73,7 +73,7 @@ define("costcenter/costcenter.viewModel",
                                 costCentersList.removeAll();
                                 if (data != null) {
                                     pager().totalCount(data.RowCount);
-                                    _.each(data.costCentersList, function(item) {
+                                    _.each(data.CostCenters, function(item) {
                                         var module = model.costCenterClientMapper(item);
                                         costCentersList.push(module);
                                     });

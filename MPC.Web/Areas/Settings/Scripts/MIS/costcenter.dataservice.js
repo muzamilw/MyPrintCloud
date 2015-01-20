@@ -47,12 +47,13 @@ define("costcenter/costcenter.dataservice", function () {
                 }
             },
             // Get Cost Centers List
-            getCostCentersList = function (callbacks) {
+            getCostCentersList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getCostCentersList',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: params
                 });
             },
             // Get Cost Centers by Id 

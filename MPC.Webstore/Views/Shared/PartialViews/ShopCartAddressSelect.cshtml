@@ -1,5 +1,25 @@
-﻿
-
+﻿@model MPC.Models.Common.ShoppingCart
+@using System.Linq;
+@using MPC.Models.Common;
+@using MPC.Webstore.Common;
+@using MPC.Models.DomainModels;
+@{
+    List<AddOnCostsCenter> AddsOnList = ViewData["selectedItemsAddonsList"] as List<AddOnCostsCenter>;
+    string addson = string.Empty;
+    double _priceTotal = 0;
+    string lblPrice = string.Empty;
+    double deliveryCost = ViewBag.DeliveryCost;
+    double SubTotal = 0;
+    double deliveryTotal = 0;
+    double deliveryCostTaxVal = ViewBag.DeliveryCostTaxVal;
+    double deliveryTax = 0;
+    double VatTotal = 0;
+    double grosstotal = 0;
+    double GrandTotal = 0;
+    string IsDisable = string.Empty;
+    Address ShippingAddress = ViewData["ShippingAddress"] as Address;
+    Address BillingAddress = ViewData["BillingAddress"] as Address;
+}
 <style>
     input[type="checkbox"] {
         display: none;
@@ -94,7 +114,7 @@
                 <label ID="ltrlcontacttelnum" runat="server"  CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12 ">Contact Tel Number</label>
 
                 <input id="txtInstContactTelNumber" type="text" runat="server" class="AveniorTxtBoxCheckout col-md-2 col-lg-2 col-xs-12 "
-                       onblur="ChangeTelNumber();" />
+                       onblur="ChangeTelNumber();" value="@ViewBag.txtInstContactTelNumber" />
 
             </div>
             <div class="clearBoth">
@@ -109,21 +129,28 @@
             </div>
             <div class="clearBoth">
             </div>
+            @if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            {
+                <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior"  runat="server">
+                    <label ID="ltrlcheckoutfirstdiv" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior" >Your Ref / PO</label>
 
-            <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior" visible="false" runat="server">
-                <label ID="ltrlcheckoutfirstdiv" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior" Text="Your Ref / PO"></label>
+                    <input id="txtYourRefNumber" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="50"
+                           onblur="ChangeRefPO();" />
 
-                <input id="txtYourRefNumber" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="50"
-                       onblur="ChangeRefPO();" />
+                </div>
 
-            </div>
-            <div id="NormalBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior" visible="false" runat="server">
-                <label ID="Label4" runat="server" CssClass="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
+            }
+            else
+            {
+                <div id="NormalBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior" >
+                    <label ID="Label4" runat="server" CssClass="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
 
-                <input id="txtYourRefNumberRetail" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="50"
-                       onblur="ChangeRefPO();" />
+                    <input id="txtYourRefNumberRetail" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="50"
+                           onblur="ChangeRefPO();" />
 
-            </div>
+                </div>
+            }
+            
             <div class="clearBoth">
                 &nbsp;
             </div>
@@ -140,7 +167,38 @@
                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                     <label ID="Label3" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Choose Delivery</label>
 
-                    <section id="ddlDeliveyCostCenter" class="checkoutDropDown"></section>
+                    <select id="ddlDeliveyCostCenter" class="checkoutDropDown">
+                       
+                        @{
+                            MPC.Models.DomainModels.Item record = ViewBag.Item;
+                            foreach (var costcenter in ViewData["ddlDeliveyCostCenter"] as List<MPC.Models.DomainModels.CostCentre>)
+                            {
+                                //  if(country.co)
+                                if (record != null)
+                                {
+                                    if (@costcenter.Name == record.ProductName)
+                                    {
+                                        <option value="@costcenter.CostCentreId" selected>@costcenter.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="-1" selected>Select a delivery option</option>
+                                        <option value="@costcenter.CostCentreId">@costcenter.Name</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="-1" selected>Select a delivery option</option>
+                                    <option value="@costcenter.CostCentreId">@costcenter.Name</option>
+                                }
+
+
+                            }
+
+                        }
+                       
+
+                    </select>
                     @*<asp:DropDownList ID="ddlDeliveyCostCenter" runat="server" CssClass="checkoutDropDown" />*@
                 </div>
                 <div class="clearBoth">
@@ -161,7 +219,7 @@
             </div>
             <br />
             <br />
-            @*<%-- billing shipping address panel --%>*@
+            @*<%--  shipping address panel --%>*@
             <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
                 <label ID="Label6" runat="server">Shipping Address</label>
             </div>
@@ -171,8 +229,22 @@
                     <label ID="ltrlchoosedeliveryadd" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior"> Choose Delivery Address</label>
 
                     <select id="ddlDelivery" class="checkoutDropDown"></select>
-                    <asp:DropDownList ID="ddlDelivery" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
-                                      OnSelectedIndexChanged="ddlDelivery_SelectedIndexChanged" />
+                    @*<asp:DropDownList ID="ddlDelivery" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
+                                      OnSelectedIndexChanged="ddlDelivery_SelectedIndexChanged" />*@
+                    
+                    <select id="ddlDelivery" class="checkoutDropDown">
+                        @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                        {
+                            <option value="-1">Add New Address</option>
+                        }
+                       
+                        @foreach (var add in ViewData["ddlDelivery"] as List<Address>)
+                        {
+                            <option value="@add.AddressId">@add.AddressName</option>
+
+
+                        }
+                    </select>
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -180,7 +252,7 @@
                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                     <label ID="ltrlshippingname"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Shipping Name</label>
 
-                    <input id="txtShipAddressName" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" />
+                    <input id="txtShipAddressName" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.AddressName"/>
                     <label ID="Label7" CssClass="tooltipCheckoutAvenior" runat="server">e.g. Office Address</label>
 
                 </div>
@@ -192,7 +264,7 @@
                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                     <label ID="ltrladdline2nd" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
 
-                    <input id="txtShipAddLine1" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="255"
+                    <input id="txtShipAddLine1" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address1"
                            onblur="ChangeShippToAddLin1();" />
 
                 </div>
@@ -203,7 +275,7 @@
                     <label ID="ltrladdressline2nd2" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
 
 
-                    <input id="txtShipAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255"
+                    <input id="txtShipAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address2"
                            onblur="ChangeShippToAddLin2();" />
                 </div>
                 <div class="clearBoth">
@@ -213,7 +285,7 @@
                     <label ID="ltrlcity2" runat="server" Text="City" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12"></label>
 
 
-                    <input id="txtShipAddCity" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100"
+                    <input id="txtShipAddCity" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.City"
                            onblur="ChangeShippToCity();" />
 
                 </div>
@@ -223,7 +295,7 @@
                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                     <label ID="ltrlzipcodeP2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
 
-                    <input id="txtShipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout float_left_simple" maxlength="30"
+                    <input id="txtShipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout float_left_simple" maxlength="30" value="@ShippingAddress.PostCode"
                            onblur="ChangeShippToPostCode();" /><img id="lodingImg" runat="server" alt=""
                                                                     src="~/images/wpLoader.gif" style="display: none; float: left; width: 20px; margin-top: 7px; margin-left: 0px;" />
 
@@ -233,8 +305,25 @@
 
                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                     <label ID="ltrlcountry2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                    <asp:DropDownList ID="ddShippingCountry" runat="server" CssClass="checkoutDropDown"
-                                      AutoPostBack="true" OnSelectedIndexChanged="ShippingDropDown_SelectedIndexChanged" />
+                    @*<asp:DropDownList ID="ddShippingCountry" runat="server" CssClass="checkoutDropDown"
+                                      AutoPostBack="true" OnSelectedIndexChanged="ShippingDropDown_SelectedIndexChanged" />*@
+                    <select id="ddShippingCountry" class="checkoutDropDown" >
+                        <option value="-1" selected>Select Country</option>
+                        @foreach (var country in ViewData["ShipperCountries"] as List<MPC.Models.DomainModels.Country>)
+                        {
+                            if (country.CountryId == ShippingAddress.CountryId)
+                            {
+                                <option value="@country.CountryId" selected>@country.CountryName</option>
+                            }
+                            else
+                            {
+                                <option value="@country.CountryId">@country.CountryName</option>
+                            }
+
+                        }
+
+                    </select>
+                    @*@Html.DropDownList("Country",ViewData["Countries"] as  List< MPC.Models.DomainModels.)*@
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -242,13 +331,29 @@
                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                     <label ID="lblStatedd" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">State</label>
                     <asp:DropDownList ID="ddShippingState" runat="server" CssClass="checkoutDropDown" />
+                    <select id="ddShippingState" class="checkoutDropDown">
+                        <option value="-1" selected>Select State</option>
+                        @foreach (var state in ViewData["ShippingStates"] as List<MPC.Models.DomainModels.State>)
+                        {
+                            if (state.StateId == ShippingAddress.StateId)
+                            {
+                                <option value="@state.StateId" selected>@state.StateName</option>
+                            }
+                            else
+                            {
+                                <option value="@state.StateId">@state.StateName</option>
+                            }
+
+                        }
+
+                    </select>
                 </div>
                 <div class="clearBoth">
                 </div>
                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                     <label ID="ltrlcontactnum2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
 
-                    <input id="txtShipContact" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" />
+                    <input id="txtShipContact" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" value="@ShippingAddress.Tel1" />
                 </div>
                 <div class="clearBoth">
                     &nbsp;
@@ -263,7 +368,7 @@
         <br />
         <br />
         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-            <input type="checkbox" checked="checked" onclick="BillingSameAsDeliveryScriptCheckBox" value="Bill items to the above shipping address" />
+            <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onclick="BillingSameAsDeliveryScriptCheckBox();" value="Bill items to the above shipping address" />
             <asp:CheckBox ID="chkBoxDeliverySameAsBilling" Text="Bill items to the above shipping address" runat="server"
                           Checked="true" onclick="BillingSameAsDeliveryScriptCheckBox();" OnCheckedChanged="chkBoxDeliverySameAsBilling_CheckedChanged" AutoPostBack="true" />
         </div>
@@ -277,11 +382,51 @@
             <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
                 <label ID="Label8" runat="server" >Billing Address</label>
             </div>
-
+            @if (ViewBag.IsUserRole)
+            {
+                if(ViewBag.isStoreModePrivate)
+                {
+                    if(BillingAddress.isPrivate != true)
+                    {
+                        IsDisable = "disabled";
+                    }
+                    else
+                    {
+                        IsDisable = "";
+                    }
+                   
+                }
+                else
+                {
+                    IsDisable = "";
+                }
+                
+            }
+            else
+            {
+                IsDisable = "";
+            }
             <div id="ddBillingAdd" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                 <label ID="lblBillingAddress" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Choose Billing Address</label>
-                <asp:DropDownList ID="ddlBilling" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
-                                  OnSelectedIndexChanged="ddlBilling_SelectedIndexChanged" />
+                @*<asp:DropDownList ID="ddlBilling" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
+                                  OnSelectedIndexChanged="ddlBilling_SelectedIndexChanged" />*@
+                <select  id="ddlBilling" class="checkoutDropDown">
+                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    {
+                        <option value="-1">Add New Address</option>
+                    }
+                    @foreach (var add in ViewData["ddlBilling"] as List<Address>)
+                    {
+                        if (add.AddressId == BillingAddress.AddressId)
+                        {
+                            <option value="@add.AddressId" selected>@add.AddressName</option>
+                        }
+                        else
+                        {
+                            <option value="@add.AddressId">@add.AddressName</option>
+                        }
+                    }
+                </select>
             </div>
             <div class="clearBoth">
             </div>
@@ -289,9 +434,9 @@
 
             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                 <label ID="ltrlBillingname" runat="server"  CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Billing Name</label>
-
-                <input id="txtBillingName" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="100" />
-                <label ID="Label9" runat="server" class="tooltipCheckoutAvenior">e.g. Office Address</label>
+                
+                <input id="txtBillingName" disabled="@IsDisable"  type="text"  class="AveniorTxtBoxCheckout" maxlength="100" value="@BillingAddress.AddressName" />
+                <label ID="Label9"  runat="server" class="tooltipCheckoutAvenior">e.g. Office Address</label>
             </div>
             <div class="clearBoth">
             </div>
@@ -300,7 +445,7 @@
             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                 <label ID="ltrladdressline1" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
 
-                <input id="txtAddressLine1" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255"
+                <input id="txtAddressLine1" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="255" value="@BillingAddress.Address1"
                        onblur="ChangeAddresLinne1();" />
 
             </div>
@@ -311,8 +456,8 @@
             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                 <label ID="ltrladdressline2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
 
-                <input id="txtAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255"
-                       onblur="ChangeAddresLinne2();" />
+                <input id="txtAddressLine2" type="text" disabled="@IsDisable"  class="AveniorTxtBoxCheckout" maxlength="255"
+                       onblur="ChangeAddresLinne2();" value="@BillingAddress.Address2">
             </div>
             <div class="clearBoth">
             </div>
@@ -320,8 +465,8 @@
             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                 <label ID="ltrlcity" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">City</label>
 
-                <input id="txtCity" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="100"
-                       onblur="ChangeCityShippBill();" />
+                <input id="txtCity" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="100"
+                       onblur="ChangeCityShippBill();" value="@BillingAddress.City" />
 
             </div>
             <div class="clearBoth">
@@ -331,7 +476,7 @@
 
                 <label ID="ltrlzipcodeP" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
 
-                <input id="txtZipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout " maxlength="30"
+                <input id="txtZipPostCode" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout " value="@BillingAddress.PostCode" maxlength="30"
                        onblur="ChangePostCodeShippBill();" />
 
             </div>
@@ -341,20 +486,54 @@
 
             <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                 <label ID="ltrlcountry" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                <asp:DropDownList ID="BillingCountryDropDown" AutoPostBack="true" runat="server" CssClass="checkoutDropDown" OnSelectedIndexChanged="BillingCountryDropDown_SelectedIndexChanged" />
-            </div>
-            <div class="clearBoth">
-            </div>
-            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrlstate" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                <asp:DropDownList ID="ddBillingState" runat="server" CssClass="checkoutDropDown" />
-            </div>
-            <div class="clearBoth">
-            </div>
-            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrlcontactnum" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
+                <select id="BillingCountryDropDown" disabled="@IsDisable" class="checkoutDropDown">
 
-                <input id="txtContactNumber" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" />
+                    <option value="-1" selected>Select Country</option>
+                    @foreach (var country in ViewData["Countries"] as List<MPC.Models.DomainModels.Country>)
+                    {
+                        if (country.CountryId == BillingAddress.CountryId)
+                        {
+                            <option value="@country.CountryId" selected>@country.CountryName</option>
+                        }
+                        else
+                        {
+
+                            <option value="@country.CountryId">@country.CountryName</option>
+                        }
+
+
+                    }
+
+                </select>
+               @* <asp:DropDownList ID="BillingCountryDropDown" AutoPostBack="true" runat="server" CssClass="checkoutDropDown" OnSelectedIndexChanged="BillingCountryDropDown_SelectedIndexChanged" />*@
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                <label ID="ltrlstate" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
+             
+                <select id="ddBillingState" disabled="@IsDisable" class="checkoutDropDown">
+                    <option value="-1" selected>Select State</option>
+                    @foreach (var state in ViewData["BillingStates"] as List<MPC.Models.DomainModels.State>)
+                    {
+                        if (state.StateId == BillingAddress.StateId)
+                        {
+                            <option value="@state.StateId" selected>@state.StateName</option>
+                        }
+                        else
+                        {
+                            <option value="@state.StateId">@state.StateName</option>
+                        }
+
+                    }
+                </select>
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                <label ID="ltrlcontactnum"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
+
+                <input id="txtContactNumber" disabled="@IsDisable" type="text" class="AveniorTxtBoxCheckout" maxlength="60" value="@BillingAddress.Tel1">
             </div>
 
 
@@ -367,143 +546,260 @@
         <div class="check_out_third_div">
             <div class="confirm_order_detail_div">
                 <div style="min-height: 290px">
-                    <asp:Panel ID="pnlConfirmOrder" runat="server">
-                        <div class="mainHeadingAveniorCheckout">
-                            <label ID="ltrlconfirmurorderdetails" runat="server">Confirm your order details...</label>
-                        </div>
-                        <br />
-                        <asp:GridView ID="grdViewShopCart" DataKeyNames="ItemID" runat="server" SkinID="grdViewCheckoutCartView" CellSpacing="2" CssClass="width100p"
-                                      OnRowDataBound="grdViewShopCart_RowDataBound">
-                            <columns>
-                                <asp:templatefield headertext="Quantity" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left" itemstyle-cssclass="PaddingToCells">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblTotalItemQuantity" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1") %>'
-                                                   Font-Bold="true" CssClass="Fsize14" />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield headertext="Product Description" headerstyle-horizontalalign="Left" itemstyle-cssclass="PaddingToCells"
-                                                   itemstyle-horizontalalign="Left">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblItemProductName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ProductName")%>'
-                                                   Font-Bold="true" CssClass="Fsize14"></asp:Label>
-                                        <br />
-                                        <asp:Label ID="lblPapErName" runat="server"></asp:Label>
-                                        <br />
-                                        <asp:Label ID="lblAddons" runat="server"></asp:Label>
-                                        <asp:BulletedList CssClass="UList" ID="bltSelectedAddonList" runat="server" DisplayMode="Text"
-                                                          Visible="false">
-                                        </asp:BulletedList>
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield headertext="Price" headerstyle-horizontalalign="Right" itemstyle-horizontalalign="Right" itemstyle-cssclass="PaddingToCells">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblItemPrice" runat="server" CssClass="Fsize14" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1BaseCharge1") %>' />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield visible="false" headertext="VAT" headerstyle-horizontalalign="Right"
-                                                   itemstyle-horizontalalign="Right">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblVatStateTax" runat="server" />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield visible="false" headertext="Total" headerstyle-horizontalalign="Right"
-                                                   itemstyle-horizontalalign="Right">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblTotalItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1GrossTotal") %>' />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                            </columns>
-                        </asp:GridView>
-                        <br />
-                        <div id="PnalTotalBox" runat="server">
-                            <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
-                                <tr>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left" class="LightGrayLabels" id="tdSubtotal" runat="server">
-                                        <span id="spnsubtotal" runat="server">Sub Total:</span>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblSubTotal" Text="0" runat="server" class="Fsize15 colorBlack"
-                                                   Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
-                                <tr id="tblRowVoucher" runat="server">
-                                    <td width="30%" align="left">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left">
-                                        <label ID="lblVoucherDiscPercentageDisplay" Style="font-family: 'Lato', Calibri, Arial, sans-serif; font-style: normal; font-weight: bold; font-size: 14px; line-height: 13px; color: rgb(102,102,102); color: #FB8D00 !important;"
-                                                    runat="server" >Discount:</label>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblVoucherCodeDiscAmount" Style="margin-right: 13px; color: #FB8D00 !important;"
-                                                   Text="0" runat="server" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%" align="left">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" runat="server">
-                                        <span id="spndelivery" runat="server">Delivery:</span>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblDeliveryCostCenter" Text="0" runat="server" class="LightGrayLabels"
-                                                   Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
-                                <tr id="rowVat" runat="server">
-                                    <td width="30%" align="left"></td>
-                                    <td width="30%"></td>
-                                    <td width="20%" align="left" class="LightGrayLabels">
-                                        <label ID="lblTaxLabel" runat="server"></label>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblVatTotal" Text="0" class="LightGrayLabels" runat="server" Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left" class="fontSyleBold Fsize15" id="tdgrandtotal" runat="server">
-                                        <span class="CartFonts colorBlack" id="spngrandtotal" runat="server">Total:</span>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label class="CartFonts colorBlack Fsize15" ID="lblGrandTotal" Text="0" runat="server"
-                                                   Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
+                    @if(Model.CartItemsList != null && Model.CartItemsList.Count > 0)
+                    {
+                        <div id="pnlConfirmOrder">
+                            <div class="mainHeadingAveniorCheckout">
+                                <label ID="ltrlconfirmurorderdetails" runat="server">Confirm your order details...</label>
+                            </div>
+                            <br />
+                            <table class="width100p" cellspacing="0" cellpadding="15" id="MainContent_grdViewShopCart" style="width:100%;border-collapse:collapse;">
+                                <tbody>
+                                    <tr class="gridViewCheckoutHeaderStyle">
+                                        <th align="left" scope="col">Quantity</th>
+                                        <th align="left" scope="col">Product Description</th>
+                                        @if(UserCookieManager.ShowPriceOnWebstore)
+                                        {
+                                            <th align="right" scope="col">Price</th>
+                                        }
+                                        @*else
+                                        {
+                                            <th align="right" style="color:rgb(61, 61, 61) !important;" scope="col">Price</th>
+                                        }*@
+                
+                                    </tr>
+
+
+                                @foreach (var shopcart in ViewData["GrdViewShopCart"] as List<ProductItem>)
+                                {
+                                         VatTotal += shopcart.Qty1Tax1Value ?? 0;
+                                        <tr class="gridViewCheckoutRowStyle" align="top">
+                                            <td class="PaddingToCells" align="left">
+                                                <span id="lblTotalItemQuantity" class="Fsize14" style="font-weight:bold;">@shopcart.Qty1</span>
+                                            </td>
+                                            <td class="PaddingToCells" align="left">
+                                                <span id="lblItemProductName" class="Fsize14" style="font-weight:bold;">@shopcart.ProductName</span>
+                                                <br>
+                                                <span id="lblPapErName">@shopcart.PaperType</span>
+                                                <br>
+                                                @{
+                                                   AddsOnList = AddsOnList.Where(addon => addon.ItemID == shopcart.ItemID).ToList();
+                                                   foreach(var add in AddsOnList)
+                                                   {
+                                                       addson = addson + add.AddOnName + ", ";
+                                                   }
+                                                }
+                                                <span id="lblAddons">addson</span>
+
+                                            </td>
+                                            @if(UserCookieManager.ShowPriceOnWebstore)
+                                            {
+                                                <td class="PaddingToCells" align="right">
+                                                    @{
+                                                        lblPrice = Convert.ToString(shopcart.Qty1BaseCharge1 ?? 0);
+
+                                                        _priceTotal += Convert.ToDouble(lblPrice);
+
+                                                        lblPrice = Utils.FormatDecimalValueToTwoDecimal(lblPrice, ViewBag.Currency);
+
+                                                    }
+                                                    <span id="lblItemPrice" class="Fsize14">@lblPrice</span>
+                                                </td>
+                                            }
+                                          
+                                          
+                                        </tr>
+
+
+                                }
+                                </tbody>
                             </table>
+                            <asp:GridView ID="grdViewShopCart" DataKeyNames="ItemID" runat="server" SkinID="grdViewCheckoutCartView" CellSpacing="2" CssClass="width100p"
+                                          OnRowDataBound="grdViewShopCart_RowDataBound">
+                                <columns>
+                                    <asp:templatefield headertext="Quantity" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left" itemstyle-cssclass="PaddingToCells">
+                                        <itemtemplate>
+                                            <asp:Label ID="lblTotalItemQuantity" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1") %>'
+                                                       Font-Bold="true" CssClass="Fsize14" />
+                                        </itemtemplate>
+                                    </asp:templatefield>
+                                    <asp:templatefield headertext="Product Description" headerstyle-horizontalalign="Left" itemstyle-cssclass="PaddingToCells"
+                                                       itemstyle-horizontalalign="Left">
+                                        <itemtemplate>
+                                            <asp:Label ID="lblItemProductName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ProductName")%>'
+                                                       Font-Bold="true" CssClass="Fsize14"></asp:Label>
+                                            <br />
+                                            <asp:Label ID="lblPapErName" runat="server"></asp:Label>
+                                            <br />
+                                            <asp:Label ID="lblAddons" runat="server"></asp:Label>
+                                            <asp:BulletedList CssClass="UList" ID="bltSelectedAddonList" runat="server" DisplayMode="Text"
+                                                              Visible="false">
+                                            </asp:BulletedList>
+                                        </itemtemplate>
+                                    </asp:templatefield>
+                                    <asp:templatefield headertext="Price" headerstyle-horizontalalign="Right" itemstyle-horizontalalign="Right" itemstyle-cssclass="PaddingToCells">
+                                        <itemtemplate>
+                                            <asp:Label ID="lblItemPrice" runat="server" CssClass="Fsize14" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1BaseCharge1") %>' />
+                                        </itemtemplate>
+                                    </asp:templatefield>
+                                    <asp:templatefield visible="false" headertext="VAT" headerstyle-horizontalalign="Right"
+                                                       itemstyle-horizontalalign="Right">
+                                        <itemtemplate>
+                                            <asp:Label ID="lblVatStateTax" runat="server" />
+                                        </itemtemplate>
+                                    </asp:templatefield>
+                                    <asp:templatefield visible="false" headertext="Total" headerstyle-horizontalalign="Right"
+                                                       itemstyle-horizontalalign="Right">
+                                        <itemtemplate>
+                                            <asp:Label ID="lblTotalItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1GrossTotal") %>' />
+                                        </itemtemplate>
+                                    </asp:templatefield>
+                                </columns>
+                            </asp:GridView>
+                            <br />
+                    @if(Model.CartItemsList != null && Model.CartItemsList.Count > 0)
+                    {
+                        if(UserCookieManager.ShowPriceOnWebstore)
+                        {
+                            <div id="PnalTotalBox" runat="server">
+                                <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
+                                    <tr>
+                                        <td width="30%">
+                                            &nbsp;
+                                        </td>
+                                        <td width="30%">
+                                            &nbsp;
+                                        </td>
+                                        <td width="20%" align="left" class="LightGrayLabels" id="tdSubtotal" runat="server">
+                                            <span id="spnsubtotal">Sub Total:</span>
+                                        </td> 
+                                        @{
+                                            string price = Convert.ToString(_priceTotal);
+                                            SubTotal = Utils.FormatDecimalValueToTwoDecimal(price, ViewBag.Currency);
+                                            
+                                        }
+
+                                        <td align="right" width="20%">
+                                            <label ID="lblSubTotal"  class="Fsize15 colorBlack"
+                                                   Style="margin-right: 13px;" >@SubTotal</label>
+                                        </td>
+                                    </tr>
+                                    @if(UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                                    {
+                                        <tr id="tblRowVoucher" runat="server"style="display:none;">
+                                            <td width="30%" align="left">
+                                                &nbsp;
+                                            </td>
+                                            <td width="30%">
+                                                &nbsp;
+                                            </td>
+                                            <td width="20%" align="left">
+                                                <label ID="lblVoucherDiscPercentageDisplay" Style="font-family: 'Lato', Calibri, Arial, sans-serif; font-style: normal; font-weight: bold; font-size: 14px; line-height: 13px; color: rgb(102,102,102); color: #FB8D00 !important;"
+                                                       runat="server">Discount:</label>
+                                            </td>
+                                            <td align="right" width="20%">
+                                                <label ID="lblVoucherCodeDiscAmount" Style="margin-right: 13px; color: #FB8D00 !important;"
+                                                       Text="0" runat="server" />
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    <tr>
+                                        <td width="30%" align="left">
+                                            &nbsp;
+                                        </td>
+                                        <td width="30%">
+                                            &nbsp;
+                                        </td>
+                                        <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" runat="server">
+                                            <span id="spndelivery" runat="server">Delivery:</span>
+                                        </td>
+                                        @if(deliveryCost > 0)
+                                        {
+                                            string dc = Convert.ToString(deliveryCost);
+                                          
+                                            deliveryTotal = Utils.FormatDecimalValueToTwoDecimal(dc, ViewBag.Currency);
+                                        }
+                                        else
+                                        {
+                                            
+
+                                            deliveryTotal = Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency);
+                                        }
+                                        <td align="right" width="20%">
+                                            <label ID="lblDeliveryCostCenter" Text="0" runat="server" class="LightGrayLabels"
+                                                   Style="margin-right: 13px;">@deliveryTotal</label>
+                                        </td>
+                                    </tr>
+                                    <tr id="rowVat" runat="server">
+                                        <td width="30%" align="left"></td>
+                                        <td width="30%"></td>
+                                        <td width="20%" align="left" class="LightGrayLabels">
+                                            <label ID="lblTaxLabel" >@ViewBag.lblTaxLabel</label>
+                                        </td>
+                                        <td align="right" width="20%">
+                                            @if (deliveryCostTaxVal > 0)
+                                            {
+                                                string dct = Convert.ToString(deliveryCostTaxVal);
+
+                                                deliveryTax = Utils.FormatDecimalValueToTwoDecimal(dct, ViewBag.Currency);
+                                            }
+                                            else
+                                            {
+                                                string vat = Convert.ToString(VatTotal);
+                                                deliveryTax = Utils.FormatDecimalValueToTwoDecimal(vat, ViewBag.Currency);
+                                            }
+                                            <label ID="lblVatTotal" class="LightGrayLabels"  Style="margin-right: 13px;">@deliveryTax</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%">
+                                            &nbsp;
+                                        </td>
+                                        <td width="30%">
+                                            &nbsp;
+                                        </td>
+                                        <td width="20%" align="left" class="fontSyleBold Fsize15" id="tdgrandtotal" runat="server">
+                                            <span class="CartFonts colorBlack" id="spngrandtotal" >Total:</span>
+                                        </td>
+                                        <td align="right" width="20%">
+                                            @if(deliveryCost > 0)
+                                            {
+                                                grosstotal = _priceTotal + (deliveryCostTaxVal + VatTotal) + deliveryCost;
+                                                string gross = Convert.ToString(grosstotal);
+                                                GrandTotal = Utils.FormatDecimalValueToTwoDecimal(gross, ViewBag.Currency);
+                                            }
+                                            else
+                                            {
+                                                grosstotal = _priceTotal + VatTotal;
+                                                string gross = Convert.ToString(grosstotal);
+                                                GrandTotal = Utils.FormatDecimalValueToTwoDecimal(gross, ViewBag.Currency);
+                                            }
+                                            <label class="CartFonts colorBlack Fsize15" ID="lblGrandTotal" Text="0" runat="server"
+                                                   Style="margin-right: 13px;" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        }
+
+                    }
+
                         </div>
-                    </asp:Panel>
+                    }
+                    
                 </div>
                 <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;"
                      runat="server">
                     <label ID="ltrlShipTo" runat="server">Bill to & Ship to:</label>
                 </div>
-                <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;"
-                     runat="server">
-                    <label ID="lblShipToAddLin1" runat="server" class="lbAddressLinesWithPadding" />
-                    <label ID="lblShipToAddLin2" runat="server" class="lbAddressLines" /><br />
-                    <label ID="lblShipToCity" runat="server" class="lbAddressLinesWithPadding" /><br />
-                    <label ID="lblShipTostate" runat="server" class="lbAddressLinesWithPadding" />&nbsp;
-                    <label ID="lblShipToCountry" runat="server" class="lbAddressLines" />&nbsp;
-                    <label ID="lblShipToZipCode" runat="server" class="lbAddressLines" /><br />
+                <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;">
+                    <label ID="lblShipToAddLin1"  class="lbAddressLinesWithPadding" >@ShippingAddress.Address1</label>
+                    <label ID="lblShipToAddLin2" class="lbAddressLines" >@ShippingAddress.Address2</label><br />
+                    <label ID="lblShipToCity"  class="lbAddressLinesWithPadding">@ShippingAddress.City</label><br />
+                    <label ID="lblShipTostate"  class="lbAddressLinesWithPadding" >@ShippingAddress.State</label>&nbsp;
+                    <label ID="lblShipToCountry" class="lbAddressLines" >@ShippingAddress.Country</label>  &nbsp;
+                    <label ID="lblShipToZipCode"  class="lbAddressLines" >@ShippingAddress.PostCode</label> <br />
                 </div>
                 <br />
                 <div id="BillTOShippTO" class="black_sub_heading textAlignLeft paddingLeft10px" runat="server">
@@ -511,17 +807,17 @@
 
                 </div>
                 <div id="BillTOShippTOContainer" class="textAlignLeft AddressesContainer" runat="server">
-                    <label ID="lblAddLine1BilSip" runat="server" class="lbAddressLinesWithPadding" />
-                    <label ID="lbladdLine2BilSip" runat="server" class="lbAddressLines" /><br />
-                    <label ID="lblCityBilSip" runat="server" class="lbAddressLinesWithPadding" /><br />
-                    <label ID="lblStateBilSip" runat="server" class="lbAddressLinesWithPadding" />&nbsp;
-                    <label ID="lblCountryBilSip" runat="server" class="lbAddressLines" />&nbsp;
-                    <label ID="lblPostCdeBilSip" runat="server" class="lbAddressLines" /><br />
+                    <label ID="lblAddLine1BilSip" class="lbAddressLinesWithPadding" >@BillingAddress.Address1</label>
+                    <label ID="lbladdLine2BilSip" class="lbAddressLines" >@BillingAddress.Address2</label><br />
+                    <label ID="lblCityBilSip"  class="lbAddressLinesWithPadding" >@BillingAddress.City</label><br />
+                    <label ID="lblStateBilSip" class="lbAddressLinesWithPadding">@BillingAddress.State</label>&nbsp;
+                    <label ID="lblCountryBilSip" class="lbAddressLines" >@BillingAddress.Country</label>&nbsp;
+                    <label ID="lblPostCdeBilSip" class="lbAddressLines" >@BillingAddress.PostCode</label><br />
                 </div>
                 <br />
                 <div class="textAlignLeft paddingLeft10px">
                     <label ID="lblContactNotxt" runat="server" class="black_sub_heading">Contact No:</label>
-                    <label ID="lblContactNo" runat="server" class="ContactNumberlb" />
+                    <label ID="lblContactNo" runat="server" class="ContactNumberlb" >ViewBag.lblContactNo</label>
                 </div>
                 <br />
                 <div id="DivRefPO" style="display: none;" class="textAlignLeft paddingLeft10px">
@@ -546,11 +842,14 @@
                 </div>
                 <div class="pad10">
                     <div class="float_right marginLeft">
-
-                        <asp:Button ID="btnConfirmOrder" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
+                     @if(Model.CartItemsList != null && Model.CartItemsList.Count > 0)
+                     {
+                        @*<asp:Button ID="btnConfirmOrder" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
                                     runat="server" OnClick="btnConfirmOrder_Click" Enabled="true" Text="Continue"
-                                    ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />
-                    </div>
+                                    ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />*@
+                        <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
+                      }
+                     </div>
                     <div class="float_right">
                         <asp:Button Text="BACK TO SHOPPING" ID="btnShopCart" CssClass="btn_brown rounded_corners5"
                                     runat="server" OnClick="btnShopCart_Click" CausesValidation="False" />
@@ -567,23 +866,30 @@
             &nbsp;
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
-
+        @if(UserCookieManager.StoreMode != (int)StoreMode.Corp)
+        {
             <div class="super_admin_message" id="DivretailMesg" runat="server" visible="false">
                 <label ID="ltrlSomeOmeCallU" runat="server"> Some one will call you</label>
-                <label ID="ltrlconfirmDetails" runat="server" >to reconfirm details.</label>
+                <label ID="ltrlconfirmDetails" runat="server">to reconfirm details.</label>
             </div>
+        }
+          
+        @if(ViewBag.divAdminMessage == true)
+        {
             <div class="super_admin_message" id="divAdminMessage" runat="server" visible="false">
                 <label ID="ltrlorderwillbed" runat="server">Order will be delivered after</label>
 
-                <label ID="lblSupAdminName" runat="server"></label>
+                <label ID="lblSupAdminName">@ViewBag.lblSupAdminName</label>
 
                 <label ID="ltrlapprovethisorder" runat="server"> approves this order.</label>
             </div>
+        }
+            
             <div class="clearBoth">
                 &nbsp;
             </div>
-            <div class="super_admin_message" runat="server" id="divWarnnigMEsg">
-                <label ID="ltrlWarnnigMEsg" runat="server"></label>
+            <div class="super_admin_message" id="divWarnnigMEsg">
+                <label ID="ltrlWarnnigMEsg" >@ViewBag.ltrlWarnnigMEsg</label>
             </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
@@ -622,12 +928,18 @@
             <label ID="lblMsg" runat="server" Text="Your Cart is empty!" Visible="false" >Your Cart is empty!</label>
             <label ID="lblStatus" runat="server" Text="" class="errorMessage" Visible="false" ></label>
         </div>
-        <asp:HiddenField ID="txthdnDeliveryAddressID" runat="server" Value="0" />
-        <asp:HiddenField ID="txthdnBillingAddressID" runat="server" Value="0" />
+        <input type="hidden" value="@BillingAddress.AddressId" id="txthdnBillingAddressID" />
+        <input type="hidden" value="@BillingAddress.IsDefaultShippingAddress" id="txthdnBillingDefaultShippingAddress"/>
+        <input type="hidden" value="@ShippingAddress.AddressId" id="txthdnDeliveryAddressID" />
+        <input type="hidden" value="@ShippingAddress.IsDefaultShippingAddress" id="txthdnDeliveryDefaultShippingAddress" />
+        <input type="hidden" value="@ShippingAddress.IsDefaultAddress" id="txthdnDeliveryDefaultAddress"/>
+        
+
+
         <asp:HiddenField ID="txthdnBillingDefaultAddress" runat="server" Value="false" />
-        <asp:HiddenField ID="txthdnBillingDefaultShippingAddress" runat="server" Value="false" />
-        <asp:HiddenField ID="txthdnDeliveryDefaultAddress" runat="server" Value="false" />
-        <asp:HiddenField ID="txthdnDeliveryDefaultShippingAddress" runat="server" Value="false" />
+      
+   
+       
         <asp:HiddenField ID="txtVoucherDiscountRate" runat="server" Value="0" />
         <asp:HiddenField ID="hfIsCorporate" runat="server" />
         <asp:HiddenField ID="hfBrokerContactCompany" runat="server" Value="0" />
@@ -1209,6 +1521,10 @@
         $('#<%=hfBrokerContactCompany.ClientID %>').val(0);
     }
 
+    function DisableEnableBillingAddressControlls()
+    {
+
+    }
 </script>
 
 }

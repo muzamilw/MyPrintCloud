@@ -9,5 +9,7 @@ namespace MPC.Models.Common
     public class Constants
     {
         public static double CuttingMargin = 14.173228345;
+
+
     }
 }

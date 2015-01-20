@@ -279,6 +279,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Controllers\RealEstateBannerController.cs" />
     <Compile Include="Controllers\RealEstateHeaderController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
+    <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
@@ -334,6 +336,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Designer\assets-v2\back.png" />
+    <Content Include="Content\Designer\assets-v2\failure1.png" />
     <Content Include="Content\Images\fancybox_loading.gif" />
     <Content Include="Content\Designer\assets-v2\bkColor.jpg" />
     <Content Include="Content\Designer\assets-v2\bleed_area.png" />
@@ -607,13 +610,15 @@
     <Content Include="Views\Shared\PartialViews\SecondaryPages.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\ShopCartAddressSelect.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dashboard.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Receipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
-    <Folder Include="Views\ShopCartAddressSelect\" />
+    <Folder Include="Views\Receipt\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

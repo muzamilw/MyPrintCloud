@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPC.Models.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICostCentreMatrixRepository
     {
-
+        CostCentreMatrix GetMatrix(int MatrixID);
     }
 }

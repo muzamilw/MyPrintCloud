@@ -1851,6 +1851,18 @@ namespace MPC.Repository.Repositories
             clonedTemplateToRemoveList = clonedTemplateList;
             return true;
         }
+
+        public Item GetItemByOrderID(long OrderID)
+        {
+            try
+            {
+                return db.Items.Where(c => c.EstimateId == OrderID && c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     
         #endregion
     }

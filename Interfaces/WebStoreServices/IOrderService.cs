@@ -42,6 +42,22 @@ namespace MPC.Interfaces.WebStoreServices
         bool IsOrderBelongToCorporate(long orderID, out long customerID);
 
         bool ValidateOrderForCorporateLogin(long orderID, bool isPlaceOrder, int IsCustomer, bool isWebAccess, out long CustomerID);
-       
+        /// <summary>
+        /// Get order, items, addresses details by order id
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="BrokerID"></param>
+        /// <returns></returns>
+        OrderDetail GetOrderReceipt(long orderID);
+
+        List<State> GetStates();
+
+        List<Country> PopulateBillingCountryDropDown();
+
+        Country GetCountryByID(long CountryID);
+
+
+
+
     }
 }

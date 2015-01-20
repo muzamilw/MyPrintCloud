@@ -34,6 +34,11 @@ namespace MPC.Webstore
              "AllProducts",
              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
+            routes.MapRoute(
+            "Dashboard",
+            "Dashboard",
+            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+         );
 
             routes.MapRoute(
             "About",
@@ -86,11 +91,17 @@ namespace MPC.Webstore
            "ShopCart/{optionalOrderId}",
            new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
              );
+         
+                  routes.MapRoute(
+           "ShopCartAddressSelect",
+           "ShopCartAddressSelect/{OrderID}",
+           new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+             );
 
             routes.MapRoute(
-         "SecondaryPages",
-         "SecondaryPages/{PageID}",
-         new { controller = "Home", action = "Index", PageID = UrlParameter.Optional }
+         "pages",
+         "pages/{name}/{PageID}",
+         new { controller = "Home", action = "Index", name = UrlParameter.Optional, PageID = UrlParameter.Optional }
            );
 
             routes.MapRoute(

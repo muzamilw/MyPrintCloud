@@ -137,6 +137,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemName = source.ItemName,
                 ItemCode = source.ItemCode,
                 SupplierId = source.SupplierId,
+                SupplierName = source.Company != null ? source.Company.Name : string.Empty,
                 CategoryId = source.CategoryId,
                 SubCategoryId = source.SubCategoryId,
                 BarCode = source.BarCode,

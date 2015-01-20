@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
 using MPC.Repository.BaseRepository;
 using MPC.Repository.Repositories;
 
@@ -88,6 +89,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<IProductCategoryItemRepository, ProductCategoryItemRepository>();
             unityContainer.RegisterType<IPhraseFieldRepository, PhraseFieldRepository>();
             unityContainer.RegisterType<IImagePermissionsRepository, ImagePermissionRepository>();
+            unityContainer.RegisterType<ICostCentreQuestionRepository, CostCentreQuestionRepository>();
+            unityContainer.RegisterType<ICostCentreVariableRepository, CostCentreVariableRepository>();
+            unityContainer.RegisterType<ICostCentreMatrixRepository, CostCentreMatrixRepository>();
         }
     }
 }

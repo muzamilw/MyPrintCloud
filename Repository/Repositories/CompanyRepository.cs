@@ -145,6 +145,7 @@ namespace MPC.Repository.Repositories
 
         public Company GetStoreById(long companyId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.Companies.FirstOrDefault(c => c.CompanyId == companyId);
         }
 

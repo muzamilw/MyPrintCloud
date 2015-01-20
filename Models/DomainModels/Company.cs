@@ -144,6 +144,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<ColorPallete> ColorPalletes { get; set; }
+        public virtual ICollection<StockItem> StockItems { get; set; }
+        public virtual ICollection<CmsOffer> CmsOffers { get; set; }
 
         #region Additional Properties
         /// <summary>

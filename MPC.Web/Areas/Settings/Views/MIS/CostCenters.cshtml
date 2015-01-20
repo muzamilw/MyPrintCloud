@@ -5,7 +5,7 @@
 
 }
 <div class="row" id="CostCentersBinding">
-    <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
+    <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
@@ -16,7 +16,7 @@
                 <div class="clearfix">
                     <h1 class="pull-left">Cost Centers</h1>
                     <div class="pull-right top-page-ui">
-                        <a class="btn btn-primary" data-bind="click: $root.onCreateNewCostCenter">
+                        <a class="btn btn-primary" data-bind="click: $root.createNewCostCenter">
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Cost Center
                         </a>
                     </div>
@@ -39,6 +39,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!-- ko template: { name: 'itemCostCenterTemplate' , foreach: $root.costCentersList } -->
+                                        <!-- /ko -->
                                     </tbody>
                                 </table>
                             </div>

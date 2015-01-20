@@ -29,7 +29,7 @@ namespace MPC.Webstore.ModelMappers
                 ShowPrices = source.ShowPrices,
                 isDisplayBanners = source.isDisplayBanners,
                 isDisplayMenuBar = source.isDisplayMenuBar,
-                isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
+                isDisplaySecondaryPages = source.isDisplaySecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
                 isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
                 isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
@@ -63,7 +63,8 @@ namespace MPC.Webstore.ModelMappers
                 TaxRate = source.TaxRate,
                 isIncludeVAT = source.isIncludeVAT,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
-               
+                PickupAddressId = source.PickupAddressId,
+                TaxLabel = source.TaxLabel 
             };
         }
 
@@ -89,7 +90,7 @@ namespace MPC.Webstore.ModelMappers
                 ShowPrices = source.ShowPrices,
                 isDisplayBanners = source.isDisplayBanners,
                 isDisplayMenuBar = source.isDisplayMenuBar,
-                isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
+                isDisplaySecondaryPages = source.isDisplaySecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
                 isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
                 isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
@@ -122,7 +123,9 @@ namespace MPC.Webstore.ModelMappers
                 WebAnalyticCode = source.WebAnalyticCode,
                 TaxRate = source.TaxRate,
                 isIncludeVAT = source.isIncludeVAT,
-                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                PickupAddressId = source.PickupAddressId,
+                TaxLabel = source.TaxLabel
             };
         }
 

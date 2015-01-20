@@ -19,10 +19,8 @@ namespace MPC.Webstore.Controllers
         private readonly IItemService _ItemService;
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
-        private List<AddOnCostsCenter> _selectedItemsAddonsList = null;
         RelatedItemViewModel RIviewModel = new RelatedItemViewModel();
 
-        private double _deliveryCost = 0;
         private int NumberOfRecords = 0;
         public ShopCartController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService, ITemplateService TemplateService)
         {
@@ -174,7 +172,8 @@ namespace MPC.Webstore.Controllers
                 {
                     sOrderID = Convert.ToInt32(OrderID);
                 }
-                if(_myClaimHelper.isUserLoggedIn())
+                bool login = true;
+                if (login)//_myClaimHelper.isUserLoggedIn()
                 {
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
@@ -198,18 +197,14 @@ namespace MPC.Webstore.Controllers
                     
 
 
-                    deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"].ToString();
+                    deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"];
 
                     if (!string.IsNullOrEmpty(deliveryCompletionTime))
                     {
-                        DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                        DeliveryTime = 0;// Convert.ToInt32(deliveryCompletionTime);
                     }
                   
-                    if (!string.IsNullOrEmpty(deliveryCompletionTime))
-                    {
-                        DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
-                    }
-                   
+                  
                     if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
                         result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp);
@@ -222,8 +217,9 @@ namespace MPC.Webstore.Controllers
 
                     if (result)
                     {
-                        string URL = "ShopCartAddSelect/"+ sOrderID;
-                        return View(URL);
+                        string URL = "PartialViews/ShopCartAddressSelect/"+ sOrderID;
+
+                        return RedirectToAction("Index", "ShopCartAddressSelect", new { OrderID = sOrderID });
                     }
                     else
                     {
@@ -258,10 +254,8 @@ namespace MPC.Webstore.Controllers
             ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(orderID, OrderStatus.ShoppingCart);
             if (shopCart != null)
             {
-                _selectedItemsAddonsList = shopCart.ItemsSelectedAddonsList; //global values for all items
                 ViewData["selectedItemsAddonsList"] = shopCart.ItemsSelectedAddonsList;
-                _deliveryCost = shopCart.DeliveryCost;
-
+            
             }
 
             return shopCart;

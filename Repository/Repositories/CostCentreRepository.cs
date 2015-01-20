@@ -617,10 +617,11 @@ namespace MPC.Repository.Repositories
 
         public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
         {
+            var cclist = db.CostCentres.Where(c => c.Type != 1 && c.IsDisabled == 0 && c.OrganisationId == OrganisationId).ToList();
             return new CostCentersResponse
             {
-                RowCount = DbSet.Count(),
-                CostCenters = DbSet.Where(c => c.Type != 1 && c.IsDisabled == 0 && c.OrganisationId == OrganisationId)
+                RowCount = cclist.Count(),
+                CostCenters = cclist
             };
         }
         #endregion
@@ -712,6 +713,56 @@ namespace MPC.Repository.Repositories
             {
                 throw new Exception("ExecuteUserStockItem", ex);
             }
+        }
+        #endregion
+
+        #region AddressSelect
+        public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
+        {
+
+                var query = from tblCostCenter in db.CostCentres
+                            join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
+                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
+                            && CorpCostCenter.CompanyId == CompanyID
+                            orderby tblCostCenter.MinimumCost
+                            select new CostCentre()
+                            {
+
+                                CostCentreId = tblCostCenter.CostCentreId,
+                                CompletionTime = tblCostCenter.CompletionTime,
+                                MinimumCost = tblCostCenter.MinimumCost,
+                                Description = tblCostCenter.Description,
+                                Name = tblCostCenter.Name,
+                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            };
+
+
+                return query.ToList();
+
+        }
+        public List<CostCentre> GetDeliveryCostCentersList()
+        {
+
+           
+                var query = from tblCostCenter in db.CostCentres
+                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
+                            orderby tblCostCenter.MinimumCost
+                            select new CostCentre()
+                            {
+                                CostCentreId = tblCostCenter.CostCentreId,
+                                CompletionTime = tblCostCenter.CompletionTime,
+                                MinimumCost = tblCostCenter.MinimumCost,
+                                Description = tblCostCenter.Description,
+                                Name = tblCostCenter.Name,
+                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            };
+
+
+                return query.ToList();
+            
+
         }
         #endregion
     }

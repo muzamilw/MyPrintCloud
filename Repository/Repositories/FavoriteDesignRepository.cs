@@ -43,6 +43,28 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets favorite design count Of a login user to display on dashboard
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <returns></returns>
+        public int GetFavDesignCountByContactId(long contactId)
+        {
+            try
+            {
+                
+                    return (from favroite in db.FavoriteDesigns
+                            where favroite.ContactUserId == contactId && favroite.IsFavorite == true
+                            select favroite).Count();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         #endregion
     }
 }

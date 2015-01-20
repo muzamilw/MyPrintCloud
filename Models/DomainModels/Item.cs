@@ -7,6 +7,7 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Item Domain Model
     /// </summary>
+    [Serializable()]
     public class Item
     {
         #region Persisted Properties
@@ -368,7 +369,7 @@ namespace MPC.Models.DomainModels
         public string MetaKeywords { get; set; }
         public string MetaDescription { get; set; }
         public string MetaTitle { get; set; }
-        public bool? IsTemplateDesignMode { get; set; }
+        public int? IsTemplateDesignMode { get; set; }
         public string XeroAccessCode { get; set; }
         public double? DefaultItemTax { get; set; }
         public long? OrganisationId { get; set; }

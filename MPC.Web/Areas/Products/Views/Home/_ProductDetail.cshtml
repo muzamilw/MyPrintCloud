@@ -1585,7 +1585,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios1" id="optionManuallyYes" onclick="HideTempDesginerControl(1);" value="option2" checked>
+                                                    <input type="radio" name="optionsRadios1" id="optionCreatedManually" data-bind="checked: isCreatedManualUi" value="1">
                                                     <label for="optionManuallyYes">
                                                         A blank Template with Custom Size
                                                     </label>
@@ -1600,7 +1600,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Width" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Width" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -1617,7 +1617,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Height" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Height" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -1655,7 +1655,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios1" onclick="HideTempDesginerControl(2);" id="optionUploadPDF" value="option2">
+                                                    <input type="radio" name="optionsRadios1" data-bind="checked: isCreatedManualUi" id="optionUploadPDF" value="2">
                                                     <label for="optionUploadPDF">
                                                         A Pre built template e.g. corporate store template, uplod your PDF
                                                     </label>
@@ -1692,7 +1692,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" onclick="HideTempDesginerControl(3);" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="option2">
+                                                    <input type="radio" data-bind="checked: isCreatedManualUi" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
                                                     <label for="optionManuallyNoStartDesigner">
                                                         Start the Designer Empty but Link it With Template Category from Global Library.
                                                     </label>
@@ -1703,7 +1703,7 @@
                                             </div>
 
                                         </div>
-                                        <div id="LinkDesign" style="display:none;">
+                                        <div id="LinkDesign" data-bind="visible: canStartDesignerEmpty" style="display:none;">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -1809,7 +1809,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios2" id="optionLaunchYes" value="option2" checked>
+                                                    <input type="radio" name="optionsRadios2" data-bind="checked: $parent.isTemplateDesignModeUi" id="optionLaunchYes" value="1">
                                                     <label for="optionLaunchYes">
                                                         Launch Designer and Open template with Full Controlfor End User to Modify all images and text.
                                                     </label>
@@ -1828,7 +1828,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios2" id="optionLaunchNo" value="option2">
+                                                    <input type="radio" name="optionsRadios2" id="optionLaunchNo" data-bind="checked: $parent.isTemplateDesignModeUi" value="2">
                                                     <label for="optionLaunchNo">
                                                         Launch Designer and Open template in Restricted mode where the End User can modify Text objects.
                                                     </label>
@@ -1847,7 +1847,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios2" id="optionLaunch" value="option2">
+                                                    <input type="radio" name="optionsRadios2" id="optionLaunch" data-bind="checked: $parent.isTemplateDesignModeUi" value="3">
                                                     <label for="optionLaunch">
                                                         Only launch Quick text Fields and then Show Template Preview to End User.
                                                     </label>
@@ -1867,7 +1867,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios2" id="optionLaunch1" value="option2">
+                                                    <input type="radio" name="optionsRadios2" id="optionLaunch1" data-bind="checked: $parent.isTemplateDesignModeUi" value="4">
                                                     <label for="optionLaunch1">
                                                         No Designer Tool Loaded
                                                     </label>
@@ -1895,7 +1895,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios3" id="optionPDFOutputYes" value="option2" checked>
+                                                    <input type="radio" name="optionsRadios3" id="optionPDFOutputYes" data-bind="checked: $parent.isCmykUi" value="2">
                                                     <label for="optionPDFOutputYes">
                                                         Support Spot Colour
                                                     </label>
@@ -1914,7 +1914,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios3" id="optionPDFOutputNo" value="option2">
+                                                    <input type="radio" name="optionsRadios3" id="optionPDFOutputNo" data-bind="checked: $parent.isCmykUi" value="1">
                                                     <label for="optionPDFOutputNo">
                                                         Convert all colours to CMYK seperation
                                                     </label>
@@ -1930,7 +1930,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="tab-tempPages">
+                            <div class="tab-pane fade" id="tab-tempPages" data-bind="visible: template().canAddTemplatePages">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Template Pages</h3>
                                     <div class="col-lg-12" data-bind="with: template">
