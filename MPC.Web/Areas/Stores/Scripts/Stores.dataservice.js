@@ -13,6 +13,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Items For Widgets
+                    amplify.request.define('getItemsForWidgets', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetItemsForWidgets',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get product category childs
                     amplify.request.define('getProductCategoryChilds', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCategory',
@@ -122,7 +128,16 @@
                     data: params
                 });
             },
-            // get Store
+            // get Items For Widgets
+            getItemsForWidgets = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getItemsForWidgets',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+             // get Store
             getStores = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -193,7 +208,7 @@
                 });
             },
               // get Widget Detail 
-            getWidgetDetail= function (params, callbacks) {
+            getWidgetDetail = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getWidgetDetail',
@@ -269,7 +284,8 @@
             getSecondryPageById: getSecondryPageById,
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
             getWidgetDetail: getWidgetDetail,
-            getProductCategoryById: getProductCategoryById
+            getProductCategoryById: getProductCategoryById,
+            getItemsForWidgets: getItemsForWidgets
         };
     })();
 

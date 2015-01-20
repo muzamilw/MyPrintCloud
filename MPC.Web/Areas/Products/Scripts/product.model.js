@@ -22,7 +22,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
         specifiedFile2, specifiedFile3, specifiedFile4, specifiedFile5, specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight,
         specifiedDefaultItemTax, specifiedSupplierId, specifiedSupplierId2, specifiedEstimateProductionTime, specifiedItemProductDetail,
-        specifiedIsTemplateDesignMode, specifiedDesignerCategoryId, specifiedScalar, specifiedZoomFactor, specifiedIsCMYK,
+        specifiedIsTemplateDesignMode, specifiedDesignerCategoryId, specifiedScalar, specifiedZoomFactor, specifiedIsCMYK, specifiedTemplateType,
         callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
@@ -309,6 +309,40 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             zoomFactor = ko.observable(specifiedZoomFactor || undefined),
             // Designer Category Id
             designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined),
+            // Template Type
+            templateType = ko.observable(specifiedTemplateType || 1),
+            // Template Type Ui
+            templateTypeUi = ko.computed({
+                read: function () {
+                    return '' + templateType();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var tempType = parseInt(value);
+
+                    if (tempType === templateType()) {
+                        return;
+                    }
+
+                    if (tempType === 2) {
+                        // Changing from option 1 to 2
+                        // Ask if want to keep old template objects or not
+                        if (id() && (specifiedTemplateType === 1)) {
+                            // Set Mode to 1 if yes else set to 2 // Mode will be passed to generateTemplateFromPDF function                                
+                            // that will decide whether to delete old template or not
+
+                        }
+                    }
+
+                    templateType(tempType);
+                    if (template()) {
+                        template().isCreatedManual(tempType);
+                    }
+                }
+            }),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
             // Item Vdp Prices
@@ -757,13 +791,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (selectedCategories.length > 0) {
                         _.each(selectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && !productCategoryItemObj.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id;
                             });
 
                             // Exists Already
                             if (productCategoryItemObj) {
-                                // set it to true
-                                productCategoryItemObj.isSelected(true);
+                                if (!productCategoryItemObj.isSelected()) {
+                                    // set it to true
+                                    productCategoryItemObj.isSelected(true);
+                                }
                             }
                             else {
                                 // Add New
@@ -780,13 +816,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (unselectedCategories.length > 0) {
                         _.each(unselectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.id() && productCategoryItemObj.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.isSelected();
                             });
 
                             // Exists Already
                             if (productCategoryItemObj) {
-                                // set it to false
-                                productCategoryItemObj.isSelected(false);
+                                if (!productCategoryItemObj.id()) { // If New Product Category Item
+                                    productCategoryItems.remove(productCategoryItemObj);
+                                }
+                                else {
+                                    // set it to false
+                                    productCategoryItemObj.isSelected(false);
+                                }
                             }
                         });
                     }
@@ -972,6 +1013,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 scalar: scalar,
                 zoomFactor: zoomFactor,
                 designerCategoryId: designerCategoryId,
+                templateType: templateType,
                 itemProductDetail: itemProductDetail,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
@@ -1103,11 +1145,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     File4Byte: file4FileSource(),
                     File5Name: file5FileName(),
                     File5Byte: file5FileSource(),
-                    IsTemplateDesignMode: isTemplateDesignMode(),
-                    IsCMYK: isCmykUi() === '2' ? 0 : isCmyk(),
-                    Scalar: scalar(),
-                    ZoomFactor: zoomFactor(),
-                    DesignerCategoryId: designerCategoryId(),
                     ItemVdpPrices: itemVdpPrices.map(function (itemVdpPrice) {
                         return itemVdpPrice.convertToServerData();
                     }),
@@ -1207,6 +1244,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             scalar: scalar,
             zoomFactor: zoomFactor,
             DesignerCategoryId: designerCategoryId,
+            templateTypeUi: templateTypeUi,
             itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
             itemRelatedItems: itemRelatedItems,
@@ -1450,38 +1488,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual || 1),
-            // Is Created Manual Ui
-            isCreatedManualUi = ko.computed({
-                read: function() {
-                    return '' + isCreatedManual();
-                },
-                write: function(value) {
-                    if (!value) {
-                        return;
-                    }
-
-                    var createdManual = parseInt(value);
-
-                    if (createdManual === isCreatedManual()) {
-                        return;
-                    }
-
-                    if (createdManual === 2) {
-                        // Changing from option 1 to 2
-                        // Ask if want to keep old template objects or not
-                        if (id() && (specifiedIsCreatedManual === 1)) {
-                            // Set Mode to 1 if yes else set to 2 // Mode will be passed to generateTemplateFromPDF function                                
-                            // that will decide whether to delete old template or not
-
-                        }
-                    }
-
-                    isCreatedManual(createdManual);
-                }
-            }),
             // Can Start Designer Empty
             canStartDesignerEmpty = ko.computed(function() {
-                return isCreatedManualUi() === '3';
+                return isCreatedManual() === 3;
             }),
             // Is Spot Template
             isSpotTemplate = ko.observable(specifiedIsSpotTemplate || undefined),
@@ -1493,7 +1502,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             templatePages = ko.observableArray([]),
             // Can add Template Pages
             canAddTemplatePages = ko.computed(function () {
-                return isCreatedManualUi() === '1' || (isCreatedManualUi() === '2' && !fileSource());
+                return isCreatedManual() === 1 || (isCreatedManual() === 2 && !fileSource());
             }),
             // Add Template Page
             addTemplatePage = function () {
@@ -1562,8 +1571,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ProductId: id(),
                     PdfTemplateWidth: pdfTemplateWidth(),
                     PdfTemplateHeight: pdfTemplateHeight(),
-                    IsCreatedManual: isCreatedManual(),
-                    IsSpotTemplate: isSpotTemplate(),
                     TemplatePages: templatePages.map(function (templatePage, index) {
                         var templatePageItem = templatePage.convertToServerData();
                         templatePageItem.PageNo = index + 1;
@@ -1577,7 +1584,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
             isCreatedManual: isCreatedManual,
-            isCreatedManualUi: isCreatedManualUi,
             canStartDesignerEmpty: canStartDesignerEmpty,
             isSpotTemplate: isSpotTemplate,
             canAddTemplatePages: canAddTemplatePages,
@@ -2578,7 +2584,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.File2BytesSource,
             source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId, source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax,
             source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, source.IsTemplateDesignMode, source.DesignerCategoryId,
-            source.Scalar, source.ZoomFactor, source.IsCMYK, callbacks, constructorParams);
+            source.Scalar, source.ZoomFactor, source.IsCMYK, source.TemplateType, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

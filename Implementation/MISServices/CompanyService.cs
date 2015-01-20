@@ -678,7 +678,7 @@ namespace MPC.Implementation.MISServices
             UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             if (companyToBeUpdated.Image != null)
             {
-                companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);    
+                companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
             companyRepository.Update(companyToBeUpdated);
             companyRepository.Update(companySavingModel.Company);
@@ -689,7 +689,7 @@ namespace MPC.Implementation.MISServices
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
-            
+
 
             return companySavingModel.Company;
         }
@@ -1530,15 +1530,15 @@ namespace MPC.Implementation.MISServices
                 string directoryPath =
                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
                                                                  itemRepository.OrganisationId + "/Company" +
-                                                                 companyContact.CompanyId + "/CompanyContacts/CompanyContact" +companyContact.ContactId);
+                                                                 companyContact.CompanyId + "/CompanyContacts/CompanyContact" + companyContact.ContactId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\"  + "_" + companyContact.FileName;
+                string savePath = directoryPath + "\\" + "_" + companyContact.FileName;
                 File.WriteAllBytes(savePath, data);
-                
+
                 return savePath;
             }
             return null;
@@ -1640,6 +1640,14 @@ namespace MPC.Implementation.MISServices
         #endregion
 
         #region Public
+
+        /// <summary>
+        /// Get Items For Widgets
+        /// </summary>
+        public List<Item> GetItemsForWidgets()
+        {
+            return itemRepository.GetItemsForWidgets();
+        }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
         {
