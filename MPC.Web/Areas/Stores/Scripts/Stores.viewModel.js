@@ -1690,7 +1690,7 @@ define("stores/stores.viewModel",
                                             selectedStore().companyId(data.CompanyId);
                                             stores.splice(0, 0, selectedStore());
                                         }
-                                        if (selectedStoreListView().companyId() == selectedStore().companyId()) {
+                                        if (selectedStoreListView() && selectedStoreListView().companyId() == selectedStore().companyId()) {
                                             _.each(stores(), function (store) {
                                                 if (store.companyId() == selectedStore().companyId()) {
                                                     store.name(selectedStore().name());
