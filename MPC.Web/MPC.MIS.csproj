@@ -1493,6 +1493,7 @@
     <Content Include="Scripts\carousel-rtl.js" />
     <Content Include="Scripts\collapse.js" />
     <Content Include="Scripts\dropzone-amd-module.js" />
+    <Content Include="Scripts\jquery-2.1.0.min.map.js" />
     <Content Include="Scripts\jquery-ui-1.11.0.min.js" />
     <Content Include="Scripts\dropdown.js" />
     <Content Include="Scripts\GPL-LICENSE.txt" />
