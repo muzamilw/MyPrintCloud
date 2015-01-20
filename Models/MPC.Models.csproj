@@ -156,6 +156,7 @@
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
+    <Compile Include="DomainModels\ItemStockUpdateHistory.cs" />
     <Compile Include="DomainModels\Listing.cs" />
     <Compile Include="DomainModels\ListingAgent.cs" />
     <Compile Include="DomainModels\ListingConjunctionAgent.cs" />
