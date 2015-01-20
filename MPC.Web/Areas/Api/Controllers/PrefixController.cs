@@ -13,7 +13,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     public class PrefixController : ApiController
     {
         #region Private
-        private readonly IPrefixService _prefixServiceService;
+        private readonly IPrefixService _prefixService;
         #endregion
 
 
@@ -22,24 +22,24 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor Prefix Controller
         /// </summary>
-        /// <param name="prefixServiceService"></param>
-        public PrefixController(IPrefixService prefixServiceService)
+        /// <param name="prefixService"></param>
+        public PrefixController(IPrefixService prefixService)
         {
-            this._prefixServiceService = prefixServiceService;
+            this._prefixService = prefixService;
         }
         #endregion
 
         #region Public
         public Prefix Get()
         {
-           return _prefixServiceService.GetPrefixByOrganisationId().CreateFrom();
+            return _prefixService.GetPrefixByOrganisationId().CreateFrom();
         }
 
         public Prefix Post(Prefix prefix)
         {
             if (ModelState.IsValid)
             {
-                return _prefixServiceService.Update(prefix.CreateFrom()).CreateFrom();
+                return _prefixService.Update(prefix.CreateFrom()).CreateFrom();
             }
             throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
         }

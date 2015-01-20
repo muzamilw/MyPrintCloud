@@ -252,6 +252,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterResponse.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\PrefixController.cs" />
@@ -494,9 +496,13 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\costcenter.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\costcenter.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\costcenter.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\costcenter.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
@@ -1449,6 +1455,8 @@
     <Content Include="Areas\Settings\Views\Home\PhraseLibrary.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_EditJobTitlePhraseLibrary.cshtml" />
     <Content Include="Content\less\Store.less" />
+    <Content Include="Areas\Settings\Views\MIS\CostCenters.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\CostCenterDetail.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

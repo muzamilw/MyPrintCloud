@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
 using MPC.Models.Common;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -48,5 +50,6 @@ namespace MPC.Interfaces.Repository
         double ExecUserVariable(CostCentreVariable oVariable);
         double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour);
         double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
+        CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request);
     }
 }
