@@ -237,6 +237,7 @@
         <AssociationConnector Association="DomainModels.FK_StockItem_Company" />
         <EntityTypeShape EntityType="DomainModels.CmsOffer" Width="1.5" PointX="3" PointY="38.875" />
         <AssociationConnector Association="DomainModels.FK_CmsOffer_Company" />
+        <EntityTypeShape EntityType="DomainModels.ItemStockUpdateHistory" Width="1.5" PointX="35.375" PointY="12.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

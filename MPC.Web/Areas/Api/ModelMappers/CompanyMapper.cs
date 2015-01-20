@@ -14,7 +14,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.Company CreateFrom(this DomainModels.Company source)
+        public static Company CreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
             if (source.Image != null && File.Exists(source.Image))
@@ -27,7 +27,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
             }
 
-            return new ApiModels.Company
+            return new Company
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
@@ -115,7 +115,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Take(10).Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
                 CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroudImage = storeBackgroundImageBytes
+                StoreBackgroudImage = storeBackgroundImageBytes,
+                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null
                 //Items = source.produ
             };
         }
@@ -123,7 +124,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.Company CreateFrom(this ApiModels.Company source)
+        public static DomainModels.Company CreateFrom(this Company source)
         {
             var company = new DomainModels.Company
             {
@@ -216,6 +217,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
                 StoreBackgroudImageImageSource = source.StoreBackgroudImageImageSource,
                 StoreBackgroudImageFileName = source.StoreBackgroudImageFileName,
+                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null
             };
 
             return company;
