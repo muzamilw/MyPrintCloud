@@ -1,9 +1,4 @@
-﻿@{
-    ViewBag.Title = "Products Filter";
-}
-
-
-
+﻿
 <div class="modal fade" id="itemsForWidgetsDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width:838px;" class="modal-dialog">
         <div class="modal-content">
@@ -17,16 +12,15 @@
                         <label for="txtCompanyName" class="control-label text-right">Select which product to Prioritize</label>
 
                     </div>
-
                     <div class="col-lg-9">
                         <div class="radio">
-                            <input type="radio" name="optionsRadios" id="optionYesProducts" onclick="HideItemsGrid(0);" value="option1" checked>
+                            <input type="radio" name="optionsRadios1" id="optionYesProducts" value=1 data-bind="checked: $root.productPriorityRadioOption" >
                             <label for="optionYesProducts">
                                 Select Upto 9 products
                             </label>
                         </div>
                         <div class="radio">
-                            <input type="radio" name="optionsRadios" onclick="HideItemsGrid(1);" id="optionNoProducts" value="option2">
+                            <input type="radio" name="optionsRadios1" id="optionNoProducts" value=2 data-bind="checked: $root.productPriorityRadioOption">
                             <label for="optionNoProducts">
                                 Display randomly from all featured products
                             </label>
@@ -36,7 +30,7 @@
                     </div>
                 </div>
 
-
+                <!-- ko if: $root.productPriorityRadioOption()=== "1" -->
                 <div class="col-lg-12" id="itemGrid">
                     <div class="col-xs-5" style="padding-left: 40px;">
                         <div class="main-box-body clearfix">
@@ -60,14 +54,15 @@
                     </div>
 
                     <div class="col-xs-2" style="padding-top:6%;width:7%;">
-                        <a data-toggle="modal" href="#" class="btn btn-primary" style="vertical-align: top;margin-bottom:10px;">
+                        <a href="#" class="btn btn-primary" style="vertical-align: top;margin-bottom:10px;" data-bind="click:$root.addItemToWidgetList">
                             <i class="fa fa-lg"></i>&nbsp;>
                         </a>
-                        <a data-toggle="modal" href="#" class="btn btn-primary" style="vertical-align: top;margin-bottom:10px;">
+                        <a href="#" class="btn btn-primary" style="vertical-align: top;margin-bottom:10px;" data-bind="click:$root.removeItemToWidgetList">
                             <i class="fa fa-lg"></i>&nbsp;<
                         </a>
 
                     </div>
+
                     <div class="col-xs-5">
                         <div class="main-box-body clearfix">
                             <div class="table-responsive" style="border:groove;border-width:1px;margin-right:10px">
@@ -80,30 +75,17 @@
                                                 <th>Weight</th>
                                             </tr>
                                         </thead>*@
+
                                     <tbody>
-                                        <tr>
-                                            <td>
-
-                                                Greeting Cards
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Retractable Pull Up Banner
-                                            </td>
-
-                                        </tr>
-
-
-
+                                        <!-- ko template: { name: 'itemsForSelectedOffer' , foreach: $root.selectedItemsForOfferList} -->
+                                        <!-- /ko -->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <!-- /ko -->
             </div>
 
             <div class="modal-footer">
@@ -115,9 +97,17 @@
 </div>
 
 <script id="itemForWidgetsTemplate" type="text/html">
-    <!-- ko if: !isInSelectedList() -->
-    <tr>
+    <!-- ko if: (!isInSelectedList() && $root.productPriorityRadioOption()=== "1") -->
+    <tr data-bind="click: $root.selectAddItem, css: { selectedItemRow: $data === $root.selectedItemForAdd() }">
         <td data-bind="text:productName"></td>
+    </tr>
+    <!-- /ko -->
+</script>
+
+<script id="itemsForSelectedOffer" type="text/html">
+    <!-- ko if: $root.selectedOfferType() ===offerType() -->
+    <tr data-bind="click: $root.selectRemoveItem">
+        <td data-bind="text:itemName"></td>
     </tr>
     <!-- /ko -->
 </script>

@@ -124,7 +124,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
-        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource
+        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -205,6 +205,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
             //store Backgroud Image File Name
             storeBackgroudImageFileName = ko.observable(),
+            //Is Show Google Map
+            isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -273,6 +275,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 isDisplayBanners: isDisplayBanners,
                 storeBackgroudImageImageSource: storeBackgroudImageImageSource,
                 storeBackgroudImageFileName: storeBackgroudImageFileName,
+                isShowGoogleMap: isShowGoogleMap,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -311,6 +314,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.StockNotificationManagerId2 = source.stockNotificationManagerId2();
                 result.isStoreModePrivate = source.isStoreModePrivate();
                 result.isTextWatermark = source.isTextWatermark();
+                result.isShowGoogleMap = source.isShowGoogleMap();
                 result.WatermarkText = source.watermarkText();
                 result.isBrokerPaymentRequired = source.isBrokerPaymentRequired();
                 result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
@@ -372,6 +376,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 //#endregion
                 result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
                 result.ImageBytes = source.image() === undefined ? null : source.image();
+                result.CmsOffers = [];
                 return result;
             },
             // Reset
@@ -437,6 +442,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             products: products,
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
+            isShowGoogleMap: isShowGoogleMap,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -558,7 +564,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderJobCard,
             source.makeEmailBrokerArtworkOrderProductionReady,
             source.ImageSource,
-            source.StoreBackgroudImageSource
+            source.StoreBackgroudImageSource,
+            source.isShowGoogleMap
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -3318,18 +3325,33 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________ CMS Offer _________________
 
     // ReSharper disable once InconsistentNaming
-    var CmsOffer = function (specifiedOfferId, specifiedItemId, specifiedOfferType, specifiedItemName) {
+    var CmsOffer = function (specifiedOfferId, specifiedItemId, specifiedOfferType, specifiedItemName, specifiedSortOrder) {
         var self,
             id = ko.observable(specifiedOfferId),
             itemId = ko.observable(specifiedItemId),
             offerType = ko.observable(specifiedOfferType),
-            itemName = ko.observable(specifiedItemName);
-
+            itemName = ko.observable(specifiedItemName),
+           sortOrder = ko.observable(specifiedSortOrder),
+           companyId = ko.observable(),
+        //Convert To Server
+        convertToServerData = function () {
+            return {
+                PageWidgetId: id() === undefined ? 0 : id(),
+                ItemId: itemId(),
+                OfferType: offerType(),
+                ItemName: itemName(),
+                SortOrder: sortOrder(),
+                CompanyId: companyId(),
+            };
+        };
         self = {
             id: id,
             itemId: itemId,
             offerType: offerType,
             itemName: itemName,
+            sortOrder: sortOrder,
+            companyId: companyId,
+            convertToServerData: convertToServerData,
         };
         return self;
     };
@@ -3338,7 +3360,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.OfferId,
             source.ItemId,
             source.OfferType,
-            source.ItemName);
+            source.ItemName,
+            source.SortOrder);
     };
 
     // #endregion ______________ Item For Widgets _________________
