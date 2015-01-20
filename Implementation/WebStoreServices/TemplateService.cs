@@ -1126,16 +1126,6 @@ namespace MPC.Implementation.WebStoreServices
                             if (File.Exists(ProductFolderPath + objProductPage.BackgroundFileName))
                             {
                                 doc.Read(ProductFolderPath + objProductPage.BackgroundFileName);
-                               // doc.HPos = 0.5;
-                               // doc.VPos = 0.3;
-                               // doc.Transform.Reset();
-                               // doc.PageNumber = 1; 
-                               //doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
-                               // doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
-                               // doc.Rect.String = doc.MediaBox.String;
-                               // doc.Rect.Left = 0;
-                               // doc.Rect.Top = 0;
-                               
                                
                             }
                         }
