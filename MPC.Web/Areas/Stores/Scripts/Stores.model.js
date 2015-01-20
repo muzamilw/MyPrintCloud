@@ -3313,8 +3313,35 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.ProductName);
     };
 
-    // #endregion ______________ Email _________________
+    // #endregion ______________ Item For Widgets _________________
 
+    // #region ______________ CMS Offer _________________
+
+    // ReSharper disable once InconsistentNaming
+    var CmsOffer = function (specifiedOfferId, specifiedItemId, specifiedOfferType, specifiedItemName) {
+        var self,
+            id = ko.observable(specifiedOfferId),
+            itemId = ko.observable(specifiedItemId),
+            offerType = ko.observable(specifiedOfferType),
+            itemName = ko.observable(specifiedItemName);
+
+        self = {
+            id: id,
+            itemId: itemId,
+            offerType: offerType,
+            itemName: itemName,
+        };
+        return self;
+    };
+    CmsOffer.Create = function (source) {
+        return new CmsOffer(
+            source.OfferId,
+            source.ItemId,
+            source.OfferType,
+            source.ItemName);
+    };
+
+    // #endregion ______________ Item For Widgets _________________
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -3343,5 +3370,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CmsPageWithWidgetList: CmsPageWithWidgetList,
         CmsSkinPageWidgetParam: CmsSkinPageWidgetParam,
         ItemForWidgets: ItemForWidgets,
+        CmsOffer: CmsOffer,
     };
 });

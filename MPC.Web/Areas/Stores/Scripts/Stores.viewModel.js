@@ -45,9 +45,11 @@ define("stores/stores.viewModel",
                     //Items with isPublished true for widgets in Themes And Widget Tab
                     itemsForWidgets = ko.observableArray([]),
                     //selected tems List For Widgets
-                    selectedtemsForWidgets = ko.observable([]),
-                    //selected tem For Widgets For Move
-                    selectedtemForWidgets = ko.observable(),
+                    selectedItemList = ko.observable([]),
+                    //selected tem For Widgets For Move To add
+                    selectedItemForAdd = ko.observable(),
+                    //selected tem For Remove
+                    selectedItemForRemove = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -2196,21 +2198,29 @@ define("stores/stores.viewModel",
                     },
                     //#endregion
 
-                    //#region _______________  WIDGETS IN lAYOUT WIDGET _________________
+                    //#region _______________  WIDGETS IN Themes & Widgets Tab _________________
+                     //Open Dialog from Featured Product Row
                     openItemsForWidgetsDialogFromFeatured = function () {
                         view.showItemsForWidgetsDialog();
                     },
+                    //Open Dialog from Popular Product Row
                      openItemsForWidgetsDialogFromPopular = function () {
                          view.showItemsForWidgetsDialog();
                      },
+                      //Open Dialog from Special Product Row
                       openItemsForWidgetsDialogFromSpecial = function () {
                           view.showItemsForWidgetsDialog();
                       },
-                    //#endregion
-                    test = ko.observable(),
-                    testt1 = function () {
+                      //Add Item or Move to Right 
+                      addItemToWidgetList = function () {
 
-                    },
+                      },
+                      //Remove Item or Move to Left 
+                      removeItemToWidgetList = function () {
+
+                      }
+                //#endregion
+
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2452,6 +2462,8 @@ define("stores/stores.viewModel",
                     openItemsForWidgetsDialogFromPopular: openItemsForWidgetsDialogFromPopular,
                     openItemsForWidgetsDialogFromSpecial: openItemsForWidgetsDialogFromSpecial,
                     itemsForWidgets: itemsForWidgets,
+                    addItemToWidgetList: addItemToWidgetList,
+                    removeItemToWidgetList: removeItemToWidgetList,
                 };
             })()
         };
