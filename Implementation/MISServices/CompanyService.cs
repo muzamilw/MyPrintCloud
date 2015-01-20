@@ -683,6 +683,7 @@ namespace MPC.Implementation.MISServices
             companyRepository.Update(companyToBeUpdated);
             companyRepository.Update(companySavingModel.Company);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
+            UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             companyRepository.SaveChanges();
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
@@ -692,6 +693,65 @@ namespace MPC.Implementation.MISServices
 
 
             return companySavingModel.Company;
+        }
+
+        private void UpdateCmsOffers(Company company, Company companyDbVersion)
+        {
+            #region Update Cms Offer
+
+            if (company.CmsOffers != null)
+            {
+                foreach (var cmsOffer in company.CmsOffers)
+                {
+                    if (companyDbVersion.CmsOffers == null)
+                    {
+                        List<CmsOffer> cmsOffers = new List<CmsOffer>();
+                        companyDbVersion.CmsOffers = cmsOffers;
+
+                    }
+                    //Update
+                    if (cmsOffer.OfferId > 0)
+                    {
+                        CmsOffer cmsOfferDbVesrion = companyDbVersion.CmsOffers.FirstOrDefault(c => c.OfferId == cmsOffer.OfferId);
+                        if (cmsOfferDbVesrion != null)
+                        {
+                            cmsOfferDbVesrion.SortOrder = cmsOffer.SortOrder;
+                            cmsOfferDbVesrion.ItemName = cmsOffer.ItemName;
+                        }
+                    }
+                    else
+                    {
+                        //New Added
+                        cmsOffer.CompanyId = company.CompanyId;
+                        companyDbVersion.CmsOffers.Add(cmsOffer);
+                    }
+                }
+            }
+            #endregion
+
+            #region Delete Cms Offer
+            List<CmsOffer> missingCmsOffers = new List<CmsOffer>();
+            if (companyDbVersion.CmsOffers != null)
+            {
+                foreach (var offerDbItem in companyDbVersion.CmsOffers)
+                {
+                    if (company.CmsOffers != null && company.CmsOffers.All(c => c.OfferId != offerDbItem.OfferId))
+                    {
+                        missingCmsOffers.Add(offerDbItem);
+                    }
+                    else if (company.CmsOffers == null)
+                    {
+                        missingCmsOffers.Add(offerDbItem);
+                    }
+                }
+
+                foreach (var misiingItem in missingCmsOffers)
+                {
+                    companyDbVersion.CmsOffers.Remove(misiingItem);
+                }
+            }
+
+            #endregion
         }
 
         private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
@@ -726,31 +786,34 @@ namespace MPC.Implementation.MISServices
         }
         private void UpdateColorPallete(Company company, Company companyDbVersion)
         {
-
-
-            foreach (var colorPalleteItem in company.ColorPalletes)
+            if (company.ColorPalletes != null)
             {
-                if (companyDbVersion.ColorPalletes == null)
-                {
-                    List<ColorPallete> colorPalletes = new List<ColorPallete>();
-                    companyDbVersion.ColorPalletes = colorPalletes;
 
-                }
-                if (colorPalleteItem.PalleteId == 0)
+                foreach (var colorPalleteItem in company.ColorPalletes)
                 {
-                    companyDbVersion.ColorPalletes.Add(colorPalleteItem);
-                }
-                else
-                {
-                    ColorPallete colorPallete = companyDbVersion.ColorPalletes.FirstOrDefault(c => c.PalleteId == colorPalleteItem.PalleteId);
-                    if (colorPallete != null)
+                    if (companyDbVersion.ColorPalletes == null)
                     {
-                        colorPallete.Color1 = colorPalleteItem.Color1;
-                        colorPallete.Color2 = colorPalleteItem.Color2;
-                        colorPallete.Color3 = colorPalleteItem.Color3;
-                        colorPallete.Color4 = colorPalleteItem.Color4;
-                        colorPallete.Color5 = colorPalleteItem.Color5;
-                        colorPallete.Color6 = colorPalleteItem.Color6;
+                        List<ColorPallete> colorPalletes = new List<ColorPallete>();
+                        companyDbVersion.ColorPalletes = colorPalletes;
+
+                    }
+                    if (colorPalleteItem.PalleteId == 0)
+                    {
+                        companyDbVersion.ColorPalletes.Add(colorPalleteItem);
+                    }
+                    else
+                    {
+                        ColorPallete colorPallete =
+                            companyDbVersion.ColorPalletes.FirstOrDefault(c => c.PalleteId == colorPalleteItem.PalleteId);
+                        if (colorPallete != null)
+                        {
+                            colorPallete.Color1 = colorPalleteItem.Color1;
+                            colorPallete.Color2 = colorPalleteItem.Color2;
+                            colorPallete.Color3 = colorPalleteItem.Color3;
+                            colorPallete.Color4 = colorPalleteItem.Color4;
+                            colorPallete.Color5 = colorPalleteItem.Color5;
+                            colorPallete.Color6 = colorPalleteItem.Color6;
+                        }
                     }
                 }
             }
