@@ -42,6 +42,14 @@ define("stores/stores.viewModel",
                     //Make Edittable
                     makeEditable = ko.observable(false),
                     selectedWidget = ko.observable(),
+                    //Items with isPublished true for widgets in Themes And Widget Tab
+                    itemsForWidgets = ko.observableArray([]),
+                    //selected tems List For Widgets
+                    selectedItemList = ko.observable([]),
+                    //selected tem For Widgets For Move To add
+                    selectedItemForAdd = ko.observable(),
+                    //selected tem For Remove
+                    selectedItemForRemove = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -98,12 +106,31 @@ define("stores/stores.viewModel",
                     },
 
                     //#region _____________________  S T O R E ____________________
+
+                    //getItemsForWidgets
+                    getItemsForWidgets = function (callBack) {
+                        dataservice.getItemsForWidgets({
+                            success: function (data) {
+                                if (data != null) {
+                                    itemsForWidgets.removeAll();
+                                    _.each(data, function (item) {
+                                        var itemForWidget = model.ItemForWidgets.Create(item);
+                                        itemsForWidgets.push(itemForWidget);
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                //toastr.error("Failed to Delete . Error: " + response);
+                            }
+                        });
+                    },
                     //Create New Store
                     createNewStore = function () {
                         var store = new model.Store();
                         editorViewModel.selectItem(store);
                         //selectedStore(store);
                         isStoreEditorVisible(true);
+                        // getItemsForWidgets();
                     },
                     //On Edit Click Of Store
                     onEditItem = function (item) {
@@ -121,6 +148,7 @@ define("stores/stores.viewModel",
                         getBaseDataFornewCompany();
                         $('.nav-tabs').children().removeClass('active');
                         $('#generalInfoTab').addClass('active');
+                        getItemsForWidgets();
                     },
                     //To Show/Hide Edit Section
                     isStoreEditorVisible = ko.observable(false),
@@ -168,7 +196,7 @@ define("stores/stores.viewModel",
                         });
                     },
                      //Store Image Files Loaded Callback
-                    storeImageFilesLoadedCallback = function(file, data) {
+                    storeImageFilesLoadedCallback = function (file, data) {
                         selectedStore().image(data);
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
@@ -415,7 +443,7 @@ define("stores/stores.viewModel",
                     onSaveCompanyCMYKColor = function () {
                         if (doBeforeSaveCompanyCMYKColor() && isSavingNew() == true) {
                             selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
-                            
+
                         }
                         view.hideCompanyCMYKColorDialog();
                         isSavingNew(false);
@@ -1677,8 +1705,8 @@ define("stores/stores.viewModel",
                                                 }
                                             });
                                         }
-                                        
-                                        
+
+
                                         //selectedStore().storeId(data.StoreId);
                                         isStoreEditorVisible(false);
                                         isEditorVisible(false);
@@ -1857,9 +1885,9 @@ define("stores/stores.viewModel",
                         });
                     },
                     //Get Base Data For New Company
-                    getBaseDataFornewCompany = function() {
+                    getBaseDataFornewCompany = function () {
                         dataservice.getBaseData({
-                            
+
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1876,7 +1904,7 @@ define("stores/stores.viewModel",
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
-                                   
+
                                     _.each(data.CompanyContactRoles, function (item) {
                                         var role = new model.Role.Create(item);
                                         roles.push(role);
@@ -1885,7 +1913,7 @@ define("stores/stores.viewModel",
                                         var registrationQuestion = new model.RegistrationQuestion.Create(item);
                                         registrationQuestions.push(registrationQuestion);
                                     });
-                                    
+
                                     _.each(data.PageCategories, function (item) {
                                         pageCategories.push(model.PageCategory.Create(item));
                                     });
@@ -2169,10 +2197,30 @@ define("stores/stores.viewModel",
                         view.hideCkEditorDialogDialog();
                     },
                     //#endregion
-                    test = ko.observable(),
-                    testt1 = function () {
 
+                    //#region _______________  WIDGETS IN Themes & Widgets Tab _________________
+                     //Open Dialog from Featured Product Row
+                    openItemsForWidgetsDialogFromFeatured = function () {
+                        view.showItemsForWidgetsDialog();
                     },
+                    //Open Dialog from Popular Product Row
+                     openItemsForWidgetsDialogFromPopular = function () {
+                         view.showItemsForWidgetsDialog();
+                     },
+                      //Open Dialog from Special Product Row
+                      openItemsForWidgetsDialogFromSpecial = function () {
+                          view.showItemsForWidgetsDialog();
+                      },
+                      //Add Item or Move to Right 
+                      addItemToWidgetList = function () {
+
+                      },
+                      //Remove Item or Move to Left 
+                      removeItemToWidgetList = function () {
+
+                      }
+                //#endregion
+
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2409,7 +2457,13 @@ define("stores/stores.viewModel",
                     storeProductsViewModel: storeProductsViewModel,
                     onCreateNewStore: onCreateNewStore,
                     initialize: initialize,
-                    storeBackgroudImageUploadCallback: storeBackgroudImageUploadCallback
+                    storeBackgroudImageUploadCallback: storeBackgroudImageUploadCallback,
+                    openItemsForWidgetsDialogFromFeatured: openItemsForWidgetsDialogFromFeatured,
+                    openItemsForWidgetsDialogFromPopular: openItemsForWidgetsDialogFromPopular,
+                    openItemsForWidgetsDialogFromSpecial: openItemsForWidgetsDialogFromSpecial,
+                    itemsForWidgets: itemsForWidgets,
+                    addItemToWidgetList: addItemToWidgetList,
+                    removeItemToWidgetList: removeItemToWidgetList,
                 };
             })()
         };
