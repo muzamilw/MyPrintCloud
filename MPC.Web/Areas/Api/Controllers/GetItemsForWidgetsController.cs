@@ -2,14 +2,15 @@
 using System.Linq;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
     /// <summary>
-    /// Cms Page Layout Detail Api Controller
+    /// Get Items For Widgets Api Controller
     /// </summary>
-    public class CmsPageLayoutDetailController : ApiController
+    public class GetItemsForWidgetsController : ApiController
     {
         #region Private
 
@@ -23,7 +24,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public CmsPageLayoutDetailController(ICompanyService companyService)
+        public GetItemsForWidgetsController(ICompanyService companyService)
         {
             this.companyService = companyService;
         }
@@ -32,12 +33,12 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         /// <summary>
-        /// Get Company By Id
+        /// Get Items For Widgets
         /// </summary>
         /// <returns></returns>
-        public List<CmsSkinPageWidget> Get([FromUri]int pageId, long companyId)
+        public List<ItemForWidgets> Get()
         {
-            return companyService.GetCmsPageWidgetByPageId(pageId, companyId).Select(w => w.CreateFrom()).ToList();
+            return companyService.GetItemsForWidgets().Select(i => i.CreateFromForWidgets()).ToList();
 
         }
         #endregion

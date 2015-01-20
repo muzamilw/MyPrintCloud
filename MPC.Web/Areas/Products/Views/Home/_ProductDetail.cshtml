@@ -36,7 +36,7 @@
                             <li><a href="#tab-internalDescription" data-toggle="tab">Internal Descriptions</a></li>
                             <!-- ko if: isTemplateTabsVisible -->
                             <li><a href="#tab-tempProperties" data-toggle="tab">Template Properties</a></li>
-                            <li><a href="#tab-tempPages" data-toggle="tab">Template Pages</a></li>
+                            <li><a href="#tab-tempPages" data-toggle="tab" data-bind="visible: template().canAddTemplatePages">Template Pages</a></li>
                             <!-- /ko -->
                             <li><a href="#tab-imageManagment" data-toggle="tab">Image Management</a></li>
                         </ul>
@@ -1585,7 +1585,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios1" id="optionCreatedManually" data-bind="checked: isCreatedManualUi" value="1">
+                                                    <input type="radio" name="optionsRadios1" id="optionManuallyYes" data-bind="checked: $parent.templateTypeUi" value="1">
                                                     <label for="optionManuallyYes">
                                                         A blank Template with Custom Size
                                                     </label>
@@ -1655,7 +1655,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadios1" data-bind="checked: isCreatedManualUi" id="optionUploadPDF" value="2">
+                                                    <input type="radio" name="optionsRadios1" data-bind="checked: $parent.templateTypeUi" id="optionUploadPDF" value="2">
                                                     <label for="optionUploadPDF">
                                                         A Pre built template e.g. corporate store template, uplod your PDF
                                                     </label>
@@ -1673,10 +1673,11 @@
                                             <div class="col-lg-6">
 
                                                 <div class="profile-message-btn center-block">
-                                                    <a href="#" class="btn btn-success">
+                                                    <div class="fileUpload btn btn-success">
                                                         <i class="fa fa-file-pdf-o"></i>
                                                         Select PDF
-                                                    </a>
+                                                        <input type="file" class="upload" id="templateDesigner_file" data-bind="files: { onLoaded: onSelectFile }" />
+                                                    </div>
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -1692,7 +1693,7 @@
 
 
                                                 <div class="radio">
-                                                    <input type="radio" data-bind="checked: isCreatedManualUi" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
+                                                    <input type="radio" data-bind="checked: $parent.templateTypeUi" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
                                                     <label for="optionManuallyNoStartDesigner">
                                                         Start the Designer Empty but Link it With Template Category from Global Library.
                                                     </label>
