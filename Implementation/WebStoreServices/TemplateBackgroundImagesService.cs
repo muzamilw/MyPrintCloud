@@ -411,11 +411,13 @@ namespace MPC.Implementation.WebStoreServices
             // fileName = fileID;
             try
             {
+
+                bool isPdfBackground = false;
                 // string product = idOfObject1; productId
                 string ext = System.IO.Path.GetExtension(imageName);
                 //fileID += ext;
                 imageName = imageName.Replace("%20", " ");
-                bool isUploadedPDF = false;
+                bool isUploadedPDF = false; int bkPagesCount = 0;
                 List<TemplateBackgroundImage> uploadedPdfRecords = null;
 
                 if (productId != 0)
@@ -449,9 +451,17 @@ namespace MPC.Implementation.WebStoreServices
 
                     if (Path.GetExtension(uploadPath).Contains("pdf"))
                     {
-                       // Services.PdfExtractor obj = new Services.PdfExtractor();
-                        //uploadedPdfRecords = obj.CovertPdfToBackgroundDesigner(uploadPath, productid, RootPath);
-                        isUploadedPDF = true;
+                        //if (Convert.ToInt32(imageType) == 3)
+                        //{
+                        //    bkPagesCount = obj.generatePdfAsBackgroundDesigner(uploadPath, productId);
+                        //    isPdfBackground = true;
+                        //    result = "uploadedPDFBK";
+                        //}
+                        //else
+                        //{
+                        //    uploadedPdfRecords = obj.CovertPdfToBackgroundDesigner(uploadPath, productId, RootPath);
+                        //    isUploadedPDF = true;
+                        //}
                     }
 
                     string UploadPathForPDF = productId + "/";

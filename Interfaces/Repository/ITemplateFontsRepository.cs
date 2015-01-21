@@ -12,5 +12,6 @@ namespace MPC.Interfaces.Repository
         List<TemplateFont> GetFontList(long productId, long customerId);
         void DeleteTemplateFonts(long Companyid);
         List<TemplateFont> GetFontList();
+        void InsertFontFile(TemplateFont objFont);
     }
 }
