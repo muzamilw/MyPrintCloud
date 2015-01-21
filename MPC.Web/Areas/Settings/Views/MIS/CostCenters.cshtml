@@ -29,13 +29,11 @@
                             <div class="table-responsive">
                                 <table class="table user-list">
                                     <thead>
-                                        <tr id="storesList" class="span12">
-                                            <th class="col-lg-1"></th>
+                                        <tr id="ccList" class="span12">
                                             <th class="col-lg-3"><span>Name</span></th>
-                                            <th class="col-lg-3"><span>Description</span></th>
-                                            <th class="col-lg-3"><span>Type</span></th>
-                                            <th class="col-lg-2"><span>Status</span></th>
-                                            <th class="col-lg-1">&nbsp;</th>
+                                            <th class="col-lg-5"><span>Description</span></th>
+                                            <th class="col-lg-2"><span>Type</span></th>
+                                            <th class="col-lg-2">&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -55,39 +53,34 @@
             </div>
         </div>
         <script id="actionsTemplate" type="text/html">
-            <a class="table-link" data-bind="click : $root.onEditItem">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-            <a href="#" class="table-link danger" data-bind="click : $root.deleteCostCenter">
-                <span class="fa-stack">
+            <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCostCenter" style="float: right">
+                <span class="fa-stack ">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
+            <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x "></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
         </script>
         <script id="itemCostCenterTemplate" type="text/html">
-            <tr data-bind="click: $root.selectCostCenter, css: { selectedRow: $data === $root.selectedCostCenter}">
+            <tr data-bind="click: $root.selectCostCenter, css: { selectedRow: $data === $root.selectedCostCenter}">                                
                 <td>
-                    <img data-bind="attr: { src: CostCenterImageFileBinary }" alt="" />
+                    <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
-                <td>
-                    <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
-                    <a href="#" class="user-link" style="font-size: 0.875em; color: black;" data-bind="text: description"><i class="fa fa-external-link-square"></i></a>
-                </td>
-
-                <td data-bind="text: type"></td>
-
-                <td>
-                    <!-- ko if: status() == 1 -->
-                    <span class="label label-success">Active</span>
-                    <!-- /ko -->
-                    <!-- ko if: status() != 1 -->
+                <td data-bind="text: description"></td>
+                <td data-bind="text: typeName"></td>
+                @*<td>
+                    <!-- ko if: isDisabled() == 1 -->
                     <span class="label label-danger">DeActive</span>
                     <!-- /ko -->
-                </td>
+                    <!-- ko if: isDisabled() != 1 -->
+                    <span class="label label-success">Active</span>
+                    <!-- /ko -->
+                </td>*@
 
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -118,7 +111,7 @@
         </script>
     </div>
 
-    @Html.Partial("~/Areas/Settings/Views/MIS/CostCenterDetail.cshtml")
+    @Html.Partial("_CostCenterDetail")
 
 </div>
 <!-- ko stopBinding: true -->

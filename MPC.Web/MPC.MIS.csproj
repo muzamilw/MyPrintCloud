@@ -1460,7 +1460,7 @@
     <Content Include="Areas\Common\Views\Shared\_EditJobTitlePhraseLibrary.cshtml" />
     <Content Include="Content\less\Store.less" />
     <Content Include="Areas\Settings\Views\MIS\CostCenters.cshtml" />
-    <Content Include="Areas\Settings\Views\MIS\CostCenterDetail.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_CostCenterDetail.cshtml" />
     <Content Include="Content\less\Inventory.less" />
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
