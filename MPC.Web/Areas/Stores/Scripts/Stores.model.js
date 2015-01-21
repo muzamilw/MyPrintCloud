@@ -129,7 +129,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
-            name = ko.observable(specifiedName),
+            name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
             image = ko.observable(specifiedImage),
             url = ko.observable(specifiedUrl),

@@ -12,6 +12,7 @@ namespace MPC.Common
 {
     public class DesignerUtils
     {
+
         public static double MMToPoint(double val)
         {
             return val * 2.834645669;

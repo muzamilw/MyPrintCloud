@@ -141,5 +141,90 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public void UpdateAddress(Address billingAddress, Address deliveryAddress, long contactCompanyID)
+        {
+
+            try
+            {
+                if (billingAddress != null)
+                {
+                    Address currBillAddress = db.Addesses.Where(a => a.AddressId == billingAddress.AddressId).FirstOrDefault();
+                    if (currBillAddress != null)
+                    {
+
+                        PopulateAddress(currBillAddress, billingAddress);
+                    }
+                    else
+                    { // add new billing
+                        currBillAddress = new Address();
+
+                        //reset all the shipping flags
+                        //dbContext.tbl_addresses.Where(tblAdd => tblAdd.ContactCompanyID == contactCompanyID).ToList().ForEach(add => add.IsDefaultShippingAddress = false);
+                        PopulateAddress(currBillAddress, billingAddress);
+                        currBillAddress.CompanyId = contactCompanyID;
+
+                        currBillAddress.IsDefaultAddress = false;
+                        currBillAddress.isArchived = false;
+                        db.Addesses.Add(currBillAddress);
+
+                        db.SaveChanges();
+
+                        billingAddress.AddressId = currBillAddress.AddressId;
+                    }
+                }
+
+                if (deliveryAddress != null)
+                {
+                    Address currDelAddress = db.Addesses.Where(a => a.AddressId == deliveryAddress.AddressId).FirstOrDefault();
+                    if (currDelAddress != null)
+                    {
+                        PopulateAddress(currDelAddress, deliveryAddress);
+                    }
+                    else
+                    { // add new shiipping
+                        currDelAddress = new Address();
+                        //reset all the shipping flags
+                        //dbContext.tbl_addresses.Where(tblAdd => tblAdd.ContactCompanyID == contactCompanyID).ToList().ForEach(add => add.IsDefaultShippingAddress = false);
+                        PopulateAddress(currDelAddress, deliveryAddress);
+                        currDelAddress.CompanyId = contactCompanyID;
+
+                        currDelAddress.IsDefaultAddress = false;
+                        currDelAddress.isArchived = false;
+                        db.Addesses.Add(currDelAddress);
+
+                        db.SaveChanges();
+
+                        deliveryAddress.AddressId = currDelAddress.AddressId;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        internal static void PopulateAddress(Address tblAddress, Address address)
+        {
+            tblAddress.AddressName = address.AddressName;
+            tblAddress.Address1 = address.Address1;
+            tblAddress.Address2 = address.Address2;
+            tblAddress.City = address.City;
+            tblAddress.State = address.State;
+            tblAddress.PostCode = address.PostCode;
+            tblAddress.Tel1 = address.Tel1;
+            tblAddress.Country = address.Country;
+            tblAddress.CompanyId = address.CompanyId > 0 ? address.CompanyId : tblAddress.CompanyId;
+            if (tblAddress.AddressId == 0)
+            {
+                tblAddress.isPrivate = address.isPrivate;
+                tblAddress.ContactId = address.ContactId;
+                tblAddress.TerritoryId = address.TerritoryId;
+            }
+            tblAddress.IsDefaultAddress = address.IsDefaultAddress;
+            tblAddress.IsDefaultShippingAddress = address.IsDefaultShippingAddress;
+        }
+
     }
 }

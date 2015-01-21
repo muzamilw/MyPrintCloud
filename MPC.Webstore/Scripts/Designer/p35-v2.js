@@ -2009,3 +2009,6 @@ $("#BtnAllowOnlyTxtChange").click(function () {
     g1(D1AO);
     //animatedcollapse.toggle('textPropertPanel');
 });
+
+
+

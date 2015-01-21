@@ -793,6 +793,46 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
+	public long GetContactTerritoryID(long CID)
+        {
+            try
+            {
+               return db.CompanyContacts.Where(c => c.ContactId == CID).Select(c => c.TerritoryId ?? 0).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool updateQuikcTextInfo(long contactId, QuickText objQuickText)
+        {   
+             bool result = false;
+            var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).FirstOrDefault();
+            if(contact != null)
+            {
+
+                contact.quickAddress1 = objQuickText.Address1 ?? string.Empty;
+
+                contact.quickCompanyName = objQuickText.Company ?? string.Empty;
+                contact.quickCompMessage = objQuickText.CompanyMessage ?? string.Empty;
+                contact.quickEmail = objQuickText.Email ?? string.Empty;
+                contact.quickFax = objQuickText.Fax ?? string.Empty;
+                contact.quickFullName = objQuickText.Name ?? string.Empty;
+                contact.quickPhone = objQuickText.Telephone ?? string.Empty;
+                contact.quickTitle = objQuickText.Title ?? string.Empty;
+                contact.quickWebsite = objQuickText.Website ?? string.Empty;
+
+
+                contact.quickMobileNumber = objQuickText.MobileNumber ?? string.Empty;
+                contact.quickFacebookId = objQuickText.FacebookID ?? string.Empty;
+                contact.quickTwitterId = objQuickText.TwitterID ?? string.Empty;
+                contact.quickLinkedInId = objQuickText.LinkedInID ?? string.Empty;
+                contact.quickOtherId = objQuickText.OtherId ?? string.Empty;
+                db.SaveChanges();
+                result = true;
+            }
+            return result;
+        }
     }
 }
 

@@ -683,6 +683,17 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public long GetContactTerritoryID(long CID)
+        {
+            try
+            {
+               return _CompanyContactRepository.GetContactTerritoryID(CID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 

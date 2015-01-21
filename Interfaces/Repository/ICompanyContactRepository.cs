@@ -84,5 +84,8 @@ namespace MPC.Interfaces.Repository
         /// <param name="password"></param>
         /// <returns></returns>
         CompanyContact GetRetailUser(string email, string password);
+
+        long GetContactTerritoryID(long CID);
+        bool updateQuikcTextInfo(long contactId, QuickText objQuickText);
     }
 }

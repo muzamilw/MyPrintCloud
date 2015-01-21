@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Data;
@@ -612,6 +614,16 @@ namespace MPC.Repository.Repositories
                 throw new Exception("IsCostCentreAvailable", ex);
             }
         }
+
+        public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
+        {
+            var cclist = db.CostCentres.Where(c => c.Type != 1 && c.IsDisabled == 0 && c.OrganisationId == OrganisationId).ToList();
+            return new CostCentersResponse
+            {
+                RowCount = cclist.Count(),
+                CostCenters = cclist
+            };
+        }
         #endregion
 
         #region "CostCentre Template"
@@ -732,20 +744,11 @@ namespace MPC.Repository.Repositories
         public List<CostCentre> GetDeliveryCostCentersList()
         {
 
-           
-                var query = from tblCostCenter in db.CostCentres
-                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
-                            orderby tblCostCenter.MinimumCost
-                            select new CostCentre()
-                            {
-                                CostCentreId = tblCostCenter.CostCentreId,
-                                CompletionTime = tblCostCenter.CompletionTime,
-                                MinimumCost = tblCostCenter.MinimumCost,
-                                Description = tblCostCenter.Description,
-                                Name = tblCostCenter.Name,
-                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
-                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
-                            };
+
+            var query = from tblCostCenter in db.CostCentres
+                        where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
+                        orderby tblCostCenter.MinimumCost
+                        select tblCostCenter;
 
 
                 return query.ToList();
