@@ -81,7 +81,10 @@ $('#imageUploader').change(function () {
     }
 });
 $('#fontUploader').change(function () {
-    var fontDisplayName = "test";
+    var fontDisplayName = window.prompt("Enter Font name Here! (Once a font is created, you cannot change its name )", "Font name");
+    if (fontDisplayName == null || fontDisplayName == "") {
+        return false;
+    }
     StartLoader();
     var url = "Organisation" + ogranisationId + "/WebFonts/" + CustomerID;
     while (url.indexOf('/') != -1)
