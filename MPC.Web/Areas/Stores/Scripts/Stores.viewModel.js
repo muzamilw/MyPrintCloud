@@ -54,8 +54,7 @@ define("stores/stores.viewModel",
                     selectedOfferType = ko.observable(),
                     //Product Priority Radio Option
                     productPriorityRadioOption = ko.observable("1"),
-
-                //#endregion
+                    //#endregion
 
                 //#region ________ O B S E R V A B L E S   A R R A Y S___________
                 //stores List
@@ -218,6 +217,16 @@ define("stores/stores.viewModel",
                      selectedStore().storeBackgroudImageImageSource(data);
                      selectedStore().storeBackgroudImageFileName(file.name);
                  },
+
+                 //Restore sprite Image
+                 restoreSpriteImage = function () {
+                     selectedStore().userDefinedSpriteImageSource(selectedStore().defaultSpriteImageSource());
+                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
+                 },
+                spriteImageLoadedCallback = function (file, data) {
+                    selectedStore().userDefinedSpriteImageSource(data);
+                    selectedStore().userDefinedSpriteImageFileName(file.name);
+                },
                 //#endregion _____________________  S T O R E ____________________
 
 
@@ -1717,21 +1726,21 @@ define("stores/stores.viewModel",
                                         selectedStore().companyId(data.CompanyId);
                                         stores.splice(0, 0, selectedStore());
                                     }
-                                    if (selectedStoreListView().companyId() == selectedStore().companyId()) {
-                                        _.each(stores(), function (store) {
-                                            if (store.companyId() == selectedStore().companyId()) {
-                                                store.name(selectedStore().name());
-                                                store.url(selectedStore().url());
-                                                store.status(selectedStore().status());
-                                                if (selectedStore().type() == "1") {
-                                                    store.type("Retail Customer");
-                                                }
-                                                else if (selectedStore().type() == "3") {
-                                                    store.type("Corporate");
-                                                }
+                                    // if (selectedStoreListView().companyId() == selectedStore().companyId()) {
+                                    _.each(stores(), function (store) {
+                                        if (store.companyId() == selectedStore().companyId()) {
+                                            store.name(selectedStore().name());
+                                            store.url(selectedStore().url());
+                                            store.status(selectedStore().status());
+                                            if (selectedStore().type() == "1") {
+                                                store.type("Retail Customer");
                                             }
-                                        });
-                                    }
+                                            else if (selectedStore().type() == "3") {
+                                                store.type("Corporate");
+                                            }
+                                        }
+                                    });
+                                    //}
 
 
                                     //selectedStore().storeId(data.StoreId);
@@ -1973,7 +1982,10 @@ define("stores/stores.viewModel",
                                 _.each(data.Widgets, function (item) {
                                     widgets.push(model.Widget.Create(item));
                                 });
-
+                                //Sefault Sprite Image
+                                selectedStore().userDefinedSpriteImageSource(data.DefaultSpriteImageSource);
+                                selectedStore().userDefinedSpriteImageFileName("default.jpg");
+                                selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
 
                             }
                             isLoadingStores(false);
@@ -2567,6 +2579,8 @@ define("stores/stores.viewModel",
                     selectedItemsForOfferList: selectedItemsForOfferList,
                     selectRemoveItem: selectRemoveItem,
                     productPriorityRadioOption: productPriorityRadioOption,
+                    restoreSpriteImage: restoreSpriteImage,
+                    spriteImageLoadedCallback: spriteImageLoadedCallback,
                 };
             })()
         };
