@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MPC.Models.Common;
+using MPC.Models.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,8 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICostCentreQuestionRepository
     {
-        double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID);
+        CostCentreQuestions LoadQuestion(int QuestionID);
+
+        List<CostCentreAnswer> LoadAnswer(int QuestionID);
     }
 }

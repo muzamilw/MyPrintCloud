@@ -3,7 +3,7 @@
     /// <summary>
     /// Cost Centre Matrix Domain Model
     /// </summary>
-    public class CostCentreMatrix
+    public partial class CostCentreMatrix
     {
         public int MatrixId { get; set; }
         public string Name { get; set; }

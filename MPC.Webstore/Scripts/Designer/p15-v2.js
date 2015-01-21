@@ -97,6 +97,11 @@ function fu04() {
     //$.getJSON("services/TemplateSvc/TemplateV2/" + tID + "," + cID + "," + TempHMM + "," + TempWMM,
     $.getJSON("/designerapi/Template/GetTemplate/" + tID ,
    function (DT) {
+       DT.ProductID = DT.ProductId;
+       $.each(DT.TemplatePages, function (i, IT) {
+           IT.ProductID = IT.ProductId;
+           IT.ProductPageID = IT.ProductPageId;
+       });
        fu04_callBack(DT);
    });
 
@@ -104,6 +109,11 @@ function fu04() {
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
       function (DT) {
+          $.each(DT, function (i, IT) {
+              IT.ProductID = IT.ProductId;
+              IT.ObjectID = IT.ObjectId;
+              IT.ProductPageId = IT.ProductPageId;
+          });
           TO = DT;
           fu07();
           fu06();

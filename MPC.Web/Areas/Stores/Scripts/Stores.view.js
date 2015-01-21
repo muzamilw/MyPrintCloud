@@ -20,7 +20,7 @@ define("stores/stores.view",
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
                 },
-                showCompanyTerritoryDialog = function () { //
+                showCompanyTerritoryDialog = function () { 
                     $("#myTerritorySetModal").modal("show");
                 },
                 // Hide Activity the dialog
@@ -116,6 +116,14 @@ define("stores/stores.view",
                 // hide Payment Gateway Dialog 
                 hidePaymentGatewayDialog = function () {
                     $("#myPaymentGatewayModal").modal("hide");
+                },
+                // show item sFor Widgets Dialog
+                showItemsForWidgetsDialog = function () {
+                    $("#itemsForWidgetsDialog").modal("show");
+                },
+                // hide items For Widgets Dialog
+                hideItemsForWidgetsDialog = function () {
+                    $("#itemsForWidgetsDialog").modal("hide");
                 },
                 
                 //#region Store Product Tab Functions
@@ -315,6 +323,8 @@ define("stores/stores.view",
                 showCkEditorDialogDialog: showCkEditorDialogDialog,
                 hideProductCategoryDialog: hideProductCategoryDialog,
                 hideCkEditorDialogDialog: hideCkEditorDialogDialog,
+                showItemsForWidgetsDialog: showItemsForWidgetsDialog,
+                hideItemsForWidgetsDialog: hideItemsForWidgetsDialog,
                 //#region Store Product Tab Functions
                 changeView: changeView,
                 showVideoDialog: showVideoDialog,

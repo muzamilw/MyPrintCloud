@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Diagnostics;
+using System.Data.SqlClient;
 
 namespace MPC.Provisioning.Controllers
 {
@@ -79,7 +80,7 @@ namespace MPC.Provisioning.Controllers
         //        return result;
 
 
-               
+
         //    }
         //    catch (Exception e)
         //    {
@@ -89,12 +90,12 @@ namespace MPC.Provisioning.Controllers
 
         //}
 
-        public string Post(string siteName, string sitePhysicalPath)
+        public string Post(string siteName, string sitePhysicalPath, string siteOrganisationId)
         {
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = @"powershell.exe";
-            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + siteName + " " + sitePhysicalPath;
+            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + siteName + " " + sitePhysicalPath + " " + siteOrganisationId;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.UseShellExecute = false;
@@ -108,6 +109,35 @@ namespace MPC.Provisioning.Controllers
 
             //string errors = process.StandardError.ReadToEnd();
             //Assert.IsTrue(string.IsNullOrEmpty(errors));
+
+            if (output == "App Created")
+            {
+                string connectionString =
+                        "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+
+                string queryString =
+                   "INSERT INTO Organisation VALUES(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL)";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    // Create the Command and Parameter objects.
+                    SqlCommand command = new SqlCommand(queryString, connection);
+
+                    try
+                    {
+                        connection.Open();
+
+                        command.ExecuteNonQuery();
+
+                        connection.Close();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+
+                }
+            }
             return output;
         }
     }

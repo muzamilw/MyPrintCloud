@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
+
+    [Serializable()]
     public class ItemSection
     {
         public long ItemSectionId { get; set; }

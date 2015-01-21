@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Data;
@@ -611,6 +613,16 @@ namespace MPC.Repository.Repositories
             {
                 throw new Exception("IsCostCentreAvailable", ex);
             }
+        }
+
+        public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
+        {
+            var cclist = db.CostCentres.Where(c => c.Type != 1 && c.IsDisabled == 0 && c.OrganisationId == OrganisationId).ToList();
+            return new CostCentersResponse
+            {
+                RowCount = cclist.Count(),
+                CostCenters = cclist
+            };
         }
         #endregion
 
