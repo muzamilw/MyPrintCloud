@@ -732,20 +732,11 @@ namespace MPC.Repository.Repositories
         public List<CostCentre> GetDeliveryCostCentersList()
         {
 
-           
-                var query = from tblCostCenter in db.CostCentres
-                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
-                            orderby tblCostCenter.MinimumCost
-                            select new CostCentre()
-                            {
-                                CostCentreId = tblCostCenter.CostCentreId,
-                                CompletionTime = tblCostCenter.CompletionTime,
-                                MinimumCost = tblCostCenter.MinimumCost,
-                                Description = tblCostCenter.Description,
-                                Name = tblCostCenter.Name,
-                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
-                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
-                            };
+
+            var query = from tblCostCenter in db.CostCentres
+                        where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
+                        orderby tblCostCenter.MinimumCost
+                        select tblCostCenter;
 
 
                 return query.ToList();

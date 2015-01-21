@@ -793,6 +793,18 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
+      
+        public long GetContactTerritoryID(long CID)
+        {
+            try
+            {
+               return db.CompanyContacts.Where(c => c.ContactId == CID).Select(c => c.TerritoryId ?? 0).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

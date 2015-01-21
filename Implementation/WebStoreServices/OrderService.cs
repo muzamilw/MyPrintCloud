@@ -15,6 +15,7 @@ namespace MPC.Implementation.WebStoreServices
     public class OrderService : IOrderService
     {
         public readonly IOrderRepository _OrderRepository;
+        public readonly IAddressRepository _AddressRepository;
         public readonly ICountryRepository _CountryRepository;
         public readonly IStateRepository _StateRepository;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
@@ -27,7 +28,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public OrderService(IOrderRepository OrderRepository, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, ICompanyContactRepository myCompanyContact, IPrefixRepository prefixRepository, ICountryRepository CountryRepository, IStateRepository StateRepository)
+        public OrderService(IOrderRepository OrderRepository, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, ICompanyContactRepository myCompanyContact, IPrefixRepository prefixRepository, ICountryRepository CountryRepository, IStateRepository StateRepository, IAddressRepository AddressRepository)
         {
             this._OrderRepository = OrderRepository;
             this._myClaimHelper = myClaimHelper;
@@ -36,6 +37,7 @@ namespace MPC.Implementation.WebStoreServices
             this._prefixRepository = prefixRepository;
             this._CountryRepository = CountryRepository;
             this._StateRepository = StateRepository;
+            this._AddressRepository = AddressRepository;
         }
 
 
@@ -316,5 +318,26 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
+        //public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
+        //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID)
+        //{
+        //    try
+        //    {
+        //         Estimate order =  _OrderRepository.GetOrderByID(orderID);
+        //        if(order != null)
+        //        {
+        //            _AddressRepository.UpdateAddress(billingAdd, deliveryAdd, order.CompanyId);
+        //            Prefix prefix =  _prefixRepository.GetDefaultPrefix();
+        //            _OrderRepository.UpdateOrderWithDetailsToConfirmOrder(orderID, loggedInContactID, orderStatus, billingAdd, deliveryAdd, grandOrderTotal, yourReferenceNumber, specialInsTel, specialInsNotes, isCorpFlow, CurrntStoreMde, BrokerContactCompanyID, order, prefix);
+        //        }
+                 
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
