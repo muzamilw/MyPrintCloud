@@ -85,6 +85,7 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         CompanyContact GetRetailUser(string email, string password);
 
+        long GetContactTerritoryID(long CID);
         bool updateQuikcTextInfo(long contactId, QuickText objQuickText);
     }
 }

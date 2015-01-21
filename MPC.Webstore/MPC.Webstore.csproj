@@ -332,6 +332,7 @@
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
+    <Compile Include="ViewModels\ShopCartAddressSelectViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

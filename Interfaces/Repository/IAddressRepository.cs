@@ -22,5 +22,7 @@ namespace MPC.Interfaces.Repository
 
         List<Address> GetContactCompanyAddressesList(long customerID);
 
+        void UpdateAddress(Address billingAddress, Address deliveryAddress, long contactCompanyID);
+
     }
 }

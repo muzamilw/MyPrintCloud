@@ -793,10 +793,20 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
-
-        public bool updateQuikcTextInfo(long contactId, QuickText objQuickText)
+	public long GetContactTerritoryID(long CID)
         {
-            bool result = false;
+            try
+            {
+               return db.CompanyContacts.Where(c => c.ContactId == CID).Select(c => c.TerritoryId ?? 0).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool updateQuikcTextInfo(long contactId, QuickText objQuickText)
+        {   
+             bool result = false;
             var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).FirstOrDefault();
             if(contact != null)
             {
